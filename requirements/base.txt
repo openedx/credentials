@@ -1,0 +1,9 @@
+django>=1.8.7,<1.9
+django_compressor
+django-extensions
+django-libsass
+django-waffle
+djangorestframework
+django-rest-swagger
+edx-auth-backends
+pytz

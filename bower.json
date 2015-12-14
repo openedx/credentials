@@ -1,0 +1,22 @@
+{
+  "name": "credentials",
+  "homepage": "https://github.com/edx/credentials",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "~1.2.1",
+    "backbone.validation": "backbone-validation#~0.11.5",
+    "edx-pattern-library": "0.4.4",
+    "jquery": "~2.1.4",
+    "jquery-cookie": "~1.4.1",
+    "requirejs": "~2.1.15",
+    "text": "~2.0.14",
+    "underscore": "~1.8.2"
+  }
+}
