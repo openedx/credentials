@@ -2,7 +2,7 @@ Part of `edX code`__.
 
 __ http://code.edx.org/
 
-credentials  |Travis|_ |Codecov|_
+edX Credentials Service  |Travis|_ |Codecov|_
 ===================================================
 .. |Travis| image:: https://travis-ci.org/edx/credentials.svg?branch=master
 .. _Travis: https://travis-ci.org/edx/credentials
@@ -10,26 +10,20 @@ credentials  |Travis|_ |Codecov|_
 .. |Codecov| image:: http://codecov.io/github/edx/credentials/coverage.svg?branch=master
 .. Codecov: http://codecov.io/github/edx/credentials?branch=master
 
-The ``README.rst`` file should start with a brief description of the repository,
-which sets it in the context of other repositories under the ``edx``
-organization. It should make clear where this fits in to the overall edX
-codebase.
+This repository contains the edX Credentials Service, used as the backend to support Courses/Programs certificates.
 
-Overview (please modify)
+
+Overview
 ------------------------
 
-The ``README.rst`` file should then provide an overview of the code in this
-repository, including the main components and useful entry points for starting
-to understand the code in more detail.
+Credentials is edX's replacement for the ``certificates`` in ``edx-platform``. This extensible credentials system will allow the learners to get certificates for Programs (XSeries) along with the existing certificates functionality.
 
 
-Documentation (please modify)
------------------------------
+Documentation |ReadtheDocs|_
+----------------------------
 
-The ``README.rst`` should include a link to the developer documentation. This documentation should be hosted on
-Read the Docs. An example statement and link are below.
+`Documentation <https://credentials.readthedocs.org/en/latest/>`_ is hosted on Read the Docs.
 
-The docs for credentials are on Read the Docs:  https://credentials.readthedocs.org.
 
 License
 -------
