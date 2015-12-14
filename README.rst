@@ -8,7 +8,7 @@ edX Credentials Service  |Travis|_ |Codecov|_
 .. _Travis: https://travis-ci.org/edx/credentials
 
 .. |Codecov| image:: http://codecov.io/github/edx/credentials/coverage.svg?branch=master
-.. Codecov: http://codecov.io/github/edx/credentials?branch=master
+.. _Codecov: http://codecov.io/github/edx/credentials?branch=master
 
 This repository contains the edX Credentials Service, used as the backend to support Courses/Programs certificates.
 
@@ -16,13 +16,15 @@ This repository contains the edX Credentials Service, used as the backend to sup
 Overview
 ------------------------
 
-Credentials is edX's replacement for the ``certificates`` in ``edx-platform``. This extensible credentials system will allow the learners to get certificates for Programs (XSeries) along with the existing certificates functionality.
+Credentials is edX's replacement for the ``certificates`` in ``edx-platform``. This extensible credentials system will allow the learners to get certificates for Programs (XSeries) along with the existing ``certificates`` functionality.
 
 
 Documentation |ReadtheDocs|_
 ----------------------------
+.. |ReadtheDocs| image:: https://readthedocs.org/projects/open-edx-credentials-guide/badge/?version=latest
+.. _ReadtheDocs: https://open-edx-credentials-guide.readthedocs.org/en/latest/
 
-`Documentation <https://credentials.readthedocs.org/en/latest/>`_ is hosted on Read the Docs.
+`Documentation <https://open-edx-credentials-guide.readthedocs.org/en/latest/>`_ is hosted on Read the Docs.
 
 
 License

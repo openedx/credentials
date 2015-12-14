@@ -22,4 +22,4 @@ credentials:
     - .:/edx/app/credentials/credentials
   command: /edx/app/credentials/devstack.sh start
   ports:
-    - "8005:8005" # TODO: change this to your port
+    - "8150:8150" # TODO: change this to your port
