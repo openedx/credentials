@@ -22,6 +22,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles'
 )
@@ -36,6 +37,7 @@ THIRD_PARTY_APPS = (
 PROJECT_APPS = (
     'credentials.apps.core',
     'credentials.apps.api',
+    'credentials.apps.credentials',
 )
 
 INSTALLED_APPS += THIRD_PARTY_APPS

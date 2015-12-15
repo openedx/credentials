@@ -1,4 +1,5 @@
 import os
+from path import Path as path
 
 from credentials.settings.base import *
 
@@ -30,3 +31,9 @@ DATABASES = {
     },
 }
 # END IN-MEMORY TEST DATABASE
+
+# Local Directories
+TEST_ROOT = path("test_root")
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+MEDIA_ROOT = TEST_ROOT / "uploads"
+MEDIA_URL = "/static/uploads/"

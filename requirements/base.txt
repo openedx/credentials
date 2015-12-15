@@ -7,3 +7,5 @@ djangorestframework
 django-rest-swagger
 edx-auth-backends
 pytz
+Pillow
+git+https://github.com/edx/opaque-keys.git@9f07da1abf699d10bc3252d3081017e8aa37c302#egg=opaque-keys
