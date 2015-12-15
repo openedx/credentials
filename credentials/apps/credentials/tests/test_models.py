@@ -4,8 +4,8 @@ from django.contrib.sites.models import Site
 from django.core.files.images import ImageFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.exceptions import ValidationError
-from opaque_keys.edx.locator import CourseLocator
 
+from opaque_keys.edx.locator import CourseLocator
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.models import (
     CertificateTemplateAsset, CertificateTemplate,
@@ -13,12 +13,14 @@ from credentials.apps.credentials.models import (
 )
 from credentials.settings.base import MEDIA_ROOT
 
+
 # pylint: disable=invalid-name
 TEST_DATA_ROOT = MEDIA_ROOT + '/test/data/'
 
 
 class TestSignatory(TestCase):
     """Test Signatory model."""
+
     def get_image(self, name):
         """Get one of the test images from the test data directory."""
         return ImageFile(open(TEST_DATA_ROOT + name + '.png'))
@@ -74,6 +76,7 @@ class TestCertificateTemplateAsset(TestCase):
     """
     Test Assets are uploading/saving successfully for CertificateTemplateAsset.
     """
+
     def test_asset_file_saving(self):
         """
         Verify that asset file is saving with actual name and on correct path.
@@ -114,6 +117,7 @@ class TestCertificateTemplate(TestCase):
 
 class TestCertificates(TestCase):
     """Basic setup for certificate tests."""
+
     def setUp(self):
         super(TestCertificates, self).setUp()
         self.site = Site.objects.create(domain='test', name='test')

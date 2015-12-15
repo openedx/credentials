@@ -5,6 +5,6 @@ coverage
 django-dynamic-fixture
 django-nose
 edx-lint
-mock
 nose-ignore-docstring
 pep8
+testfixtures==4.2.0

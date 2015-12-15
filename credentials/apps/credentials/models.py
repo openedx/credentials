@@ -3,10 +3,12 @@ Models for the credentials service.
 """
 # pylint: disable=model-missing-unicode
 from __future__ import unicode_literals
+import abc
+import os
 import uuid  # pylint: disable=unused-import
 
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.fields import GenericRelation
+from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
@@ -28,7 +30,7 @@ def _choices(*values):
 
 def template_assets_path(instance, filename):
     """
-    Returns path for credentials templates file assets.
+    Delete the file if it already exist and returns path for credentials templates file assets.
 
     Arguments:
         instance(CertificateTemplateAsset): CertificateTemplateAsset object
@@ -37,13 +39,18 @@ def template_assets_path(instance, filename):
     Returns:
         Path to asset.
     """
+    # it will be removed after S3 support
+    name = os.path.join('certificate_template_assets', str(instance.id), filename)
+    fullname = os.path.join(settings.MEDIA_ROOT, name)
+    if os.path.exists(fullname):  # pragma: no cover
+        os.remove(fullname)
 
-    return 'certificate_template_assets/{id}/{filename}'.format(id=instance.id, filename=filename)
+    return name
 
 
 def signatory_assets_path(instance, filename):
     """
-    Returns path for signatory assets.
+    Delete the file if it already exist and returns path for signatory assets.
 
     Arguments:
         instance(Signatory): Signatory object
@@ -52,7 +59,13 @@ def signatory_assets_path(instance, filename):
     Returns:
         Path to asset.
     """
-    return 'signatories/{id}/{filename}'.format(id=instance.id, filename=filename)
+    # it will be removed after S3 support
+    name = os.path.join('signatories', str(instance.id), filename)
+    fullname = os.path.join(settings.MEDIA_ROOT, name)
+    if os.path.exists(fullname):  # pragma: no cover
+        os.remove(fullname)
+
+    return name
 
 
 def validate_image(image):
@@ -99,6 +112,15 @@ class AbstractCredential(TimeStampedModel):
     """
     site = models.ForeignKey(Site)
     is_active = models.BooleanField(default=False)
+
+    @abc.abstractproperty
+    def credential_type_slug(self):
+        """
+        Slug representing the type of this credential
+        Returns:
+            string
+        """
+        pass  # pragma: no cover
 
     class Meta(object):
         abstract = True
@@ -161,7 +183,7 @@ class CertificateTemplate(TimeStampedModel):
         )
 
 
-class AbstractCertificate(AbstractCredential):
+class AbstractCertificate(AbstractCredential):  # pylint: disable=abstract-method
     """
     Abstract Certificate configuration to support multiple type of certificates
     i.e. Programs, Courses.
@@ -219,6 +241,8 @@ class CourseCertificate(AbstractCertificate):
     """
     Configuration for Course Certificates.
     """
+    credential_type_slug = 'courses'
+
     course_id = models.CharField(max_length=255, validators=[validate_course_key])
     certificate_type = models.CharField(
         max_length=255,
@@ -242,6 +266,8 @@ class ProgramCertificate(AbstractCertificate):
     """
     Configuration for Program Certificates.
     """
+    credential_type_slug = 'programs'
+
     program_id = models.PositiveIntegerField(db_index=True, unique=True)
     user_credentials = GenericRelation(
         UserCredential,

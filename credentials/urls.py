@@ -32,13 +32,14 @@ login = RedirectView.as_view(url=reverse_lazy('social:begin', args=['edx-oidc'])
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include('credentials.apps.api.urls', namespace='api')),
+    url(r'^api/', include('credentials.apps.api.urls', namespace='credentials')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^auto_auth/$', core_views.AutoAuth.as_view(), name='auto_auth'),
     url(r'^health/$', core_views.health, name='health'),
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout, name='logout'),
     url('', include('social.apps.django_app.urls', namespace='social')),
+
 ]
 
 if settings.DEBUG and os.environ.get('ENABLE_DJANGO_TOOLBAR', False):  # pragma: no cover
