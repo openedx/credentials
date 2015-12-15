@@ -1,4 +1,114 @@
-# Serializers that can be shared across multiple versions of the API
-# should be created here. As the API evolves, serializers may become more
-# specific to a particular version of the API. In this case, the serializers
-# in question should be moved to versioned sub-package.
+"""
+Serializers for data manipulated by the credentials service APIs.
+"""
+import logging
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+
+from credentials.apps.api.accreditors import Accreditor
+from credentials.apps.credentials.models import (
+    CourseCertificate, ProgramCertificate,
+    UserCredential, UserCredentialAttribute
+)
+from credentials.apps.credentials.utils import validate_duplicate_attributes
+
+logger = logging.getLogger(__name__)
+
+
+class CredentialField(serializers.Field):
+    """ Field identifying the credential type and identifiers."""
+
+    def to_internal_value(self, data):
+        credential_id = None
+        try:
+            if 'program_id' in data and data.get('program_id'):
+                credential_id = data['program_id']
+                return ProgramCertificate.objects.get(program_id=data['program_id'])
+            elif 'course_id' in data and data.get('course_id') and data.get('certificate_type'):
+                credential_id = data['course_id']
+                return CourseCertificate.objects.get(
+                    course_id=data['course_id'],
+                    certificate_type=data['certificate_type'])
+            else:
+                raise ValidationError("Credential ID is missing.")
+        except ObjectDoesNotExist as ex:
+            logger.exception("Credential ID [%s] for [%s]", credential_id, ex.message)
+            raise ValidationError(ex.message)
+
+    def to_representation(self, value):
+        """ Serialize objects to a according to model content-type. """
+        credential = {
+            'credential_id': value.id
+        }
+        if isinstance(value, ProgramCertificate):
+            credential.update({
+                'program_id': value.program_id,
+            })
+        elif isinstance(value, CourseCertificate):
+            credential.update({
+                'course_id': value.course_id,
+                'certificate_type': value.certificate_type
+            })
+
+        return credential
+
+
+class UserCredentialAttributeSerializer(serializers.ModelSerializer):
+    """ Serializer for CredentialAttribute objects """
+
+    class Meta(object):
+        model = UserCredentialAttribute
+        fields = ('namespace', 'name', 'value')
+
+
+class UserCredentialSerializer(serializers.ModelSerializer):
+    """ Serializer for UserCredential objects. """
+
+    credential = CredentialField()
+    attributes = UserCredentialAttributeSerializer(many=True)
+
+    class Meta(object):
+        model = UserCredential
+        fields = (
+            'id', 'username', 'credential', 'status', 'download_url', 'uuid', 'attributes', 'created', 'modified',
+        )
+        read_only_fields = (
+            'username', 'credential', 'download_url', 'uuid', 'attributes', 'created', 'modified',
+        )
+
+
+class UserCredentialCreationSerializer(serializers.ModelSerializer):
+    """ Serializer used to create UserCredential objects. """
+    credential = CredentialField()
+    attributes = UserCredentialAttributeSerializer(many=True)
+
+    def validate_attributes(self, data):
+        """ Check that the attributes namespace and name cannot be duplicated."""
+        if not validate_duplicate_attributes(data):
+            raise ValidationError("Attributes cannot be duplicated.")
+        return data
+
+    def issue_credential(self, validated_data):
+        """
+        Issue a new credential.
+
+        Args:
+            validated_data (dict): Input data specifying the credential type, recipient, and attributes.
+
+        Returns:
+            AbstractCredential
+        """
+        accreditor = Accreditor()
+        credential = validated_data['credential']
+        username = validated_data['username']
+        attributes = validated_data.pop('attributes', None)
+
+        return accreditor.issue_credential(credential, username, attributes)
+
+    def create(self, validated_data):
+        return self.issue_credential(validated_data)
+
+    class Meta(object):
+        model = UserCredential
+        exclude = ('credential_content_type', 'credential_id')
