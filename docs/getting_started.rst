@@ -40,8 +40,8 @@ A new OAuth 2.0 client can be created at ``http://127.0.0.1:8000/admin/oauth2/cl
     1. Click the :guilabel:`Add client` button.
     2. Leave the user field blank.
     3. Specify the name of this service, ``credentials``, as the client name.
-    4. Set the :guilabel:`URL` to the root path of this service: ``http://localhost:8003/``.
-    5. Set the :guilabel:`Redirect URL` to the OIDC client endpoint: ``https://localhost:8003/complete/edx-oidc/``.
+    4. Set the :guilabel:`URL` to the root path of this service: ``http://localhost:8150/``.
+    5. Set the :guilabel:`Redirect URL` to the OIDC client endpoint: ``https://localhost:8150/complete/edx-oidc/``.
     6. Copy the :guilabel:`Client ID` and :guilabel:`Client Secret` values. They will be used later.
     7. Select :guilabel:`Confidential (Web applications)` as the client type.
     8. Click :guilabel:`Save`.
@@ -81,6 +81,6 @@ OIDC client via LMS admin.
 
 .. code-block:: bash
 
-    $ python manage.py runserver 8003
+    $ python manage.py runserver 8150
 
 .. _Django's runserver command: https://docs.djangoproject.com/en/1.8/ref/django-admin/#runserver-port-or-address-port

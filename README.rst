@@ -22,9 +22,9 @@ Credentials is edX's replacement for the ``certificates`` in ``edx-platform``. T
 Documentation |ReadtheDocs|_
 ----------------------------
 .. |ReadtheDocs| image:: https://readthedocs.org/projects/open-edx-credentials-guide/badge/?version=latest
-.. _ReadtheDocs: https://open-edx-credentials-guide.readthedocs.org/en/latest/
+.. _ReadtheDocs: http://open-edx-credentials-guide.readthedocs.org/en/latest/
 
-`Documentation <https://open-edx-credentials-guide.readthedocs.org/en/latest/>`_ is hosted on Read the Docs.
+`Documentation <http://open-edx-credentials-guide.readthedocs.org/en/latest/>`_ is hosted on Read the Docs.
 
 
 License
