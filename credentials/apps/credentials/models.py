@@ -121,6 +121,12 @@ class Signatory(TimeStampedModel):
     class Meta(object):
         verbose_name_plural = 'Signatories'
 
+    def __unicode__(self):
+        return '{name}, {title}'.format(
+            name=self.name,
+            title=self.title
+        )
+
     # pylint: disable=no-member
     def save(self, *args, **kwargs):
         """
@@ -136,7 +142,7 @@ class Signatory(TimeStampedModel):
             super(Signatory, self).save(*args, **kwargs)
             self.image = temp_image
 
-        super(Signatory, self).save(*args, **kwargs)
+        super(Signatory, self).save(force_update=True)
 
 
 class CertificateTemplate(TimeStampedModel):
@@ -286,4 +292,4 @@ class CertificateTemplateAsset(TimeStampedModel):
             super(CertificateTemplateAsset, self).save(*args, **kwargs)
             self.asset_file = temp_file
 
-        super(CertificateTemplateAsset, self).save(*args, **kwargs)
+        super(CertificateTemplateAsset, self).save(force_update=True)

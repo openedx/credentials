@@ -62,6 +62,13 @@ class TestSignatory(TestCase):
             signatory.image, 'signatories/1/image_2.jpg'
         )
 
+    def test_unicode_value(self):
+        """Test unicode value is correct."""
+        signatory = Signatory.objects.create(name='test name', title='test title', image=SimpleUploadedFile(
+            'image.jpg',
+            'file contents!'))
+        self.assertEqual(unicode(signatory), 'test name, test title')
+
 
 class TestCertificateTemplateAsset(TestCase):
     """
@@ -71,10 +78,9 @@ class TestCertificateTemplateAsset(TestCase):
         """
         Verify that asset file is saving with actual name and on correct path.
         """
-        CertificateTemplateAsset(name='test name', asset_file=SimpleUploadedFile(
-            'image.jpg',
-            'file contents!')).save()
-        certificate_template_asset = CertificateTemplateAsset.objects.get(id=1)
+        certificate_template_asset = CertificateTemplateAsset.objects.create(
+            name='test name', asset_file=SimpleUploadedFile('image.jpg', 'file contents!')
+        )
         self.assertEqual(
             certificate_template_asset.asset_file, 'certificate_template_assets/1/image.jpg'
         )
