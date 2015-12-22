@@ -1,6 +1,7 @@
 """
 Tests for Issuer class.
 """
+import ddt
 from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
 from testfixtures import LogCapture
@@ -12,6 +13,7 @@ from credentials.apps.credentials.models import ProgramCertificate, UserCredenti
 LOGGER_NAME = 'credentials.apps.credentials.issuers'
 
 
+@ddt.ddt
 class TestProgramCertificateIssuer(TestCase):
     """ Tests for Issuer class and its methods. For incoming credential request
     issuer class is responsible to generate the credential. This is atomic operation and
@@ -83,3 +85,22 @@ class TestProgramCertificateIssuer(TestCase):
             ContentType.objects.get_for_model(ProgramCertificate)
         )
         self.assertEqual(UserCredential.objects.all().count(), 1)
+
+    @ddt.data(
+        ([], 7, 0),
+        ([{"namespace": "whitelist1", "name": "grade", "value": "0.5"}], 11, 1),
+        ([
+            {"namespace": "whitelist2", "name": "grade", "value": "0.5"},
+            {"namespace": "whitelist3", "name": "grade", "value": "0.5"}
+        ], 15, 2),
+    )
+    @ddt.unpack
+    def test_issue_credential_queries(self, attrs, queries, attrs_count):
+        """ Verify issue_credential issues user credential for given user. """
+        self.data['attributes'] = attrs
+        with self.assertNumQueries(queries):
+            issued_credential = self.issuer.issue_credential(self.username, **self.data)
+
+        db_credential = UserCredential.objects.get(username=self.username)
+        self._assert_values(issued_credential, db_credential)
+        self.assertEqual(db_credential.attributes.count(), attrs_count)

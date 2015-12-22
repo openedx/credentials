@@ -73,13 +73,12 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         if created:
             for attr in attributes:
                 if attr.get('namespace') and attr.get('name') and attr.get('value'):
-                    user_attr, __ = UserCredentialAttribute.objects.get_or_create(
+                    UserCredentialAttribute.objects.get_or_create(
                         user_credential=user_credential,
                         namespace=attr.get('namespace'),
-                        name=attr.get('name')
+                        name=attr.get('name'),
+                        defaults={'value': attr.get('value')}
                     )
-                    user_attr.value = attr.get('value')
-                    user_attr.save()
         # if credential already exists then don't create the record.
         else:
             logger.warning("User [%s] already has a credential for program [%s].", username, program_id)
