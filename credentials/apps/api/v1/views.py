@@ -11,7 +11,6 @@ from rest_framework import filters
 
 from credentials.apps.api import exceptions
 from credentials.apps.api.accreditor import Accreditor
-from credentials.apps.api.filters import ProductFilter
 from credentials.apps.api.serializers import (
     UserCredentialSerializer, ProgramCertificateSerializer,
     CourseCertificateSerializer
@@ -123,7 +122,6 @@ class CredentialsByProgramsViewSet(viewsets.ModelViewSet):
     serializer_class = ProgramCertificateSerializer
     permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
     filter_backends = (filters.DjangoFilterBackend,)
-    filter_class = ProductFilter
 
 
 class CredentialsByCoursesViewSet(viewsets.ModelViewSet):
