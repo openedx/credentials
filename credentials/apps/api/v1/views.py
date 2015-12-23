@@ -39,7 +39,7 @@ class UserCredentialViewSet(viewsets.ModelViewSet):
                 'error': 'Username is required for filtering user_credentials.'
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        return super(UserCredentialViewSet, self).list(request, *args, **kwargs)
+        return super(UserCredentialViewSet, self).list(request, *args, **kwargs)  # pylint: disable=maybe-no-member
 
     def partial_update(self, request, *args, **kwargs):  # pylint: disable=unused-argument
         """
@@ -125,7 +125,6 @@ class UserCredentialViewSet(viewsets.ModelViewSet):
 
 class CredentialsByProgramsViewSet(viewsets.ModelViewSet):
     """It will return the all credentials for programs."""
-    lookup_field = 'program_id'
     queryset = ProgramCertificate.objects.all()
     serializer_class = ProgramCertificateSerializer
     permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
@@ -134,7 +133,6 @@ class CredentialsByProgramsViewSet(viewsets.ModelViewSet):
 
 class CredentialsByCoursesViewSet(viewsets.ModelViewSet):
     """It will return the all credentials for courses."""
-    lookup_field = 'course_id'
     queryset = CourseCertificate.objects.all()
     serializer_class = CourseCertificateSerializer
     permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)

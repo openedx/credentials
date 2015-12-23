@@ -90,25 +90,6 @@ class CredentialSerializerTests(TestCase):
 
         self.assertDictEqual(serialize_data.data, expected)
 
-    def test_programcertificatebaseserializer(self):
-        """ Verify that ProgramCertificateBaseSerializer serialize data correctly."""
-        serialize_data = serializers.ProgramCertificateBaseSerializer(self.program_cert)
-        expected = {
-            "program_id": self.program_cert.program_id
-        }
-
-        self.assertDictEqual(serialize_data.data, expected)
-
-    def test_coursecertificatebaseserializer(self):
-        """ Verify that CourseCertificateBaseSerializer serialize data correctly."""
-        serialize_data = serializers.CourseCertificateBaseSerializer(self.course_cert)
-        expected = {
-            "course_id": self.course_cert.course_id,
-            "certificate_type": self.course_cert.certificate_type
-        }
-
-        self.assertDictEqual(serialize_data.data, expected)
-
     def test_coursecertificateserializer(self):
         """ Verify that CourseCertificateSerializer serialize data correctly for
         course certificates.

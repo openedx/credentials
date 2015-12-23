@@ -53,19 +53,12 @@ class UserCredentialSerializer(serializers.ModelSerializer):
         )
 
 
-class ProgramCertificateBaseSerializer(serializers.ModelSerializer):
-    """ Base serializer for ProgramCertificate objects. """
-
-    class Meta(object):
-        model = ProgramCertificate
-        fields = ('program_id',)
-
-
-class ProgramCertificateSerializer(ProgramCertificateBaseSerializer):
+class ProgramCertificateSerializer(serializers.ModelSerializer):
     """ Serializer for ProgramCertificate objects. """
     user_credential = serializers.SerializerMethodField("get_users")
 
-    class Meta(ProgramCertificateBaseSerializer.Meta):
+    class Meta(object):
+        model = ProgramCertificate
         fields = ('user_credential', 'program_id')
 
     def get_users(self, program):
@@ -73,19 +66,12 @@ class ProgramCertificateSerializer(ProgramCertificateBaseSerializer):
         return UserCredentialSerializer(program.user_credentials.all(), many=True).data
 
 
-class CourseCertificateBaseSerializer(serializers.ModelSerializer):
-    """ Base serializer for CourseCertificate objects. """
-
-    class Meta(object):
-        model = CourseCertificate
-        fields = ('course_id', 'certificate_type', )
-
-
-class CourseCertificateSerializer(CourseCertificateBaseSerializer):
+class CourseCertificateSerializer(serializers.ModelSerializer):
     """ Serializer for CourseCertificate objects. """
+
     user_credential = serializers.SerializerMethodField("get_users")
 
-    class Meta(CourseCertificateBaseSerializer.Meta):
+    class Meta(object):
         model = CourseCertificate
         fields = ('user_credential', 'course_id', 'certificate_type',)
 

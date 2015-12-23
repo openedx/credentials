@@ -103,43 +103,6 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, TestCase):
         response = self.client.get(path=reverse("credentials:v1:usercredential-list"))
         self.assertEqual(response.status_code, 400)
 
-    def test_get_programs_credential(self):
-        """ Verify a single program credential is returned. """
-        # client = self.get_authenticated_client()
-        path = reverse("credentials:v1:programcertificate-detail", args=[self.program_id])
-        response = self.client.get(path)
-        self.assertEqual(response.status_code, 200)
-
-        serializer = serializers.ProgramCertificateSerializer(self.program_cre)
-        self.assertDictEqual(json.loads(response.content), serializer.data)
-
-    def test_list_programs_credential(self):
-        """ Verify a list end point of programs credentials return list of
-        credentials.
-        """
-        dummy_program_cert = ProgramCertificateFactory.create()
-        dummy_user_credential = UserCredentialFactory.create(credential=dummy_program_cert)
-
-        response = self.client.get(path=reverse("credentials:v1:programcertificate-list"))
-        self.assertEqual(response.status_code, 200)
-        results = [
-            {
-                "user_credential": [
-                    serializers.UserCredentialSerializer(self.user_credential).data,
-                ],
-                "program_id": self.program_id
-            },
-            {
-                "user_credential": [
-                    serializers.UserCredentialSerializer(dummy_user_credential).data,
-                ],
-                "program_id": dummy_program_cert.program_id
-            }
-        ]
-
-        expected = {'count': 2, 'next': None, 'previous': None, 'results': results}
-        self.assertDictEqual(json.loads(response.content), expected)
-
     def test_patch_user_credentials(self):
         """ Verify that status of credentials will be updated with patch request. """
         data = {
@@ -527,3 +490,91 @@ class TestAPITransactions(AuthClientMixin, TransactionTestCase):
             mock_get_or_create.side_effect = IntegrityError
             __ = self.client.post(path=path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
             self.assertEqual(UserCredential.objects.all().count(), 0)
+
+
+class TestProgramsView(AuthClientMixin, TestCase):
+    """ Tests for ProgramsView. """
+
+    def setUp(self):
+        super(TestProgramsView, self).setUp()
+
+        # api client with no permissions
+        self.client = self.get_api_client(permission_code=None)
+
+        # create credentials for user
+        self.program_cre = ProgramCertificateFactory.create()
+        self.program_id = self.program_cre.program_id
+        self.user_credential = UserCredentialFactory.create(credential=self.program_cre)
+        self.attr = UserCredentialAttributeFactory.create(user_credential=self.user_credential)
+
+    def test_list_programs_credential(self):
+        """ Verify a list end point of programs credentials return list of
+        credentials.
+        """
+        dummy_program_cert = ProgramCertificateFactory.create()
+        dummy_user_credential = UserCredentialFactory.create(credential=dummy_program_cert)
+
+        response = self.client.get(path=reverse("credentials:v1:programcertificate-list"))
+        self.assertEqual(response.status_code, 200)
+        results = [
+            {
+                "user_credential": [
+                    serializers.UserCredentialSerializer(self.user_credential).data,
+                ],
+                "program_id": self.program_id
+            },
+            {
+                "user_credential": [
+                    serializers.UserCredentialSerializer(dummy_user_credential).data,
+                ],
+                "program_id": dummy_program_cert.program_id
+            }
+        ]
+
+        expected = {'count': 2, 'next': None, 'previous': None, 'results': results}
+        self.assertDictEqual(json.loads(response.content), expected)
+
+
+class TestCourseView(AuthClientMixin, TestCase):
+    """ Tests for ProgramsView. """
+
+    def setUp(self):
+        super(TestCourseView, self).setUp()
+
+        # api client with no permissions
+        self.client = self.get_api_client(permission_code=None)
+
+        # create credentials for user
+        self.course_cre = CourseCertificateFactory.create()
+        self.course_id = self.course_cre.course_id
+        self.user_credential = UserCredentialFactory.create(credential=self.course_cre)
+        self.attr = UserCredentialAttributeFactory.create(user_credential=self.user_credential)
+
+    def test_list_programs_credential(self):
+        """ Verify a list end point of course credentials return list of
+        credentials.
+        """
+        course_cre2 = CourseCertificateFactory.create()
+        user_credential2 = UserCredentialFactory.create(credential=course_cre2)
+
+        response = self.client.get(path=reverse("credentials:v1:coursecertificate-list"))
+        self.assertEqual(response.status_code, 200)
+        results = [
+            {
+                "user_credential": [
+                    serializers.UserCredentialSerializer(self.user_credential).data,
+                ],
+                "course_id": self.course_cre.course_id,
+                "certificate_type": self.course_cre.certificate_type
+            },
+            {
+                "user_credential": [
+                    serializers.UserCredentialSerializer(user_credential2).data,
+                ],
+                "course_id": course_cre2.course_id,
+                "certificate_type": course_cre2.certificate_type
+            }
+        ]
+
+        expected = {'count': 2, 'next': None, 'previous': None, 'results': results}
+        self.assertDictEqual(json.loads(response.content), expected)
