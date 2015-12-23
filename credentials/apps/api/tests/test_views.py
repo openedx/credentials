@@ -365,7 +365,6 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, TestCase):
         }
 
         response = self._attempt_create_user_credentials(data)
-        self.assertIn("UNIQUE constraint failed: credentials_usercredentialattribute", response.content)
         self.assertEqual(response.status_code, 400)
         self.assertFalse(UserCredential.objects.filter(username=username).exists())
 
