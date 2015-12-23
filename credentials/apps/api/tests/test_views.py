@@ -332,8 +332,8 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, TestCase):
         self.assertEqual(json.loads(response.content), {"error": "Username is not available."})
 
     def test_create_credential_with_duplicate_attributes(self):
-        """ Verify that duplicate attributes will not be created.
-        Following things are should be unique
+        """ Verify in case of duplicate attributes User credential
+        object will not create and not any attribute.
         ('user_credential', 'namespace', 'name')
         """
         username = 'test_user'
@@ -365,15 +365,9 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, TestCase):
         }
 
         response = self._attempt_create_user_credentials(data)
-        self.assertEqual(response.status_code, 200)
-
-        user_cred = UserCredential.objects.get(username=username)
-        self.assertDictEqual(
-            json.loads(response.content),
-            self._create_output_data(user_cred, self.program_cre)
-        )
-
-        self.assertEqual(2, user_cred.attributes.all().count())
+        self.assertIn("UNIQUE constraint failed: credentials_usercredentialattribute", response.content)
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(UserCredential.objects.filter(username=username).exists())
 
     def test_existing_credential_not_add_or_update_attributes(self):
         """ Verify that if credential already exists then during recreation attempt
@@ -434,7 +428,10 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, TestCase):
         path = reverse("credentials:v1:usercredential-list") + "?username={}".format(
             self.user_credential.username)
 
-        response = self.client.get(path)
+        # check query count for username filter
+        with self.assertNumQueries(4):
+            response = self.client.get(path)
+
         expected_json = self._create_output_data(self.user_credential, self.program_cre)
         self.assertDictEqual(
             json.loads(response.content),
@@ -446,12 +443,46 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, TestCase):
         path = reverse("credentials:v1:usercredential-list") + "?status={}".format(
             self.user_credential.status)
 
-        response = self.client.get(path)
+        # check query count for filters
+        with self.assertNumQueries(4):
+            response = self.client.get(path)
+
         expected_json = self._create_output_data(self.user_credential, self.program_cre)
         self.assertDictEqual(
             json.loads(response.content),
             {'count': 1, 'next': None, 'previous': None, 'results': [expected_json]}
         )
+
+    def test_create_method_queries(self):
+        """ Verify the number of queries during the create credential. """
+
+        program_2 = ProgramCertificateFactory.create(program_id=100)
+        username = 'user2'
+        data = {
+            "username": username,
+            "program_id": program_2.program_id,
+            "attributes": [
+                {
+                    "namespace": self.attr.namespace,
+                    "name": self.attr.name,
+                    "value": self.attr.value
+                },
+                {
+                    "namespace": 'second',
+                    "name": 'testing',
+                    "value": '10'
+                }
+            ]
+        }
+        client = self.get_api_client(permission_code="add_usercredential")
+
+        with self.assertNumQueries(12):
+            path = reverse("credentials:v1:usercredential-list")
+            response = client.post(path=path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
+
+        users_creds = UserCredential.objects.filter(username=username)
+        expected_data = self._create_output_data(users_creds[0], program_2)
+        self.assertDictEqual(json.loads(response.content), expected_data)
 
 
 class TestAPITransactions(AuthClientMixin, TransactionTestCase):

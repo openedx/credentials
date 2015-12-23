@@ -3,6 +3,7 @@ Tests for Issuer class.
 """
 import ddt
 from django.contrib.contenttypes.models import ContentType
+from django.db import IntegrityError
 from django.test import TestCase
 from testfixtures import LogCapture
 
@@ -46,18 +47,34 @@ class TestProgramCertificateIssuer(TestCase):
 
     def test_issue_credential_with_missing_attributes(self):
         """ Verify issue_credential issues credential even if attributes
-        dict is missing any field or is empty.
+        dict is empty any field any field is missing.
         """
-
         # data without namespace and reason.
         data = {
             "program_id": self.program_certificate.program_id,
             "attributes": [{"name": "Whitelist"}]
         }
+
         isseued_credential = self.issuer.issue_credential(self.username, **data)
         db_credential = UserCredential.objects.get(username=self.username)
         self._assert_values(isseued_credential, db_credential)
         self.assertFalse(db_credential.attributes.exists())
+
+    def test_issue_credential_with_duplicate_attributes(self):
+        """ Verify issuer raises exception and rolled backed the whole
+        operation in case of duplicate attributes.
+        """
+
+        data = {
+            "program_id": self.program_certificate.program_id,
+            "attributes": [
+                {"namespace": "whitelist2", "name": "grade", "value": "0.5"},
+                {"namespace": "whitelist2", "name": "grade", "value": "0.5"}
+            ]
+        }
+        with self.assertRaises(IntegrityError):
+            self.issuer.issue_credential(self.username, **data)
+        self.assertFalse(UserCredential.objects.filter(username=self.username).exists())
 
     def test_credential_already_exists(self):
         """ Verify that credential will not be issued if user has already issued credential."""
@@ -88,11 +105,11 @@ class TestProgramCertificateIssuer(TestCase):
 
     @ddt.data(
         ([], 7, 0),
-        ([{"namespace": "whitelist1", "name": "grade", "value": "0.5"}], 11, 1),
+        ([{"namespace": "whitelist1", "name": "grade", "value": "0.5"}], 8, 1),
         ([
             {"namespace": "whitelist2", "name": "grade", "value": "0.5"},
             {"namespace": "whitelist3", "name": "grade", "value": "0.5"}
-        ], 15, 2),
+        ], 8, 2),
     )
     @ddt.unpack
     def test_issue_credential_queries(self, attrs, queries, attrs_count):
