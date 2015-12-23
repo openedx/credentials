@@ -33,6 +33,14 @@ class UserCredentialViewSet(viewsets.ModelViewSet):
     serializer_class = UserCredentialSerializer
     permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
 
+    def list(self, request, *args, **kwargs):
+        if not self.request.query_params.get('username'):
+            return Response({
+                'error': 'Username is required for filtering user_credentials.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        return super(UserCredentialViewSet, self).list(request, *args, **kwargs)
+
     def partial_update(self, request, *args, **kwargs):  # pylint: disable=unused-argument
         """
         PATCH # /v1/user_credentials/{username}/
