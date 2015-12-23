@@ -96,19 +96,12 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, TestCase):
             self._create_output_data(self.user_credential, self.program_cre)
         )
 
-    def test_list_users_credentials(self):
-        """ Verify a list end point of user credentials return list of credentials. """
-
-        dummy_user_credential = UserCredentialFactory.create(credential=self.program_cre)
+    def test_list_credentials_without_user(self):
+        """ Verify a list end point of user credentials will work only with
+        username filter. Otherwise it will return 400.
+        """
         response = self.client.get(path=reverse("credentials:v1:usercredential-list"))
-        self.assertEqual(response.status_code, 200)
-        results = [
-            self._create_output_data(self.user_credential, self.program_cre),
-            self._create_output_data(dummy_user_credential, self.program_cre)
-        ]
-
-        expected = {'count': 2, 'next': None, 'previous': None, 'results': results}
-        self.assertDictEqual(json.loads(response.content), expected)
+        self.assertEqual(response.status_code, 400)
 
     def test_get_programs_credential(self):
         """ Verify a single program credential is returned. """
@@ -430,6 +423,7 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, TestCase):
         # check query count for username filter
         with self.assertNumQueries(4):
             response = self.client.get(path)
+            self.assertEqual(response.status_code, 200)
 
         expected_json = self._create_output_data(self.user_credential, self.program_cre)
         self.assertDictEqual(
@@ -437,14 +431,20 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, TestCase):
             {'count': 1, 'next': None, 'previous': None, 'results': [expected_json]}
         )
 
-    def test_status_filter(self):
-        """ Test api's with status filter."""
+    def test_status_filter_with_username(self):
+        """ Test api's with status filter will work only with username."""
+        # without username it will return 400 error code.
         path = reverse("credentials:v1:usercredential-list") + "?status={}".format(
             self.user_credential.status)
 
-        # check query count for filters
-        with self.assertNumQueries(4):
-            response = self.client.get(path)
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, 400)
+
+        # username and status will return the data.
+        path = reverse("credentials:v1:usercredential-list") + "?username={user}&status={status}".format(
+            user=self.user_credential.username,
+            status=UserCredential.AWARDED)
+        response = self.client.get(path)
 
         expected_json = self._create_output_data(self.user_credential, self.program_cre)
         self.assertDictEqual(
