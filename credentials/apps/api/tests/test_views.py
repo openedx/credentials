@@ -6,7 +6,7 @@ import json
 
 from django.db import IntegrityError
 from django.core.urlresolvers import reverse
-from django.test import TestCase, TransactionTestCase
+from rest_framework.test import APITestCase, APITransactionTestCase
 from mock import patch
 from testfixtures import LogCapture
 
@@ -23,7 +23,7 @@ JSON_CONTENT_TYPE = 'application/json'
 LOGGER_NAME = 'credentials.apps.credentials.issuers'
 
 
-class TestGenerateProgramsCredentialView(AuthClientMixin, TestCase):
+class TestGenerateProgramsCredentialView(AuthClientMixin, APITestCase):
     """ Tests for ProgramsCredentialView. """
 
     def setUp(self):
@@ -447,7 +447,7 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, TestCase):
         self.assertDictEqual(json.loads(response.content), expected_data)
 
 
-class TestAPITransactions(AuthClientMixin, TransactionTestCase):
+class TestAPITransactions(AuthClientMixin, APITransactionTestCase):
     """
     Tests the transactional behavior of the user credential API
     """
@@ -492,7 +492,7 @@ class TestAPITransactions(AuthClientMixin, TransactionTestCase):
             self.assertEqual(UserCredential.objects.all().count(), 0)
 
 
-class TestProgramsView(AuthClientMixin, TestCase):
+class TestProgramsView(AuthClientMixin, APITestCase):
     """ Tests for ProgramsView. """
 
     def setUp(self):
@@ -535,7 +535,7 @@ class TestProgramsView(AuthClientMixin, TestCase):
         self.assertDictEqual(json.loads(response.content), expected)
 
 
-class TestCourseView(AuthClientMixin, TestCase):
+class TestCourseView(AuthClientMixin, APITestCase):
     """ Tests for ProgramsView. """
 
     def setUp(self):
