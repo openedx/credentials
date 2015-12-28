@@ -6,7 +6,7 @@ from credentials.apps.api.v1 import views
 
 router = DefaultRouter()  # pylint: disable=invalid-name
 router.register(r'user_credentials', views.UserCredentialViewSet)
-router.register(r'program_credentials', views.CredentialsByProgramsViewSet)
-router.register(r'course_credentials', views.CredentialsByCoursesViewSet)
+router.register(r'program_credentials', views.CredentialsByProgramsViewSet, base_name='program_credentials')
+router.register(r'course_credentials', views.CredentialsByCoursesViewSet, base_name='course_credentials')
 
 urlpatterns = router.urls

@@ -519,7 +519,7 @@ class TestProgramsView(AuthClientMixin, APITestCase):
         dummy_program_cert = ProgramCertificateFactory.create()
         dummy_user_credential = UserCredentialFactory.create(credential=dummy_program_cert)
 
-        response = self.client.get(path=reverse("credentials:v1:programcertificate-list"))
+        response = self.client.get(path=reverse("credentials:v1:program_credentials-list"))
         self.assertEqual(response.status_code, 200)
         results = [
             {
@@ -562,7 +562,7 @@ class TestCourseView(AuthClientMixin, APITestCase):
         course_cre2 = CourseCertificateFactory.create()
         user_credential2 = UserCredentialFactory.create(credential=course_cre2)
 
-        response = self.client.get(path=reverse("credentials:v1:coursecertificate-list"))
+        response = self.client.get(path=reverse("credentials:v1:program_credentials-list"))
         self.assertEqual(response.status_code, 200)
         results = [
             {
