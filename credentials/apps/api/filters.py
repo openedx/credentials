@@ -12,7 +12,14 @@ class ProgramFilter(django_filters.FilterSet):
 
 
 class CourseFilter(django_filters.FilterSet):
-    course_id = django_filters.CharFilter(name="courses_credentials__course_id")
+
+    def filter_course_id(queryset, value):
+        # drf replace + signs with spaces.
+        return queryset.filter(
+            courses_credentials__course_id=value.replace(' ', '+')
+        )
+
+    course_id = django_filters.MethodFilter(action=filter_course_id)
     credential_id = django_filters.CharFilter(name="courses_credentials__id")
     certificate_type = django_filters.CharFilter(name="courses_credentials__certificate_type")
 

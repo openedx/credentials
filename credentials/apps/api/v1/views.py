@@ -2,7 +2,6 @@
 Credentials service API views (v1).
 """
 import logging
-from django.contrib.contenttypes.models import ContentType
 
 from rest_framework import status
 from rest_framework import viewsets, generics, mixins
@@ -140,3 +139,4 @@ class CredentialsByCoursesViewSet(mixins.ListModelMixin, GenericViewSet):
     filter_class = CourseFilter
     serializer_class = UserCredentialSerializer
     permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
+
