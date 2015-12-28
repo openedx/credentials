@@ -6,17 +6,18 @@ import json
 
 from django.db import IntegrityError
 from django.core.urlresolvers import reverse
-from rest_framework.test import APITestCase, APITransactionTestCase
 from mock import patch
+from rest_framework.test import APITestCase, APITransactionTestCase
 from testfixtures import LogCapture
 
 from credentials.apps.api.tests.mixin import AuthClientMixin
-from credentials.apps.credentials.constants import DRF_DATE_FORMAT
-from credentials.apps.credentials.models import UserCredential, UserCredentialAttribute
 from credentials.apps.api import serializers
 from credentials.apps.api.tests.factories import (
-    ProgramCertificateFactory, UserCredentialFactory, UserCredentialAttributeFactory,
-    CourseCertificateFactory)
+    CourseCertificateFactory, ProgramCertificateFactory,
+    UserCredentialFactory, UserCredentialAttributeFactory
+)
+from credentials.apps.credentials.constants import DRF_DATE_FORMAT
+from credentials.apps.credentials.models import UserCredential, UserCredentialAttribute
 
 
 JSON_CONTENT_TYPE = 'application/json'
@@ -33,9 +34,9 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, APITestCase):
         self.client = self.get_api_client(permission_code=None)
 
         # create credentials for user
-        self.program_cre = ProgramCertificateFactory.create()
-        self.program_id = self.program_cre.program_id
-        self.user_credential = UserCredentialFactory.create(credential=self.program_cre)
+        self.program_cert = ProgramCertificateFactory.create()
+        self.program_id = self.program_cert.program_id
+        self.user_credential = UserCredentialFactory.create(credential=self.program_cert)
         self.attr = UserCredentialAttributeFactory.create(user_credential=self.user_credential)
 
     def _create_output_data(self, credential, program):
@@ -93,7 +94,7 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertDictEqual(
             json.loads(response.content),
-            self._create_output_data(self.user_credential, self.program_cre)
+            self._create_output_data(self.user_credential, self.program_cert)
         )
 
     def test_list_credentials_without_user(self):
@@ -122,11 +123,15 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, APITestCase):
         }
         response = self._attempt_update_user_credential(data)
 
-        self.assertDictEqual(json.loads(response.content),
-                             {'error': 'Only status of credential is allowed to update'})
+        self.assertDictEqual(
+            json.loads(response.content),
+            {'error': 'Only status of credential is allowed to update'}
+        )
 
-    def test_permissions_for_path(self):
-        """ Verify that patch endpoint allows only authorized users to update user credential. """
+    def test_permissions_for_patch(self):
+        """ Verify that patch endpoint allows only authorized users to update
+        user credential.
+        """
 
         data = {
             "id": self.user_credential.id,
@@ -174,8 +179,8 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, APITestCase):
         self.assertDictEqual(json.loads(response.content), expected_data)
 
     def test_permissions_for_create(self):
-        """ Verify the endpoint doest not allow to unauthorized users to create
-        new user credential for program.
+        """ Verify that the create endpoint of user credential does not allow
+        the unauthorized users to create a new user credential for the program.
         """
 
         username = 'user2'
@@ -356,7 +361,7 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, APITestCase):
         user_cred_1 = UserCredential.objects.get(username=username)
         self.assertDictEqual(
             json.loads(response.content),
-            self._create_output_data(user_cred_1, self.program_cre)
+            self._create_output_data(user_cred_1, self.program_cert)
         )
         self.assertEqual(user_cred_1.attributes.all().count(), 0)
 
@@ -388,7 +393,7 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, APITestCase):
             response = self.client.get(path)
             self.assertEqual(response.status_code, 200)
 
-        expected_json = self._create_output_data(self.user_credential, self.program_cre)
+        expected_json = self._create_output_data(self.user_credential, self.program_cert)
         self.assertDictEqual(
             json.loads(response.content),
             {'count': 1, 'next': None, 'previous': None, 'results': [expected_json]}
@@ -409,7 +414,7 @@ class TestGenerateProgramsCredentialView(AuthClientMixin, APITestCase):
             status=UserCredential.AWARDED)
         response = self.client.get(path)
 
-        expected_json = self._create_output_data(self.user_credential, self.program_cre)
+        expected_json = self._create_output_data(self.user_credential, self.program_cert)
         self.assertDictEqual(
             json.loads(response.content),
             {'count': 1, 'next': None, 'previous': None, 'results': [expected_json]}

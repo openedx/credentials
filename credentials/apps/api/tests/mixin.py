@@ -1,7 +1,7 @@
 """Mixin class for authentication."""
 from django.contrib.auth.models import Permission
-
 from rest_framework.test import APIClient
+
 from credentials.apps.api.tests.factories import UserFactory
 
 
@@ -26,4 +26,5 @@ class AuthClientMixin(object):
             # pylint: disable=maybe-no-member
             user.user_permissions.add(Permission.objects.get(codename=permission_code))
             client.force_authenticate(user)
+
         return client

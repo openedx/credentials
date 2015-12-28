@@ -4,8 +4,8 @@ from django.contrib.sites.models import Site
 from django.core.files.images import ImageFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.exceptions import ValidationError
-
 from opaque_keys.edx.locator import CourseLocator
+
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.models import (
     CertificateTemplateAsset, CertificateTemplate,

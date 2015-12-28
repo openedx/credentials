@@ -43,7 +43,6 @@ class AbstractCredentialIssuer(object):
         existing credential WILL NOT be modified.
 
         Arguments:
-            username (string): Username of the credential recipient.
             **kwargs: Arbitrary keyword arguments.
 
         Returns:

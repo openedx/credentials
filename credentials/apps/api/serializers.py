@@ -4,8 +4,8 @@ Serializers for data manipulated by the credentials service APIs.
 from rest_framework import serializers
 
 from credentials.apps.credentials.models import (
-    ProgramCertificate, CourseCertificate,
-    UserCredentialAttribute, UserCredential
+    CourseCertificate, ProgramCertificate,
+    UserCredential, UserCredentialAttribute
 )
 
 
@@ -55,26 +55,26 @@ class UserCredentialSerializer(serializers.ModelSerializer):
 
 class ProgramCertificateSerializer(serializers.ModelSerializer):
     """ Serializer for ProgramCertificate objects. """
-    user_credential = serializers.SerializerMethodField("get_users")
+    user_credential = serializers.SerializerMethodField("get_user_credentials")
 
     class Meta(object):
         model = ProgramCertificate
         fields = ('user_credential', 'program_id')
 
-    def get_users(self, program):
-        """ Returns all user credential for given program. """
+    def get_user_credentials(self, program):
+        """ Returns all user credentials for a given program."""
         return UserCredentialSerializer(program.user_credentials.all(), many=True).data
 
 
 class CourseCertificateSerializer(serializers.ModelSerializer):
     """ Serializer for CourseCertificate objects. """
 
-    user_credential = serializers.SerializerMethodField("get_users")
+    user_credential = serializers.SerializerMethodField("get_user_credentials")
 
     class Meta(object):
         model = CourseCertificate
         fields = ('user_credential', 'course_id', 'certificate_type',)
 
-    def get_users(self, course):
-        """ Returns all user credential for given course. """
+    def get_user_credentials(self, course):
+        """ Returns all user credentials for a given program."""
         return UserCredentialSerializer(course.user_credentials.all(), many=True).data

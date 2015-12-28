@@ -5,8 +5,8 @@ from django.test import TestCase
 
 from credentials.apps.api import serializers
 from credentials.apps.api.tests.factories import (
-    ProgramCertificateFactory, UserCredentialFactory,
-    UserCredentialAttributeFactory, CourseCertificateFactory
+    CourseCertificateFactory, ProgramCertificateFactory,
+    UserCredentialFactory, UserCredentialAttributeFactory
 )
 from credentials.apps.credentials.constants import DRF_DATE_FORMAT
 
