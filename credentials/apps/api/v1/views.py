@@ -4,13 +4,15 @@ Credentials service API views (v1).
 import logging
 
 from rest_framework import status
-from rest_framework import viewsets, generics
+from rest_framework import viewsets, generics, mixins
 from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
 from rest_framework.response import Response
 from rest_framework import filters
+from rest_framework.viewsets import GenericViewSet
 
 from credentials.apps.api import exceptions
 from credentials.apps.api.accreditor import Accreditor
+from credentials.apps.api.filters import ProgramFilter
 from credentials.apps.api.serializers import (
     UserCredentialSerializer, ProgramCertificateSerializer,
     CourseCertificateSerializer
@@ -123,12 +125,13 @@ class UserCredentialViewSet(viewsets.ModelViewSet):
                             status=status.HTTP_400_BAD_REQUEST)
 
 
-class CredentialsByProgramsViewSet(viewsets.ModelViewSet):
+class CredentialsByProgramsViewSet(mixins.ListModelMixin, GenericViewSet):
     """It will return the all credentials for programs."""
-    queryset = ProgramCertificate.objects.all()
-    serializer_class = ProgramCertificateSerializer
-    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
+    queryset = UserCredential.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = ProgramFilter
+    serializer_class = UserCredentialSerializer
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
 
 
 class CredentialsByCoursesViewSet(viewsets.ModelViewSet):

@@ -272,7 +272,8 @@ class ProgramCertificate(AbstractCertificate):
     user_credentials = GenericRelation(
         UserCredential,
         content_type_field='credential_content_type',
-        object_id_field='credential_id'
+        object_id_field='credential_id',
+        related_query_name='programs_credentials'
     )
 
 
