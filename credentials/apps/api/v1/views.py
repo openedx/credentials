@@ -2,6 +2,7 @@
 Credentials service API views (v1).
 """
 import logging
+from django.contrib.contenttypes.models import ContentType
 
 from rest_framework import status
 from rest_framework import viewsets, generics, mixins
@@ -12,11 +13,9 @@ from rest_framework.viewsets import GenericViewSet
 
 from credentials.apps.api import exceptions
 from credentials.apps.api.accreditor import Accreditor
-from credentials.apps.api.filters import ProgramFilter
-from credentials.apps.api.serializers import (
-    UserCredentialSerializer, ProgramCertificateSerializer,
-    CourseCertificateSerializer
-)
+from credentials.apps.api.filters import ProgramFilter, CourseFilter
+from credentials.apps.api.serializers import UserCredentialSerializer
+
 from credentials.apps.credentials.models import (
     UserCredential, ProgramCertificate, CourseCertificate
 )
@@ -134,8 +133,10 @@ class CredentialsByProgramsViewSet(mixins.ListModelMixin, GenericViewSet):
     permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
 
 
-class CredentialsByCoursesViewSet(viewsets.ModelViewSet):
+class CredentialsByCoursesViewSet(mixins.ListModelMixin, GenericViewSet):
     """It will return the all credentials for courses."""
-    queryset = CourseCertificate.objects.all()
-    serializer_class = CourseCertificateSerializer
+    queryset = UserCredential.objects.all()
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = CourseFilter
+    serializer_class = UserCredentialSerializer
     permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
