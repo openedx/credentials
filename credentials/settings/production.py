@@ -1,11 +1,8 @@
 from os import environ
-import platform
-import sys
 import yaml
-from logging.handlers import SysLogHandler
 
 from credentials.settings.base import *
-from credentials.settings.utils import get_env_setting
+from credentials.settings.utils import get_env_setting, get_logger_config
 
 
 DEBUG = False
@@ -13,25 +10,7 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
 
-LOGGING['handlers']['local'] = {
-    'level': 'INFO',
-    'class': 'logging.handlers.SysLogHandler',
-    # Use a different address for Mac OS X
-    'address': '/var/run/syslog' if sys.platform == "darwin" else '/dev/log',
-    'formatter': 'syslog_format',
-    'facility': SysLogHandler.LOG_LOCAL0,
-}
-
-LOGGING['formatters']['syslog_format'] = {
-    format: (
-        "[service_variant=credentials]"
-        "[%(name)s][env:no_env] %(levelname)s "
-        "[{hostname}  %(process)d] [%(filename)s:%(lineno)d] "
-        "- %(message)s"
-    ).format(
-        hostname=platform.node().split(".")[0]
-    )
-}
+LOGGING = get_logger_config()
 
 CONFIG_FILE = get_env_setting('CREDENTIALS_CFG')
 with open(CONFIG_FILE) as f:
