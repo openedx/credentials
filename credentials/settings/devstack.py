@@ -2,8 +2,6 @@ from credentials.settings.production import *
 
 DEBUG = True
 
-del LOGGING['handlers']['local']
-
 # TOOLBAR CONFIGURATION
 # See: http://django-debug-toolbar.readthedocs.org/en/latest/installation.html
 if os.environ.get('ENABLE_DJANGO_TOOLBAR', False):
