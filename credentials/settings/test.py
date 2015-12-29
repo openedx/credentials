@@ -2,6 +2,7 @@ import os
 from path import Path as path
 
 from credentials.settings.base import *
+from credentials.settings.utils import get_logger_config
 
 
 # TEST SETTINGS
@@ -15,7 +16,8 @@ NOSE_ARGS = [
     '--with-ignore-docstrings',
     '--logging-level=DEBUG',
 ]
-
+# LOGGING
+LOGGING = get_logger_config(debug=False, dev_env=True, local_loglevel='DEBUG')
 # END TEST SETTINGS
 
 

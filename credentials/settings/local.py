@@ -1,4 +1,5 @@
 from credentials.settings.base import *
+from credentials.settings.utils import get_logger_config
 
 DEBUG = True
 
@@ -60,6 +61,9 @@ SOCIAL_AUTH_EDX_OIDC_URL_ROOT = 'replace-me'
 SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY = SOCIAL_AUTH_EDX_OIDC_SECRET
 
 ENABLE_AUTO_AUTH = True
+
+# LOGGING
+LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel='DEBUG')
 
 #####################################################################
 # Lastly, see if the developer has any local overrides.
