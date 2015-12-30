@@ -1,10 +1,11 @@
 from credentials.settings.production import *
-from credentials.settings.logger import get_logger_config
+from credentials.settings.utils import get_logger_config
 
 
 DEBUG = True
 
 LOGGING = get_logger_config(debug=True, dev_env=True, local_loglevel='DEBUG')
+del LOGGING['handlers']['local']
 
 # TOOLBAR CONFIGURATION
 # See: http://django-debug-toolbar.readthedocs.org/en/latest/installation.html
