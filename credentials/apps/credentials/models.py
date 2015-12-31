@@ -5,8 +5,7 @@ Models for the credentials service.
 from __future__ import unicode_literals
 import uuid  # pylint: disable=unused-import
 
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
@@ -37,7 +36,6 @@ def template_assets_path(instance, filename):
     Returns:
         Path to asset.
     """
-
     return 'certificate_template_assets/{id}/{filename}'.format(id=instance.id, filename=filename)
 
 
@@ -161,7 +159,7 @@ class CertificateTemplate(TimeStampedModel):
         )
 
 
-class AbstractCertificate(AbstractCredential):
+class AbstractCertificate(AbstractCredential):  # pylint: disable=abstract-method
     """
     Abstract Certificate configuration to support multiple type of certificates
     i.e. Programs, Courses.

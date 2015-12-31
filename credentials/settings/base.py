@@ -1,7 +1,9 @@
 import os
 from os.path import join, abspath, dirname
+from credentials.settings.utils import get_logger_config
 
 # PATH vars
+
 here = lambda *x: join(abspath(dirname(__file__)), *x)
 PROJECT_ROOT = here("..")
 root = lambda *x: join(abspath(PROJECT_ROOT), *x)
@@ -14,6 +16,9 @@ SECRET_KEY = os.environ.get('CREDENTIALS_SECRET_KEY', 'insecure-secret-key')
 DEBUG = False
 
 ALLOWED_HOSTS = []
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
+SITE_ID = 1
 
 # Application definition
 
@@ -203,3 +208,13 @@ LOGIN_REDIRECT_URL = '/admin/'
 # OPENEDX-SPECIFIC CONFIGURATION 
 PLATFORM_NAME = 'Your Platform Name Here'
 # END OPENEDX-SPECIFIC CONFIGURATION
+
+# Set up logging for development use (logging to stdout)
+LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel='DEBUG')
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20,
+    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%SZ'
+}
