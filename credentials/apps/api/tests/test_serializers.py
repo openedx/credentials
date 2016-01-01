@@ -2,10 +2,11 @@
 # pylint: disable=no-member
 from __future__ import unicode_literals
 import ddt
-
+from django.core.urlresolvers import reverse
 from django.test import TestCase
 from rest_framework.exceptions import ValidationError
 from rest_framework.settings import api_settings
+from rest_framework.test import APIRequestFactory
 
 from credentials.apps.api import serializers
 from credentials.apps.api.tests.factories import (
@@ -27,10 +28,19 @@ class UserCredentialSerializerTests(TestCase):
         self.course_cert = CourseCertificateFactory.create()
         self.course_credential = UserCredentialFactory.create(credential=self.course_cert)
         self.course_cert_attr = UserCredentialAttributeFactory(user_credential=self.course_credential)
+        self.request = APIRequestFactory().get('/')
 
     def test_serialization_with_program_credential(self):
         """ Verify the serializer correctly serializes program credentials."""
-        actual = serializers.UserCredentialSerializer(self.program_credential).data
+
+        actual = serializers.UserCredentialSerializer(self.program_credential, context={
+            "request": self.request
+        }).data
+
+        expected_url = "http://testserver{}".format(reverse("credentials:render", kwargs={
+            "uuid": self.program_credential.uuid.hex,
+        }))
+
         expected = {
             "username": self.program_credential.username,
             "uuid": str(self.program_credential.uuid),
@@ -49,14 +59,22 @@ class UserCredentialSerializerTests(TestCase):
             ],
             "id": self.program_credential.id,
             "created": self.program_credential.created.strftime(api_settings.DATETIME_FORMAT),
-            "modified": self.program_credential.modified.strftime(api_settings.DATETIME_FORMAT)
+            "modified": self.program_credential.modified.strftime(api_settings.DATETIME_FORMAT),
+            "certificate_url": expected_url
         }
         self.assertEqual(actual, expected)
 
     def test_serialization_with_course_credential(self):
         """ Verify the serializer correctly serializes course credentials."""
 
-        actual = serializers.UserCredentialSerializer(self.course_credential).data
+        actual = serializers.UserCredentialSerializer(self.course_credential, context={
+            "request": self.request
+        }).data
+
+        expected_url = "http://testserver{}".format(reverse("credentials:render", kwargs={
+            "uuid": self.course_credential.uuid.hex,
+        }))
+
         expected = {
             "username": self.course_credential.username,
             "uuid": str(self.course_credential.uuid),
@@ -76,7 +94,8 @@ class UserCredentialSerializerTests(TestCase):
             ],
             "id": self.course_credential.id,
             "created": self.course_credential.created.strftime(api_settings.DATETIME_FORMAT),
-            "modified": self.course_credential.modified.strftime(api_settings.DATETIME_FORMAT)
+            "modified": self.course_credential.modified.strftime(api_settings.DATETIME_FORMAT),
+            "certificate_url": expected_url,
         }
         self.assertEqual(actual, expected)
 

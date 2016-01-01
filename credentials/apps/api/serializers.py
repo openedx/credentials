@@ -5,6 +5,7 @@ import logging
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from rest_framework.reverse import reverse
 
 from credentials.apps.api.accreditors import Accreditor
 from credentials.apps.credentials.models import (
@@ -54,6 +55,20 @@ class CredentialField(serializers.Field):
         return credential
 
 
+class UserCertificateURLField(serializers.ReadOnlyField):  # pylint: disable=abstract-method
+    """ Field for UserCredential URL pointing html view """
+
+    def to_representation(self, value):
+        """ Build the UserCredential URL for html view. Get the current domain from request. """
+        return reverse(
+            'credentials:render',
+            kwargs={
+                "uuid": value.hex,
+            },
+            request=self.context['request']
+        )
+
+
 class UserCredentialAttributeSerializer(serializers.ModelSerializer):
     """ Serializer for CredentialAttribute objects """
 
@@ -67,11 +82,13 @@ class UserCredentialSerializer(serializers.ModelSerializer):
 
     credential = CredentialField(read_only=True)
     attributes = UserCredentialAttributeSerializer(many=True, read_only=True)
+    certificate_url = UserCertificateURLField(source='uuid')
 
     class Meta(object):
         model = UserCredential
         fields = (
             'id', 'username', 'credential', 'status', 'download_url', 'uuid', 'attributes', 'created', 'modified',
+            'certificate_url',
         )
         read_only_fields = (
             'username', 'download_url', 'uuid', 'created', 'modified',
@@ -82,6 +99,7 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
     """ Serializer used to create UserCredential objects. """
     credential = CredentialField()
     attributes = UserCredentialAttributeSerializer(many=True)
+    certificate_url = UserCertificateURLField(source='uuid')
 
     def validate_attributes(self, data):
         """ Check that the attributes namespace and name cannot be duplicated."""
