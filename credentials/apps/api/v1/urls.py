@@ -5,6 +5,8 @@ from credentials.apps.api.v1 import views
 
 
 router = DefaultRouter()  # pylint: disable=invalid-name
-router.register(r'user-credentials', views.UserCredentialViewSet)
+# URL can not have hyphen as it is not currently supported by slumber
+# as mentioned https://github.com/samgiles/slumber/issues/44
+router.register(r'user_credentials', views.UserCredentialViewSet)
 
 urlpatterns = router.urls
