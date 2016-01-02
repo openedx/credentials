@@ -10,6 +10,7 @@ djangorestframework-jwt==1.7.2
 django-rest-swagger==0.3.4
 django-storages==1.1.8
 edx-auth-backends==0.1.3
+edx-rest-api-client==1.4.0
 pytz==2015.7
 Pillow==3.0.0
 git+https://github.com/edx/opaque-keys.git@9f07da1abf699d10bc3252d3081017e8aa37c302#egg=opaque-keys

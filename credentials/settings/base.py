@@ -233,16 +233,16 @@ SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY = SOCIAL_AUTH_EDX_OIDC_SECRET
 # Request the user's permissions in the ID token
 EXTRA_SCOPE = ['permissions']
 
-# TODO Set this to another (non-staff, ideally) path.
-LOGIN_REDIRECT_URL = '/admin/'
+LOGIN_REDIRECT_URL = '/api/v1/user_credentials/'
 # END AUTHENTICATION CONFIGURATION
 
-# Absolute URL used to construct URLs pointing to the programs service.
-PROGRAMS_URL_ROOT = 'http://127.0.0.1:8004'
-# Programs api url
-PROGRAMS_API_URL = '/api/v1/'
+# Absolute URL used to get programs from the programs service.
+PROGRAMS_API_URL = 'http://127.0.0.1:8004/api/v1/'
 # Specified in seconds. Enable caching by setting this to a value greater than 0.
-PROGRAMS_CACHE_TTL = 0
+PROGRAMS_CACHE_TTL = 30 * 60
+# JWT key and secret for programs service.
+PROGRAMS_JWT_AUDIENCE = 'programs-key'
+PROGRAMS_JWT_SECRET_KEY = 'programs-secret'
 
 # Absolute URL used to construct URLs pointing to the LMS
 LMS_URL_ROOT = 'http://127.0.0.1:8000'
@@ -253,8 +253,6 @@ ORGANIZATIONS_CACHE_TTL = 0
 
 # Credentials service user in Programs service and LMS
 CREDENTIALS_SERVICE_USER = 'credentials_service_user'
-# OAuth access token for credentials service user in LMS
-CREDENTIALS_OAUTH_ACCESS_TOKEN = 'replace-me'
 
 JWT_AUTH = {
     'JWT_SECRET_KEY': None,
