@@ -68,7 +68,9 @@ class UserCredentialViewSetTests(APITestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_partial_update(self):
-        """ Verify the only status field can be updated. """
+        """ Verify that only the 'status' field is updated and other fields
+        value remain same.
+        """
         data = {
             'id': self.user_credential.id,
             'status': UserCredential.REVOKED,
@@ -80,6 +82,8 @@ class UserCredentialViewSetTests(APITestCase):
 
         user_credential = UserCredential.objects.get(id=self.user_credential.id)
         self.assertEqual(user_credential.status, data["status"])
+
+        self.assertNotEqual(user_credential.download_url, data["download_url"])
         self.assertEqual(user_credential.download_url, self.user_credential.download_url)
 
     def test_partial_update_authentication(self):

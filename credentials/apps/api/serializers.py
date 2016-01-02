@@ -65,8 +65,8 @@ class UserCredentialAttributeSerializer(serializers.ModelSerializer):
 class UserCredentialSerializer(serializers.ModelSerializer):
     """ Serializer for UserCredential objects. """
 
-    credential = CredentialField()
-    attributes = UserCredentialAttributeSerializer(many=True)
+    credential = CredentialField(read_only=True)
+    attributes = UserCredentialAttributeSerializer(many=True, read_only=True)
 
     class Meta(object):
         model = UserCredential
@@ -74,7 +74,7 @@ class UserCredentialSerializer(serializers.ModelSerializer):
             'id', 'username', 'credential', 'status', 'download_url', 'uuid', 'attributes', 'created', 'modified',
         )
         read_only_fields = (
-            'username', 'credential', 'download_url', 'uuid', 'attributes', 'created', 'modified',
+            'username', 'download_url', 'uuid', 'created', 'modified',
         )
 
 
