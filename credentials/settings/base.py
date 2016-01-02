@@ -192,6 +192,9 @@ AUTHENTICATION_BACKENDS = (
 ENABLE_AUTO_AUTH = False
 AUTO_AUTH_USERNAME_PREFIX = 'auto_auth_'
 
+OAUTH2_PROVIDER_URL = None
+OAUTH_ID_TOKEN_EXPIRATION = 60
+
 # Set these to the correct values for your OAuth2/OpenID Connect provider (e.g., devstack)
 SOCIAL_AUTH_EDX_OIDC_KEY = 'replace-me'
 SOCIAL_AUTH_EDX_OIDC_SECRET = 'replace-me'
@@ -201,10 +204,27 @@ SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY = SOCIAL_AUTH_EDX_OIDC_SECRET
 # Request the user's permissions in the ID token
 EXTRA_SCOPE = ['permissions']
 
-# TODO Set this to another (non-staff, ideally) path.
-LOGIN_REDIRECT_URL = '/admin/'
+LOGIN_REDIRECT_URL = '/api/v1/user_credentials/'
 # END AUTHENTICATION CONFIGURATION
 
+# Absolute URL used to construct URLs pointing to the programs service.
+PROGRAMS_URL_ROOT = 'http://127.0.0.1:8004'
+# Programs api url
+PROGRAMS_API_URL = '/api/v1/'
+# Specified in seconds. Enable caching by setting this to a value greater than 0.
+PROGRAMS_CACHE_TTL = 0
+# Credentials service user in Programs service
+PROGRAMS_SERVICE_USER = 'credentials_service_user'
+
+JWT_AUTH = {
+    'JWT_SECRET_KEY': None,
+    'JWT_ALGORITHM': 'HS256',
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_ISSUER': None,
+    'JWT_PAYLOAD_GET_USERNAME_HANDLER': lambda d: d.get('preferred_username'),
+    'JWT_AUDIENCE': None,
+    'JWT_LEEWAY': 1,
+}
 
 # OPENEDX-SPECIFIC CONFIGURATION 
 PLATFORM_NAME = 'Your Platform Name Here'

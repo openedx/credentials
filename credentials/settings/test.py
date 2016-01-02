@@ -39,3 +39,9 @@ TEST_ROOT = path("test_root")
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 MEDIA_ROOT = TEST_ROOT / "uploads"
 MEDIA_URL = "/static/uploads/"
+
+# AUTHENTICATION
+JWT_AUTH.update({
+    'JWT_SECRET_KEY': 'insecure-secret-key',
+    'JWT_ISSUERS': ('test-issuer',),
+})
