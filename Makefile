@@ -21,6 +21,7 @@ help:
 	@echo "  requirements               install requirements for local development"
 	@echo "  requirements.js            install JavaScript requirements for local development"
 	@echo "  static                     build and compress static assets"
+	@echo "  clean_static               delete compiled/compressed static assets"
 	@echo "  test                       run tests and generate coverage report"
 	@echo "  validate                   run tests and quality checks"
 	@echo "  validate_js                run JavaScript unit tests and linting"
@@ -32,7 +33,10 @@ help:
 clean:
 	find . -name '*.pyc' -delete
 	coverage erase
-	rm -rf credentials/assets credentials/static/build coverage htmlcov
+	rm -rf coverage htmlcov
+
+clean_static:
+	rm -rf credentials/assets/ credentials/static/build
 
 requirements.js:
 	npm install

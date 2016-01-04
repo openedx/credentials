@@ -7,7 +7,7 @@ import json
 import ddt
 from django.contrib.auth.models import Permission
 from django.core.urlresolvers import reverse
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APIRequestFactory
 from testfixtures import LogCapture
 
 from credentials.apps.api.serializers import UserCredentialSerializer
@@ -37,6 +37,7 @@ class UserCredentialViewSetTests(APITestCase):
         self.user_credential = factories.UserCredentialFactory.create(credential=self.program_cert)
         self.user_credential_attribute = factories.UserCredentialAttributeFactory.create(
             user_credential=self.user_credential)
+        self.request = APIRequestFactory().get('/')
 
     def _attempt_update_user_credential(self, data):
         """ Helper method that attempts to patch an existing credential object.
@@ -58,7 +59,10 @@ class UserCredentialViewSetTests(APITestCase):
         path = reverse("api:v1:usercredential-detail", args=[self.user_credential.id])
         response = self.client.get(path)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, UserCredentialSerializer(self.user_credential).data)
+        self.assertEqual(
+            response.data,
+            UserCredentialSerializer(self.user_credential, context={'request': self.request}).data
+        )
 
     def test_list_without_username(self):
         """ Verify a list end point of user credentials will work only with
@@ -175,7 +179,6 @@ class UserCredentialViewSetTests(APITestCase):
 
     def test_create_with_programcertificate(self):
         """ Verify the endpoint supports issuing a new ProgramCertificate credential. """
-
         program_certificate = factories.ProgramCertificateFactory()
         username = 'user2'
         data = {
@@ -199,7 +202,10 @@ class UserCredentialViewSetTests(APITestCase):
         response = self._attempt_create_user_credentials(data)
         self.assertEqual(response.status_code, 201)
         user_credential = UserCredential.objects.get(username=username)
-        self.assertEqual(json.loads(response.content), UserCredentialSerializer(user_credential).data)
+        self.assertEqual(
+            dict(response.data),
+            dict(UserCredentialSerializer(user_credential, context={'request': self.request}).data)
+        )
 
     def test_create_authentication(self):
         """ Verify that the create endpoint of user credential does not allow
@@ -324,7 +330,10 @@ class UserCredentialViewSetTests(APITestCase):
         self.assertEqual(response.status_code, 200)
 
         # after filtering it is only one related record
-        expected = UserCredentialSerializer(self.user_credential).data
+        expected = UserCredentialSerializer(
+            self.user_credential, context={'request': self.request}
+        ).data
+
         self.assertEqual(response.data, {'count': 1, 'next': None, 'previous': None, 'results': [expected]})
 
     def test_list_with_status_filter(self):
@@ -342,9 +351,12 @@ class UserCredentialViewSetTests(APITestCase):
         response = self.client.get(path)
 
         # after filtering it is only one related record
-        expected = UserCredentialSerializer(self.user_credential).data
+        expected = UserCredentialSerializer(
+            self.user_credential, context={'request': self.request}
+        ).data
+
         self.assertEqual(
-            json.loads(response.content),
+            response.data,
             {'count': 1, 'next': None, 'previous': None, 'results': [expected]}
         )
 
