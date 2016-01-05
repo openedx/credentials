@@ -4,14 +4,12 @@ Tests for Issuer class.
 # pylint: disable=no-member
 import ddt
 from django.test import TestCase
-from testfixtures import LogCapture
 from credentials.apps.api.exceptions import DuplicateAttributeError
 
 from credentials.apps.api.tests.factories import ProgramCertificateFactory
 from credentials.apps.credentials.issuers import ProgramCertificateIssuer
 from credentials.apps.credentials.models import (
     ProgramCertificate,
-    UserCredential,
     UserCredentialAttribute
 )
 
@@ -30,8 +28,8 @@ class ProgramCertificateIssuerTests(TestCase):
         self.username = 'tester'
         self.user_program_cred = self.issuer.issue_credential(self.program_certificate, self.username)
         self.attributes = [
-            {"namespace": "whitelist1", "name": "grade", "value": "0.5"},
-            {"namespace": "whitelist2", "name": "grade", "value": "0.5"}
+            {"namespace": "grade", "name": "FinalTerm", "value": "0.5"},
+            {"namespace": "grade", "name": "MidTerm", "value": "0.6"}
         ]
 
     def test_issued_credential_type(self):
@@ -49,23 +47,6 @@ class ProgramCertificateIssuerTests(TestCase):
 
         user_credential = self.issuer.issue_credential(self.program_certificate, 'testuser2', self.attributes)
         self._assert_usercredential_fields(user_credential, self.program_certificate, 'testuser2', self.attributes)
-
-    def test_credential_already_exists(self):
-        """ Verify that credential will not be issued if user has already issued credential."""
-        self.issuer.issue_credential(self.program_certificate, self.username, self.attributes)
-
-        # Create credentials with same information.
-        self.issuer.issue_credential(self.program_certificate, self.username, self.attributes)
-
-        # Verify only one record exists in database.
-        self.assertEqual(UserCredential.objects.all().count(), 1)
-
-        # Verify log is captured.
-        msg = 'User [{username}] already has a credential for program [{program_id}].'.format(
-            username=self.username, program_id=self.program_certificate.program_id)
-        with LogCapture(LOGGER_NAME) as l:
-            self.issuer.issue_credential(self.program_certificate, self.username, self.attributes)
-            l.check((LOGGER_NAME, 'WARNING', msg))
 
     def _assert_usercredential_fields(self, user_credential, expected_credential, expected_username, expected_attrs):  # pylint: disable=line-too-long
         """ Verify the fields on a UserCredential object match expectations. """
@@ -96,24 +77,47 @@ class ProgramCertificateIssuerTests(TestCase):
         """Verify in case of duplicate attributes utils method will return False and
         exception will be raised.
         """
-        self.attributes[0].update({'namespace': 'whitelist2'})
+        self.attributes[0].update({"name": "MidTerm"})
 
         with self.assertRaises(DuplicateAttributeError):
             self.issuer.set_credential_attributes(self.user_program_cred, self.attributes)
 
-    def test_set_credential_with_duplicate_attributes_by_db(self):
-        """Verify in case of duplicate attributes if any existing record was in db
-        then exception will be raised.
-        """
+    def test_existing_credential_with_duplicate_attributes(self):
+        """Verify if user credential attributes already exists in db then method will
+        update existing attributes values."""
+
         # add the attribute in db and then try to create the credential
-        # with same data. In this case get_or_create will return False.
+        # with same data "namespace and grade are same but value is different"
+
+        attribute_db = {"namespace": "grade", "name": "FinalTerm", "value": "0.3"}
 
         UserCredentialAttribute.objects.create(
             user_credential=self.user_program_cred,
-            namespace="whitelist1",
-            name="grade",
-            value="0.8"
+            namespace=attribute_db.get("namespace"),
+            name=attribute_db.get("name"),
+            value=attribute_db.get("value")
+        )
+        self.issuer.set_credential_attributes(self.user_program_cred, self.attributes)
+
+        # first attribute value will be changed to 0.5
+        self._assert_usercredential_fields(
+            self.user_program_cred,
+            self.program_certificate,
+            self.user_program_cred.username,
+            self.attributes
         )
 
-        with self.assertRaises(DuplicateAttributeError):
-            self.issuer.set_credential_attributes(self.user_program_cred, self.attributes)
+    def test_existing_attributes_with_empty_attributes_list(self):
+        """Verify if user credential attributes already exists in db then in case of empty
+        attributes list it will return without changing any data."""
+
+        self.issuer.set_credential_attributes(self.user_program_cred, self.attributes)
+        self._assert_usercredential_fields(
+            self.user_program_cred, self.program_certificate, self.user_program_cred.username, self.attributes
+        )
+
+        # create same credential without attributes.
+        self.assertIsNone(self.issuer.set_credential_attributes(self.user_program_cred, []))
+        self._assert_usercredential_fields(
+            self.user_program_cred, self.program_certificate, self.user_program_cred.username, self.attributes
+        )

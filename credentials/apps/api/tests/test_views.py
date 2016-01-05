@@ -37,6 +37,7 @@ class UserCredentialViewSetTests(APITestCase):
         self.user_credential = factories.UserCredentialFactory.create(credential=self.program_cert)
         self.user_credential_attribute = factories.UserCredentialAttributeFactory.create(
             user_credential=self.user_credential)
+        self.username = "test_user"
         self.request = APIRequestFactory().get('/')
 
     def _attempt_update_user_credential(self, data):
@@ -130,7 +131,7 @@ class UserCredentialViewSetTests(APITestCase):
         required fields are missing.
         """
         data = {
-            "username": "test_user",
+            "username": self.username,
             "credential": {"program_id": self.program_id},
             "attributes": [
                 {
@@ -157,9 +158,8 @@ class UserCredentialViewSetTests(APITestCase):
         """ Verify no UserCredential is created, and HTTP 400 is returned, if
         required fields are missing.
         """
-        username = "test_user"
         data = {
-            "username": username,
+            "username": self.username,
             "credential": {"program_id": self.program_id},
             "attributes": [
                 {
@@ -180,9 +180,8 @@ class UserCredentialViewSetTests(APITestCase):
     def test_create_with_programcertificate(self):
         """ Verify the endpoint supports issuing a new ProgramCertificate credential. """
         program_certificate = factories.ProgramCertificateFactory()
-        username = 'user2'
         data = {
-            "username": username,
+            "username": self.username,
             "credential": {
                 "program_id": program_certificate.program_id
             },
@@ -201,7 +200,7 @@ class UserCredentialViewSetTests(APITestCase):
         }
         response = self._attempt_create_user_credentials(data)
         self.assertEqual(response.status_code, 201)
-        user_credential = UserCredential.objects.get(username=username)
+        user_credential = UserCredential.objects.get(username=self.username)
         self.assertEqual(
             dict(response.data),
             dict(UserCredentialSerializer(user_credential, context={'request': self.request}).data)
@@ -221,9 +220,8 @@ class UserCredentialViewSetTests(APITestCase):
         """ Verify no UserCredential is created, and HTTP 400 is returned, if
         there are duplicated attributes.
         """
-        username = 'test_user'
         data = {
-            "username": username,
+            "username": self.username,
             "credential": {"program_id": self.program_id},
             "attributes": [
                 {
@@ -253,15 +251,14 @@ class UserCredentialViewSetTests(APITestCase):
         self.assertEqual(response.data, {'attributes': ['Attributes cannot be duplicated.']})
 
         self.assertEqual(response.status_code, 400)
-        self.assertFalse(UserCredential.objects.filter(username=username).exists())
+        self.assertFalse(UserCredential.objects.filter(username=self.username).exists())
 
     def test_create_with_empty_attributes(self):
         """ Verify no UserCredential is created, and HTTP 400 is returned, if
         there are some attributes are null.
         """
-        username = 'test_user_duplicate_attr'
         data = {
-            "username": username,
+            "username": self.username,
             "credential": {"program_id": self.program_id},
             "attributes": [
                 {
@@ -278,48 +275,11 @@ class UserCredentialViewSetTests(APITestCase):
         }
         response = self._attempt_create_user_credentials(data)
         self.assertEqual(response.status_code, 400)
-        self.assertFalse(UserCredential.objects.filter(username=username).exists())
+        self.assertFalse(UserCredential.objects.filter(username=self.username).exists())
         self.assertEqual(
             response.data.get('attributes')[1]['namespace'][0],
             'This field may not be blank.'
         )
-
-    def test_create_with_existing_usercredential(self):
-        """ Verify that, if a user has already been issued a credential, further
-        attempts to issue the same credential will NOT create a new credential
-        and will NOT modify the existing credential.
-        """
-        username = 'test_user'
-        data = {
-            "username": username,
-            "credential": {
-                "program_id": self.program_id
-            },
-            "attributes": [
-                {
-                    "namespace": "white",
-                    "name": "grade",
-                    "value": "0.5"
-                }
-            ]
-        }
-
-        user_credential_1 = factories.UserCredentialFactory.create(username=username, credential=self.program_cert)
-
-        # 2nd attempt to create credential with attributes.
-        msg = 'User [{username}] already has a credential for program [{program_id}].'.format(
-            username=username,
-            program_id=self.program_id
-        )
-
-        # Verify log is captured.
-        with LogCapture(LOGGER_NAME) as l:
-            response = self._attempt_create_user_credentials(data)
-            l.check((LOGGER_NAME, 'WARNING', msg))
-
-        self.assertEqual(response.status_code, 201)
-        user_credential_2 = UserCredential.objects.get(username=username)
-        self.assertEqual(user_credential_1, user_credential_2)
 
     def test_list_with_username_filter(self):
         """ Verify the list endpoint supports filter data by username."""
@@ -364,10 +324,9 @@ class UserCredentialViewSetTests(APITestCase):
         """ Verify no UserCredential is created, and HTTP 400 is return if credential
         id does not exists in db.
         """
-        username = 'test_user'
         cred_id = 10
         data = {
-            "username": username,
+            "username": self.username,
             "credential": {
                 "program_id": cred_id
             },
@@ -385,3 +344,88 @@ class UserCredentialViewSetTests(APITestCase):
             l.check((LOGGER_NAME_SERIALIZER, 'ERROR', msg))
 
         self.assertEqual(response.status_code, 400)
+
+    def test_reissue_the_user_credentials(self):
+        """ Verify that, if a user has already been issued a credential, further
+        attempts to issue the same credential will NOT create a new credential,
+        but its attributes will be updated if provided.
+        """
+        attributes = [
+            {"namespace": "whitelist", "name": "Program whitelist user", "value": "Reason for whitelisting."},
+            {"namespace": "grade", "name": "Final grade", "value": "0.5"}
+        ]
+
+        data = {
+            "username": self.username,
+            "credential": {
+                "program_id": self.program_cert.program_id
+            },
+            "attributes": attributes
+        }
+
+        # issue first credential for the user
+        response = self._attempt_create_user_credentials(data)
+        self.assertEqual(response.status_code, 201)
+        self._assert_usercredential_fields(response, self.username, attributes)
+
+        # change the attributes value
+        data["attributes"][0]["value"] = "New reason for whitelisting."
+        data["attributes"][1]["value"] = "0.8"
+
+        # try to issue credential again for the same user but with different attribute values and
+        # test that the existing record for user credential has been updated with new attribute values
+        response = self._attempt_create_user_credentials(data)
+        self.assertEqual(response.status_code, 201)
+        self._assert_usercredential_fields(response, self.username, attributes)
+
+    @ddt.data(
+        [{"namespace": "grade", "name": "Final grade", "value": "0.5"}],
+        [
+            {"namespace": "grade", "name": "Final grade", "value": "0.9"},
+            {"namespace": "grade", "name": "MidTerm grade", "value": "0.5"}
+        ],
+    )
+    def test_create_with_duplicate_attrs(self, attributes):
+        """ Verify that, if a user has a credential with attributes
+        then its values can be updated.
+        """
+        # create credential with attributes
+        user_credential = factories.UserCredentialFactory.create(
+            username=self.username,
+            credential=self.program_cert
+        )
+        factories.UserCredentialAttributeFactory(
+            user_credential=user_credential, namespace="grade", name="Final grade", value="0.75"
+        )
+        self.assertTrue(user_credential.attributes.exists())
+
+        data = {
+            "username": self.username,
+            "credential": {
+                "program_id": self.program_id
+            },
+            "attributes": attributes
+        }
+
+        # 2nd attempt to create credential with attributes.
+        response = self._attempt_create_user_credentials(data)
+        self.assertEqual(response.status_code, 201)
+        self._assert_usercredential_fields(response, self.username, attributes)
+
+    def _assert_usercredential_fields(self, response, username, expected_attrs):
+        """ Verify the fields on a UserCredential object match expectations. """
+
+        user_credential = UserCredential.objects.filter(username=username)
+        self.assertEqual(user_credential.count(), 1)
+        self.assertEqual(
+            dict(response.data),
+            dict(UserCredentialSerializer(
+                user_credential[0], context={'request': self.request}
+            ).data)
+        )
+
+        actual_attributes = [
+            {"namespace": attr.namespace, "name": attr.name, "value": attr.value}
+            for attr in user_credential[0].attributes.all()
+        ]
+        self.assertEqual(actual_attributes, expected_attrs)

@@ -62,11 +62,6 @@ class AbstractCredentialIssuer(object):
         Arguments:
             user_credential (AbstractCredential): Type of credential to issue.
             attributes (List[dict]): optional list of attributes that should be associated with the issued credential.
-
-        Raises:
-            In case of duplicate issue it will raise the exception and parent method will rolled back the whole
-            transaction.
-
         """
         raise NotImplementedError  # pragma: no cover
 
@@ -77,19 +72,13 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
 
     @transaction.atomic
     def issue_credential(self, credential, username, attributes=None):
-        user_credential, created = UserCredential.objects.get_or_create(
+        user_credential, __ = UserCredential.objects.get_or_create(
             username=username,
             credential_content_type=ContentType.objects.get_for_model(credential),
             credential_id=credential.id
         )
 
-        # if new record created then add its attributes.
-        if created:
-            self.set_credential_attributes(user_credential, attributes)
-
-        # if credential already exists then don't create the record.
-        else:
-            logger.warning("User [%s] already has a credential for program [%s].", username, credential.program_id)
+        self.set_credential_attributes(user_credential, attributes)
 
         return user_credential
 
@@ -101,19 +90,9 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
             raise DuplicateAttributeError("Attributes cannot be duplicated.")
 
         for attr in attributes:
-            __, created = UserCredentialAttribute.objects.get_or_create(
+            UserCredentialAttribute.objects.update_or_create(
                 user_credential=user_credential,
                 namespace=attr.get('namespace'),
                 name=attr.get('name'),
                 defaults={'value': attr.get('value')}
             )
-            if not created:
-                raise DuplicateAttributeError(
-                    u"Attribute with namespace [{namespace}] and name [{name}]"
-                    u" is already added for credential [{id}] with username [{username}]".format(
-                        namespace=attr.get('namespace'),
-                        name=attr.get('name'),
-                        id=user_credential.id,
-                        username=user_credential.username
-                    )
-                )
