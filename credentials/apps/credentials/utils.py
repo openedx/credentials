@@ -15,7 +15,11 @@ def validate_duplicate_attributes(attributes):
         Boolean: Return True if data has no duplicated namespace and name otherwise False
 
     """
-    for __, group in groupby(sorted(attributes), lambda x: (x['namespace'], x['name'])):
+    def keyfunc(attribute):  # pylint: disable=missing-docstring
+        return attribute['namespace'], attribute['name']
+
+    sorted_data = sorted(attributes, key=keyfunc)
+    for __, group in groupby(sorted_data, key=keyfunc):
         if len(list(group)) > 1:
             return False
     return True
