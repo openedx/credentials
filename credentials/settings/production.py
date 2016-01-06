@@ -14,6 +14,9 @@ LOGGING = get_logger_config()
 
 # AMAZON S3 STORAGE CONFIGURATION
 # See: https://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html#settings
+AWS_STORAGE_BUCKET_NAME = ''
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = ''
 
 CONFIG_FILE = get_env_setting('CREDENTIALS_CFG')
 with open(CONFIG_FILE) as f:
