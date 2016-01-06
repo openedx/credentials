@@ -12,6 +12,9 @@ ALLOWED_HOSTS = ['*']
 
 LOGGING = get_logger_config()
 
+# AMAZON S3 STORAGE CONFIGURATION
+# See: https://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html#settings
+
 CONFIG_FILE = get_env_setting('CREDENTIALS_CFG')
 with open(CONFIG_FILE) as f:
     config_from_yaml = yaml.load(f)
@@ -28,3 +31,6 @@ DB_OVERRIDES = dict(
 
 for override, value in DB_OVERRIDES.iteritems():
     DATABASES['default'][override] = value
+
+if AWS_STORAGE_BUCKET_NAME and AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY:
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'

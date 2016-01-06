@@ -37,6 +37,7 @@ THIRD_PARTY_APPS = (
     'social.apps.django_app.default',
     'waffle',
     'compressor',
+    'storages',
 )
 
 PROJECT_APPS = (

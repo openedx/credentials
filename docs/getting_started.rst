@@ -23,6 +23,27 @@ If you need such overrides, create a file :file:`credentials/settings/private.py
 read by :file:`credentials/settings/local.py`, but ignored by Git.
 
 
+Configure the Amazon S3 Storage Backend
+---------------------------------------
+When you deploy the credentials on a staging or production server, you must change the settings to use the
+`Amazon S3 storage backend`_ instead of Django's default file storage backend
+(``django.core.files.storage.FileSystemStorage``) so that you do not commit changes to the repository.
+
+To change the settings, SSH into the system, and then update the :file:`/edx/etc/credentials.yml` file.
+This file's values are read by :file:`credentials/settings/production.py`, but ignored by Git.
+
+.. highlight:: yaml
+
+The following example shows how to use the Amazon S3 storage backend::
+
+    AWS_STORAGE_BUCKET_NAME: credentials-s3-bucket-name
+    AWS_ACCESS_KEY_ID: AAAAAAAAAAAAAAA
+    AWS_SECRET_ACCESS_KEY: BBBBBBBBBBBBBBBBBBBB
+    AWS_DEFAULT_ACL: ''
+
+.. _Amazon S3 storage backend: http://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html
+
+
 Configure edX OpenID Connect (OIDC)
 -----------------------------------
 This service relies on the edX OIDC (`OpenID Connect`_) authentication provider for login. Note that OIDC is built atop
