@@ -16,3 +16,5 @@ This repository contains the edX Credentials Service, used as the backend to sup
    features
    internationalization
    credentials_admin
+   credentials_api
+
