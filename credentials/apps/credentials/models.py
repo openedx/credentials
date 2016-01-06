@@ -229,7 +229,8 @@ class CourseCertificate(AbstractCertificate):
     user_credentials = GenericRelation(
         UserCredential,
         content_type_field='credential_content_type',
-        object_id_field='credential_id'
+        object_id_field='credential_id',
+        related_query_name='course_credentials'
     )
 
     class Meta(object):
@@ -244,7 +245,8 @@ class ProgramCertificate(AbstractCertificate):
     user_credentials = GenericRelation(
         UserCredential,
         content_type_field='credential_content_type',
-        object_id_field='credential_id'
+        object_id_field='credential_id',
+        related_query_name='program_credentials'
     )
 
 

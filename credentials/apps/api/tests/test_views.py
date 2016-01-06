@@ -211,8 +211,7 @@ class UserCredentialViewSetTests(APITestCase):
         the unauthorized users to create a new user credential for the program.
         """
         self.client.logout()
-        path = self.list_path
-        response = self.client.post(path=path, data={}, content_type=JSON_CONTENT_TYPE)
+        response = self.client.post(path=self.list_path, data={}, content_type=JSON_CONTENT_TYPE)
 
         self.assertEqual(response.status_code, 403)
 
@@ -284,9 +283,7 @@ class UserCredentialViewSetTests(APITestCase):
     def test_list_with_username_filter(self):
         """ Verify the list endpoint supports filter data by username."""
         factories.UserCredentialFactory(username="dummy-user")
-        path = self.list_path + "?username=" + self.user_credential.username
-
-        response = self.client.get(path)
+        response = self.client.get(self.list_path, data={'username': self.user_credential.username})
         self.assertEqual(response.status_code, 200)
 
         # after filtering it is only one related record
@@ -299,16 +296,12 @@ class UserCredentialViewSetTests(APITestCase):
     def test_list_with_status_filter(self):
         """ Verify the list endpoint supports filtering by status."""
         factories.UserCredentialFactory.create_batch(2, status="revoked", username=self.user_credential.username)
-        path = self.list_path + "?status={}" + self.user_credential.status
-
-        response = self.client.get(path)
+        response = self.client.get(self.list_path, data={'status': self.user_credential.status})
         self.assertEqual(response.status_code, 400)
 
         # username and status will return the data.
-        path = self.list_path + "?username={user}&status={status}".format(
-            user=self.user_credential.username,
-            status=UserCredential.AWARDED)
-        response = self.client.get(path)
+        response = self.client.get(self.list_path,
+                                   data={'username': self.user_credential.username, 'status': UserCredential.AWARDED})
 
         # after filtering it is only one related record
         expected = UserCredentialSerializer(
@@ -429,3 +422,119 @@ class UserCredentialViewSetTests(APITestCase):
             for attr in user_credential[0].attributes.all()
         ]
         self.assertEqual(actual_attributes, expected_attrs)
+
+
+class CredentialViewSetTests(APITestCase):
+    """ Base Class for ProgramCredentialViewSetTests and CourseCredentialViewSetTests. """
+
+    list_path = None
+    user_credential = None
+
+    def setUp(self):
+        super(CredentialViewSetTests, self).setUp()
+
+        self.user = factories.UserFactory()
+        self.client.force_authenticate(self.user)  # pylint: disable=no-member
+        self.request = APIRequestFactory().get('/')
+
+    def assert_list_without_id_filter(self, path, expected):
+        """Helper method used for making request and assertions. """
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data, expected)
+
+    def assert_list_with_id_filter(self, data):
+        """Helper method used for making request and assertions. """
+        expected = {'count': 1, 'next': None, 'previous': None,
+                    'results': [UserCredentialSerializer(self.user_credential, context={'request': self.request}).data]}
+        response = self.client.get(self.list_path, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, expected)
+
+    def assert_list_with_status_filter(self, data):
+        """Helper method for making request and assertions. """
+        expected = {'count': 1, 'next': None, 'previous': None,
+                    'results': [UserCredentialSerializer(self.user_credential, context={'request': self.request}).data]}
+        response = self.client.get(self.list_path, data, expected)
+        self.assertEqual(json.loads(response.content), expected)
+
+
+class ProgramCredentialViewSetTests(CredentialViewSetTests):
+    """ Tests for ProgramCredentialViewSetTests. """
+
+    list_path = reverse("api:v1:programcredential-list")
+
+    def setUp(self):
+        super(ProgramCredentialViewSetTests, self).setUp()
+
+        self.program_certificate = factories.ProgramCertificateFactory()
+        self.program_id = self.program_certificate.program_id
+        self.user_credential = factories.UserCredentialFactory.create(credential=self.program_certificate)
+        self.request = APIRequestFactory().get('/')
+
+    def test_list_without_program_id(self):
+        """ Verify a list end point of program credentials will work only with
+        program_id filter.
+        """
+        self.assert_list_without_id_filter(path=self.list_path, expected={
+            'error': 'A program_id query string parameter is required for filtering program credentials.'
+        })
+
+    def test_list_with_program_id_filter(self):
+        """ Verify the list endpoint supports filter data by program_id."""
+        program_cert = factories.ProgramCertificateFactory(program_id=001)
+        factories.UserCredentialFactory.create(credential=program_cert)
+        self.assert_list_with_id_filter(data={'program_id': self.program_id})
+
+    def test_list_with_status_filter(self):
+        """ Verify the list endpoint supports filtering by status."""
+        factories.UserCredentialFactory.create_batch(2, status="revoked", username=self.user_credential.username)
+        self.assert_list_with_status_filter(data={'program_id': self.program_id, 'status': UserCredential.AWARDED}, )
+
+
+class CourseCredentialViewSetTests(CredentialViewSetTests):
+    """ Tests for CourseCredentialViewSetTests. """
+
+    list_path = reverse("api:v1:coursecredential-list")
+
+    def setUp(self):
+        super(CourseCredentialViewSetTests, self).setUp()
+
+        self.course_certificate = factories.CourseCertificateFactory()
+        self.course_id = self.course_certificate.course_id
+        self.user_credential = factories.UserCredentialFactory.create(credential=self.course_certificate)
+
+    def test_list_without_course_id(self):
+        """ Verify a list end point of course credentials will work only with
+        course_id filter. Otherwise it will return 400.
+        """
+        self.assert_list_without_id_filter(self.list_path, {
+            'error': 'A course_id query string parameter is required for filtering course credentials.'
+        })
+
+    def test_list_with_course_id(self):
+        """ Verify the list endpoint supports filter data by course_id."""
+        course_cert = factories.CourseCertificateFactory(course_id="fake-id")
+        factories.UserCredentialFactory.create(credential=course_cert)
+        self.assert_list_with_id_filter(data={'course_id': self.course_id})
+
+    def test_list_with_status_filter(self):
+        """ Verify the list endpoint supports filtering by status."""
+        factories.UserCredentialFactory.create_batch(2, status="revoked", username=self.user_credential.username)
+        self.assert_list_with_status_filter(data={'course_id': self.course_id, 'status': UserCredential.AWARDED})
+
+    def test_list_with_certificate_type(self):
+        """ Verify the list endpoint supports filtering by certificate_type."""
+        course_cert = factories.CourseCertificateFactory(certificate_type="verified")
+        factories.UserCredentialFactory.create(credential=course_cert)
+
+        # course_id is mandatory
+        response = self.client.get(self.list_path, data={'course_id': self.course_id,
+                                                         'certificate_type': self.course_certificate.certificate_type})
+
+        # after filtering it is only one related record
+        expected = UserCredentialSerializer(self.user_credential, context={'request': self.request}).data
+        self.assertEqual(
+            json.loads(response.content),
+            {'count': 1, 'next': None, 'previous': None, 'results': [expected]}
+        )
