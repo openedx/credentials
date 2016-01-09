@@ -20,6 +20,7 @@ help:
 	@echo "  quality                    run PEP8 and Pylint"
 	@echo "  requirements               install requirements for local development"
 	@echo "  requirements.js            install JavaScript requirements for local development"
+	@echo "  serve                      serve Credentials at 0.0.0.0:8150"
 	@echo "  static                     build and compress static assets"
 	@echo "  clean_static               delete compiled/compressed static assets"
 	@echo "  test                       run tests and generate coverage report"
@@ -66,6 +67,9 @@ validate_js:
 	$(NODE_BIN)/gulp test
 	$(NODE_BIN)/gulp lint
 	$(NODE_BIN)/gulp jscs
+
+serve:
+	python manage.py runserver 0.0.0.0:8150
 
 validate: test quality validate_js
 
