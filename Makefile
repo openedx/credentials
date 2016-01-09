@@ -34,7 +34,7 @@ help:
 clean:
 	find . -name '*.pyc' -delete
 	coverage erase
-	rm -rf coverage htmlcov
+	rm -rf coverage htmlcov test_root/uploads
 
 clean_static:
 	rm -rf credentials/assets/ credentials/static/build
