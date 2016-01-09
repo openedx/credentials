@@ -3,8 +3,10 @@ Models for the credentials service.
 """
 # pylint: disable=model-missing-unicode
 from __future__ import unicode_literals
+import os
 import uuid  # pylint: disable=unused-import
 
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
@@ -27,7 +29,8 @@ def _choices(*values):
 
 def template_assets_path(instance, filename):
     """
-    Returns path for credentials templates file assets.
+    Delete the file if it already exist and returns path for credentials
+    templates file assets.
 
     Arguments:
         instance(CertificateTemplateAsset): CertificateTemplateAsset object
@@ -36,12 +39,16 @@ def template_assets_path(instance, filename):
     Returns:
         Path to asset.
     """
-    return 'certificate_template_assets/{id}/{filename}'.format(id=instance.id, filename=filename)
+    name = os.path.join('certificate_template_assets', str(instance.id), filename)
+    fullname = os.path.join(settings.MEDIA_ROOT, name)
+    if os.path.exists(fullname):
+        os.remove(fullname)
+    return name
 
 
 def signatory_assets_path(instance, filename):
     """
-    Returns path for signatory assets.
+    Delete the file if it already exist and Returns path for signatory assets.
 
     Arguments:
         instance(Signatory): Signatory object
@@ -50,7 +57,12 @@ def signatory_assets_path(instance, filename):
     Returns:
         Path to asset.
     """
-    return 'signatories/{id}/{filename}'.format(id=instance.id, filename=filename)
+    name = os.path.join('signatories', str(instance.id), filename)
+    fullname = os.path.join(settings.MEDIA_ROOT, name)
+    if os.path.exists(fullname):
+        os.remove(fullname)
+
+    return name
 
 
 def validate_image(image):
