@@ -55,6 +55,14 @@ class TestSignatory(TestCase):
             signatory.image, 'signatories/1/image.jpg'
         )
 
+        # File deleted if uploaded with same name
+        signatory.image = SimpleUploadedFile('image.jpg', 'file contents!')
+        signatory.save()
+        signatory = Signatory.objects.get(id=1)
+        self.assertEqual(
+            signatory.image, 'signatories/1/image.jpg'
+        )
+
         # Now replace the asset with another file
         signatory.image = SimpleUploadedFile('image_2.jpg', 'file contents')
         signatory.save()
@@ -84,6 +92,14 @@ class TestCertificateTemplateAsset(TestCase):
         certificate_template_asset = CertificateTemplateAsset.objects.create(
             name='test name', asset_file=SimpleUploadedFile('image.jpg', 'file contents!')
         )
+        self.assertEqual(
+            certificate_template_asset.asset_file, 'certificate_template_assets/1/image.jpg'
+        )
+
+        # File deleted if uploaded with same name
+        certificate_template_asset.asset_file = SimpleUploadedFile('image.jpg', 'file contents!')
+        certificate_template_asset.save()
+        certificate_template_asset = CertificateTemplateAsset.objects.get(id=1)
         self.assertEqual(
             certificate_template_asset.asset_file, 'certificate_template_assets/1/image.jpg'
         )
