@@ -103,7 +103,7 @@ class UserCredentialViewSetTests(APITestCase):
 
         path = reverse("api:v1:usercredential-detail", args=[self.user_credential.id])
         response = self.client.patch(path=path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
 
     def _attempt_create_user_credentials(self, data):
         """ Helper method that attempts to create user credentials.
@@ -213,7 +213,7 @@ class UserCredentialViewSetTests(APITestCase):
         self.client.logout()
         response = self.client.post(path=self.list_path, data={}, content_type=JSON_CONTENT_TYPE)
 
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
 
     def test_create_with_duplicate_attributes(self):
         """ Verify no UserCredential is created, and HTTP 400 is returned, if
