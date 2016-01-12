@@ -12,11 +12,11 @@ def validate_duplicate_attributes(attributes):
             attributes (list): List of dicts contains attributes data.
 
     Returns:
-        Boolean: Return True if data has no duplicated namespace and name otherwise False
+        Boolean: Return True if data has no duplicate names otherwise False
 
     """
     def keyfunc(attribute):  # pylint: disable=missing-docstring
-        return attribute['namespace'], attribute['name']
+        return attribute['name']
 
     sorted_data = sorted(attributes, key=keyfunc)
     for __, group in groupby(sorted_data, key=keyfunc):

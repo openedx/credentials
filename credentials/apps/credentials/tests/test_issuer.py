@@ -27,10 +27,7 @@ class ProgramCertificateIssuerTests(TestCase):
         self.program_certificate = ProgramCertificateFactory.create()
         self.username = 'tester'
         self.user_program_cred = self.issuer.issue_credential(self.program_certificate, self.username)
-        self.attributes = [
-            {"namespace": "grade", "name": "FinalTerm", "value": "0.5"},
-            {"namespace": "grade", "name": "MidTerm", "value": "0.6"}
-        ]
+        self.attributes = [{"name": "whitelist_reason", "value": "Reason for whitelisting."}]
 
     def test_issued_credential_type(self):
         """ Verify issued_credential_type returns the correct credential type."""
@@ -52,10 +49,7 @@ class ProgramCertificateIssuerTests(TestCase):
         """ Verify the fields on a UserCredential object match expectations. """
         self.assertEqual(user_credential.username, expected_username)
         self.assertEqual(user_credential.credential, expected_credential)
-        actual_attributes = [
-            {'namespace': attr.namespace, 'name': attr.name, 'value': attr.value}
-            for attr in user_credential.attributes.all()
-        ]
+        actual_attributes = [{'name': attr.name, 'value': attr.value} for attr in user_credential.attributes.all()]
         self.assertEqual(actual_attributes, expected_attrs)
 
     def test_set_credential_without_attributes(self):
@@ -77,7 +71,8 @@ class ProgramCertificateIssuerTests(TestCase):
         """Verify in case of duplicate attributes utils method will return False and
         exception will be raised.
         """
-        self.attributes[0].update({"name": "MidTerm"})
+
+        self.attributes.append({"name": "whitelist_reason", "value": "Reason for whitelisting."})
 
         with self.assertRaises(DuplicateAttributeError):
             self.issuer.set_credential_attributes(self.user_program_cred, self.attributes)
@@ -87,13 +82,12 @@ class ProgramCertificateIssuerTests(TestCase):
         update existing attributes values."""
 
         # add the attribute in db and then try to create the credential
-        # with same data "namespace and grade are same but value is different"
+        # with same data "names but value is different"
 
-        attribute_db = {"namespace": "grade", "name": "FinalTerm", "value": "0.3"}
+        attribute_db = {"name": "whitelist_reason", "value": "Reason for whitelisting."}
 
         UserCredentialAttribute.objects.create(
             user_credential=self.user_program_cred,
-            namespace=attribute_db.get("namespace"),
             name=attribute_db.get("name"),
             value=attribute_db.get("value")
         )

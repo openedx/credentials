@@ -52,7 +52,6 @@ class UserCredentialSerializerTests(TestCase):
             "status": self.program_credential.status,
             "attributes": [
                 {
-                    "namespace": self.program_cert_attr.namespace,
                     "name": self.program_cert_attr.name,
                     "value": self.program_cert_attr.value
                 }
@@ -87,7 +86,6 @@ class UserCredentialSerializerTests(TestCase):
             "status": self.course_credential.status,
             "attributes": [
                 {
-                    "namespace": self.course_cert_attr.namespace,
                     "name": self.course_cert_attr.name,
                     "value": self.course_cert_attr.value
                 }
@@ -113,7 +111,6 @@ class UserCredentialAttributeSerializerTests(TestCase):
         """ Verify that user CredentialAttributeSerializer serialize data correctly."""
         serialize_data = serializers.UserCredentialAttributeSerializer(self.program_cert_attr)
         expected = {
-            "namespace": self.program_cert_attr.namespace,
             "name": self.program_cert_attr.name,
             "value": self.program_cert_attr.value
         }

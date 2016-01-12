@@ -33,14 +33,8 @@ To create a user credential for a program, use ``user_credentials``.
         "status": "awarded"
         "attributes": [
             {
-                "namespace": "whitelist",
-                "name": "Whitelist",
+                "name": "whitelist_reason",
                 "value": "Your reason for whitelisting."
-            },
-            {
-                "namespace": "grade",
-                "name": "Final Grade",
-                "value": "0.85"
             }
         ]
     }
@@ -122,14 +116,8 @@ To get information about a specific credential for a single user, use ``credenti
         "uuid": "a2810ab0-c084-43de-a9db-fa484fcc82bc",
         "attributes": [
             {
-                "namespace": "whitelist",
-                "name": "Whitelist",
+                "name": "whitelist_reason",
                 "value": "Your reason for whitelisting."
-            },
-            {
-                "namespace": "grade",
-                "name": "Final Grade",
-                "value": "0.85"
             }
         ],
         "created": "2015-12-17T09:28:35.075376Z",
@@ -183,8 +171,7 @@ or ``status`` parameters in the query string.
                 "uuid": "a2810ab0-c084-43de-a9db-fa484fcc82bc",
                 "attributes": [
                     {
-                        "namespace": "whitelist",
-                        "name": "Whitelist",
+                        "name": "whitelist_reason",
                         "value": "Your reason for whitelisting."
                     }
                 ],
@@ -247,8 +234,7 @@ string.
                 "uuid": "bbed53ff-9d5f-4bf0-9289-2fe94fda4363",
                 "attributes": [
                     {
-                        "namespace": "whitelist",
-                        "name": "Whitelist",
+                        "name": "whitelist_reason",
                         "value": "Your reason for whitelisting."
                     }
                 ],
@@ -307,8 +293,7 @@ the ``program_id`` or ``status`` parameters in the query string.
                 "uuid": "a2810ab0-c084-43de-a9db-fa484fcc82bc",
                 "attributes": [
                     {
-                        "namespace": "whitelist",
-                        "name": "Whitelist",
+                        "name": "whitelist_reason",
                         "value": "Your reason for whitelisting."
                     }
                 ],

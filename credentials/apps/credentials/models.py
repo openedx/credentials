@@ -255,12 +255,11 @@ class UserCredentialAttribute(TimeStampedModel):
     Different attributes of User's Credential such as white list, grade etc.
     """
     user_credential = models.ForeignKey(UserCredential, related_name='attributes')
-    namespace = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     value = models.CharField(max_length=255)
 
     class Meta(object):
-        unique_together = (('user_credential', 'namespace', 'name'),)
+        unique_together = (('user_credential', 'name'),)
 
 
 class CertificateTemplateAsset(TimeStampedModel):

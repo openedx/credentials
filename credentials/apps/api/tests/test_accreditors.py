@@ -27,7 +27,7 @@ class AccreditorTests(TestCase):
         self.accreditor = Accreditor()
         self.program_cert = ProgramCertificateFactory()
         self.program_credential = ProgramCertificate
-        self.attributes = [{"namespace": "whitelist", "name": "whitelist", "value": "some reason"}]
+        self.attributes = [{"name": "whitelist_reason", "value": "Reason for whitelisting."}]
 
     def test_create_credential_type_issuer_map(self):
         """ Verify the Accreditor supports only one issuer per credential type. """
