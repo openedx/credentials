@@ -55,12 +55,16 @@ INTERNAL_IPS = ('127.0.0.1',)
 
 # AUTHENTICATION
 # Set these to the correct values for your OAuth2/OpenID Connect provider (e.g., devstack)
+OAUTH2_PROVIDER_URL = 'http://127.0.0.1:8000/oauth2'
 SOCIAL_AUTH_EDX_OIDC_KEY = 'replace-me'
 SOCIAL_AUTH_EDX_OIDC_SECRET = 'replace-me'
-SOCIAL_AUTH_EDX_OIDC_URL_ROOT = 'replace-me'
+SOCIAL_AUTH_EDX_OIDC_URL_ROOT = OAUTH2_PROVIDER_URL
 SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY = SOCIAL_AUTH_EDX_OIDC_SECRET
 
 ENABLE_AUTO_AUTH = True
+
+# Specified in seconds. Enable caching by setting this to a value greater than 0.
+PROGRAMS_CACHE_TTL = 60
 
 # LOGGING
 LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel='DEBUG')
@@ -69,3 +73,11 @@ LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel='DEBUG')
 # Lastly, see if the developer has any local overrides.
 if os.path.isfile(join(dirname(abspath(__file__)), 'private.py')):
     from .private import *  # pylint: disable=import-error
+
+# do this after private.py, ensuring this section picks up credential overrides.
+JWT_AUTH.update({
+    'JWT_ALGORITHM': 'HS256',
+    'JWT_SECRET_KEY': SOCIAL_AUTH_EDX_OIDC_SECRET,
+    'JWT_ISSUER': OAUTH2_PROVIDER_URL,
+    'JWT_AUDIENCE': SOCIAL_AUTH_EDX_OIDC_KEY,
+})
