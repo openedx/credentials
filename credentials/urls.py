@@ -31,16 +31,20 @@ admin.autodiscover()
 # Always login via edX OpenID Connect
 login = RedirectView.as_view(url=reverse_lazy('social:begin', args=['edx-oidc']), permanent=False, query_string=True)
 
+AUTH_URLS = [
+    url(r'^login/$', login, name='login'),
+    url(r'^logout/$', logout, name='logout'),
+]
+
 urlpatterns = [
+    url(r'^accounts/', include(AUTH_URLS)),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('credentials.apps.api.urls', namespace='api')),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-auth/', include(AUTH_URLS, namespace='rest_framework')),
     url(r'^auto_auth/$', core_views.AutoAuth.as_view(), name='auto_auth'),
     url(r'^credentials/', include('credentials.apps.credentials.urls', namespace='credentials')),
     url(r'^health/$', core_views.health, name='health'),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', ''),
-    url(r'^login/$', login, name='login'),
-    url(r'^logout/$', logout, name='logout'),
     url('', include('social.apps.django_app.urls', namespace='social')),
 ]
 
