@@ -3,7 +3,6 @@ Tests for credentials rendering views.
 """
 from __future__ import unicode_literals
 import uuid
-from django.conf import settings
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
@@ -71,13 +70,6 @@ class RenderCredentialPageTests(TestCase):
         self.assertContains(response, 'For tips and tricks on printing your certificate')
         self.assertContains(response, 'edX is a non-profit online')
         self.assertContains(response, 'All rights reserved except where noted')
-
-        validate_url = '{prefix}{uuid}{suffix}'.format(
-            prefix=settings.CERTIFICATE_VERIFY_URL_PREFIX,
-            uuid=user_credential.uuid,
-            suffix=settings.CERTIFICATE_VERIFY_URL_SUFFIX
-        )
-        self.assertContains(response, validate_url)
 
     def test_get_cert_with_credential_template(self):
         """ Verify that if credential have template then view will render certificate

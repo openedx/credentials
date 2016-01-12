@@ -286,6 +286,3 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%SZ'
 }
 
-# Webcertificate validation link
-CERTIFICATE_VERIFY_URL_PREFIX = 'https://verify-test.edx.org/cert/'
-CERTIFICATE_VERIFY_URL_SUFFIX = '/verify.html'

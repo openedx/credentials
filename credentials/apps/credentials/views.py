@@ -80,11 +80,6 @@ class RenderCredential(TemplateView):
         provided values.
         """
 
-        certificate_verify_url = "{prefix}{uuid}{suffix}".format(
-            prefix=settings.CERTIFICATE_VERIFY_URL_PREFIX,
-            uuid=user_certificate.uuid,
-            suffix=settings.CERTIFICATE_VERIFY_URL_SUFFIX
-        )
         # Translators:  The format of the date includes the full name of the month.
         certificate_date_issued = _('{month} {day}, {year}').format(
             month=user_certificate.modified.strftime("%B"),
@@ -103,7 +98,6 @@ class RenderCredential(TemplateView):
             'platform_name': settings.PLATFORM_NAME,
             'username': user_certificate.username,
             'uuid': user_certificate.uuid,
-            'certificate_verify_url': certificate_verify_url,
             'certificate_date_issued': certificate_date_issued,
             'document_title': document_title,
             'organization': {  # TODO will fix once retrieve orgs.
