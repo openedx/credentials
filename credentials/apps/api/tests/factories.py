@@ -65,7 +65,6 @@ class UserCredentialAttributeFactory(factory.django.DjangoModelFactory):
         model = models.UserCredentialAttribute
 
     user_credential = factory.SubFactory(UserCredentialFactory)
-    namespace = factory.Sequence(lambda o: u'namespace-%d' % o)
     name = factory.Sequence(lambda o: u'name-%d' % o)
     value = factory.Sequence(lambda o: u'value-%d' % o)
 

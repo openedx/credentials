@@ -135,9 +135,8 @@ class UserCredentialViewSetTests(APITestCase):
             "credential": {"program_id": self.program_id},
             "attributes": [
                 {
-                    "namespace": "testing",
-                    "name": "grade",
-                    "value": "0.8"
+                    "name": "whitelist_reason",
+                    "value": "Reason for whitelisting."
                 }
             ]
         }
@@ -163,9 +162,8 @@ class UserCredentialViewSetTests(APITestCase):
             "credential": {"program_id": self.program_id},
             "attributes": [
                 {
-                    "namespace": "testing",
-                    "name": "grade",
-                    "value": "0.8"
+                    "name": "whitelist_reason",
+                    "value": "Reason for whitelisting."
                 }
             ]
         }
@@ -187,15 +185,9 @@ class UserCredentialViewSetTests(APITestCase):
             },
             "attributes": [
                 {
-                    "namespace": self.user_credential_attribute.namespace,
                     "name": self.user_credential_attribute.name,
                     "value": self.user_credential_attribute.value
                 },
-                {
-                    "namespace": "testing",
-                    "name": "grade",
-                    "value": "0.8"
-                }
             ]
         }
         response = self._attempt_create_user_credentials(data)
@@ -224,24 +216,20 @@ class UserCredentialViewSetTests(APITestCase):
             "credential": {"program_id": self.program_id},
             "attributes": [
                 {
-                    "namespace": "white",
-                    "name": "grade",
-                    "value": "0.5"
+                    "name": "whitelist_reason",
+                    "value": "Reason for whitelisting."
                 },
                 {
-                    "namespace": "dummyspace",
-                    "name": "grade",
-                    "value": "0.6"
+                    "name": "whitelist_reason",
+                    "value": "Reason for whitelisting."
                 },
                 {
-                    "namespace": "white",
-                    "name": "grade",
-                    "value": "0.8"
+                    "name": "whitelist_reason",
+                    "value": "Reason for whitelisting."
                 },
                 {
-                    "namespace": "white",
-                    "name": "grade",
-                    "value": "0.8"
+                    "name": "whitelist_reason",
+                    "value": "Reason for whitelisting."
                 }
             ]
         }
@@ -261,14 +249,12 @@ class UserCredentialViewSetTests(APITestCase):
             "credential": {"program_id": self.program_id},
             "attributes": [
                 {
-                    "namespace": "white",
-                    "name": "grade",
-                    "value": "0.5"
+                    "name": "whitelist_reason",
+                    "value": "Reason for whitelisting."
                 },
                 {
-                    "namespace": "",
-                    "name": "grade",
-                    "value": "0.8"
+                    "name": "",
+                    "value": "Reason for whitelisting."
                 }
             ]
         }
@@ -276,7 +262,7 @@ class UserCredentialViewSetTests(APITestCase):
         self.assertEqual(response.status_code, 400)
         self.assertFalse(UserCredential.objects.filter(username=self.username).exists())
         self.assertEqual(
-            response.data.get('attributes')[1]['namespace'][0],
+            response.data.get('attributes')[1]['name'][0],
             'This field may not be blank.'
         )
 
@@ -344,8 +330,8 @@ class UserCredentialViewSetTests(APITestCase):
         but its attributes will be updated if provided.
         """
         attributes = [
-            {"namespace": "whitelist", "name": "Program whitelist user", "value": "Reason for whitelisting."},
-            {"namespace": "grade", "name": "Final grade", "value": "0.5"}
+            {"name": "whitelist_reason", "value": "Reason for whitelisting."},
+            {"name": "grade", "value": "0.85"}
         ]
 
         data = {
@@ -372,10 +358,10 @@ class UserCredentialViewSetTests(APITestCase):
         self._assert_usercredential_fields(response, self.username, attributes)
 
     @ddt.data(
-        [{"namespace": "grade", "name": "Final grade", "value": "0.5"}],
+        [{"name": "whitelist_reason", "value": "Reason for whitelisting."}],
         [
-            {"namespace": "grade", "name": "Final grade", "value": "0.9"},
-            {"namespace": "grade", "name": "MidTerm grade", "value": "0.5"}
+            {"name": "whitelist_reason", "value": "Reason for whitelisting."},
+            {"name": "grade", "value": "0.85"},
         ],
     )
     def test_create_with_duplicate_attrs(self, attributes):
@@ -388,7 +374,7 @@ class UserCredentialViewSetTests(APITestCase):
             credential=self.program_cert
         )
         factories.UserCredentialAttributeFactory(
-            user_credential=user_credential, namespace="grade", name="Final grade", value="0.75"
+            user_credential=user_credential, name="whitelist_reason", value="Reason for whitelisting."
         )
         self.assertTrue(user_credential.attributes.exists())
 
@@ -417,10 +403,7 @@ class UserCredentialViewSetTests(APITestCase):
             ).data)
         )
 
-        actual_attributes = [
-            {"namespace": attr.namespace, "name": attr.name, "value": attr.value}
-            for attr in user_credential[0].attributes.all()
-        ]
+        actual_attributes = [{"name": attr.name, "value": attr.value} for attr in user_credential[0].attributes.all()]
         self.assertEqual(actual_attributes, expected_attrs)
 
 

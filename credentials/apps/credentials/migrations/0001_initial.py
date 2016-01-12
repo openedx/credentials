@@ -114,7 +114,6 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created', django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created')),
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified')),
-                ('namespace', models.CharField(max_length=255)),
                 ('name', models.CharField(max_length=255)),
                 ('value', models.CharField(max_length=255)),
                 ('user_credential', models.ForeignKey(related_name='attributes', to='credentials.UserCredential')),
@@ -152,7 +151,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='usercredentialattribute',
-            unique_together=set([('user_credential', 'namespace', 'name')]),
+            unique_together=set([('user_credential', 'name')]),
         ),
         migrations.AlterUniqueTogether(
             name='usercredential',

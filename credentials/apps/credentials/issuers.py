@@ -92,7 +92,6 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         for attr in attributes:
             UserCredentialAttribute.objects.update_or_create(
                 user_credential=user_credential,
-                namespace=attr.get('namespace'),
                 name=attr.get('name'),
                 defaults={'value': attr.get('value')}
             )

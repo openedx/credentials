@@ -74,7 +74,7 @@ class UserCredentialAttributeSerializer(serializers.ModelSerializer):
 
     class Meta(object):
         model = UserCredentialAttribute
-        fields = ('namespace', 'name', 'value')
+        fields = ('name', 'value')
 
 
 class UserCredentialSerializer(serializers.ModelSerializer):
@@ -102,7 +102,7 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
     certificate_url = UserCertificateURLField(source='uuid')
 
     def validate_attributes(self, data):
-        """ Check that the attributes namespace and name cannot be duplicated."""
+        """ Check that the name attributes cannot be duplicated."""
         if not validate_duplicate_attributes(data):
             raise ValidationError("Attributes cannot be duplicated.")
         return data
