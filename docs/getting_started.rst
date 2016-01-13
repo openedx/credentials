@@ -117,3 +117,34 @@ OIDC client via LMS admin.
     $ python manage.py runserver 8150
 
 .. _Django's runserver command: https://docs.djangoproject.com/en/1.8/ref/django-admin/#runserver-port-or-address-port
+
+
+Run a devstack cluster
+----------------------
+If you don't want to navigate all of the dependent services manually,
+you can use the `Docker-based`_ devstack. There are two make targets
+which manage this stack.
+
+.. code-block:: bash
+
+    # Start credentials, and all of the services it depends on
+    $ make start-devstack
+
+    # Open up a terminal in the code directory on the devstack server
+    $ make open-devstack
+
+These services are managed by `docker-compose`_, which orchestrates starting,
+stopping, and networking the machines together. You can see the service configuration
+in ``docker-compose.yml``.
+
+To run using configuration that hasn't been published to `Docker Hub` yet,
+check out `edx/configuration`_ and then uncomment the ``build`` and ``dockerfile``
+lines in ``docker-compose.yml`` and comment the ``image`` line in the ``credentials``
+block in that same file. Then run ``make start-devstack`` will correctly build
+a new local docker image from your local configuration.
+
+
+.. _docker-based: www.docker.com
+.. _docker-compose: docs.docker.com/compose
+.. _Docker Hub: hub.docker.com
+.. _edx/configuration: github.com/edx/configuration
