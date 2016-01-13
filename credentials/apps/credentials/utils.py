@@ -2,6 +2,7 @@
 Helper methods for credential app.
 """
 import datetime
+import hashlib
 from itertools import groupby
 import logging
 
@@ -13,6 +14,8 @@ import jwt
 
 log = logging.getLogger(__name__)
 PROGRAMS_CACHE_KEY = 'programs.api.data'
+ORGANIZATIONS_CACHE_KEY = 'organizations.api.data'
+USER_CACHE_KEY = 'user.api.data'
 
 
 def validate_duplicate_attributes(attributes):
@@ -36,36 +39,81 @@ def validate_duplicate_attributes(attributes):
     return True
 
 
-def get_programs():
-    """ Get active programs from the Programs service on behalf of the
-    credentials service user present in the Programs service.
+def get_program(program_id):
+    """ Retrieve program detail from the Programs API.
 
     Returned value is cached to avoid calling programs service each time a
     certificate is viewed.
 
-    Returns:
-        list of dict, representing programs returned by the Programs service.
-    """
-    no_programs = []
+    Arguments:
+        program_id (int): Unique id of the program for retrieval
 
-    cached = cache.get(PROGRAMS_CACHE_KEY)
-    if cached is not None:
-        return cached
+    Returns:
+        dict, representing a program data returned by the Programs service.
+    """
+    cache_key = '{key_prefix}.{id}'.format(key_prefix=PROGRAMS_CACHE_KEY, id=program_id)
+    program = cache.get(cache_key)
+
+    if program:
+        return program
 
     programs_api = get_program_api_client()
-    if programs_api is None:
-        return no_programs
+    program = programs_api.programs(program_id).get()
+    cache.set(cache_key, program, settings.PROGRAMS_CACHE_TTL)
 
-    try:
-        response = programs_api.programs.get()
-    except Exception:  # pylint: disable=broad-except
-        log.exception('Failed to retrieve programs from the Programs API.')
-        return no_programs
+    return program
 
-    results = response.get('results', no_programs)
-    cache.set(PROGRAMS_CACHE_KEY, results, settings.PROGRAMS_CACHE_TTL)
 
-    return results
+def get_organization(organization_key):
+    """ Retrieve the organization detail from the Organizations API.
+
+    If the API call is successful, the returned data will be cached for the
+    duration of ORGANIZATIONS_CACHE_TTL (in seconds). Failed API responses
+    will NOT be cached.
+
+    Arguments:
+        organization_key (str): Unique key of the organization for retrieval
+
+    Returns:
+        dict, representing organization data returned by the LMS.
+    """
+    cache_key = '{key_prefix}.{hash}'.format(key_prefix=ORGANIZATIONS_CACHE_KEY, hash=_make_hash(organization_key))
+    organization = cache.get(cache_key)
+
+    if organization:
+        return organization
+
+    organizations_api = get_organizations_api_client()
+    organization = organizations_api.organizations(organization_key).get()
+    cache.set(cache_key, organization, settings.ORGANIZATIONS_CACHE_TTL)
+
+    return organization
+
+
+def get_user(username):
+    """ Retrieve the user detail from the User API.
+
+    If the API call is successful, the returned data will be cached for the
+    duration of USER_CACHE_TTL (in seconds). Failed API responses will NOT
+    be cached.
+
+    Arguments:
+        username (str): Unique identifier of the user for retrieval
+
+    Returns:
+        dict, representing user data returned by the User API.
+    """
+    cache_key = '{key_prefix}.{hash}'.format(key_prefix=USER_CACHE_KEY, hash=_make_hash(username))
+    user = cache.get(cache_key)
+
+    if user:
+        return user
+
+    user_api = get_user_api_client()
+    user = user_api.accounts(username).get()
+    cache.set(cache_key, user, settings.USER_CACHE_TTL)
+
+    return user
 
 
 def get_program_api_client():
@@ -73,21 +121,44 @@ def get_program_api_client():
     Return api client to communicate with the programs service by using the
     credentials service user in the programs service.
     """
-    try:
-        programs_api_url = settings.PROGRAMS_API_URL
-        service_username = settings.CREDENTIALS_SERVICE_USER
-        jwt_audience = settings.PROGRAMS_JWT_AUDIENCE
-        jwt_secret_key = settings.PROGRAMS_JWT_SECRET_KEY
-    except AttributeError:
-        log.exception("Failed to get settings for communication with the Programs API. Please make sure that the "
-                      "settings for 'PROGRAMS_API_URL', 'CREDENTIALS_SERVICE_USER', 'PROGRAMS_JWT_AUDIENCE', "
-                      "'PROGRAMS_JWT_SECRET_KEY' are provided.")
-        return None
+    programs_api_url = settings.PROGRAMS_API_URL
+    service_username = settings.CREDENTIALS_SERVICE_USER
+    jwt_audience = settings.PROGRAMS_JWT_AUDIENCE
+    jwt_secret_key = settings.PROGRAMS_JWT_SECRET_KEY
 
     return _get_service_user_api_client(programs_api_url, service_username, jwt_audience, jwt_secret_key)
 
 
-def _get_service_user_api_client(api_url, service_username, jwt_audience, jwt_secret_key):
+def get_organizations_api_client():
+    """
+    Return api client to communicate with the organizations api by using the
+    credentials service user in the LMS.
+    """
+    organizations_api_url = settings.ORGANIZATIONS_API_URL
+    service_username = settings.CREDENTIALS_SERVICE_USER
+    jwt_audience = settings.ORGANIZATIONS_AUDIENCE
+    jwt_secret_key = settings.ORGANIZATIONS_SECRET_KEY
+
+    return _get_service_user_api_client(organizations_api_url, service_username, jwt_audience, jwt_secret_key)
+
+
+def get_user_api_client():
+    """
+    Return api client to communicate with the user api by using the credentials
+    service user in the LMS.
+    """
+    user_api_url = settings.USER_API_URL
+    service_username = settings.CREDENTIALS_SERVICE_USER
+    jwt_audience = settings.USER_JWT_AUDIENCE
+    jwt_secret_key = settings.USER_JWT_SECRET_KEY
+
+    # user api don't accept url with trailing slash so make `append_slash` False
+    return _get_service_user_api_client(
+        user_api_url, service_username, jwt_audience, jwt_secret_key, append_slash=False
+    )
+
+
+def _get_service_user_api_client(api_url, service_username, jwt_audience, jwt_secret_key, **kwargs):
     """
     Helper method to get edx rest api client for the provided service user
     which is present on the system from 'api_url'.
@@ -103,6 +174,7 @@ def _get_service_user_api_client(api_url, service_username, jwt_audience, jwt_se
     expires_in = getattr(settings, 'OAUTH_ID_TOKEN_EXPIRATION', 30)
     payload = {
         'preferred_username': service_username,
+        'username': service_username,
         'iss': settings.SOCIAL_AUTH_EDX_OIDC_URL_ROOT,
         'exp': now + datetime.timedelta(seconds=expires_in),
         'iat': now,
@@ -111,9 +183,16 @@ def _get_service_user_api_client(api_url, service_username, jwt_audience, jwt_se
 
     try:
         jwt_data = jwt.encode(payload, jwt_secret_key)
-        api_client = EdxRestApiClient(api_url, jwt=jwt_data)
+        api_client = EdxRestApiClient(api_url, jwt=jwt_data, **kwargs)
     except Exception:  # pylint: disable=broad-except
         log.exception("Failed to initialize the API client with url '%s'.", api_url)
         return
 
     return api_client
+
+
+def _make_hash(key):
+    """
+    Returns the string based on a the hash of the provided key.
+    """
+    return hashlib.md5(key).hexdigest()

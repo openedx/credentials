@@ -56,15 +56,24 @@ INTERNAL_IPS = ('127.0.0.1',)
 # AUTHENTICATION
 # Set these to the correct values for your OAuth2/OpenID Connect provider (e.g., devstack)
 OAUTH2_PROVIDER_URL = 'http://127.0.0.1:8000/oauth2'
-SOCIAL_AUTH_EDX_OIDC_KEY = 'replace-me'
-SOCIAL_AUTH_EDX_OIDC_SECRET = 'replace-me'
+SOCIAL_AUTH_EDX_OIDC_KEY = 'credentials-key'
+SOCIAL_AUTH_EDX_OIDC_SECRET = 'credentials-secret'
 SOCIAL_AUTH_EDX_OIDC_URL_ROOT = OAUTH2_PROVIDER_URL
 SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY = SOCIAL_AUTH_EDX_OIDC_SECRET
 
 ENABLE_AUTO_AUTH = True
 
+# PROGRAMS API CONFIGURATION
 # Specified in seconds. Enable caching by setting this to a value greater than 0.
 PROGRAMS_CACHE_TTL = 60
+
+# ORGANIZATIONS API CONFIGURATION
+# Specified in seconds. Enable caching by setting this to a value greater than 0.
+ORGANIZATIONS_CACHE_TTL = 60
+
+# USER API CONFIGURATION
+# Specified in seconds. Enable caching by setting this to a value greater than 0.
+USER_CACHE_TTL = 60
 
 # LOGGING
 LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel='DEBUG')

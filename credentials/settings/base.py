@@ -236,6 +236,7 @@ EXTRA_SCOPE = ['permissions']
 LOGIN_REDIRECT_URL = '/api/v1/user_credentials/'
 # END AUTHENTICATION CONFIGURATION
 
+# PROGRAMS API CONFIGURATION
 # Absolute URL used to get programs from the programs service.
 PROGRAMS_API_URL = 'http://127.0.0.1:8004/api/v1/'
 # Specified in seconds. Enable caching by setting this to a value greater than 0.
@@ -244,12 +245,21 @@ PROGRAMS_CACHE_TTL = 30 * 60
 PROGRAMS_JWT_AUDIENCE = 'programs-key'
 PROGRAMS_JWT_SECRET_KEY = 'programs-secret'
 
-# Absolute URL used to construct URLs pointing to the LMS
-LMS_URL_ROOT = 'http://127.0.0.1:8000'
-# Organizations API url in edx-platform
-ORGANIZATIONS_API_URL = '/api/organizations/v0/'
+# ORGANIZATIONS API CONFIGURATION
+# Absolute URL used to get organization data from the organizations api in LMS
+ORGANIZATIONS_API_URL = 'http://127.0.0.1:8000/api/organizations/v0/'
 # Specified in seconds. Enable caching by setting this to a value greater than 0.
-ORGANIZATIONS_CACHE_TTL = 0
+ORGANIZATIONS_CACHE_TTL = 30 * 60
+ORGANIZATIONS_AUDIENCE = 'lms-key'
+ORGANIZATIONS_SECRET_KEY = 'lms-secret'
+
+# USER API CONFIGURATION
+# Absolute URL used to get user data from the user api in LMS
+USER_API_URL = 'http://127.0.0.1:8000/api/user/v1/'
+# Specified in seconds. Enable caching by setting this to a value greater than 0.
+USER_CACHE_TTL = 30 * 60
+USER_JWT_AUDIENCE = 'lms-key'
+USER_JWT_SECRET_KEY = 'lms-secret'
 
 # Credentials service user in Programs service and LMS
 CREDENTIALS_SERVICE_USER = 'credentials_service_user'
