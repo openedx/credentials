@@ -19,9 +19,9 @@ To create a user credential for a program, use ``user_credentials``.
 
 **Example Request**
 
-.. code-block::
+.. code-block:: json
 
-    url: /api/v1/user_credentials/:id
+    url: /api/v1/user_credentials/
     Content-Type: application/json
     Method: POST
 
@@ -30,7 +30,6 @@ To create a user credential for a program, use ``user_credentials``.
         "credential": {
             "program_id": 100
         },
-        "status": "awarded"
         "attributes": [
             {
                 "name": "whitelist_reason",
@@ -41,7 +40,7 @@ To create a user credential for a program, use ``user_credentials``.
 
 **Note:**
 
-* The ``username``, ``credential``, and ``status`` parameters are required.
+* The ``username`` and ``credential`` parameters are required.
 * The ``attributes`` parameter is optional.
 * If you use the ``whitelist`` or ``grade`` attributes, you can only change the ``value``
   parameter. 
@@ -51,24 +50,25 @@ To create a user credential for a program, use ``user_credentials``.
 Update the Status of a User Credential
 --------------------------------------
 
+The default value of ``status`` parameter for a user credential is ``awarded``.
 To update the status of a user credential, use ``status``.
 
 **Example Request**
 
-.. code-block::
+.. code-block:: json
 
     url: /api/v1/user_credentials/:id
     Content-Type: application/json
     Method: PATCH
 
     {
-        "status": "REVOKED"
+        "status": "revoked"
     }
 
 **Note:**
 
 * This endpoint only accepts the ``status`` parameter. Valid values for the status
-  parameter are ``AWARDED`` and ``REVOKED``.
+  parameter are ``awarded`` and ``revoked``.
 
 
 Credential APIs
@@ -96,13 +96,13 @@ To get information about a specific credential for a single user, use ``credenti
 
 **Example Request**
 
-.. code-block::
+.. code-block:: bash
 
     /api/v1/user_credentials/1
 
 **Example Response**
 
-.. code-block::
+.. code-block:: json
 
     {
         "id": 1,
@@ -145,14 +145,14 @@ or ``status`` parameters in the query string.
 
 **Example Requests**
 
-.. code-block::
+.. code-block:: bash
 
     api/v1/user_credentials/?username=<username>
     api/v1/user_credentials/?username=<username>&status=<status>
 
 **Example Response**
 
-.. code-block::
+.. code-block:: json
 
     {
         "count": 1,
@@ -205,7 +205,7 @@ string.
 
 **Example Requests**
 
-.. code-block::
+.. code-block:: bash
 
     api/v1/course_credentials/?course_id=<course_id>
     api/v1/course_credentials/?course_id=<course_id>&status=<status>
@@ -214,7 +214,7 @@ string.
 
 **Example Response**
 
-.. code-block::
+.. code-block:: json
 
     {
         "count": 1,
@@ -267,14 +267,14 @@ the ``program_id`` or ``status`` parameters in the query string.
 
 **Example Requests**
 
-.. code-block::
+.. code-block:: bash
 
     api/v1/program_credentials/?program_id=<program_id>
     api/v1/program_credentials/?program_id=<program_id>&status=<status>
 
 **Example Response**
 
-.. code-block::
+.. code-block:: json
 
     {
         "count": 4,
