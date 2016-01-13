@@ -7,6 +7,7 @@ import uuid
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from credentials.apps.api.tests import factories
+from credentials.apps.credentials.models import UserCredential
 
 
 class RenderCredentialPageTests(TestCase):
@@ -21,12 +22,24 @@ class RenderCredentialPageTests(TestCase):
         )
         self.username = 'test-user'
 
-    def test_get_cert_with_valid_uuid(self):
-        """ Verify that view render certificate and returns 200 with valid uuid."""
+    def test_get_cert_with_awarded_status(self):
+        """ Verify that view render certificate and returns 200 with valid uuid and status
+        is awarded.
+        """
         path = reverse('credentials:render', kwargs={'uuid': self.user_credential.uuid.hex})
         response = self.client.get(path)
         self.assertEqual(response.status_code, 200)
         self._assert_user_credential_with_default_template(response, self.user_credential)
+
+    def test_get_cert_with_revoked_status(self):
+        """ Verify that view render certificate and returns 404 with valid uuid and status
+        is revoked.
+        """
+        self.user_credential.status = UserCredential.REVOKED
+        self.user_credential.save()
+        path = reverse('credentials:render', kwargs={'uuid': self.user_credential.uuid.hex})
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, 404)
 
     def test_get_cert_with_invalid_uuid(self):
         """ Verify that view returns 404 with invalid uuid."""

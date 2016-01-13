@@ -25,7 +25,9 @@ class RenderCredential(TemplateView):
 
         certificate_uuid = kwargs.get('uuid')
         try:
-            user_credential = UserCredential.objects.get(uuid=certificate_uuid)
+            user_credential = UserCredential.objects.get(
+                uuid=certificate_uuid, status=UserCredential.AWARDED
+            )
         except UserCredential.DoesNotExist:
             raise Http404
 
