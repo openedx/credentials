@@ -235,6 +235,7 @@ class CourseCertificate(AbstractCertificate):
 
     class Meta(object):
         unique_together = (('course_id', 'certificate_type', 'site'),)
+        verbose_name = "Course certificate configuration"
 
 
 class ProgramCertificate(AbstractCertificate):
@@ -248,6 +249,9 @@ class ProgramCertificate(AbstractCertificate):
         object_id_field='credential_id',
         related_query_name='program_credentials'
     )
+
+    class Meta(object):
+        verbose_name = "Program certificate configuration"
 
 
 class UserCredentialAttribute(TimeStampedModel):
