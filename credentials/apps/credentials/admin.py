@@ -18,9 +18,10 @@ class UserCredentialAttributeInline(admin.TabularInline):
 
 class UserCredentialAdmin(admin.ModelAdmin):
     """Admin for the UserCredential model."""
-    list_display = ('username', 'status', 'credential_content_type')
+    list_display = ('username', 'uuid', 'status', 'credential_content_type')
     list_filter = ('status', 'credential_content_type')
     search_fields = ('username',)
+    readonly_fields = ('uuid',)
     inlines = (UserCredentialAttributeInline,)
 
 
