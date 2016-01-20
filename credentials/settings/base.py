@@ -293,3 +293,4 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
     'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%SZ'
 }
+
