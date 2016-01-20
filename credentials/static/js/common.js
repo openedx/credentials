@@ -1,7 +1,8 @@
 require([
         'jquery',
         'backbone',
-        'underscore'
+        'underscore',
+        'js/shims/edx-icons'
     ],
     function () {
         'use strict';
