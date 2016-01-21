@@ -6,9 +6,10 @@ import logging
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
+from django.utils.translation import ugettext_lazy as _
 
 from credentials.apps.credentials.models import UserCredential, ProgramCertificate
-from credentials.apps.credentials.utils import get_organization, get_program
+from credentials.apps.credentials.utils import get_organization, get_program, get_user
 
 
 logger = logging.getLogger(__name__)
@@ -50,9 +51,11 @@ class RenderCredential(TemplateView):
         """
         programs_data = self._get_program_data(user_credential.credential.program_id)
         return {
+            'credential_type': _(u'XSeries Certificate'),
+            'user_data': get_user(user_credential.username),
             'programs_data': programs_data,
             'organization_data': get_organization(programs_data['organization_key']),
-            'credential_template': 'credentials/program_certificate.html'
+            'credential_template': 'credentials/program_certificate.html',
         }
 
     def _get_program_data(self, program_id):
@@ -66,6 +69,7 @@ class RenderCredential(TemplateView):
         """
         program_data = get_program(program_id)
         return {
+            'name': program_data['name'],
             'course_count': len(program_data['course_codes']),
             'organization_key': program_data['organizations'][0]['key'],
             'category': program_data['category'],
