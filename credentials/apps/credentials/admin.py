@@ -18,11 +18,15 @@ class UserCredentialAttributeInline(admin.TabularInline):
 
 class UserCredentialAdmin(admin.ModelAdmin):
     """Admin for the UserCredential model."""
-    list_display = ('username', 'uuid', 'status', 'credential_content_type')
+    list_display = ('username', 'certificate_uuid', 'status', 'credential_content_type')
     list_filter = ('status', 'credential_content_type')
     search_fields = ('username',)
     readonly_fields = ('uuid',)
     inlines = (UserCredentialAttributeInline,)
+
+    def certificate_uuid(self, obj):
+        """Certificate UUID value displayed on admin panel."""
+        return obj.uuid.hex
 
 
 class CertificateTemplateAdmin(admin.ModelAdmin):
