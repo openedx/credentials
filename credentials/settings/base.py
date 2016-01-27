@@ -138,6 +138,7 @@ COMPRESS_OFFLINE = True
 
 # Minify CSS
 COMPRESS_CSS_FILTERS = [
+    'compressor.filters.css_default.CssAbsoluteFilter',
     'compressor.filters.cssmin.CSSMinFilter',
 ]
 # END STATIC FILE CONFIGURATION
