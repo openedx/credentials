@@ -1,9 +1,11 @@
 """Test core.views."""
 
+import sys
+
 from django.db import DatabaseError
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import clear_url_caches, reverse
 from django.test import TestCase
 from django.test.utils import override_settings
 import mock
@@ -74,3 +76,26 @@ class AutoAuthTests(TestCase):
 
         # Verify that the user has superuser permissions
         self.assertTrue(user.is_superuser)
+
+
+class SiteViewTests(TestCase):
+    """ Tests for the base site views."""
+
+    def _reload_urlconf(self):
+        """ Helper method to reload url config."""
+        reload(sys.modules[settings.ROOT_URLCONF])
+        clear_url_caches()
+
+    @override_settings(DEBUG=True)
+    def test_500(self):
+        """
+        Test the 500 view.
+        """
+        # Since the the url for the custom 500 view is included only for debug
+        # mode so we need to set the debug mode and reload the django urls
+        # config for adding the 500 view url
+        self._reload_urlconf()
+
+        response = self.client.get(reverse('500'))
+        self.assertEqual(response.status_code, 500)
+        self.assertIn('Server Error', response.content)
