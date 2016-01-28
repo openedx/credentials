@@ -32,10 +32,8 @@ class RenderCredentialPageTests(TestCase):
         """ Helper method to generate the url for a credential."""
         return reverse('credentials:render', kwargs={'uuid': uuid_string})
 
-    def test_get_cert_with_awarded_status(self):
-        """ Verify that the view renders a certificate and returns 200 when the
-        uuid is valid and certificate status is 'awarded'.
-        """
+    def _render_user_credential(self):
+        """ Helper method to render a user certificate."""
         path = self._credential_url(self.user_credential.uuid.hex)
         with patch('credentials.apps.credentials.views.get_program') as mock_program_data:
             mock_program_data.return_value = ProgramsDataMixin.PROGRAMS_API_RESPONSE
@@ -45,8 +43,31 @@ class RenderCredentialPageTests(TestCase):
                     user_data.return_value = UserDataMixin.USER_API_RESPONSE
                     response = self.client.get(path)
 
+        return response
+
+    def test_get_cert_with_awarded_status(self):
+        """ Verify that the view renders a certificate and returns 200 when the
+        uuid is valid and certificate status is 'awarded'.
+        """
+        response = self._render_user_credential()
+
         self.assertEqual(response.status_code, 200)
-        self._assert_user_credential_template_data(response, self.user_credential)
+        self._assert_user_credential_template_data(response, self.user_credential, certificate_title='Test Program A')
+        self._assert_signatory_data(response, self.signatory_1)
+        self._assert_signatory_data(response, self.signatory_2)
+
+    def test_get_cert_with_title_override(self):
+        """ Verify that the view renders a valid certificate with the title
+        value provided in its related certificate configuration.
+        """
+        # Add title value for the program certificate configuration
+        certificate_title = 'Dummy title'
+        self.program_certificate.title = certificate_title
+        self.program_certificate.save()
+        response = self._render_user_credential()
+
+        self.assertEqual(response.status_code, 200)
+        self._assert_user_credential_template_data(response, self.user_credential, certificate_title=certificate_title)
         self._assert_signatory_data(response, self.signatory_1)
         self._assert_signatory_data(response, self.signatory_2)
 
@@ -79,7 +100,7 @@ class RenderCredentialPageTests(TestCase):
         response = self.client.get(path)
         self.assertEqual(response.status_code, 404)
 
-    def _assert_user_credential_template_data(self, response, user_credential):
+    def _assert_user_credential_template_data(self, response, user_credential, certificate_title):
         """ Verify the default template has the data. """
         self.assertContains(response, 'Congratulations, Test User')
         self.assertContains(response, user_credential.uuid.hex)
@@ -99,7 +120,7 @@ class RenderCredentialPageTests(TestCase):
             'a series of 2 courses offered by Test Organization through {platform_name}'.format(
                 platform_name=settings.PLATFORM_NAME)
         )
-        self.assertContains(response, 'Test Program A')
+        self.assertContains(response, certificate_title)
 
         # test html strings are appearing on page.
         self.assertContains(
@@ -150,16 +171,9 @@ class RenderCredentialPageTests(TestCase):
         signatory data with it.
         """
         self.program_certificate.signatories.clear()
-        path = self._credential_url(self.user_credential.uuid.hex)
-        with patch('credentials.apps.credentials.views.get_program') as mock_program_data:
-            mock_program_data.return_value = ProgramsDataMixin.PROGRAMS_API_RESPONSE
-            with patch('credentials.apps.credentials.views.get_organization') as mock_org_data:
-                mock_org_data.return_value = OrganizationsDataMixin.ORGANIZATIONS_API_RESPONSE
-                with patch('credentials.apps.credentials.views.get_user') as user_data:
-                    user_data.return_value = UserDataMixin.USER_API_RESPONSE
-                    response = self.client.get(path)
+        response = self._render_user_credential()
 
         self.assertEqual(response.status_code, 200)
-        self._assert_user_credential_template_data(response, self.user_credential)
+        self._assert_user_credential_template_data(response, self.user_credential, certificate_title='Test Program A')
         self.assertNotContains(response, self.signatory_1.name)
         self.assertNotContains(response, self.signatory_2.name)

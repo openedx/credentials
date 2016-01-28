@@ -31,7 +31,6 @@ class CertificateTemplateFactory(factory.django.DjangoModelFactory):
 class SiteCertificateTemplateBaseFactory(factory.django.DjangoModelFactory):
     site = factory.SubFactory(SiteFactory)
     template = factory.SubFactory(CertificateTemplateFactory)
-    title = 'dummy title'
 
 
 class ProgramCertificateFactory(SiteCertificateTemplateBaseFactory):
