@@ -1,5 +1,6 @@
 """ Context processor tests. """
 
+from django.contrib.sites.models import Site
 from django.test import override_settings, RequestFactory, TestCase
 
 from credentials.apps.core.context_processors import core
@@ -17,5 +18,6 @@ class CoreContextProcessorTests(TestCase):
         request = RequestFactory().get('/')
         request.LANGUAGE_CODE = LANGUAGE_CODE
         self.assertDictEqual(
-            core(request), {'platform_name': PLATFORM_NAME, 'language_code': LANGUAGE_CODE}
+            core(request),
+            {'site': Site.objects.get_current(), 'platform_name': PLATFORM_NAME, 'language_code': LANGUAGE_CODE}
         )

@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 import uuid
 
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from mock import patch
@@ -21,6 +22,7 @@ class RenderCredentialPageTests(TestCase):
     def setUp(self):
         super(RenderCredentialPageTests, self).setUp()
         self.program_certificate = factories.ProgramCertificateFactory.create(template=None)
+        self.site = self.program_certificate.site
         self.signatory_1 = Signatory.objects.create(name='Signatory 1', title='Manager', image='images/signatory_1.png')
         self.signatory_2 = Signatory.objects.create(name='Signatory 1', title='Manager', image='images/signatory_1.png')
         self.program_certificate.signatories.add(self.signatory_1, self.signatory_2)
@@ -125,7 +127,7 @@ class RenderCredentialPageTests(TestCase):
         # test html strings are appearing on page.
         self.assertContains(
             response,
-            'XSeries Certificate | {platform_name}'.format(platform_name=settings.PLATFORM_NAME)
+            'XSeries Certificate | {platform_name}'.format(platform_name=self.site.name)
         )
         self._assert_html_data(response)
 
