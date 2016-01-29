@@ -82,12 +82,20 @@ class SiteConfiguration(models.Model):
         null=False,
         blank=False
     )
+    logo_url = models.URLField(
+        verbose_name=_('Logo url for custom site/microsite'),
+        help_text=_(
+            "Absolute URL of this site's logo (e.g. https://www.edx.org/sites/default/files/theme/edx-logo-header.png)"
+        ),
+        null=False,
+        blank=False
+    )
     theme_scss_path = models.CharField(
         verbose_name=_('Path to custom site theme'),
         help_text=_('Path to scss files of the custom site theme'),
         max_length=255,
         null=False,
-        blank=False
+        blank=True
     )
 
 
