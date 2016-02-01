@@ -52,6 +52,7 @@ class RenderCredential(TemplateView):
         programs_data = self._get_program_data(user_credential.credential.program_id)
         return {
             'credential_type': _(u'XSeries Certificate'),
+            'credential_title': user_credential.credential.title,
             'user_data': get_user(user_credential.username),
             'programs_data': programs_data,
             'organization_data': get_organization(programs_data['organization_key']),

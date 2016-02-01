@@ -17,6 +17,7 @@ install:
     - make requirements
 script:
     # Compile assets and run validation
+    - make clean clean_static
     - make static -e DJANGO_SETTINGS_MODULE="credentials.settings.test"
     - make validate
 branches:
