@@ -71,34 +71,6 @@ def validate_course_key(course_key):
         raise ValidationError(_("Invalid course key."))
 
 
-class SiteConfiguration(models.Model):
-    """
-    Custom Site model for custom sites/microsites.
-    """
-    site = models.OneToOneField(Site, null=False, blank=False)
-    lms_url_root = models.URLField(
-        verbose_name=_('LMS base url for custom site/microsite'),
-        help_text=_("Root URL of this site's LMS (e.g. https://courses.stage.edx.org)"),
-        null=False,
-        blank=False
-    )
-    logo_url = models.URLField(
-        verbose_name=_('Logo url for custom site/microsite'),
-        help_text=_(
-            "Absolute URL of this site's logo (e.g. https://www.edx.org/sites/default/files/theme/edx-logo-header.png)"
-        ),
-        null=False,
-        blank=False
-    )
-    theme_scss_path = models.CharField(
-        verbose_name=_('Path to custom site theme'),
-        help_text=_('Path to scss files of the custom site theme'),
-        max_length=255,
-        null=False,
-        blank=True
-    )
-
-
 class AbstractCredential(TimeStampedModel):
     """
     Abstract Credentials configuration model.

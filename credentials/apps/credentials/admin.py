@@ -5,7 +5,7 @@ from django.contrib import admin
 
 from credentials.apps.credentials.models import (
     CertificateTemplate, CourseCertificate, CertificateTemplateAsset,
-    ProgramCertificate, Signatory, UserCredentialAttribute, SiteConfiguration,
+    ProgramCertificate, Signatory, UserCredentialAttribute,
     UserCredential
 )
 
@@ -54,19 +54,12 @@ class ProgramCertificateAdmin(admin.ModelAdmin):
     search_fields = ('program_id',)
 
 
-class SiteConfigurationAdmin(admin.ModelAdmin):
-    """Admin for the SiteConfiguration model."""
-    list_display = ('site', 'lms_url_root')
-    search_fields = ('site__name',)
-
-
 class SignatoryAdmin(admin.ModelAdmin):
     """Admin for the Signatory model."""
     list_display = ('name', 'title', 'image')
     search_fields = ('name',)
 
 
-admin.site.register(SiteConfiguration, SiteConfigurationAdmin)
 admin.site.register(CertificateTemplateAsset, CertificateTemplateAssetAdmin)
 admin.site.register(CertificateTemplate, CertificateTemplateAdmin)
 admin.site.register(CourseCertificate, CourseCertificateAdmin)
