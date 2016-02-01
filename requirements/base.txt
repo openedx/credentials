@@ -11,6 +11,9 @@ django-rest-swagger==0.3.4
 django-storages==1.1.8
 edx-auth-backends==0.1.3
 edx-rest-api-client==1.4.0
+# The package django-libsass requires libsass and the newest version of libsass '0.10.1'
+# gives validation error on importing scss variables in scss files
+libsass==0.10.0
 Pillow==3.0.0
 python-memcached==1.57
 pytz==2015.7
