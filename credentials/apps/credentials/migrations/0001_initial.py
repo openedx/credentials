@@ -56,6 +56,9 @@ class Migration(migrations.Migration):
                 ('course_id', models.CharField(max_length=255, validators=[credentials.apps.credentials.models.validate_course_key])),
                 ('certificate_type', models.CharField(max_length=255, choices=[('honor', 'honor'), ('professional', 'professional'), ('verified', 'verified')])),
             ],
+            options={
+                'verbose_name': 'Course certificate configuration',
+            },
         ),
         migrations.CreateModel(
             name='ProgramCertificate',
@@ -68,7 +71,7 @@ class Migration(migrations.Migration):
                 ('program_id', models.PositiveIntegerField(unique=True, db_index=True)),
             ],
             options={
-                'abstract': False,
+                'verbose_name': 'Program certificate configuration',
             },
         ),
         migrations.CreateModel(
@@ -84,15 +87,6 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Signatories',
             },
-        ),
-        migrations.CreateModel(
-            name='SiteConfiguration',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('lms_url_root', models.URLField(help_text="Root URL of this site's LMS (e.g. https://courses.stage.edx.org)", verbose_name='LMS base url for custom site/microsite')),
-                ('theme_scss_path', models.CharField(help_text='Path to scss files of the custom site theme', max_length=255, verbose_name='Path to custom site theme')),
-                ('site', models.OneToOneField(to='sites.Site')),
-            ],
         ),
         migrations.CreateModel(
             name='UserCredential',

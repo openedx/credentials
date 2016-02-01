@@ -3,7 +3,7 @@ Factories for tests of Credentials.
 """
 import factory
 
-from credentials.apps.core.models import User
+from credentials.apps.core.models import SiteConfiguration, User
 
 
 class UserFactory(factory.django.DjangoModelFactory):  # pylint: disable=missing-docstring
@@ -16,3 +16,8 @@ class UserFactory(factory.django.DjangoModelFactory):  # pylint: disable=missing
     email = "dummy@example.com"
     is_staff = False
     is_active = True
+
+
+class SiteConfigurationFactory(factory.django.DjangoModelFactory):  # pylint: disable=missing-docstring
+    class Meta(object):  # pylint: disable=missing-docstring
+        model = SiteConfiguration

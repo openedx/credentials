@@ -4,7 +4,9 @@ from django.test import TestCase
 from django_dynamic_fixture import G
 from social.apps.django_app.default.models import UserSocialAuth
 
+from credentials.apps.api.tests.factories import SiteFactory
 from credentials.apps.core.models import User
+from credentials.apps.core.tests.factories import SiteConfigurationFactory
 
 
 # pylint: disable=no-member
@@ -44,3 +46,13 @@ class UserTests(TestCase):
 
         user = G(User, full_name=full_name, first_name=first_name, last_name=last_name)
         self.assertEquals(user.get_full_name(), full_name)
+
+
+class SiteConfigurationTests(TestCase):
+    """ Site configuration model tests. """
+
+    def test_unicode(self):
+        """ Test the site value for site configuration model. """
+        site = SiteFactory(domain='test.org', name='test')
+        site_configuration = SiteConfigurationFactory(site=site)
+        self.assertEqual(unicode(site_configuration), site.name)
