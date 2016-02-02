@@ -48,9 +48,15 @@ urlpatterns = [
     url('', include('social.apps.django_app.urls', namespace='social')),
 ]
 
+handler500 = 'credentials.apps.core.views.render_500'
+
 # Add media and extra urls
 if settings.DEBUG:  # pragma: no cover
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += [
+        url(r'^404/$', 'django.views.defaults.page_not_found', name='404'),
+        url(r'^500/$', handler500, name='500'),
+    ]
 
 if settings.DEBUG and os.environ.get('ENABLE_DJANGO_TOOLBAR', False):  # pragma: no cover
     import debug_toolbar  # pylint: disable=import-error, wrong-import-position, wrong-import-order
