@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 
-from credentials.apps.core.models import User
+from credentials.apps.core.models import SiteConfiguration, User
 
 
 class CustomUserAdmin(UserAdmin):
@@ -19,4 +19,11 @@ class CustomUserAdmin(UserAdmin):
     )
 
 
+class SiteConfigurationAdmin(admin.ModelAdmin):
+    """ Admin for the SiteConfiguration model."""
+    list_display = ('site', 'lms_url_root')
+    search_fields = ('site__name',)
+
+
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(SiteConfiguration, SiteConfigurationAdmin)
