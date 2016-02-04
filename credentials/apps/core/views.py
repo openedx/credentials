@@ -97,6 +97,5 @@ def render_500(request, template_name='500.html'):
         'site': request.site,
         'platform_name': settings.PLATFORM_NAME,
     }
-    response = render_to_response(template_name, context)
-    response.status_code = 500
+    response = render_to_response(template_name, context, status=500)
     return response
