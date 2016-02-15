@@ -1,6 +1,7 @@
 # Packages required for testing
 -r base.txt
 
+bok-choy==0.4.10
 coverage==4.0.3
 django-dynamic-fixture==1.8.5
 django-nose==1.4.2
