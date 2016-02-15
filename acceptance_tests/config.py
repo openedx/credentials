@@ -1,7 +1,9 @@
+"""Configuration for Credential acceptance tests."""
 import os
 
 
 def str2bool(s):
+    """ helper method cast str into bool."""
     s = unicode(s)
     return s.lower() in (u'yes', u'true', u't', u'1')
 
@@ -21,9 +23,7 @@ try:
 except AttributeError:
     raise RuntimeError('You must provide a valid URL root for the Credentials Service to run acceptance tests.')
 
-CREDENTIALS_API_URL = os.environ.get('CREDENTIALS_API_URL', CREDENTIALS_ROOT_URL + '/api/v2')
-CREDENTIALS_API_TOKEN = os.environ.get('CREDENTIALS_API_TOKEN', ACCESS_TOKEN)
-MAX_COMPLETION_RETRIES = int(os.environ.get('MAX_COMPLETION_RETRIES', 3))
+CREDENTIALS_API_URL = os.environ.get('CREDENTIALS_API_URL', CREDENTIALS_ROOT_URL + '/api/v1/')
 
 # LMS CONFIGURATION
 try:
@@ -34,10 +34,6 @@ except AttributeError:
 LMS_USERNAME = os.environ.get('LMS_USERNAME')
 LMS_EMAIL = os.environ.get('LMS_EMAIL')
 LMS_PASSWORD = os.environ.get('LMS_PASSWORD')
-LMS_AUTO_AUTH = str2bool(os.environ.get('LMS_AUTO_AUTH', False))
-LMS_HTTPS = str2bool(os.environ.get('LMS_HTTPS', True))
-BASIC_AUTH_USERNAME = os.environ.get('BASIC_AUTH_USERNAME')
-BASIC_AUTH_PASSWORD = os.environ.get('BASIC_AUTH_PASSWORD')
 
 if ENABLE_OAUTH2_TESTS and not (LMS_ROOT_URL and LMS_USERNAME and LMS_PASSWORD):
     raise RuntimeError('Configuring LMS settings is required to run OAuth2 tests.')

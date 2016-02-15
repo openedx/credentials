@@ -55,8 +55,8 @@ test: clean
 	coverage report
 
 quality:
-	pep8 --config=.pep8 credentials *.py
-	pylint --rcfile=pylintrc credentials *.py
+	pep8 --config=.pep8 credentials acceptance_tests
+	pylint --rcfile=pylintrc credentials acceptance_tests
 
 static:
 	$(NODE_BIN)/r.js -o build.js
