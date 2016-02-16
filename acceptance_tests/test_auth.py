@@ -15,7 +15,7 @@ class OAuth2FlowTests(LoginMixin, WebAppTest):
         """
         super(OAuth2FlowTests, self).setUp()
 
-        self.app_login_page = CredentialsDRFPage(self.browser)
+        self.credentials_api_page = CredentialsDRFPage(self.browser)
 
     def test_login(self):
         """
@@ -25,4 +25,4 @@ class OAuth2FlowTests(LoginMixin, WebAppTest):
         self.login_with_lms()
 
         # Visit login URL and get redirected
-        self.app_login_page.visit()
+        self.credentials_api_page.visit()

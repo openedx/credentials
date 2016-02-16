@@ -1,4 +1,4 @@
-"""Configuration for Credential acceptance tests."""
+"""Configurations for Credential acceptance tests."""
 import os
 
 
@@ -17,7 +17,7 @@ if ACCESS_TOKEN is None:
 # END GENERAL CONFIGURATION
 
 
-# OTTO CONFIGURATION
+# CREDENTIALS CONFIGURATION
 try:
     CREDENTIALS_ROOT_URL = os.environ.get('CREDENTIALS_ROOT_URL').strip('/')
 except AttributeError:

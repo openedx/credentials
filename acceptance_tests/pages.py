@@ -19,7 +19,7 @@ class CredentialsDRFPage(PageObject):  # pylint: disable=abstract-method
         self.page_url = CREDENTIALS_API_URL
 
     def is_browser_on_page(self):
-        return self.browser.title.startswith('Dashboard')
+        return self.browser.title.startswith('Django REST framework')
 
 
 class LMSPage(PageObject):  # pylint: disable=abstract-method
