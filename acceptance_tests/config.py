@@ -1,9 +1,12 @@
-"""Configurations for Credential acceptance tests."""
+"""
+Configurations for Credential acceptance tests.
+
+"""
 import os
 
 
 def str2bool(s):
-    """ helper method cast str into bool."""
+    """ Helper method cast str into bool."""
     s = unicode(s)
     return s.lower() in (u'yes', u'true', u't', u'1')
 

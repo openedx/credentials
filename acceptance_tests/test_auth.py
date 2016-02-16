@@ -14,13 +14,13 @@ class OAuth2FlowTests(LoginMixin, WebAppTest):
         Instantiate the page objects.
         """
         super(OAuth2FlowTests, self).setUp()
-
         self.credentials_api_page = CredentialsDRFPage(self.browser)
 
     def test_login(self):
         """
-        Note: If you are testing locally with a VM and seeing signature expiration errors, ensure the clocks of the VM
-        and host are synced within at least one minute (the default signature expiration time) of each other.
+        Note: If you are testing locally with a VM and seeing signature expiration
+        errors, ensure the clocks of the VM and host are synced within at least
+        one minute (the default signature expiration time) of each other.
         """
         self.login_with_lms()
 

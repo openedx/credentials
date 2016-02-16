@@ -38,6 +38,7 @@ THIRD_PARTY_APPS = (
     'waffle',
     'compressor',
     'storages',
+    'rest_framework_swagger'
 )
 
 PROJECT_APPS = (

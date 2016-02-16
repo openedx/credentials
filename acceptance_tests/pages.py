@@ -3,13 +3,10 @@ import abc
 from bok_choy.page_object import PageObject
 from bok_choy.promise import EmptyPromise
 
-from acceptance_tests.config import (
-    LMS_ROOT_URL,
-    CREDENTIALS_API_URL)
+from acceptance_tests.config import CREDENTIALS_API_URL, LMS_ROOT_URL
 
 
 class CredentialsDRFPage(PageObject):  # pylint: disable=abstract-method
-
     @property
     def url(self):
         return self.page_url
@@ -45,7 +42,7 @@ class LMSLoginPage(LMSPage):
         self.q(css='button.login-button').click()
 
         # Wait for LMS to redirect to the dashboard
-        EmptyPromise(self._is_browser_on_lms_dashboard(), "LMS login redirected to dashboard").fulfill()
+        EmptyPromise(self._is_browser_on_lms_dashboard(), 'LMS login redirected to dashboard').fulfill()
 
 
 class LMSDashboardPage(LMSPage):
