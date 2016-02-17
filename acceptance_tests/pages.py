@@ -26,7 +26,7 @@ class LMSPage(PageObject):  # pylint: disable=abstract-method
         return '{}/{}'.format(LMS_ROOT_URL, path)
 
     def _is_browser_on_lms_dashboard(self):
-        return lambda: self.browser.title.startswith('Dashboard')
+        return self.browser.title.startswith('Dashboard')
 
 
 class LMSLoginPage(LMSPage):
@@ -42,7 +42,7 @@ class LMSLoginPage(LMSPage):
         self.q(css='button.login-button').click()
 
         # Wait for LMS to redirect to the dashboard
-        EmptyPromise(self._is_browser_on_lms_dashboard(), 'LMS login redirected to dashboard').fulfill()
+        EmptyPromise(self._is_browser_on_lms_dashboard, 'LMS login redirected to dashboard')
 
 
 class LMSDashboardPage(LMSPage):
