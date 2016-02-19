@@ -55,19 +55,18 @@ class CredentialsApiMixin(object):
             return
         return api_client
 
-    def create_credential(self):
+    def _create_credential(self):
         return self.credential_api_client.user_credentials.post({
             'username': LMS_USERNAME,
             'credential': {'program_id': PROGRAM_ID},
             'attributes': []
         })
 
-    def set_credential_status_awarded(self, data):
+    def _set_credential_status_awarded(self, data):
         data['status'] = 'awarded'
         self.credential_api_client.user_credentials(data['id']).patch(data)
 
-
-    def set_credential_status_revoked(self, data):
+    def _set_credential_status_revoked(self, data):
         data['status'] = 'revoked'
         self.credential_api_client.user_credentials(data['id']).patch(data)
 
