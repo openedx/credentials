@@ -51,4 +51,7 @@ class LMSDashboardPage(LMSPage):
         return self._build_url('dashboard')
 
     def is_browser_on_page(self):
-        return self.browser.title.startswith('Dashboard')
+        return self.q(css='#my-courses').present
+
+    def credential_available(self):
+        return self.q(css=".wrapper-xseries-certificates").present
