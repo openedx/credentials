@@ -29,6 +29,7 @@ help:
 	@echo "  start-devstack             run a local development copy of the server"
 	@echo "  open-devstack              open a shell on the server started by start-devstack"
 	@echo "  pkg-devstack               build the credentials image from the latest configuration and code"
+	@echo "  make accept                run acceptance tests                           		'
 	@echo ""
 
 clean:
@@ -105,3 +106,6 @@ open-devstack:
 
 pkg-devstack:
 	docker build -t credentials:latest -f docker/build/credentials/Dockerfile git://github.com/edx/configuration
+
+accept:
+	nosetests --with-ignore-docstrings -v acceptance_tests
