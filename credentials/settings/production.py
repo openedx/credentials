@@ -15,6 +15,10 @@ LOGGING = get_logger_config()
 # AMAZON S3 STORAGE CONFIGURATION
 # See: https://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html#settings
 
+# This may be overridden by the yaml in CREDENTIALS_CFG, but it should
+# be here as a default.
+FILE_STORAGE_BACKEND = {}
+
 CONFIG_FILE = get_env_setting('CREDENTIALS_CFG')
 with open(CONFIG_FILE) as f:
     config_from_yaml = yaml.load(f)
