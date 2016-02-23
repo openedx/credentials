@@ -48,7 +48,7 @@ requirements: requirements.js
 	pip install -qr requirements/local.txt --exists-action w
 
 prod-requirements:
-	pip install -qr requirements.txt --exists-action w
+	pip install -qr requirements/production.txt --exists-action w
 
 test: clean
 	coverage run ./manage.py test credentials --settings=credentials.settings.test
