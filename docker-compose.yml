@@ -11,7 +11,7 @@ memcache:
 
 credentials:
   # Uncomment this line to use the official credentials base image
-  image: credentials:v1
+  image: credentials:latest
 
   # Uncomment the next two lines to build from a local configuration repo
   #build: ../configuration
