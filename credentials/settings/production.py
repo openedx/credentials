@@ -27,6 +27,9 @@ with open(CONFIG_FILE) as f:
     # Load the files storage backend settings for django storages
     vars().update(FILE_STORAGE_BACKEND)
 
+# COMPRESS_URL and COMPRESS_ROOT default to STATIC_URL and STATIC_ROOT
+COMPRESS_STORAGE = STATICFILES_STORAGE
+
 DB_OVERRIDES = dict(
     PASSWORD=environ.get('DB_MIGRATION_PASS', DATABASES['default']['PASSWORD']),
     ENGINE=environ.get('DB_MIGRATION_ENGINE', DATABASES['default']['ENGINE']),
