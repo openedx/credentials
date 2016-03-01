@@ -273,7 +273,7 @@ JWT_AUTH = {
     'JWT_ISSUER': None,
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': lambda d: d.get('preferred_username'),
     'JWT_AUDIENCE': None,
-    'JWT_LEEWAY': 1,
+    'JWT_LEEWAY': 10,
     'JWT_DECODE_HANDLER': 'credentials.apps.api.jwt_decode_handler.decode',
 }
 
