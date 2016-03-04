@@ -3,7 +3,7 @@ import abc
 from bok_choy.page_object import PageObject
 from bok_choy.promise import EmptyPromise
 
-from acceptance_tests.config import CREDENTIALS_API_URL, LMS_ROOT_URL
+from acceptance_tests.config import BASIC_AUTH_PASSWORD, BASIC_AUTH_USERNAME, CREDENTIALS_API_URL, LMS_ROOT_URL
 
 
 class CredentialsDRFPage(PageObject):  # pylint: disable=abstract-method
@@ -31,7 +31,12 @@ class LMSPage(PageObject):  # pylint: disable=abstract-method
     __metaclass__ = abc.ABCMeta
 
     def _build_url(self, path):
-        return '{}/{}'.format(LMS_ROOT_URL, path)
+        url = '{}/{}'.format(LMS_ROOT_URL, path)
+
+        if BASIC_AUTH_USERNAME and BASIC_AUTH_PASSWORD:
+            url = url.replace('://', '://{}:{}@'.format(BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD))
+
+        return url
 
     def _is_browser_on_lms_dashboard(self):
         return self.browser.title.startswith('Dashboard')
