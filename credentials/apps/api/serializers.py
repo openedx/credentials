@@ -25,16 +25,18 @@ class CredentialField(serializers.Field):
         try:
             if 'program_id' in data and data.get('program_id'):
                 credential_id = data['program_id']
-                return ProgramCertificate.objects.get(program_id=data['program_id'])
+                return ProgramCertificate.objects.get(program_id=data['program_id'], is_active=True)
             elif 'course_id' in data and data.get('course_id') and data.get('certificate_type'):
                 credential_id = data['course_id']
                 return CourseCertificate.objects.get(
                     course_id=data['course_id'],
-                    certificate_type=data['certificate_type'])
+                    certificate_type=data['certificate_type'],
+                    is_active=True
+                )
             else:
                 raise ValidationError("Credential ID is missing.")
         except ObjectDoesNotExist as ex:
-            logger.exception("Credential ID [%s] for [%s]", credential_id, ex.message)
+            logger.exception("Credential ID [%s] for %s", credential_id, ex.message)
             raise ValidationError(ex.message)
 
     def to_representation(self, value):

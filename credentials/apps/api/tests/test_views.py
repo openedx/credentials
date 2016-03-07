@@ -313,7 +313,7 @@ class UserCredentialViewSetTests(APITestCase):
             ]
         }
 
-        msg = "Credential ID [{cred_id}] for [ProgramCertificate matching query does not exist.]".format(
+        msg = "Credential ID [{cred_id}] for ProgramCertificate matching query does not exist.".format(
             cred_id=cred_id
         )
 
@@ -405,6 +405,33 @@ class UserCredentialViewSetTests(APITestCase):
 
         actual_attributes = [{"name": attr.name, "value": attr.value} for attr in user_credential[0].attributes.all()]
         self.assertEqual(actual_attributes, expected_attrs)
+
+    def test_create_with_in_active_program_certificate(self):
+        """ Verify the endpoint throws error if Program is inactive. """
+        program_certificate = factories.ProgramCertificateFactory(is_active=False)
+        data = {
+            "username": self.username,
+            "credential": {
+                "program_id": program_certificate.program_id
+            },
+            "attributes": [
+                {
+                    "name": self.user_credential_attribute.name,
+                    "value": self.user_credential_attribute.value
+                },
+            ]
+        }
+
+        msg = "Credential ID [{cred_id}] for ProgramCertificate matching query does not exist.".format(
+            cred_id=program_certificate.program_id
+        )
+
+        # Verify log is captured.
+        with LogCapture(LOGGER_NAME_SERIALIZER) as l:
+            response = self._attempt_create_user_credentials(data)
+            l.check((LOGGER_NAME_SERIALIZER, 'ERROR', msg))
+
+        self.assertEqual(response.status_code, 400)
 
     def test_users_lists_access_by_authenticated_users(self):
         """ Verify the list endpoint can be access by authenticated users only."""
