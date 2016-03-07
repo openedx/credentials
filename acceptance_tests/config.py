@@ -48,6 +48,9 @@ LMS_USERNAME = os.environ.get('LMS_USERNAME')
 LMS_EMAIL = os.environ.get('LMS_EMAIL')
 LMS_PASSWORD = os.environ.get('LMS_PASSWORD')
 
+BASIC_AUTH_USERNAME = os.environ.get('BASIC_AUTH_USERNAME')
+BASIC_AUTH_PASSWORD = os.environ.get('BASIC_AUTH_PASSWORD')
+
 if ENABLE_OAUTH2_TESTS and not (LMS_ROOT_URL and LMS_USERNAME and LMS_PASSWORD):
     raise RuntimeError('Configuring LMS settings is required to run OAuth2 tests.')
 # END LMS CONFIGURATION
