@@ -2,12 +2,14 @@
 Tests for credentials rendering views.
 """
 from __future__ import unicode_literals
+import urllib
 import uuid
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from mock import patch
+from waffle.models import Switch
 
 from credentials.apps.api.tests import factories
 from credentials.apps.credentials.models import Signatory, UserCredential
@@ -23,7 +25,9 @@ class RenderCredentialPageTests(TestCase):
         self.program_certificate = factories.ProgramCertificateFactory.create(template=None)
         self.site = self.program_certificate.site
         self.signatory_1 = Signatory.objects.create(name='Signatory 1', title='Manager', image='images/signatory_1.png')
-        self.signatory_2 = Signatory.objects.create(name='Signatory 1', title='Manager', image='images/signatory_1.png')
+        self.signatory_2 = Signatory.objects.create(
+            name='Signatory 2', title='director', image='images/signatory_2.png?x-amz-security'
+        )
         self.program_certificate.signatories.add(self.signatory_1, self.signatory_2)
         self.user_credential = factories.UserCredentialFactory.create(
             credential=self.program_certificate
@@ -71,6 +75,10 @@ class RenderCredentialPageTests(TestCase):
         self._assert_user_credential_template_data(response, self.user_credential, certificate_title=certificate_title)
         self._assert_signatory_data(response, self.signatory_1)
         self._assert_signatory_data(response, self.signatory_2)
+
+        # if waffle switch is not enabled the whole url will appear in response.
+        self.assertContains(response, self.signatory_2.image.url)
+        self.assertContains(response, 'x-amz-security')
 
     def test_get_cert_with_revoked_status(self):
         """ Verify that the view returns 404 when the uuid is valid but certificate status
@@ -149,7 +157,7 @@ class RenderCredentialPageTests(TestCase):
         """ DRY method to check signatory data."""
         self.assertContains(response, signatory.name)
         self.assertContains(response, signatory.title)
-        self.assertContains(response, signatory.image)
+        self.assertContains(response, signatory.image.url)
 
     def test_get_programs_data(self):
         """ Verify the method parses the programs data correctly. """
@@ -178,3 +186,19 @@ class RenderCredentialPageTests(TestCase):
         self._assert_user_credential_template_data(response, self.user_credential, certificate_title='Test Program A')
         self.assertNotContains(response, self.signatory_1.name)
         self.assertNotContains(response, self.signatory_2.name)
+
+    def test_get_cert_with_awarded_status_with_waffle_switch(self):
+        """ Verify that if the waffle switch is enabled then images are parsed
+         with template tag.
+         """
+        Switch.objects.get_or_create(name='strip_image_querystrings', defaults={'active': True})
+        response = self._render_user_credential()
+
+        self.assertEqual(response.status_code, 200)
+        self._assert_user_credential_template_data(response, self.user_credential, certificate_title='Test Program A')
+        self._assert_signatory_data(response, self.signatory_1)
+
+        self.assertContains(response, self.signatory_2.name)
+        self.assertContains(response, self.signatory_2.title)
+        self.assertContains(response, urllib.unquote(self.signatory_2.image.url).split('?')[0])
+        self.assertNotContains(response, 'x-amz-security')
