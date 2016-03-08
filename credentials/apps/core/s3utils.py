@@ -9,10 +9,10 @@ from storages.backends.s3boto import S3BotoStorage
 
 MediaS3BotoStorage = partial(
     S3BotoStorage,
-    location=settings.MEDIA_ROOT.strip('/'),
+    location=settings.MEDIA_ROOT.strip('/')
 )
 
 StaticS3BotoStorage = partial(
     S3BotoStorage,
-    location=settings.STATIC_ROOT.strip('/'),
+    location=settings.STATIC_ROOT.strip('/')
 )

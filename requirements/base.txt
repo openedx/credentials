@@ -1,6 +1,3 @@
-# Workaround for https://github.com/boto/boto/issues/1477
-git+https://github.com/leonsim/boto.git@49b7a6e6a86f4192e7cc429cf23c427e34f36921#egg=boto==49b7a6e6a86f4192e7cc429cf23c427e34f36921
-
 django==1.8.10
 django-compressor==1.6
 django-extensions==1.6.1
