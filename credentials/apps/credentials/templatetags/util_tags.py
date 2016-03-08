@@ -10,7 +10,7 @@ register = template.Library()
 
 
 @register.filter(name='strip_querystrings')
-def strip_querystrings(value):
+def strip_querystrings(url):
     """ Helper method to remove querystrings from the provided url.
 
     If url has querystring params than split it and return the first part.
@@ -20,5 +20,5 @@ def strip_querystrings(value):
     """
 
     # value is coming with url-encoding and "?" is appearing as %3F.
-    value = urllib.unquote(value)
-    return value.split('?')[0] if '?' in value else value
+    url = urllib.unquote(url)
+    return url.split('?')[0] if '?' in url else url
