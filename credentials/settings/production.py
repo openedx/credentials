@@ -28,15 +28,6 @@ with open(CONFIG_FILE) as f:
     # Load the files storage backend settings for django storages
     vars().update(FILE_STORAGE_BACKEND)
 
-try:
-    # STATICFILES_STORAGE will be defined when using a remote storage backend (e.g., Amazon S3).
-    # If this is the case, ensure django-compressor uses the same storage backend. COMPRESS_URL
-    # and COMPRESS_ROOT default to STATIC_URL and STATIC_ROOT.
-    COMPRESS_STORAGE = STATICFILES_STORAGE
-except NameError:
-    msg = 'STATICFILES_STORAGE is undefined. Falling back to the default value of COMPRESS_STORAGE.'
-    warnings.warn(msg, RuntimeWarning)
-
 DB_OVERRIDES = dict(
     PASSWORD=environ.get('DB_MIGRATION_PASS', DATABASES['default']['PASSWORD']),
     ENGINE=environ.get('DB_MIGRATION_ENGINE', DATABASES['default']['ENGINE']),
