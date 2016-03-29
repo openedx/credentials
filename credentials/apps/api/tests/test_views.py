@@ -406,6 +406,13 @@ class UserCredentialViewSetTests(APITestCase):
         actual_attributes = [{"name": attr.name, "value": attr.value} for attr in user_credential[0].attributes.all()]
         self.assertEqual(actual_attributes, expected_attrs)
 
+    def test_users_lists_access_by_authenticated_users(self):
+        """ Verify the list endpoint can be access by authenticated users only."""
+        # logout the user
+        self.client.logout()
+        response = self.client.get(self.list_path, data={'username': self.user_credential.username})
+        self.assertEqual(response.status_code, 401)
+
 
 class CredentialViewSetTests(APITestCase):
     """ Base Class for ProgramCredentialViewSetTests and CourseCredentialViewSetTests. """

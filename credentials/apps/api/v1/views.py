@@ -5,7 +5,7 @@ import logging
 
 from rest_framework import filters, mixins, viewsets
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
+from rest_framework.permissions import DjangoModelPermissions
 from credentials.apps.api.filters import ProgramFilter, CourseFilter
 
 from credentials.apps.api.serializers import UserCredentialCreationSerializer, UserCredentialSerializer
@@ -22,7 +22,7 @@ class UserCredentialViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('username', 'status')
     serializer_class = UserCredentialSerializer
-    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
+    permission_classes = (DjangoModelPermissions,)
 
     def list(self, request, *args, **kwargs):
         if not self.request.query_params.get('username'):
