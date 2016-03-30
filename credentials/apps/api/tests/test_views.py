@@ -5,13 +5,14 @@ from __future__ import unicode_literals
 import json
 
 import ddt
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Group, Permission
 from django.core.urlresolvers import reverse
 from rest_framework.test import APITestCase, APIRequestFactory
 from testfixtures import LogCapture
 
 from credentials.apps.api.serializers import UserCredentialSerializer
 from credentials.apps.api.tests import factories
+from credentials.apps.core.constants import Role
 from credentials.apps.credentials.models import UserCredential
 
 
@@ -40,6 +41,11 @@ class UserCredentialViewSetTests(APITestCase):
         self.username = "test_user"
         self.request = APIRequestFactory().get('/')
 
+    def _add_permission(self, perm):
+        """ DRY helper to add usercredential model permissions to self.user """
+        # pylint: disable=no-member
+        self.user.user_permissions.add(Permission.objects.get(codename='{}_usercredential'.format(perm)))
+
     def _attempt_update_user_credential(self, data):
         """ Helper method that attempts to patch an existing credential object.
 
@@ -50,13 +56,13 @@ class UserCredentialViewSetTests(APITestCase):
           Response: HTTP response from the API.
         """
         # pylint: disable=no-member
-        self.user.user_permissions.add(Permission.objects.get(codename="change_usercredential"))
+        self._add_permission('change')
         path = reverse("api:v1:usercredential-detail", args=[self.user_credential.id])
         return self.client.patch(path=path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
 
     def test_get(self):
         """ Verify a single user credential is returned. """
-
+        self._add_permission('view')
         path = reverse("api:v1:usercredential-detail", args=[self.user_credential.id])
         response = self.client.get(path)
         self.assertEqual(response.status_code, 200)
@@ -115,7 +121,7 @@ class UserCredentialViewSetTests(APITestCase):
           Response: HTTP response from the API.
         """
         # pylint: disable=no-member
-        self.user.user_permissions.add(Permission.objects.get(codename="add_usercredential"))
+        self._add_permission('add')
         path = self.list_path
         return self.client.post(path=path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
 
@@ -268,6 +274,7 @@ class UserCredentialViewSetTests(APITestCase):
 
     def test_list_with_username_filter(self):
         """ Verify the list endpoint supports filter data by username."""
+        self._add_permission('view')
         factories.UserCredentialFactory(username="dummy-user")
         response = self.client.get(self.list_path, data={'username': self.user_credential.username})
         self.assertEqual(response.status_code, 200)
@@ -281,6 +288,7 @@ class UserCredentialViewSetTests(APITestCase):
 
     def test_list_with_status_filter(self):
         """ Verify the list endpoint supports filtering by status."""
+        self._add_permission('view')
         factories.UserCredentialFactory.create_batch(2, status="revoked", username=self.user_credential.username)
         response = self.client.get(self.list_path, data={'status': self.user_credential.status})
         self.assertEqual(response.status_code, 400)
@@ -441,6 +449,122 @@ class UserCredentialViewSetTests(APITestCase):
         self.assertEqual(response.status_code, 401)
 
 
+@ddt.ddt
+class UserCredentialViewSetPermissionsTests(APITestCase):
+    """
+    Thoroughly exercise the custom view- and object-level permissions for this viewset.
+    """
+
+    def make_user(self, group=None, perm=None, **kwargs):
+        """ DRY helper to create users with specific groups and/or permissions. """
+        # pylint: disable=no-member
+        user = factories.UserFactory(**kwargs)
+        if group:
+            user.groups.add(Group.objects.get(name=group))
+        if perm:
+            user.user_permissions.add(Permission.objects.get(codename='{}_usercredential'.format(perm)))
+        return user
+
+    @ddt.data(
+        ({'group': Role.ADMINS}, 200),
+        ({'perm': 'view'}, 200),
+        ({'perm': 'add'}, 404),
+        ({'perm': 'change'}, 404),
+        ({'username': 'test-user'}, 200),
+        ({'username': 'TeSt-uSeR'}, 200),
+        ({'username': 'other'}, 404),
+    )
+    @ddt.unpack
+    def test_list(self, user_kwargs, expected_status):
+        """
+        The list method (GET) requires either 'view' permission, or for the
+        'username' query parameter to match that of the requesting user.
+        """
+        list_path = reverse("api:v1:usercredential-list")
+
+        self.client.force_authenticate(self.make_user(**user_kwargs))  # pylint: disable=no-member
+        response = self.client.get(list_path, {'username': 'test-user'})
+        self.assertEqual(response.status_code, expected_status)
+
+    @ddt.data(
+        ({'group': Role.ADMINS}, 201),
+        ({'perm': 'add'}, 201),
+        ({'perm': 'view'}, 403),
+        ({'perm': 'change'}, 403),
+        ({}, 403),
+        ({'username': 'test-user'}, 403),
+    )
+    @ddt.unpack
+    def test_create(self, user_kwargs, expected_status):
+        """
+        The creation (POST) method requires the 'add' permission.
+        """
+        list_path = reverse('api:v1:usercredential-list')
+        program_certificate = factories.ProgramCertificateFactory()
+        post_data = {
+            'username': 'test-user',
+            'credential': {
+                'program_id': program_certificate.program_id
+            },
+            'attributes': [],
+        }
+
+        self.client.force_authenticate(self.make_user(**user_kwargs))  # pylint: disable=no-member
+        response = self.client.post(list_path, data=json.dumps(post_data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, expected_status)
+
+    @ddt.data(
+        ({'group': Role.ADMINS}, 200),
+        ({'perm': 'view'}, 200),
+        ({'perm': 'add'}, 404),
+        ({'perm': 'change'}, 404),
+        ({'username': 'test-user'}, 200),
+        ({'username': 'TeSt-uSeR'}, 200),
+        ({'username': 'other-user'}, 404),
+    )
+    @ddt.unpack
+    def test_retrieve(self, user_kwargs, expected_status):
+        """
+        The retrieve (GET) method requires the 'view' permission, or for the
+        requested object to be associated with the username of the requesting
+        user.
+        """
+        program_cert = factories.ProgramCertificateFactory()
+        user_credential = factories.UserCredentialFactory.create(credential=program_cert, username='test-user')
+        detail_path = reverse("api:v1:usercredential-detail", args=[user_credential.id])
+
+        self.client.force_authenticate(self.make_user(**user_kwargs))  # pylint: disable=no-member
+        response = self.client.get(detail_path)
+        self.assertEqual(response.status_code, expected_status)
+
+    @ddt.data(
+        ({'group': Role.ADMINS}, 200),
+        ({'perm': 'view'}, 403),
+        ({'perm': 'add'}, 403),
+        ({'perm': 'change'}, 200),
+        ({'username': 'test-user'}, 403),
+        ({}, 403),
+    )
+    @ddt.unpack
+    def test_partial_update(self, user_kwargs, expected_status):
+        """
+        The partial update (PATCH) method requires the 'change' permission.
+        """
+        program_cert = factories.ProgramCertificateFactory()
+        user_credential = factories.UserCredentialFactory.create(credential=program_cert, username='test-user')
+        detail_path = reverse("api:v1:usercredential-detail", args=[user_credential.id])
+        post_data = {
+            'username': 'test-user',
+            'credential': {
+                'program_id': program_cert.program_id
+            },
+            'attributes': [{'name': 'dummy-attr-name', 'value': 'dummy-attr-value'}],
+        }
+        self.client.force_authenticate(self.make_user(**user_kwargs))  # pylint: disable=no-member
+        response = self.client.patch(path=detail_path, data=json.dumps(post_data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, expected_status)
+
+
 class CredentialViewSetTests(APITestCase):
     """ Base Class for ProgramCredentialViewSetTests and CourseCredentialViewSetTests. """
 
@@ -450,9 +574,20 @@ class CredentialViewSetTests(APITestCase):
     def setUp(self):
         super(CredentialViewSetTests, self).setUp()
 
+        # pylint: disable=no-member
         self.user = factories.UserFactory()
+        self.user.groups.add(Group.objects.get(name=Role.ADMINS))
         self.client.force_authenticate(self.user)  # pylint: disable=no-member
         self.request = APIRequestFactory().get('/')
+
+    def assert_permission_required(self, data):
+        """
+        Ensure access to these APIs is restricted to those with explicit model
+        permissions.
+        """
+        self.client.force_authenticate(user=factories.UserFactory())  # pylint: disable=no-member
+        response = self.client.get(self.list_path, data)
+        self.assertEqual(response.status_code, 403)
 
     def assert_list_without_id_filter(self, path, expected):
         """Helper method used for making request and assertions. """
@@ -508,6 +643,10 @@ class ProgramCredentialViewSetTests(CredentialViewSetTests):
         factories.UserCredentialFactory.create_batch(2, status="revoked", username=self.user_credential.username)
         self.assert_list_with_status_filter(data={'program_id': self.program_id, 'status': UserCredential.AWARDED}, )
 
+    def test_permission_required(self):
+        """ Verify that requests require explicit model permissions. """
+        self.assert_permission_required({'program_id': self.program_id, 'status': UserCredential.AWARDED})
+
 
 class CourseCredentialViewSetTests(CredentialViewSetTests):
     """ Tests for CourseCredentialViewSetTests. """
@@ -555,3 +694,7 @@ class CourseCredentialViewSetTests(CredentialViewSetTests):
             json.loads(response.content),
             {'count': 1, 'next': None, 'previous': None, 'results': [expected]}
         )
+
+    def test_permission_required(self):
+        """ Verify that requests require explicit model permissions. """
+        self.assert_permission_required({'course_id': self.course_id, 'status': UserCredential.AWARDED})

@@ -3,6 +3,7 @@
 
 bok-choy==0.4.10
 coverage==4.0.3
+ddt==1.0.1
 django-dynamic-fixture==1.8.5
 django-nose==1.4.2
 edx-lint==0.4.0

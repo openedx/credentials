@@ -3,11 +3,12 @@ Credentials service API views (v1).
 """
 import logging
 
-from rest_framework import filters, mixins, viewsets
+from django.http import Http404
+from rest_framework import mixins, viewsets
 from rest_framework.exceptions import ValidationError
-from rest_framework.permissions import DjangoModelPermissions
 from credentials.apps.api.filters import ProgramFilter, CourseFilter
 
+from credentials.apps.api.permissions import UserCredentialViewSetPermissions
 from credentials.apps.api.serializers import UserCredentialCreationSerializer, UserCredentialSerializer
 from credentials.apps.credentials.models import UserCredential
 
@@ -19,15 +20,21 @@ class UserCredentialViewSet(viewsets.ModelViewSet):
     """ UserCredentials endpoints. """
 
     queryset = UserCredential.objects.all()
-    filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('username', 'status')
     serializer_class = UserCredentialSerializer
-    permission_classes = (DjangoModelPermissions,)
+    permission_classes = (UserCredentialViewSetPermissions,)
 
     def list(self, request, *args, **kwargs):
-        if not self.request.query_params.get('username'):
+        if not request.query_params.get('username'):
             raise ValidationError(
                 {'error': 'A username query string parameter is required for filtering user credentials.'})
+
+        # provide an additional permission check related to the username
+        # query string parameter.  See also `UserCredentialViewSetPermissions`
+        if not request.user.has_perm('credentials.view_usercredential') and (
+                request.user.username.lower() != request.query_params['username'].lower()
+        ):
+            raise Http404
 
         return super(UserCredentialViewSet, self).list(request, *args, **kwargs)  # pylint: disable=maybe-no-member
 
@@ -39,7 +46,6 @@ class UserCredentialViewSet(viewsets.ModelViewSet):
 class ProgramsCredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """It will return the all credentials for programs."""
     queryset = UserCredential.objects.all()
-    filter_backends = (filters.DjangoFilterBackend,)
     filter_class = ProgramFilter
     serializer_class = UserCredentialSerializer
 
@@ -55,7 +61,6 @@ class ProgramsCredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet)
 class CourseCredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """It will return the all credentials for courses."""
     queryset = UserCredential.objects.all()
-    filter_backends = (filters.DjangoFilterBackend,)
     filter_class = CourseFilter
     serializer_class = UserCredentialSerializer
 
