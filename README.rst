@@ -18,6 +18,8 @@ Overview
 
 Credentials is edX's replacement for the ``certificates`` in ``edx-platform``. This extensible credentials system will allow the learners to get certificates for Programs (XSeries) along with the existing ``certificates`` functionality.
 
+A more detailed architecture overview is included `here <overview.rst>`_.
+
 
 Documentation |ReadtheDocs|_
 ----------------------------
