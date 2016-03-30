@@ -112,13 +112,13 @@ class RenderCredentialPageTests(TestCase):
         self.assertContains(response, issued_date)
 
         # test organization related data.
-        self.assertContains(response, 'Test Organization')
+        self.assertContains(response, 'test-org')
         self.assertContains(response, 'http://testserver/media/organization_logos/test_org_logo.png')
 
         # test programs data
         self.assertContains(
             response,
-            'a series of 2 courses offered by Test Organization through {platform_name}'.format(
+            'a series of 2 courses offered by test-org through {platform_name}'.format(
                 platform_name=settings.PLATFORM_NAME)
         )
         self.assertContains(response, certificate_title)
