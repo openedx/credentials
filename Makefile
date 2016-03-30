@@ -40,6 +40,7 @@ clean_static:
 	rm -rf credentials/assets/ credentials/static/build
 
 requirements.js:
+	npm cache clean
 	npm install
 	$(NODE_BIN)/bower install
 
