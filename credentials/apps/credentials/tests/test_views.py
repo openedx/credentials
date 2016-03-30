@@ -4,12 +4,12 @@ Tests for credentials rendering views.
 from __future__ import unicode_literals
 import uuid
 
-from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from mock import patch
 
 from credentials.apps.api.tests import factories
+from credentials.apps.api.tests.factories import SiteFactory
 from credentials.apps.credentials.models import Signatory, UserCredential
 from credentials.apps.credentials.tests.mixins import OrganizationsDataMixin, ProgramsDataMixin, UserDataMixin
 from credentials.apps.credentials.views import RenderCredential
@@ -20,8 +20,8 @@ class RenderCredentialPageTests(TestCase):
 
     def setUp(self):
         super(RenderCredentialPageTests, self).setUp()
-        self.program_certificate = factories.ProgramCertificateFactory.create(template=None)
-        self.site = self.program_certificate.site
+        self.site = SiteFactory(domain='https://example.org', name='example')
+        self.program_certificate = factories.ProgramCertificateFactory.create(template=None, site=self.site)
         self.signatory_1 = Signatory.objects.create(name='Signatory 1', title='Manager', image='images/signatory_1.png')
         self.signatory_2 = Signatory.objects.create(name='Signatory 1', title='Manager', image='images/signatory_1.png')
         self.program_certificate.signatories.add(self.signatory_1, self.signatory_2)
@@ -118,15 +118,15 @@ class RenderCredentialPageTests(TestCase):
         # test programs data
         self.assertContains(
             response,
-            'a series of 2 courses offered by test-org through {platform_name}'.format(
-                platform_name=settings.PLATFORM_NAME)
+            'a series of 2 courses offered by test-org through {site_name}'.format(
+                site_name=self.site.name)
         )
         self.assertContains(response, certificate_title)
 
         # test html strings are appearing on page.
         self.assertContains(
             response,
-            'XSeries Certificate | {platform_name}'.format(platform_name=self.site.name)
+            'XSeries Certificate | {site_name}'.format(site_name=self.site.name)
         )
         self._assert_html_data(response)
 
@@ -139,8 +139,8 @@ class RenderCredentialPageTests(TestCase):
         self.assertContains(response, 'offers interactive online classes and MOOCs from the')
         self.assertContains(
             response,
-            'An {platform_name} XSeries certificate signifies that the learner has'.format(
-                platform_name=settings.PLATFORM_NAME
+            'An {site_name} XSeries certificate signifies that the learner has'.format(
+                site_name=self.site.name
             )
         )
         self.assertContains(response, 'All rights reserved except where noted. edX')
