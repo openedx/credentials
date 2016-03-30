@@ -38,6 +38,7 @@ class ProgramCertificateFactory(SiteCertificateTemplateBaseFactory):
         model = models.ProgramCertificate
 
     program_id = factory.Sequence(int)
+    is_active = True
 
 
 class CourseCertificateFactory(SiteCertificateTemplateBaseFactory):
@@ -46,6 +47,7 @@ class CourseCertificateFactory(SiteCertificateTemplateBaseFactory):
 
     course_id = factory.Sequence(lambda o: 'course-%d' % o)
     certificate_type = constants.CertificateType.HONOR
+    is_active = True
 
 
 class UserCredentialFactory(factory.django.DjangoModelFactory):

@@ -144,6 +144,14 @@ class CredentialFieldTests(TestCase):
         with self.assertRaisesRegexp(ValidationError, "ProgramCertificate matching query does not exist."):
             self.field_instance.to_internal_value({"program_id": 404})
 
+    def test_to_internal_value_with_in_active_program_credential(self,):
+        """Verify that it will return error message if program is not active in db."""
+        self.program_cert.is_active = False
+        self.program_cert.save()
+
+        with self.assertRaisesRegexp(ValidationError, "ProgramCertificate matching query does not exist."):
+            self.field_instance.to_internal_value({"program_id": 404})
+
     def test_to_internal_value_with_invalid_course_credential(self):
         """Verify that it will return error message if course-id does not exist in db."""
 
