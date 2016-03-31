@@ -88,6 +88,10 @@ class Signatory(TimeStampedModel):
     """
     name = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
+    organization_name_override = models.CharField(
+        max_length=255, null=True, blank=True,
+        help_text=_('Signatory organization name if its different from issuing organization.')
+    )
     image = models.ImageField(
         help_text=_(
             'Image must be square PNG files. The file size should be under 250KB.'

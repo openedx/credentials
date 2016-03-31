@@ -23,7 +23,7 @@ class RenderCredentialPageTests(TestCase):
         self.program_certificate = factories.ProgramCertificateFactory.create(template=None)
         self.site = self.program_certificate.site
         self.signatory_1 = Signatory.objects.create(name='Signatory 1', title='Manager', image='images/signatory_1.png')
-        self.signatory_2 = Signatory.objects.create(name='Signatory 1', title='Manager', image='images/signatory_1.png')
+        self.signatory_2 = Signatory.objects.create(name='Signatory 2', title='Doctor', image='images/signatory_2.png')
         self.program_certificate.signatories.add(self.signatory_1, self.signatory_2)
         self.user_credential = factories.UserCredentialFactory.create(
             credential=self.program_certificate
@@ -178,3 +178,14 @@ class RenderCredentialPageTests(TestCase):
         self._assert_user_credential_template_data(response, self.user_credential, certificate_title='Test Program A')
         self.assertNotContains(response, self.signatory_1.name)
         self.assertNotContains(response, self.signatory_2.name)
+
+    def test_signatory_organization_name_override(self):
+        """ Verify that the view response contain signatory organization name
+         if signatory have organization."""
+        self.signatory_1.organization_name_override = 'edx'
+        self.signatory_1.save()
+        response = self._render_user_credential()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.signatory_1.organization_name_override)
+        self.assertNotContains(response, self.signatory_2.organization_name_override)
