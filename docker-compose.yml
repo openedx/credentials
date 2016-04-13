@@ -1,25 +1,37 @@
-db:
-  image: mysql:5.6
-  container_name: db
-  environment:
-    MYSQL_ROOT_PASSWORD: ""
-    MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+version: "2"
 
-memcache:
-  image: memcached:1.4.24
-  container_name: memcache
+services:
+  db:
+    image: mysql:5.6
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_USER: "credentials001"
+      MYSQL_PASSWORD: "password"
+      MYSQL_DATABASE: "credentials"
+    ports:
+      - "3306:3306"
 
-credentials:
-  # Uncomment this line to use the official credentials base image
-  image: credentials:v1
+  memcache:
+    image: memcached:1.4.24
+    container_name: memcache
 
-  # Uncomment the next two lines to build from a local configuration repo
-  #build: ../configuration
-  #dockerfile: docker/build/credentials/Dockerfile
+  credentials:
+    # Uncomment this line to use the official credentials base image
+    image: edxops/credentials:latest
 
-  container_name: credentials
-  volumes:
-    - .:/edx/app/credentials/credentials
-  command: /edx/app/credentials/devstack.sh start
-  ports:
-    - "8150:8150" # TODO: change this to your port
+    # Uncomment the next two lines to build from a local configuration repo
+    #build: ../configuration
+    #dockerfile: docker/build/credentials/Dockerfile
+
+    container_name: credentials
+    volumes:
+      - .:/edx/app/credentials/credentials
+    command: /edx/app/credentials/devstack.sh start
+    depends_on:
+      - "db"
+      - "memcache"
+    ports:
+      - "8150:8150"
+      - "18150:18150"
