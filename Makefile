@@ -95,10 +95,11 @@ push_translations:
 	tx push -s
 
 start-devstack:
-	docker-compose --x-networking up
+	docker-compose up
 
 open-devstack:
-	docker exec -it credentials /edx/app/credentials/devstack.sh open
+	docker-compose up -d
+	docker exec -it credentials env TERM=$(TERM) /edx/app/credentials/devstack.sh open
 
 pkg-devstack:
 	docker build -t credentials:latest -f docker/build/credentials/Dockerfile git://github.com/edx/configuration
