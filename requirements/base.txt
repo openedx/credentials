@@ -15,7 +15,7 @@ edx-rest-api-client==1.4.0
 # The package django-libsass requires libsass and the newest version of libsass '0.10.1'
 # gives validation error on importing scss variables in scss files
 libsass==0.10.0
-Pillow==3.0.0
+Pillow==3.1.1
 python-memcached==1.57
 # Remove once https://github.com/omab/python-social-auth/pull/897 is merged/released.
 python-social-auth==0.2.14
