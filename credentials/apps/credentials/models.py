@@ -233,6 +233,12 @@ class ProgramCertificate(AbstractCertificate):
         object_id_field='credential_id',
         related_query_name='program_credentials'
     )
+    use_org_name = models.BooleanField(
+        default=False,
+        help_text=_("Display the associated organization's name (e.g. ACME University) "
+                    "instead of its short name (e.g. ACMEx)"),
+        verbose_name=_('Use organization name')
+    )
 
     class Meta(object):
         verbose_name = "Program certificate configuration"

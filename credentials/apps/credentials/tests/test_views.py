@@ -189,3 +189,22 @@ class RenderCredentialPageTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.signatory_1.organization_name_override)
         self.assertNotContains(response, self.signatory_2.organization_name_override)
+
+    def test_issuing_organization_name_override(self):
+        """ Verify that the view response contains organization 'name' instead of 'short_name'
+        if 'use_org_name' is True."""
+        response = self._render_user_credential()
+
+        self.assertEqual(
+            response.context['certificate_context']['organization_name'],
+            OrganizationsDataMixin.ORGANIZATIONS_API_RESPONSE['short_name']
+        )
+
+        self.program_certificate.use_org_name = True
+        self.program_certificate.save()
+        response = self._render_user_credential()
+
+        self.assertEqual(
+            response.context['certificate_context']['organization_name'],
+            OrganizationsDataMixin.ORGANIZATIONS_API_RESPONSE['name']
+        )
