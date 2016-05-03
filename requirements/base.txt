@@ -9,7 +9,7 @@ djangorestframework==3.2.3
 djangorestframework-jwt==1.7.2
 django-rest-swagger==0.3.4
 django-storages==1.1.8
-edx-auth-backends==0.2.1
+edx-auth-backends==0.2.3
 edx-opaque-keys==0.3.1
 edx-rest-api-client==1.4.0
 # The package django-libsass requires libsass and the newest version of libsass '0.10.1'
@@ -17,6 +17,4 @@ edx-rest-api-client==1.4.0
 libsass==0.10.0
 Pillow==3.1.1
 python-memcached==1.57
-# Remove once https://github.com/omab/python-social-auth/pull/897 is merged/released.
-python-social-auth==0.2.14
 pytz==2015.7
