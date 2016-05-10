@@ -119,3 +119,5 @@ The following image shows the ``ProgramCertificate`` model in the Django adminis
 .. image:: _static/images/program_certificate.png
     :width: 600px
     :alt: Populated program certificate model
+
+In ``ProgramCertificate`` if ``Use organization name`` is checked then organization full name will be displayed on the certificate else short name would be displayed.
