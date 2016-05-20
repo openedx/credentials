@@ -35,19 +35,8 @@ class CredentialsApiMixin(object):
 
     @property
     def credential_api_client(self):
-        now = datetime.datetime.utcnow()
-        expires_in = 60
-        payload = {
-            "iss": config.OAUTH_URL,
-            "aud": config.USER_JWT_AUDIENCE,
-            "exp": now + datetime.timedelta(seconds=expires_in),
-            "iat": now,
-            "preferred_username": config.LMS_USERNAME,
-            "administrator": True,
-        }
         try:
-            jwt_data = jwt.encode(payload, config.JWT_SECRET_KEY)
-            api_client = EdxRestApiClient(config.CREDENTIALS_API_URL, jwt=jwt_data)
+            api_client = EdxRestApiClient(config.CREDENTIALS_API_URL, oauth_access_token=config.ACCESS_TOKEN)
         except Exception:  # pylint: disable=broad-except
             log.exception("Failed to initialize the API client with url '%s'.", config.CREDENTIALS_API_URL)
             return

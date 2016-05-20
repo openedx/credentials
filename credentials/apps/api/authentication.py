@@ -4,7 +4,9 @@ Authentication logic for REST API.
 
 import logging
 
+from django.conf import settings
 from django.contrib.auth.models import Group
+from edx_rest_framework_extensions.authentication import BearerAuthentication as BaseBearerAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
@@ -63,3 +65,16 @@ class JwtAuthentication(JSONWebTokenAuthentication):
             user.groups.remove(admin_group)
 
         return user
+
+
+class BearerAuthentication(BaseBearerAuthentication):
+    """
+    Simple token based authentication.
+
+    This authentication class is useful for authenticating an OAuth2 access token against a remote
+    authentication provider. Clients should authenticate by passing the token key in the "Authorization" HTTP header,
+    prepended with the string `"Bearer "`.
+    """
+    def get_user_info_url(self):
+        """ Returns the URL, hosted by the OAuth2 provider, from which user information can be pulled. """
+        return '{base}/user_info/'.format(base=settings.OAUTH2_PROVIDER_URL)
