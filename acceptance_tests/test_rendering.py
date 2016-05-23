@@ -4,7 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from acceptance_tests.mixins import LoginMixin, CredentialsApiMixin
-from acceptance_tests.pages import LMSDashboardPage
+from acceptance_tests.pages import LMSDashboardPage, LMSProgramListingPage
 
 
 class RenderCredentialTests(LoginMixin, WebAppTest, CredentialsApiMixin):
@@ -20,11 +20,15 @@ class RenderCredentialTests(LoginMixin, WebAppTest, CredentialsApiMixin):
         student_dashboard = LMSDashboardPage(self.browser).wait_for_page()
         student_dashboard.is_browser_on_page()
 
-        self.assertTrue(student_dashboard.are_credential_links_present())
+        student_dashboard.go_to_programs_tab()
+        program_listing_page = LMSProgramListingPage(self.browser).wait_for_page()
+        program_listing_page.is_browser_on_page()
 
-        credential_link = student_dashboard.get_credential_link()
+        self.assertTrue(program_listing_page.are_credential_links_present())
 
-        student_dashboard.click_credential_link()
+        credential_link = program_listing_page.get_credential_link()
+
+        program_listing_page.click_credential_link()
         WebDriverWait(self.browser, 10).until(EC.presence_of_element_located((By.ID, 'action-print-view')))
 
         # check the credential hash-id matches with rendered credential page.
@@ -41,4 +45,8 @@ class RenderCredentialTests(LoginMixin, WebAppTest, CredentialsApiMixin):
         student_dashboard = LMSDashboardPage(self.browser).wait_for_page()
         student_dashboard.is_browser_on_page()
 
-        self.assertFalse(student_dashboard.are_credential_links_present())
+        student_dashboard.go_to_programs_tab()
+        program_listing_page = LMSProgramListingPage(self.browser).wait_for_page()
+        program_listing_page.is_browser_on_page()
+
+        self.assertFalse(program_listing_page.are_credential_links_present())

@@ -61,7 +61,6 @@ class LMSLoginPage(LMSPage):
 class LMSDashboardPage(LMSPage):
     def __init__(self, browser):
         super(LMSDashboardPage, self).__init__(browser)
-        self.credential_css_selector = '.wrapper-xseries-certificates'
 
     @property
     def url(self):
@@ -70,11 +69,27 @@ class LMSDashboardPage(LMSPage):
     def is_browser_on_page(self):
         return self.browser.title.startswith('Dashboard')
 
+    def go_to_programs_tab(self):
+        self.q(css='a[href^="/dashboard/programs/"]').click()
+
+
+class LMSProgramListingPage(LMSPage):
+    def __init__(self, browser):
+        super(LMSProgramListingPage, self).__init__(browser)
+        self.credential_css_selector = '.certificate-container'
+
+    @property
+    def url(self):
+        return self._build_url('dashboard/programs')
+
+    def is_browser_on_page(self):
+        return self.browser.title.startswith('Programs')
+
     def are_credential_links_present(self):
         return self.q(css=self.credential_css_selector).present
 
     def click_credential_link(self):
-        self.q(css=self.credential_css_selector + ' ul li a').click()
+        self.q(css=self.credential_css_selector + ' a').click()
 
     def get_credential_link(self):
-        return self.q(css=self.credential_css_selector + ' ul li a').attrs('href')[0]
+        return self.q(css=self.credential_css_selector + ' a').attrs('href')[0]
