@@ -29,14 +29,6 @@ except AttributeError:
 CREDENTIALS_API_URL = os.environ.get('CREDENTIALS_API_URL', CREDENTIALS_ROOT_URL + '/api/v1/')
 PROGRAM_ID = os.environ.get('PROGRAM_ID', 1)
 
-JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
-if JWT_SECRET_KEY is None:
-    raise RuntimeError('A valid JWT_SECRET_KEY is required to run acceptance tests.')
-
-USER_JWT_AUDIENCE = os.environ.get('USER_JWT_AUDIENCE')
-if USER_JWT_AUDIENCE is None:
-    raise RuntimeError('A valid USER_JWT_AUDIENCE is required to run acceptance tests.')
-
 # LMS CONFIGURATION
 try:
     LMS_ROOT_URL = os.environ.get('LMS_ROOT_URL').strip('/')
