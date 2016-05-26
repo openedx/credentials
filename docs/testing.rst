@@ -123,14 +123,6 @@ Our acceptance tests rely on configuration which can be specified using environm
      - URL root for credentials service
      - Yes
      - N/A
-   * - JWT_SECRET_KEY
-     - It should match ``SOCIAL_AUTH_EDX_OIDC_SECRET`` in credentials
-     - Yes
-     - N/A
-   * - USER_JWT_AUDIENCE
-     - It should match ``CREDENTIALS_JWT_AUDIENCE`` in credentials.
-     - Yes
-     - N/A
 
 Running Acceptance Tests
 ************************
@@ -141,8 +133,8 @@ Run all acceptance tests by executing ``make accept``. To run a specific test, e
 
 As discussed above, the acceptance tests rely on configuration which can be specified using environment variables. For example, when running the acceptance tests against local instances of Programs and the LMS, you might run::
 
-    $  CREDENTIALS_ROOT_URL="http://localhost:8150/" LMS_ROOT_URL="http://127.0.0.1:8000" LMS_USERNAME="<username>" LMS_EMAIL="<email address>" LMS_PASSWORD="<password>" JWT_SECRET_KEY="<secret-key>" ACCESS_TOKEN="<access token>" PROGRAM_ID=<program_id> make accept
+    $  CREDENTIALS_ROOT_URL="http://localhost:8150/" LMS_ROOT_URL="http://127.0.0.1:8000" LMS_USERNAME="<username>" LMS_EMAIL="<email address>" LMS_PASSWORD="<password>" ACCESS_TOKEN="<access token>" PROGRAM_ID=<program_id> make accept
 
 When running against a production-like staging environment, you might run::
 
-    $ CREDENTIALS_ROOT_URL="https://credentials.stage.edx.org" LMS_URL_ROOT="https://courses.stage.edx.org" LMS_USERNAME="<username>" LMS_EMAIL="<email address>" LMS_PASSWORD="<password>" JWT_SECRET_KEY="<secret-key>" ACCESS_TOKEN="<access token>" PROGRAM_ID=<program_id> make accept
+    $ CREDENTIALS_ROOT_URL="https://credentials.stage.edx.org" LMS_URL_ROOT="https://courses.stage.edx.org" LMS_USERNAME="<username>" LMS_EMAIL="<email address>" LMS_PASSWORD="<password>" ACCESS_TOKEN="<access token>" PROGRAM_ID=<program_id> make accept
