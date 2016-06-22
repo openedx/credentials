@@ -1,6 +1,7 @@
 """
 Tests for credentials service views.
 """
+# pylint: disable=no-member
 from __future__ import unicode_literals
 import json
 
@@ -31,7 +32,7 @@ class UserCredentialViewSetTests(APITestCase):
         super(UserCredentialViewSetTests, self).setUp()
 
         self.user = factories.UserFactory()
-        self.client.force_authenticate(self.user)  # pylint: disable=no-member
+        self.client.force_authenticate(self.user)
 
         self.program_cert = factories.ProgramCertificateFactory()
         self.program_id = self.program_cert.program_id
@@ -43,7 +44,6 @@ class UserCredentialViewSetTests(APITestCase):
 
     def _add_permission(self, perm):
         """ DRY helper to add usercredential model permissions to self.user """
-        # pylint: disable=no-member
         self.user.user_permissions.add(Permission.objects.get(codename='{}_usercredential'.format(perm)))
 
     def _attempt_update_user_credential(self, data):
@@ -55,7 +55,6 @@ class UserCredentialViewSetTests(APITestCase):
         Returns:
           Response: HTTP response from the API.
         """
-        # pylint: disable=no-member
         self._add_permission('change')
         path = reverse("api:v1:usercredential-detail", args=[self.user_credential.id])
         return self.client.patch(path=path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
@@ -120,7 +119,6 @@ class UserCredentialViewSetTests(APITestCase):
         Returns:
           Response: HTTP response from the API.
         """
-        # pylint: disable=no-member
         self._add_permission('add')
         path = self.list_path
         return self.client.post(path=path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
@@ -457,7 +455,6 @@ class UserCredentialViewSetPermissionsTests(APITestCase):
 
     def make_user(self, group=None, perm=None, **kwargs):
         """ DRY helper to create users with specific groups and/or permissions. """
-        # pylint: disable=no-member
         user = factories.UserFactory(**kwargs)
         if group:
             user.groups.add(Group.objects.get(name=group))
@@ -482,7 +479,7 @@ class UserCredentialViewSetPermissionsTests(APITestCase):
         """
         list_path = reverse("api:v1:usercredential-list")
 
-        self.client.force_authenticate(self.make_user(**user_kwargs))  # pylint: disable=no-member
+        self.client.force_authenticate(self.make_user(**user_kwargs))
         response = self.client.get(list_path, {'username': 'test-user'})
         self.assertEqual(response.status_code, expected_status)
 
@@ -509,7 +506,7 @@ class UserCredentialViewSetPermissionsTests(APITestCase):
             'attributes': [],
         }
 
-        self.client.force_authenticate(self.make_user(**user_kwargs))  # pylint: disable=no-member
+        self.client.force_authenticate(self.make_user(**user_kwargs))
         response = self.client.post(list_path, data=json.dumps(post_data), content_type=JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, expected_status)
 
@@ -533,7 +530,7 @@ class UserCredentialViewSetPermissionsTests(APITestCase):
         user_credential = factories.UserCredentialFactory.create(credential=program_cert, username='test-user')
         detail_path = reverse("api:v1:usercredential-detail", args=[user_credential.id])
 
-        self.client.force_authenticate(self.make_user(**user_kwargs))  # pylint: disable=no-member
+        self.client.force_authenticate(self.make_user(**user_kwargs))
         response = self.client.get(detail_path)
         self.assertEqual(response.status_code, expected_status)
 
@@ -560,7 +557,7 @@ class UserCredentialViewSetPermissionsTests(APITestCase):
             },
             'attributes': [{'name': 'dummy-attr-name', 'value': 'dummy-attr-value'}],
         }
-        self.client.force_authenticate(self.make_user(**user_kwargs))  # pylint: disable=no-member
+        self.client.force_authenticate(self.make_user(**user_kwargs))
         response = self.client.patch(path=detail_path, data=json.dumps(post_data), content_type=JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, expected_status)
 
@@ -574,10 +571,9 @@ class CredentialViewSetTests(APITestCase):
     def setUp(self):
         super(CredentialViewSetTests, self).setUp()
 
-        # pylint: disable=no-member
         self.user = factories.UserFactory()
         self.user.groups.add(Group.objects.get(name=Role.ADMINS))
-        self.client.force_authenticate(self.user)  # pylint: disable=no-member
+        self.client.force_authenticate(self.user)
         self.request = APIRequestFactory().get('/')
 
     def assert_permission_required(self, data):
@@ -585,7 +581,7 @@ class CredentialViewSetTests(APITestCase):
         Ensure access to these APIs is restricted to those with explicit model
         permissions.
         """
-        self.client.force_authenticate(user=factories.UserFactory())  # pylint: disable=no-member
+        self.client.force_authenticate(user=factories.UserFactory())
         response = self.client.get(self.list_path, data)
         self.assertEqual(response.status_code, 403)
 

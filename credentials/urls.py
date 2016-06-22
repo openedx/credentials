@@ -15,37 +15,25 @@ Including another URLconf
 
 import os
 
+from auth_backends.urls import auth_urlpatterns
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.auth.views import logout
-from django.core.urlresolvers import reverse_lazy
-from django.views.generic import RedirectView
 
 from credentials.apps.core import views as core_views
 
 admin.autodiscover()
 
-# pylint: disable=invalid-name
-# Always login via edX OpenID Connect
-login = RedirectView.as_view(url=reverse_lazy('social:begin', args=['edx-oidc']), permanent=False, query_string=True)
 
-AUTH_URLS = [
-    url(r'^login/$', login, name='login'),
-    url(r'^logout/$', logout, name='logout'),
-]
-
-urlpatterns = [
-    url(r'^accounts/', include(AUTH_URLS)),
+urlpatterns = auth_urlpatterns + [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('credentials.apps.api.urls', namespace='api')),
-    url(r'^api-auth/', include(AUTH_URLS, namespace='rest_framework')),
+    url(r'^api-auth/', include(auth_urlpatterns, namespace='rest_framework')),
     url(r'^auto_auth/$', core_views.AutoAuth.as_view(), name='auto_auth'),
     url(r'^credentials/', include('credentials.apps.credentials.urls', namespace='credentials')),
     url(r'^health/$', core_views.health, name='health'),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', ''),
-    url('', include('social.apps.django_app.urls', namespace='social')),
 ]
 
 handler500 = 'credentials.apps.core.views.render_500'
