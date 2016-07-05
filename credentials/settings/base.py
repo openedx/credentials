@@ -33,6 +33,7 @@ INSTALLED_APPS = (
 )
 
 THIRD_PARTY_APPS = (
+    'release_util',
     'rest_framework',
     'social.apps.django_app.default',
     'waffle',
@@ -278,7 +279,7 @@ JWT_AUTH = {
     'JWT_DECODE_HANDLER': 'credentials.apps.api.jwt_decode_handler.decode',
 }
 
-# OPENEDX-SPECIFIC CONFIGURATION 
+# OPENEDX-SPECIFIC CONFIGURATION
 PLATFORM_NAME = 'Your Platform Name Here'
 # END OPENEDX-SPECIFIC CONFIGURATION
 
