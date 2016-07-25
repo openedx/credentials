@@ -28,7 +28,7 @@ help:
 	@echo "  start-devstack             run a local development copy of the server"
 	@echo "  open-devstack              open a shell on the server started by start-devstack"
 	@echo "  pkg-devstack               build the credentials image from the latest configuration and code"
-	@echo "  make accept                run acceptance tests                           		'
+	@echo "  make accept                run acceptance tests"
 	@echo ""
 
 clean:
@@ -44,7 +44,7 @@ requirements.js:
 	$(NODE_BIN)/bower install
 
 requirements: requirements.js
-	pip install -qr requirements/local.txt --exists-action w
+	pip install -r requirements/local.txt
 
 test: clean
 	coverage run ./manage.py test credentials --settings=credentials.settings.test
