@@ -19,3 +19,5 @@ script:
     - make validate
 after_success:
     - codecov
+addons:
+  firefox: "39.0"

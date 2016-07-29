@@ -17,12 +17,12 @@
     "jshint": "2.8.0",
     "karma": "^0.13.2",
     "karma-coverage": "^0.5.2",
-    "karma-phantomjs-launcher": "^0.1",
+    "karma-firefox-launcher": "^0.1.7",
     "karma-jasmine": "^0.3.6",
     "karma-requirejs": "^0.2.2",
     "karma-sinon": "^1.0.4",
     "karma-spec-reporter": "0.0.20",
-    "phantomjs": "^1.9.17",
+    "firefox": "^39.0",
     "sinon": "^1.15.4"
   }
 }
