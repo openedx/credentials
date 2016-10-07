@@ -15,6 +15,9 @@ install:
     - pip install -U pip wheel codecov
     - make requirements
 script:
+    # Check if translation files are up to date
+    - make validate_translations
+
     - make static -e DJANGO_SETTINGS_MODULE="credentials.settings.test"
     - make validate
 after_success:
