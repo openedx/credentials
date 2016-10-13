@@ -29,6 +29,8 @@ help:
 	@echo "  open-devstack              open a shell on the server started by start-devstack"
 	@echo "  pkg-devstack               build the credentials image from the latest configuration and code"
 	@echo "  make accept                run acceptance tests"
+	@echo "  detect_changed_source_translations       check if translation files are up-to-date"
+	@echo "  validate_translations      install fake translations and check if translation files are up-to-date"
 	@echo ""
 
 clean:
@@ -106,3 +108,8 @@ pkg-devstack:
 
 accept:
 	nosetests --with-ignore-docstrings -v acceptance_tests
+
+detect_changed_source_translations:
+	cd credentials && i18n_tool changed
+
+validate_translations: fake_translations detect_changed_source_translations
