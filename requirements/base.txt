@@ -1,4 +1,4 @@
-django==1.8.15
+django==1.8.16
 django-compressor==1.6
 django-extensions==1.6.1
 django-libsass==0.6
