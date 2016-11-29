@@ -4,15 +4,11 @@ Tests for Issuer class.
 # pylint: disable=no-member
 import ddt
 from django.test import TestCase
+
 from credentials.apps.api.exceptions import DuplicateAttributeError
-
-from credentials.apps.api.tests.factories import ProgramCertificateFactory
 from credentials.apps.credentials.issuers import ProgramCertificateIssuer
-from credentials.apps.credentials.models import (
-    ProgramCertificate,
-    UserCredentialAttribute
-)
-
+from credentials.apps.credentials.models import ProgramCertificate, UserCredentialAttribute
+from credentials.apps.credentials.tests.factories import ProgramCertificateFactory
 
 LOGGER_NAME = 'credentials.apps.credentials.issuers'
 

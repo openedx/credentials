@@ -9,9 +9,9 @@ from testfixtures import LogCapture
 
 from credentials.apps.api.accreditors import Accreditor
 from credentials.apps.api.exceptions import UnsupportedCredentialTypeError
-from credentials.apps.api.tests.factories import CourseCertificateFactory, ProgramCertificateFactory
 from credentials.apps.credentials.issuers import ProgramCertificateIssuer
 from credentials.apps.credentials.models import ProgramCertificate
+from credentials.apps.credentials.tests.factories import CourseCertificateFactory, ProgramCertificateFactory
 
 
 LOGGER_NAME = 'credentials.apps.api.accreditors'

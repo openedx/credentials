@@ -9,9 +9,8 @@ from rest_framework.settings import api_settings
 from rest_framework.test import APIRequestFactory
 
 from credentials.apps.api import serializers
-from credentials.apps.api.tests.factories import (
-    CourseCertificateFactory, ProgramCertificateFactory,
-    UserCredentialFactory, UserCredentialAttributeFactory
+from credentials.apps.credentials.tests.factories import (
+    CourseCertificateFactory, ProgramCertificateFactory, UserCredentialFactory, UserCredentialAttributeFactory
 )
 
 

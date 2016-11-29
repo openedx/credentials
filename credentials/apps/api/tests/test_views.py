@@ -12,9 +12,10 @@ from rest_framework.test import APITestCase, APIRequestFactory
 from testfixtures import LogCapture
 
 from credentials.apps.api.serializers import UserCredentialSerializer
-from credentials.apps.api.tests import factories
 from credentials.apps.core.constants import Role
+from credentials.apps.core.tests.factories import UserFactory
 from credentials.apps.credentials.models import UserCredential
+from credentials.apps.credentials.tests import factories
 
 
 JSON_CONTENT_TYPE = 'application/json'
@@ -31,7 +32,7 @@ class UserCredentialViewSetTests(APITestCase):
     def setUp(self):
         super(UserCredentialViewSetTests, self).setUp()
 
-        self.user = factories.UserFactory()
+        self.user = UserFactory()
         self.client.force_authenticate(self.user)
 
         self.program_cert = factories.ProgramCertificateFactory()
@@ -455,7 +456,7 @@ class UserCredentialViewSetPermissionsTests(APITestCase):
 
     def make_user(self, group=None, perm=None, **kwargs):
         """ DRY helper to create users with specific groups and/or permissions. """
-        user = factories.UserFactory(**kwargs)
+        user = UserFactory(**kwargs)
         if group:
             user.groups.add(Group.objects.get(name=group))
         if perm:
@@ -571,7 +572,7 @@ class CredentialViewSetTests(APITestCase):
     def setUp(self):
         super(CredentialViewSetTests, self).setUp()
 
-        self.user = factories.UserFactory()
+        self.user = UserFactory()
         self.user.groups.add(Group.objects.get(name=Role.ADMINS))
         self.client.force_authenticate(self.user)
         self.request = APIRequestFactory().get('/')
@@ -581,7 +582,7 @@ class CredentialViewSetTests(APITestCase):
         Ensure access to these APIs is restricted to those with explicit model
         permissions.
         """
-        self.client.force_authenticate(user=factories.UserFactory())
+        self.client.force_authenticate(user=UserFactory())
         response = self.client.get(self.list_path, data)
         self.assertEqual(response.status_code, 403)
 

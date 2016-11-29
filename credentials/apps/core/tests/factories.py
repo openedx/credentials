@@ -2,15 +2,16 @@
 Factories for tests of Credentials.
 """
 import factory
+from django.contrib.sites.models import Site
 
 from credentials.apps.core.models import SiteConfiguration, User
 
 
-class UserFactory(factory.django.DjangoModelFactory):  # pylint: disable=missing-docstring
-    class Meta(object):  # pylint: disable=missing-docstring
+class UserFactory(factory.django.DjangoModelFactory):
+    class Meta(object):
         model = User
 
-    username = factory.Sequence(lambda n: 'test-user-{}'.format(n))  # pylint: disable=unnecessary-lambda
+    username = factory.Sequence(lambda n: 'user_%d' % n)
     first_name = "dummy"
     last_name = "dummy"
     email = "dummy@example.com"
@@ -18,6 +19,13 @@ class UserFactory(factory.django.DjangoModelFactory):  # pylint: disable=missing
     is_active = True
 
 
-class SiteConfigurationFactory(factory.django.DjangoModelFactory):  # pylint: disable=missing-docstring
-    class Meta(object):  # pylint: disable=missing-docstring
+class SiteFactory(factory.django.DjangoModelFactory):
+    class Meta(object):
+        model = Site
+
+
+class SiteConfigurationFactory(factory.django.DjangoModelFactory):
+    class Meta(object):
         model = SiteConfiguration
+
+    site = factory.SubFactory(SiteFactory)

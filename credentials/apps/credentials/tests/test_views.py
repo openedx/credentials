@@ -2,6 +2,7 @@
 Tests for credentials rendering views.
 """
 from __future__ import unicode_literals
+
 import uuid
 
 from django.conf import settings
@@ -9,8 +10,8 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from mock import patch
 
-from credentials.apps.api.tests import factories
 from credentials.apps.credentials.models import Signatory, UserCredential
+from credentials.apps.credentials.tests import factories
 from credentials.apps.credentials.tests.mixins import OrganizationsDataMixin, ProgramsDataMixin, UserDataMixin
 from credentials.apps.credentials.views import RenderCredential
 
