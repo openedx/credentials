@@ -1,12 +1,11 @@
-"""
-Credentials rendering views.
-"""
 from __future__ import unicode_literals
 
 import logging
+import uuid
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 
@@ -66,3 +65,41 @@ class RenderCredential(TemplateView):
             'organization_name': organization_name,
             'credential_template': 'credentials/program_certificate.html',
         }
+
+
+class ExampleCredential(TemplateView):
+    """ Example certificate. """
+    template_name = 'credentials/render_credential.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ExampleCredential, self).get_context_data(**kwargs)
+        context.update({
+            'user_credential': {
+                'modified': timezone.now(),
+                'uuid': uuid.uuid4(),
+                'credential': {
+                    'signatories': [],
+                }
+            },
+            'certificate_context': {
+                'credential_type': 'Demo Certificate',
+                'credential_title': 'Demo Series',
+                'user_data': {
+                    'name': 'Demo User',
+                },
+                'programs_data': {
+                    'name': 'Example Program',
+                    'course_count': 3,
+                    'organization_key': 'ExampleX',
+                    'category': 'Fake Program',
+                },
+                'organization_data': {
+                    'short_name': 'ExampleX',
+                    'name': 'Example',
+                },
+                'organization_name': 'Example, Inc.',
+                'credential_template': 'credentials/program_certificate.html',
+            },
+        })
+
+        return context
