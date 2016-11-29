@@ -3,6 +3,7 @@ Models for the credentials service.
 """
 # pylint: disable=model-missing-unicode
 from __future__ import unicode_literals
+
 import uuid  # pylint: disable=unused-import
 
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
@@ -22,7 +23,7 @@ def _choices(*values):
     """
     Helper for use with model field 'choices'.
     """
-    return [(value, ) * 2 for value in values]
+    return [(value,) * 2 for value in values]
 
 
 def template_assets_path(instance, filename):

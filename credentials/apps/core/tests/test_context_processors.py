@@ -2,9 +2,8 @@
 
 from django.test import override_settings, RequestFactory, TestCase
 
-from credentials.apps.api.tests import factories
 from credentials.apps.core.context_processors import core
-
+from credentials.apps.core.tests import factories
 
 LANGUAGE_CODE = 'en'
 PLATFORM_NAME = 'Test Platform'

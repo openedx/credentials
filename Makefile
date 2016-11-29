@@ -79,7 +79,7 @@ html_coverage:
 	coverage html && open htmlcov/index.html
 
 extract_translations:
-	python manage.py makemessages -l en -v1 -d django
+	python manage.py makemessages -l en -v1 -d django --ignore="docs/*" --ignore="credentials/assets/*" --ignore="node_modules/*" --ignore="credentials/static/bower_components/*" --ignore="credentials/static/build/*"
 
 dummy_translations:
 	cd credentials && i18n_tool dummy

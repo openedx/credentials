@@ -1,24 +1,23 @@
 """Test models for credentials service app."""
-from django.test import TestCase
 from django.contrib.sites.models import Site
+from django.core.exceptions import ValidationError
 from django.core.files.images import ImageFile
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.core.exceptions import ValidationError
+from django.test import TestCase
 from opaque_keys.edx.locator import CourseLocator
 
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.models import (
-    CertificateTemplateAsset, CertificateTemplate,
-    CourseCertificate, Signatory
+    CertificateTemplateAsset, CertificateTemplate, CourseCertificate, Signatory
 )
+from credentials.apps.credentials.tests.factories import ProgramCertificateFactory
 from credentials.settings.base import MEDIA_ROOT
-
 
 # pylint: disable=invalid-name
 TEST_DATA_ROOT = MEDIA_ROOT + '/test/data/'
 
 
-class TestSignatory(TestCase):
+class SignatoryTests(TestCase):
     """Test Signatory model."""
 
     def get_image(self, name):
@@ -72,7 +71,7 @@ class TestSignatory(TestCase):
         self.assertEqual(unicode(signatory), 'test name, test title')
 
 
-class TestCertificateTemplateAsset(TestCase):
+class CertificateTemplateAssetTests(TestCase):
     """
     Test Assets are uploading/saving successfully for CertificateTemplateAsset.
     """
@@ -106,7 +105,7 @@ class TestCertificateTemplateAsset(TestCase):
         self.assertEqual(unicode(certificate_template_asset), 'test name')
 
 
-class TestCertificateTemplate(TestCase):
+class CertificateTemplateTests(TestCase):
     """Test CertificateTemplate model"""
 
     def test_unicode_value(self):
@@ -115,11 +114,11 @@ class TestCertificateTemplate(TestCase):
         self.assertEqual(unicode(certificate_template), 'test template')
 
 
-class TestCertificates(TestCase):
+class CertificateTestCaseMixin(TestCase):
     """Basic setup for certificate tests."""
 
     def setUp(self):
-        super(TestCertificates, self).setUp()
+        super(CertificateTestCaseMixin, self).setUp()
         self.site = Site.objects.create(domain='test', name='test')
         Signatory(name='test name', title='test title', image=SimpleUploadedFile(
             'picture1.jpg',
@@ -127,11 +126,11 @@ class TestCertificates(TestCase):
         self.signatory = Signatory.objects.get(id=1)
 
 
-class TestCourseCertificate(TestCertificates):
+class CourseCertificateTests(CertificateTestCaseMixin):
     """Test Course Certificate model."""
 
     def setUp(self):
-        super(TestCourseCertificate, self).setUp()
+        super(CourseCertificateTests, self).setUp()
         self.course_key = CourseLocator(org='test', course='test', run='test')
 
     # pylint: disable=no-member
