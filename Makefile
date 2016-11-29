@@ -80,7 +80,6 @@ html_coverage:
 
 extract_translations:
 	python manage.py makemessages -l en -v1 -d django
-	python manage.py makemessages -l en -v1 -d djangojs
 
 dummy_translations:
 	cd credentials && i18n_tool dummy
