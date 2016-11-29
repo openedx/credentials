@@ -227,7 +227,9 @@ class ProgramCertificate(AbstractCertificate):
     """
     Configuration for Program Certificates.
     """
-    program_id = models.PositiveIntegerField(db_index=True, unique=True)
+    program_uuid = models.UUIDField(db_index=True, unique=True, null=True, blank=False, verbose_name=_('Program UUID'))
+    program_id = models.PositiveIntegerField(db_index=True, unique=True,
+                                             help_text='This field is DEPRECATED. Use program_uuid instead.')
     user_credentials = GenericRelation(
         UserCredential,
         content_type_field='credential_content_type',
@@ -240,6 +242,9 @@ class ProgramCertificate(AbstractCertificate):
                     "instead of its short name (e.g. ACMEx)"),
         verbose_name=_('Use organization name')
     )
+
+    def __str__(self):
+        return 'ProgramCertificate: {uuid}'.format(uuid=(self.program_uuid or self.program_id))
 
     class Meta(object):
         verbose_name = "Program certificate configuration"
