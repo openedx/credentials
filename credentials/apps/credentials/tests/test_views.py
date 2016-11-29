@@ -178,3 +178,10 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
             response.context['certificate_context']['organization_name'],
             OrganizationsDataMixin.ORGANIZATIONS_API_RESPONSE['name']
         )
+
+
+class ExampleCredentialTests(TestCase):
+    def test_get(self):
+        """ Verify the view loads. """
+        response = self.client.get(reverse('credentials:example'))
+        self.assertEqual(response.status_code, 200)
