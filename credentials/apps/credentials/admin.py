@@ -50,9 +50,9 @@ class CourseCertificateAdmin(admin.ModelAdmin):
 
 class ProgramCertificateAdmin(admin.ModelAdmin):
     """Admin for the ProgramCertificate model."""
-    list_display = ('program_id', 'site', 'is_active')
-    list_filter = ('is_active',)
-    search_fields = ('program_id',)
+    list_display = ('program_uuid', 'site', 'is_active')
+    list_filter = ('is_active', 'site',)
+    search_fields = ('program_id', 'program_uuid',)
 
 
 class SignatoryAdmin(admin.ModelAdmin):

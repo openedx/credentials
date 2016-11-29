@@ -143,3 +143,14 @@ class CourseCertificateTests(CertificateTestCaseMixin):
             ).full_clean()
 
         self.assertEqual(context.exception.message_dict, {'course_id': ['Invalid course key.']})
+
+
+class ProgramCertificateTests(TestCase):
+    """ Tests for the ProgramCertificate model. """
+
+    def test_str(self):
+        instance = ProgramCertificateFactory()
+        self.assertEqual(str(instance), 'ProgramCertificate: ' + str(instance.program_uuid))
+
+        instance = ProgramCertificateFactory(program_uuid=None)
+        self.assertEqual(str(instance), 'ProgramCertificate: ' + str(instance.program_id))
