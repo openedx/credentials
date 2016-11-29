@@ -24,7 +24,6 @@ help:
 	@echo "  clean_static               delete compiled/compressed static assets"
 	@echo "  test                       run tests and generate coverage report"
 	@echo "  validate                   run tests and quality checks"
-	@echo "  validate_js                run JavaScript unit tests and linting"
 	@echo "  start-devstack             run a local development copy of the server"
 	@echo "  open-devstack              open a shell on the server started by start-devstack"
 	@echo "  pkg-devstack               build the credentials image from the latest configuration and code"
@@ -39,7 +38,7 @@ clean:
 	rm -rf coverage htmlcov test_root/uploads
 
 clean_static:
-	rm -rf credentials/assets/ credentials/static/build
+	rm -rf credentials/assets/
 
 requirements.js:
 	npm install
@@ -57,20 +56,13 @@ quality:
 	pylint --rcfile=pylintrc credentials *.py
 
 static:
-	$(NODE_BIN)/r.js -o build.js
 	python manage.py collectstatic --noinput
 	python manage.py compress
-
-validate_js:
-	rm -rf coverage
-	$(NODE_BIN)/gulp test
-	$(NODE_BIN)/gulp lint
-	$(NODE_BIN)/gulp jscs
 
 serve:
 	python manage.py runserver 0.0.0.0:8150
 
-validate: test quality validate_js
+validate: test quality
 
 migrate:
 	python manage.py migrate

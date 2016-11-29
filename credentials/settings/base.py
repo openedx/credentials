@@ -119,7 +119,6 @@ STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = (
-    root('static', 'build'),  # Check the r.js output directory first
     root('static'),
 )
 
