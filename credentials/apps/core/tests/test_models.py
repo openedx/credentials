@@ -1,10 +1,11 @@
 """ Tests for core models. """
 
+import responses
 from django.test import TestCase
 from social.apps.django_app.default.models import UserSocialAuth
 
-from credentials.apps.core.tests.factories import SiteConfigurationFactory
-from credentials.apps.core.tests.factories import SiteFactory, UserFactory
+from credentials.apps.core.tests.factories import SiteConfigurationFactory, SiteFactory, UserFactory
+from credentials.apps.core.tests.mixins import SiteMixin
 
 
 # pylint: disable=no-member
@@ -45,7 +46,7 @@ class UserTests(TestCase):
         self.assertEqual(user.get_full_name(), full_name)
 
 
-class SiteConfigurationTests(TestCase):
+class SiteConfigurationTests(SiteMixin, TestCase):
     """ Site configuration model tests. """
 
     def test_unicode(self):
@@ -53,3 +54,14 @@ class SiteConfigurationTests(TestCase):
         site = SiteFactory(domain='test.org', name='test')
         site_configuration = SiteConfigurationFactory(site=site)
         self.assertEqual(unicode(site_configuration), site.name)
+
+    @responses.activate
+    def test_access_token(self):
+        """ Verify the property retrieves, and caches, an access token from the OAuth 2.0 provider. """
+        token = self.mock_access_token_response()
+        self.assertEqual(self.site.siteconfiguration.access_token, token)
+        self.assertEqual(len(responses.calls), 1)
+
+        # Verify the value is cached
+        self.assertEqual(self.site.siteconfiguration.access_token, token)
+        self.assertEqual(len(responses.calls), 1)

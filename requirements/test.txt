@@ -11,4 +11,5 @@ httpretty==0.8.10
 mock==1.3.0
 nose-ignore-docstring==0.2
 pep8==1.6.2
+responses==0.5.1
 testfixtures==4.2.0

@@ -47,7 +47,7 @@ class UserCredentialFactory(factory.django.DjangoModelFactory):
     credential = factory.SubFactory(ProgramCertificateFactory)
     username = factory.Sequence(lambda o: 'robot%d' % o)
     status = models.UserCredential.AWARDED
-    download_url = 'http://www.google.com'
+    download_url = factory.Faker('url')
     uuid = factory.LazyFunction(uuid.uuid4)
 
 
@@ -58,3 +58,11 @@ class UserCredentialAttributeFactory(factory.django.DjangoModelFactory):
     user_credential = factory.SubFactory(UserCredentialFactory)
     name = factory.Sequence(lambda o: u'name-%d' % o)
     value = factory.Sequence(lambda o: u'value-%d' % o)
+
+
+class SignatoryFactory(factory.django.DjangoModelFactory):
+    class Meta(object):
+        model = models.Signatory
+
+    name = factory.Faker('name')
+    title = factory.Faker('job')

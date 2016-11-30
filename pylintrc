@@ -92,7 +92,7 @@ ignore-imports = no
 
 [TYPECHECK]
 ignore-mixin-members = yes
-ignored-classes = SQLObject
+ignored-classes = SQLObject,responses,UUIDField,DjangoModelFactory
 unsafe-load-any-extension = yes
 generated-members = 
 	REQUEST,
@@ -148,4 +148,4 @@ int-import-graph =
 [EXCEPTIONS]
 overgeneral-exceptions = Exception
 
-# ac7690e865afdc4bd756befcd8a5ae9866919731
+# 1e8d2bd90c12659a81af93cd1e2b6b56d1c69102
