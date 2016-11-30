@@ -5,59 +5,69 @@ from __future__ import unicode_literals
 
 import uuid
 
+import responses
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from mock import patch
 
-from credentials.apps.credentials.models import Signatory, UserCredential
+from credentials.apps.core.tests.mixins import SiteMixin
+from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests import factories
-from credentials.apps.credentials.tests.mixins import OrganizationsDataMixin, ProgramsDataMixin, UserDataMixin
-from credentials.apps.credentials.views import RenderCredential
+from credentials.apps.credentials.tests.mixins import OrganizationsDataMixin, UserDataMixin
 
 
-class RenderCredentialPageTests(TestCase):
+# pylint: disable=no-member
+class RenderCredentialPageTests(SiteMixin, TestCase):
     """ Tests for credential rendering view. """
 
     def setUp(self):
         super(RenderCredentialPageTests, self).setUp()
-        self.program_certificate = factories.ProgramCertificateFactory.create(template=None)
-        self.site = self.program_certificate.site
-        self.signatory_1 = Signatory.objects.create(name='Signatory 1', title='Manager', image='images/signatory_1.png')
-        self.signatory_2 = Signatory.objects.create(name='Signatory 2', title='Doctor', image='images/signatory_2.png')
+        self.program_certificate = factories.ProgramCertificateFactory(site=self.site)
+        self.signatory_1 = factories.SignatoryFactory()
+        self.signatory_2 = factories.SignatoryFactory()
         self.program_certificate.signatories.add(self.signatory_1, self.signatory_2)
-        self.user_credential = factories.UserCredentialFactory.create(
-            credential=self.program_certificate
-        )
-
-    def _credential_url(self, uuid_string):
-        """ Helper method to generate the url for a credential."""
-        return reverse('credentials:render', kwargs={'uuid': uuid_string})
+        self.user_credential = factories.UserCredentialFactory(credential=self.program_certificate)
 
     def _render_user_credential(self):
         """ Helper method to render a user certificate."""
-        path = self._credential_url(self.user_credential.uuid.hex)
-        with patch('credentials.apps.credentials.views.get_program') as mock_program_data:
-            mock_program_data.return_value = ProgramsDataMixin.PROGRAMS_API_RESPONSE
-            with patch('credentials.apps.credentials.views.get_organization') as mock_org_data:
-                mock_org_data.return_value = OrganizationsDataMixin.ORGANIZATIONS_API_RESPONSE
-                with patch('credentials.apps.credentials.views.get_user') as user_data:
-                    user_data.return_value = UserDataMixin.USER_API_RESPONSE
-                    response = self.client.get(path)
+        program_uuid = self.program_certificate.program_uuid
+        program_endpoint = 'programs/{uuid}/'.format(uuid=program_uuid.hex)
+        organization_key = 'ACMEx'
+        body = {
+            'uuid': program_uuid.hex,
+            'title': 'Test Program',
+            'type': 'XSeries',
+            'authoring_organizations': [
+                {'key': organization_key},
+                {'key': 'FakeX'}
+            ],
+            'courses': [
+                {'key': 'ACMEx/101x'},
+                {'key': 'FakeX/101x'},
+            ]
+        }
+        self.mock_access_token_response()
+        self.mock_catalog_api_response(program_endpoint, body)
+        self.mock_organizations_api_detail_response(organization_key)
+
+        with patch('credentials.apps.credentials.views.get_user_data') as user_data:
+            user_data.return_value = UserDataMixin.USER_API_RESPONSE
+            response = self.client.get(self.user_credential.get_absolute_url())
+            self.assertEqual(response.status_code, 200)
 
         return response
 
+    @responses.activate
     def test_get_cert_with_awarded_status(self):
-        """ Verify that the view renders a certificate and returns 200 when the
-        uuid is valid and certificate status is 'awarded'.
-        """
+        """ Verify that the view renders awarded certificates. """
         response = self._render_user_credential()
-
-        self.assertEqual(response.status_code, 200)
-        self._assert_user_credential_template_data(response, self.user_credential, certificate_title='Test Program A')
+        certificate_title = self.user_credential.credential.program_details.title
+        self._assert_user_credential_template_data(response, self.user_credential, certificate_title=certificate_title)
         self._assert_signatory_data(response, self.signatory_1)
         self._assert_signatory_data(response, self.signatory_2)
 
+    @responses.activate
     def test_get_cert_with_title_override(self):
         """ Verify that the view renders a valid certificate with the title
         value provided in its related certificate configuration.
@@ -68,7 +78,6 @@ class RenderCredentialPageTests(TestCase):
         self.program_certificate.save()
         response = self._render_user_credential()
 
-        self.assertEqual(response.status_code, 200)
         self._assert_user_credential_template_data(response, self.user_credential, certificate_title=certificate_title)
         self._assert_signatory_data(response, self.signatory_1)
         self._assert_signatory_data(response, self.signatory_2)
@@ -79,26 +88,12 @@ class RenderCredentialPageTests(TestCase):
         """
         self.user_credential.status = UserCredential.REVOKED
         self.user_credential.save()
-        path = self._credential_url(self.user_credential.uuid.hex)
-        response = self.client.get(path)
+        response = self.client.get(self.user_credential.get_absolute_url())
         self.assertEqual(response.status_code, 404)
 
     def test_get_cert_with_invalid_uuid(self):
         """ Verify that view returns 404 with invalid uuid."""
-        path = self._credential_url(uuid.uuid4().hex)
-        response = self.client.get(path)
-        self.assertEqual(response.status_code, 404)
-
-    def test_get_cert_with_wrong_certificate_type(self):
-        """ Verify that the view returns 404 when the uuid refers to a certificate
-        type other than a ProgramCertificate.
-        """
-        course_certificate = factories.CourseCertificateFactory.create(template=None)
-        user_credential = factories.UserCredentialFactory.create(
-            credential=course_certificate
-        )
-
-        path = self._credential_url(user_credential.uuid.hex)
+        path = reverse('credentials:render', kwargs={'uuid': uuid.uuid4().hex})
         response = self.client.get(path)
         self.assertEqual(response.status_code, 404)
 
@@ -152,34 +147,7 @@ class RenderCredentialPageTests(TestCase):
         self.assertContains(response, signatory.title)
         self.assertContains(response, signatory.image)
 
-    def test_get_programs_data(self):
-        """ Verify the method parses the programs data correctly. """
-        expected_data = {
-            'category': 'xseries',
-            'course_count': 2,
-            'name': 'Test Program A',
-            'organization_key': 'organization-a'
-        }
-
-        with patch('credentials.apps.credentials.views.get_program') as mock_program_data:
-            mock_program_data.return_value = ProgramsDataMixin.PROGRAMS_API_RESPONSE
-            self.assertEqual(
-                expected_data,
-                RenderCredential()._get_program_data(100)  # pylint: disable=protected-access
-            )
-
-    def test_get_cert_with_awarded_status_without_signatory(self):
-        """ Verify that the view renders a certificate if program credential has no
-        signatory data with it.
-        """
-        self.program_certificate.signatories.clear()
-        response = self._render_user_credential()
-
-        self.assertEqual(response.status_code, 200)
-        self._assert_user_credential_template_data(response, self.user_credential, certificate_title='Test Program A')
-        self.assertNotContains(response, self.signatory_1.name)
-        self.assertNotContains(response, self.signatory_2.name)
-
+    @responses.activate
     def test_signatory_organization_name_override(self):
         """ Verify that the view response contain signatory organization name
          if signatory have organization."""
@@ -191,6 +159,7 @@ class RenderCredentialPageTests(TestCase):
         self.assertContains(response, self.signatory_1.organization_name_override)
         self.assertNotContains(response, self.signatory_2.organization_name_override)
 
+    @responses.activate
     def test_issuing_organization_name_override(self):
         """ Verify that the view response contains organization 'name' instead of 'short_name'
         if 'use_org_name' is True."""

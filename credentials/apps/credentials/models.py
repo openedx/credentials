@@ -4,19 +4,24 @@ Models for the credentials service.
 # pylint: disable=model-missing-unicode
 from __future__ import unicode_literals
 
+# See See https://github.com/PyCQA/pylint/issues/848 regarding uuid
 import uuid  # pylint: disable=unused-import
+from collections import namedtuple
 
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
+from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 
 from credentials.apps.credentials import constants
+from credentials.apps.credentials.utils import get_program
 
 
 def _choices(*values):
@@ -197,6 +202,9 @@ class UserCredential(TimeStampedModel):
     class Meta(object):
         unique_together = (('username', 'credential_content_type', 'credential_id'),)
 
+    def get_absolute_url(self):
+        return reverse('credentials:render', kwargs={'uuid': self.uuid.hex})
+
 
 class CourseCertificate(AbstractCertificate):
     """
@@ -223,10 +231,14 @@ class CourseCertificate(AbstractCertificate):
         verbose_name = "Course certificate configuration"
 
 
+ProgramDetails = namedtuple('ProgramDetails', ('uuid', 'title', 'type', 'organization_keys', 'course_count',))
+
+
 class ProgramCertificate(AbstractCertificate):
     """
     Configuration for Program Certificates.
     """
+
     program_uuid = models.UUIDField(db_index=True, unique=True, null=True, blank=False, verbose_name=_('Program UUID'))
     program_id = models.PositiveIntegerField(db_index=True, unique=True,
                                              help_text='This field is DEPRECATED. Use program_uuid instead.')
@@ -248,6 +260,32 @@ class ProgramCertificate(AbstractCertificate):
 
     class Meta(object):
         verbose_name = "Program certificate configuration"
+
+    @cached_property
+    def program_details(self):
+        """ Returns details about the program associated with this certificate. """
+
+        if self.program_uuid:
+            # Use the Catalog API
+            client = self.site.siteconfiguration.catalog_api_client
+            data = client.programs(self.program_uuid.hex).get()
+            return ProgramDetails(
+                uuid=data['uuid'],
+                title=data['title'],
+                type=data['type'],
+                organization_keys=[organization['key'] for organization in data['authoring_organizations']],
+                course_count=len(data['courses'])
+            )
+        else:
+            # Use the Programs API
+            data = get_program(self.program_id)
+            return ProgramDetails(
+                uuid=data['uuid'],
+                title=data['name'],
+                type=data['type'],
+                organization_keys=[organization['key'] for organization in data['organizations']],
+                course_count=len(data['course_codes'])
+            )
 
 
 class UserCredentialAttribute(TimeStampedModel):

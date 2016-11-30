@@ -13,7 +13,7 @@ edx-auth-backends==0.5.0
 edx-django-release-util==0.1.2
 edx-drf-extensions==0.5.1
 edx-opaque-keys==0.3.1
-edx-rest-api-client==1.4.0
+edx-rest-api-client==1.6.0
 # The package django-libsass requires libsass and the newest version of libsass '0.10.1'
 # gives validation error on importing scss variables in scss files
 libsass==0.10.0

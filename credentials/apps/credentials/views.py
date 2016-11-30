@@ -1,16 +1,17 @@
 """
 Credentials rendering views.
 """
+from __future__ import unicode_literals
+
 import logging
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import TemplateView
 
 from credentials.apps.credentials.models import UserCredential, ProgramCertificate
-from credentials.apps.credentials.utils import get_organization, get_program, get_user
-
+from credentials.apps.credentials.utils import get_organization, get_user_data
 
 logger = logging.getLogger(__name__)
 
@@ -34,50 +35,34 @@ class RenderCredential(TemplateView):
 
         context.update({
             'user_credential': user_credential,
-            'certificate_context': self.get_program_certificate_context(user_credential),
+            'certificate_context': self.get_certificate_context(user_credential),
         })
 
         return context
 
-    def get_program_certificate_context(self, user_credential):
-        """ Get the program certificate related data from database.
+    def get_certificate_context(self, user_credential):
+        """ Returns the context data necessary to render the certificate.
 
         Arguments:
-            user_credential (User): UserCredential object
+            user_credential (UserCredential): UserCredential being rendered
 
         Returns:
              dict, representing a data returned by the Program service,
              lms service and template path.
         """
-        programs_data = self._get_program_data(user_credential.credential.program_id)
-        organization_data = get_organization(programs_data['organization_key'])
+        program_details = user_credential.credential.program_details
+        organization_data = get_organization(program_details.organization_keys[0])
         organization_name = organization_data['short_name']
         if user_credential.credential.use_org_name:
             organization_name = organization_data['name']
 
+        # pylint: disable=no-member
         return {
-            'credential_type': _(u'XSeries Certificate'),
+            'credential_type': _('{program_type} Certificate').format(program_type=program_details.type),
             'credential_title': user_credential.credential.title,
-            'user_data': get_user(user_credential.username),
-            'programs_data': programs_data,
+            'user_data': get_user_data(user_credential.username),
+            'program_details': program_details,
             'organization_data': organization_data,
             'organization_name': organization_name,
             'credential_template': 'credentials/program_certificate.html',
-        }
-
-    def _get_program_data(self, program_id):
-        """ Get the program data from program service.
-
-        Arguments:
-            program_id (int): Unique id of the program for retrieval
-
-        Returns:
-            dict, representing a parsed program data returned by the Program service.
-        """
-        program_data = get_program(program_id)
-        return {
-            'name': program_data['name'],
-            'course_count': len(program_data['course_codes']),
-            'organization_key': program_data['organizations'][0]['key'],
-            'category': program_data['category'],
         }

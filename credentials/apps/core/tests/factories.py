@@ -12,9 +12,9 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = User
 
     username = factory.Sequence(lambda n: 'user_%d' % n)
-    first_name = "dummy"
-    last_name = "dummy"
-    email = "dummy@example.com"
+    first_name = factory.Faker('first_name')
+    last_name = factory.Faker('last_name')
+    email = factory.Faker('safe_email')
     is_staff = False
     is_active = True
 
@@ -29,3 +29,5 @@ class SiteConfigurationFactory(factory.django.DjangoModelFactory):
         model = SiteConfiguration
 
     site = factory.SubFactory(SiteFactory)
+    lms_url_root = factory.Faker('url')
+    catalog_api_url = factory.Faker('url')

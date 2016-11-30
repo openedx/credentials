@@ -3,19 +3,15 @@ Helper methods for credential app.
 """
 import datetime
 import hashlib
-from itertools import groupby
 import logging
+from itertools import groupby
 
+import jwt
 from django.conf import settings
 from django.core.cache import cache
 from edx_rest_api_client.client import EdxRestApiClient
-import jwt
-
 
 log = logging.getLogger(__name__)
-PROGRAMS_CACHE_KEY = 'programs.api.data'
-ORGANIZATIONS_CACHE_KEY = 'organizations.api.data'
-USER_CACHE_KEY = 'user.api.data'
 
 
 def validate_duplicate_attributes(attributes):
@@ -29,6 +25,7 @@ def validate_duplicate_attributes(attributes):
         Boolean: Return True only if data has no duplicated namespace and name
 
     """
+
     def keyfunc(attribute):  # pylint: disable=missing-docstring
         return attribute['name']
 
@@ -51,7 +48,7 @@ def get_program(program_id):
     Returns:
         dict, representing a program data returned by the Programs service.
     """
-    cache_key = '{key_prefix}.{id}'.format(key_prefix=PROGRAMS_CACHE_KEY, id=program_id)
+    cache_key = 'programs.api.data.{id}'.format(id=program_id)
     program = cache.get(cache_key)
 
     if program:
@@ -77,7 +74,7 @@ def get_organization(organization_key):
     Returns:
         dict, representing organization data returned by the LMS.
     """
-    cache_key = '{key_prefix}.{hash}'.format(key_prefix=ORGANIZATIONS_CACHE_KEY, hash=_make_hash(organization_key))
+    cache_key = 'organizations.api.data.{hash}'.format(hash=_make_hash(organization_key))
     organization = cache.get(cache_key)
 
     if organization:
@@ -90,7 +87,7 @@ def get_organization(organization_key):
     return organization
 
 
-def get_user(username):
+def get_user_data(username):
     """ Retrieve the user detail from the User API.
 
     If the API call is successful, the returned data will be cached for the
@@ -103,7 +100,7 @@ def get_user(username):
     Returns:
         dict, representing user data returned by the User API.
     """
-    cache_key = '{key_prefix}.{hash}'.format(key_prefix=USER_CACHE_KEY, hash=_make_hash(username))
+    cache_key = 'user.api.data.{hash}'.format(hash=_make_hash(username))
     user = cache.get(cache_key)
 
     if user:

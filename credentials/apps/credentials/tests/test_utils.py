@@ -10,7 +10,9 @@ from mock import patch
 from slumber import exceptions
 
 from credentials.apps.credentials.tests.mixins import OrganizationsDataMixin, ProgramsDataMixin, UserDataMixin
-from credentials.apps.credentials.utils import get_organization, get_program, get_user, validate_duplicate_attributes
+from credentials.apps.credentials.utils import (
+    get_organization, get_program, get_user_data, validate_duplicate_attributes
+)
 
 
 User = get_user_model()
@@ -184,9 +186,7 @@ class TestOrganizationRetrieval(OrganizationsDataMixin, TestCase):
 
 @ddt.ddt
 class TestUserRetrieval(UserDataMixin, TestCase):
-    """
-    Tests for get_user.
-    """
+    """ Tests for get_user_data. """
     def setUp(self):
         super(TestUserRetrieval, self).setUp()
         self.username = 'test-user'
@@ -199,7 +199,7 @@ class TestUserRetrieval(UserDataMixin, TestCase):
         """
         self.mock_user_api(username=self.username)
 
-        actual_user_api_response = get_user(self.username)
+        actual_user_api_response = get_user_data(self.username)
         self.assertEqual(
             actual_user_api_response,
             self.USER_API_RESPONSE
@@ -218,7 +218,7 @@ class TestUserRetrieval(UserDataMixin, TestCase):
 
         # hit the Organizations API twice with the test org
         for _ in range(2):
-            get_user(self.username)
+            get_user_data(self.username)
 
         # verify that only one request has been made
         self.assertEqual(len(httpretty.httpretty.latest_requests), 1)
@@ -230,7 +230,7 @@ class TestUserRetrieval(UserDataMixin, TestCase):
         """
         mock_init.side_effect = Exception
         with self.assertRaises(Exception):
-            get_user(self.username)
+            get_user_data(self.username)
 
     @httpretty.activate
     def test_get_user_data_retrieval_failure(self):
@@ -240,7 +240,7 @@ class TestUserRetrieval(UserDataMixin, TestCase):
         self.mock_user_api_500(username=self.username)
 
         with self.assertRaises(exceptions.HttpServerError):
-            get_user(self.username)
+            get_user_data(self.username)
 
     @httpretty.activate
     def test_get_user_with_no_data(self):
@@ -251,4 +251,4 @@ class TestUserRetrieval(UserDataMixin, TestCase):
         self.mock_user_api_404(username=username)
 
         with self.assertRaises(exceptions.HttpNotFoundError):
-            get_user(username)
+            get_user_data(username)
