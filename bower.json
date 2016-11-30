@@ -10,6 +10,7 @@
     "tests"
   ],
   "dependencies": {
-    "edx-pattern-library": "^0.10.4"
+    "edx-pattern-library": "^0.10.4",
+    "font-awesome": "^4.7.0"
   }
 }
