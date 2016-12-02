@@ -282,7 +282,7 @@ class ProgramCertificate(AbstractCertificate):
             return ProgramDetails(
                 uuid=data['uuid'],
                 title=data['name'],
-                type=data['type'],
+                type=data['category'],
                 organization_keys=[organization['key'] for organization in data['organizations']],
                 course_count=len(data['course_codes'])
             )
