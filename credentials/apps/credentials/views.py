@@ -9,8 +9,8 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 
-from credentials.apps.credentials.models import UserCredential, ProgramCertificate, ProgramDetails
-from credentials.apps.credentials.utils import get_organization, get_user_data
+from credentials.apps.credentials.models import UserCredential, ProgramCertificate, ProgramDetails, OrganizationDetails
+from credentials.apps.credentials.utils import get_user_data
 
 logger = logging.getLogger(__name__)
 
@@ -50,10 +50,6 @@ class RenderCredential(TemplateView):
              lms service and template path.
         """
         program_details = user_credential.credential.program_details
-        organization_data = get_organization(program_details.organization_keys[0])
-        organization_name = organization_data['short_name']
-        if user_credential.credential.use_org_name:
-            organization_name = organization_data['name']
 
         # pylint: disable=no-member
         return {
@@ -61,8 +57,6 @@ class RenderCredential(TemplateView):
             'credential_title': user_credential.credential.title,
             'user_data': get_user_data(user_credential.username),
             'program_details': program_details,
-            'organization_data': organization_data,
-            'organization_name': organization_name,
             'credential_template': 'credentials/program_certificate.html',
         }
 
@@ -78,7 +72,19 @@ class ExampleCredential(TemplateView):
                 'modified': timezone.now(),
                 'uuid': uuid.uuid4(),
                 'credential': {
-                    'signatories': [],
+                    'signatories': {
+                        # NOTE (CCB): This is a small hack to workaround the fact that the template expects a QuerySet.
+                        'all': [
+                            {
+                                'name': 'Pseudo McFakerson',
+                                'title': 'Professor...really just Some Guy',
+                                'organization_name_override': 'Parts Unknown',
+                                'image': {
+                                    'url': 'http://placehold.it/720x280'
+                                }
+                            }
+                        ]
+                    },
                 }
             },
             'certificate_context': {
@@ -91,15 +97,15 @@ class ExampleCredential(TemplateView):
                     uuid=uuid.uuid4(),
                     title='Completely Example Program',
                     type='Fake',
-                    organization_keys=['ExampleX'],
-                    course_count=3
+                    course_count=3,
+                    organizations=[OrganizationDetails(
+                        uuid=uuid.uuid4(),
+                        key='ExampleX',
+                        name='Example University',
+                        display_name='Absolutely Fake University',
+                        logo_image_url='http://placehold.it/204x204'
+                    )]
                 ),
-                'organization_data': {
-                    'short_name': 'ExampleX',
-                    'name': 'Example University',
-                    'logo': 'http://placehold.it/204x204',
-                },
-                'organization_name': 'Example, Inc.',
                 'credential_template': 'credentials/program_certificate.html',
             },
         })

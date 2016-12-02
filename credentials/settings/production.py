@@ -1,5 +1,5 @@
 from os import environ
-import warnings
+
 import yaml
 
 from credentials.settings.base import *

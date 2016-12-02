@@ -36,57 +36,6 @@ def validate_duplicate_attributes(attributes):
     return True
 
 
-def get_program(program_id):
-    """ Retrieve program detail from the Programs API.
-
-    Returned value is cached to avoid calling programs service each time a
-    certificate is viewed.
-
-    Arguments:
-        program_id (int): Unique id of the program for retrieval
-
-    Returns:
-        dict, representing a program data returned by the Programs service.
-    """
-    cache_key = 'programs.api.data.{id}'.format(id=program_id)
-    program = cache.get(cache_key)
-
-    if program:
-        return program
-
-    programs_api = get_program_api_client()
-    program = programs_api.programs(program_id).get()
-    cache.set(cache_key, program, settings.PROGRAMS_CACHE_TTL)
-
-    return program
-
-
-def get_organization(organization_key):
-    """ Retrieve the organization detail from the Organizations API.
-
-    If the API call is successful, the returned data will be cached for the
-    duration of ORGANIZATIONS_CACHE_TTL (in seconds). Failed API responses
-    will NOT be cached.
-
-    Arguments:
-        organization_key (str): Unique key of the organization for retrieval
-
-    Returns:
-        dict, representing organization data returned by the LMS.
-    """
-    cache_key = 'organizations.api.data.{hash}'.format(hash=_make_hash(organization_key))
-    organization = cache.get(cache_key)
-
-    if organization:
-        return organization
-
-    organizations_api = get_organizations_api_client()
-    organization = organizations_api.organizations(organization_key).get()
-    cache.set(cache_key, organization, settings.ORGANIZATIONS_CACHE_TTL)
-
-    return organization
-
-
 def get_user_data(username):
     """ Retrieve the user detail from the User API.
 
@@ -111,32 +60,6 @@ def get_user_data(username):
     cache.set(cache_key, user, settings.USER_CACHE_TTL)
 
     return user
-
-
-def get_program_api_client():
-    """
-    Return api client to communicate with the programs service by using the
-    credentials service user in the programs service.
-    """
-    programs_api_url = settings.PROGRAMS_API_URL
-    service_username = settings.CREDENTIALS_SERVICE_USER
-    jwt_audience = settings.PROGRAMS_JWT_AUDIENCE
-    jwt_secret_key = settings.PROGRAMS_JWT_SECRET_KEY
-
-    return _get_service_user_api_client(programs_api_url, service_username, jwt_audience, jwt_secret_key)
-
-
-def get_organizations_api_client():
-    """
-    Return api client to communicate with the organizations api by using the
-    credentials service user in the LMS.
-    """
-    organizations_api_url = settings.ORGANIZATIONS_API_URL
-    service_username = settings.CREDENTIALS_SERVICE_USER
-    jwt_audience = settings.ORGANIZATIONS_AUDIENCE
-    jwt_secret_key = settings.ORGANIZATIONS_SECRET_KEY
-
-    return _get_service_user_api_client(organizations_api_url, service_username, jwt_audience, jwt_secret_key)
 
 
 def get_user_api_client():

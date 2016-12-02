@@ -63,13 +63,9 @@ SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY = SOCIAL_AUTH_EDX_OIDC_SECRET
 
 ENABLE_AUTO_AUTH = True
 
-# PROGRAMS API CONFIGURATION
+# CATALOG API CONFIGURATION
 # Specified in seconds. Enable caching by setting this to a value greater than 0.
 PROGRAMS_CACHE_TTL = 60
-
-# ORGANIZATIONS API CONFIGURATION
-# Specified in seconds. Enable caching by setting this to a value greater than 0.
-ORGANIZATIONS_CACHE_TTL = 60
 
 # USER API CONFIGURATION
 # Specified in seconds. Enable caching by setting this to a value greater than 0.

@@ -44,14 +44,3 @@ class SiteMixin(object):
         root = self.site.siteconfiguration.catalog_api_url.strip('/')
         url = '{root}/{endpoint}/'.format(root=root, endpoint=endpoint)
         responses.add(responses.GET, url, body=json.dumps(body), content_type=JSON, status=status)
-
-    def mock_organizations_api_detail_response(self, organization_id, status=200):
-        root = settings.ORGANIZATIONS_API_URL.strip('/')
-        url = '{root}/organizations/{id}/'.format(root=root, id=organization_id)
-        body = json.dumps({
-            'name': 'Test Organization',
-            'short_name': 'test-org',
-            'description': 'Organization for testing.',
-            'logo': 'http://testserver/media/organization_logos/test_org_logo.png',
-        })
-        responses.add(responses.GET, url, body=body, content_type=JSON, status=status)
