@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 
-from credentials.apps.credentials.models import UserCredential, ProgramCertificate
+from credentials.apps.credentials.models import UserCredential, ProgramCertificate, ProgramDetails
 from credentials.apps.credentials.utils import get_organization, get_user_data
 
 logger = logging.getLogger(__name__)
@@ -83,19 +83,21 @@ class ExampleCredential(TemplateView):
             },
             'certificate_context': {
                 'credential_type': 'Demo Certificate',
-                'credential_title': 'Demo Series',
+                'credential_title': 'Completely Example Program',
                 'user_data': {
-                    'name': 'Demo User',
+                    'name': 'John Doe',
                 },
-                'programs_data': {
-                    'name': 'Example Program',
-                    'course_count': 3,
-                    'organization_key': 'ExampleX',
-                    'category': 'Fake Program',
-                },
+                'program_details': ProgramDetails(
+                    uuid=uuid.uuid4(),
+                    title='Completely Example Program',
+                    type='Fake',
+                    organization_keys=['ExampleX'],
+                    course_count=3
+                ),
                 'organization_data': {
                     'short_name': 'ExampleX',
-                    'name': 'Example',
+                    'name': 'Example University',
+                    'logo': 'http://placehold.it/204x204',
                 },
                 'organization_name': 'Example, Inc.',
                 'credential_template': 'credentials/program_certificate.html',
