@@ -21,8 +21,6 @@ class CredentialsConfig(AppConfig):
 
         required_config_settings = (
             'CREDENTIALS_SERVICE_USER',
-            'PROGRAMS_API_URL', 'PROGRAMS_JWT_AUDIENCE', 'PROGRAMS_JWT_SECRET_KEY',
-            'ORGANIZATIONS_API_URL', 'ORGANIZATIONS_AUDIENCE', 'ORGANIZATIONS_SECRET_KEY',
             'USER_API_URL', 'USER_JWT_AUDIENCE', 'USER_JWT_SECRET_KEY',
         )
 

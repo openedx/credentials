@@ -14,12 +14,15 @@ from mock import patch
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests import factories
-from credentials.apps.credentials.tests.mixins import OrganizationsDataMixin, UserDataMixin
+from credentials.apps.credentials.tests.mixins import UserDataMixin
 
 
 # pylint: disable=no-member
 class RenderCredentialPageTests(SiteMixin, TestCase):
     """ Tests for credential rendering view. """
+    PRIMARY_ORGANIZATION_KEY = 'ACMEx'
+    PRIMARY_ORGANIZATION_LOGO_URL = 'http://example.com/image.jpg'
+    PRIMARY_ORGANIZATION_NAME = 'ACME University'
 
     def setUp(self):
         super(RenderCredentialPageTests, self).setUp()
@@ -33,14 +36,24 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
         """ Helper method to render a user certificate."""
         program_uuid = self.program_certificate.program_uuid
         program_endpoint = 'programs/{uuid}/'.format(uuid=program_uuid.hex)
-        organization_key = 'ACMEx'
         body = {
             'uuid': program_uuid.hex,
             'title': 'Test Program',
             'type': 'XSeries',
             'authoring_organizations': [
-                {'key': organization_key},
-                {'key': 'FakeX'}
+                {
+                    'uuid': uuid.uuid4().hex,
+                    'key': self.PRIMARY_ORGANIZATION_KEY,
+                    'name': self.PRIMARY_ORGANIZATION_NAME,
+                    'logo_image_url': self.PRIMARY_ORGANIZATION_LOGO_URL
+
+                },
+                {
+                    'uuid': uuid.uuid4().hex,
+                    'key': 'FakeX',
+                    'name': 'Fake University',
+                    'logo_image_url': 'http://example.com/image.jpg'
+                }
             ],
             'courses': [
                 {'key': 'ACMEx/101x'},
@@ -49,7 +62,6 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
         }
         self.mock_access_token_response()
         self.mock_catalog_api_response(program_endpoint, body)
-        self.mock_organizations_api_detail_response(organization_key)
 
         with patch('credentials.apps.credentials.views.get_user_data') as user_data:
             user_data.return_value = UserDataMixin.USER_API_RESPONSE
@@ -108,14 +120,16 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
         self.assertContains(response, issued_date)
 
         # test organization related data.
-        self.assertContains(response, 'test-org')
-        self.assertContains(response, 'http://testserver/media/organization_logos/test_org_logo.png')
+        self.assertContains(response, self.PRIMARY_ORGANIZATION_KEY)
+        self.assertContains(response, self.PRIMARY_ORGANIZATION_LOGO_URL)
 
         # test programs data
         self.assertContains(
             response,
-            'a series of 2 courses offered by test-org through {platform_name}'.format(
-                platform_name=settings.PLATFORM_NAME)
+            'a series of 2 courses offered by {org_name} through {platform_name}'.format(
+                org_name=self.PRIMARY_ORGANIZATION_KEY,
+                platform_name=settings.PLATFORM_NAME
+            )
         )
         self.assertContains(response, certificate_title)
 
@@ -131,7 +145,6 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
         self.assertContains(response, 'Print this certificate')
         self.assertContains(response, 'images/logo-edX.png')
         self.assertContains(response, 'images/edx-openedx-logo-tag.png')
-        self.assertContains(response, 'http://testserver/media/organization_logos/test_org_logo.png')
         self.assertContains(response, 'offers interactive online classes and MOOCs from the')
         self.assertContains(
             response,
@@ -158,26 +171,6 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.signatory_1.organization_name_override)
         self.assertNotContains(response, self.signatory_2.organization_name_override)
-
-    @responses.activate
-    def test_issuing_organization_name_override(self):
-        """ Verify that the view response contains organization 'name' instead of 'short_name'
-        if 'use_org_name' is True."""
-        response = self._render_user_credential()
-
-        self.assertEqual(
-            response.context['certificate_context']['organization_name'],
-            OrganizationsDataMixin.ORGANIZATIONS_API_RESPONSE['short_name']
-        )
-
-        self.program_certificate.use_org_name = True
-        self.program_certificate.save()
-        response = self._render_user_credential()
-
-        self.assertEqual(
-            response.context['certificate_context']['organization_name'],
-            OrganizationsDataMixin.ORGANIZATIONS_API_RESPONSE['name']
-        )
 
 
 class ExampleCredentialTests(TestCase):

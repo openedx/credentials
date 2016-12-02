@@ -4,13 +4,14 @@ Models for the credentials service.
 # pylint: disable=model-missing-unicode
 from __future__ import unicode_literals
 
-# See See https://github.com/PyCQA/pylint/issues/848 regarding uuid
 import uuid  # pylint: disable=unused-import
 from collections import namedtuple
 
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -21,7 +22,6 @@ from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 
 from credentials.apps.credentials import constants
-from credentials.apps.credentials.utils import get_program
 
 
 def _choices(*values):
@@ -231,7 +231,8 @@ class CourseCertificate(AbstractCertificate):
         verbose_name = "Course certificate configuration"
 
 
-ProgramDetails = namedtuple('ProgramDetails', ('uuid', 'title', 'type', 'organization_keys', 'course_count',))
+OrganizationDetails = namedtuple('OrganizationDetails', ('uuid', 'key', 'name', 'display_name', 'logo_image_url'))
+ProgramDetails = namedtuple('ProgramDetails', ('uuid', 'title', 'type', 'course_count', 'organizations'))
 
 
 class ProgramCertificate(AbstractCertificate):
@@ -261,31 +262,43 @@ class ProgramCertificate(AbstractCertificate):
     class Meta(object):
         verbose_name = "Program certificate configuration"
 
+    def get_program_api_data(self):
+        """ Returns program data from the Catalog API. """
+        program_uuid = self.program_uuid.hex
+        cache_key = 'programs.api.data.{uuid}'.format(uuid=program_uuid)
+        program = cache.get(cache_key)
+
+        if program:
+            return program
+
+        client = self.site.siteconfiguration.catalog_api_client
+        program = client.programs(program_uuid).get()
+        cache.set(cache_key, program, settings.PROGRAMS_CACHE_TTL)
+
+        return program
+
     @cached_property
     def program_details(self):
         """ Returns details about the program associated with this certificate. """
+        data = self.get_program_api_data()
 
-        if self.program_uuid:
-            # Use the Catalog API
-            client = self.site.siteconfiguration.catalog_api_client
-            data = client.programs(self.program_uuid.hex).get()
-            return ProgramDetails(
-                uuid=data['uuid'],
-                title=data['title'],
-                type=data['type'],
-                organization_keys=[organization['key'] for organization in data['authoring_organizations']],
-                course_count=len(data['courses'])
-            )
-        else:
-            # Use the Programs API
-            data = get_program(self.program_id)
-            return ProgramDetails(
-                uuid=data['uuid'],
-                title=data['name'],
-                type=data['category'],
-                organization_keys=[organization['key'] for organization in data['organizations']],
-                course_count=len(data['course_codes'])
-            )
+        organizations = []
+        for organization in data['authoring_organizations']:
+            organizations.append(OrganizationDetails(
+                uuid=organization['uuid'],
+                key=organization['key'],
+                name=organization['name'],
+                display_name=organization['name'] if self.use_org_name else organization['key'],
+                logo_image_url=organization['logo_image_url']
+            ))
+
+        return ProgramDetails(
+            uuid=data['uuid'],
+            title=data['title'],
+            type=data['type'],
+            course_count=len(data['courses']),
+            organizations=organizations
+        )
 
 
 class UserCredentialAttribute(TimeStampedModel):
