@@ -2,7 +2,8 @@
 NODE_BIN=./node_modules/.bin
 
 .PHONY: clean compile_translations dummy_translations extract_translations fake_translations help html_coverage \
-	migrate pull_translations push_translations quality requirements test update_translations validate
+	migrate pull_translations push_translations quality requirements test update_translations validate \
+	production-requirements
 
 help:
 	@echo "Please use \`make <target>\` where <target> is one of"
@@ -14,6 +15,7 @@ help:
 	@echo "  help                       display this help message"
 	@echo "  html_coverage              generate and view HTML coverage report"
 	@echo "  migrate                    apply database migrations"
+	@echo "  production-requirements    install requirements for production"
 	@echo "  pull_translations          pull translations from Transifex"
 	@echo "  push_translations          push source translation files (.po) from Transifex"
 	@echo "  quality                    run PEP8 and Pylint"
@@ -39,6 +41,9 @@ clean:
 
 clean_static:
 	rm -rf credentials/assets/
+
+production-requirements: requirements.js
+	pip install -r requirements.txt --exists-action w
 
 requirements.js:
 	npm install
