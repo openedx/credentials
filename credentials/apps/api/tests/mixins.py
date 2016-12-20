@@ -2,10 +2,16 @@
 Mixins for Credentials API tests.
 """
 from time import time
+import json
 
 from django.conf import settings
+from django.contrib.auth.models import Group
+from rest_framework.test import APIRequestFactory
 import jwt
 
+from credentials.apps.api.serializers import UserCredentialSerializer
+from credentials.apps.core.constants import Role
+from credentials.apps.core.tests.factories import UserFactory
 
 JWT_AUTH = 'JWT_AUTH'
 
@@ -51,3 +57,56 @@ class JwtMixin(object):
             "given_name": "",
             "family_name": "",
         }
+
+
+class CredentialViewSetTestsMixin(object):
+    """ Base Class for ProgramCredentialViewSetTests and CourseCredentialViewSetTests. """
+
+    list_path = None
+    user_credential = None
+
+    #  pylint: disable=no-member
+    def setUp(self):
+        super(CredentialViewSetTestsMixin, self).setUp()
+
+        self.user = UserFactory()
+        self.user.groups.add(Group.objects.get(name=Role.ADMINS))
+        self.client.force_authenticate(self.user)
+        self.request = APIRequestFactory().get('/')
+
+    def assert_permission_required(self, data):
+        """
+        Ensure access to these APIs is restricted to those with explicit model
+        permissions.
+        """
+        self.client.force_authenticate(user=UserFactory())
+        response = self.client.get(self.list_path, data)
+        self.assertEqual(response.status_code, 403)
+
+    def assert_list_without_id_filter(self, path, expected, data=None):
+        """Helper method used for making request and assertions. """
+        response = self.client.get(path, data)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data, expected)
+
+    def assert_list_with_id_filter(self, data=None, should_exist=True):
+        """Helper method used for making request and assertions. """
+        expected = self._generate_results(should_exist)
+        response = self.client.get(self.list_path, data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, expected)
+
+    def assert_list_with_status_filter(self, data, should_exist=True):
+        """Helper method for making request and assertions. """
+        expected = self._generate_results(should_exist)
+        response = self.client.get(self.list_path, data, expected)
+        self.assertEqual(json.loads(response.content), expected)
+
+    def _generate_results(self, exists=True):
+        if exists:
+            return {'count': 1, 'next': None, 'previous': None,
+                    'results': [UserCredentialSerializer(self.user_credential, context={'request': self.request}).data]}
+
+        return {'count': 0, 'next': None, 'previous': None, 'results': []}

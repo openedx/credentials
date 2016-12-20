@@ -25,11 +25,11 @@ class CredentialField(serializers.Field):
         try:
             if 'program_id' in data and data.get('program_id'):
                 credential_id = data['program_id']
-                return ProgramCertificate.objects.get(program_id=data['program_id'], is_active=True)
+                return ProgramCertificate.objects.get(program_id=credential_id, is_active=True)
             elif 'course_id' in data and data.get('course_id') and data.get('certificate_type'):
                 credential_id = data['course_id']
                 return CourseCertificate.objects.get(
-                    course_id=data['course_id'],
+                    course_id=credential_id,
                     certificate_type=data['certificate_type'],
                     is_active=True
                 )
