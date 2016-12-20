@@ -1,14 +1,10 @@
-"""
-Tests for credentials service views.
-"""
-# pylint: disable=no-member
 from __future__ import unicode_literals
 import json
 
 import ddt
 from django.contrib.auth.models import Group, Permission
 from django.core.urlresolvers import reverse
-from rest_framework.test import APITestCase, APIRequestFactory
+from rest_framework.test import APIRequestFactory
 from testfixtures import LogCapture
 
 from credentials.apps.api.serializers import UserCredentialSerializer
@@ -17,20 +13,20 @@ from credentials.apps.core.tests.factories import UserFactory
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests import factories
 
-
 JSON_CONTENT_TYPE = 'application/json'
 LOGGER_NAME = 'credentials.apps.credentials.issuers'
 LOGGER_NAME_SERIALIZER = 'credentials.apps.api.serializers'
 
 
 @ddt.ddt
-class UserCredentialViewSetTests(APITestCase):
+class BaseUserCredentialViewSetTests(object):
     """ Tests for GenerateCredentialView. """
+    # pylint: disable=no-member
 
-    list_path = reverse("api:v1:usercredential-list")
+    list_path = None
 
     def setUp(self):
-        super(UserCredentialViewSetTests, self).setUp()
+        super(BaseUserCredentialViewSetTests, self).setUp()
 
         self.user = UserFactory()
         self.client.force_authenticate(self.user)
@@ -449,10 +445,13 @@ class UserCredentialViewSetTests(APITestCase):
 
 
 @ddt.ddt
-class UserCredentialViewSetPermissionsTests(APITestCase):
+class BaseUserCredentialViewSetPermissionsTests(object):
     """
     Thoroughly exercise the custom view- and object-level permissions for this viewset.
     """
+    # pylint: disable=no-member
+
+    list_path = None
 
     def make_user(self, group=None, perm=None, **kwargs):
         """ DRY helper to create users with specific groups and/or permissions. """
@@ -478,10 +477,9 @@ class UserCredentialViewSetPermissionsTests(APITestCase):
         The list method (GET) requires either 'view' permission, or for the
         'username' query parameter to match that of the requesting user.
         """
-        list_path = reverse("api:v1:usercredential-list")
 
         self.client.force_authenticate(self.make_user(**user_kwargs))
-        response = self.client.get(list_path, {'username': 'test-user'})
+        response = self.client.get(self.list_path, {'username': 'test-user'})
         self.assertEqual(response.status_code, expected_status)
 
     @ddt.data(
@@ -497,7 +495,6 @@ class UserCredentialViewSetPermissionsTests(APITestCase):
         """
         The creation (POST) method requires the 'add' permission.
         """
-        list_path = reverse('api:v1:usercredential-list')
         program_certificate = factories.ProgramCertificateFactory()
         post_data = {
             'username': 'test-user',
@@ -508,7 +505,7 @@ class UserCredentialViewSetPermissionsTests(APITestCase):
         }
 
         self.client.force_authenticate(self.make_user(**user_kwargs))
-        response = self.client.post(list_path, data=json.dumps(post_data), content_type=JSON_CONTENT_TYPE)
+        response = self.client.post(self.list_path, data=json.dumps(post_data), content_type=JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, expected_status)
 
     @ddt.data(
@@ -563,95 +560,14 @@ class UserCredentialViewSetPermissionsTests(APITestCase):
         self.assertEqual(response.status_code, expected_status)
 
 
-class CredentialViewSetTests(APITestCase):
-    """ Base Class for ProgramCredentialViewSetTests and CourseCredentialViewSetTests. """
+class BaseCourseCredentialViewSetTests(object):
+    """ Tests for CourseCredentialViewSetTests. """
+    # pylint: disable=no-member
 
     list_path = None
-    user_credential = None
 
     def setUp(self):
-        super(CredentialViewSetTests, self).setUp()
-
-        self.user = UserFactory()
-        self.user.groups.add(Group.objects.get(name=Role.ADMINS))
-        self.client.force_authenticate(self.user)
-        self.request = APIRequestFactory().get('/')
-
-    def assert_permission_required(self, data):
-        """
-        Ensure access to these APIs is restricted to those with explicit model
-        permissions.
-        """
-        self.client.force_authenticate(user=UserFactory())
-        response = self.client.get(self.list_path, data)
-        self.assertEqual(response.status_code, 403)
-
-    def assert_list_without_id_filter(self, path, expected):
-        """Helper method used for making request and assertions. """
-        response = self.client.get(path)
-        self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data, expected)
-
-    def assert_list_with_id_filter(self, data):
-        """Helper method used for making request and assertions. """
-        expected = {'count': 1, 'next': None, 'previous': None,
-                    'results': [UserCredentialSerializer(self.user_credential, context={'request': self.request}).data]}
-        response = self.client.get(self.list_path, data)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, expected)
-
-    def assert_list_with_status_filter(self, data):
-        """Helper method for making request and assertions. """
-        expected = {'count': 1, 'next': None, 'previous': None,
-                    'results': [UserCredentialSerializer(self.user_credential, context={'request': self.request}).data]}
-        response = self.client.get(self.list_path, data, expected)
-        self.assertEqual(json.loads(response.content), expected)
-
-
-class ProgramCredentialViewSetTests(CredentialViewSetTests):
-    """ Tests for ProgramCredentialViewSetTests. """
-
-    list_path = reverse("api:v1:programcredential-list")
-
-    def setUp(self):
-        super(ProgramCredentialViewSetTests, self).setUp()
-
-        self.program_certificate = factories.ProgramCertificateFactory()
-        self.program_id = self.program_certificate.program_id
-        self.user_credential = factories.UserCredentialFactory.create(credential=self.program_certificate)
-        self.request = APIRequestFactory().get('/')
-
-    def test_list_without_program_id(self):
-        """ Verify a list end point of program credentials will work only with
-        program_id filter.
-        """
-        self.assert_list_without_id_filter(path=self.list_path, expected={
-            'error': 'A program_id query string parameter is required for filtering program credentials.'
-        })
-
-    def test_list_with_program_id_filter(self):
-        """ Verify the list endpoint supports filter data by program_id."""
-        program_cert = factories.ProgramCertificateFactory(program_id=001)
-        factories.UserCredentialFactory.create(credential=program_cert)
-        self.assert_list_with_id_filter(data={'program_id': self.program_id})
-
-    def test_list_with_status_filter(self):
-        """ Verify the list endpoint supports filtering by status."""
-        factories.UserCredentialFactory.create_batch(2, status="revoked", username=self.user_credential.username)
-        self.assert_list_with_status_filter(data={'program_id': self.program_id, 'status': UserCredential.AWARDED}, )
-
-    def test_permission_required(self):
-        """ Verify that requests require explicit model permissions. """
-        self.assert_permission_required({'program_id': self.program_id, 'status': UserCredential.AWARDED})
-
-
-class CourseCredentialViewSetTests(CredentialViewSetTests):
-    """ Tests for CourseCredentialViewSetTests. """
-
-    list_path = reverse("api:v1:coursecredential-list")
-
-    def setUp(self):
-        super(CourseCredentialViewSetTests, self).setUp()
+        super(BaseCourseCredentialViewSetTests, self).setUp()
 
         self.course_certificate = factories.CourseCertificateFactory()
         self.course_id = self.course_certificate.course_id
