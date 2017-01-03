@@ -148,7 +148,7 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
         self.assertContains(response, 'offers interactive online classes and MOOCs from the')
         self.assertContains(
             response,
-            'An {platform_name} XSeries certificate signifies that the learner has'.format(
+            'An {platform_name} XSeries Certificate signifies that the learner has'.format(
                 platform_name=settings.PLATFORM_NAME
             )
         )

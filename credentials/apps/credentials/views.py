@@ -17,7 +17,10 @@ logger = logging.getLogger(__name__)
 
 class RenderCredential(TemplateView):
     """ Certificate rendering view."""
-    template_name = 'credentials/render_credential.html'
+    # This base template will include a separate template housing the requested credential body.
+    # This allows us to use this one view to render credentials for any number of content types
+    # (e.g., courses, programs).
+    template_name = 'credentials/base.html'
 
     def get_context_data(self, **kwargs):
         context = super(RenderCredential, self).get_context_data(**kwargs)
@@ -57,13 +60,13 @@ class RenderCredential(TemplateView):
             'credential_title': user_credential.credential.title,
             'user_data': get_user_data(user_credential.username),
             'program_details': program_details,
-            'credential_template': 'credentials/program_certificate.html',
+            'credential_template': 'credentials/program.html',
         }
 
 
 class ExampleCredential(TemplateView):
     """ Example certificate. """
-    template_name = 'credentials/render_credential.html'
+    template_name = 'credentials/base.html'
 
     def get_context_data(self, **kwargs):
         context = super(ExampleCredential, self).get_context_data(**kwargs)
@@ -88,7 +91,7 @@ class ExampleCredential(TemplateView):
                 }
             },
             'certificate_context': {
-                'credential_type': 'Demo Certificate',
+                'credential_type': 'Example Certificate',
                 'credential_title': 'Completely Example Program',
                 'user_data': {
                     'name': 'John Doe',
@@ -96,7 +99,7 @@ class ExampleCredential(TemplateView):
                 'program_details': ProgramDetails(
                     uuid=uuid.uuid4(),
                     title='Completely Example Program',
-                    type='Fake',
+                    type='Example',
                     course_count=3,
                     organizations=[OrganizationDetails(
                         uuid=uuid.uuid4(),
@@ -106,7 +109,7 @@ class ExampleCredential(TemplateView):
                         logo_image_url='http://placehold.it/204x204'
                     )]
                 ),
-                'credential_template': 'credentials/program_certificate.html',
+                'credential_template': 'credentials/program.html',
             },
         })
 
