@@ -143,7 +143,8 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
     def _assert_html_data(self, response):
         """ Helper method to check html data."""
         self.assertContains(response, 'Print this certificate')
-        self.assertContains(response, 'images/logo-edX.png')
+        # The title element of the svg logo
+        self.assertContains(response, 'edx-logo-title')
         self.assertContains(response, 'images/edx-openedx-logo-tag.png')
         self.assertContains(response, 'offers interactive online classes and MOOCs from the')
         self.assertContains(
