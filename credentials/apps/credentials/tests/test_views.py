@@ -5,11 +5,12 @@ from __future__ import unicode_literals
 
 import uuid
 
-import responses
+import ddt
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from mock import patch
+import responses
 
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import UserCredential
@@ -174,8 +175,16 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
         self.assertNotContains(response, self.signatory_2.organization_name_override)
 
 
+@ddt.ddt
 class ExampleCredentialTests(TestCase):
     def test_get(self):
         """ Verify the view loads. """
         response = self.client.get(reverse('credentials:example'))
         self.assertEqual(response.status_code, 200)
+
+    @ddt.data('micromasters', 'xseries', 'professional-certificate')
+    def test_get_example_credentials(self, program_type):
+        response = self.client.get('{}?program_type={}'.format(reverse('credentials:example'), program_type))
+        self.assertEqual(response.status_code, 200)
+        for asset in ('watermark', 'logo'):
+            self.assertContains(response, '{}-{}'.format(program_type, asset))

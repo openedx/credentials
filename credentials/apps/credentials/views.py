@@ -69,6 +69,7 @@ class ExampleCredential(TemplateView):
     template_name = 'credentials/base.html'
 
     def get_context_data(self, **kwargs):
+        program_type = self.request.GET.get('program_type', 'Example')
         context = super(ExampleCredential, self).get_context_data(**kwargs)
         context.update({
             'user_credential': {
@@ -99,7 +100,7 @@ class ExampleCredential(TemplateView):
                 'program_details': ProgramDetails(
                     uuid=uuid.uuid4(),
                     title='Completely Example Program',
-                    type='Example',
+                    type=program_type,
                     course_count=3,
                     organizations=[OrganizationDetails(
                         uuid=uuid.uuid4(),
