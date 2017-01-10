@@ -28,6 +28,9 @@ with open(CONFIG_FILE) as f:
     # Load the files storage backend settings for django storages
     vars().update(FILE_STORAGE_BACKEND)
 
+if 'EXTRA_APPS' in locals():
+    INSTALLED_APPS += EXTRA_APPS
+
 DB_OVERRIDES = dict(
     PASSWORD=environ.get('DB_MIGRATION_PASS', DATABASES['default']['PASSWORD']),
     ENGINE=environ.get('DB_MIGRATION_ENGINE', DATABASES['default']['ENGINE']),

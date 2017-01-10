@@ -5,8 +5,8 @@ import uuid
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404
+from django.template.defaultfilters import slugify
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView
 
 from credentials.apps.credentials.models import UserCredential, ProgramCertificate, ProgramDetails, OrganizationDetails
@@ -53,14 +53,15 @@ class RenderCredential(TemplateView):
              lms service and template path.
         """
         program_details = user_credential.credential.program_details
-
+        program_type = program_details.type
+        credential_template = 'credentials/programs/{}.html'.format(slugify(program_type))
         # pylint: disable=no-member
         return {
-            'credential_type': _('{program_type} Certificate').format(program_type=program_details.type),
+            'credential_type': program_type,
             'credential_title': user_credential.credential.title,
             'user_data': get_user_data(user_credential.username),
             'program_details': program_details,
-            'credential_template': 'credentials/program.html',
+            'credential_template': credential_template,
         }
 
 
@@ -71,6 +72,20 @@ class ExampleCredential(TemplateView):
     def get_context_data(self, **kwargs):
         program_type = self.request.GET.get('program_type', 'Example')
         context = super(ExampleCredential, self).get_context_data(**kwargs)
+        program_details = ProgramDetails(
+            uuid=uuid.uuid4(),
+            title='Completely Example Program',
+            type=program_type,
+            course_count=3,
+            organizations=[OrganizationDetails(
+                uuid=uuid.uuid4(),
+                key='ExampleX',
+                name='Example University',
+                display_name='Absolutely Fake University',
+                logo_image_url='http://placehold.it/204x204'
+            )]
+        )
+
         context.update({
             'user_credential': {
                 'modified': timezone.now(),
@@ -97,20 +112,8 @@ class ExampleCredential(TemplateView):
                 'user_data': {
                     'name': 'John Doe',
                 },
-                'program_details': ProgramDetails(
-                    uuid=uuid.uuid4(),
-                    title='Completely Example Program',
-                    type=program_type,
-                    course_count=3,
-                    organizations=[OrganizationDetails(
-                        uuid=uuid.uuid4(),
-                        key='ExampleX',
-                        name='Example University',
-                        display_name='Absolutely Fake University',
-                        logo_image_url='http://placehold.it/204x204'
-                    )]
-                ),
-                'credential_template': 'credentials/program.html',
+                'program_details': program_details,
+                'credential_template': 'credentials/programs/{}.html'.format(slugify(program_type)),
             },
         })
 

@@ -8,6 +8,7 @@ from credentials.settings.utils import get_logger_config
 # TEST SETTINGS
 INSTALLED_APPS += (
     'django_nose',
+    'credentials.apps.edx_credentials_extensions',
 )
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'

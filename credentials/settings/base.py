@@ -266,10 +266,6 @@ JWT_AUTH = {
     'JWT_DECODE_HANDLER': 'credentials.apps.api.jwt_decode_handler.decode',
 }
 
-# OPENEDX-SPECIFIC CONFIGURATION
-PLATFORM_NAME = 'Your Platform Name Here'
-# END OPENEDX-SPECIFIC CONFIGURATION
-
 # Set up logging for development use (logging to stdout)
 LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel='DEBUG')
 
