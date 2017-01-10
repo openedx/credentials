@@ -1,24 +1,23 @@
 language: python
 python:
     - "2.7"
-sudo: false
+sudo: required
+
+services:
+  - docker
 
 cache:
-  - pip
   - directories:
     - node_modules
     - credentials/static/bower_components
-before_install:
-    - "export DISPLAY=:99.0"
-    - "sh -e /etc/init.d/xvfb start"
-install:
-    - pip install -U pip wheel codecov
-    - make requirements
-script:
-    # Check if translation files are up to date
-    - make validate_translations
 
-    - make static -e DJANGO_SETTINGS_MODULE="credentials.settings.test"
-    - make validate
+before_install:
+    - docker-compose -f .travis/docker-compose-travis.yml up -d
+
+script:
+    - docker exec credentials /edx/app/credentials/credentials/.travis/run_tests.sh
+
 after_success:
+    - pip install -U codecov
+    - docker exec credentials /edx/app/credentials/credentials/.travis/run_coverage.sh
     - codecov
