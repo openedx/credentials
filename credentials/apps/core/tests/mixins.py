@@ -28,7 +28,8 @@ class SiteMixin(object):
 
     def mock_access_token_response(self, status=200):
         """ Mock the response from the OAuth provider's access token endpoint. """
-        url = '{root}/access_token'.format(root=self.site.siteconfiguration.oauth2_provider_url)
+        oauth2_provider_url = self.site.siteconfiguration.oauth2_provider_url  # pylint: disable=no-member
+        url = '{root}/access_token'.format(root=oauth2_provider_url)
         token = 'abc123'
         body = json.dumps({
             'access_token': token,
@@ -41,6 +42,6 @@ class SiteMixin(object):
     def mock_catalog_api_response(self, endpoint, body, status=200):
         """ Mock a response from a Catalog API endpoint. """
         endpoint = endpoint.strip('/')
-        root = self.site.siteconfiguration.catalog_api_url.strip('/')
+        root = self.site.siteconfiguration.catalog_api_url.strip('/')  # pylint: disable=no-member
         url = '{root}/{endpoint}/'.format(root=root, endpoint=endpoint)
         responses.add(responses.GET, url, body=json.dumps(body), content_type=JSON, status=status)

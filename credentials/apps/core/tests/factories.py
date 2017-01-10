@@ -1,7 +1,7 @@
 """
 Factories for tests of Credentials.
 """
-import factory
+from factory import Faker, Sequence, PostGenerationMethodCall, SubFactory, django
 from django.contrib.sites.models import Site
 
 from credentials.apps.core.models import SiteConfiguration, User
@@ -9,28 +9,35 @@ from credentials.apps.core.models import SiteConfiguration, User
 USER_PASSWORD = 'password'
 
 
-class UserFactory(factory.django.DjangoModelFactory):
+class UserFactory(django.DjangoModelFactory):
     class Meta(object):
         model = User
 
-    username = factory.Sequence(lambda n: 'user_%d' % n)
-    password = factory.PostGenerationMethodCall('set_password', USER_PASSWORD)
-    first_name = factory.Faker('first_name')
-    last_name = factory.Faker('last_name')
-    email = factory.Faker('safe_email')
+    username = Sequence(lambda n: 'user_%d' % n)
+    password = PostGenerationMethodCall('set_password', USER_PASSWORD)
+    first_name = Faker('first_name')
+    last_name = Faker('last_name')
+    email = Faker('safe_email')
     is_staff = False
     is_active = True
 
 
-class SiteFactory(factory.django.DjangoModelFactory):
+class SiteFactory(django.DjangoModelFactory):
     class Meta(object):
         model = Site
 
 
-class SiteConfigurationFactory(factory.django.DjangoModelFactory):
+class SiteConfigurationFactory(django.DjangoModelFactory):
     class Meta(object):
         model = SiteConfiguration
 
-    site = factory.SubFactory(SiteFactory)
-    lms_url_root = factory.Faker('url')
-    catalog_api_url = factory.Faker('url')
+    site = SubFactory(SiteFactory)
+    lms_url_root = Faker('url')
+    catalog_api_url = Faker('url')
+    platform_name = Faker('word')
+    tos_url = Faker('url')
+    privacy_policy_url = Faker('url')
+    homepage_url = Faker('url')
+    company_name = Faker('word')
+    verified_certificate_url = Faker('url')
+    certificate_help_url = Faker('url')

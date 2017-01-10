@@ -16,17 +16,17 @@ from edx_rest_api_client.client import EdxRestApiClient
 
 class SiteConfiguration(models.Model):
     site = models.OneToOneField(Site, null=False, blank=False)
+    platform_name = models.CharField(
+        verbose_name=_('Platform Name'),
+        help_text=_('Name of your Open edX platform'),
+        max_length=255,
+        null=True,
+        blank=False,
+    )
     lms_url_root = models.URLField(
         verbose_name=_('LMS base url for custom site'),
         help_text=_("Root URL of this site's LMS (e.g. https://courses.stage.edx.org)"),
-        null=False,
-        blank=False
-    )
-    theme_scss_path = models.CharField(
-        verbose_name=_('Path to custom site theme'),
-        help_text=_("Path to site theme's main SCSS file"),
-        max_length=255,
-        null=False,
+        null=True,
         blank=False
     )
     catalog_api_url = models.URLField(
@@ -34,6 +34,39 @@ class SiteConfiguration(models.Model):
         help_text=_('Root URL of the Catalog API (e.g. https://api.edx.org/catalog/v1/)'),
         blank=False,
         null=True
+    )
+    tos_url = models.URLField(
+        verbose_name=_('Terms of Service URL'),
+        blank=False,
+        null=True,
+    )
+    privacy_policy_url = models.URLField(
+        verbose_name=_('Privacy Policy URL'),
+        blank=False,
+        null=True,
+    )
+    homepage_url = models.URLField(
+        verbose_name=_('Homepage URL'),
+        blank=False,
+        null=True,
+    )
+    company_name = models.CharField(
+        verbose_name=_('Company Name'),
+        max_length=255,
+        blank=False,
+        null=True,
+    )
+    verified_certificate_url = models.URLField(
+        verbose_name=_('Verified Certificate URL'),
+        help_text=_('URL of page for information on verified certificates'),
+        blank=False,
+        null=True,
+    )
+    certificate_help_url = models.URLField(
+        verbose_name=_('Certificate Help URL'),
+        help_text=_('URL of page for questions about certificates'),
+        blank=False,
+        null=True,
     )
 
     def __unicode__(self):
