@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import uuid
 
 import factory
@@ -56,8 +58,8 @@ class UserCredentialAttributeFactory(factory.django.DjangoModelFactory):
         model = models.UserCredentialAttribute
 
     user_credential = factory.SubFactory(UserCredentialFactory)
-    name = factory.Sequence(lambda o: u'name-%d' % o)
-    value = factory.Sequence(lambda o: u'value-%d' % o)
+    name = factory.Sequence(lambda o: 'name-%d' % o)
+    value = factory.Sequence(lambda o: 'value-%d' % o)
 
 
 class SignatoryFactory(factory.django.DjangoModelFactory):

@@ -19,7 +19,7 @@ class SiteMixin(object):
         domain = 'testserver.fake'
         self.client = self.client_class(SERVER_NAME=domain)
 
-        Site.objects.all().delete()
+        Site.objects.all().delete()  # pylint: disable=no-member
         site_configuration = SiteConfigurationFactory(
             site__domain=domain,
             site__id=settings.SITE_ID

@@ -1,94 +1,263 @@
-"""
-Tests for credentials service views.
-"""
 from __future__ import unicode_literals
 
-from django.core.urlresolvers import reverse
-from rest_framework.test import APIRequestFactory, APITestCase
+import json
 
-from credentials.apps.api.tests.mixins import CredentialViewSetTestsMixin
-from credentials.apps.api.tests.test_views import (
-    BaseUserCredentialViewSetTests, BaseUserCredentialViewSetPermissionsTests, BaseCourseCredentialViewSetTests,
-)
+import ddt
+from django.contrib.auth.models import Permission
+from django.core.urlresolvers import reverse
+from rest_framework.renderers import JSONRenderer
+from rest_framework.test import APITestCase, APIRequestFactory
+
+from credentials.apps.api.v2.serializers import UserCredentialSerializer, UserCredentialAttributeSerializer
+from credentials.apps.core.tests.factories import UserFactory, USER_PASSWORD
 from credentials.apps.credentials.models import UserCredential
-from credentials.apps.credentials.tests import factories
+from credentials.apps.credentials.tests.factories import (
+    UserCredentialFactory, ProgramCertificateFactory, UserCredentialAttributeFactory
+)
 
 JSON_CONTENT_TYPE = 'application/json'
 LOGGER_NAME = 'credentials.apps.credentials.issuers'
-LOGGER_NAME_SERIALIZER = 'credentials.apps.api.serializers'
+LOGGER_NAME_SERIALIZER = 'credentials.apps.api.v2.serializers'
 
 
-class ProgramCredentialViewSetTests(CredentialViewSetTestsMixin, APITestCase):
-    """ Tests for ProgramCredentialViewSetTests. """
+# pylint: disable=no-member
 
-    list_path = reverse("api:v2:programcredential-list")
+@ddt.ddt
+class CredentialViewSetTests(APITestCase):
+    list_path = reverse('api:v2:credentials-list')
 
     def setUp(self):
-        super(ProgramCredentialViewSetTests, self).setUp()
+        super(CredentialViewSetTests, self).setUp()
+        self.user = UserFactory()
 
-        self.program_certificate = factories.ProgramCertificateFactory()
-        self.program_id = self.program_certificate.program_id
-        self.program_uuid = self.program_certificate.program_uuid
-        self.user_credential = factories.UserCredentialFactory.create(credential=self.program_certificate)
-        self.request = APIRequestFactory().get('/')
+    def serialize_user_credential(self, user_credential, many=False):
+        """ Serialize the given UserCredential object(s). """
+        request = APIRequestFactory().get('/')
+        return UserCredentialSerializer(user_credential, context={'request': request}, many=many).data
 
-    def test_list_without_uuid(self):
-        """ Verify a list end point of program credentials will work with
-        program_uuid filter.
+    def authenticate_user(self, user):
+        """ Login as the given user. """
+        self.client.logout()
+        self.client.login(username=user.username, password=USER_PASSWORD)
+
+    def add_user_permission(self, user, permission):
+        """ Assigns a permission of the given name to the user. """
+        user.user_permissions.add(Permission.objects.get(codename=permission))
+
+    def assert_access_denied(self, user, method, path, data=None):
+        """ Asserts the given user cannot access the given path via the specified HTTP action/method. """
+        self.client.login(username=user.username, password=USER_PASSWORD)
+        if data:
+            data = json.dumps(data)
+        response = getattr(self.client, method)(path, data=data, content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 403)
+
+    def test_authentication(self):
+        """ Verify the endpoint requires an authenticated user. """
+        self.client.logout()
+        response = self.client.get(self.list_path)
+        self.assertEqual(response.status_code, 401)
+
+        superuser = UserFactory(is_staff=True, is_superuser=True)
+        self.authenticate_user(superuser)
+        response = self.client.get(self.list_path)
+        self.assertEqual(response.status_code, 200)
+
+    def test_create(self):
+        program_certificate = ProgramCertificateFactory()
+        expected_username = 'test_user'
+        expected_attribute_name = 'fake-name'
+        expected_attribute_value = 'fake-value'
+        data = {
+            'username': expected_username,
+            'credential': {
+                'program_uuid': str(program_certificate.program_uuid)
+            },
+            'attributes': [
+                {
+                    'name': expected_attribute_name,
+                    'value': expected_attribute_value,
+                }
+            ],
+        }
+
+        # Verify users without the add permission are denied access
+        self.assert_access_denied(self.user, 'post', self.list_path, data=data)
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'add_usercredential')
+        response = self.client.post(self.list_path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
+        user_credential = UserCredential.objects.last()
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data, self.serialize_user_credential(user_credential))
+
+        self.assertEqual(user_credential.username, expected_username)
+        self.assertEqual(user_credential.credential, program_certificate)
+        self.assertEqual(user_credential.attributes.count(), 1)
+
+        attribute = user_credential.attributes.first()
+        self.assertEqual(attribute.name, expected_attribute_name)
+        self.assertEqual(attribute.value, expected_attribute_value)
+
+    def test_create_with_duplicate_attributes(self):
+        """ Verify an error is returned if an attempt is made to create a UserCredential with multiple attributes
+        of the same name. """
+        program_certificate = ProgramCertificateFactory()
+        data = {
+            'username': 'test-user',
+            'credential': {
+                'program_uuid': str(program_certificate.program_uuid)
+            },
+            'attributes': [
+                {
+                    'name': 'attr-name',
+                    'value': 'attr-value',
+                },
+                {
+                    'name': 'attr-name',
+                    'value': 'another-attr-value',
+                }
+            ],
+        }
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'add_usercredential')
+        response = self.client.post(self.list_path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.data, {'attributes': ['Attribute names cannot be duplicated.']})
+
+    def test_create_with_existing_user_credential(self):
+        """ Verify that, if a user has already been issued a credential, further attempts to issue the same credential
+        will NOT create a new credential, but update the attributes of the existing credential.
         """
-        error_message = {'error': 'A UUID query string parameter is required for filtering program credentials.'}
-        self.assert_list_without_id_filter(path=self.list_path, expected=error_message)
+        user_credential = UserCredentialFactory()
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'add_usercredential')
 
-    def test_list_without_uuid_but_with_id(self):
-        """ Verify a list end point of program credentials will work with
-        program_uuid filter.
-        """
-        error_message = {'error': 'A UUID query string parameter is required for filtering program credentials.'}
-        self.assert_list_without_id_filter(path=self.list_path,
-                                           data={'program_id': self.program_id},
-                                           expected=error_message)
+        # POSTing the exact data that exists in the database should not change the UserCredential
+        data = self.serialize_user_credential(user_credential)
+        response = self.client.post(self.list_path, data=JSONRenderer().render(data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data, self.serialize_user_credential(user_credential))
 
-    def test_list_with_uuid_and_id(self):
-        """ Verify a list end point of program credentials will not work with
-        program_id filter.
-        """
-        error_message = {'error': 'A program_id query string parameter was found in a V2 API request.'}
-        self.assert_list_without_id_filter(path=self.list_path,
-                                           data={'program_uuid': self.program_uuid, 'program_id': self.program_id},
-                                           expected=error_message)
+        # POSTing with modified attributes should update the attributes of the existing UserCredential
+        data = self.serialize_user_credential(user_credential)
+        expected_attribute = UserCredentialAttributeFactory.build()
+        data['attributes'] = [
+            UserCredentialAttributeSerializer(expected_attribute).data
+        ]
+        response = self.client.post(self.list_path, data=JSONRenderer().render(data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 201)
 
-    def test_list_with_program_uuid_filter(self):
-        """ Verify the list endpoint supports filter data by program_uuid."""
-        self.assert_list_with_id_filter(data={'program_uuid': self.program_uuid})
+        user_credential.refresh_from_db()
+        self.assertEqual(response.data, self.serialize_user_credential(user_credential))
+        self.assertEqual(user_credential.attributes.count(), 1)
 
-    def test_list_with_invalid_uuid(self):
-        """ Verify the list endpoint will fail if given a bad uuid."""
-        self.program_uuid = '12345678=0DAC-CAD0-ABCD-fedcba987654'
-        self.assert_list_with_id_filter(data={'program_uuid': self.program_uuid}, should_exist=False)
+        actual_attribute = user_credential.attributes.first()
+        self.assertEqual(actual_attribute.name, expected_attribute.name)
+        self.assertEqual(actual_attribute.value, expected_attribute.value)
 
-    def test_list_with_status_filter(self):
-        """ Verify the list endpoint supports filtering by status."""
-        factories.UserCredentialFactory.create_batch(2, status=UserCredential.REVOKED,
-                                                     username=self.user_credential.username)
-        self.assert_list_with_status_filter(data={'program_uuid': self.program_uuid, 'status': UserCredential.AWARDED})
+    def test_destroy(self):
+        """ Verify the endpoint does NOT support the DELETE operation. """
+        credential = UserCredentialFactory(status=UserCredential.AWARDED)
+        path = reverse('api:v2:credentials-detail', kwargs={'uuid': credential.uuid})
 
-    def test_list_with_bad_status_filter(self):
-        """ Verify the list endpoint supports filtering by status when there isn't anything available."""
-        self.assert_list_with_status_filter(data={'program_uuid': self.program_uuid, 'status': UserCredential.REVOKED},
-                                            should_exist=False)
+        # Verify users without the view permission are denied access
+        self.assert_access_denied(self.user, 'delete', path)
 
-    def test_permission_required(self):
-        """ Verify that requests require explicit model permissions. """
-        self.assert_permission_required({'program_uuid': self.program_uuid, 'status': UserCredential.AWARDED})
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'delete_usercredential')
+        response = self.client.delete(path)
+        credential.refresh_from_db()
 
+        self.assertEqual(credential.status, UserCredential.REVOKED)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, self.serialize_user_credential(credential))
 
-class UserCredentialViewSetTests(BaseUserCredentialViewSetTests, APITestCase):
-    list_path = reverse("api:v2:usercredential-list")
+    def test_retrieve(self):
+        """ Verify the endpoint returns data for a single UserCredential. """
+        credential = UserCredentialFactory()
+        path = reverse('api:v2:credentials-detail', kwargs={'uuid': credential.uuid})
 
+        # Verify users without the view permission are denied access
+        self.assert_access_denied(self.user, 'get', path)
 
-class UserCredentialViewSetPermissionsTests(BaseUserCredentialViewSetPermissionsTests, APITestCase):
-    list_path = reverse("api:v2:usercredential-list")
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'view_usercredential')
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, self.serialize_user_credential(credential))
 
+    def test_list(self):
+        """ Verify the endpoint returns data for multiple UserCredentials. """
+        # Verify users without the view permission are denied access
+        self.assert_access_denied(self.user, 'get', self.list_path)
 
-class CourseCredentialViewSetTests(BaseCourseCredentialViewSetTests, CredentialViewSetTestsMixin, APITestCase):
-    list_path = reverse("api:v2:coursecredential-list")
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'view_usercredential')
+        response = self.client.get(self.list_path)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.data['results'],
+            self.serialize_user_credential(UserCredential.objects.all(), many=True)
+        )
+
+    def test_list_status_filtering(self):
+        """ Verify the endpoint returns data for all UserCredentials that match the specified status. """
+        awarded = UserCredentialFactory.create_batch(3, status=UserCredential.AWARDED)
+        revoked = UserCredentialFactory.create_batch(3, status=UserCredential.REVOKED)
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'view_usercredential')
+
+        for status, expected in (('awarded', awarded), ('revoked', revoked)):
+            response = self.client.get(self.list_path + '?status={}'.format(status))
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.data['results'], self.serialize_user_credential(expected, many=True))
+
+    def test_list_username_filtering(self):
+        """ Verify the endpoint returns data for all UserCredentials awarded to the user matching the username. """
+        username = 'test_user'
+        UserCredentialFactory.create_batch(3)
+        expected = UserCredentialFactory.create_batch(3, username=username)
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'view_usercredential')
+
+        response = self.client.get(self.list_path + '?username={}'.format(username))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['results'], self.serialize_user_credential(expected, many=True))
+
+    def test_list_program_uuid_filtering(self):
+        """ Verify the endpoint returns data for all UserCredentials awarded for the given program. """
+        UserCredentialFactory.create_batch(3)
+        program_certificate = ProgramCertificateFactory()
+        expected = UserCredentialFactory.create_batch(3, credential=program_certificate)
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'view_usercredential')
+
+        response = self.client.get(self.list_path + '?program_uuid={}'.format(program_certificate.program_uuid))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['results'], self.serialize_user_credential(expected, many=True))
+
+    @ddt.data('put', 'patch')
+    def test_update(self, method):
+        """ Verify the endpoint supports updating the status of a UserCredential, but no other fields. """
+        credential = UserCredentialFactory()
+        path = reverse('api:v2:credentials-detail', kwargs={'uuid': credential.uuid})
+        expected_status = UserCredential.REVOKED
+        data = {'status': expected_status}
+
+        # Verify users without the change permission are denied access
+        self.assert_access_denied(self.user, method, path, data=data)
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'change_usercredential')
+        response = getattr(self.client, method)(path, data=data)
+        credential.refresh_from_db()
+
+        self.assertEqual(credential.status, expected_status)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, self.serialize_user_credential(credential))

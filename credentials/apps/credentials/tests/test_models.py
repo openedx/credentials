@@ -15,9 +15,12 @@ from opaque_keys.edx.locator import CourseLocator
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.models import (
-    CertificateTemplateAsset, CertificateTemplate, CourseCertificate, Signatory, ProgramDetails, OrganizationDetails
+    CertificateTemplateAsset, CertificateTemplate, CourseCertificate, Signatory, ProgramDetails, OrganizationDetails,
+    UserCredential
 )
-from credentials.apps.credentials.tests.factories import ProgramCertificateFactory, SignatoryFactory
+from credentials.apps.credentials.tests.factories import (
+    ProgramCertificateFactory, SignatoryFactory, UserCredentialFactory
+)
 from credentials.settings.base import MEDIA_ROOT
 
 # pylint: disable=invalid-name,no-member
@@ -229,3 +232,12 @@ class ProgramCertificateTests(SiteMixin, TestCase):
         # Verify the data is cached
         responses.reset()
         self.assertEqual(program_certificate.get_program_api_data(), body)
+
+
+class UserCredentialTests(TestCase):
+    def test_revoke(self):
+        credential = UserCredentialFactory(status=UserCredential.AWARDED)
+        self.assertEqual(credential.status, UserCredential.AWARDED)
+
+        credential.revoke()
+        self.assertEqual(credential.status, UserCredential.REVOKED)

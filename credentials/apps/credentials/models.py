@@ -197,13 +197,18 @@ class UserCredential(TimeStampedModel):
         max_length=255, blank=True, null=True,
         help_text=_('Download URL for the PDFs.')
     )
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     class Meta(object):
         unique_together = (('username', 'credential_content_type', 'credential_id'),)
 
     def get_absolute_url(self):
         return reverse('credentials:render', kwargs={'uuid': self.uuid.hex})
+
+    def revoke(self):
+        """ Sets the status to revoked, and saves this instance. """
+        self.status = UserCredential.REVOKED
+        self.save()
 
 
 class CourseCertificate(AbstractCertificate):
@@ -271,7 +276,7 @@ class ProgramCertificate(AbstractCertificate):
         if program:
             return program
 
-        client = self.site.siteconfiguration.catalog_api_client
+        client = self.site.siteconfiguration.catalog_api_client  # pylint:disable=no-member
         program = client.programs(program_uuid).get()
         cache.set(cache_key, program, settings.PROGRAMS_CACHE_TTL)
 
