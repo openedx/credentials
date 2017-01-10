@@ -271,7 +271,7 @@ class ProgramCertificate(AbstractCertificate):
         if program:
             return program
 
-        client = self.site.siteconfiguration.catalog_api_client
+        client = self.site.siteconfiguration.catalog_api_client  # pylint:disable=no-member
         program = client.programs(program_uuid).get()
         cache.set(cache_key, program, settings.PROGRAMS_CACHE_TTL)
 
