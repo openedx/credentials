@@ -89,7 +89,7 @@ class UserCredentialSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = UserCredential
         fields = (
-            'id', 'username', 'credential', 'status', 'download_url', 'uuid', 'attributes', 'created', 'modified',
+            'username', 'credential', 'status', 'download_url', 'uuid', 'attributes', 'created', 'modified',
             'certificate_url',
         )
         read_only_fields = (

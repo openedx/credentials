@@ -103,13 +103,13 @@ class UserCredentialViewSetTests(APITestCase):
           Response: HTTP response from the API.
         """
         self._add_permission('change')
-        path = reverse("api:v1:usercredential-detail", args=[self.user_credential.id])
+        path = reverse("api:v2:usercredential-detail", args=[self.user_credential.uuid])
         return self.client.patch(path=path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
 
     def test_get(self):
         """ Verify a single user credential is returned. """
         self._add_permission('view')
-        path = reverse("api:v1:usercredential-detail", args=[self.user_credential.id])
+        path = reverse("api:v2:usercredential-detail", args=[self.user_credential.uuid])
         response = self.client.get(path)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
@@ -153,7 +153,7 @@ class UserCredentialViewSetTests(APITestCase):
             "download_url": "dummy-url",
         }
 
-        path = reverse("api:v1:usercredential-detail", args=[self.user_credential.id])
+        path = reverse("api:v2:usercredential-detail", args=[self.user_credential.uuid])
         response = self.client.patch(path=path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, 401)
 
@@ -245,8 +245,8 @@ class UserCredentialViewSetTests(APITestCase):
         self.assertEqual(response.status_code, 201)
         user_credential = UserCredential.objects.get(username=self.username)
         self.assertEqual(
-            dict(response.data),
-            dict(UserCredentialSerializer(user_credential, context={'request': self.request}).data)
+            response.data,
+            UserCredentialSerializer(user_credential, context={'request': self.request}).data
         )
 
     def test_create_authentication(self):
@@ -451,7 +451,7 @@ class UserCredentialViewSetTests(APITestCase):
         expected = UserCredentialSerializer(user_credential[0], context={'request': self.request}).data
 
         self.assertEqual(user_credential.count(), 1)
-        self.assertEqual(response.data, expected)
+        self.assertDictEqual(response.data, expected)
 
         actual_attributes = [{"name": attr.name, "value": attr.value} for attr in user_credential[0].attributes.all()]
         self.assertEqual(actual_attributes, expected_attrs)
@@ -569,7 +569,7 @@ class UserCredentialViewSetPermissionsTests(APITestCase):
         """
         program_cert = factories.ProgramCertificateFactory()
         user_credential = factories.UserCredentialFactory.create(credential=program_cert, username='test-user')
-        detail_path = reverse("api:v1:usercredential-detail", args=[user_credential.id])
+        detail_path = reverse("api:v2:usercredential-detail", args=[user_credential.uuid])
 
         self.client.force_authenticate(self.make_user(**user_kwargs))
         response = self.client.get(detail_path)
@@ -590,7 +590,7 @@ class UserCredentialViewSetPermissionsTests(APITestCase):
         """
         program_cert = factories.ProgramCertificateFactory()
         user_credential = factories.UserCredentialFactory.create(credential=program_cert, username='test-user')
-        detail_path = reverse("api:v1:usercredential-detail", args=[user_credential.id])
+        detail_path = reverse("api:v2:usercredential-detail", args=[user_credential.uuid])
         post_data = {
             'username': 'test-user',
             'credential': {

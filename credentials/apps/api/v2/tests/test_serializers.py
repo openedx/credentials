@@ -58,7 +58,6 @@ class UserCredentialSerializerTests(TestCase):
                     'value': self.program_cert_attr.value
                 }
             ],
-            'id': self.program_credential.id,
             'created': self.program_credential.created.strftime(api_settings.DATETIME_FORMAT),
             'modified': self.program_credential.modified.strftime(api_settings.DATETIME_FORMAT),
             'certificate_url': expected_url
@@ -92,7 +91,6 @@ class UserCredentialSerializerTests(TestCase):
                     'value': self.course_cert_attr.value
                 }
             ],
-            'id': self.course_credential.id,
             'created': self.course_credential.created.strftime(api_settings.DATETIME_FORMAT),
             'modified': self.course_credential.modified.strftime(api_settings.DATETIME_FORMAT),
             'certificate_url': expected_url,

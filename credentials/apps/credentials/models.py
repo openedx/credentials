@@ -197,7 +197,7 @@ class UserCredential(TimeStampedModel):
         max_length=255, blank=True, null=True,
         help_text=_('Download URL for the PDFs.')
     )
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     class Meta(object):
         unique_together = (('username', 'credential_content_type', 'credential_id'),)

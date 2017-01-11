@@ -16,10 +16,11 @@ log = logging.getLogger(__name__)
 class UserCredentialViewSet(viewsets.ModelViewSet):
     """ UserCredentials endpoints. """
 
-    queryset = UserCredential.objects.all()
+    lookup_field = 'uuid'
     filter_fields = ('username', 'status')
-    serializer_class = UserCredentialSerializer
     permission_classes = (UserCredentialViewSetPermissions,)
+    queryset = UserCredential.objects.all()
+    serializer_class = UserCredentialSerializer
 
     def list(self, request, *args, **kwargs):
         if not request.query_params.get('username'):
