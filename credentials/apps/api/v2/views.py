@@ -6,8 +6,8 @@ from rest_framework.exceptions import ValidationError
 
 from credentials.apps.api.filters import CourseFilter
 from credentials.apps.api.permissions import UserCredentialViewSetPermissions
-from credentials.apps.api.serializers import UserCredentialCreationSerializer, UserCredentialSerializer
 from credentials.apps.api.v2.filters import UserCredentialFilter
+from credentials.apps.api.v2.serializers import UserCredentialCreationSerializer, UserCredentialSerializer
 from credentials.apps.credentials.models import UserCredential
 
 log = logging.getLogger(__name__)
@@ -16,10 +16,11 @@ log = logging.getLogger(__name__)
 class UserCredentialViewSet(viewsets.ModelViewSet):
     """ UserCredentials endpoints. """
 
-    queryset = UserCredential.objects.all()
+    lookup_field = 'uuid'
     filter_fields = ('username', 'status')
-    serializer_class = UserCredentialSerializer
     permission_classes = (UserCredentialViewSetPermissions,)
+    queryset = UserCredential.objects.all()
+    serializer_class = UserCredentialSerializer
 
     def list(self, request, *args, **kwargs):
         if not request.query_params.get('username'):
@@ -51,11 +52,6 @@ class ProgramsCredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet)
         if not self.request.query_params.get('program_uuid'):
             raise ValidationError(
                 {'error': 'A UUID query string parameter is required for filtering program credentials.'})
-
-        # Confirmation that we are not supplying both parameters. We should only be providing the program_uuid in V2
-        if self.request.query_params.get('program_id'):
-            raise ValidationError(
-                {'error': 'A program_id query string parameter was found in a V2 API request.'})
 
         # pylint: disable=maybe-no-member
         return super(ProgramsCredentialsViewSet, self).list(request, *args, **kwargs)
