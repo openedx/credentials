@@ -25,11 +25,11 @@ from credentials.apps.core import views as core_views
 
 admin.autodiscover()
 
-
 urlpatterns = auth_urlpatterns + [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('credentials.apps.api.urls', namespace='api')),
     url(r'^api-auth/', include(auth_urlpatterns, namespace='rest_framework')),
+    url(r'^api-docs/', include('rest_framework_swagger.urls')),
     url(r'^auto_auth/$', core_views.AutoAuth.as_view(), name='auto_auth'),
     url(r'^credentials/', include('credentials.apps.credentials.urls', namespace='credentials')),
     url(r'^health/$', core_views.health, name='health'),

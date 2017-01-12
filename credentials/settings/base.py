@@ -35,6 +35,7 @@ INSTALLED_APPS = (
 THIRD_PARTY_APPS = (
     'release_util',
     'rest_framework',
+    'rest_framework_swagger',
     'social.apps.django_app.default',
     'waffle',
     'compressor',
@@ -284,4 +285,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.DjangoModelPermissions',),
     'PAGE_SIZE': 20,
     'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%SZ'
+}
+
+SWAGGER_SETTINGS = {
+    'api_version': 'v2',
+    'doc_expansion': 'list',
+    'is_authenticated': True,
+    'permission_denied_handler': 'credentials.apps.api.views.api_docs_permission_denied_handler'
 }
