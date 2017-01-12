@@ -3,6 +3,7 @@ import logging
 from django.http import Http404
 from rest_framework import mixins, viewsets
 from rest_framework.exceptions import ValidationError
+from rest_framework.pagination import LimitOffsetPagination
 
 from credentials.apps.api.filters import CourseFilter
 from credentials.apps.api.permissions import UserCredentialViewSetPermissions
@@ -19,6 +20,7 @@ class UserCredentialViewSet(viewsets.ModelViewSet):
     queryset = UserCredential.objects.all()
     filter_fields = ('username', 'status')
     serializer_class = UserCredentialSerializer
+    pagination_class = LimitOffsetPagination
     permission_classes = (UserCredentialViewSetPermissions,)
 
     def list(self, request, *args, **kwargs):
@@ -44,6 +46,7 @@ class ProgramsCredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet)
     """It will return the all credentials for programs."""
     queryset = UserCredential.objects.all()
     filter_class = UserCredentialFilter
+    pagination_class = LimitOffsetPagination
     serializer_class = UserCredentialSerializer
 
     def list(self, request, *args, **kwargs):
@@ -59,6 +62,7 @@ class CourseCredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """It will return the all credentials for courses."""
     queryset = UserCredential.objects.all()
     filter_class = CourseFilter
+    pagination_class = LimitOffsetPagination
     serializer_class = UserCredentialSerializer
 
     def list(self, request, *args, **kwargs):
