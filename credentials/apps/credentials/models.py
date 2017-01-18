@@ -247,7 +247,7 @@ class ProgramCertificate(AbstractCertificate):
     """
 
     program_uuid = models.UUIDField(db_index=True, unique=True, null=True, blank=False, verbose_name=_('Program UUID'))
-    program_id = models.PositiveIntegerField(db_index=True, unique=True,
+    program_id = models.PositiveIntegerField(db_index=True, unique=True, null=True, blank=True,
                                              help_text='This field is DEPRECATED. Use program_uuid instead.')
     user_credentials = GenericRelation(
         UserCredential,
