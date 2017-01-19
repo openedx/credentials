@@ -26,6 +26,9 @@ class SiteFactory(django.DjangoModelFactory):
     class Meta(object):
         model = Site
 
+    domain = Faker('domain_name')
+    name = Faker('word')
+
 
 class SiteConfigurationFactory(django.DjangoModelFactory):
     class Meta(object):

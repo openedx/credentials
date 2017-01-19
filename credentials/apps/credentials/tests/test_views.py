@@ -23,6 +23,7 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
     """ Tests for credential rendering view. """
     PRIMARY_ORGANIZATION_KEY = 'ACMEx'
     PRIMARY_ORGANIZATION_CERTIFICATE_LOGO_URL = 'http://example.com/image.jpg'
+    PRIMARY_ORGANIZATION_LOGO_URL = 'http://example.com/image.jpg'
     PRIMARY_ORGANIZATION_NAME = 'ACME University'
 
     def setUp(self):
@@ -41,24 +42,26 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
         else:
             certificate_logo_image_url = None
         program_uuid = self.program_certificate.program_uuid
-        program_endpoint = 'programs/{uuid}/'.format(uuid=program_uuid.hex)
+        program_endpoint = 'programs/{uuid}/'.format(uuid=str(program_uuid))
         body = {
-            'uuid': program_uuid.hex,
+            'uuid': str(program_uuid),
             'title': 'Test Program',
             'type': 'XSeries',
             'authoring_organizations': [
                 {
-                    'uuid': uuid.uuid4().hex,
+                    'uuid': str(uuid.uuid4()),
                     'key': self.PRIMARY_ORGANIZATION_KEY,
                     'name': self.PRIMARY_ORGANIZATION_NAME,
+                    'logo_image_url': self.PRIMARY_ORGANIZATION_LOGO_URL,
                     'certificate_logo_image_url': certificate_logo_image_url
 
                 },
                 {
-                    'uuid': uuid.uuid4().hex,
+                    'uuid': str(uuid.uuid4()),
                     'key': 'FakeX',
                     'name': 'Fake University',
-                    'certificate_logo_image_url': 'http://example.com/image.jpg'
+                    'logo_image_url': 'http://example.com/image.jpg',
+                    'certificate_logo_image_url': 'http://example.com/image.jpg',
                 }
             ],
             'courses': [

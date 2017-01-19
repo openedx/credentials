@@ -3,11 +3,10 @@ Django admin page for credential
 """
 from django.contrib import admin
 
-from credentials.apps.credentials.forms import SignatoryModelForm
+from credentials.apps.credentials.forms import SignatoryModelForm, ProgramCertificateAdminForm
 from credentials.apps.credentials.models import (
-    CertificateTemplate, CourseCertificate, CertificateTemplateAsset,
-    ProgramCertificate, Signatory, UserCredentialAttribute,
-    UserCredential
+    CertificateTemplate, CourseCertificate, CertificateTemplateAsset, ProgramCertificate, Signatory,
+    UserCredentialAttribute, UserCredential
 )
 
 
@@ -50,6 +49,7 @@ class CourseCertificateAdmin(admin.ModelAdmin):
 
 class ProgramCertificateAdmin(admin.ModelAdmin):
     """Admin for the ProgramCertificate model."""
+    form = ProgramCertificateAdminForm
     list_display = ('program_uuid', 'site', 'is_active')
     list_filter = ('is_active', 'site',)
     search_fields = ('program_id', 'program_uuid',)

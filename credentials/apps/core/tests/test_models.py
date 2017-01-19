@@ -1,4 +1,5 @@
 """ Tests for core models. """
+import uuid
 
 import responses
 from django.test import TestCase
@@ -64,4 +65,42 @@ class SiteConfigurationTests(SiteMixin, TestCase):
 
         # Verify the value is cached
         self.assertEqual(self.site.siteconfiguration.access_token, token)
+        self.assertEqual(len(responses.calls), 1)
+
+    @responses.activate
+    def test_get_program(self):
+        """ Verify the method retrieves program data from the Catalog API. """
+        program_uuid = uuid.uuid4()
+        program_endpoint = 'programs/{uuid}/'.format(uuid=program_uuid)
+        body = {
+            'uuid': program_uuid.hex,
+            'title': 'A Fake Program',
+            'type': 'fake',
+            'authoring_organizations': [
+                {
+                    'uuid': uuid.uuid4().hex,
+                    'key': 'FakeX',
+                    'name': 'Fake University',
+                    'logo_image_url': 'https://static.fake.edu/logo.png',
+
+                }
+            ],
+            'courses': []
+        }
+
+        self.mock_access_token_response()
+        self.mock_catalog_api_response(program_endpoint, body)
+        self.assertEqual(self.site.siteconfiguration.get_program(program_uuid), body)
+        self.assertEqual(len(responses.calls), 1)
+
+        # Verify the data is cached
+        responses.reset()
+        self.assertEqual(self.site.siteconfiguration.get_program(program_uuid), body)
+        self.assertEqual(self.site.siteconfiguration.get_program(program_uuid), body)
+        self.assertEqual(len(responses.calls), 0)
+
+        # Verify the cache can be bypassed
+        self.mock_access_token_response()
+        self.mock_catalog_api_response(program_endpoint, body)
+        self.assertEqual(self.site.siteconfiguration.get_program(program_uuid, ignore_cache=True), body)
         self.assertEqual(len(responses.calls), 1)
