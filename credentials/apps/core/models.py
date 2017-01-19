@@ -123,6 +123,31 @@ class SiteConfiguration(models.Model):
 
         return EdxRestApiClient(self.catalog_api_url, jwt=self.access_token)
 
+    def get_program(self, program_uuid, ignore_cache=False):
+        """
+        Retrieves the details for the specified program.
+
+         Args:
+             program_uuid (UUID): Program identifier
+             ignore_cache (bool): Indicates if previously-cached data should be ignored.
+
+         Returns:
+             dict
+        """
+        program_uuid = str(program_uuid)
+        cache_key = 'programs.api.data.{uuid}'.format(uuid=program_uuid)
+
+        if not ignore_cache:
+            program = cache.get(cache_key)
+
+            if program:
+                return program
+
+        program = self.catalog_api_client.programs(program_uuid).get()
+        cache.set(cache_key, program, settings.PROGRAMS_CACHE_TTL)
+
+        return program
+
 
 class User(AbstractUser):
     """ Custom user model for use with OpenID Connect. """

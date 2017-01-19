@@ -5,13 +5,14 @@ from __future__ import unicode_literals
 import uuid
 
 import ddt
-import responses
+import mock
 from django.core.exceptions import ValidationError
 from django.core.files.images import ImageFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from opaque_keys.edx.locator import CourseLocator
 
+from credentials.apps.core.models import SiteConfiguration
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.models import (
@@ -147,7 +148,6 @@ class ProgramCertificateTests(SiteMixin, TestCase):
         self.assertEqual(str(instance), 'ProgramCertificate: ' + str(instance.program_id))
 
     @ddt.data(True, False)
-    @responses.activate
     def test_program_details(self, use_org_name):
         """ Verify the method returns the details of program associated with the ProgramCertificate. """
         program_certificate = ProgramCertificateFactory(site=self.site, use_org_name=use_org_name)
@@ -179,7 +179,6 @@ class ProgramCertificateTests(SiteMixin, TestCase):
             ]
         )
 
-        program_endpoint = 'programs/{uuid}/'.format(uuid=program_uuid)
         body = {
             'uuid': expected.uuid,
             'title': expected.title,
@@ -196,42 +195,20 @@ class ProgramCertificateTests(SiteMixin, TestCase):
             'courses': courses
         }
 
-        self.mock_access_token_response()
-        self.mock_catalog_api_response(program_endpoint, body)
+        with mock.patch.object(SiteConfiguration, 'get_program', return_value=body) as mock_method:
+            self.assertEqual(program_certificate.program_details, expected)
+            mock_method.assert_called_with(program_certificate.program_uuid)
 
-        self.assertEqual(program_certificate.program_details, expected)
-
-    @responses.activate
     def test_get_program_api_data(self):
         """ Verify the method returns data from the Catalog API. """
         program_certificate = ProgramCertificateFactory(site=self.site)
-        program_uuid = program_certificate.program_uuid.hex
-
-        program_endpoint = 'programs/{uuid}/'.format(uuid=program_uuid)
-        body = {
-            'uuid': program_uuid,
-            'title': 'A Fake Program',
-            'type': 'fake',
-            'authoring_organizations': [
-                {
-                    'uuid': uuid.uuid4().hex,
-                    'key': 'FakeX',
-                    'name': 'Fake University',
-                    'certificate_logo_image_url': 'https://static.fake.edu/logo.png',
-
-                }
-            ],
-            'courses': []
+        expected = {
+            'uuid': program_certificate.program_uuid.hex
         }
 
-        self.mock_access_token_response()
-        self.mock_catalog_api_response(program_endpoint, body)
-
-        self.assertEqual(program_certificate.get_program_api_data(), body)
-
-        # Verify the data is cached
-        responses.reset()
-        self.assertEqual(program_certificate.get_program_api_data(), body)
+        with mock.patch.object(SiteConfiguration, 'get_program', return_value=expected) as mock_method:
+            self.assertEqual(program_certificate.get_program_api_data(), expected)
+            mock_method.assert_called_with(program_certificate.program_uuid)
 
 
 class UserCredentialTests(TestCase):

@@ -7,11 +7,9 @@ from __future__ import unicode_literals
 import uuid  # pylint: disable=unused-import
 from collections import namedtuple
 
-from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
-from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -270,18 +268,7 @@ class ProgramCertificate(AbstractCertificate):
 
     def get_program_api_data(self):
         """ Returns program data from the Catalog API. """
-        program_uuid = self.program_uuid.hex
-        cache_key = 'programs.api.data.{uuid}'.format(uuid=program_uuid)
-        program = cache.get(cache_key)
-
-        if program:
-            return program
-
-        client = self.site.siteconfiguration.catalog_api_client  # pylint:disable=no-member
-        program = client.programs(program_uuid).get()
-        cache.set(cache_key, program, settings.PROGRAMS_CACHE_TTL)
-
-        return program
+        return self.site.siteconfiguration.get_program(self.program_uuid)
 
     @cached_property
     def program_details(self):
