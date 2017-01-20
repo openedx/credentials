@@ -22,7 +22,9 @@ SITE_ID = 1
 
 # Application definition
 
-INSTALLED_APPS = (
+# INSTALLED_APPS should always be a list. The EXTRA_APPS setting is used in production to include custom, site-specific,
+# apps. That setting is read from YAML as a list.
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -30,9 +32,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles'
-)
+]
 
-THIRD_PARTY_APPS = (
+THIRD_PARTY_APPS = [
     'release_util',
     'rest_framework',
     'rest_framework_swagger',
@@ -40,13 +42,13 @@ THIRD_PARTY_APPS = (
     'waffle',
     'compressor',
     'storages',
-)
+]
 
-PROJECT_APPS = (
+PROJECT_APPS = [
     'credentials.apps.core',
     'credentials.apps.api',
     'credentials.apps.credentials',
-)
+]
 
 INSTALLED_APPS += THIRD_PARTY_APPS
 INSTALLED_APPS += PROJECT_APPS
