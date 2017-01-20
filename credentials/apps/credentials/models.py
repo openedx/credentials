@@ -236,7 +236,8 @@ class CourseCertificate(AbstractCertificate):
         verbose_name = "Course certificate configuration"
 
 
-OrganizationDetails = namedtuple('OrganizationDetails', ('uuid', 'key', 'name', 'display_name', 'logo_image_url'))
+OrganizationDetails = namedtuple('OrganizationDetails', ('uuid', 'key', 'name', 'display_name',
+                                                         'certificate_logo_image_url'))
 ProgramDetails = namedtuple('ProgramDetails', ('uuid', 'title', 'type', 'course_count', 'organizations'))
 
 
@@ -294,7 +295,7 @@ class ProgramCertificate(AbstractCertificate):
                 key=organization['key'],
                 name=organization['name'],
                 display_name=organization['name'] if self.use_org_name else organization['key'],
-                logo_image_url=organization['logo_image_url']
+                certificate_logo_image_url=organization['certificate_logo_image_url']
             ))
 
         return ProgramDetails(
