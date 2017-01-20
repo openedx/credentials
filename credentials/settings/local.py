@@ -54,6 +54,8 @@ INTERNAL_IPS = ('127.0.0.1',)
 # END TOOLBAR CONFIGURATION
 
 # AUTHENTICATION
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
+
 # Set these to the correct values for your OAuth2/OpenID Connect provider (e.g., devstack)
 OAUTH2_PROVIDER_URL = 'http://127.0.0.1:8000/oauth2'
 SOCIAL_AUTH_EDX_OIDC_KEY = 'credentials-key'
