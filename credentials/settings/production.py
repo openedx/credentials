@@ -29,7 +29,7 @@ with open(CONFIG_FILE) as f:
     vars().update(FILE_STORAGE_BACKEND)
 
 if 'EXTRA_APPS' in locals():
-    INSTALLED_APPS += EXTRA_APPS
+    INSTALLED_APPS += tuple(EXTRA_APPS)
 
 DB_OVERRIDES = dict(
     PASSWORD=environ.get('DB_MIGRATION_PASS', DATABASES['default']['PASSWORD']),
