@@ -12,6 +12,7 @@ from mock import patch
 import responses
 
 from credentials.apps.core.tests.mixins import SiteMixin
+from credentials.apps.credentials.exceptions import MissingCertificateLogoError
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests import factories
 from credentials.apps.credentials.tests.mixins import UserDataMixin
@@ -21,7 +22,7 @@ from credentials.apps.credentials.tests.mixins import UserDataMixin
 class RenderCredentialPageTests(SiteMixin, TestCase):
     """ Tests for credential rendering view. """
     PRIMARY_ORGANIZATION_KEY = 'ACMEx'
-    PRIMARY_ORGANIZATION_LOGO_URL = 'http://example.com/image.jpg'
+    PRIMARY_ORGANIZATION_CERTIFICATE_LOGO_URL = 'http://example.com/image.jpg'
     PRIMARY_ORGANIZATION_NAME = 'ACME University'
 
     def setUp(self):
@@ -33,8 +34,12 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
         self.user_credential = factories.UserCredentialFactory(credential=self.program_certificate)
         self.platform_name = self.site.siteconfiguration.platform_name
 
-    def _render_user_credential(self):
+    def _render_user_credential(self, use_proper_logo_url=True):
         """ Helper method to render a user certificate."""
+        if use_proper_logo_url:
+            certificate_logo_image_url = self.PRIMARY_ORGANIZATION_CERTIFICATE_LOGO_URL
+        else:
+            certificate_logo_image_url = None
         program_uuid = self.program_certificate.program_uuid
         program_endpoint = 'programs/{uuid}/'.format(uuid=program_uuid.hex)
         body = {
@@ -46,14 +51,14 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
                     'uuid': uuid.uuid4().hex,
                     'key': self.PRIMARY_ORGANIZATION_KEY,
                     'name': self.PRIMARY_ORGANIZATION_NAME,
-                    'logo_image_url': self.PRIMARY_ORGANIZATION_LOGO_URL
+                    'certificate_logo_image_url': certificate_logo_image_url
 
                 },
                 {
                     'uuid': uuid.uuid4().hex,
                     'key': 'FakeX',
                     'name': 'Fake University',
-                    'logo_image_url': 'http://example.com/image.jpg'
+                    'certificate_logo_image_url': 'http://example.com/image.jpg'
                 }
             ],
             'courses': [
@@ -122,7 +127,7 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
 
         # test organization related data.
         self.assertContains(response, self.PRIMARY_ORGANIZATION_KEY)
-        self.assertContains(response, self.PRIMARY_ORGANIZATION_LOGO_URL)
+        self.assertContains(response, self.PRIMARY_ORGANIZATION_CERTIFICATE_LOGO_URL)
 
         # test programs data
         self.assertContains(
@@ -173,6 +178,12 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.signatory_1.organization_name_override)
         self.assertNotContains(response, self.signatory_2.organization_name_override)
+
+    @responses.activate
+    def test_logo_missing_exception(self):
+
+        with self.assertRaisesRegexp(MissingCertificateLogoError, 'No certificate image logo defined for program'):
+            self._render_user_credential(use_proper_logo_url=False)
 
 
 @ddt.ddt

@@ -9,6 +9,7 @@ from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.views.generic import TemplateView
 
+from credentials.apps.credentials.exceptions import MissingCertificateLogoError
 from credentials.apps.credentials.models import UserCredential, ProgramCertificate, ProgramDetails, OrganizationDetails
 from credentials.apps.credentials.utils import get_user_data
 
@@ -29,6 +30,12 @@ class RenderCredential(TemplateView):
             uuid=kwargs.get('uuid'),
             status=UserCredential.AWARDED
         )
+
+        program_details = user_credential.credential.program_details
+        for organization in program_details.organizations:
+            if not organization.certificate_logo_image_url:
+                raise MissingCertificateLogoError('No certificate image logo defined for program: [{program_uuid}]'.
+                                                  format(program_uuid=program_details.uuid))
 
         # get the model class according the credential content type.
         # It will be use to call the appropriate method for rendering.
@@ -82,7 +89,7 @@ class ExampleCredential(TemplateView):
                 key='ExampleX',
                 name='Example University',
                 display_name='Absolutely Fake University',
-                logo_image_url='http://placehold.it/204x204'
+                certificate_logo_image_url='http://placehold.it/204x204'
             )]
         )
 

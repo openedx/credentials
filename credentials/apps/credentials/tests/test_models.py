@@ -167,14 +167,14 @@ class ProgramCertificateTests(SiteMixin, TestCase):
                     key='ACMEx',
                     name='ACME University',
                     display_name='ACME University' if use_org_name else 'ACMEx',
-                    logo_image_url='http://example.com/acme.jpg'
+                    certificate_logo_image_url='http://example.com/acme.jpg'
                 ),
                 OrganizationDetails(
                     uuid=uuid.uuid4().hex,
                     key='FakeX',
                     name='Fake University',
                     display_name='Fake University' if use_org_name else 'FakeX',
-                    logo_image_url='http://example.com/fakex.jpg'
+                    certificate_logo_image_url='http://example.com/fakex.jpg'
                 )
             ]
         )
@@ -189,7 +189,7 @@ class ProgramCertificateTests(SiteMixin, TestCase):
                     'uuid': organization.uuid,
                     'key': organization.key,
                     'name': organization.name,
-                    'logo_image_url': organization.logo_image_url,
+                    'certificate_logo_image_url': organization.certificate_logo_image_url,
 
                 } for organization in expected.organizations
             ],
@@ -217,7 +217,7 @@ class ProgramCertificateTests(SiteMixin, TestCase):
                     'uuid': uuid.uuid4().hex,
                     'key': 'FakeX',
                     'name': 'Fake University',
-                    'logo_image_url': 'https://static.fake.edu/logo.png',
+                    'certificate_logo_image_url': 'https://static.fake.edu/logo.png',
 
                 }
             ],
