@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import migrations, models
+from django.db import migrations
+
 
 def add_siteconfiguration_data(apps, schema_editor):
+    Site = apps.get_model('sites', 'Site')
     SiteConfiguration = apps.get_model('core', 'SiteConfiguration')
+
+    site, __ = Site.objects.get_or_create(id=1, defaults={'domain': 'example.com', 'name': 'example.com'})
     defaults = {
         'platform_name': 'edX',
         'tos_url': 'https://www.edx.org/edx-terms-service',
@@ -14,10 +18,10 @@ def add_siteconfiguration_data(apps, schema_editor):
         'verified_certificate_url': 'https://www.edx.org/verified-certificate',
         'certificate_help_url': 'https://edx.readthedocs.org/projects/edx-guide-for-students/en/latest/SFD_certificates.html#web-certificates',
     }
-    SiteConfiguration.objects.update_or_create(site_id=1, defaults=defaults)
+    SiteConfiguration.objects.update_or_create(site=site, defaults=defaults)
+
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('core', '0005_auto_20170119_1205'),
     ]
@@ -25,5 +29,3 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunPython(add_siteconfiguration_data, migrations.RunPython.noop)
     ]
-
-
