@@ -212,7 +212,7 @@ SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY = SOCIAL_AUTH_EDX_OIDC_SECRET
 # Request the user's permissions in the ID token
 EXTRA_SCOPE = ['permissions']
 
-LOGIN_REDIRECT_URL = '/api/v1/user_credentials/'
+LOGIN_REDIRECT_URL = 'api:v2:credentials-list'
 # END AUTHENTICATION CONFIGURATION
 
 # CATALOG API CONFIGURATION
