@@ -231,14 +231,12 @@ USER_JWT_SECRET_KEY = 'lms-secret'
 CREDENTIALS_SERVICE_USER = 'credentials_service_user'
 
 JWT_AUTH = {
-    'JWT_SECRET_KEY': None,
+    'JWT_ISSUERS': [],
     'JWT_ALGORITHM': 'HS256',
     'JWT_VERIFY_EXPIRATION': True,
-    'JWT_ISSUER': None,
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': lambda d: d.get('preferred_username'),
-    'JWT_AUDIENCE': None,
     'JWT_LEEWAY': 1,
-    'JWT_DECODE_HANDLER': 'credentials.apps.api.jwt_decode_handler.decode',
+    'JWT_DECODE_HANDLER': 'edx_rest_framework_extensions.utils.jwt_decode_handler',
 }
 
 # Set up logging for development use (logging to stdout)
