@@ -160,7 +160,7 @@ class CredentialViewSetTests(APITestCase):
 
     def test_destroy(self):
         """ Verify the endpoint does NOT support the DELETE operation. """
-        credential = UserCredentialFactory(status=UserCredential.AWARDED)
+        credential = UserCredentialFactory(status=UserCredential.AWARDED, username=self.user.username)
         path = reverse('api:v2:credentials-detail', kwargs={'uuid': credential.uuid})
 
         # Verify users without the view permission are denied access
@@ -177,7 +177,7 @@ class CredentialViewSetTests(APITestCase):
 
     def test_retrieve(self):
         """ Verify the endpoint returns data for a single UserCredential. """
-        credential = UserCredentialFactory()
+        credential = UserCredentialFactory(username=self.user.username)
         path = reverse('api:v2:credentials-detail', kwargs={'uuid': credential.uuid})
 
         # Verify users without the view permission are denied access
@@ -245,7 +245,7 @@ class CredentialViewSetTests(APITestCase):
     @ddt.data('put', 'patch')
     def test_update(self, method):
         """ Verify the endpoint supports updating the status of a UserCredential, but no other fields. """
-        credential = UserCredentialFactory()
+        credential = UserCredentialFactory(username=self.user.username)
         path = reverse('api:v2:credentials-detail', kwargs={'uuid': credential.uuid})
         expected_status = UserCredential.REVOKED
         data = {'status': expected_status}
