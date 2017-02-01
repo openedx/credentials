@@ -11,7 +11,7 @@ djangorestframework-jwt==1.7.2
 django-storages==1.1.8
 edx-auth-backends==0.6.0
 edx-django-release-util==0.1.2
-edx-drf-extensions==0.5.1
+edx-drf-extensions==1.2.2
 edx-opaque-keys==0.3.1
 edx-rest-api-client==1.6.0
 # The package django-libsass requires libsass and the newest version of libsass '0.10.1'

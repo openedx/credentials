@@ -1,19 +1,14 @@
 """
 Tests for REST API Authentication
 """
-import time
 
 import ddt
 from django.contrib.auth.models import Group
 from django.test import TestCase
-import mock
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.test import APIRequestFactory
 
-from credentials.apps.api.authentication import (
-    BearerAuthentication, JwtAuthentication, pipeline_set_user_roles
-)
-from credentials.apps.api.jwt_decode_handler import api_settings as drf_jwt_settings
+from credentials.apps.api.authentication import BearerAuthentication, JwtAuthentication, pipeline_set_user_roles
 from credentials.apps.api.tests.mixins import JwtMixin
 from credentials.apps.core.constants import Role
 from credentials.apps.core.tests.factories import UserFactory
@@ -54,30 +49,6 @@ class TestJWTAuthentication(JwtMixin, TestCase):
         self.assertEqual(user.username, self.USERNAME)
         self.assertEqual(len(user.groups.all()), 1)
         self.assertEqual(user.groups.all()[0].name, Role.ADMINS)
-
-    @ddt.data(('exp', -1), ('iat', 1))
-    @ddt.unpack
-    def test_leeway(self, claim, offset):
-        """
-        Verify that the service allows the specified amount of leeway (in
-        seconds) when nonzero and validating "exp" and "iat" claims.
-        """
-        authentication = JwtAuthentication()
-        user = UserFactory()
-        jwt_value = self.generate_id_token(user, **{claim: int(time.time()) + offset})
-        request = APIRequestFactory().get('dummy', HTTP_AUTHORIZATION='JWT {}'.format(jwt_value))
-
-        # with no leeway, these requests should not be authenticated
-        with mock.patch.object(drf_jwt_settings, 'JWT_LEEWAY', 0):
-            with self.assertRaises(AuthenticationFailed):
-                authentication.authenticate(request)
-
-        # with enough leeway, these requests should be authenticated
-        with mock.patch.object(drf_jwt_settings, 'JWT_LEEWAY', abs(offset)):
-            self.assertEqual(
-                (user, jwt_value),
-                authentication.authenticate(request)
-            )
 
     @ddt.data('exp', 'iat')
     def test_required_claims(self, claim):

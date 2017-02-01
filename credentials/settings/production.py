@@ -13,6 +13,10 @@ ALLOWED_HOSTS = ['*']
 
 LOGGING = get_logger_config()
 
+# Keep track of the names of settings that represent dicts. Instead of overriding the values in base.py,
+# the values read from disk should UPDATE the pre-configured dicts.
+DICT_UPDATE_KEYS = ('JWT_AUTH',)
+
 # AMAZON S3 STORAGE CONFIGURATION
 # See: https://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html#settings
 
@@ -23,6 +27,15 @@ FILE_STORAGE_BACKEND = {}
 CONFIG_FILE = get_env_setting('CREDENTIALS_CFG')
 with open(CONFIG_FILE) as f:
     config_from_yaml = yaml.load(f)
+
+    # Remove the items that should be used to update dicts, and apply them separately rather
+    # than pumping them into the local vars.
+    dict_updates = {key: config_from_yaml.pop(key, None) for key in DICT_UPDATE_KEYS}
+
+    for key, value in dict_updates.items():
+        if value:
+            vars()[key].update(value)
+
     vars().update(config_from_yaml)
 
     # Load the files storage backend settings for django storages
@@ -42,9 +55,3 @@ DB_OVERRIDES = dict(
 
 for override, value in DB_OVERRIDES.iteritems():
     DATABASES['default'][override] = value
-
-JWT_AUTH.update({
-    'JWT_SECRET_KEY': SOCIAL_AUTH_EDX_OIDC_SECRET,
-    'JWT_ISSUER': SOCIAL_AUTH_EDX_OIDC_URL_ROOT,
-    'JWT_AUDIENCE': SOCIAL_AUTH_EDX_OIDC_KEY,
-})
