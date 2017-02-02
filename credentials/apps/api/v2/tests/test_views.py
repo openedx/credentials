@@ -216,18 +216,30 @@ class CredentialViewSetTests(APITestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response.data['results'], self.serialize_user_credential(expected, many=True))
 
-    def test_list_username_filtering(self):
-        """ Verify the endpoint returns data for all UserCredentials awarded to the user matching the username. """
-        username = 'test_user'
-        UserCredentialFactory.create_batch(3)
-        expected = UserCredentialFactory.create_batch(3, username=username)
-
-        self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'view_usercredential')
-
+    def assert_list_username_filter_request_succeeds(self, username, expected):
+        """ Asserts the logged in user can list credentials for a specific user. """
         response = self.client.get(self.list_path + '?username={}'.format(username))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['results'], self.serialize_user_credential(expected, many=True))
+
+    def test_list_username_filtering(self):
+        """ Verify the endpoint returns data for all UserCredentials awarded to the user matching the username. """
+
+        UserCredentialFactory.create_batch(3)
+
+        self.authenticate_user(self.user)
+
+        # Users should be able to view their own credentials without additional permissions
+        username = self.user.username
+        expected = UserCredentialFactory.create_batch(3, username=username)
+        self.assert_list_username_filter_request_succeeds(username, expected)
+
+        # Privileged users should be able to view all credentials
+        username = 'test_user'  # pylint: disable=redefined-variable-type
+        expected = UserCredentialFactory.create_batch(3, username=username)
+        self.add_user_permission(self.user, 'view_usercredential')
+
+        self.assert_list_username_filter_request_succeeds(username, expected)
 
     def test_list_program_uuid_filtering(self):
         """ Verify the endpoint returns data for all UserCredentials awarded for the given program. """
