@@ -7,9 +7,9 @@ status for an existing user credential.
 +----------------------------------------+--------+---------------------------------+
 | Task                                   | Method | Endpoint                        |
 +========================================+========+=================================+
-| Create a user credential for a program | POST   |  /api/v1/user_credentials/      |
+| Create a user credential for a program | POST   |  /api/v2/user_credentials/      |
 +----------------------------------------+--------+---------------------------------+
-| Update the status of a user credential | PATCH  |  /api/v1/user_credentials/:id   |
+| Update the status of a user credential | PATCH  |  /api/v2/user_credentials/:id   |
 +----------------------------------------+--------+---------------------------------+
 
 Create a User Credential for a Program
@@ -21,14 +21,14 @@ To create a user credential for a program, use ``user_credentials``.
 
 .. code-block:: json
 
-    url: /api/v1/user_credentials/
+    url: /api/v2/user_credentials/
     Content-Type: application/json
     Method: POST
 
     {
         "username": "test-user",
         "credential": {
-            "program_id": 100
+            "program_uuid": "244af8cb-7cdd-487e-afc0-aa0b6391b1fd"
         },
         "attributes": [
             {
@@ -57,7 +57,7 @@ To update the status of a user credential, use ``status``.
 
 .. code-block:: json
 
-    url: /api/v1/user_credentials/:id
+    url: /api/v2/user_credentials/:id
     Content-Type: application/json
     Method: PATCH
 
@@ -79,13 +79,13 @@ The following APIs are available for listing and filtering user credentials:
 +--------------------------------------------------+--------+--------------------------------------+
 | Task                                             | Method | Endpoint                             |
 +==================================================+========+======================================+
-| Get a specific credential for a single user      |  GET   |  /api/v1/user_credentials/:id        |
+| Get a specific credential for a single user      |  GET   |  /api/v2/user_credentials/:id        |
 +--------------------------------------------------+--------+--------------------------------------+
-| Get a list of all credentials for a single user  |  GET   |  /api/v1/user_credentials/           |
+| Get a list of all credentials for a single user  |  GET   |  /api/v2/user_credentials/           |
 +--------------------------------------------------+--------+--------------------------------------+
-| Get a list of all credentials for  a course      |  GET   |  /api/v1/course_credentials/         |
+| Get a list of all credentials for  a course      |  GET   |  /api/v2/course_credentials/         |
 +--------------------------------------------------+--------+--------------------------------------+
-| Get a list of all credentials for a program      |  GET   |  /api/v1/program_credentials/        |
+| Get a list of all credentials for a program      |  GET   |  /api/v2/program_credentials/        |
 +--------------------------------------------------+--------+--------------------------------------+
 
 
@@ -98,7 +98,7 @@ To get information about a specific credential for a single user, use ``credenti
 
 .. code-block:: bash
 
-    /api/v1/user_credentials/1
+    /api/v2/user_credentials/1
 
 **Example Response**
 
@@ -109,7 +109,7 @@ To get information about a specific credential for a single user, use ``credenti
         "username": "admin",
         "credential": {
             "credential_id": 1,
-            "program_id": 100
+            "program_uuid": "244af8cb-7cdd-487e-afc0-aa0b6391b1fd"
         },
         "status": "revoked",
         "download_url": "www.example.com",
@@ -147,8 +147,8 @@ or ``status`` parameters in the query string.
 
 .. code-block:: bash
 
-    api/v1/user_credentials/?username=<username>
-    api/v1/user_credentials/?username=<username>&status=<status>
+    api/v2/user_credentials/?username=<username>
+    api/v2/user_credentials/?username=<username>&status=<status>
 
 **Example Response**
 
@@ -164,7 +164,7 @@ or ``status`` parameters in the query string.
                 "username": "admin",
                 "credential": {
                     "credential_id": 1,
-                    "program_id": 100
+                    "program_uuid": "244af8cb-7cdd-487e-afc0-aa0b6391b1fd"
                 },
                 "status": "revoked",
                 "download_url": "www.example.com",
@@ -207,10 +207,10 @@ string.
 
 .. code-block:: bash
 
-    api/v1/course_credentials/?course_id=<course_id>
-    api/v1/course_credentials/?course_id=<course_id>&status=<status>
-    api/v1/course_credentials/?course_id=<course_id>&certificate_type=<certificate_type>
-    api/v1/course_credentials/?course_id=<course_id>&status=<status>&certificate_type=<certificate_type>
+    api/v2/course_credentials/?course_id=<course_id>
+    api/v2/course_credentials/?course_id=<course_id>&status=<status>
+    api/v2/course_credentials/?course_id=<course_id>&certificate_type=<certificate_type>
+    api/v2/course_credentials/?course_id=<course_id>&status=<status>&certificate_type=<certificate_type>
 
 **Example Response**
 
@@ -256,21 +256,21 @@ Get a List of All Credentials for a Program
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 To get a list of all credentials that users have earned for a specific program,
-use ``program_credentials``. The query string must include the ``program_id``
+use ``program_credentials``. The query string must include the ``program_uuid``
 parameter.
 
 This endpoint does not allow you to get a list of all credentials for all users
 in all programs.
 
 You can filter the returned list of credentials by using
-the ``program_id`` or ``status`` parameters in the query string.
+the ``program_uuid`` or ``status`` parameters in the query string.
 
 **Example Requests**
 
 .. code-block:: bash
 
-    api/v1/program_credentials/?program_id=<program_id>
-    api/v1/program_credentials/?program_id=<program_id>&status=<status>
+    api/v2/program_credentials/?program_uuid=<program_uuid>
+    api/v2/program_credentials/?program_uuid=<program_uuid>&status=<status>
 
 **Example Response**
 
@@ -286,7 +286,7 @@ the ``program_id`` or ``status`` parameters in the query string.
                 "username": "admin",
                 "credential": {
                     "credential_id": 1,
-                    "program_id": 100
+                    "program_uuid": "244af8cb-7cdd-487e-afc0-aa0b6391b1fd"
                 },
                 "status": "revoked",
                 "download_url": "www.example.com",
@@ -305,7 +305,7 @@ the ``program_id`` or ``status`` parameters in the query string.
     }
 
 **Note:**
-If you do not include the ``program_id`` parameter, you receive the following
+If you do not include the ``program_uuid`` parameter, you receive the following
 ``status_code=400`` error message:
 
 ``A course_id query string parameter is required for filtering user credentials.``

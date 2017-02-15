@@ -52,7 +52,7 @@ class ProgramCertificateAdmin(admin.ModelAdmin):
     form = ProgramCertificateAdminForm
     list_display = ('program_uuid', 'site', 'is_active')
     list_filter = ('is_active', 'site',)
-    search_fields = ('program_id', 'program_uuid',)
+    search_fields = ('program_uuid',)
 
 
 class SignatoryAdmin(admin.ModelAdmin):
