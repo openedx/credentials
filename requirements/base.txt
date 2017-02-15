@@ -1,22 +1,17 @@
 django==1.8.16
-django-compressor==1.6
-django-extensions==1.6.1
+django-compressor==2.1.1
+django-extensions==1.7.6
 django-filter==1.0.1
-django-libsass==0.6
+django-libsass==0.7
 django-rest-swagger[reST]==0.3.10
-django-storages-redux==1.3
+django-storages==1.5.2
 django-waffle==0.11.1
-djangorestframework==3.2.3
-djangorestframework-jwt==1.7.2
-django-storages==1.1.8
-edx-auth-backends==0.6.0
-edx-django-release-util==0.1.2
+djangorestframework==3.4.7
+djangorestframework-jwt==1.9.0
+edx-auth-backends==0.7.0
+edx-django-release-util==0.2.0
 edx-drf-extensions==1.2.2
-edx-opaque-keys==0.3.1
-edx-rest-api-client==1.6.0
-# The package django-libsass requires libsass and the newest version of libsass '0.10.1'
-# gives validation error on importing scss variables in scss files
-libsass==0.10.0
-pillow==3.4.2
-python-memcached==1.57
-pytz==2015.7
+edx-opaque-keys==0.4
+edx-rest-api-client==1.7.1
+pillow==4.0.0
+pytz==2016.10

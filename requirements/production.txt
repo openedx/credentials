@@ -1,10 +1,11 @@
 # Packages required in a production environment
 -r base.txt
 
-boto==2.32.1
-gevent==1.0.2
-gunicorn==19.3.0
+boto==2.45.0
+gevent==1.2.1
+gunicorn==19.6.0
 MySQL-python==1.2.5
-newrelic==2.72.1.53
-nodeenv==1.1.1
-PyYAML==3.11
+newrelic==2.78.0.57
+nodeenv==1.1.2
+PyYAML==3.12
+python-memcached==1.58
