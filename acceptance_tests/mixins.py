@@ -46,7 +46,7 @@ class CredentialsApiMixin(object):
         """Create user credential for a program."""
         self.data = self.credential_api_client.user_credentials.post({
             'username': config.LMS_USERNAME,
-            'credential': {'program_id': config.PROGRAM_ID},
+            'credential': {'program_uuid': config.PROGRAM_UUID},
             'attributes': []
         })
 

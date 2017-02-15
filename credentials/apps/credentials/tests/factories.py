@@ -38,7 +38,6 @@ class ProgramCertificateFactory(AbstractCertificateFactory):
         model = models.ProgramCertificate
 
     is_active = True
-    program_id = factory.Sequence(int)
     program_uuid = factory.LazyFunction(uuid.uuid4)
 
 
