@@ -144,9 +144,6 @@ class ProgramCertificateTests(SiteMixin, TestCase):
         instance = ProgramCertificateFactory()
         self.assertEqual(str(instance), 'ProgramCertificate: ' + str(instance.program_uuid))
 
-        instance = ProgramCertificateFactory(program_uuid=None)
-        self.assertEqual(str(instance), 'ProgramCertificate: ' + str(instance.program_id))
-
     @ddt.data(True, False)
     def test_program_details(self, use_org_name):
         """ Verify the method returns the details of program associated with the ProgramCertificate. """

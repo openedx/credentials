@@ -244,7 +244,7 @@ class ProgramCertificate(AbstractCertificate):
     Configuration for Program Certificates.
     """
 
-    program_uuid = models.UUIDField(db_index=True, unique=True, null=True, blank=False, verbose_name=_('Program UUID'))
+    program_uuid = models.UUIDField(db_index=True, unique=True, null=False, blank=False, verbose_name=_('Program UUID'))
     program_id = models.PositiveIntegerField(db_index=True, unique=True, null=True, blank=True,
                                              help_text='This field is DEPRECATED. Use program_uuid instead.')
     user_credentials = GenericRelation(
@@ -261,7 +261,7 @@ class ProgramCertificate(AbstractCertificate):
     )
 
     def __str__(self):
-        return 'ProgramCertificate: {uuid}'.format(uuid=(self.program_uuid or self.program_id))
+        return 'ProgramCertificate: {uuid}'.format(uuid=self.program_uuid)
 
     class Meta(object):
         verbose_name = "Program certificate configuration"

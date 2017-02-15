@@ -44,13 +44,13 @@ class CredentialsApiMixin(object):
 
     def create_credential(self):
         """Create user credential for a program."""
-        self.data = self.credential_api_client.user_credentials.post({
+        self.data = self.credential_api_client.credentials.post({
             'username': config.LMS_USERNAME,
-            'credential': {'program_id': config.PROGRAM_ID},
+            'credential': {'program_uuid': config.PROGRAM_UUID},
             'attributes': []
         })
 
     def change_credential_status(self, status):
         """Update the credential status to awarded or revoked."""
         self.data['status'] = status
-        self.credential_api_client.user_credentials(self.data['id']).patch(self.data)
+        self.credential_api_client.credentials(self.data['id']).patch(self.data)

@@ -9,7 +9,7 @@ from django.contrib.auth.models import Group
 from rest_framework.test import APIRequestFactory
 import jwt
 
-from credentials.apps.api.serializers import UserCredentialSerializer
+from credentials.apps.api.v2.serializers import UserCredentialSerializer
 from credentials.apps.core.constants import Role
 from credentials.apps.core.tests.factories import UserFactory
 
