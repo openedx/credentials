@@ -7,21 +7,21 @@ status for an existing user credential.
 +----------------------------------------+--------+---------------------------------+
 | Task                                   | Method | Endpoint                        |
 +========================================+========+=================================+
-| Create a user credential for a program | POST   |  /api/v2/user_credentials/      |
+| Create a user credential for a program | POST   |  /api/v2/credentials/      |
 +----------------------------------------+--------+---------------------------------+
-| Update the status of a user credential | PATCH  |  /api/v2/user_credentials/:id   |
+| Update the status of a user credential | PATCH  |  /api/v2/credentials/:id   |
 +----------------------------------------+--------+---------------------------------+
 
 Create a User Credential for a Program
 --------------------------------------
 
-To create a user credential for a program, use ``user_credentials``.
+To create a user credential for a program, use ``credentials``.
 
 **Example Request**
 
 .. code-block:: json
 
-    url: /api/v2/user_credentials/
+    url: /api/v2/credentials/
     Content-Type: application/json
     Method: POST
 
@@ -57,7 +57,7 @@ To update the status of a user credential, use ``status``.
 
 .. code-block:: json
 
-    url: /api/v2/user_credentials/:id
+    url: /api/v2/credentials/:id
     Content-Type: application/json
     Method: PATCH
 
@@ -79,9 +79,9 @@ The following APIs are available for listing and filtering user credentials:
 +--------------------------------------------------+--------+--------------------------------------+
 | Task                                             | Method | Endpoint                             |
 +==================================================+========+======================================+
-| Get a specific credential for a single user      |  GET   |  /api/v2/user_credentials/:id        |
+| Get a specific credential for a single user      |  GET   |  /api/v2/credentials/:id        |
 +--------------------------------------------------+--------+--------------------------------------+
-| Get a list of all credentials for a single user  |  GET   |  /api/v2/user_credentials/           |
+| Get a list of all credentials for a single user  |  GET   |  /api/v2/credentials/           |
 +--------------------------------------------------+--------+--------------------------------------+
 | Get a list of all credentials for  a course      |  GET   |  /api/v2/course_credentials/         |
 +--------------------------------------------------+--------+--------------------------------------+
@@ -98,7 +98,7 @@ To get information about a specific credential for a single user, use ``credenti
 
 .. code-block:: bash
 
-    /api/v2/user_credentials/1
+    /api/v2/credentials/a2810ab0-c084-43de-a9db-fa484fcc82bc
 
 **Example Response**
 
@@ -136,7 +136,7 @@ All list endpoints show 20 records per page.
 Get a List of All Credentials for a User
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To get a list of all credentials that a user has earned, use ``user_credentials``.
+To get a list of all credentials that a user has earned, use ``credentials``.
 You must include the ``username`` parameter in the query string.
 
 This endpoint does not allow you to get a list of all credentials for all users.
@@ -147,8 +147,8 @@ or ``status`` parameters in the query string.
 
 .. code-block:: bash
 
-    api/v2/user_credentials/?username=<username>
-    api/v2/user_credentials/?username=<username>&status=<status>
+    api/v2/credentials/?username=<username>
+    api/v2/credentials/?username=<username>&status=<status>
 
 **Example Response**
 

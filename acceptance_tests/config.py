@@ -27,7 +27,7 @@ except AttributeError:
     raise RuntimeError('You must provide a valid URL root for the Credentials Service to run acceptance tests.')
 
 CREDENTIALS_API_URL = os.environ.get('CREDENTIALS_API_URL', CREDENTIALS_ROOT_URL + '/api/v2/')
-PROGRAM_UUID = os.environ.get('PROGRAM_UUID', 1)
+PROGRAM_UUID = os.environ.get('PROGRAM_UUID')
 
 # LMS CONFIGURATION
 try:
