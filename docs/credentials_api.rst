@@ -80,15 +80,15 @@ The following APIs are available for listing and filtering user credentials:
 | Task                                             | Method | Endpoint                             |
 +==================================================+========+======================================+
 | Get a specific credential for a single user      |  GET   |  /api/v2/credentials/:uuid      |
-+--------------------------------------------------+--------+--------------------------------------+
-| Get a list of all credentials for a single user  |  GET   |  /api/v2/credentials/           |
++==================================================+========+======================================+
+| Get a list of all credentials  |  GET   |  /api/v2/credentials/           |
 +--------------------------------------------------+--------+--------------------------------------+
 
 
 Get a Specific Credential for a Single User
 -------------------------------------------
 
-To get information about a specific credential for a single user, use ``credential_id``.
+To get information about a specific credential for a single user, use the credential ``uuid``.
 
 **Example Request**
 
@@ -182,3 +182,47 @@ If you do not include the ``username`` parameter, you receive the following
 
 ``A username query string parameter is required for filtering user credentials.``
 
+Get a List of All Credentials for a Program
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To get a list of all credentials that users have earned for a specific program, use the ``credentials`` endpoint.
+
+You can filter the returned list of credentials by using the ``program_uuid`` parameter in the query string.
+
+**Example Requests**
+
+.. code-block:: bash
+
+    api/v1/credentials/?program_uuid=<program_uuid>
+
+**Example Response**
+
+.. code-block:: json
+
+    {
+        "count": 4,
+        "next": null,
+        "previous": null,
+        "results": [
+            {
+                "id": 1,
+                "username": "admin",
+                "credential": {
+                    "credential_id": 1,
+                    "program_id": 100
+                },
+                "status": "revoked",
+                "download_url": "www.example.com",
+                "uuid": "a2810ab0-c084-43de-a9db-fa484fcc82bc",
+                "attributes": [
+                    {
+                        "name": "whitelist_reason",
+                        "value": "Your reason for whitelisting."
+                    }
+                ],
+                "created": "2015-12-17T09:28:35.075376Z",
+                "modified": "2016-01-02T12:58:15.744188Z",
+                "certificate_url": "http://0.0.0.0:8004/credentials/a2810ab0c08443dea9dbfa484fcc82bc/"
+            }
+        ]
+    }
