@@ -9,7 +9,7 @@ status for an existing user credential.
 +========================================+========+=================================+
 | Create a user credential for a program | POST   |  /api/v2/credentials/      |
 +----------------------------------------+--------+---------------------------------+
-| Update the status of a user credential | PATCH  |  /api/v2/credentials/:id   |
+| Update the status of a user credential | PATCH  |  /api/v2/credentials/:uuid |
 +----------------------------------------+--------+---------------------------------+
 
 Create a User Credential for a Program
@@ -57,7 +57,7 @@ To update the status of a user credential, use ``status``.
 
 .. code-block:: json
 
-    url: /api/v2/credentials/:id
+    url: /api/v2/credentials/:uuid
     Content-Type: application/json
     Method: PATCH
 
@@ -79,13 +79,9 @@ The following APIs are available for listing and filtering user credentials:
 +--------------------------------------------------+--------+--------------------------------------+
 | Task                                             | Method | Endpoint                             |
 +==================================================+========+======================================+
-| Get a specific credential for a single user      |  GET   |  /api/v2/credentials/:id        |
+| Get a specific credential for a single user      |  GET   |  /api/v2/credentials/:uuid      |
 +--------------------------------------------------+--------+--------------------------------------+
 | Get a list of all credentials for a single user  |  GET   |  /api/v2/credentials/           |
-+--------------------------------------------------+--------+--------------------------------------+
-| Get a list of all credentials for  a course      |  GET   |  /api/v2/course_credentials/         |
-+--------------------------------------------------+--------+--------------------------------------+
-| Get a list of all credentials for a program      |  GET   |  /api/v2/program_credentials/        |
 +--------------------------------------------------+--------+--------------------------------------+
 
 
@@ -105,7 +101,6 @@ To get information about a specific credential for a single user, use ``credenti
 .. code-block:: json
 
     {
-        "id": 1,
         "username": "admin",
         "credential": {
             "credential_id": 1,
@@ -160,7 +155,6 @@ or ``status`` parameters in the query string.
         "previous": null,
         "results": [
             {
-                "id": 1,
                 "username": "admin",
                 "credential": {
                     "credential_id": 1,
@@ -188,124 +182,3 @@ If you do not include the ``username`` parameter, you receive the following
 
 ``A username query string parameter is required for filtering user credentials.``
 
-
-Get a List of All Credentials for a Course
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To get a list of all credentials that users have earned for a specific course,
-use ``course_credentials``. You must include the ``course_id`` parameter in the
-query string.
-
-This endpoint does not allow you to get a list of all credentials for all users
-in all courses.
-
-You can filter the returned list of credentials by using
-the ``course_id``, ``certificate_type``, or ``status`` parameters in the query
-string.
-
-**Example Requests**
-
-.. code-block:: bash
-
-    api/v2/course_credentials/?course_id=<course_id>
-    api/v2/course_credentials/?course_id=<course_id>&status=<status>
-    api/v2/course_credentials/?course_id=<course_id>&certificate_type=<certificate_type>
-    api/v2/course_credentials/?course_id=<course_id>&status=<status>&certificate_type=<certificate_type>
-
-**Example Response**
-
-.. code-block:: json
-
-    {
-        "count": 1,
-        "next": null,
-        "previous": null,
-        "results": [
-            {
-                "id": 3,
-                "username": "admin",
-                "credential": {
-                    "credential_id": 1,
-                    "course_id": "course-v1:ASUx+AST111+3T2015",
-                    "certificate_type": "honor"
-                },
-                "status": "awarded",
-                "download_url": "www.example.com",
-                "uuid": "bbed53ff-9d5f-4bf0-9289-2fe94fda4363",
-                "attributes": [
-                    {
-                        "name": "whitelist_reason",
-                        "value": "Your reason for whitelisting."
-                    }
-                ],
-                "created": "2015-12-21T10:22:24.367026Z",
-                "modified": "2015-12-22T11:18:11.851280Z",
-                "certificate_url": "http://0.0.0.0:8004/credentials/bbed53ff9d5f4bf092892fe94fda4363/"
-            }
-        ]
-    }
-
-**Note:**
-If you do not include the ``course_id`` parameter, you receive the following
-``status_code=400`` error message:
-
-``A course_id query string parameter is required for filtering user credentials.``
-
-
-Get a List of All Credentials for a Program
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To get a list of all credentials that users have earned for a specific program,
-use ``program_credentials``. The query string must include the ``program_uuid``
-parameter.
-
-This endpoint does not allow you to get a list of all credentials for all users
-in all programs.
-
-You can filter the returned list of credentials by using
-the ``program_uuid`` or ``status`` parameters in the query string.
-
-**Example Requests**
-
-.. code-block:: bash
-
-    api/v2/program_credentials/?program_uuid=<program_uuid>
-    api/v2/program_credentials/?program_uuid=<program_uuid>&status=<status>
-
-**Example Response**
-
-.. code-block:: json
-
-    {
-        "count": 4,
-        "next": null,
-        "previous": null,
-        "results": [
-            {
-                "id": 1,
-                "username": "admin",
-                "credential": {
-                    "credential_id": 1,
-                    "program_uuid": "244af8cb-7cdd-487e-afc0-aa0b6391b1fd"
-                },
-                "status": "revoked",
-                "download_url": "www.example.com",
-                "uuid": "a2810ab0-c084-43de-a9db-fa484fcc82bc",
-                "attributes": [
-                    {
-                        "name": "whitelist_reason",
-                        "value": "Your reason for whitelisting."
-                    }
-                ],
-                "created": "2015-12-17T09:28:35.075376Z",
-                "modified": "2016-01-02T12:58:15.744188Z",
-                "certificate_url": "http://0.0.0.0:8004/credentials/a2810ab0c08443dea9dbfa484fcc82bc/"
-            }
-        ]
-    }
-
-**Note:**
-If you do not include the ``program_uuid`` parameter, you receive the following
-``status_code=400`` error message:
-
-``A course_id query string parameter is required for filtering user credentials.``

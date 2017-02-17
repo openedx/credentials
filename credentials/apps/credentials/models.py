@@ -261,7 +261,7 @@ class ProgramCertificate(AbstractCertificate):
     )
 
     def __str__(self):
-        return 'ProgramCertificate: {uuid}'.format(uuid=(self.program_uuid))
+        return 'ProgramCertificate: {uuid}'.format(uuid=self.program_uuid)
 
     class Meta(object):
         verbose_name = "Program certificate configuration"
