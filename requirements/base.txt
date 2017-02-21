@@ -15,3 +15,7 @@ edx-opaque-keys==0.4
 edx-rest-api-client==1.7.1
 pillow==4.0.0
 pytz==2016.10
+
+# The package django-libsass requires libsass; however, later versions of libsass are stricter regarding SASS
+# validation. We are stuck with the older version until we fix our SASS files to implement RTL properly.
+libsass==0.10.0
