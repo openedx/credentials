@@ -209,7 +209,7 @@ You can filter the returned list of credentials by using the ``program_uuid`` pa
                 "username": "admin",
                 "credential": {
                     "credential_id": 1,
-                    "program_id": 100
+                    "program_uuid": "244af8cb-7cdd-487e-afc0-aa0b6391b1fd"
                 },
                 "status": "revoked",
                 "download_url": "www.example.com",
