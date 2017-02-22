@@ -48,6 +48,7 @@ PROJECT_APPS = [
     'credentials.apps.core',
     'credentials.apps.api',
     'credentials.apps.credentials',
+    'credentials.apps.edx_django_extensions',
 ]
 
 INSTALLED_APPS += THIRD_PARTY_APPS
