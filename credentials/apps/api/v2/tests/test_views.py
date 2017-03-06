@@ -10,6 +10,7 @@ from rest_framework.test import APITestCase, APIRequestFactory
 
 from credentials.apps.api.v2.serializers import UserCredentialSerializer, UserCredentialAttributeSerializer
 from credentials.apps.core.tests.factories import UserFactory, USER_PASSWORD
+from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests.factories import (
     UserCredentialFactory, ProgramCertificateFactory, UserCredentialAttributeFactory
@@ -23,7 +24,7 @@ LOGGER_NAME_SERIALIZER = 'credentials.apps.api.v2.serializers'
 # pylint: disable=no-member
 
 @ddt.ddt
-class CredentialViewSetTests(APITestCase):
+class CredentialViewSetTests(SiteMixin, APITestCase):
     list_path = reverse('api:v2:credentials-list')
 
     def setUp(self):
@@ -32,7 +33,7 @@ class CredentialViewSetTests(APITestCase):
 
     def serialize_user_credential(self, user_credential, many=False):
         """ Serialize the given UserCredential object(s). """
-        request = APIRequestFactory().get('/')
+        request = APIRequestFactory(SERVER_NAME=self.site.domain).get('/')
         return UserCredentialSerializer(user_credential, context={'request': request}, many=many).data
 
     def authenticate_user(self, user):
@@ -160,7 +161,11 @@ class CredentialViewSetTests(APITestCase):
 
     def test_destroy(self):
         """ Verify the endpoint does NOT support the DELETE operation. """
-        credential = UserCredentialFactory(status=UserCredential.AWARDED, username=self.user.username)
+        credential = UserCredentialFactory(
+            credential__site=self.site,
+            status=UserCredential.AWARDED,
+            username=self.user.username
+        )
         path = reverse('api:v2:credentials-detail', kwargs={'uuid': credential.uuid})
 
         # Verify users without the view permission are denied access
@@ -177,7 +182,10 @@ class CredentialViewSetTests(APITestCase):
 
     def test_retrieve(self):
         """ Verify the endpoint returns data for a single UserCredential. """
-        credential = UserCredentialFactory(username=self.user.username)
+        credential = UserCredentialFactory(
+            credential__site=self.site,
+            username=self.user.username
+        )
         path = reverse('api:v2:credentials-detail', kwargs={'uuid': credential.uuid})
 
         # Verify users without the view permission are denied access
@@ -205,8 +213,8 @@ class CredentialViewSetTests(APITestCase):
 
     def test_list_status_filtering(self):
         """ Verify the endpoint returns data for all UserCredentials that match the specified status. """
-        awarded = UserCredentialFactory.create_batch(3, status=UserCredential.AWARDED)
-        revoked = UserCredentialFactory.create_batch(3, status=UserCredential.REVOKED)
+        awarded = UserCredentialFactory.create_batch(3, credential__site=self.site, status=UserCredential.AWARDED)
+        revoked = UserCredentialFactory.create_batch(3, credential__site=self.site, status=UserCredential.REVOKED)
 
         self.authenticate_user(self.user)
         self.add_user_permission(self.user, 'view_usercredential')
@@ -224,19 +232,18 @@ class CredentialViewSetTests(APITestCase):
 
     def test_list_username_filtering(self):
         """ Verify the endpoint returns data for all UserCredentials awarded to the user matching the username. """
-
-        UserCredentialFactory.create_batch(3)
+        UserCredentialFactory.create_batch(3, credential__site=self.site)
 
         self.authenticate_user(self.user)
 
         # Users should be able to view their own credentials without additional permissions
         username = self.user.username
-        expected = UserCredentialFactory.create_batch(3, username=username)
+        expected = UserCredentialFactory.create_batch(3, credential__site=self.site, username=username)
         self.assert_list_username_filter_request_succeeds(username, expected)
 
         # Privileged users should be able to view all credentials
         username = 'test_user'  # pylint: disable=redefined-variable-type
-        expected = UserCredentialFactory.create_batch(3, username=username)
+        expected = UserCredentialFactory.create_batch(3, credential__site=self.site, username=username)
         self.add_user_permission(self.user, 'view_usercredential')
 
         self.assert_list_username_filter_request_succeeds(username, expected)
@@ -244,7 +251,7 @@ class CredentialViewSetTests(APITestCase):
     def test_list_program_uuid_filtering(self):
         """ Verify the endpoint returns data for all UserCredentials awarded for the given program. """
         UserCredentialFactory.create_batch(3)
-        program_certificate = ProgramCertificateFactory()
+        program_certificate = ProgramCertificateFactory(site=self.site)
         expected = UserCredentialFactory.create_batch(3, credential=program_certificate)
 
         self.authenticate_user(self.user)
@@ -257,7 +264,10 @@ class CredentialViewSetTests(APITestCase):
     @ddt.data('put', 'patch')
     def test_update(self, method):
         """ Verify the endpoint supports updating the status of a UserCredential, but no other fields. """
-        credential = UserCredentialFactory(username=self.user.username)
+        credential = UserCredentialFactory(
+            credential__site=self.site,
+            username=self.user.username
+        )
         path = reverse('api:v2:credentials-detail', kwargs={'uuid': credential.uuid})
         expected_status = UserCredential.REVOKED
         data = {'status': expected_status}
@@ -273,3 +283,16 @@ class CredentialViewSetTests(APITestCase):
         self.assertEqual(credential.status, expected_status)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, self.serialize_user_credential(credential))
+
+    def test_site_filtering(self):
+        """ Verify the endpoint only returns credentials linked to a single site. """
+        credential = UserCredentialFactory(credential__site=self.site)
+        UserCredentialFactory()
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'view_usercredential')
+
+        response = self.client.get(self.list_path)
+        self.assertEqual(UserCredential.objects.count(), 2)
+        self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['results'][0], self.serialize_user_credential(credential))
