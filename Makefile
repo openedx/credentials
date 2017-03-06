@@ -87,7 +87,7 @@ compile_translations:
 fake_translations: extract_translations dummy_translations compile_translations
 
 pull_translations:
-	tx pull -af
+	tx pull -af --mode reviewed
 
 push_translations:
 	tx push -s
