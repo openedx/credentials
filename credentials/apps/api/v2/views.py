@@ -1,5 +1,6 @@
 import logging
 
+from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.response import Response
 
@@ -15,8 +16,13 @@ class CredentialViewSet(viewsets.ModelViewSet):
     filter_class = UserCredentialFilter
     lookup_field = 'uuid'
     permission_classes = (UserCredentialPermissions,)
-    queryset = UserCredential.objects.all()
     serializer_class = UserCredentialSerializer
+
+    def get_queryset(self):
+        # We have to filter on the explicit credential models
+        # because we cannot set a GenericRelation field on the Site model.
+        site = self.request.site
+        return UserCredential.objects.filter(Q(program_credentials__site=site) | Q(course_credentials__site=site))
 
     def create(self, request, *args, **kwargs):
         """ Create a new credential.
