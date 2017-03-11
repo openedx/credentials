@@ -1,8 +1,8 @@
 """
 Factories for tests of Credentials.
 """
-from factory import Faker, Sequence, PostGenerationMethodCall, SubFactory, django
 from django.contrib.sites.models import Site
+from factory import Faker, PostGenerationMethodCall, Sequence, SubFactory, django
 
 from credentials.apps.core.models import SiteConfiguration, User
 

@@ -10,7 +10,7 @@ from django.utils import timezone
 from django.views.generic import TemplateView
 
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
-from credentials.apps.credentials.models import UserCredential, ProgramCertificate, ProgramDetails, OrganizationDetails
+from credentials.apps.credentials.models import OrganizationDetails, ProgramCertificate, ProgramDetails, UserCredential
 from credentials.apps.credentials.utils import get_user_data
 
 logger = logging.getLogger(__name__)

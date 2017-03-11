@@ -4,14 +4,11 @@ from __future__ import unicode_literals
 import abc
 import logging
 
-from django.db import transaction
 from django.contrib.contenttypes.models import ContentType
-from credentials.apps.api.exceptions import DuplicateAttributeError
+from django.db import transaction
 
-from credentials.apps.credentials.models import (
-    ProgramCertificate,
-    UserCredentialAttribute, UserCredential
-)
+from credentials.apps.api.exceptions import DuplicateAttributeError
+from credentials.apps.credentials.models import ProgramCertificate, UserCredential, UserCredentialAttribute
 from credentials.apps.credentials.utils import validate_duplicate_attributes
 
 logger = logging.getLogger(__name__)

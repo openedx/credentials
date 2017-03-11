@@ -5,8 +5,7 @@ import uuid
 import factory
 
 from credentials.apps.core.tests.factories import SiteFactory
-from credentials.apps.credentials import constants
-from credentials.apps.credentials import models
+from credentials.apps.credentials import constants, models
 
 PASSWORD = 'dummy-password'
 

@@ -3,10 +3,10 @@ Django admin page for credential
 """
 from django.contrib import admin
 
-from credentials.apps.credentials.forms import SignatoryModelForm, ProgramCertificateAdminForm
+from credentials.apps.credentials.forms import ProgramCertificateAdminForm, SignatoryModelForm
 from credentials.apps.credentials.models import (
-    CertificateTemplate, CourseCertificate, CertificateTemplateAsset, ProgramCertificate, Signatory,
-    UserCredentialAttribute, UserCredential
+    CertificateTemplate, CertificateTemplateAsset, CourseCertificate, ProgramCertificate, Signatory, UserCredential,
+    UserCredentialAttribute
 )
 
 

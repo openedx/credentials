@@ -1,7 +1,6 @@
 from credentials.settings.production import *
 from credentials.settings.utils import get_logger_config
 
-
 DEBUG = True
 
 LOGGING = get_logger_config(debug=True, dev_env=True, local_loglevel='DEBUG')

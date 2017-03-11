@@ -2,16 +2,14 @@
 import logging
 import uuid
 
-from django.db import transaction, connection, DatabaseError
-from django.http import JsonResponse
 from django.conf import settings
-from django.contrib.auth import get_user_model, login, authenticate
-from django.http import Http404
+from django.contrib.auth import authenticate, get_user_model, login
+from django.db import DatabaseError, connection, transaction
+from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render_to_response
 from django.views.generic import View
 
 from credentials.apps.core.constants import Status
-
 
 logger = logging.getLogger(__name__)
 User = get_user_model()

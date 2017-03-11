@@ -13,7 +13,6 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 from credentials.apps.core.constants import Role
 from credentials.apps.core.models import User
 
-
 logger = logging.getLogger(__name__)
 
 

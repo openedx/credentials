@@ -5,7 +5,6 @@ import yaml
 from credentials.settings.base import *
 from credentials.settings.utils import get_env_setting, get_logger_config
 
-
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 

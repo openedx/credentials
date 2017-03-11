@@ -1,5 +1,6 @@
 import os
-from os.path import join, abspath, dirname
+from os.path import abspath, dirname, join
+
 from credentials.settings.utils import get_logger_config
 
 # PATH vars

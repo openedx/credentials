@@ -9,10 +9,11 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.settings import api_settings
 from rest_framework.test import APIRequestFactory
 
-from credentials.apps.api.v2.serializers import UserCredentialCreationSerializer, CredentialField, \
-    UserCredentialAttributeSerializer, UserCredentialSerializer
+from credentials.apps.api.v2.serializers import (
+    CredentialField, UserCredentialAttributeSerializer, UserCredentialCreationSerializer, UserCredentialSerializer
+)
 from credentials.apps.credentials.tests.factories import (
-    ProgramCertificateFactory, UserCredentialFactory, UserCredentialAttributeFactory
+    ProgramCertificateFactory, UserCredentialAttributeFactory, UserCredentialFactory
 )
 
 

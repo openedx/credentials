@@ -7,7 +7,6 @@ from django.conf import settings
 from django.test import TestCase, override_settings
 from testfixtures import LogCapture
 
-
 LOGGER_NAME = 'credentials.apps.credentials.apps'
 
 
