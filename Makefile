@@ -57,8 +57,9 @@ test: clean
 	coverage report
 
 quality:
-	pep8 --config=.pep8 credentials *.py
-	pylint --rcfile=pylintrc credentials *.py
+	isort --check-only --recursive acceptance_tests/ credentials/
+	pep8 --config=.pep8 acceptance_tests credentials *.py
+	pylint --rcfile=pylintrc acceptance_tests credentials *.py
 
 static:
 	python manage.py collectstatic --noinput
