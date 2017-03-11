@@ -16,7 +16,7 @@ from credentials.apps.core.models import SiteConfiguration
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.models import (
-    CertificateTemplateAsset, CertificateTemplate, CourseCertificate, Signatory, ProgramDetails, OrganizationDetails,
+    CertificateTemplate, CertificateTemplateAsset, CourseCertificate, OrganizationDetails, ProgramDetails, Signatory,
     UserCredential
 )
 from credentials.apps.credentials.tests.factories import (

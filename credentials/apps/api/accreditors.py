@@ -1,10 +1,10 @@
 # pylint:  disable=missing-docstring
 from __future__ import unicode_literals
+
 import logging
 
 from credentials.apps.api import exceptions
 from credentials.apps.credentials.issuers import ProgramCertificateIssuer
-
 
 logger = logging.getLogger(__name__)
 

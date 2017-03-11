@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from acceptance_tests.mixins import LoginMixin, CredentialsApiMixin
+from acceptance_tests.mixins import CredentialsApiMixin, LoginMixin
 from acceptance_tests.pages import LMSDashboardPage, LMSProgramListingPage
 
 

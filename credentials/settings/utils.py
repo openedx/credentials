@@ -1,7 +1,7 @@
-from os import environ, path
 import platform
 import sys
 from logging.handlers import SysLogHandler
+from os import environ, path
 
 from django.core.exceptions import ImproperlyConfigured
 

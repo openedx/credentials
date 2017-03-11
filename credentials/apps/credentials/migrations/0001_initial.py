@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import migrations, models
-import credentials.apps.credentials.models
-import django_extensions.db.fields
 import uuid
+
+import django_extensions.db.fields
+from django.db import migrations, models
+
+import credentials.apps.credentials.models
 
 
 class Migration(migrations.Migration):

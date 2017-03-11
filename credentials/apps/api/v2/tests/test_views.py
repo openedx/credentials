@@ -6,14 +6,14 @@ import ddt
 from django.contrib.auth.models import Permission
 from django.core.urlresolvers import reverse
 from rest_framework.renderers import JSONRenderer
-from rest_framework.test import APITestCase, APIRequestFactory
+from rest_framework.test import APIRequestFactory, APITestCase
 
-from credentials.apps.api.v2.serializers import UserCredentialSerializer, UserCredentialAttributeSerializer
-from credentials.apps.core.tests.factories import UserFactory, USER_PASSWORD
+from credentials.apps.api.v2.serializers import UserCredentialAttributeSerializer, UserCredentialSerializer
+from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests.factories import (
-    UserCredentialFactory, ProgramCertificateFactory, UserCredentialAttributeFactory
+    ProgramCertificateFactory, UserCredentialAttributeFactory, UserCredentialFactory
 )
 
 JSON_CONTENT_TYPE = 'application/json'

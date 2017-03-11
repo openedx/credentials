@@ -5,7 +5,7 @@ Django forms for the credentials
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from credentials.apps.credentials.models import Signatory, ProgramCertificate
+from credentials.apps.credentials.models import ProgramCertificate, Signatory
 
 
 class SignatoryModelForm(forms.ModelForm):

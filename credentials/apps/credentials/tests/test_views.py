@@ -6,10 +6,10 @@ from __future__ import unicode_literals
 import uuid
 
 import ddt
+import responses
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from mock import patch
-import responses
 
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError

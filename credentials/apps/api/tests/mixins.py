@@ -1,13 +1,13 @@
 """
 Mixins for Credentials API tests.
 """
-from time import time
 import json
+from time import time
 
+import jwt
 from django.conf import settings
 from django.contrib.auth.models import Group
 from rest_framework.test import APIRequestFactory
-import jwt
 
 from credentials.apps.api.v2.serializers import UserCredentialSerializer
 from credentials.apps.core.constants import Role

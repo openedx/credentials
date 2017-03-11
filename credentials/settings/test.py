@@ -1,9 +1,9 @@
 import os
+
 from path import Path as path
 
 from credentials.settings.base import *
 from credentials.settings.utils import get_logger_config
-
 
 # TEST SETTINGS
 INSTALLED_APPS += [

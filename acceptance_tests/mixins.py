@@ -1,12 +1,9 @@
-import datetime
 import logging
 
 from edx_rest_api_client.client import EdxRestApiClient
-import jwt
 
 from acceptance_tests import config
 from acceptance_tests.pages import LMSLoginPage
-
 
 log = logging.getLogger(__name__)
 

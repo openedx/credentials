@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from credentials.apps.core.tests.factories import UserFactory, USER_PASSWORD
+from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 
 
 class ManagementViewTests(TestCase):
