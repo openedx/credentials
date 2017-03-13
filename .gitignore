@@ -88,3 +88,6 @@ docs/_build/
 node_modules/
 credentials/static/bower_components/
 credentials/media/
+
+# Visual Studio Code
+.vscode
