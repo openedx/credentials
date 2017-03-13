@@ -9,6 +9,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.db import models
+from django.template import Template
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from edx_rest_api_client.client import EdxRestApiClient
@@ -68,6 +69,16 @@ class SiteConfiguration(models.Model):
         blank=False,
         null=True,
     )
+    header_template_code = models.TextField(
+        verbose_name=_('Header Template'),
+        blank=True,
+        null=True,
+    )
+    footer_template_code = models.TextField(
+        verbose_name=_('Footer Template'),
+        blank=True,
+        null=True,
+    )
 
     def __unicode__(self):
         return unicode(self.site.name)
@@ -122,6 +133,14 @@ class SiteConfiguration(models.Model):
         """
 
         return EdxRestApiClient(self.catalog_api_url, jwt=self.access_token)
+
+    @cached_property
+    def header_template(self):
+        return Template(self.header_template_code) if self.header_template_code else None
+
+    @cached_property
+    def footer_template(self):
+        return Template(self.footer_template_code) if self.footer_template_code else None
 
     def get_program(self, program_uuid, ignore_cache=False):
         """
