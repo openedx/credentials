@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-credentials
-===============================
+edX Credentials Service
+=======================
 This repository contains the edX Credentials Service, used as the backend to support Courses/Programs certificates.
 
 .. toctree::

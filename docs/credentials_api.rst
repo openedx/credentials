@@ -1,29 +1,28 @@
-Credential APIs
+Credentials API
 ===============
 
-The following APIs are available for creating a user credential or updating the
-status for an existing user credential.
+The ``credentials`` resource should be used for all API calls.
 
 +----------------------------------------+--------+---------------------------------+
 | Task                                   | Method | Endpoint                        |
 +========================================+========+=================================+
-| Create a user credential for a program | POST   |  /api/v2/credentials/      |
+| Get a list of credentials              | GET    |  /api/v2/credentials/           |
 +----------------------------------------+--------+---------------------------------+
-| Update the status of a user credential | PATCH  |  /api/v2/credentials/:uuid |
+| Get a specific credential              | GET    |  /api/v2/credentials/:uuid      |
++----------------------------------------+--------+---------------------------------+
+| Create a new credential                | POST   |  /api/v2/credentials/           |
++----------------------------------------+--------+---------------------------------+
+| Update a credential                    | PATCH  |  /api/v2/credentials/:uuid      |
 +----------------------------------------+--------+---------------------------------+
 
-Create a User Credential for a Program
---------------------------------------
 
-To create a user credential for a program, use ``credentials``.
-
+Create a New Credential
+-----------------------
 **Example Request**
 
-.. code-block:: json
+.. code-block:: text
 
-    url: /api/v2/credentials/
-    Content-Type: application/json
-    Method: POST
+    POST /api/v2/credentials/
 
     {
         "username": "test-user",
@@ -47,19 +46,18 @@ To create a user credential for a program, use ``credentials``.
 * If you send a program-based user credential request, you can only provide the
   ``whitelist`` attribute.
 
-Update the Status of a User Credential
---------------------------------------
+
+Update a Credential
+-------------------
 
 The default value of ``status`` parameter for a user credential is ``awarded``.
 To update the status of a user credential, use ``status``.
 
 **Example Request**
 
-.. code-block:: json
+.. code-block:: text
 
-    url: /api/v2/credentials/:uuid
-    Content-Type: application/json
-    Method: PATCH
+    PATCH /api/v2/credentials/:uuid
 
     {
         "status": "revoked"
@@ -71,30 +69,16 @@ To update the status of a user credential, use ``status``.
   parameter are ``awarded`` and ``revoked``.
 
 
-Credential APIs
-===============
-
-The following APIs are available for listing and filtering user credentials:
-
-+--------------------------------------------------+--------+--------------------------------------+
-| Task                                             | Method | Endpoint                             |
-+==================================================+========+======================================+
-| Get a specific credential for a single user      |  GET   |  /api/v2/credentials/:uuid      |
-+==================================================+========+======================================+
-| Get a list of all credentials  |  GET   |  /api/v2/credentials/           |
-+--------------------------------------------------+--------+--------------------------------------+
-
-
-Get a Specific Credential for a Single User
--------------------------------------------
+Retrieve a Credential
+---------------------
 
 To get information about a specific credential for a single user, use the credential ``uuid``.
 
 **Example Request**
 
-.. code-block:: bash
+.. code-block:: text
 
-    /api/v2/credentials/a2810ab0-c084-43de-a9db-fa484fcc82bc
+    GET /api/v2/credentials/a2810ab0-c084-43de-a9db-fa484fcc82bc
 
 **Example Response**
 
@@ -124,8 +108,7 @@ To get information about a specific credential for a single user, use the creden
 Get a List of Credentials
 -------------------------
 
-List endpoints are used to get a list of user, course, and program credentials.
-All list endpoints show 20 records per page.
+All credentials are returned by default for any user with the `credentials.view_credential` permission.
 
 
 Get a List of All Credentials for a User
@@ -140,10 +123,10 @@ or ``status`` parameters in the query string.
 
 **Example Requests**
 
-.. code-block:: bash
+.. code-block:: text
 
-    api/v2/credentials/?username=<username>
-    api/v2/credentials/?username=<username>&status=<status>
+    GET api/v2/credentials/?username=<username>
+    GET api/v2/credentials/?username=<username>&status=<status>
 
 **Example Response**
 
@@ -177,23 +160,19 @@ or ``status`` parameters in the query string.
     }
 
 **Note:**
-If you do not include the ``username`` parameter, you receive the following
-``status_code=400`` error message:
+Only users with the `credentials.view_credential` permission, or credential awardees, can filter by username.
 
-``A username query string parameter is required for filtering user credentials.``
 
 Get a List of All Credentials for a Program
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To get a list of all credentials that users have earned for a specific program, use the ``credentials`` endpoint.
 
 You can filter the returned list of credentials by using the ``program_uuid`` parameter in the query string.
 
 **Example Requests**
 
-.. code-block:: bash
+.. code-block:: text
 
-    api/v1/credentials/?program_uuid=<program_uuid>
+    GET api/v1/credentials/?program_uuid=<program_uuid>
 
 **Example Response**
 
