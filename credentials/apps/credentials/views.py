@@ -7,6 +7,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
 from django.utils import timezone
+from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
 
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
@@ -16,7 +17,21 @@ from credentials.apps.credentials.utils import get_user_data
 logger = logging.getLogger(__name__)
 
 
-class RenderCredential(TemplateView):
+class SocialMediaMixin(object):
+    """ Mixin with context for sharing certificates to social media networks. """
+
+    def get_context_data(self, **kwargs):
+        context = super(SocialMediaMixin, self).get_context_data(**kwargs)
+        request = self.request
+        context.update({
+            'share_url': request.build_absolute_uri,
+            'tweet_text': _('I completed a course at {platform_name}. Take a look at my certificate:').format(
+                platform_name=request.site.siteconfiguration.platform_name)
+        })
+        return context
+
+
+class RenderCredential(SocialMediaMixin, TemplateView):
     """ Certificate rendering view."""
     # This base template will include a separate template housing the requested credential body.
     # This allows us to use this one view to render credentials for any number of content types
@@ -72,7 +87,7 @@ class RenderCredential(TemplateView):
         }
 
 
-class ExampleCredential(TemplateView):
+class ExampleCredential(SocialMediaMixin, TemplateView):
     """ Example certificate. """
     template_name = 'credentials/base.html'
 
