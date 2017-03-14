@@ -3,12 +3,6 @@ from credentials.settings.utils import get_logger_config
 
 DEBUG = True
 
-# Enable offline compression of CSS/JS
-COMPRESS_ENABLED = False
-COMPRESS_OFFLINE = False
-
-COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter']
-
 # CACHE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#caches
 CACHES = {

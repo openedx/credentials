@@ -1,9 +1,9 @@
 .DEFAULT_GOAL := test
-NODE_BIN=./node_modules/.bin
+NODE_BIN=$(CURDIR)/node_modules/.bin
 
 .PHONY: clean compile_translations dummy_translations extract_translations fake_translations help html_coverage \
 	migrate pull_translations push_translations quality requirements test update_translations validate \
-	production-requirements
+	production-requirements static static.dev static.watch
 
 help:
 	@echo "Please use \`make <target>\` where <target> is one of"
@@ -22,8 +22,10 @@ help:
 	@echo "  requirements               install requirements for local development"
 	@echo "  requirements.js            install JavaScript requirements for local development"
 	@echo "  serve                      serve Credentials at 0.0.0.0:8150"
-	@echo "  static                     build and compress static assets"
-	@echo "  clean_static               delete compiled/compressed static assets"
+	@echo "  static                     gather all static assets for production (mimized)"
+	@echo "  static.dev                 gather all static assets for development (not minimized)"
+	@echo "  static.watch               watch the assets, and automatically gather all static assets for development (not minimized)"
+	@echo "  clean_static               remove all generated static files"
 	@echo "  test                       run tests and generate coverage report"
 	@echo "  validate                   run tests and quality checks"
 	@echo "  start-devstack             run a local development copy of the server"
@@ -40,14 +42,13 @@ clean:
 	rm -rf coverage htmlcov test_root/uploads
 
 clean_static:
-	rm -rf credentials/assets/
+	rm -rf credentials/assets/ credentials/static/bundles/
 
 production-requirements: requirements.js
 	pip install -r requirements.txt --exists-action w
 
 requirements.js:
 	npm install
-	$(NODE_BIN)/bower install
 
 requirements: requirements.js
 	pip install -r requirements/local.txt
@@ -62,8 +63,14 @@ quality:
 	pylint --rcfile=pylintrc acceptance_tests credentials *.py
 
 static:
+	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --optimize-minimize
 	python manage.py collectstatic --noinput
-	python manage.py compress
+
+static.dev:
+	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress
+
+static.watch:
+	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --watch
 
 serve:
 	python manage.py runserver 0.0.0.0:8150
@@ -77,7 +84,7 @@ html_coverage:
 	coverage html && open htmlcov/index.html
 
 extract_translations:
-	python manage.py makemessages -l en -v1 -d django --ignore="docs/*" --ignore="credentials/assets/*" --ignore="node_modules/*" --ignore="credentials/static/bower_components/*" --ignore="credentials/static/build/*"
+	python manage.py makemessages -l en -v1 -d django --ignore="docs/*" --ignore="credentials/assets/*" --ignore="node_modules/*" --ignore="credentials/static/bundles/*"
 
 dummy_translations:
 	cd credentials && i18n_tool dummy
