@@ -1,7 +1,7 @@
-Business Purpose
-================
+Overview
+========
 
-The credentials service stores and presents records of learners’ successful completion of learning materials in edx-platform.  At present, the service is only responsible for certificates of completion for XSeries Programs (which are curated sequences of courses relating to a specific field of study).  The service is designed to be extensible to support any kind of credential awarded within the platform, but was only recently rolled out and is not fully implemented.  Certificates of course completion will eventually be migrated to this service, but for now they are handled by a different group of subsystems that includes the edX LMS.
+The Credentials Service stores and presents records of learners’ successful completion of learning materials in edx-platform.  At present, the service is only responsible for certificates of completion for XSeries Programs (which are curated sequences of courses relating to a specific field of study).  The service is designed to be extensible to support any kind of credential awarded within the platform, but was only recently rolled out and is not fully implemented.  Certificates of course completion will eventually be migrated to this service, but for now they are handled by a different group of subsystems that includes the edX LMS.
 
 The service interface consists of an HTTP API for creating/managing credentials (intended to be consumed by internal systems responsible for course completion/grading and the like), and public / world-readable views of individual certificates that learners may view and share.
 
@@ -46,15 +46,15 @@ Interactions
 
 Internal: Credential Configuration and Administration
 -----------------------------------------------------
-.. image:: overview-interactions-internal.png
+.. image:: _static/images/overview-interactions-internal.png
 
 Learner-facing: Display Earned Credentials
 ------------------------------------------
-.. image:: overview-interactions-learner.png
+.. image:: _static/images/overview-interactions-learner.png
 
 World-facing: View / Share a Certificate
 ----------------------------------------
-.. image:: overview-interactions-world.png
+.. image:: _static/images/overview-interactions-world.png
 
 
 Key Components
