@@ -5,7 +5,7 @@
 
 edX Credentials Service
 =======================
-This repository contains the edX Credentials Service, used as the backend to support Courses/Programs certificates.
+This repository contains the edX Credentials Service, used as the backend to support course and program certificates.
 
 .. toctree::
    :maxdepth: 2
