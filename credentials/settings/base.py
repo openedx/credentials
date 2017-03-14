@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    'django.contrib.staticfiles'
+    'django.contrib.staticfiles',
+    'webpack_loader',
 ]
 
 THIRD_PARTY_APPS = [
@@ -41,7 +42,6 @@ THIRD_PARTY_APPS = [
     'rest_framework_swagger',
     'social.apps.django_app.default',
     'waffle',
-    'compressor',
     'storages',
 ]
 
@@ -131,27 +131,14 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
 )
 
-COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'django_libsass.SassCompiler'),
-)
-
-# Enable offline compression of CSS/JS
-COMPRESS_ENABLED = True
-COMPRESS_OFFLINE = True
-
-# Minify CSS
-COMPRESS_CSS_FILTERS = [
-    'compressor.filters.css_default.CssAbsoluteFilter',
-    'compressor.filters.cssmin.CSSMinFilter',
-]
-
-COMPRESS_OFFLINE_CONTEXT = [
-    {'STATIC_URL': STATIC_URL, 'LANGUAGE_BIDI': False, },
-    {'STATIC_URL': STATIC_URL, 'LANGUAGE_BIDI': True, },
-]
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': root('..', 'webpack-stats.json'),
+    }
+}
 # END STATIC FILE CONFIGURATION
 
 # TEMPLATE CONFIGURATION

@@ -84,10 +84,12 @@ private.py
 
 *.trace
 
+credentials/static/bundles/
 docs/_build/
 node_modules/
-credentials/static/bower_components/
 credentials/media/
+webpack-stats.json
+
 
 # Visual Studio Code
 .vscode

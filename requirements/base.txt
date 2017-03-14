@@ -1,11 +1,10 @@
 django==1.9.12
-django-compressor==2.1.1
 django-extensions==1.7.6
 django-filter==1.0.1
-django-libsass==0.7
 django-rest-swagger[reST]==0.3.10
 django-storages==1.5.2
 django-waffle==0.11.1
+django-webpack-loader==0.4.1
 djangorestframework==3.4.7
 djangorestframework-jwt==1.9.0
 edx-auth-backends==0.7.0

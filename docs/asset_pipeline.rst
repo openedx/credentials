@@ -1,18 +1,24 @@
 Asset Pipeline
 ==============
 
-Static files are managed via `django-compressor`_. `RequireJS`_ and r.js are used to manage JavaScript dependencies.
-django-compressor compiles SASS, minifies JavaScript, and handles naming files to facilitate cache busting during deployment.
+Static files are managed via  `webpack <https://webpack.github.io/>`_ and
+`django-webpack-loader <https://github.com/owais/django-webpack-loader>`_.
 
-.. _django-compressor: http://django-compressor.readthedocs.org/
-.. _RequireJS: http://requirejs.org/
+There are a few `make` targets to aid asset compilation:
 
-Both tools should operate seamlessly in a local development environment. When deploying to production, call
-``make static`` to compile all static assets and move them to the proper location to be served.
++--------------+-------------------------------------------------------------------------------+
+| Target       | Description                                                                   |
++==============+===============================================================================+
+| static       | Compile and minify all static assets. (Use this for production.)              |
++--------------+-------------------------------------------------------------------------------+
+| static.dev   | Compile all static assets, but do NOT minify.                                 |
++--------------+-------------------------------------------------------------------------------+
+| static.watch | Same as `static.dev`, but assets are compiled whenever a source file changes. |
++--------------+-------------------------------------------------------------------------------+
 
-When creating new pages that utilize RequireJS dependencies, remember new modules to ``build.js``.
+.. note::
 
-NOTE: The static file directories are setup such that the build output directory of ``r.js`` is read before checking
-for assets in ``credentials\static\``. If you run ``make static`` or ``r.js`` locally (which you should not need to),
-make sure you delete ``credentials/static/build`` or run ``make static`` before continuing with development. If you do not
-all changes made to static files will be ignored.
+    If you need to remove all *compiled and collected* static assets, run ``make clean_static``.
+
+When adding new modules/pages that require custom CSS or JavaScript, remember to add a new entrypoint to
+``webpack.config.js``.
