@@ -14,11 +14,12 @@ This repository contains the edX Credentials Service, used as the backend to sup
 
 
 Overview
-------------------------
+--------
 
-Credentials is edX's replacement for the ``certificates`` in ``edx-platform``. This extensible credentials system will allow the learners to get certificates for Programs (XSeries) along with the existing ``certificates`` functionality.
+Credentials is edX's replacement for the ``certificates`` in ``edx-platform``. This extensible credentials system will
+allow the learners to get certificates for Programs (XSeries) along with the existing ``certificates`` functionality.
 
-A more detailed architecture overview is included `here <overview.rst>`_.
+A more detailed architecture overview is included `here <http://open-edx-credentials-guide.readthedocs.io/en/latest/overview.html>`_.
 
 
 Documentation |ReadtheDocs|_

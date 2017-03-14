@@ -10,6 +10,7 @@ This repository contains the edX Credentials Service, used as the backend to sup
 .. toctree::
    :maxdepth: 2
 
+   overview
    getting_started
    asset_pipeline
    testing
