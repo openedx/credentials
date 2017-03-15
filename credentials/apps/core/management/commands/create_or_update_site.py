@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import logging
 
 from django.contrib.sites.models import Site
-from django.core.management import BaseCommand
+from django.core.management import BaseCommand, CommandError
 
 from credentials.apps.core.models import SiteConfiguration
 
@@ -119,6 +119,21 @@ class Command(BaseCommand):
             help='Twitter username attached to tweets'
         )
         parser.add_argument(
+            '--facebook-app-id',
+            action='store',
+            dest='facebook_app_id',
+            type=str,
+            required=False,
+            help='Facebook app ID associated with posts'
+        )
+        parser.add_argument(
+            '--enable-facebook-sharing',
+            action='store_true',
+            dest='enable_facebook_sharing',
+            required=False,
+            help='Enable Facebook Sharing'
+        )
+        parser.add_argument(
             '--enable-linkedin-sharing',
             action='store_true',
             dest='enable_linkedin_sharing',
@@ -137,6 +152,11 @@ class Command(BaseCommand):
         site_id = options.get('site_id')
         site_domain = options.get('site_domain')
         site_name = options.get('site_name')
+
+        enable_facebook_sharing = options.get('enable_facebook_sharing')
+        facebook_app_id = options.get('facebook_app_id')
+        if enable_facebook_sharing and not facebook_app_id:
+            raise CommandError('A Facebook app ID must be supplied to enable Facebook sharing')
 
         try:
             site = Site.objects.get(id=site_id)
@@ -164,5 +184,7 @@ class Command(BaseCommand):
                 'twitter_username': options.get('twitter_username'),
                 'enable_linkedin_sharing': options.get('enable_linkedin_sharing'),
                 'enable_twitter_sharing': options.get('enable_twitter_sharing'),
+                'enable_facebook_sharing': enable_facebook_sharing,
+                'facebook_app_id': facebook_app_id
             }
         )

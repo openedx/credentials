@@ -68,12 +68,24 @@ class SiteConfiguration(models.Model):
         blank=False,
         null=True,
     )
+    facebook_app_id = models.CharField(
+        verbose_name=_('Facebook App ID'),
+        help_text=_('Facebook app ID used for sharing'),
+        max_length=32,
+        blank=True,
+        null=True
+    )
     twitter_username = models.CharField(
         verbose_name=_('Twitter Username'),
         help_text=_('Twitter username included in tweeted credentials. Do NOT include @.'),
         max_length=15,
         blank=True,
         null=True
+    )
+    enable_facebook_sharing = models.BooleanField(
+        verbose_name=_('Enable Facebook sharing'),
+        help_text=_('Enable sharing via Facebook'),
+        default=False
     )
     enable_linkedin_sharing = models.BooleanField(
         verbose_name=_('Enable LinkedIn sharing'),

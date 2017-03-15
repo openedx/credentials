@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 
+from credentials.apps.core.forms import SiteConfigurationAdminForm
 from credentials.apps.core.models import SiteConfiguration, User
 
 
@@ -24,6 +25,7 @@ class SiteConfigurationAdmin(admin.ModelAdmin):
     """ Admin for the SiteConfiguration model."""
     list_display = ('site', 'lms_url_root')
     search_fields = ('site__name',)
+    form = SiteConfigurationAdminForm
     fieldsets = (
         (None, {'fields': ('site', 'platform_name', 'company_name',)}),
         (_('URLs'), {
@@ -34,7 +36,8 @@ class SiteConfigurationAdmin(admin.ModelAdmin):
         }),
         (_('Social Sharing'), {
             'fields': (
-                'twitter_username', 'enable_linkedin_sharing', 'enable_twitter_sharing',
+                'facebook_app_id', 'twitter_username', 'enable_facebook_sharing', 'enable_linkedin_sharing',
+                'enable_twitter_sharing',
             )
         }),
     )

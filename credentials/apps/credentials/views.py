@@ -25,7 +25,9 @@ class SocialMediaMixin(object):
         request = self.request
         site_configuration = request.site.siteconfiguration
         context.update({
+            'facebook_app_id': site_configuration.facebook_app_id,
             'twitter_username': site_configuration.twitter_username,
+            'enable_facebook_sharing': site_configuration.enable_facebook_sharing,
             'enable_linkedin_sharing': site_configuration.enable_linkedin_sharing,
             'enable_twitter_sharing': site_configuration.enable_twitter_sharing,
             'share_url': request.build_absolute_uri,
