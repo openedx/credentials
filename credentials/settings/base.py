@@ -147,6 +147,11 @@ COMPRESS_CSS_FILTERS = [
     'compressor.filters.css_default.CssAbsoluteFilter',
     'compressor.filters.cssmin.CSSMinFilter',
 ]
+
+COMPRESS_OFFLINE_CONTEXT = [
+    {'STATIC_URL': STATIC_URL, 'LANGUAGE_BIDI': False, },
+    {'STATIC_URL': STATIC_URL, 'LANGUAGE_BIDI': True, },
+]
 # END STATIC FILE CONFIGURATION
 
 # TEMPLATE CONFIGURATION
