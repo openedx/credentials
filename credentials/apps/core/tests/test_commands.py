@@ -69,10 +69,12 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
         self.assertEqual(site_configuration.verified_certificate_url, self.site_configuration.verified_certificate_url)
         self.assertEqual(site_configuration.certificate_help_url, self.site_configuration.certificate_help_url)
         self.assertEqual(site_configuration.twitter_username, self.site_configuration.twitter_username)
+        self.assertEqual(site_configuration.facebook_app_id, self.site_configuration.facebook_app_id)
 
         # Social sharing is disabled by default, if the flag is not passed
         self.assertFalse(site_configuration.enable_linkedin_sharing)
         self.assertFalse(site_configuration.enable_twitter_sharing)
+        self.assertFalse(site_configuration.enable_facebook_sharing)
 
     def test_create_site(self):
         """ Verify the command creates Site and SiteConfiguration. """
@@ -151,3 +153,19 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
 
         self.site.refresh_from_db()
         self.assertTrue(getattr(self.site.siteconfiguration, flag_name))
+
+    def test_invalid_facebook_configuration(self):
+        """ Verify the Facebook app ID is required to enable Facebook sharing. """
+        kwargs = {'enable_facebook_sharing': True}
+
+        # pylint: disable=no-member
+        with self.assertRaisesRegexp(CommandError, 'A Facebook app ID must be supplied to enable Facebook sharing'):
+            self._call_command(site_domain=self.site.domain, site_name=self.site.name, **kwargs)
+
+        kwargs['facebook_app_id'] = self.faker.word()
+        self._call_command(site_domain=self.site.domain, site_name=self.site.name, **kwargs)
+
+        site_configuration = self.site.siteconfiguration
+        site_configuration.refresh_from_db()
+        self.assertTrue(site_configuration.enable_facebook_sharing)
+        self.assertEqual(site_configuration.facebook_app_id, kwargs['facebook_app_id'])

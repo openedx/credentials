@@ -22,7 +22,8 @@ module.exports = {
 
     entry: {
         'base.style-ltr': './credentials/static/sass/main-ltr.scss',
-        'base.style-rtl': './credentials/static/sass/main-rtl.scss'
+        'base.style-rtl': './credentials/static/sass/main-rtl.scss',
+        'sharing': './credentials/static/js/sharing.js'
     },
 
     output: {
@@ -57,6 +58,14 @@ module.exports = {
                 query: {
                     name: 'font/[name]-[hash].[ext]'
                 }
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: [{
+                    loader: 'babel-loader',
+                    options: {presets: ['latest']}
+                }],
             }
         ]
     },
