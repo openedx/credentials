@@ -110,6 +110,28 @@ class Command(BaseCommand):
             required=True,
             help='Certificate Help URL'
         )
+        parser.add_argument(
+            '--twitter-username',
+            action='store',
+            dest='twitter_username',
+            type=str,
+            required=False,
+            help='Twitter username attached to tweets'
+        )
+        parser.add_argument(
+            '--enable-linkedin-sharing',
+            action='store_true',
+            dest='enable_linkedin_sharing',
+            required=False,
+            help='Enable LinkedIn Sharing'
+        )
+        parser.add_argument(
+            '--enable-twitter-sharing',
+            action='store_true',
+            dest='enable_twitter_sharing',
+            required=False,
+            help='Enable Twitter Sharing'
+        )
 
     def handle(self, *args, **options):
         site_id = options.get('site_id')
@@ -138,6 +160,9 @@ class Command(BaseCommand):
                 'homepage_url': options.get('homepage_url'),
                 'company_name': options.get('company_name'),
                 'verified_certificate_url': options.get('verified_certificate_url'),
-                'certificate_help_url': options.get('certificate_help_url')
+                'certificate_help_url': options.get('certificate_help_url'),
+                'twitter_username': options.get('twitter_username'),
+                'enable_linkedin_sharing': options.get('enable_linkedin_sharing'),
+                'enable_twitter_sharing': options.get('enable_twitter_sharing'),
             }
         )
