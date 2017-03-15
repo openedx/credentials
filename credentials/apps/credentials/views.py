@@ -23,10 +23,14 @@ class SocialMediaMixin(object):
     def get_context_data(self, **kwargs):
         context = super(SocialMediaMixin, self).get_context_data(**kwargs)
         request = self.request
+        site_configuration = request.site.siteconfiguration
         context.update({
+            'twitter_username': site_configuration.twitter_username,
+            'enable_linkedin_sharing': site_configuration.enable_linkedin_sharing,
+            'enable_twitter_sharing': site_configuration.enable_twitter_sharing,
             'share_url': request.build_absolute_uri,
             'tweet_text': _('I completed a course at {platform_name}. Take a look at my certificate:').format(
-                platform_name=request.site.siteconfiguration.platform_name)
+                platform_name=site_configuration.platform_name),
         })
         return context
 

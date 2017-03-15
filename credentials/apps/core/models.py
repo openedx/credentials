@@ -68,9 +68,26 @@ class SiteConfiguration(models.Model):
         blank=False,
         null=True,
     )
+    twitter_username = models.CharField(
+        verbose_name=_('Twitter Username'),
+        help_text=_('Twitter username included in tweeted credentials. Do NOT include @.'),
+        max_length=15,
+        blank=True,
+        null=True
+    )
+    enable_linkedin_sharing = models.BooleanField(
+        verbose_name=_('Enable LinkedIn sharing'),
+        help_text=_('Enable sharing via LinkedIn'),
+        default=True
+    )
+    enable_twitter_sharing = models.BooleanField(
+        verbose_name=_('Enable Twitter sharing'),
+        help_text=_('Enable sharing via Twitter'),
+        default=True
+    )
 
     def __unicode__(self):
-        return unicode(self.site.name)
+        return self.site.name
 
     @property
     def oauth2_provider_url(self):

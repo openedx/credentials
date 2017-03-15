@@ -1,25 +1,31 @@
-from ddt import data, ddt
-
+import ddt
 from django.contrib.sites.models import Site
 from django.core.management import CommandError, call_command
 from django.test import TestCase
+from faker import Faker
 
 from credentials.apps.core.tests.factories import SiteConfigurationFactory, SiteFactory
+from credentials.apps.core.tests.mixins import SiteMixin
 
 
-@ddt
-class CreateOrUpdateSiteCommandTests(TestCase):
-    command_name = 'create_or_update_site'
+@ddt.ddt
+class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
+    COMMAND_NAME = 'create_or_update_site'
+    faker = Faker()
 
     def setUp(self):
         super(CreateOrUpdateSiteCommandTests, self).setUp()
-
         self.site_configuration = SiteConfigurationFactory.build()
 
-    def _call_command(self, site_domain, site_name, site_id=None):
+    def _call_command(self, site_domain, site_name, site_id=None, **kwargs):
         """
         Internal helper method for interacting with the create_or_update_site management command
         """
+        default_kwargs = {
+            'twitter_username': self.site_configuration.twitter_username,
+        }
+        default_kwargs.update(kwargs)
+
         # Required arguments
         command_args = [
             '--site-domain={site_domain}'.format(site_domain=site_domain),
@@ -44,7 +50,7 @@ class CreateOrUpdateSiteCommandTests(TestCase):
         if site_id:
             command_args.append('--site-id={site_id}'.format(site_id=site_id))
 
-        call_command(self.command_name, *command_args)
+        call_command(self.COMMAND_NAME, *command_args, **default_kwargs)
 
     def _check_site_configuration(self, site_configuration):
         """
@@ -62,10 +68,15 @@ class CreateOrUpdateSiteCommandTests(TestCase):
         self.assertEqual(site_configuration.company_name, self.site_configuration.company_name)
         self.assertEqual(site_configuration.verified_certificate_url, self.site_configuration.verified_certificate_url)
         self.assertEqual(site_configuration.certificate_help_url, self.site_configuration.certificate_help_url)
+        self.assertEqual(site_configuration.twitter_username, self.site_configuration.twitter_username)
+
+        # Social sharing is disabled by default, if the flag is not passed
+        self.assertFalse(site_configuration.enable_linkedin_sharing)
+        self.assertFalse(site_configuration.enable_twitter_sharing)
 
     def test_create_site(self):
         """ Verify the command creates Site and SiteConfiguration. """
-        site_domain = 'credentials-fake1.server'
+        site_domain = self.faker.domain_name()
 
         self._call_command(
             site_domain=site_domain,
@@ -77,24 +88,23 @@ class CreateOrUpdateSiteCommandTests(TestCase):
 
     def test_update_site(self):
         """ Verify the command updates Site and SiteConfiguration. """
-        site_domain = 'credentials-fake2.server'
-        updated_site_domain = 'credentials-fake3.server'
-        updated_site_name = 'Fake Credentials Server'
-        site = SiteFactory(domain=site_domain)
+        expected_site_domain = self.faker.domain_name()
+        expected_site_name = 'Fake Credentials Server'
+        site = SiteFactory()
 
         self._call_command(
             site_id=site.id,
-            site_domain=updated_site_domain,
-            site_name=updated_site_name
+            site_domain=expected_site_domain,
+            site_name=expected_site_name
         )
 
         site.refresh_from_db()
 
-        self.assertEqual(site.domain, updated_site_domain)
-        self.assertEqual(site.name, updated_site_name)
+        self.assertEqual(site.domain, expected_site_domain)
+        self.assertEqual(site.name, expected_site_name)
         self._check_site_configuration(site.siteconfiguration)
 
-    @data(
+    @ddt.data(
         ['--site-id=1'],
         ['--site-id=1', '--site-domain=fake.server'],
         ['--site-id=1', '--site-domain=fake.server', '--platform-name=Fake Name'],
@@ -126,4 +136,18 @@ class CreateOrUpdateSiteCommandTests(TestCase):
     def test_missing_arguments(self, command_args):
         """ Verify CommandError is raised when required arguments are missing """
         with self.assertRaises(CommandError):
-            call_command(self.command_name, *command_args)
+            call_command(self.COMMAND_NAME, *command_args)
+
+    @ddt.data('enable_linkedin_sharing', 'enable_twitter_sharing')
+    def test_enable_social_sharing(self, flag_name):
+        """ Verify the command supports activating social sharing functionality. """
+
+        # pylint: disable=no-member
+        self._call_command(
+            site_domain=self.site.domain,
+            site_name=self.site.name,
+            **{flag_name: True}
+        )
+
+        self.site.refresh_from_db()
+        self.assertTrue(getattr(self.site.siteconfiguration, flag_name))

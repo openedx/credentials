@@ -1,7 +1,9 @@
 """ Tests for core models. """
 import uuid
 
+import mock
 import responses
+from django.contrib.sites.models import SiteManager
 from django.test import TestCase
 from social.apps.django_app.default.models import UserSocialAuth
 
@@ -104,3 +106,14 @@ class SiteConfigurationTests(SiteMixin, TestCase):
         self.mock_catalog_api_response(program_endpoint, body)
         self.assertEqual(self.site.siteconfiguration.get_program(program_uuid, ignore_cache=True), body)
         self.assertEqual(len(responses.calls), 1)
+
+    def test_clear_site_cache_on_db_write(self):
+        """ Verify the site cache is cleared whenever a SiteConfiguration instance is
+        saved or deleted from the database. """
+        with mock.patch.object(SiteManager, 'clear_cache') as mock_clear_site_cache:
+            sc = SiteConfigurationFactory()
+            mock_clear_site_cache.assert_called_once()
+
+            mock_clear_site_cache.reset_mock()
+            sc.delete()
+            mock_clear_site_cache.assert_called_once()

@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'webpack_loader',
 ]
 
 THIRD_PARTY_APPS = [
@@ -43,6 +42,7 @@ THIRD_PARTY_APPS = [
     'social.apps.django_app.default',
     'waffle',
     'storages',
+    'webpack_loader',
 ]
 
 PROJECT_APPS = [
