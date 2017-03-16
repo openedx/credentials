@@ -13,8 +13,9 @@ class CustomUserAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('full_name', 'first_name', 'last_name', 'email')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                       'groups', 'user_permissions')}),
+        (_('Permissions'), {
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')
+        }),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
 
@@ -23,6 +24,20 @@ class SiteConfigurationAdmin(admin.ModelAdmin):
     """ Admin for the SiteConfiguration model."""
     list_display = ('site', 'lms_url_root')
     search_fields = ('site__name',)
+    fieldsets = (
+        (None, {'fields': ('site', 'platform_name', 'company_name',)}),
+        (_('URLs'), {
+            'fields': (
+                'lms_url_root', 'catalog_api_url', 'tos_url', 'privacy_policy_url', 'homepage_url',
+                'verified_certificate_url', 'certificate_help_url',
+            )
+        }),
+        (_('Social Sharing'), {
+            'fields': (
+                'twitter_username', 'enable_linkedin_sharing', 'enable_twitter_sharing',
+            )
+        }),
+    )
 
 
 admin.site.register(User, CustomUserAdmin)

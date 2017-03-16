@@ -190,7 +190,7 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
 
 
 @ddt.ddt
-class ExampleCredentialTests(TestCase):
+class ExampleCredentialTests(SiteMixin, TestCase):
     def test_get(self):
         """ Verify the view works with no program_type parameter. """
         response = self.client.get(reverse('credentials:example'))
