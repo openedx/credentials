@@ -111,6 +111,14 @@ class Command(BaseCommand):
             help='Certificate Help URL'
         )
         parser.add_argument(
+            '--segment-key',
+            action='store',
+            dest='segment_key',
+            type=str,
+            required=False,
+            help='Segment API/write key'
+        )
+        parser.add_argument(
             '--twitter-username',
             action='store',
             dest='twitter_username',
@@ -185,6 +193,7 @@ class Command(BaseCommand):
                 'enable_linkedin_sharing': options.get('enable_linkedin_sharing'),
                 'enable_twitter_sharing': options.get('enable_twitter_sharing'),
                 'enable_facebook_sharing': enable_facebook_sharing,
-                'facebook_app_id': facebook_app_id
+                'facebook_app_id': facebook_app_id,
+                'segment_key': options.get('segment_key'),
             }
         )

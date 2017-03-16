@@ -15,7 +15,7 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
 
     def setUp(self):
         super(CreateOrUpdateSiteCommandTests, self).setUp()
-        self.site_configuration = SiteConfigurationFactory.build()
+        self.site_configuration = SiteConfigurationFactory.build(segment_key=self.faker.word())
 
     def _call_command(self, site_domain, site_name, site_id=None, **kwargs):
         """
@@ -23,6 +23,7 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
         """
         default_kwargs = {
             'twitter_username': self.site_configuration.twitter_username,
+            'segment_key': self.site_configuration.segment_key,
         }
         default_kwargs.update(kwargs)
 
@@ -70,6 +71,7 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
         self.assertEqual(site_configuration.certificate_help_url, self.site_configuration.certificate_help_url)
         self.assertEqual(site_configuration.twitter_username, self.site_configuration.twitter_username)
         self.assertEqual(site_configuration.facebook_app_id, self.site_configuration.facebook_app_id)
+        self.assertEqual(site_configuration.segment_key, self.site_configuration.segment_key)
 
         # Social sharing is disabled by default, if the flag is not passed
         self.assertFalse(site_configuration.enable_linkedin_sharing)
