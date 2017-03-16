@@ -27,7 +27,7 @@ class SiteConfigurationAdmin(admin.ModelAdmin):
     search_fields = ('site__name',)
     form = SiteConfigurationAdminForm
     fieldsets = (
-        (None, {'fields': ('site', 'platform_name', 'company_name',)}),
+        (None, {'fields': ('site', 'platform_name', 'company_name', 'segment_key',)}),
         (_('URLs'), {
             'fields': (
                 'lms_url_root', 'catalog_api_url', 'tos_url', 'privacy_policy_url', 'homepage_url',

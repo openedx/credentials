@@ -23,6 +23,13 @@ class SiteConfiguration(models.Model):
         null=True,
         blank=False,
     )
+    segment_key = models.CharField(
+        verbose_name=_('Segment Key'),
+        help_text=_('Segment write/API key.'),
+        max_length=255,
+        null=True,
+        blank=True
+    )
     lms_url_root = models.URLField(
         verbose_name=_('LMS base url for custom site'),
         help_text=_("Root URL of this site's LMS (e.g. https://courses.stage.edx.org)"),

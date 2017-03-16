@@ -23,7 +23,8 @@ module.exports = {
     entry: {
         'base.style-ltr': './credentials/static/sass/main-ltr.scss',
         'base.style-rtl': './credentials/static/sass/main-rtl.scss',
-        'sharing': './credentials/static/js/sharing.js'
+        'sharing': './credentials/static/js/sharing.js',
+        'analytics': './credentials/static/js/analytics.js'
     },
 
     output: {
