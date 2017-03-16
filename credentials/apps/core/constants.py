@@ -9,5 +9,4 @@ class Status(object):
 
 class Role(object):
     """Named roles (django Groups)."""
-    LEARNERS = 'Learners'
     ADMINS = 'Admins'
