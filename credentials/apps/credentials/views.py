@@ -119,6 +119,7 @@ class ExampleCredential(SocialMediaMixin, TemplateView):
                 'modified': timezone.now(),
                 'uuid': uuid.uuid4(),
                 'credential': {
+                    'program_uuid': uuid.uuid4(),
                     'signatories': {
                         # NOTE (CCB): This is a small hack to workaround the fact that the template expects a QuerySet.
                         'all': [
