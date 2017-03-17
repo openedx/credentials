@@ -110,7 +110,7 @@ class ExampleCredential(SocialMediaMixin, TemplateView):
                 key='ExampleX',
                 name='Example University',
                 display_name='Absolutely Fake University',
-                certificate_logo_image_url='http://placehold.it/204x204'
+                certificate_logo_image_url='https://placehold.it/204x204'
             )]
         )
 
@@ -127,7 +127,7 @@ class ExampleCredential(SocialMediaMixin, TemplateView):
                                 'title': 'Professor...really just Some Guy',
                                 'organization_name_override': 'Parts Unknown',
                                 'image': {
-                                    'url': 'http://placehold.it/720x280'
+                                    'url': 'https://placehold.it/720x280'
                                 }
                             }
                         ]
