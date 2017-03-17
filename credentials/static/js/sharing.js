@@ -1,8 +1,8 @@
-var facebookAppId = window.edx.facebook.appId;
+let facebookAppId = window.edx.facebook.appId;
 
 if (facebookAppId) {
     window.fbAsyncInit = function () {
-        var shareButton = document.getElementsByClassName('action-facebook')[0];
+        let shareButton = document.querySelector('.action-facebook');
 
         FB.init({
             appId: facebookAppId,
@@ -14,14 +14,15 @@ if (facebookAppId) {
         // Activate the sharing button
         shareButton.removeAttribute('disabled');
 
-        shareButton.onclick = function () {
+        shareButton.addEventListener('click', function () {
             FB.ui({
                 method: 'share',
                 href: window.edx.facebook.href
             }, function (response) {
-                // TODO Log to Segment. The response will be empty since we don't use Facebook login.
+                // NOTE (CCB): We intentionally do nothing here. The click handler in analytics.js
+                // is responsible for firing analytics events.
             });
-        };
+        });
     };
 
     (function (d, s, id) {
