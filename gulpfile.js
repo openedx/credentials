@@ -3,6 +3,7 @@
 const eslint = require('gulp-eslint');
 const gulp = require('gulp');
 const jsPath = 'credentials/static/js/**/*.js';
+const Server = require('karma').Server;
 
 gulp.task('lint', () => {
   // ESLint ignores files with "node_modules" paths.
@@ -26,11 +27,17 @@ gulp.task('lint', () => {
     .pipe(eslint.failAfterError());
 });
 
+gulp.task('test', function (done) {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+  }, done).start();
+});
+
 /**
  * Monitors the source and test files, running tests and linters when changes detected.
  */
 gulp.task('watch', function () {
-  gulp.watch(jsPath, ['lint']);
+  gulp.watch(jsPath, ['lint', 'test',]);
 });
 
-gulp.task('default', ['lint']);
+gulp.task('default', ['test']);

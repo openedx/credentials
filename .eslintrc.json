@@ -1,8 +1,18 @@
 {
-  "extends": "eslint-config-edx",
+  "extends": [
+    "eslint-config-edx",
+    "plugin:jasmine/recommended"
+  ],
   "sourceType": "module",
   "ecmaVersion": "2017",
   "globals": {
-    "FB": true
+    "FB": true,
+    "loadFixtures": true
+  },
+  "plugins": [
+    "jasmine"
+  ],
+  "env": {
+    "jasmine": true
   }
 }
