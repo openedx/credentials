@@ -21,5 +21,11 @@
     "url-loader": "^0.5.8",
     "webpack": "^2.2.1",
     "webpack-bundle-tracker": "^0.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.18.0",
+    "eslint-config-edx": "^2.0.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1"
   }
 }

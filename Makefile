@@ -20,7 +20,6 @@ help:
 	@echo "  push_translations          push source translation files (.po) from Transifex"
 	@echo "  quality                    run PEP8 and Pylint"
 	@echo "  requirements               install requirements for local development"
-	@echo "  requirements.js            install JavaScript requirements for local development"
 	@echo "  serve                      serve Credentials at 0.0.0.0:8150"
 	@echo "  static                     gather all static assets for production (mimized)"
 	@echo "  static.dev                 gather all static assets for development (not minimized)"
@@ -44,13 +43,12 @@ clean:
 clean_static:
 	rm -rf credentials/assets/ credentials/static/bundles/
 
-production-requirements: requirements.js
+production-requirements:
+	npm install --production
 	pip install -r requirements.txt --exists-action w
 
-requirements.js:
+requirements:
 	npm install
-
-requirements: requirements.js
 	pip install -r requirements/local.txt
 
 test: clean
@@ -61,6 +59,7 @@ quality:
 	isort --check-only --recursive acceptance_tests/ credentials/
 	pep8 --config=.pep8 acceptance_tests credentials *.py
 	pylint --rcfile=pylintrc acceptance_tests credentials *.py
+	$(NODE_BIN)/gulp lint
 
 static:
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --optimize-minimize
