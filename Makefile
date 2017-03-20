@@ -54,6 +54,7 @@ requirements:
 test: clean
 	coverage run -m pytest
 	coverage report
+	$(NODE_BIN)/gulp test
 
 quality:
 	isort --check-only --recursive acceptance_tests/ credentials/
