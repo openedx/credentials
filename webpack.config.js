@@ -1,5 +1,6 @@
-var BundleTracker = require('webpack-bundle-tracker'),
+const BundleTracker = require('webpack-bundle-tracker'),
     ExtractTextPlugin = require('extract-text-webpack-plugin'),
+    fs = require('fs'),
     path = require('path'),
     webpack = require('webpack'),
     loaders = [
@@ -17,15 +18,56 @@ var BundleTracker = require('webpack-bundle-tracker'),
         }
     ];
 
+// TODO Update documentation
+// TODO Update configuration to install themes package via npm
+// TODO Update configuration to set THEME_DIR environment variable when calling `make static`
+// TODO Finish https://github.com/edx/edx-themes/tree/webpack-theming
+
+/**
+ * Generates theme entries from a specified external module.
+ *
+ * Given a directory, this function finds all all subdirectories with a main.scss file. If the file exists,
+ * the subdirectory name is used as a key in a new entry pointing to the main.scss file.
+ */
+function getThemeEntries() {
+    const themeDir = process.env.THEME_DIR;
+    let themeEntries = {};
+
+    if (!themeDir) {
+        console.log('THEME_DIR not defined. Skipping theme compilation.')
+    }
+    else {
+        const themePath = path.resolve(themeDir);
+        const subDirs = fs.readdirSync(themePath).filter(file => fs.statSync(path.join(themePath, file)).isDirectory());
+
+        subDirs.forEach((directory) => {
+            let mainStyle = path.join(themePath, directory, 'main.scss');
+
+            if (!fs.existsSync(mainStyle)) {
+                console.log(`${mainStyle} does not exist. No theme will be created for ${directory}!`);
+            }
+            else {
+                themeEntries[directory] = mainStyle;
+                console.log(`Added theme for ${directory} from ${mainStyle}`);
+            }
+        });
+    }
+
+    return themeEntries;
+}
+
+const themeEntries = getThemeEntries();
+console.log(`Included theme entries: ${JSON.stringify(themeEntries, null, 4)}`);
+
 module.exports = {
     context: __dirname,
 
-    entry: {
+    entry: Object.assign({
         'base.style-ltr': './credentials/static/sass/main-ltr.scss',
         'base.style-rtl': './credentials/static/sass/main-rtl.scss',
         'sharing': './credentials/static/js/sharing.js',
         'analytics': './credentials/static/js/analytics.js'
-    },
+    }, themeEntries),
 
     output: {
         path: path.resolve('./credentials/static/bundles/'),
@@ -33,6 +75,7 @@ module.exports = {
     },
 
     plugins: [
+        // TODO Add commons chunk plugin to de-dup themes
         new BundleTracker({filename: './webpack-stats.json'}),
         new ExtractTextPlugin('[name]-[hash].css')
     ],
