@@ -115,4 +115,4 @@ def _make_hash(key):
     """
     Returns the string based on a the hash of the provided key.
     """
-    return hashlib.md5(key).hexdigest()
+    return hashlib.md5(key.encode('utf8')).hexdigest()

@@ -1,5 +1,4 @@
 """Exceptions and error messages used by the credentials API."""
-from __future__ import unicode_literals
 
 
 class UnsupportedCredentialTypeError(Exception):

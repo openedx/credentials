@@ -1,9 +1,6 @@
 """
 Models for the credentials service.
 """
-# pylint: disable=model-missing-unicode
-from __future__ import unicode_literals
-
 import uuid  # pylint: disable=unused-import
 from collections import namedtuple
 
@@ -107,11 +104,8 @@ class Signatory(TimeStampedModel):
     class Meta(object):
         verbose_name_plural = 'Signatories'
 
-    def __unicode__(self):
-        return '{name}, {title}'.format(
-            name=self.name,
-            title=self.title
-        )
+    def __str__(self):
+        return '{name}, {title}'.format(name=self.name, title=self.title)
 
     # pylint: disable=no-member
     def save(self, *args, **kwargs):
@@ -141,10 +135,8 @@ class CertificateTemplate(TimeStampedModel):
         help_text=_('HTML Template content data.')
     )
 
-    def __unicode__(self):
-        return '{name}'.format(
-            name=self.name
-        )
+    def __str__(self):
+        return self.name
 
 
 class AbstractCertificate(AbstractCredential):  # pylint: disable=abstract-method
@@ -312,11 +304,8 @@ class CertificateTemplateAsset(TimeStampedModel):
     name = models.CharField(max_length=255)
     asset_file = models.FileField(upload_to=template_assets_path)
 
-    def __unicode__(self):
-        """Unicode representation. """
-        return '{name}'.format(
-            name=self.name
-        )
+    def __str__(self):
+        return self.name
 
     # pylint: disable=no-member
     def save(self, *args, **kwargs):

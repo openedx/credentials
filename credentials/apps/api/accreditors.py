@@ -1,6 +1,4 @@
 # pylint:  disable=missing-docstring
-from __future__ import unicode_literals
-
 import logging
 
 from credentials.apps.api import exceptions

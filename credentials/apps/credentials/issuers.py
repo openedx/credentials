@@ -1,9 +1,8 @@
 """ Issuer classes used to generate user credentials."""
-from __future__ import unicode_literals
-
 import abc
 import logging
 
+import six
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 
@@ -14,6 +13,7 @@ from credentials.apps.credentials.utils import validate_duplicate_attributes
 logger = logging.getLogger(__name__)
 
 
+@six.add_metaclass(abc.ABCMeta)
 class AbstractCredentialIssuer(object):
     """
     Abstract credential issuer.
@@ -21,7 +21,6 @@ class AbstractCredentialIssuer(object):
     Credential issuers are responsible for taking inputs and issuing a single credential (subclass of
     AbstractCredential) to a given user.
     """
-    __metaclass__ = abc.ABCMeta
 
     @abc.abstractproperty
     def issued_credential_type(self):

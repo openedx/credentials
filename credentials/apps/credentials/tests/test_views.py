@@ -1,8 +1,6 @@
 """
 Tests for credentials rendering views.
 """
-from __future__ import unicode_literals
-
 import uuid
 
 import ddt

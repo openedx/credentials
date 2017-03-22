@@ -52,11 +52,11 @@ class UserTests(TestCase):
 class SiteConfigurationTests(SiteMixin, TestCase):
     """ Site configuration model tests. """
 
-    def test_unicode(self):
+    def test_str(self):
         """ Test the site value for site configuration model. """
         site = SiteFactory(domain='test.org', name='test')
         site_configuration = SiteConfigurationFactory(site=site)
-        self.assertEqual(unicode(site_configuration), site.name)
+        self.assertEqual(str(site_configuration), site.name)
 
     @responses.activate
     def test_access_token(self):

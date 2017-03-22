@@ -14,3 +14,4 @@ edx-opaque-keys==0.4
 edx-rest-api-client==1.7.1
 pillow==4.0.0
 pytz==2016.10
+six==1.10.0

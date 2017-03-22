@@ -5,7 +5,7 @@ ignore+= ,migrations, settings, wsgi.py
 const-rgx = (([A-Z_][A-Z0-9_]*)|(__.*__)|log|urlpatterns|logger|User)$
 
 [MESSAGES CONTROL]
-DISABLE+= ,invalid-name,missing-docstring
+DISABLE+= ,invalid-name,missing-docstring,model-missing-unicode
 
 [TYPECHECK]
 ignored-classes+= ,responses,UUIDField,WSGIRequest
