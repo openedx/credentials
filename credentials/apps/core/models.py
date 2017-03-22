@@ -1,7 +1,5 @@
 """ Core models. """
 
-from __future__ import unicode_literals
-
 import datetime
 
 from django.conf import settings
@@ -105,7 +103,7 @@ class SiteConfiguration(models.Model):
         default=True
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.site.name
 
     @property
@@ -203,8 +201,8 @@ class User(AbstractUser):
     class Meta(object):  # pylint:disable=missing-docstring
         get_latest_by = 'date_joined'
 
-    def __unicode__(self):
-        return unicode(self.full_name)
+    def __str__(self):
+        return self.get_full_name()
 
     def get_full_name(self):
         return self.full_name or super(User, self).get_full_name()

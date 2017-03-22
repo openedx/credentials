@@ -7,8 +7,8 @@ import os
 
 def str2bool(s):
     """ Helper method cast str into bool."""
-    s = unicode(s)
-    return s.lower() in (u'yes', u'true', u't', u'1')
+    s = str(s)
+    return s.lower() in ('yes', 'true', 't', '1')
 
 
 # GENERAL CONFIGURATION

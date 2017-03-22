@@ -42,7 +42,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Credentials Service'
+project = 'Credentials Service'
 author = edx_theme.AUTHOR
 copyright = edx_theme.COPYRIGHT
 
@@ -186,8 +186,8 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ('index', 'credentials.tex', u'credentials Documentation',
-     u'edX', 'manual'),
+    ('index', 'credentials.tex', 'credentials Documentation',
+     'edX', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -216,8 +216,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'credentials', u'credentials Documentation',
-     [u'edX'], 1)
+    ('index', 'credentials', 'credentials Documentation',
+     ['edX'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -230,8 +230,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'credentials', u'credentials Documentation',
-     u'edX', 'credentials', 'credentials',
+    ('index', 'credentials', 'credentials Documentation',
+     'edX', 'credentials', 'credentials',
      'Miscellaneous'
      ),
 ]

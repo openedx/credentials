@@ -1,5 +1,6 @@
 """Test core.views."""
 
+import imp
 import sys
 
 import mock
@@ -40,7 +41,7 @@ class HealthTests(TestCase):
             }
         }
 
-        self.assertJSONEqual(response.content, expected_data)
+        self.assertJSONEqual(response.content.decode('utf8'), expected_data)
 
 
 class AutoAuthTests(TestCase):
@@ -82,14 +83,11 @@ class SiteViewTests(TestCase):
 
     def _reload_urlconf(self):
         """ Helper method to reload url config."""
-        reload(sys.modules[settings.ROOT_URLCONF])
+        imp.reload(sys.modules[settings.ROOT_URLCONF])
         clear_url_caches()
 
     @override_settings(DEBUG=True)
     def test_500(self):
-        """
-        Test the 500 view.
-        """
         # Since the the url for the custom 500 view is included only for debug
         # mode so we need to set the debug mode and reload the django urls
         # config for adding the 500 view url
@@ -97,4 +95,3 @@ class SiteViewTests(TestCase):
 
         response = self.client.get(reverse('500'))
         self.assertEqual(response.status_code, 500)
-        self.assertIn('Server Error', response.content)

@@ -1,7 +1,5 @@
 """Test models for credentials service app."""
 
-from __future__ import unicode_literals
-
 import uuid
 
 import ddt
@@ -55,27 +53,23 @@ class SignatoryTests(TestCase):
         """
         Verify that asset file is saving with actual name and on correct path.
         """
-        Signatory(name='test name', title='Test Signatory', image=SimpleUploadedFile(
-            'image.jpg',
-            str('file contents!'))).save()
-        signatory = Signatory.objects.get(id=1)
+        image = SimpleUploadedFile('image.jpg', b'file contents!')
+        signatory = Signatory.objects.create(name='test name', title='Test Signatory', image=image)
         self.assertEqual(
             signatory.image, 'signatories/1/image.jpg'
         )
 
         # Now replace the asset with another file
-        signatory.image = SimpleUploadedFile('image_2.jpg', str('file contents'))
+        signatory.image = SimpleUploadedFile('image_2.jpg', b'file contents')
         signatory.save()
-
-        signatory = Signatory.objects.get(id=1)
         self.assertEqual(
             signatory.image, 'signatories/1/image_2.jpg'
         )
 
-    def test_unicode(self):
+    def test_str(self):
         """ Verify the method serializes the Signatory's name and title. """
         signatory = SignatoryFactory()
-        self.assertEqual(unicode(signatory), signatory.name + ', ' + signatory.title)
+        self.assertEqual(str(signatory), signatory.name + ', ' + signatory.title)
 
 
 class CertificateTemplateAssetTests(TestCase):
@@ -88,25 +82,25 @@ class CertificateTemplateAssetTests(TestCase):
         Verify that asset file is saving with actual name and on correct path.
         """
         certificate_template_asset = CertificateTemplateAsset.objects.create(
-            name='test name', asset_file=SimpleUploadedFile('image.jpg', str('file contents!'))
+            name='test name', asset_file=SimpleUploadedFile('image.jpg', b'file contents!')
         )
         self.assertEqual(
             certificate_template_asset.asset_file, 'certificate_template_assets/1/image.jpg'
         )
 
         # Now replace the asset with another file
-        certificate_template_asset.asset_file = SimpleUploadedFile('image_2.jpg', str('file contents'))
+        certificate_template_asset.asset_file = SimpleUploadedFile('image_2.jpg', b'file contents')
         certificate_template_asset.save()
 
-        certificate_template_asset = CertificateTemplateAsset.objects.get(id=certificate_template_asset.id)
+        certificate_template_asset.refresh_from_db()
         self.assertEqual(
             certificate_template_asset.asset_file, 'certificate_template_assets/1/image_2.jpg'
         )
 
-    def test_unicode_value(self):
-        """Test unicode value is correct."""
+    def test_str(self):
+        """ Verify the method serializes the instance to a string. """
         instance = CertificateTemplateAsset(name='test name')
-        self.assertEqual(unicode(instance), instance.name)
+        self.assertEqual(str(instance), instance.name)
 
 
 class CertificateTemplateTests(TestCase):
@@ -115,7 +109,7 @@ class CertificateTemplateTests(TestCase):
     def test_unicode(self):
         """Test unicode value is correct."""
         certificate_template = CertificateTemplate.objects.create(name='test template', content="dummy content")
-        self.assertEqual(unicode(certificate_template), 'test template')
+        self.assertEqual(str(certificate_template), 'test template')
 
 
 class CourseCertificateTests(SiteMixin, TestCase):
