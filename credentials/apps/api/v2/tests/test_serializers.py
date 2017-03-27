@@ -32,7 +32,7 @@ class CredentialFieldTests(TestCase):
     def test_to_internal_value_with_empty_program_uuid(self):
         """ Verify an error is raised if no program UUID is provided. """
 
-        with self.assertRaisesRegexp(ValidationError, 'Credential identifier is missing'):
+        with self.assertRaisesRegex(ValidationError, 'Credential identifier is missing'):
             self.field_instance.to_internal_value({'program_uuid': ''})
 
     def test_to_internal_value_with_invalid_program_uuid(self, ):
