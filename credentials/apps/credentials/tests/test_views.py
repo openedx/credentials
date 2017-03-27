@@ -183,7 +183,7 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
     @responses.activate
     def test_logo_missing_exception(self):
 
-        with self.assertRaisesRegexp(MissingCertificateLogoError, 'No certificate image logo defined for program'):
+        with self.assertRaisesRegex(MissingCertificateLogoError, 'No certificate image logo defined for program'):
             self._render_user_credential(use_proper_logo_url=False)
 
 
