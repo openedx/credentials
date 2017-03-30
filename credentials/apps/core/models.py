@@ -1,6 +1,7 @@
 """ Core models. """
 
 import datetime
+import hashlib
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
@@ -31,14 +32,14 @@ class SiteConfiguration(models.Model):
     lms_url_root = models.URLField(
         verbose_name=_('LMS base url for custom site'),
         help_text=_("Root URL of this site's LMS (e.g. https://courses.stage.edx.org)"),
-        null=True,
+        null=False,
         blank=False
     )
     catalog_api_url = models.URLField(
         verbose_name=_('Catalog API URL'),
         help_text=_('Root URL of the Catalog API (e.g. https://api.edx.org/catalog/v1/)'),
         blank=False,
-        null=True
+        null=False
     )
     tos_url = models.URLField(
         verbose_name=_('Terms of Service URL'),
@@ -119,6 +120,10 @@ class SiteConfiguration(models.Model):
         return settings.SOCIAL_AUTH_EDX_OIDC_SECRET
 
     @property
+    def user_api_url(self):
+        return '{}/api/user/v1/'.format(self.lms_url_root.strip('/'))
+
+    @property
     def access_token(self):
         """ Returns an access token for this site's service user.
 
@@ -157,6 +162,17 @@ class SiteConfiguration(models.Model):
 
         return EdxRestApiClient(self.catalog_api_url, jwt=self.access_token)
 
+    @cached_property
+    def user_api_client(self):
+        """
+        Returns an authenticated User API client.
+
+        Returns:
+            EdxRestApiClient
+        """
+
+        return EdxRestApiClient(self.user_api_url, jwt=self.access_token, append_slash=False)
+
     def get_program(self, program_uuid, ignore_cache=False):
         """
         Retrieves the details for the specified program.
@@ -181,6 +197,28 @@ class SiteConfiguration(models.Model):
         cache.set(cache_key, program, settings.PROGRAMS_CACHE_TTL)
 
         return program
+
+    def get_user_api_data(self, username):
+        """ Retrieve details for the specified user from the User API.
+
+        If the API call is successful, the returned data will be cached for the
+        duration of USER_CACHE_TTL (in seconds). Failed API responses will NOT
+        be cached.
+
+        Arguments:
+            username (str): Unique identifier of the user for retrieval
+
+        Returns:
+            dict: Data returned from the User API
+        """
+        cache_key = 'user.api.data.{}'.format(hashlib.md5(username.encode('utf8')).hexdigest())
+        user_data = cache.get(cache_key)
+
+        if not user_data:
+            user_data = self.user_api_client.accounts(username).get()
+            cache.set(cache_key, user_data, settings.USER_CACHE_TTL)
+
+        return user_data
 
 
 class User(AbstractUser):
