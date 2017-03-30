@@ -214,12 +214,8 @@ LOGIN_REDIRECT_URL = 'api:v2:credentials-list'
 PROGRAMS_CACHE_TTL = 60 * 60
 
 # USER API CONFIGURATION
-# Absolute URL used to get user data from the user api in LMS
-USER_API_URL = 'http://127.0.0.1:8000/api/user/v1/'
 # Specified in seconds. Enable caching by setting this to a value greater than 0.
 USER_CACHE_TTL = 30 * 60
-USER_JWT_AUDIENCE = 'lms-key'
-USER_JWT_SECRET_KEY = 'lms-secret'
 
 # Credentials service user in Programs service and LMS
 CREDENTIALS_SERVICE_USER = 'credentials_service_user'

@@ -18,11 +18,11 @@ class SiteMixin(object):
         self.client = self.client_class(SERVER_NAME=domain)
 
         Site.objects.all().delete()  # pylint: disable=no-member
-        site_configuration = SiteConfigurationFactory(
+        self.site_configuration = SiteConfigurationFactory(
             site__domain=domain,
             site__id=settings.SITE_ID
         )
-        self.site = site_configuration.site
+        self.site = self.site_configuration.site
 
     def mock_access_token_response(self, status=200):
         """ Mock the response from the OAuth provider's access token endpoint. """

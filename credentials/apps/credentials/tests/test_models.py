@@ -55,16 +55,16 @@ class SignatoryTests(TestCase):
         """
         image = SimpleUploadedFile('image.jpg', b'file contents!')
         signatory = Signatory.objects.create(name='test name', title='Test Signatory', image=image)
-        self.assertEqual(
-            signatory.image, 'signatories/1/image.jpg'
-        )
+
+        assert signatory.image.name.startswith('signatories/1/image')
+        assert signatory.image.name.endswith('.jpg')
 
         # Now replace the asset with another file
         signatory.image = SimpleUploadedFile('image_2.jpg', b'file contents')
         signatory.save()
-        self.assertEqual(
-            signatory.image, 'signatories/1/image_2.jpg'
-        )
+
+        assert signatory.image.name.startswith('signatories/1/image_2')
+        assert signatory.image.name.endswith('.jpg')
 
     def test_str(self):
         """ Verify the method serializes the Signatory's name and title. """
@@ -94,7 +94,7 @@ class CertificateTemplateAssetTests(TestCase):
 
         certificate_template_asset.refresh_from_db()
         self.assertEqual(
-            certificate_template_asset.asset_file, 'certificate_template_assets/1/image_2.jpg'
+            certificate_template_asset.asset_file.name, 'certificate_template_assets/1/image_2.jpg'
         )
 
     def test_str(self):

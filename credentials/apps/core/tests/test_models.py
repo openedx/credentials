@@ -1,14 +1,16 @@
 """ Tests for core models. """
+import json
 import uuid
 
 import mock
 import responses
 from django.contrib.sites.models import SiteManager
-from django.test import TestCase
+from django.test import TestCase, override_settings
+from faker import Faker
 from social.apps.django_app.default.models import UserSocialAuth
 
 from credentials.apps.core.tests.factories import SiteConfigurationFactory, SiteFactory, UserFactory
-from credentials.apps.core.tests.mixins import SiteMixin
+from credentials.apps.core.tests.mixins import JSON, SiteMixin
 
 
 # pylint: disable=no-member
@@ -62,11 +64,11 @@ class SiteConfigurationTests(SiteMixin, TestCase):
     def test_access_token(self):
         """ Verify the property retrieves, and caches, an access token from the OAuth 2.0 provider. """
         token = self.mock_access_token_response()
-        self.assertEqual(self.site.siteconfiguration.access_token, token)
+        self.assertEqual(self.site_configuration.access_token, token)
         self.assertEqual(len(responses.calls), 1)
 
         # Verify the value is cached
-        self.assertEqual(self.site.siteconfiguration.access_token, token)
+        self.assertEqual(self.site_configuration.access_token, token)
         self.assertEqual(len(responses.calls), 1)
 
     @responses.activate
@@ -92,19 +94,19 @@ class SiteConfigurationTests(SiteMixin, TestCase):
 
         self.mock_access_token_response()
         self.mock_catalog_api_response(program_endpoint, body)
-        self.assertEqual(self.site.siteconfiguration.get_program(program_uuid), body)
+        self.assertEqual(self.site_configuration.get_program(program_uuid), body)
         self.assertEqual(len(responses.calls), 1)
 
         # Verify the data is cached
         responses.reset()
-        self.assertEqual(self.site.siteconfiguration.get_program(program_uuid), body)
-        self.assertEqual(self.site.siteconfiguration.get_program(program_uuid), body)
+        self.assertEqual(self.site_configuration.get_program(program_uuid), body)
+        self.assertEqual(self.site_configuration.get_program(program_uuid), body)
         self.assertEqual(len(responses.calls), 0)
 
         # Verify the cache can be bypassed
         self.mock_access_token_response()
         self.mock_catalog_api_response(program_endpoint, body)
-        self.assertEqual(self.site.siteconfiguration.get_program(program_uuid, ignore_cache=True), body)
+        self.assertEqual(self.site_configuration.get_program(program_uuid, ignore_cache=True), body)
         self.assertEqual(len(responses.calls), 1)
 
     def test_clear_site_cache_on_db_write(self):
@@ -117,3 +119,29 @@ class SiteConfigurationTests(SiteMixin, TestCase):
             mock_clear_site_cache.reset_mock()
             sc.delete()
             mock_clear_site_cache.assert_called_once()
+
+    def test_user_api_url(self):
+        """ Verify the User API URL is composed correctly. """
+        expected = '{}/api/user/v1/'.format(self.site_configuration.lms_url_root.strip('/'))
+        self.assertEqual(self.site_configuration.user_api_url, expected)
+
+    @responses.activate
+    @override_settings(USER_CACHE_TTL=60)
+    def test_get_user_api_data(self):
+        """ Verify the method retrieves data from the User API and caches it. """
+        username = Faker().user_name()
+        data = {
+            'username': username,
+        }
+        url = '{root}accounts/{username}'.format(root=self.site_configuration.user_api_url, username=username)
+        responses.add(responses.GET, url, body=json.dumps(data), content_type=JSON, status=200)
+
+        actual = self.site_configuration.get_user_api_data(username)
+        self.assertEqual(actual, data)
+        self.assertEqual(len(responses.calls), 1)
+
+        # Verify the data is cached
+        responses.reset()
+        actual = self.site_configuration.get_user_api_data(username)
+        self.assertEqual(actual, data)
+        self.assertEqual(len(responses.calls), 0)

@@ -13,7 +13,6 @@ from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests import factories
-from credentials.apps.credentials.tests.mixins import UserDataMixin
 
 
 # pylint: disable=no-member
@@ -70,8 +69,12 @@ class RenderCredentialPageTests(SiteMixin, TestCase):
         self.mock_access_token_response()
         self.mock_catalog_api_response(program_endpoint, body)
 
-        with patch('credentials.apps.credentials.views.get_user_data') as user_data:
-            user_data.return_value = UserDataMixin.USER_API_RESPONSE
+        with patch('credentials.apps.core.models.SiteConfiguration.get_user_api_data') as user_data:
+            user_data.return_value = {
+                'username': 'test-user',
+                'name': 'Test User',
+                'email': 'test@example.org',
+            }
             response = self.client.get(self.user_credential.get_absolute_url())
             self.assertEqual(response.status_code, 200)
 

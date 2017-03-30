@@ -17,11 +17,7 @@ class CredentialsConfig(AppConfig):
     verbose_name = 'Credentials'
 
     def ready(self):
-
-        required_config_settings = (
-            'CREDENTIALS_SERVICE_USER',
-            'USER_API_URL', 'USER_JWT_AUDIENCE', 'USER_JWT_SECRET_KEY',
-        )
+        required_config_settings = ('CREDENTIALS_SERVICE_USER',)
 
         missing_config_settings = []
         for setting in required_config_settings:

@@ -10,7 +10,6 @@ from django.views.generic import TemplateView
 
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
 from credentials.apps.credentials.models import OrganizationDetails, ProgramCertificate, ProgramDetails, UserCredential
-from credentials.apps.credentials.utils import get_user_data
 
 logger = logging.getLogger(__name__)
 
@@ -75,17 +74,16 @@ class RenderCredential(SocialMediaMixin, TemplateView):
             user_credential (UserCredential): UserCredential being rendered
 
         Returns:
-             dict, representing a data returned by the Program service,
-             lms service and template path.
+            dict
         """
-        program_details = user_credential.credential.program_details
+        credential = user_credential.credential
+        program_details = credential.program_details
         program_type = program_details.type
         credential_template = 'credentials/programs/{}.html'.format(slugify(program_type))
-        # pylint: disable=no-member
         return {
             'credential_type': program_type,
-            'credential_title': user_credential.credential.title,
-            'user_data': get_user_data(user_credential.username),
+            'credential_title': credential.title,
+            'user_data': credential.site.siteconfiguration.get_user_api_data(user_credential.username),
             'program_details': program_details,
             'credential_template': credential_template,
         }
