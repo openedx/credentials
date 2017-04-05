@@ -20,6 +20,8 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.views.defaults import page_not_found
+from django.views.i18n import javascript_catalog
 
 from credentials.apps.core import views as core_views
 
@@ -33,7 +35,7 @@ urlpatterns = auth_urlpatterns + [
     url(r'^auto_auth/$', core_views.AutoAuth.as_view(), name='auto_auth'),
     url(r'^credentials/', include('credentials.apps.credentials.urls', namespace='credentials')),
     url(r'^health/$', core_views.health, name='health'),
-    url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', ''),
+    url(r'^jsi18n/$', javascript_catalog, ''),
     url(r'^management/', include('credentials.apps.edx_django_extensions.urls', namespace='management')),
 ]
 
@@ -43,8 +45,8 @@ handler500 = 'credentials.apps.core.views.render_500'
 if settings.DEBUG:  # pragma: no cover
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += [
-        url(r'^404/$', 'django.views.defaults.page_not_found', name='404'),
-        url(r'^500/$', handler500, name='500'),
+        url(r'^404/$', page_not_found, name='404'),
+        url(r'^500/$', core_views.render_500, name='500'),
     ]
 
 if settings.DEBUG and os.environ.get('ENABLE_DJANGO_TOOLBAR', False):  # pragma: no cover

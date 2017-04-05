@@ -1,5 +1,5 @@
 django==1.9.12
-django-extensions==1.7.6
+django-extensions==1.7.8
 django-filter==1.0.1
 django-rest-swagger[reST]==0.3.10
 django-storages==1.5.2
