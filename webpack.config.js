@@ -1,28 +1,18 @@
-var BundleTracker = require('webpack-bundle-tracker'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin'),
-    path = require('path'),
-    webpack = require('webpack'),
-    loaders = [
-        {
-            loader: 'css-loader',
-            options: {
-                minimize: true
-            }
-        },
-        {
-            loader: 'sass-loader',
-            options: {
-                includePaths: [path.resolve('./credentials/static/sass/')]
-            }
-        }
-    ];
+const BundleTracker = require('webpack-bundle-tracker');
+const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
+    cache: true,
+
     context: __dirname,
 
     entry: {
         'base.style-ltr': './credentials/static/sass/main-ltr.scss',
         'base.style-rtl': './credentials/static/sass/main-rtl.scss',
+        'openedx.certificate.style-ltr': './credentials/apps/credentials_theme_openedx/static/sass/certificate-ltr.scss',
+        'openedx.certificate.style-rtl': './credentials/apps/credentials_theme_openedx/static/sass/certificate-rtl.scss',
         'sharing': './credentials/static/js/sharing.js',
         'analytics': './credentials/static/js/analytics.js'
     },
@@ -41,7 +31,19 @@ module.exports = {
         rules: [
             {
                 test: /\.s?css$/,
-                loader: ExtractTextPlugin.extract({fallbackLoader: 'style-loader', loader: loaders})
+                use: ExtractTextPlugin.extract({
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                minimize: true
+                            }
+                        },
+                        {
+                            loader: 'sass-loader'
+                        }
+                    ]
+                })
             },
             {
                 test: /\.woff2?$/,
