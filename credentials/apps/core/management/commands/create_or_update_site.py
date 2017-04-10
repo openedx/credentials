@@ -93,14 +93,6 @@ class Command(BaseCommand):
             help='Company Name'
         )
         parser.add_argument(
-            '--verified-certificate-url',
-            action='store',
-            dest='verified_certificate_url',
-            type=str,
-            required=True,
-            help='Verified Certificate URL'
-        )
-        parser.add_argument(
             '--certificate-help-url',
             action='store',
             dest='certificate_help_url',
@@ -153,6 +145,14 @@ class Command(BaseCommand):
             required=False,
             help='Enable Twitter Sharing'
         )
+        parser.add_argument(
+            '--theme-name',
+            action='store',
+            dest='theme_name',
+            type=str,
+            required=False,
+            help='Name of of the theme to use for this site. This value should be lower-cased.'
+        )
 
     def handle(self, *args, **options):
         site_id = options.get('site_id')
@@ -185,7 +185,6 @@ class Command(BaseCommand):
                 'privacy_policy_url': options.get('privacy_policy_url'),
                 'homepage_url': options.get('homepage_url'),
                 'company_name': options.get('company_name'),
-                'verified_certificate_url': options.get('verified_certificate_url'),
                 'certificate_help_url': options.get('certificate_help_url'),
                 'twitter_username': options.get('twitter_username'),
                 'enable_linkedin_sharing': options.get('enable_linkedin_sharing'),
@@ -193,5 +192,6 @@ class Command(BaseCommand):
                 'enable_facebook_sharing': enable_facebook_sharing,
                 'facebook_app_id': facebook_app_id,
                 'segment_key': options.get('segment_key'),
+                'theme_name': options.get('theme_name').lower(),
             }
         )

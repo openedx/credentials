@@ -42,6 +42,5 @@ class SiteConfigurationFactory(django.DjangoModelFactory):
     privacy_policy_url = Faker('url')
     homepage_url = Faker('url')
     company_name = Faker('word')
-    verified_certificate_url = Faker('url')
     certificate_help_url = Faker('url')
     twitter_username = Faker('word')

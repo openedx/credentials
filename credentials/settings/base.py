@@ -50,6 +50,8 @@ PROJECT_APPS = [
     'credentials.apps.api',
     'credentials.apps.credentials',
     'credentials.apps.edx_django_extensions',
+    'credentials.apps.credentials_theme_openedx',
+    'credentials.apps.credentials_theme_edx',
 ]
 
 INSTALLED_APPS += THIRD_PARTY_APPS
@@ -137,6 +139,7 @@ WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'bundles/',
         'STATS_FILE': root('..', 'webpack-stats.json'),
+        'TIMEOUT': 5,
     }
 }
 # END STATIC FILE CONFIGURATION

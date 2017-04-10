@@ -13,8 +13,8 @@ def add_siteconfiguration_data(apps, schema_editor):
         'privacy_policy_url': 'https://www.edx.org/edx-privacy-policy',
         'homepage_url': 'https://www.edx.org',
         'company_name': 'edX Inc.',
-        'verified_certificate_url': 'https://www.edx.org/verified-certificate',
         'certificate_help_url': 'https://edx.readthedocs.org/projects/edx-guide-for-students/en/latest/SFD_certificates.html#web-certificates',
+        'theme_name': 'edx.org',
     }
     SiteConfiguration.objects.update_or_create(site=site, defaults=defaults)
 

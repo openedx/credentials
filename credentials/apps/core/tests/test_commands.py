@@ -40,12 +40,8 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
             ),
             '--homepage-url={homepage_url}'.format(homepage_url=self.site_configuration.homepage_url),
             '--company-name={company_name}'.format(company_name=self.site_configuration.company_name),
-            '--verified-certificate-url={verified_certificate_url}'.format(
-                verified_certificate_url=self.site_configuration.verified_certificate_url
-            ),
-            '--certificate-help-url={certificate_help_url}'.format(
-                certificate_help_url=self.site_configuration.certificate_help_url
-            )
+            '--certificate-help-url={}'.format(self.site_configuration.certificate_help_url),
+            '--theme-name={}'.format(self.site_configuration.theme_name),
         ]
 
         if site_id:
@@ -67,11 +63,11 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
         self.assertEqual(site_configuration.privacy_policy_url, self.site_configuration.privacy_policy_url)
         self.assertEqual(site_configuration.homepage_url, self.site_configuration.homepage_url)
         self.assertEqual(site_configuration.company_name, self.site_configuration.company_name)
-        self.assertEqual(site_configuration.verified_certificate_url, self.site_configuration.verified_certificate_url)
         self.assertEqual(site_configuration.certificate_help_url, self.site_configuration.certificate_help_url)
         self.assertEqual(site_configuration.twitter_username, self.site_configuration.twitter_username)
         self.assertEqual(site_configuration.facebook_app_id, self.site_configuration.facebook_app_id)
         self.assertEqual(site_configuration.segment_key, self.site_configuration.segment_key)
+        self.assertEqual(site_configuration.theme_name, self.site_configuration.theme_name)
 
         # Social sharing is disabled by default, if the flag is not passed
         self.assertFalse(site_configuration.enable_linkedin_sharing)
