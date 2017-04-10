@@ -170,6 +170,8 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
                 'footer': self.select_theme_template(['_footer.html']),
                 'header': self.select_theme_template(['_header.html']),
             },
+            'page_title': program_details.type,
+            'program_name': program_details.title,
         })
 
         return context

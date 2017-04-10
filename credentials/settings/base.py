@@ -43,6 +43,8 @@ THIRD_PARTY_APPS = [
     'waffle',
     'storages',
     'webpack_loader',
+    # TODO Set in EXTRA_APPS via configuration
+    'edx_credentials_themes',
 ]
 
 PROJECT_APPS = [
@@ -51,7 +53,6 @@ PROJECT_APPS = [
     'credentials.apps.credentials',
     'credentials.apps.edx_django_extensions',
     'credentials.apps.credentials_theme_openedx',
-    'credentials.apps.credentials_theme_edx',
 ]
 
 INSTALLED_APPS += THIRD_PARTY_APPS
@@ -138,6 +139,7 @@ STATICFILES_FINDERS = (
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'bundles/',
+        # 'CACHE': True,
         'STATS_FILE': root('..', 'webpack-stats.json'),
         'TIMEOUT': 5,
     }
