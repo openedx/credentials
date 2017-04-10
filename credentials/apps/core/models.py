@@ -29,6 +29,13 @@ class SiteConfiguration(models.Model):
         null=True,
         blank=True
     )
+    theme_name = models.CharField(
+        verbose_name=_('Theme Name'),
+        help_text=_('Name of of the theme to use for this site. This value should be lower-cased.'),
+        max_length=255,
+        blank=False,
+        default='openedx'
+    )
     lms_url_root = models.URLField(
         verbose_name=_('LMS base url for custom site'),
         help_text=_("Root URL of this site's LMS (e.g. https://courses.stage.edx.org)"),
@@ -64,8 +71,8 @@ class SiteConfiguration(models.Model):
     )
     verified_certificate_url = models.URLField(
         verbose_name=_('Verified Certificate URL'),
-        help_text=_('URL of page for information on verified certificates'),
-        blank=False,
+        help_text='This field is deprecated, and will be removed.',
+        blank=True,
         null=True,
     )
     certificate_help_url = models.URLField(

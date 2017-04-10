@@ -4,7 +4,9 @@ import uuid
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
+from django.template.loader import select_template
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
 
@@ -14,7 +16,7 @@ from credentials.apps.credentials.models import OrganizationDetails, ProgramCert
 logger = logging.getLogger(__name__)
 
 
-class SocialMediaMixin(object):
+class SocialMediaMixin:
     """ Mixin with context for sharing certificates to social media networks. """
 
     def get_context_data(self, **kwargs):
@@ -34,20 +36,44 @@ class SocialMediaMixin(object):
         return context
 
 
-class RenderCredential(SocialMediaMixin, TemplateView):
+class ThemeViewMixin:
+    def add_theme_to_template_names(self, template_names):
+        """ Prepend the the list of template names with the path of the current theme. """
+        theme_template_path = self.request.site.siteconfiguration.theme_name
+        themed_template_names = [
+            '{theme_path}/{template_name}'.format(theme_path=theme_template_path,
+                                                  template_name=template_name.strip('/')) for
+            template_name in template_names
+        ]
+        template_names = themed_template_names + template_names
+        return template_names
+
+    def select_theme_template(self, templates):
+        return select_template(self.add_theme_to_template_names(templates))
+
+
+class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
     """ Certificate rendering view."""
     # This base template will include a separate template housing the requested credential body.
     # This allows us to use this one view to render credentials for any number of content types
     # (e.g., courses, programs).
     template_name = 'credentials/base.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(RenderCredential, self).get_context_data(**kwargs)
-        user_credential = get_object_or_404(
+    @cached_property
+    def user_credential(self):
+        return get_object_or_404(
             UserCredential,
-            uuid=kwargs.get('uuid'),
+            uuid=self.kwargs.get('uuid'),
             status=UserCredential.AWARDED
         )
+
+    def get_context_data(self, **kwargs):
+        context = super(RenderCredential, self).get_context_data(**kwargs)
+        user_credential = self.user_credential
+
+        # NOTE: We currently only support rendering program credentials
+        if user_credential.credential_content_type.model_class() != ProgramCertificate:
+            raise Http404
 
         program_details = user_credential.credential.program_details
         for organization in program_details.organizations:
@@ -55,46 +81,49 @@ class RenderCredential(SocialMediaMixin, TemplateView):
                 raise MissingCertificateLogoError('No certificate image logo defined for program: [{program_uuid}]'.
                                                   format(program_uuid=program_details.uuid))
 
-        # get the model class according the credential content type.
-        # It will be use to call the appropriate method for rendering.
-        if user_credential.credential_content_type.model_class() != ProgramCertificate:
-            raise Http404
+        user_data = user_credential.credential.site.siteconfiguration.get_user_api_data(user_credential.username)
 
         context.update({
             'user_credential': user_credential,
-            'certificate_context': self.get_certificate_context(user_credential),
+            'user_data': user_data,
+            'child_templates': self.get_child_templates(),
+
+            # NOTE: In the future this can be set to the course_name and/or seat type
+            'page_title': program_details.type,
+
+            # NOTE: In the future this can be set to the course_name
+            'program_name': program_details.title,
         })
 
         return context
 
-    def get_certificate_context(self, user_credential):
-        """ Returns the context data necessary to render the certificate.
+    def get_credential_template(self):
+        template_names = []
+        credential_type = self.user_credential.credential
 
-        Arguments:
-            user_credential (UserCredential): UserCredential being rendered
+        # NOTE: In the future we will need to account for other types of credentials besides programs.
+        template_names += [
+            'credentials/programs/{uuid}/certificate.html'.format(uuid=credential_type.program_uuid),
+            'credentials/programs/{type}/certificate.html'.format(
+                type=slugify(credential_type.program_details.type)),
+        ]
 
-        Returns:
-            dict
-        """
-        credential = user_credential.credential
-        program_details = credential.program_details
-        program_type = program_details.type
-        credential_template = 'credentials/programs/{}.html'.format(slugify(program_type))
+        return self.select_theme_template(template_names)
+
+    def get_child_templates(self):
         return {
-            'credential_type': program_type,
-            'credential_title': credential.title,
-            'user_data': credential.site.siteconfiguration.get_user_api_data(user_credential.username),
-            'program_details': program_details,
-            'credential_template': credential_template,
+            'credential': self.get_credential_template(),
+            'footer': self.select_theme_template(['_footer.html']),
+            'header': self.select_theme_template(['_header.html']),
         }
 
 
-class ExampleCredential(SocialMediaMixin, TemplateView):
+class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
     """ Example certificate. """
     template_name = 'credentials/base.html'
 
     def get_context_data(self, **kwargs):
-        program_type = self.request.GET.get('program_type', 'Example')
+        program_type = self.request.GET.get('program_type', 'Professional Certificate')
         context = super(ExampleCredential, self).get_context_data(**kwargs)
         program_details = ProgramDetails(
             uuid=uuid.uuid4(),
@@ -129,16 +158,17 @@ class ExampleCredential(SocialMediaMixin, TemplateView):
                             }
                         ]
                     },
-                }
-            },
-            'certificate_context': {
-                'credential_type': 'Example Certificate',
-                'credential_title': 'Completely Example Program',
-                'user_data': {
-                    'name': 'John Doe',
+                    'program_details': program_details,
                 },
-                'program_details': program_details,
-                'credential_template': 'credentials/programs/{}.html'.format(slugify(program_type)),
+            },
+            'user_data': {
+                'name': 'John Doe',
+            },
+            'child_templates': {
+                'credential': self.select_theme_template(
+                    ['credentials/programs/{type}/certificate.html'.format(type=slugify(program_type))]),
+                'footer': self.select_theme_template(['_footer.html']),
+                'header': self.select_theme_template(['_header.html']),
             },
         })
 

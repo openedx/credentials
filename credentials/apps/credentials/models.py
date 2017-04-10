@@ -169,7 +169,7 @@ class UserCredential(TimeStampedModel):
     )
 
     credential_content_type = models.ForeignKey(
-        ContentType, limit_choices_to={"model__in": ("coursecertificate", "programcertificate")}
+        ContentType, limit_choices_to={'model__in': ('coursecertificate', 'programcertificate')}
     )
     credential_id = models.PositiveIntegerField()
     credential = GenericForeignKey('credential_content_type', 'credential_id')
@@ -224,6 +224,10 @@ class CourseCertificate(AbstractCertificate):
     class Meta(object):
         unique_together = (('course_id', 'certificate_type', 'site'),)
         verbose_name = "Course certificate configuration"
+
+    @cached_property
+    def course_key(self):
+        return CourseKey.from_string(self.course_id)
 
 
 OrganizationDetails = namedtuple('OrganizationDetails', ('uuid', 'key', 'name', 'display_name',

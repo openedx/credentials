@@ -12,12 +12,16 @@ class CoreContextProcessorTests(TestCase):
     """ Tests for core.context_processors.core """
 
     def test_core(self):
-        site = factories.SiteFactory()
+        site_configuration = factories.SiteConfigurationFactory()
+
         request = RequestFactory().get('/')
         request.LANGUAGE_CODE = LANGUAGE_CODE
-        request.site = site
+        request.site = site_configuration.site
+
         expected_output = {
-            'site': site,
+            'site': site_configuration.site,
             'language_code': LANGUAGE_CODE,
+            'platform_name': site_configuration.platform_name
         }
+
         self.assertDictEqual(core(request), expected_output)
