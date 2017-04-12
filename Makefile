@@ -63,7 +63,7 @@ quality:
 
 static:
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --optimize-minimize
-	python manage.py collectstatic --noinput
+	python manage.py collectstatic --noinput -i *.scss
 
 static.dev:
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress
