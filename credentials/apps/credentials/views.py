@@ -37,9 +37,11 @@ class SocialMediaMixin:
 
 
 class ThemeViewMixin:
+    site = None
+
     def add_theme_to_template_names(self, template_names):
         """ Prepend the the list of template names with the path of the current theme. """
-        theme_template_path = self.request.site.siteconfiguration.theme_name
+        theme_template_path = self.site.siteconfiguration.theme_name
         themed_template_names = [
             '{theme_path}/{template_name}'.format(theme_path=theme_template_path,
                                                   template_name=template_name.strip('/')) for
@@ -81,7 +83,8 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
                 raise MissingCertificateLogoError('No certificate image logo defined for program: [{program_uuid}]'.
                                                   format(program_uuid=program_details.uuid))
 
-        user_data = user_credential.credential.site.siteconfiguration.get_user_api_data(user_credential.username)
+        self.site = user_credential.credential.site
+        user_data = self.site.siteconfiguration.get_user_api_data(user_credential.username)
 
         context.update({
             'user_credential': user_credential,
@@ -138,6 +141,8 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
                 certificate_logo_image_url='https://placehold.it/204x204'
             )]
         )
+
+        self.site = self.request.site
 
         context.update({
             'user_credential': {
