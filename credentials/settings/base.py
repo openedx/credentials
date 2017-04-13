@@ -67,10 +67,14 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.contrib.sites.middleware.CurrentSiteMiddleware',
+    'credentials.apps.core.middleware.CurrentSiteMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
     'waffle.middleware.WaffleMiddleware',
+)
+
+CURRENT_SITE_MIDDLEWARE_EXEMPTED_PATHS = (
+    '/health/',
 )
 
 ROOT_URLCONF = 'credentials.urls'
