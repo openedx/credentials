@@ -82,14 +82,14 @@ private.py
 # pyenv
 .python-version
 
+# Visual Studio Code
+.vscode
+
 *.trace
 
+.cache/
+credentials/media/
 credentials/static/bundles/
 docs/_build/
 node_modules/
-credentials/media/
 webpack-stats.json
-
-
-# Visual Studio Code
-.vscode

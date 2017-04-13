@@ -45,14 +45,14 @@ clean_static:
 
 production-requirements:
 	npm install --production
-	pip install -r requirements.txt --exists-action w
+	pip install -r requirements.txt
 
 requirements:
 	npm install
 	pip install -r requirements/local.txt
 
 test: clean
-	coverage run ./manage.py test credentials --settings=credentials.settings.test
+	coverage run -m pytest
 	coverage report
 
 quality:
@@ -74,7 +74,7 @@ static.watch:
 serve:
 	python manage.py runserver 0.0.0.0:8150
 
-validate: test quality
+validate: quality test
 
 migrate:
 	python manage.py migrate
