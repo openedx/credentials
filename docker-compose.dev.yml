@@ -1,0 +1,15 @@
+version: "2"
+
+services:
+  db:
+    ports:
+      - "3306:3306"
+
+  credentials:
+    volumes:
+      - .:/edx/app/credentials/credentials
+    command: bash -c 'source /edx/app/credentials/credentials_env && python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150'
+    environment:
+      - ENABLE_DJANGO_TOOLBAR=1
+    ports:
+      - "18150:18150"
