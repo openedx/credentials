@@ -17,8 +17,11 @@ from credentials.apps.core.tests.mixins import SiteMixin
 User = get_user_model()
 
 
-class HealthTests(SiteMixin, TestCase):
-    """Tests of the health endpoint."""
+class HealthTests(TestCase):
+    """Tests of the health endpoint.
+
+    These tests do not rely on SiteMixin, because this endpoint should be site-agnostic.
+    """
 
     def test_all_services_available(self):
         """Test that the endpoint reports when all services are healthy."""
