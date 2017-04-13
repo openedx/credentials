@@ -4,9 +4,10 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
+from credentials.apps.core.tests.mixins import SiteMixin
 
 
-class ManagementViewTests(TestCase):
+class ManagementViewTests(SiteMixin, TestCase):
     path = reverse('management:index')
 
     def setUp(self):

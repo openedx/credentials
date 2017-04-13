@@ -85,14 +85,11 @@ class AutoAuth(View):
         return redirect('/')
 
 
-def render_500(request, template_name='500.html'):
+def render_500(request, template_name='500.html'):  # pylint: disable=unused-argument
     """ Custom 500 error handler.
 
     Arguments:
         template_name (template): Template for rendering
     """
-    context = {
-        'site': request.site
-    }
-    response = render_to_response(template_name, context, status=500)
+    response = render_to_response(template_name, status=500)
     return response

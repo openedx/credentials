@@ -12,21 +12,23 @@ from django.test import TestCase
 from django.test.utils import override_settings
 
 from credentials.apps.core.constants import Status
+from credentials.apps.core.tests.mixins import SiteMixin
 
 User = get_user_model()
 
 
-class HealthTests(TestCase):
+class HealthTests(SiteMixin, TestCase):
     """Tests of the health endpoint."""
 
     def test_all_services_available(self):
         """Test that the endpoint reports when all services are healthy."""
         self._assert_health(200, Status.OK, Status.OK)
 
+    @mock.patch('django.contrib.sites.middleware.get_current_site', mock.Mock(return_value=None))
+    @mock.patch('django.db.backends.base.base.BaseDatabaseWrapper.cursor', mock.Mock(side_effect=DatabaseError))
     def test_database_outage(self):
         """Test that the endpoint reports when the database is unavailable."""
-        with mock.patch('django.db.backends.base.base.BaseDatabaseWrapper.cursor', side_effect=DatabaseError):
-            self._assert_health(503, Status.UNAVAILABLE, Status.UNAVAILABLE)
+        self._assert_health(503, Status.UNAVAILABLE, Status.UNAVAILABLE)
 
     def _assert_health(self, status_code, overall_status, database_status):
         """Verify that the response matches expectations."""
@@ -44,7 +46,7 @@ class HealthTests(TestCase):
         self.assertJSONEqual(response.content.decode('utf8'), expected_data)
 
 
-class AutoAuthTests(TestCase):
+class AutoAuthTests(SiteMixin, TestCase):
     """ Auto Auth view tests. """
     AUTO_AUTH_PATH = reverse('auto_auth')
 
@@ -78,7 +80,7 @@ class AutoAuthTests(TestCase):
         self.assertTrue(user.is_superuser)
 
 
-class SiteViewTests(TestCase):
+class SiteViewTests(SiteMixin, TestCase):
     """ Tests for the base site views."""
 
     def _reload_urlconf(self):
