@@ -19,7 +19,8 @@ DEBUG = False
 ALLOWED_HOSTS = []
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
-SITE_ID = 1
+# NOTE (CCB): This is intentionally set to None, forcing Django to use middleware to determine the site.
+SITE_ID = None
 
 # Application definition
 

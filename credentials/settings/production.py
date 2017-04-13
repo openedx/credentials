@@ -54,6 +54,3 @@ DB_OVERRIDES = dict(
 
 for override, value in DB_OVERRIDES.items():
     DATABASES['default'][override] = value
-
-# TODO Move this to configuration...if it works.
-USE_X_FORWARDED_HOST = True
