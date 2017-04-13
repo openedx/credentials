@@ -4,8 +4,6 @@
  * Emits a tracking event via window.analytics.track().
  */
 function handleClick() {
-  'use strict';
-
   const attributes = this.attributes;
   const eventName = this.getAttribute('data-track-event');
   const eventProperties = {};
@@ -28,8 +26,6 @@ function handleClick() {
  * Sets up click handlers for all elements with the attribute data-track-type set to "click".
  */
 function setupClickHandlers() {
-  'use strict';
-
   const clickElements = document.querySelectorAll('[data-track-type="click"]');
 
   for (let i = 0, len = clickElements.length; i < len; i += 1) {
