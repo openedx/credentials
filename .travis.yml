@@ -1,23 +1,24 @@
 language: python
-python:
-    - "3.5"
-sudo: required
 
+python:
+  - "3.5"
+
+sudo: required
 services:
   - docker
 
 cache:
+  - pip
   - directories:
     - node_modules
-    - credentials/static/bower_components
 
-before_install:
-    - docker-compose -f .travis/docker-compose-travis.yml up -d
+before_install: make up-test
 
-script:
-    - docker exec credentials /edx/app/credentials/credentials/.travis/run_tests.sh
+install: make exec-requirements
+
+script: make exec-validate
 
 after_success:
-    - pip install -U codecov
-    - docker exec credentials /edx/app/credentials/credentials/.travis/run_coverage.sh
-    - codecov
+  - pip install --upgrade codecov
+  - make exec-coverage
+  - codecov

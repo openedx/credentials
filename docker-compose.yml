@@ -4,34 +4,19 @@ services:
   db:
     image: mysql:5.6
     container_name: db
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     environment:
-      MYSQL_ROOT_PASSWORD: ""
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_USER: "credentials001"
-      MYSQL_PASSWORD: "password"
-      MYSQL_DATABASE: "credentials"
-    ports:
-      - "3306:3306"
-
-  memcache:
-    image: memcached:1.4.24
-    container_name: memcache
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_USER=credentials001
+      - MYSQL_PASSWORD=password
+      - MYSQL_DATABASE=credentials
 
   credentials:
-    # Uncomment this line to use the official credentials base image
-    image: edxops/credentials:latest
-
-    # Uncomment the next two lines to build from a local configuration repo
-    #build: ../configuration
-    #dockerfile: docker/build/credentials/Dockerfile
-
+    # TODO: Use the "latest" tag once it's updated.
+    image: edxops/credentials:devstack
     container_name: credentials
-    volumes:
-      - .:/edx/app/credentials/credentials
-    command: /edx/app/credentials/devstack.sh start
     depends_on:
-      - "db"
-      - "memcache"
-    ports:
-      - "8150:8150"
-      - "18150:18150"
+      - db
+    stdin_open: true
+    tty: true
