@@ -18,6 +18,9 @@ DICT_UPDATE_KEYS = ('JWT_AUTH',)
 
 # AMAZON S3 STORAGE CONFIGURATION
 # See: https://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html#settings
+AWS_STORAGE_BUCKET_NAME = ''
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = ''
 
 # This may be overridden by the yaml in CREDENTIALS_CFG, but it should
 # be here as a default.
