@@ -44,7 +44,6 @@ THIRD_PARTY_APPS = [
     'waffle',
     'storages',
     'webpack_loader',
-    'corsheaders',
     # TODO Set in EXTRA_APPS via configuration
     'edx_credentials_themes',
 ]
@@ -61,7 +60,6 @@ INSTALLED_APPS += THIRD_PARTY_APPS
 INSTALLED_APPS += PROJECT_APPS
 
 MIDDLEWARE_CLASSES = (
-    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
