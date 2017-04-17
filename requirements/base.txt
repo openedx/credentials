@@ -1,5 +1,4 @@
 django==1.9.13
-django-cors-headers==2.0.2
 django-extensions==1.7.8
 django-filter==1.0.1
 django-rest-swagger[reST]==0.3.10
