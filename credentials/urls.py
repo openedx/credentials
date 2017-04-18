@@ -50,6 +50,6 @@ if settings.DEBUG:  # pragma: no cover
     ]
 
 if settings.DEBUG and os.environ.get('ENABLE_DJANGO_TOOLBAR', False):  # pragma: no cover
-    import debug_toolbar  # pylint: disable=import-error, wrong-import-position, wrong-import-order
+    import debug_toolbar
 
     urlpatterns.append(url(r'^__debug__/', include(debug_toolbar.urls)))

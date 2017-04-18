@@ -22,7 +22,6 @@ from credentials.apps.credentials.tests.factories import (
 )
 from credentials.settings.base import MEDIA_ROOT
 
-# pylint: disable=invalid-name,no-member
 TEST_DATA_ROOT = MEDIA_ROOT + '/test/data/'
 
 
