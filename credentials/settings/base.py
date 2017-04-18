@@ -201,9 +201,6 @@ AUTHENTICATION_BACKENDS = (
 ENABLE_AUTO_AUTH = False
 AUTO_AUTH_USERNAME_PREFIX = 'auto_auth_'
 
-OAUTH2_PROVIDER_URL = None
-OAUTH_ID_TOKEN_EXPIRATION = 60
-
 SOCIAL_AUTH_STRATEGY = 'auth_backends.strategies.EdxDjangoStrategy'
 
 # Set these to the correct values for your OAuth2/OpenID Connect provider (e.g., devstack)
@@ -245,8 +242,7 @@ LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel='DEBUG')
 # DRF Settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'credentials.apps.api.authentication.JwtAuthentication',
-        'credentials.apps.api.authentication.BearerAuthentication',
+        'edx_rest_framework_extensions.authentication.JwtAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
@@ -261,4 +257,12 @@ SWAGGER_SETTINGS = {
     'doc_expansion': 'list',
     'is_authenticated': True,
     'permission_denied_handler': 'credentials.apps.api.views.api_docs_permission_denied_handler'
+}
+
+EDX_DRF_EXTENSIONS = {
+    'JWT_PAYLOAD_USER_ATTRIBUTE_MAPPING': {
+        'administrator': 'is_staff',
+        'email': 'email',
+        'full_name': 'full_name',
+    },
 }
