@@ -53,7 +53,6 @@ class AccreditorTests(TestCase):
         Attempts to register additional issuers for a credential type should
         result in a warning being logged.
         """
-        # pylint: disable=no-member
         msg = "The issuer [{}] is already registered to issue credentials of type [{}]. [{}] will NOT be used.".format(
             ProgramCertificateIssuer, self.program_credential, ProgramCertificateIssuer
         )

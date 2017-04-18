@@ -106,7 +106,7 @@ class TestPipelineUserRoles(TestCase):
         Make sure the user is unassigned from the ADMINS role, even if they previously
         had that role, if the "administrator" claim is not set to true.
         """
-        self.user.groups.add(Group.objects.get(name=Role.ADMINS))  # pylint: disable=no-member
+        self.user.groups.add(Group.objects.get(name=Role.ADMINS))
         self.assert_has_admin_role()
         result = pipeline_set_user_roles(payload, self.user)
         self.assert_has_admin_role(False)

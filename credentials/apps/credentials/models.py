@@ -107,7 +107,6 @@ class Signatory(TimeStampedModel):
     def __str__(self):
         return '{name}, {title}'.format(name=self.name, title=self.title)
 
-    # pylint: disable=no-member
     def save(self, *args, **kwargs):
         """
         A primary key/ID will not be assigned until the model is written to
@@ -139,7 +138,7 @@ class CertificateTemplate(TimeStampedModel):
         return self.name
 
 
-class AbstractCertificate(AbstractCredential):  # pylint: disable=abstract-method
+class AbstractCertificate(AbstractCredential):
     """
     Abstract Certificate configuration to support multiple type of certificates
     i.e. Programs, Courses.
@@ -311,7 +310,6 @@ class CertificateTemplateAsset(TimeStampedModel):
     def __str__(self):
         return self.name
 
-    # pylint: disable=no-member
     def save(self, *args, **kwargs):
         """
         A primary key/ID will not be assigned until the model is written to

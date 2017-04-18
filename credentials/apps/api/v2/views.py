@@ -55,7 +55,7 @@ class CredentialViewSet(viewsets.ModelViewSet):
         omit_parameters:
             - query
         """
-        super(CredentialViewSet, self).destroy(request, *args, **kwargs)  # pylint: disable=no-member
+        super(CredentialViewSet, self).destroy(request, *args, **kwargs)
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)

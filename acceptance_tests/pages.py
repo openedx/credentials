@@ -7,7 +7,7 @@ from bok_choy.promise import EmptyPromise
 from acceptance_tests.config import BASIC_AUTH_PASSWORD, BASIC_AUTH_USERNAME, CREDENTIALS_API_URL, LMS_ROOT_URL
 
 
-class CredentialsDRFPage(PageObject):  # pylint: disable=abstract-method
+class CredentialsDRFPage(PageObject):
     @property
     def url(self):
         return self.page_url

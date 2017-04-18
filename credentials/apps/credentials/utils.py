@@ -13,7 +13,7 @@ def validate_duplicate_attributes(attributes):
 
     """
 
-    def keyfunc(attribute):  # pylint: disable=missing-docstring
+    def keyfunc(attribute):
         return attribute['name']
 
     sorted_data = sorted(attributes, key=keyfunc)

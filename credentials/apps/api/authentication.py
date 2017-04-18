@@ -21,7 +21,7 @@ def _set_user_roles(user, payload):
     DRY helper - sets roles for a user based on JWT payload (during JWT auth)
     or social auth signin (for use with session auth in the browseable API).
     """
-    admin_group = Group.objects.get(name=Role.ADMINS)  # pylint: disable=no-member
+    admin_group = Group.objects.get(name=Role.ADMINS)
     if payload.get('administrator'):
         user.groups.add(admin_group)
     else:
@@ -56,8 +56,8 @@ class JwtAuthentication(JSONWebTokenAuthentication):
             logger.warning('Invalid JWT payload: preferred_username not present.')
             raise AuthenticationFailed()
         username = payload['preferred_username']
-        user, __ = User.objects.get_or_create(username=username)  # pylint: disable=no-member
-        admin_group = Group.objects.get(name=Role.ADMINS)  # pylint: disable=no-member
+        user, __ = User.objects.get_or_create(username=username)
+        admin_group = Group.objects.get(name=Role.ADMINS)
         if payload.get('administrator'):
             user.groups.add(admin_group)
         else:

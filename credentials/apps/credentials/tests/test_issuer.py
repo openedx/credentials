@@ -1,7 +1,6 @@
 """
 Tests for Issuer class.
 """
-# pylint: disable=no-member
 import ddt
 from django.test import TestCase
 
@@ -41,7 +40,7 @@ class ProgramCertificateIssuerTests(TestCase):
         user_credential = self.issuer.issue_credential(self.program_certificate, 'testuser2', self.attributes)
         self._assert_usercredential_fields(user_credential, self.program_certificate, 'testuser2', self.attributes)
 
-    def _assert_usercredential_fields(self, user_credential, expected_credential, expected_username, expected_attrs):  # pylint: disable=line-too-long
+    def _assert_usercredential_fields(self, user_credential, expected_credential, expected_username, expected_attrs):
         """ Verify the fields on a UserCredential object match expectations. """
         self.assertEqual(user_credential.username, expected_username)
         self.assertEqual(user_credential.credential, expected_credential)

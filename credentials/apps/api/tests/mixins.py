@@ -65,7 +65,6 @@ class CredentialViewSetTestsMixin(object):
     list_path = None
     user_credential = None
 
-    #  pylint: disable=no-member
     def setUp(self):
         super(CredentialViewSetTestsMixin, self).setUp()
 
