@@ -19,8 +19,8 @@ DEBUG = False
 ALLOWED_HOSTS = []
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#site-id
-# NOTE (CCB): This is intentionally set to None, forcing Django to use middleware to determine the site.
-SITE_ID = None
+# edx-django-sites-extensions will fallback to this site if we cannot identify the site from the hostname.
+SITE_ID = 1
 
 # Application definition
 
@@ -44,6 +44,7 @@ THIRD_PARTY_APPS = [
     'waffle',
     'storages',
     'webpack_loader',
+    'django_sites_extensions',
     # TODO Set in EXTRA_APPS via configuration
     'edx_credentials_themes',
 ]
@@ -67,14 +68,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'credentials.apps.core.middleware.CurrentSiteMiddleware',
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
     'waffle.middleware.WaffleMiddleware',
-)
-
-CURRENT_SITE_MIDDLEWARE_EXEMPTED_PATHS = (
-    '/health/',
 )
 
 ROOT_URLCONF = 'credentials.urls'
