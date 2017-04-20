@@ -78,7 +78,7 @@ serve:
 validate: quality test
 
 migrate:
-	python manage.py migrate
+	python manage.py migrate --noinput
 
 html_coverage:
 	coverage html && open htmlcov/index.html
