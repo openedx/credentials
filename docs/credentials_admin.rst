@@ -31,41 +31,6 @@ If you want to add additional sites, you can use the ``create_or_update_site`` m
 ``./manage.py create_or_update_site --help`` to view all of the parameters.
 
 
-Template Configuration  (Optional)
-----------------------------------
-
-This configuration adds certificate-specific templates.
-This configuration is optional. If you do not add a certificate-specific template, certificates use the default template.
-
-
-Template Configuration Model
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To add or update a template's configuration, use the ``CertificateTemplate`` model.
-
-The following image shows the ``CertificateTemplate`` model in the Django administration panel for a configured template.
-
-.. image:: _static/images/template.png
-    :width: 600px
-    :alt: Populated template model
-
-All fields in the ``CertificateTemplate`` model are required. The **Template Name** must be unique across all certificate templates in your course or organization.
-
-
-Template Asset Model
-~~~~~~~~~~~~~~~~~~~~
-
-To upload templates to S3, use the ``CertificateTemplateAsset`` model. The ``CertificateTemplate`` model consumes the assets that you upload.
-
-The following image shows the ``CertificateTemplateAsset`` model in the Django administration panel for a configured certificate template asset.
-
-.. image:: _static/images/template_asset.png
-    :width: 600px
-    :alt: Populated template asset model
-
-All fields in the ``CertificateTemplate`` model are required.
-
-
 Signatory Configuration
 -----------------------
 

@@ -107,18 +107,6 @@ your settings and created the database (if necessary). Migrations can be run wit
 
     $ python manage.py migrate
 
-The Credentials repository provides a fixture containing sample data. This fixture can be used to pre-populate the database with sample data when setting up the service for development or load testing. If you want to use it, load the data from the fixture as follows:
-
-.. code-block:: bash
-
-    $ python manage.py loaddata sample_data
-
-If you change the Credentials schema, please update the fixture. You can do so by installing the fixture on a clean database, applying your new migrations, updating the data as necessary, then running the following command to overwrite the fixture:
-
-.. code-block:: bash
-
-    $ python manage.py dumpdata credentials --indent 4 > credentials/apps/credentials/fixtures/sample_data.json
-
 .. _Django's migrate command: https://docs.djangoproject.com/en/1.8/ref/django-admin/#django-admin-migrate
 
 
