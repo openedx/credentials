@@ -14,7 +14,7 @@ from credentials.apps.core.models import SiteConfiguration
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.models import (
-    CertificateTemplate, CertificateTemplateAsset, CourseCertificate, OrganizationDetails, ProgramDetails, Signatory,
+    CourseCertificate, OrganizationDetails, ProgramDetails, Signatory,
     UserCredential
 )
 from credentials.apps.credentials.tests.factories import (
@@ -69,46 +69,6 @@ class SignatoryTests(TestCase):
         """ Verify the method serializes the Signatory's name and title. """
         signatory = SignatoryFactory()
         self.assertEqual(str(signatory), signatory.name + ', ' + signatory.title)
-
-
-class CertificateTemplateAssetTests(TestCase):
-    """
-    Test Assets are uploading/saving successfully for CertificateTemplateAsset.
-    """
-
-    def test_asset_file_saving(self):
-        """
-        Verify that asset file is saving with actual name and on correct path.
-        """
-        certificate_template_asset = CertificateTemplateAsset.objects.create(
-            name='test name', asset_file=SimpleUploadedFile('image.jpg', b'file contents!')
-        )
-        self.assertEqual(
-            certificate_template_asset.asset_file, 'certificate_template_assets/1/image.jpg'
-        )
-
-        # Now replace the asset with another file
-        certificate_template_asset.asset_file = SimpleUploadedFile('image_2.jpg', b'file contents')
-        certificate_template_asset.save()
-
-        certificate_template_asset.refresh_from_db()
-        self.assertEqual(
-            certificate_template_asset.asset_file.name, 'certificate_template_assets/1/image_2.jpg'
-        )
-
-    def test_str(self):
-        """ Verify the method serializes the instance to a string. """
-        instance = CertificateTemplateAsset(name='test name')
-        self.assertEqual(str(instance), instance.name)
-
-
-class CertificateTemplateTests(TestCase):
-    """Test CertificateTemplate model"""
-
-    def test_unicode(self):
-        """Test unicode value is correct."""
-        certificate_template = CertificateTemplate.objects.create(name='test template', content="dummy content")
-        self.assertEqual(str(certificate_template), 'test template')
 
 
 class CourseCertificateTests(SiteMixin, TestCase):

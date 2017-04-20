@@ -26,20 +26,6 @@ def _choices(*values):
     return [(value,) * 2 for value in values]
 
 
-def template_assets_path(instance, filename):
-    """
-    Returns path for credentials templates file assets.
-
-    Arguments:
-        instance(CertificateTemplateAsset): CertificateTemplateAsset object
-        filename(str): file to upload
-
-    Returns:
-        Path to asset.
-    """
-    return 'certificate_template_assets/{id}/{filename}'.format(id=instance.id, filename=filename)
-
-
 def signatory_assets_path(instance, filename):
     """
     Returns path for signatory assets.
@@ -124,27 +110,12 @@ class Signatory(TimeStampedModel):
         super(Signatory, self).save(force_update=True)
 
 
-class CertificateTemplate(TimeStampedModel):
-    """
-    Certificate Template model to organize content for certificates.
-    """
-
-    name = models.CharField(max_length=255, db_index=True, unique=True)
-    content = models.TextField(
-        help_text=_('HTML Template content data.')
-    )
-
-    def __str__(self):
-        return self.name
-
-
 class AbstractCertificate(AbstractCredential):
     """
     Abstract Certificate configuration to support multiple type of certificates
     i.e. Programs, Courses.
     """
     signatories = models.ManyToManyField(Signatory)
-    template = models.ForeignKey(CertificateTemplate, null=True, blank=True)
     title = models.CharField(
         max_length=255, null=True, blank=True,
         help_text='Custom certificate title to override default display_name for a course/program.'
@@ -297,31 +268,3 @@ class UserCredentialAttribute(TimeStampedModel):
 
     class Meta(object):
         unique_together = (('user_credential', 'name'),)
-
-
-class CertificateTemplateAsset(TimeStampedModel):
-    """
-    Certificate Template Asset model to add content files for a certificate
-    template.
-    """
-    name = models.CharField(max_length=255)
-    asset_file = models.FileField(upload_to=template_assets_path)
-
-    def __str__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        """
-        A primary key/ID will not be assigned until the model is written to
-        the database. Given that our file path relies on this ID, save the
-        model initially with no file. After the initial save, update the file
-        and save again. All subsequent saves will write to the database only
-        once.
-        """
-        if self.pk is None:
-            temp_file = self.asset_file
-            self.asset_file = None
-            super(CertificateTemplateAsset, self).save(*args, **kwargs)
-            self.asset_file = temp_file
-
-        super(CertificateTemplateAsset, self).save(force_update=True)

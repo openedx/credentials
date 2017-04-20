@@ -8,17 +8,8 @@ from credentials.apps.credentials import constants, models
 PASSWORD = 'dummy-password'
 
 
-class CertificateTemplateFactory(factory.django.DjangoModelFactory):
-    class Meta(object):
-        model = models.CertificateTemplate
-
-    name = factory.Sequence(lambda n: 'template%d' % n)
-    content = '<html></html>'
-
-
 class AbstractCertificateFactory(factory.django.DjangoModelFactory):
     site = factory.SubFactory(SiteFactory)
-    template = factory.SubFactory(CertificateTemplateFactory)
 
 
 class CourseCertificateFactory(AbstractCertificateFactory):
