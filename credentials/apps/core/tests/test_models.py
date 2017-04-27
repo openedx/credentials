@@ -7,7 +7,7 @@ import responses
 from django.contrib.sites.models import SiteManager
 from django.test import TestCase, override_settings
 from faker import Faker
-from social.apps.django_app.default.models import UserSocialAuth
+from social_django.models import UserSocialAuth
 
 from credentials.apps.core.tests.factories import SiteConfigurationFactory, SiteFactory, UserFactory
 from credentials.apps.core.tests.mixins import JSON, SiteMixin

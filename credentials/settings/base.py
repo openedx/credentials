@@ -40,7 +40,7 @@ THIRD_PARTY_APPS = [
     'release_util',
     'rest_framework',
     'rest_framework_swagger',
-    'social.apps.django_app.default',
+    'social_django',
     'waffle',
     'storages',
     'webpack_loader',
@@ -70,7 +70,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
     'waffle.middleware.WaffleMiddleware',
 )
 
