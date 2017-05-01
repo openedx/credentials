@@ -1,7 +1,9 @@
+from credentials.settings._debug_toolbar import *
 from credentials.settings.base import *
 from credentials.settings.utils import get_logger_config
 
 DEBUG = True
+INTERNAL_IPS = ['127.0.0.1']
 
 # CACHE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#caches
@@ -30,22 +32,6 @@ DATABASES = {
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # END EMAIL CONFIGURATION
-
-# TOOLBAR CONFIGURATION
-# See: http://django-debug-toolbar.readthedocs.org/en/latest/installation.html
-if os.environ.get('ENABLE_DJANGO_TOOLBAR', False):
-    INSTALLED_APPS += [
-        'debug_toolbar',
-    ]
-
-    MIDDLEWARE_CLASSES += (
-        'debug_toolbar.middleware.DebugToolbarMiddleware',
-    )
-
-    DEBUG_TOOLBAR_PATCH_SETTINGS = False
-
-INTERNAL_IPS = ('127.0.0.1',)
-# END TOOLBAR CONFIGURATION
 
 # AUTHENTICATION
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
