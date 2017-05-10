@@ -3,6 +3,7 @@ import json
 import responses
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.core.cache import cache
 
 from credentials.apps.core.tests.factories import SiteConfigurationFactory
 
@@ -12,6 +13,7 @@ JSON = 'application/json'
 class SiteMixin(object):
     def setUp(self):
         super(SiteMixin, self).setUp()
+        cache.clear()
 
         # Set the domain used for all test requests
         domain = 'testserver.fake'
