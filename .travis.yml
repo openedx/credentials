@@ -3,22 +3,42 @@ language: python
 python:
   - "3.5"
 
+env:
+  global:
+    - secure: oocm4C1QbTQzTipSdxb1l1e5qu91SRRyXSx/iNOaR4/8cuh8ELJt1vBQqDh/XaGQZIZKBlmx1UFJigEyh/aHcHB62dO/yjDulEpRtAcCXTgdwesFjJEsO6ZtN6GS+EwaY1pbucUe61/UATO1YOQ/oGKNVPK1d8plpp452AkEtYTMbCc63rmuIBPDNeX/rCi3Q1AhqsGnN7qBwQ1tVJhDFqkQ53kOs743kTkZPyUR8ak6FPVald+AKqZt2zPq7y044/6AJV2aXHyzxCBgQzRxLuJgOpk/Z2NtCKx6eNCZe/RIUMQajnQx40oi4AsO+htUTYx/fvyqlu1nHNBMAY/U3o2hiAh9owOjTAQgd+5rMTwNJTSLHHW+1wOGVLg2pqt6hMShKfaRx5nCs3f5pBSvAwSYr2AeiuNuKoaIgxnfNzcuIclhalh9iz6G+Hnws/qLGbSyrYnqRWsIK6w/Kuz6z5m+VHTYDH0L6RxUX9znTFufreTXR9sK5z06Tb47NBGFMY+FOLt47BqOwzesLfAOZlhIQc2tK9nAhSFkZS/+ApZJm/FWtFEqYPBXJM8iuimcLZextzlXV0nMnMkKRxQ4ridIhX26BHjZu8C5mUdjGo6QLEKmJ3OvXAlnih+/V/0Wne0odjiE39O16h9MzHeubPsPSbR8WODRfZZUtSGlbyg=
+    - secure: fVR8yZ3X6Enb8GbqkyZecZl4ubTsxd8iUR06phYPGVGyYc3s23Ou8VXK5wKLTn+ggBHcHpdz7iNI49xOMVqs3kbsHQHVYGpsCNi+xC7KqfWSoLDenb/Z8SRiULPWnrlhkRMpFr3H99XCKSSeNpBVILKXoQoSTNko0t/Gw2VT68q9Y7ytOLr8smKlreb7Xk6Et+1HCdtjt6x5p+YQYh/Wq06aeWWxZXlc6VGM9OI9QL3Pdsu5Cj0XLd4Jq7uQ6qFDCOq8O18thPqCm2tvqA/4QFe99dZ8i+o0rIC4V++7n+C+7b2xCVkCtMqPqAGILBefZ86nOQObIYQ5bzsJSn4z5iVs+hILswX/UaunpnkYxqH3eqEbVIO11Ym1quxzwnsW2M3jxrL9npLJ12JTfDiDeA5RyfT/neUPqXTHyZUtQgBRoGcsSD2ye5/H+p8+G3idcP2sUBCTLRvhDXPXUWTAg+sZAhGrKAtxQwuLeUmu/RDjKUYUTC/xSUZiNs13/S/drc8wKXO7bmWjR30Ll3BOs2CPG5iGmCazxXA+EOIDpGU+UyDDORNse8LuM7cxQp2NFIHoWdoYeDBFkkalgPE1HLOdQsbnSCe7Xsy5EVEDV+eP7tIbgUenjrOb5PKSZeapDHrE/wstCH3JqQ5unb4NTZXrHdoGxbbo3WyP7KGGYQg=
+
 sudo: required
+
 services:
   - docker
 
 cache:
   - pip
-  - directories:
-    - node_modules
 
-before_install: make up-test
+before_install:
+  - docker --version
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-engine
+  - docker --version
+  - docker-compose build
+  - mkdir -p coverage
+  - make up-test
 
-install: make exec-requirements
+# Do NOT install Python requirements.
+# Doing so is a waste of time since they won't be used.
+install: true
 
-script: make exec-validate
+script:
+  - make exec-validate-translations
+  - make exec-quality
+  - make exec-tests
 
 after_success:
   - pip install --upgrade codecov
   - make exec-coverage
   - codecov
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push edxops/credentials:devstack-slim;
+    fi
