@@ -95,7 +95,7 @@ class SiteConfigurationTests(SiteMixin, TestCase):
         self.mock_access_token_response()
         self.mock_catalog_api_response(program_endpoint, body)
         self.assertEqual(self.site_configuration.get_program(program_uuid), body)
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(responses.calls), 2)
 
         # Verify the data is cached
         responses.reset()
@@ -135,10 +135,11 @@ class SiteConfigurationTests(SiteMixin, TestCase):
         }
         url = '{root}accounts/{username}'.format(root=self.site_configuration.user_api_url, username=username)
         responses.add(responses.GET, url, body=json.dumps(data), content_type=JSON, status=200)
+        self.mock_access_token_response()
 
         actual = self.site_configuration.get_user_api_data(username)
         self.assertEqual(actual, data)
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(len(responses.calls), 2)
 
         # Verify the data is cached
         responses.reset()
