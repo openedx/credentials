@@ -1,8 +1,6 @@
 .DEFAULT_GOAL := tests
 NODE_BIN=./node_modules/.bin
 APP_DIR=cd /edx/app/credentials/credentials/
-SOURCE_VENV=. /edx/app/credentials/venvs/credentials/bin/activate
-SOURCE_NODEENV=. /edx/app/credentials/nodeenvs/credentials/bin/activate
 
 .PHONY: requirements
 
@@ -13,6 +11,7 @@ help: ## Display this help message
 
 clean: ## Remove all generated files
 	coverage erase
+	find . -name \*.pyc -o -name \*.pyo -o -name __pycache__ -delete
 	rm -rf credentials/assets/ credentials/static/bundles/ coverage htmlcov test_root/uploads
 
 production-requirements: ## Install requirements for production
@@ -53,30 +52,27 @@ up-dev: ## Bring up services for development
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 up-test: ## Bring up services for testing
-	docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d
-
-exec-requirements: ## Install requirements on a container
-	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(SOURCE_NODEENV) && apt update && apt install -y gettext firefox xvfb && $(APP_DIR) && make requirements'
+	docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
 
 exec-validate-translations: ## Check translations on a container
-	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(APP_DIR) && make validate_translations'
+	docker exec -t credentials bash -c 'make validate_translations'
 
 exec-clean: ## Remove all generated files from a container
-	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(APP_DIR) && make clean'
+	docker exec -t credentials bash -c 'make clean'
 
 exec-static: ## Gather static assets on a container
-	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(SOURCE_NODEENV) && $(APP_DIR) && make static'
+	docker exec -t credentials bash -c 'make static'
 
 exec-quality: ## Run linters on a container
-	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(SOURCE_NODEENV) && $(APP_DIR) && make quality'
+	docker exec -t credentials bash -c 'make quality'
 
 exec-tests: ## Run tests on a container
-	docker exec -it credentials bash -c '$(SOURCE_VENV) && $(SOURCE_NODEENV) && $(APP_DIR) && xvfb-run make tests'
+	docker exec -it credentials bash -c 'xvfb-run make tests'
 
 exec-validate: exec-validate-translations exec-clean exec-static exec-quality exec-tests ## Run linters and tests after checking translations and gathering static assets
 
 exec-coverage: ## Generate XML coverage report on a container
-	docker exec -t credentials bash -c '$(SOURCE_VENV) && $(APP_DIR) && coverage xml'
+	docker exec -t credentials bash -c 'coverage xml'
 
 html_coverage: ## Generate and view HTML coverage report
 	coverage html && open htmlcov/index.html

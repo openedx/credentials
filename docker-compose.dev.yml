@@ -8,8 +8,5 @@ services:
   credentials:
     volumes:
       - .:/edx/app/credentials/credentials
-    command: bash -c 'source /edx/app/credentials/credentials_env && python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150'
-    environment:
-      - ENABLE_DJANGO_TOOLBAR=1
-    ports:
-      - "18150:18150"
+      - /edx/app/credentials/credentials/credentials/assets
+      - /edx/app/credentials/credentials/node_modules
