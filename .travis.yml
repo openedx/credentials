@@ -17,12 +17,22 @@ cache:
   - pip
 
 before_install:
+  # Confirm Docker version and login credentials
   - docker --version
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+
+  # Upgrade Docker
   - sudo apt-get update
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-engine
   - docker --version
+
+  # Build the image
   - docker-compose build
+
+  # Ensure we have a place to store coverage output
   - mkdir -p coverage
+
+  # Bring everything online
   - make up-test
 
 # Do NOT install Python requirements.
