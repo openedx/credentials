@@ -12,9 +12,10 @@ def create_groups(apps, schema_editor):
     Group = apps.get_model('auth', 'Group')
     Permission = apps.get_model('auth', 'Permission')
 
-    apps.models_module = True
-    create_permissions(apps, verbosity=0)
-    apps.models_module = None
+    for app_config in apps.get_app_configs():
+        app_config.models_module = True
+        create_permissions(app_config, verbosity=0, apps=apps)
+        app_config.models_module = None
 
     group, __ = Group.objects.get_or_create(name=Role.ADMINS)
     for codename in ['add_usercredential', 'change_usercredential']:
