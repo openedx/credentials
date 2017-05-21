@@ -1,6 +1,5 @@
 .DEFAULT_GOAL := tests
 NODE_BIN=./node_modules/.bin
-APP_DIR=cd /edx/app/credentials/credentials/
 
 .PHONY: requirements
 
