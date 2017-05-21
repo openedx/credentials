@@ -14,11 +14,11 @@ clean: ## Remove all generated files
 	rm -rf credentials/assets/ credentials/static/bundles/ coverage htmlcov test_root/uploads
 
 production-requirements: ## Install requirements for production
-	npm install --production
+	yarn install
 	pip install -r requirements.txt
 
 requirements: ## Install requirements for local development
-	npm install
+	yarn install
 	pip install -r requirements/local.txt
 
 quality: ## Run linters
