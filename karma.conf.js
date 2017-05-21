@@ -30,7 +30,7 @@ module.exports = function (config) {
 
     // enabled plugins
     plugins: [
-      'karma-jasmine-jquery',
+      'karma-jasmine-jquery-2',
       'karma-jasmine',
       'karma-firefox-launcher',
       'karma-coverage',
