@@ -5,10 +5,8 @@ from django.contrib.auth.models import Permission
 from django.core.urlresolvers import reverse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.test import APIRequestFactory, APITestCase
-from waffle.models import Switch
 
 from credentials.apps.api.v2.serializers import UserCredentialAttributeSerializer, UserCredentialSerializer
-from credentials.apps.api.v2.views import DISABLE_API_SITE_FILTERING_SWITCH_NAME
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import UserCredential
@@ -30,7 +28,6 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
     def setUp(self):
         super(CredentialViewSetTests, self).setUp()
         self.user = UserFactory()
-        Switch.objects.update_or_create(name=DISABLE_API_SITE_FILTERING_SWITCH_NAME, defaults={'active': False})
 
     def serialize_user_credential(self, user_credential, many=False):
         """ Serialize the given UserCredential object(s). """
@@ -298,8 +295,3 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         response = self.client.get(self.list_path)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0], self.serialize_user_credential(credential))
-
-        # Verify switch *disabling* site filtering disables site filtering
-        Switch.objects.update_or_create(name=DISABLE_API_SITE_FILTERING_SWITCH_NAME, defaults={'active': True})
-        response = self.client.get(self.list_path)
-        self.assertEqual(response.data['count'], 2)

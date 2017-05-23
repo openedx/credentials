@@ -1,6 +1,5 @@
 import logging
 
-import waffle
 from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -11,7 +10,6 @@ from credentials.apps.api.v2.serializers import UserCredentialCreationSerializer
 from credentials.apps.credentials.models import UserCredential
 
 log = logging.getLogger(__name__)
-DISABLE_API_SITE_FILTERING_SWITCH_NAME = 'disable_api_site_filtering'
 
 
 class CredentialViewSet(viewsets.ModelViewSet):
@@ -23,13 +21,10 @@ class CredentialViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = UserCredential.objects.all()
 
-        # NOTE (CCB): We are temporarily disabling multi-tenancy for the API endpoint since the LMS
-        # does not yet support multiple URLs for this service.
-        if not waffle.switch_is_active(DISABLE_API_SITE_FILTERING_SWITCH_NAME):
-            # We have to filter on the explicit credential models
-            # because we cannot set a GenericRelation field on the Site model.
-            site = self.request.site
-            queryset = queryset.filter(Q(program_credentials__site=site) | Q(course_credentials__site=site))
+        # We have to filter on the explicit credential models
+        # because we cannot set a GenericRelation field on the Site model.
+        site = self.request.site
+        queryset = queryset.filter(Q(program_credentials__site=site) | Q(course_credentials__site=site))
 
         return queryset
 
