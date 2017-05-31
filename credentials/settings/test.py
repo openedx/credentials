@@ -11,6 +11,7 @@ INSTALLED_APPS += [
 ]
 
 LOGGING = get_logger_config(debug=False, dev_env=True, local_loglevel='DEBUG')
+ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     'default': {

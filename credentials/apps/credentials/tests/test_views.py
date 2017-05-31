@@ -5,9 +5,9 @@ import uuid
 
 import ddt
 import responses
-from django.core.urlresolvers import reverse
 from django.template.loader import select_template
 from django.test import TestCase
+from django.urls import reverse
 from django.utils.text import slugify
 from faker import Faker
 from mock import patch
@@ -135,7 +135,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
 
     @responses.activate
     def test_logo_missing_exception(self):
-        with self.assertRaisesRegex(MissingCertificateLogoError, 'No certificate image logo defined for program'):
+        with self.assertRaisesMessage(MissingCertificateLogoError, 'No certificate image logo defined for program'):
             self._render_user_credential(use_proper_logo_url=False)
 
 
