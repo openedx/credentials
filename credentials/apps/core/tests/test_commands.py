@@ -158,7 +158,7 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
         kwargs = {'enable_facebook_sharing': True}
 
         # pylint: disable=no-member
-        with self.assertRaisesRegex(CommandError, 'A Facebook app ID must be supplied to enable Facebook sharing'):
+        with self.assertRaisesMessage(CommandError, 'A Facebook app ID must be supplied to enable Facebook sharing'):
             self._call_command(site_domain=self.site.domain, site_name=self.site.name, **kwargs)
 
         kwargs['facebook_app_id'] = self.faker.word()

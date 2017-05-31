@@ -2,7 +2,7 @@ import json
 
 import ddt
 from django.contrib.auth.models import Permission
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.test import APIRequestFactory, APITestCase
 

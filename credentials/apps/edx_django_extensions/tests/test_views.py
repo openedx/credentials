@@ -1,7 +1,7 @@
 import mock
 from django.contrib import messages
-from django.core.urlresolvers import reverse
 from django.test import TestCase
+from django.urls import reverse
 
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
