@@ -22,12 +22,12 @@ class Accreditor(object):
             credential_type = issuer.issued_credential_type
             registered_issuer = self.credential_type_issuer_map.get(credential_type)
 
-            if not registered_issuer:
-                self.credential_type_issuer_map[credential_type] = issuer
-            else:
+            if registered_issuer:
                 logger.warning(
-                    "The issuer [%s] is already registered to issue credentials of type [%s]. [%s] will NOT be used.",
+                    'The issuer [%s] is already registered to issue credentials of type [%s]. [%s] will NOT be used.',
                     registered_issuer.__class__, credential_type, issuer.__class__)
+            else:
+                self.credential_type_issuer_map[credential_type] = issuer
 
     def issue_credential(self, credential, username, attributes=None):
         """Issues a credential.
