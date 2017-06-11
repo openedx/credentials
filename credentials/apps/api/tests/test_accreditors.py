@@ -16,16 +16,13 @@ LOGGER_NAME = 'credentials.apps.api.accreditors'
 
 
 class AccreditorTests(TestCase):
-    """ Tests for Accreditor class. This class is responsible to call the right
-    credential issuer class to generate the credential.
-    """
+    attributes = [{'name': 'whitelist_reason', 'value': 'Reason for whitelisting.'}]
+    program_credential = ProgramCertificate
 
     def setUp(self):
-        super(AccreditorTests, self).setUp()
+        super().setUp()
         self.accreditor = Accreditor()
         self.program_cert = ProgramCertificateFactory()
-        self.program_credential = ProgramCertificate
-        self.attributes = [{"name": "whitelist_reason", "value": "Reason for whitelisting."}]
 
     def test_create_credential_type_issuer_map(self):
         """ Verify the Accreditor supports only one issuer per credential type. """
@@ -53,7 +50,7 @@ class AccreditorTests(TestCase):
         Attempts to register additional issuers for a credential type should
         result in a warning being logged.
         """
-        msg = "The issuer [{}] is already registered to issue credentials of type [{}]. [{}] will NOT be used.".format(
+        msg = 'The issuer [{}] is already registered to issue credentials of type [{}]. [{}] will NOT be used.'.format(
             ProgramCertificateIssuer, self.program_credential, ProgramCertificateIssuer
         )
 
