@@ -22,8 +22,8 @@ before_install:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
   # Upgrade Docker
-  - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-engine
+  - sudo apt-get -y update
+  - sudo apt-get -y install -o Dpkg::Options::="--force-confnew" docker-ce
   - docker --version
 
   # Build the image
