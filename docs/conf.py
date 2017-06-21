@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-#
 # credentials documentation build configuration file, created by
 # sphinx-quickstart on Sun Feb 17 11:46:20 2013.
 #
@@ -42,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = 'Credentials Service'
+project = 'edX Credentials'
 author = edx_theme.AUTHOR
 copyright = edx_theme.COPYRIGHT
 
