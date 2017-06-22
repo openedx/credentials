@@ -6,14 +6,12 @@ edX Credentials Service  |Travis|_ |Codecov|_
 .. |Codecov| image:: http://codecov.io/github/edx/credentials/coverage.svg?branch=master
 .. _Codecov: http://codecov.io/github/edx/credentials?branch=master
 
-This repository contains the edX Credentials Service, used as the backend to support course and program certificates. This service is a replacement for the ``certificates`` app in ``edx-platform``. A more detailed overview is included in the `docs <http://edx-credentials.rtfd.io/en/latest/overview.html>`_.
+This repository contains the edX Credentials Service, used as the backend to support course and program certificates. This service is a replacement for the ``certificates`` app in ``edx-platform``. A more detailed overview is included in the `docs <https://edx-credentials.readthedocs.io/en/latest/overview.html>`_.
 
-Documentation |ReadtheDocs|_
-----------------------------
-.. |ReadtheDocs| image:: http://rtfd.io/projects/edx-credentials/badge/?version=latest
-.. _ReadtheDocs: http://edx-credentials.rtfd.io/en/latest/
+Documentation
+-------------
 
-`Documentation <http://edx-credentials.rtfd.io/en/latest/>`_ is hosted on Read the Docs. The source is hosted in this repo's `docs <https://github.com/edx/credentials/tree/master/docs>`_ directory. To contribute, please open a PR against this repo.
+`Documentation <https://edx-credentials.readthedocs.io/en/latest/>`_ is hosted on Read the Docs. The source is hosted in this repo's `docs <https://github.com/edx/credentials/tree/master/docs>`_ directory. To contribute, please open a PR against this repo.
 
 License
 -------
