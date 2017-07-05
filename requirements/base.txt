@@ -1,4 +1,4 @@
-django==1.11.2
+django==1.11.3
 django-extensions==1.7.9
 django-filter==1.0.4
 django-rest-swagger[reST]==0.3.10
