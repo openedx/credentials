@@ -254,10 +254,7 @@ REST_FRAMEWORK = {
 }
 
 SWAGGER_SETTINGS = {
-    'api_version': 'v2',
-    'doc_expansion': 'list',
-    'is_authenticated': True,
-    'permission_denied_handler': 'credentials.apps.api.views.api_docs_permission_denied_handler'
+    'DOC_EXPANSION': 'list',
 }
 
 

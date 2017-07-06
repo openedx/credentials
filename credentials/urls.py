@@ -23,7 +23,9 @@ from django.contrib import admin
 from django.views.defaults import page_not_found
 from django.views.i18n import javascript_catalog
 
+from credentials.apps.api.views import SwaggerSchemaView
 from credentials.apps.core import views as core_views
+
 
 admin.autodiscover()
 
@@ -31,7 +33,7 @@ urlpatterns = auth_urlpatterns + [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('credentials.apps.api.urls', namespace='api')),
     url(r'^api-auth/', include(auth_urlpatterns, namespace='rest_framework')),
-    url(r'^api-docs/', include('rest_framework_swagger.urls')),
+    url(r'^api-docs/', SwaggerSchemaView.as_view(), name='api_docs'),
     url(r'^auto_auth/$', core_views.AutoAuth.as_view(), name='auto_auth'),
     url(r'^credentials/', include('credentials.apps.credentials.urls', namespace='credentials')),
     url(r'^health/$', core_views.health, name='health'),
