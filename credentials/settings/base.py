@@ -39,7 +39,6 @@ INSTALLED_APPS = [
 THIRD_PARTY_APPS = [
     'release_util',
     'rest_framework',
-    'rest_framework_swagger',
     'social_django',
     'waffle',
     'storages',
@@ -252,11 +251,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
     'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%SZ'
 }
-
-SWAGGER_SETTINGS = {
-    'DOC_EXPANSION': 'list',
-}
-
 
 # DJANGO DEBUG TOOLBAR CONFIGURATION
 # http://django-debug-toolbar.readthedocs.org/en/latest/installation.html
