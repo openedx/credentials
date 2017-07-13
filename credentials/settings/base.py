@@ -43,6 +43,7 @@ THIRD_PARTY_APPS = [
     'waffle',
     'storages',
     'webpack_loader',
+    'django_filters',
     'django_sites_extensions',
     # TODO Set in EXTRA_APPS via configuration
     'edx_credentials_themes',
