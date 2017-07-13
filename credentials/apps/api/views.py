@@ -18,12 +18,10 @@ class SwaggerSchemaView(APIView):
         SwaggerUIRenderer,
     ]
 
+    exclude_from_schema = True
+
     def get(self, request):
-        generator = SchemaGenerator(
-            title='Credentials API',
-            url='/api/v2',
-            urlconf='credentials.apps.api.v2.urls'
-        )
+        generator = SchemaGenerator(title='Credentials API')
         schema = generator.get_schema(request=request)
 
         if not schema:
