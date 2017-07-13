@@ -1,11 +1,11 @@
 django==1.11.3
 django-extensions==1.7.9
 django-filter==1.0.4
-django-rest-swagger==2.0.7
+django-rest-swagger==2.1.2
 django-storages==1.5.2
 django-waffle==0.12.0
 django-webpack-loader==0.5.0
-djangorestframework==3.4.7
+djangorestframework==3.5.4
 djangorestframework-jwt==1.10.0
 edx-auth-backends==1.1.2
 edx-django-release-util==0.3.1
