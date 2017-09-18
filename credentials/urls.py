@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.utils.translation import ugettext_lazy as _
 from django.views.defaults import page_not_found
 from django.views.i18n import javascript_catalog
 from rest_framework.documentation import include_docs_urls
@@ -28,6 +29,8 @@ from credentials.apps.core import views as core_views
 
 
 admin.autodiscover()
+admin.site.site_header = _('Credentials Administration')
+admin.site.site_title = admin.site.site_header
 
 urlpatterns = auth_urlpatterns + [
     url(r'^admin/', include(admin.site.urls)),
