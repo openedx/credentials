@@ -13,6 +13,7 @@ from django.utils.text import slugify
 from faker import Faker
 from mock import patch
 
+from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
 from credentials.apps.credentials.models import UserCredential
@@ -32,8 +33,12 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         self.signatory_1 = factories.SignatoryFactory()
         self.signatory_2 = factories.SignatoryFactory()
         self.program_certificate.signatories.add(self.signatory_1, self.signatory_2)
-        self.user_credential = factories.UserCredentialFactory(credential=self.program_certificate)
+        self.user_credential = factories.UserCredentialFactory(
+            username=self.MOCK_USER_DATA['username'], credential=self.program_certificate
+        )
         self.platform_name = self.site.siteconfiguration.platform_name
+        user = UserFactory(username=self.MOCK_USER_DATA['username'])
+        self.client.login(username=user.username, password=USER_PASSWORD)
 
     def _render_user_credential(self, use_proper_logo_url=True):
         """ Helper method to render a user certificate."""
@@ -84,12 +89,31 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         self.assertEqual(actual.origin, expected.origin)
 
     @responses.activate
-    def test_awarded(self):
-        """ Verify that the view renders awarded certificates. """
+    def test_sharing_bar_with_anonymous_user(self):
+        """ Verify that the view renders certificate without sharing bar. """
+        self.client.logout()
+        response = self._render_user_credential()
+
+        self.assertNotContains(response, 'Print or share your certificate')
+
+    @responses.activate
+    def test_sharing_bar_with_staff_user(self):
+        """ Verify that the view renders certificate with sharing bar. """
+        self.client.logout()
+        staff_user = UserFactory(is_staff=True)
+        self.client.login(username=staff_user.username, password=USER_PASSWORD)
+        response = self._render_user_credential()
+
+        self.assertContains(response, 'Print or share your certificate')
+
+    @responses.activate
+    def test_awarded_with_logged_in_user(self):
+        """ Verify that the view renders awarded certificates with sharing bar. """
         response = self._render_user_credential()
         response_context_data = response.context_data
 
-        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Print or share your certificate')
+
         self.assertEqual(response_context_data['user_credential'], self.user_credential)
         self.assertEqual(response_context_data['user_data'], self.MOCK_USER_DATA)
         self.assertEqual(response_context_data['page_title'], self.PROGRAM_TYPE)
