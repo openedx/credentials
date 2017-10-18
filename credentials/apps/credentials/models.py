@@ -202,7 +202,8 @@ class CourseCertificate(AbstractCertificate):
 
 OrganizationDetails = namedtuple('OrganizationDetails', ('uuid', 'key', 'name', 'display_name',
                                                          'certificate_logo_image_url'))
-ProgramDetails = namedtuple('ProgramDetails', ('uuid', 'title', 'type', 'course_count', 'organizations'))
+ProgramDetails = namedtuple('ProgramDetails', ('uuid', 'title', 'type', 'course_count',
+                                               'organizations', 'hours_of_effort'))
 
 
 class ProgramCertificate(AbstractCertificate):
@@ -222,6 +223,12 @@ class ProgramCertificate(AbstractCertificate):
         help_text=_("Display the associated organization's name (e.g. ACME University) "
                     "instead of its short name (e.g. ACMEx)"),
         verbose_name=_('Use organization name')
+    )
+    include_hours_of_effort = models.BooleanField(
+        default=False,
+        help_text="Display the estimated total number of hours needed to complete all courses in the program. This "
+                  "feature will only be displayed in the certificate if the attribute 'Total hours of effort' has "
+                  "been set for the program in Discovery."
     )
 
     def __str__(self):
@@ -249,12 +256,17 @@ class ProgramCertificate(AbstractCertificate):
                 certificate_logo_image_url=organization['certificate_logo_image_url']
             ))
 
+        hours_of_effort = None
+        if self.include_hours_of_effort:
+            hours_of_effort = data.get('hours_of_effort')
+
         return ProgramDetails(
             uuid=data['uuid'],
             title=data['title'],
             type=data['type'],
             course_count=len(data['courses']),
-            organizations=organizations
+            organizations=organizations,
+            hours_of_effort=hours_of_effort
         )
 
 

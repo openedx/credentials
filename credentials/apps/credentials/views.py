@@ -94,6 +94,8 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
             # NOTE: In the future this can be set to the course_name
             'program_name': program_details.title,
         })
+        if program_details.hours_of_effort:
+            context.update({'hours_of_effort': program_details.hours_of_effort})
 
         return context
 
@@ -136,7 +138,8 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
                 name='Example University',
                 display_name='Absolutely Fake University',
                 certificate_logo_image_url='https://placehold.it/204x204'
-            )]
+            )],
+            hours_of_effort=None
         )
 
         context.update({
