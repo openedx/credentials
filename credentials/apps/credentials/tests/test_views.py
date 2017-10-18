@@ -17,6 +17,7 @@ from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
 from credentials.apps.credentials.models import UserCredential
+from credentials.apps.credentials.templatetags import i18n_assets
 from credentials.apps.credentials.tests import factories
 
 
@@ -185,3 +186,42 @@ class HtmlEscapeTemplateTagTest(TestCase):
         )
         rendered_template = template_to_render.render(context)
         self.assertEqual(rendered_template.find('<script>'), -1)
+
+
+class I18nAssetsTemplateTagTest(TestCase):
+    def test_construct_file_language_names(self):
+        """ Verify that the method for constructing file paths properly creates the set"""
+        filepath = 'some/test/path.svg'
+
+        # Verify that for two different, full language codes all paths are generated, including the 2 characters ones
+        language = 'es-419'
+        default = 'en-US'
+        paths = i18n_assets.construct_file_language_names(filepath, language, default)
+        self.assertEqual(paths, [
+            'some/test/path-es-419.svg',
+            'some/test/path-es.svg',
+            'some/test/path-en-US.svg',
+            'some/test/path-en.svg',
+            'some/test/path.svg',
+        ])
+
+        # Verify that for two identical, 2 character language codes, only that path and the default is generated
+        language = 'en'
+        default = 'en'
+        paths = i18n_assets.construct_file_language_names(filepath, language, default)
+        self.assertEqual(paths, [
+            'some/test/path-en.svg',
+            'some/test/path.svg',
+        ])
+
+    def test_translate_file_path_filter(self):
+        """Verify that the filter correctly filters an image"""
+
+        context = Context({})
+        template_to_render = Template(
+            '{% load i18n_assets %}'
+            '{{ "openedx/images/example-logo.svg" | translate_file_path}}'
+        )
+        rendered_template = template_to_render.render(context)
+        # Make sure the translated string occurs in the template
+        self.assertEqual(rendered_template.find('openedx/images/example-logo-en.svg'), 0)
