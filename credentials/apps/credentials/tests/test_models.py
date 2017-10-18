@@ -126,7 +126,8 @@ class ProgramCertificateTests(SiteMixin, TestCase):
                     display_name='Fake University' if use_org_name else 'FakeX',
                     certificate_logo_image_url='http://example.com/fakex.jpg'
                 )
-            ]
+            ],
+            hours_of_effort=None
         )
 
         body = {
