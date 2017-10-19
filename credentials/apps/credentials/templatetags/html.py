@@ -7,14 +7,25 @@ register = template.Library()
 
 
 @register.filter(name="htmlescape")
-def escape(value):
+def htmlescape(value):
     escaped_msg = html.escape(value)
+    return escaped_msg
 
-    html_style = {
-        'StartSpan': '<span class=\"accomplishment-statement-detail copy\">',
-        'EndSpan': '</span>',
-        'StrongStart': '<strong class=\"accomplishment-recipient\">',
-        'StrongEnd': '</strong>'
-    }
-    escaped_styled_msg = escaped_msg.format(**html_style)
-    return escaped_styled_msg
+
+@register.simple_tag(name="interpolate_html")
+def interpolate_html(value, **kwargs):
+    """
+    Interpolates HTML into a string.
+
+    Arguments:
+        value (string): a string to escape and format.
+        kwargs: named arguments to be formatted into the 'value' argument
+            NOTE: kwargs will be escaped unless they are marked safe
+            (Developers passing safe HTML as kwargs should first pass the value through the |safe filter)
+
+    Returns:
+        SafeString: A formatted and escaped version 'value' with all kwargs escaped appropriately
+    """
+    escaped_msg = html.escape(value)
+    safe_interpolated_msg = html.format_html(escaped_msg, **kwargs)
+    return safe_interpolated_msg
