@@ -1,6 +1,7 @@
 import logging
 import uuid
 
+from django.conf import settings
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
@@ -82,11 +83,13 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
                                                   format(program_uuid=program_details.uuid))
 
         user_data = user_credential.credential.site.siteconfiguration.get_user_api_data(user_credential.username)
+        content_language = user_credential.credential.language
 
         context.update({
             'user_credential': user_credential,
             'user_data': user_data,
             'child_templates': self.get_child_templates(),
+            'render_language': content_language if content_language else settings.LANGUAGE_CODE,
 
             # NOTE: In the future this can be set to the course_name and/or seat type
             'page_title': program_details.type,

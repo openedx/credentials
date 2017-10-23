@@ -16,11 +16,12 @@ from mock import patch
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
-from credentials.apps.credentials.models import UserCredential
+from credentials.apps.credentials.models import ProgramCertificate, UserCredential
 from credentials.apps.credentials.templatetags import i18n_assets
 from credentials.apps.credentials.tests import factories
 
 
+@ddt.ddt
 # pylint: disable=no-member
 class RenderCredentialViewTests(SiteMixin, TestCase):
     faker = Faker()
@@ -163,6 +164,24 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
     def test_logo_missing_exception(self):
         with self.assertRaisesMessage(MissingCertificateLogoError, 'No certificate image logo defined for program'):
             self._render_user_credential(use_proper_logo_url=False)
+
+    @ddt.data(
+        (True, 'lang="es_419"'),
+        (False, 'lang="en-us"')
+    )
+    @ddt.unpack
+    @responses.activate
+    def test_render_language(self, langauge_set, expected_text):
+        """
+        Verify that the view renders certificates in the configured language when it has been set,
+        and in the default language (English) when content_language has not been set.
+        """
+        if langauge_set:
+            ProgramCertificate.objects.update_or_create(program_uuid=self.program_certificate.program_uuid, defaults={
+                'language': 'es_419'
+            })
+        response = self._render_user_credential()
+        self.assertContains(response, expected_text)
 
 
 @ddt.ddt

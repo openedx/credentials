@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from os.path import abspath, dirname, join
 
@@ -172,6 +173,7 @@ TEMPLATES = [
         }
     },
 ]
+CERTIFICATE_LANGUAGES = {}
 # END TEMPLATE CONFIGURATION
 
 
