@@ -1,8 +1,10 @@
 """
 Django forms for the credentials
 """
+from operator import itemgetter
 
 from django import forms
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 from credentials.apps.credentials.models import ProgramCertificate, Signatory
@@ -18,6 +20,14 @@ class SignatoryModelForm(forms.ModelForm):
 
 
 class ProgramCertificateAdminForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProgramCertificateAdminForm, self).__init__(*args, **kwargs)
+        languages = settings.CERTIFICATE_LANGUAGES.items()
+        lang_choices = sorted(languages, key=itemgetter(1))
+        self.fields['language'] = forms.ChoiceField(
+            choices=lang_choices, required=False
+        )
+
     class Meta:
         model = ProgramCertificate
         fields = '__all__'
