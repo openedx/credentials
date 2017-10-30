@@ -230,6 +230,11 @@ class ProgramCertificate(AbstractCertificate):
                   "feature will only be displayed in the certificate if the attribute 'Total hours of effort' has "
                   "been set for the program in Discovery."
     )
+    language = models.CharField(
+        max_length=8,
+        null=True,
+        help_text=u'Language in which certificates for this program will be rendered'
+    )
 
     def __str__(self):
         return 'ProgramCertificate: {uuid}'.format(uuid=self.program_uuid)
