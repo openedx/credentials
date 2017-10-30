@@ -24,7 +24,7 @@ DICT_UPDATE_KEYS = ('JWT_AUTH',)
 FILE_STORAGE_BACKEND = {}
 
 CONFIG_FILE = get_env_setting('CREDENTIALS_CFG')
-with open(CONFIG_FILE) as f:
+with open(CONFIG_FILE, encoding='utf-8') as f:
     config_from_yaml = yaml.load(f)
 
     # Remove the items that should be used to update dicts, and apply them separately rather
