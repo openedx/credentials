@@ -178,6 +178,7 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
             },
             'page_title': program_details.type,
             'program_name': program_details.title,
+            'render_language': settings.LANGUAGE_CODE,
         })
 
         return context
