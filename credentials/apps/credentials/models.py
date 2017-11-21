@@ -263,7 +263,7 @@ class ProgramCertificate(AbstractCertificate):
 
         hours_of_effort = None
         if self.include_hours_of_effort:
-            hours_of_effort = data.get('hours_of_effort')
+            hours_of_effort = data.get('total_hours_of_effort')
 
         return ProgramDetails(
             uuid=data['uuid'],
