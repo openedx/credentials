@@ -26,6 +26,10 @@ before_install:
   - sudo apt-get -y install -o Dpkg::Options::="--force-confnew" docker-ce
   - docker --version
 
+  # Log composer version and self-update
+  - composer --version
+  - composer self-update
+
   # Build the image
   - docker-compose build
 
