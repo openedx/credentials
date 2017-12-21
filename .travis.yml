@@ -27,7 +27,7 @@ before_install:
   - docker --version
 
   # Build the image
-  - docker-compose build
+  - docker-compose build > /dev/null
 
   # Ensure we have a place to store coverage output
   - mkdir -p coverage
