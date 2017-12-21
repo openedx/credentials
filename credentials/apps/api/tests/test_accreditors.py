@@ -31,7 +31,7 @@ class AccreditorTests(TestCase):
         expected = {
             self.program_credential: accreditor.issuers[0]
         }
-        self.assertEqual(accreditor.credential_type_issuer_map, expected)
+        self.assertEqual(accreditor.credential_type_issuer_map, False)
 
     def test_issue_credential_with_invalid_type(self):
         """ Verify the method raises an error for attempts to issue an unsupported credential type. """
