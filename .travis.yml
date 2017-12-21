@@ -26,8 +26,8 @@ before_install:
   - sudo apt-get -y install -o Dpkg::Options::="--force-confnew" docker-ce
   - docker --version
 
-  # Build the image
-  - docker-compose build
+  # Build the image.
+  - docker-compose build > /dev/null
 
   # Ensure we have a place to store coverage output
   - mkdir -p coverage
