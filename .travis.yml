@@ -28,7 +28,7 @@ before_install:
 
   # Build the image
   - docker-compose build
-  - make exec-static
+#  - make exec-static
 
   # Ensure we have a place to store coverage output
   - mkdir -p coverage
