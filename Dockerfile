@@ -21,4 +21,4 @@ RUN make requirements production-requirements
 
 ADD . /edx/app/credentials/credentials/
 
-RUN make static
+#RUN make static
