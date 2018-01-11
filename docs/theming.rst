@@ -32,7 +32,6 @@ Follow the steps below to add a new theme.
 
 Creating a Theme
 ----------------
-.. _directory tree example:
 .. Generate this with tree (http://mama.indstate.edu/users/ice/tree/), which is available via Homebrew.
 .. code-block:: text
 
@@ -110,8 +109,8 @@ Refer to the `Django i18n docs`_ for more details.
 Translations for custom strings may be provided by including a top-level directory named ``'locale'`` within the theme
 application. The ``'locale'`` directory should contain the compiled translation (.mo) files (produced by running the
 ``django-admin.py compilemessages`` command), and should be structured according to the conventions described in `How
-Django discovers translations`_. The `directory tree example`_ provided above includes a properly structured
-``'locale'`` directory.
+Django discovers translations`_. The directory tree example provided above in the `Creating a Theme`_ section includes
+a properly structured ``'locale'`` directory.
 
 Translations included with the theme application are available to the including application by default. Any conflicts
 between translations provided by the theme application and the including application are resolved according to the
