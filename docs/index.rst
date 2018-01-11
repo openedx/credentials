@@ -14,9 +14,9 @@ This repository contains the edX Credentials Service, used as the backend to sup
    getting_started
    asset_pipeline
    testing
-   features
    internationalization
    theming
    credentials_admin
+   configuring_certificates
    credentials_api
    edx_extensions
