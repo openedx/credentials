@@ -73,10 +73,10 @@ The tree structure above shows the Open EdX theme with overrides for courses and
 
 There are a few notes that theme creators should keep in mind:
 
-1. All directory names, except ``'LC_MESSAGES'``, should be lower-cased to avoid issues that might occur when
-   developing on case-insensitive environments (e.g. macOS) and deploying to case-sensitive (e.g. Linux). The
-   ``'LC_MESSAGES'`` directory is an exception to this rule, as Django convention requires it to be capitalized. See
-   `How Django discovers translations`_ for more information.
+1. All directory names, except ``LC_MESSAGES``, should be lowercase to avoid issues that might occur when you are
+   developing on case-insensitive environments (e.g. macOS) and deploying to case-sensitive environments (e.g. Linux).
+   The ``LC_MESSAGES`` directory is an exception to this rule, as Django convention requires it to be all uppercase.
+   See `How Django discovers translations`_ for more information.
 2. The rendering view is specifically looking for files named `certificate.html`, `_footer.html`, and `_header.html`.
    If you use different file names for these components, they *will not* be rendered.
 3. Feel free to import your custom CSS in `certificate.html`.
@@ -103,18 +103,18 @@ Course certificates can be overridden at the following levels:
 
 Internationalization
 ~~~~~~~~~~~~~~~~~~~~
-Strings appearing in overridden files may be marked for translation by wrapping them in Django translation functions.
-Refer to the `Django i18n docs`_ for more details.
+Strings that appear in overridden files can be marked for translation by wrapping them in Django translation functions.
+Refer to the `Django internationalization documentation`_ for more details.
 
-Translations for custom strings may be provided by including a top-level directory named ``'locale'`` within the theme
-application. The ``'locale'`` directory should contain the compiled translation (.mo) files (produced by running the
+Translations for custom strings can be provided by including a top level directory named ``locale`` within the theme
+application. The ``locale`` directory should contain the compiled translation (.mo) files (produced by running the
 ``django-admin.py compilemessages`` command), and should be structured according to the conventions described in `How
 Django discovers translations`_. The directory tree example provided above in the `Creating a Theme`_ section includes
-a properly structured ``'locale'`` directory.
+a properly structured ``locale`` directory.
 
 Translations included with the theme application are available to the including application by default. Any conflicts
 between translations provided by the theme application and the including application are resolved according to the
 precedence rules described in `How Django discovers translations`_.
 
-.. _Django i18n docs: https://docs.djangoproject.com/en/1.11/topics/i18n/translation/#internationalization-in-template-code
+.. _Django internationalization documentation: https://docs.djangoproject.com/en/1.11/topics/i18n/translation/#internationalization-in-template-code
 .. _How Django discovers translations: https://docs.djangoproject.com/en/1.11/topics/i18n/translation/#how-django-discovers-translations
