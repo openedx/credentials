@@ -36,8 +36,7 @@ def pipeline_set_user_roles(response, user=None, *_, **__):
     if user:
         _set_user_roles(user, response)
         return {'user': user}
-    else:
-        return {}
+    return {}
 
 
 class JwtAuthentication(JSONWebTokenAuthentication):

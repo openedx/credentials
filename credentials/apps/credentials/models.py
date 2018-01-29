@@ -1,7 +1,7 @@
 """
 Models for the credentials service.
 """
-import uuid  # pylint: disable=unused-import
+import uuid
 from collections import namedtuple
 
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
@@ -93,7 +93,7 @@ class Signatory(TimeStampedModel):
     def __str__(self):
         return '{name}, {title}'.format(name=self.name, title=self.title)
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs):  # pylint: disable=arguments-differ
         """
         A primary key/ID will not be assigned until the model is written to
         the database. Given that our file path relies on this ID, save the
