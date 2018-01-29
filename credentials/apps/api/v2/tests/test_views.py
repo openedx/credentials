@@ -240,7 +240,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.assert_list_username_filter_request_succeeds(username, expected)
 
         # Privileged users should be able to view all credentials
-        username = 'test_user'  # pylint: disable=redefined-variable-type
+        username = 'test_user'
         expected = UserCredentialFactory.create_batch(3, credential__site=self.site, username=username)
         self.add_user_permission(self.user, 'view_usercredential')
 
