@@ -1,7 +1,7 @@
 Credentials Administration
 ==========================
 
-This functionality allows you to configure a custom site.
+TRAVVVISSS This functionality allows you to configure a custom site.
 To add this functionality, edX has extended the `Django sites framework <https://docs.djangoproject.com/en/1.8/ref/contrib/sites/>`_.
 The Django sites framework allows you to map domains to a **Site** object, which consists of an ID and a name.
 
