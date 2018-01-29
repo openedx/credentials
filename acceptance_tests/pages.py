@@ -59,7 +59,7 @@ class LMSLoginPage(LMSPage):
 
 
 class LMSDashboardPage(LMSPage):
-    def __init__(self, browser):
+    def __init__(self, browser):  # pylint: disable=useless-super-delegation
         super(LMSDashboardPage, self).__init__(browser)
 
     @property

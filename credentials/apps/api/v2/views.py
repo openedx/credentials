@@ -55,11 +55,11 @@ class CredentialViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
         """ List all credentials. """
         return super(CredentialViewSet, self).list(request, *args, **kwargs)
 
-    def partial_update(self, request, *args, **kwargs):
+    def partial_update(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
         """ Update a credential.
         ---
         omit_parameters:
@@ -67,7 +67,7 @@ class CredentialViewSet(viewsets.ModelViewSet):
         """
         return super(CredentialViewSet, self).partial_update(request, *args, **kwargs)
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
         """ Retrieve the details of a single credential.
         ---
         omit_parameters:
@@ -75,7 +75,7 @@ class CredentialViewSet(viewsets.ModelViewSet):
         """
         return super(CredentialViewSet, self).retrieve(request, *args, **kwargs)
 
-    def update(self, request, *args, **kwargs):
+    def update(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
         """ Update a credential.
         ---
         omit_parameters:

@@ -34,10 +34,9 @@ class CredentialsApiMixin(object):
     def credential_api_client(self):
         try:
             api_client = EdxRestApiClient(config.CREDENTIALS_API_URL, oauth_access_token=config.ACCESS_TOKEN)
+            return api_client
         except Exception:  # pylint: disable=broad-except
             log.exception("Failed to initialize the API client with url '%s'.", config.CREDENTIALS_API_URL)
-            return
-        return api_client
 
     def create_credential(self):
         """Create user credential for a program."""

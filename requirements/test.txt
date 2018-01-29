@@ -10,7 +10,6 @@ httpretty==0.8.14
 isort==4.2.5
 mock==2.0.0
 pep8==1.7.0
-pylint==1.6.4
 pytest==3.0.7
 pytest-django==3.1.2
 responses==0.5.1
