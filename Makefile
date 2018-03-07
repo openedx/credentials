@@ -56,6 +56,9 @@ up-test: ## Bring up services for testing
 exec-validate-translations: ## Check translations on a container
 	docker exec -t credentials bash -c 'make validate_translations'
 
+exec-check_translations_up_to_date: ## test translations on a container
+	docker exec -t credentials bash -c 'make check_translations_up_to_date'
+
 exec-clean: ## Remove all generated files from a container
 	docker exec -t credentials bash -c 'make clean'
 
@@ -108,4 +111,7 @@ pull_translations: ## Pull translations from Transifex
 detect_changed_source_translations: ## Check if translation files are up-to-date
 	cd credentials && i18n_tool changed
 
-validate_translations: fake_translations detect_changed_source_translations ## Install fake translations and check if translation files are up-to-date
+validate_translations: ## Test translations files
+	cd credentials && i18n_tool validate -v
+
+check_translations_up_to_date: fake_translations detect_changed_source_translations ## Install fake translations and check if translation files are up-to-date
