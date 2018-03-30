@@ -103,7 +103,7 @@ compile_translations: ## Compile translation files, outputting .po files for eac
 fake_translations: extract_translations dummy_translations compile_translations ## Generate and compile dummy translation files
 
 pull_translations: ## Pull translations from Transifex
-	tx pull -af --mode reviewed
+	tx pull -af --mode reviewed --minimum-perc=1
 
 detect_changed_source_translations: ## Check if translation files are up-to-date
 	cd credentials && i18n_tool changed
