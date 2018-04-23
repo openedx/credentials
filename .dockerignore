@@ -1,12 +1,13 @@
 *
+!.babelrc
+!.eslintrc.json
+!.isort.cfg
+!.pep8
 !.tx
 !acceptance_tests
 !credentials
 !docs
 !requirements
-!.eslintrc.json
-!.isort.cfg
-!.pep8
 !gulpfile.js
 !karma.conf.js
 !Makefile

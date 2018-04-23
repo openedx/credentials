@@ -14,12 +14,14 @@ module.exports = {
         'openedx.certificate.style-ltr': './credentials/apps/credentials_theme_openedx/static/sass/certificate-ltr.scss',
         'openedx.certificate.style-rtl': './credentials/apps/credentials_theme_openedx/static/sass/certificate-rtl.scss',
         'sharing': './credentials/static/js/sharing.js',
-        'analytics': './credentials/static/js/analytics.js'
+        'analytics': './credentials/static/js/analytics.js',
+        'records': './credentials/static/components/RecordsFactory.jsx',
     },
 
     output: {
         path: path.resolve('./credentials/static/bundles/'),
-        filename: '[name]-[hash].js'
+        filename: '[name]-[hash].js',
+        libraryTarget: 'window',
     },
 
     plugins: [
@@ -63,17 +65,14 @@ module.exports = {
                 }
             },
             {
-                test: /\.js$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: [{
-                    loader: 'babel-loader',
-                    options: {presets: ['latest']}
-                }],
+                loader: 'babel-loader',
             }
         ]
     },
     resolve: {
         modules: ['./node_modules'],
-        extensions: ['.css', '.js', '.scss']
+        extensions: ['.css', '.js', '.jsx', '.scss'],
     }
 };

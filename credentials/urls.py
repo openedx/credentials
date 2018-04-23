@@ -42,6 +42,7 @@ urlpatterns = auth_urlpatterns + [
     url(r'^health/$', core_views.health, name='health'),
     url(r'^jsi18n/$', javascript_catalog, ''),
     url(r'^management/', include('credentials.apps.edx_django_extensions.urls', namespace='management')),
+    url(r'^records/', include('credentials.apps.records.urls', namespace='records')),
 ]
 
 handler500 = 'credentials.apps.core.views.render_500'
