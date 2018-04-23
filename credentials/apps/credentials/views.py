@@ -5,12 +5,12 @@ from django.conf import settings
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
-from django.template.loader import select_template
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
 
+from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
 from credentials.apps.credentials.models import OrganizationDetails, ProgramCertificate, ProgramDetails, UserCredential
 
@@ -35,22 +35,6 @@ class SocialMediaMixin:
                 platform_name=site_configuration.platform_name),
         })
         return context
-
-
-class ThemeViewMixin:
-    def add_theme_to_template_names(self, template_names):
-        """ Prepend the the list of template names with the path of the current theme. """
-        theme_template_path = self.request.site.siteconfiguration.theme_name
-        themed_template_names = [
-            '{theme_path}/{template_name}'.format(theme_path=theme_template_path,
-                                                  template_name=template_name.strip('/')) for
-            template_name in template_names
-        ]
-        template_names = themed_template_names + template_names
-        return template_names
-
-    def select_theme_template(self, templates):
-        return select_template(self.add_theme_to_template_names(templates))
 
 
 class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):

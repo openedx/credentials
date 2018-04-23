@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, get_user_model, login
 from django.db import DatabaseError, connection, transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render_to_response
+from django.template.loader import select_template
 from django.views.generic import View
 
 from credentials.apps.core.constants import Status
@@ -82,6 +83,22 @@ class AutoAuth(View):
         login(request, user)
 
         return redirect('/')
+
+
+class ThemeViewMixin:
+    def add_theme_to_template_names(self, template_names):
+        """ Prepend the the list of template names with the path of the current theme. """
+        theme_template_path = self.request.site.siteconfiguration.theme_name
+        themed_template_names = [
+            '{theme_path}/{template_name}'.format(theme_path=theme_template_path,
+                                                  template_name=template_name.strip('/')) for
+            template_name in template_names
+        ]
+        template_names = themed_template_names + template_names
+        return template_names
+
+    def select_theme_template(self, templates):
+        return select_template(self.add_theme_to_template_names(templates))
 
 
 def render_500(request, template_name='500.html'):  # pylint: disable=unused-argument

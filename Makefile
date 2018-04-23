@@ -32,7 +32,7 @@ tests: ## Run tests and generate coverage report
 	coverage report
 	$(NODE_BIN)/gulp test
 
-static: ## Gather all static assets for production (mimized)
+static: ## Gather all static assets for production (minimized)
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --optimize-minimize
 	python manage.py collectstatic --noinput -i *.scss
 

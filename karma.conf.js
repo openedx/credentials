@@ -1,3 +1,6 @@
+const webpackConfig = require('./webpack.config.js');
+delete webpackConfig.entry;
+
 module.exports = function (config) {
   config.set({
 
@@ -15,6 +18,7 @@ module.exports = function (config) {
     files: [
       'credentials/static/js/test/spec-runner.js',
       'credentials/static/js/**/*.js',
+      'credentials/static/components/**/*.js',
       {pattern: 'credentials/static/js/test/fixtures/**/*.html', included: false, served: true, watched: true},
 
     ],
@@ -25,7 +29,8 @@ module.exports = function (config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'credentials/static/js/**/*.js': ['coverage']
+      'credentials/static/js/**/*.js': ['coverage'],
+      'credentials/static/components/**/*.js': ['webpack'],
     },
 
     // enabled plugins
@@ -35,6 +40,7 @@ module.exports = function (config) {
       'karma-firefox-launcher',
       'karma-coverage',
       'karma-spec-reporter',
+      'karma-webpack',
     ],
 
     // Karma coverage config
@@ -44,6 +50,8 @@ module.exports = function (config) {
         {type: 'lcov', subdir: 'report-lcov'}
       ]
     },
+
+    webpack: webpackConfig,
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

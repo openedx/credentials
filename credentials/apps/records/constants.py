@@ -1,0 +1,1 @@
+WAFFLE_SWITCH_RECORDS = 'records'

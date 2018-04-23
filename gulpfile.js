@@ -2,7 +2,7 @@
 
 const eslint = require('gulp-eslint');
 const gulp = require('gulp');
-const jsPath = 'credentials/static/js/**/*.js';
+const jsPath = 'credentials/static/{components,js}/**/*.{js,jsx}';
 const Server = require('karma').Server;
 
 gulp.task('lint', () => {
