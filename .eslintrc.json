@@ -7,6 +7,7 @@
   "ecmaVersion": "2017",
   "globals": {
     "FB": true,
+    "gettext": true,
     "loadFixtures": true
   },
   "plugins": [

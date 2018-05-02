@@ -10,8 +10,10 @@ help: ## Display this help message
 
 clean: ## Remove all generated files
 	coverage erase
+	find . -path '*/__pycache__/*' -delete
 	find . -name \*.pyc -o -name \*.pyo -o -name __pycache__ -delete
-	rm -rf credentials/assets/ credentials/static/bundles/ coverage htmlcov test_root/uploads
+	rm -rf credentials/assets/ credentials/static/bundles/ credentials/static/jsi18n/ coverage htmlcov test_root/uploads
+	git clean -fd credentials/conf/locale
 
 production-requirements: ## Install requirements for production
 	npm install --production
@@ -34,6 +36,7 @@ tests: ## Run tests and generate coverage report
 
 static: ## Gather all static assets for production (minimized)
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --optimize-minimize
+	python manage.py compilejsi18n
 	python manage.py collectstatic --noinput -i *.scss
 
 static.dev: ## Gather all static assets for development (not minimized)
@@ -94,24 +97,31 @@ down: ## Bring down all services and remove associated resources
 accept: ## Run acceptance tests
 	pytest acceptance_tests
 
-extract_translations: ## Extract strings to be translated, outputting .mo files
-	python manage.py makemessages -l en -v1 -d django --ignore="docs/*" --ignore="credentials/assets/*" --ignore="node_modules/*" --ignore="credentials/static/bundles/*"
+extract_translations: ## Extract strings to be translated, outputting .po files
+	cd credentials && PYTHONPATH=.. i18n_tool extract -v
+	# Clean Plural-Forms header, else gettext.py will error out
+	# https://github.com/edx/i18n-tools/issues/68
+	sed -i 's/^"Plural-Forms: .*/"Plural-Forms: nplurals=2; plural=(n != 1);\\n"/' credentials/conf/locale/en/LC_MESSAGES/*-partial.po
 
 dummy_translations: ## Generate dummy translation (.po) files
 	cd credentials && i18n_tool dummy
 
-compile_translations: ## Compile translation files, outputting .po files for each supported language
-	python manage.py compilemessages
+compile_translations: ## Compile translation files, outputting .mo files for each supported language
+	cd credentials && PYTHONPATH=.. i18n_tool generate
 
 fake_translations: extract_translations dummy_translations compile_translations ## Generate and compile dummy translation files
 
 pull_translations: ## Pull translations from Transifex
-	tx pull -af --mode reviewed --minimum-perc=1
+	cd credentials && i18n_tool transifex pull
+	# Clean Last-Translator header for empty files, else validate will complain
+	# https://github.com/edx/i18n-tools/issues/71
+	grep '^"Last-Translator:' --files-without-match credentials/conf/locale/*/LC_MESSAGES/*.po |
+	    xargs sed -i 's/^\("PO-Revision-Date: .*\)/\1\n"Last-Translator: \\n"/'
 
 detect_changed_source_translations: ## Check if translation files are up-to-date
 	cd credentials && i18n_tool changed
 
 validate_translations: ## Test translations files
-	cd credentials && i18n_tool validate -v
+	cd credentials && i18n_tool validate -v --check-all
 
 check_translations_up_to_date: fake_translations detect_changed_source_translations ## Install fake translations and check if translation files are up-to-date
