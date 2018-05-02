@@ -41,6 +41,7 @@ THIRD_PARTY_APPS = [
     'release_util',
     'rest_framework',
     'social_django',
+    'statici18n',
     'waffle',
     'storages',
     'webpack_loader',
@@ -139,6 +140,9 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
+
+# See: https://django-statici18n.readthedocs.io/en/latest/settings.html
+STATICI18N_ROOT = root('static')
 
 WEBPACK_LOADER = {
     'DEFAULT': {

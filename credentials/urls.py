@@ -22,7 +22,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from django.views.defaults import page_not_found
-from django.views.i18n import javascript_catalog
 from rest_framework.documentation import include_docs_urls
 
 from credentials.apps.core import views as core_views
@@ -40,7 +39,6 @@ urlpatterns = auth_urlpatterns + [
     url(r'^auto_auth/$', core_views.AutoAuth.as_view(), name='auto_auth'),
     url(r'^credentials/', include('credentials.apps.credentials.urls', namespace='credentials')),
     url(r'^health/$', core_views.health, name='health'),
-    url(r'^jsi18n/$', javascript_catalog, ''),
     url(r'^management/', include('credentials.apps.edx_django_extensions.urls', namespace='management')),
     url(r'^records/', include('credentials.apps.records.urls', namespace='records')),
 ]

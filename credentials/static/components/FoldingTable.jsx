@@ -50,7 +50,7 @@ FoldingTable.propTypes = {
   foldedColumns: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string.isRequired,
     format: PropTypes.string,
-    className: PropTypes.arrayOf(PropTypes.string),
+    className: PropTypes.string,
   })).isRequired,
 };
 

@@ -7,6 +7,7 @@ window.edx = {
   segment: {},
   user: {},
 };
+window.gettext = function gettext(s) { return s; };
 
 // Mock the Facebook SDK
 FB = {

@@ -29,6 +29,10 @@ module.exports = {
         new ExtractTextPlugin('[name]-[hash].css')
     ],
 
+    externals: {
+      gettext: 'gettext',
+    },
+
     module: {
         rules: [
             {

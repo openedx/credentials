@@ -14,15 +14,17 @@ class RecordsList extends React.Component {
   }
 
   static renderEmpty() {
+    // TODO: not final wording, not gettext'ed
     return (
       <p>No records yet. Try enrolling in a program.</p>
     );
   }
 
   static renderFAQ() {
+    // TODO: not final wording, not gettext'ed
     return (
       <footer className="faq">
-        <h3 className="hd-3">FAQ</h3>
+        <h3 className="hd-3">{gettext('FAQ')}</h3>
         <ul>
           <li>
             <a href="/help/who">Who can I share this with?</a>
@@ -42,7 +44,7 @@ class RecordsList extends React.Component {
     const link = `/records/programs/${uuid}`;
     return (
       <a href={link}>
-        <Button label="View Program Record" className={['btn', 'block']} />
+        <Button label={gettext('View Program Record')} className={['btn', 'block']} />
       </a>
     );
   }
@@ -56,9 +58,9 @@ class RecordsList extends React.Component {
         </header>
         <FoldingTable
           columns={[
-            { key: 'name', label: 'Program Name' },
-            { key: 'partner', label: 'School' },
-            { key: 'button', label: 'Record Link', hideHeader: true },
+            { key: 'name', label: gettext('Program Name') },
+            { key: 'partner', label: gettext('School') },
+            { key: 'button', label: gettext('Record Link'), hideHeader: true },
           ]}
           foldedColumns={[
             { key: 'name', className: 'hd-5 emphasized' },
@@ -83,8 +85,8 @@ class RecordsList extends React.Component {
   renderPrograms() {
     return RecordsList.renderRecordsList(
       'program-records',
-      'Program Records',
-      'Here you’ll see programs in which you have certificates.',
+      gettext('Program Records'),
+      'Here you’ll see programs in which you have certificates.', // TODO: not final wording, so not gettext'ed
       this.state.programs,
     );
   }
@@ -95,7 +97,11 @@ class RecordsList extends React.Component {
     return (
       <main className="record">
         <header>
-          <h2 className="hd-2">My Records</h2>
+          <h2 className="hd-2">{
+            // Translators: A 'record' here means something like a
+            // Translators: transcript -- a list of courses and grades.
+            gettext('My Records')
+          }</h2>
         </header>
         {hasPrograms && this.renderPrograms()}
         {hasContent || RecordsList.renderEmpty()}

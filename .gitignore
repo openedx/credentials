@@ -49,6 +49,7 @@ unittests.xml
 credentials/conf/locale/fake*/LC_MESSAGES/*.po
 credentials/conf/locale/fake*/LC_MESSAGES/*.mo
 credentials/conf/locale/messages.mo
+credentials/conf/locale/zh_HANT/
 
 
 # Mr Developer
@@ -90,6 +91,7 @@ private.py
 .cache/
 credentials/media/
 credentials/static/bundles/
+credentials/static/jsi18n/
 docs/_build/
 node_modules/
 webpack-stats.json
