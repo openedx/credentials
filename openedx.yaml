@@ -4,4 +4,5 @@
 nick: cred
 oeps: {}
 owner: edx/learner
+openedx-release: {ref: release}
 track-pulls: true
