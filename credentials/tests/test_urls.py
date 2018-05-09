@@ -7,7 +7,7 @@ def test_api_docs(client):
     """
     Verify that the API docs render.
     """
-    path = reverse('api-docs:docs-index')
+    path = reverse('api_docs')
     response = client.get(path)
 
     assert response.status_code == 200

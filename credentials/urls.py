@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from django.views.defaults import page_not_found
-from rest_framework.documentation import include_docs_urls
+from rest_framework_swagger.views import get_swagger_view
 
 from credentials.apps.core import views as core_views
 
@@ -35,7 +35,7 @@ urlpatterns = auth_urlpatterns + [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('credentials.apps.api.urls', namespace='api')),
     url(r'^api-auth/', include(auth_urlpatterns, namespace='rest_framework')),
-    url(r'^api-docs/', include_docs_urls(title='Credentials API')),
+    url(r'^api-docs/', get_swagger_view(title='Credentials API'), name='api_docs'),
     url(r'^auto_auth/$', core_views.AutoAuth.as_view(), name='auto_auth'),
     url(r'^credentials/', include('credentials.apps.credentials.urls', namespace='credentials')),
     url(r'^health/$', core_views.health, name='health'),
