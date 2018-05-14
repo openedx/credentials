@@ -115,8 +115,8 @@ pull_translations: ## Pull translations from Transifex
 	cd credentials && i18n_tool transifex pull
 	# Clean Last-Translator header for empty files, else validate will complain
 	# https://github.com/edx/i18n-tools/issues/71
-	grep '^"Last-Translator:' --files-without-match credentials/conf/locale/*/LC_MESSAGES/*.po |
-	    xargs sed -i 's/^\("PO-Revision-Date: .*\)/\1\n"Last-Translator: \\n"/'
+	grep '^"Last-Translator:' --files-without-match credentials/conf/locale/*/LC_MESSAGES/*.po | \
+	    xargs -r sed -i 's/^\("PO-Revision-Date: .*\)/\1\n"Last-Translator: \\n"/'
 
 detect_changed_source_translations: ## Check if translation files are up-to-date
 	cd credentials && i18n_tool changed
