@@ -36,6 +36,7 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
                 'header': self.select_theme_template(['_header.html']),
             },
             'programs': json.dumps(self._get_programs(), sort_keys=True),
+            'render_language': self.request.LANGUAGE_CODE,
         })
         return context
 
