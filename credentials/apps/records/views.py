@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 
 from credentials.apps.core.views import ThemeViewMixin
 
-from .constants import WAFFLE_SWITCH_RECORDS
+from .constants import WAFFLE_FLAG_RECORDS
 
 
 class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
@@ -41,6 +41,6 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
         return context
 
     def dispatch(self, request, *args, **kwargs):
-        if not waffle.switch_is_active(WAFFLE_SWITCH_RECORDS):
+        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
             raise http.Http404()
         return super().dispatch(request, *args, **kwargs)

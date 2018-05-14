@@ -5,14 +5,14 @@ from django.template.loader import select_template
 from django.test import TestCase
 from django.urls import reverse
 from mock import patch
-from waffle.testutils import override_switch
+from waffle.testutils import override_flag
 
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
-from ..constants import WAFFLE_SWITCH_RECORDS
+from ..constants import WAFFLE_FLAG_RECORDS
 
 
-@override_switch(WAFFLE_SWITCH_RECORDS, active=True)
+@override_flag(WAFFLE_FLAG_RECORDS, active=True)
 class RecordsViewTests(SiteMixin, TestCase):
     MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }
 
@@ -43,9 +43,9 @@ class RecordsViewTests(SiteMixin, TestCase):
         response = self._render_records(status_code=302)
         self.assertRegex(response.url, '^/login/.*')  # pylint: disable=deprecated-method
 
-    @override_switch(WAFFLE_SWITCH_RECORDS, active=False)
+    @override_flag(WAFFLE_FLAG_RECORDS, active=False)
     def test_feature_toggle(self):
-        """ Verify that the view rejects everyone without the waffle switch. """
+        """ Verify that the view rejects everyone without the waffle flag. """
         self._render_records(status_code=404)
 
     def test_normal_access(self):
