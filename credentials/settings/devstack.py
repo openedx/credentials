@@ -10,7 +10,7 @@ LOGGING = get_logger_config(debug=True, dev_env=True, local_loglevel='DEBUG')
 del LOGGING['handlers']['local']
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'change-me')
-LANGUAGE_CODE = os.environ.get('LANGUAGE_CODE', 'en-us')
+LANGUAGE_CODE = os.environ.get('LANGUAGE_CODE', 'en')
 
 CACHES = {
     'default': {

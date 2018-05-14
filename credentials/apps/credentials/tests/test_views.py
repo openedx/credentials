@@ -167,7 +167,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
 
     @ddt.data(
         (True, 'lang="es_419"'),
-        (False, 'lang="en-us"')
+        (False, 'lang="en"')
     )
     @ddt.unpack
     @responses.activate
