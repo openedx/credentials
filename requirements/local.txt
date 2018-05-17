@@ -6,7 +6,7 @@ django-debug-toolbar==1.6
 
 # i18n
 transifex-client==0.12.4
-edx-i18n-tools==0.4.5
+edx-i18n-tools==0.4.6
 
 # for docker devstack
 docker-compose >= 1.5.1

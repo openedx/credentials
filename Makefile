@@ -103,9 +103,6 @@ accept: ## Run acceptance tests
 
 extract_translations: ## Extract strings to be translated, outputting .po files
 	cd credentials && PYTHONPATH=.. i18n_tool extract -v
-	# Clean Plural-Forms header, else gettext.py will error out
-	# https://github.com/edx/i18n-tools/issues/68
-	sed -i 's/^"Plural-Forms: .*/"Plural-Forms: nplurals=2; plural=(n != 1);\\n"/' credentials/conf/locale/en/LC_MESSAGES/*-partial.po
 
 dummy_translations: ## Generate dummy translation (.po) files
 	cd credentials && i18n_tool dummy
@@ -117,10 +114,6 @@ fake_translations: extract_translations dummy_translations compile_translations 
 
 pull_translations: ## Pull translations from Transifex
 	cd credentials && i18n_tool transifex pull
-	# Clean Last-Translator header for empty files, else validate will complain
-	# https://github.com/edx/i18n-tools/issues/71
-	grep '^"Last-Translator:' --files-without-match credentials/conf/locale/*/LC_MESSAGES/*.po | \
-	    xargs -r sed -i 's/^\("PO-Revision-Date: .*\)/\1\n"Last-Translator: \\n"/'
 
 detect_changed_source_translations: ## Check if translation files are up-to-date
 	cd credentials && i18n_tool changed
