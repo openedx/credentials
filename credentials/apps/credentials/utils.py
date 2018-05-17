@@ -1,6 +1,13 @@
 from itertools import groupby
 
 
+def to_language(locale):
+    if locale is None:
+        return None
+    # Convert to bytes to get ascii-lowercasing, to avoid the Turkish I problem.
+    return locale.replace('_', '-').encode().lower().decode()
+
+
 def validate_duplicate_attributes(attributes):
     """
     Validate the attributes data

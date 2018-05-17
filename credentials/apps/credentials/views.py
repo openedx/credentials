@@ -13,6 +13,7 @@ from django.views.generic import TemplateView
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
 from credentials.apps.credentials.models import OrganizationDetails, ProgramCertificate, ProgramDetails, UserCredential
+from credentials.apps.credentials.utils import to_language
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +68,7 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
                                                   format(program_uuid=program_details.uuid))
 
         user_data = user_credential.credential.site.siteconfiguration.get_user_api_data(user_credential.username)
-        content_language = user_credential.credential.language
+        content_language = to_language(user_credential.credential.language)
 
         context.update({
             'user_credential': user_credential,
