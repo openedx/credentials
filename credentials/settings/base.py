@@ -2,6 +2,8 @@
 import os
 from os.path import abspath, dirname, join
 
+from django.conf.global_settings import LANGUAGES_BIDI
+
 from credentials.settings.utils import get_logger_config
 
 # PATH vars
@@ -190,6 +192,8 @@ LANGUAGES = [
 ]
 
 LANGUAGE_CODE = 'en'
+
+LANGUAGES_BIDI = LANGUAGES_BIDI + ['rtl']
 
 TIME_ZONE = 'UTC'
 
