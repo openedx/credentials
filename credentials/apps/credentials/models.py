@@ -233,7 +233,7 @@ class ProgramCertificate(AbstractCertificate):
     language = models.CharField(
         max_length=8,
         null=True,
-        help_text=u'Language in which certificates for this program will be rendered'
+        help_text=u'Locale in which certificates for this program will be rendered'
     )
 
     def __str__(self):

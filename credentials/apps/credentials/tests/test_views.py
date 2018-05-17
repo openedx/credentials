@@ -166,7 +166,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
             self._render_user_credential(use_proper_logo_url=False)
 
     @ddt.data(
-        (True, 'lang="es_419"'),
+        (True, 'lang="es-419"'),
         (False, 'lang="en"')
     )
     @ddt.unpack
