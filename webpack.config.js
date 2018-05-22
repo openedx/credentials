@@ -16,6 +16,7 @@ module.exports = {
         'sharing': './credentials/static/js/sharing.js',
         'analytics': './credentials/static/js/analytics.js',
         'records': './credentials/static/components/RecordsFactory.jsx',
+        'programs': './credentials/static/components/ProgramRecordFactory.jsx'
     },
 
     output: {
