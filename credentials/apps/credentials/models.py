@@ -246,6 +246,8 @@ class ProgramCertificate(AbstractCertificate):
         """ Returns program data from the Catalog API. """
         return self.site.siteconfiguration.get_program(self.program_uuid)
 
+    # TODO: drop this query in favor of our local copy of
+    #       catalog data (and start copying all data we need)
     @cached_property
     def program_details(self):
         """ Returns details about the program associated with this certificate. """

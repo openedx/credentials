@@ -39,6 +39,7 @@ nosetests.xml
 unittests.xml
 
 ### Internationalization artifacts
+.transifexrc
 *.mo
 *.po
 *.prob

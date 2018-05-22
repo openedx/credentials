@@ -41,6 +41,7 @@ THIRD_PARTY_APPS = [
     'release_util',
     'rest_framework',
     'social_django',
+    'sortedm2m',
     'statici18n',
     'waffle',
     'storages',
@@ -55,6 +56,7 @@ THIRD_PARTY_APPS = [
 PROJECT_APPS = [
     'credentials.apps.core',
     'credentials.apps.api',
+    'credentials.apps.catalog',
     'credentials.apps.credentials',
     'credentials.apps.edx_django_extensions',
     'credentials.apps.credentials_theme_openedx',
