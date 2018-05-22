@@ -30,7 +30,7 @@ quality: ## Run linters
 	$(NODE_BIN)/gulp lint
 
 tests: ## Run tests and generate coverage report
-	coverage run -m pytest --durations=25
+	coverage run -m pytest --ds credentials.settings.test --durations=25
 	coverage report
 	$(NODE_BIN)/gulp test
 

@@ -41,7 +41,7 @@ class SiteMixin(object):
 
     def mock_catalog_api_response(self, endpoint, body, status=200):
         """ Mock a response from a Catalog API endpoint. """
-        endpoint = endpoint.strip('/')
         root = self.site.siteconfiguration.catalog_api_url.strip('/')  # pylint: disable=no-member
-        url = '{root}/{endpoint}/'.format(root=root, endpoint=endpoint)
-        responses.add(responses.GET, url, body=json.dumps(body), content_type=JSON, status=status)
+        url = '{root}/{endpoint}'.format(root=root, endpoint=endpoint)
+        responses.add(responses.GET, url, body=json.dumps(body), content_type=JSON, status=status,
+                      match_querystring=True)
