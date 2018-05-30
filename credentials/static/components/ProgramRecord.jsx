@@ -1,41 +1,17 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import { Button } from '@edx/paragon';
 
 import FoldingTable from './FoldingTable';
-
 import StringUtils from '../js/StringUtils';
+import ShareProgramRecordModal from './ShareProgramRecordModal';
+
 
 class ProgramRecord extends React.Component {
 
-  static renderBackLink() {
-    return (
-      <a href="/records/" className={['top-bar-link', 'flex-4'].join(' ')}>{gettext('< Back to My Records')}</a>
-    );
-  }
-
-  static renderShareButton() {
-    const link = '/share'; // TODO placeholder
-    return (
-      <a href={link}>
-        <Button label={gettext('Share')} className={['top-bar-button', 'flex-1'].join(' ')} />
-      </a>
-    );
-  }
-
-  static renderTopBar(id) {
-    return (
-      <section id={id} className={['program-record-row']}>
-        {this.renderBackLink()}
-        {this.renderShareButton()}
-      </section>
-    );
-  }
-
   static renderProgramName(data) {
     return (
-      <div name="program-name" className={['hd-3', 'flex-1'].join(' ')}>
+      <div name="program-name" className="hd-3 flex-1">
         { StringUtils.interpolate(gettext('{program_name} Record'), { program_name: data.program.name }) }
       </div>
     );
@@ -43,7 +19,7 @@ class ProgramRecord extends React.Component {
 
   static renderSchoolName(data) {
     return (
-      <div name="school-name" className={['hd-3']}>
+      <div name="school-name" className="hd-3">
         { StringUtils.interpolate(gettext('{platform} | {school}'), { platform: data.platform_name, school: data.program.school }) }
       </div>
     );
@@ -51,7 +27,7 @@ class ProgramRecord extends React.Component {
 
   static renderRecordTitleBar(id, data) {
     return (
-      <section id={id} className={['program-record-row']}>
+      <section id={id} className="program-record-row">
         {this.renderProgramName(data)}
         {this.renderSchoolName(data)}
       </section>
@@ -62,7 +38,7 @@ class ProgramRecord extends React.Component {
     // Convert the data to an array despite being a single object to use the FoldingTable styles
     const dataArr = [data.learner];
     return (
-      <section id={id} className={['learner-info']}>
+      <section id={id} className="learner-info">
         <FoldingTable
           columns={[
             { key: 'full_name', label: gettext('Name') },
@@ -116,27 +92,65 @@ class ProgramRecord extends React.Component {
 
   constructor(props) {
     super(props);
+    this.loadShareModel = this.loadShareModel.bind(this);
+    this.closeShareModel = this.closeShareModel.bind(this);
+    this.setShareButton = this.setShareButton.bind(this);
     this.state = {
       record: this.props.record,
+      shareModelOpen: false,
     };
   }
 
+  setShareButton(button) {
+    this.shareButton = button;
+  }
+
+  loadShareModel() {
+    this.setState({
+      shareModelOpen: true,
+    });
+  }
+
+  closeShareModel() {
+    this.setState({
+      shareModelOpen: false,
+    });
+    this.shareButton.focus();
+  }
+
   render() {
+    const { record, shareModelOpen } = this.state;
+    const recordWrapperClass = 'program-record';
+
     return (
-      <main className="program-record">
-        {this.state.record && ProgramRecord.renderTopBar('program-record-actions')}
-        {this.state.record && ProgramRecord.renderRecordTitleBar(
+      <main className={recordWrapperClass}>
+        {record &&
+          <section id="program-record-actions" className={['program-record-row']}>
+            <a href="/records/" className="top-bar-link flex-4">{gettext('< Back to My Records')}</a>
+            <Button
+              label={gettext('Share')}
+              className={['btn-primary', 'flex-1']}
+              onClick={this.loadShareModel}
+              ref={this.setShareButton}
+            />
+          </section>
+        }
+
+        {record && ProgramRecord.renderRecordTitleBar(
           'program-record-title-bar',
           this.state.record,
         )}
-        {this.state.record && ProgramRecord.renderLearnerInfo(
+        {record && ProgramRecord.renderLearnerInfo(
           'learner-info',
           this.state.record,
         )}
-        {this.state.record && ProgramRecord.renderProgramRecordList(
+        {record && ProgramRecord.renderProgramRecordList(
           'program-record',
           this.state.record.grades,
         )}
+        {shareModelOpen &&
+          <ShareProgramRecordModal onClose={this.closeShareModel} />
+        }
       </main>
     );
   }
@@ -144,14 +158,17 @@ class ProgramRecord extends React.Component {
 
 ProgramRecord.propTypes = {
   record: PropTypes.shape({
-    learner: {},
-    program: {},
-    grades: [],
+    learner: PropTypes.shape({}),
+    program: PropTypes.shape({
+      name: PropTypes.string,
+      school: PropTypes.string,
+    }),
+    grades: PropTypes.arrayOf(PropTypes.object),
   }),
 };
 
 ProgramRecord.defaultProps = {
-  record: [],
+  record: {},
 };
 
 export default ProgramRecord;
