@@ -15,6 +15,7 @@ describe('analytics module', () => {
     const expectedProperties = {
       category: 'certificate',
     };
+
     expect(window.analytics.track).toHaveBeenCalledWith('edx.bi.test', expectedProperties);
   });
 });

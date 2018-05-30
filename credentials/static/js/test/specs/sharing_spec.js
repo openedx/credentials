@@ -26,6 +26,7 @@ describe('sharing module', () => {
         xfbml: true,
         version: 'v2.8',
       };
+
       expect(FB.init).toHaveBeenCalledWith(expected);
     });
 
@@ -38,9 +39,11 @@ describe('sharing module', () => {
         method: 'share',
         href: window.edx.facebook.href,
       };
+
       expect(facebookShareButton.getAttribute('disabled')).toBeFalsy();
 
       facebookShareButton.click();
+
       expect(FB.ui).toHaveBeenCalledWith(expected);
     });
   });
