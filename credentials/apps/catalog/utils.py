@@ -77,8 +77,9 @@ def parse_program(site, data):
         org = parse_organization(site, org_data)
         program.authoring_organizations.add(org)
 
+    program.course_runs.clear()
     for course_data in data['courses']:
         _, course_runs = parse_course(site, course_data)
-        program.course_runs = course_runs
+        program.course_runs.add(*course_runs)
 
     return program

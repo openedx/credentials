@@ -7,11 +7,12 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.test import APIRequestFactory, APITestCase
 
 from credentials.apps.api.v2.serializers import UserCredentialAttributeSerializer, UserCredentialSerializer
+from credentials.apps.catalog.tests.factories import CourseRunFactory, ProgramFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests.factories import (
-    ProgramCertificateFactory, UserCredentialAttributeFactory, UserCredentialFactory
+    CourseCertificateFactory, ProgramCertificateFactory, UserCredentialAttributeFactory, UserCredentialFactory
 )
 
 JSON_CONTENT_TYPE = 'application/json'
@@ -247,17 +248,51 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.assert_list_username_filter_request_succeeds(username, expected)
 
     def test_list_program_uuid_filtering(self):
-        """ Verify the endpoint returns data for all UserCredentials awarded for the given program. """
+        """ Verify the endpoint returns data for all UserCredentials in the given program. """
+
+        # Course run 1 is in a program, course run 2 is not
+        course1_run = CourseRunFactory()
+        course2_run = CourseRunFactory()
+        program = ProgramFactory(course_runs=[course1_run])
+
+        program_certificate = ProgramCertificateFactory(site=self.site, program_uuid=program.uuid)
+        course1_certificate = CourseCertificateFactory(site=self.site, course_id=course1_run.key)
+        course2_certificate = CourseCertificateFactory(site=self.site, course_id=course2_run.key)
+
+        # Create some credentials related to the program
+        course1_cred = UserCredentialFactory(credential=course1_certificate)
+        program_creds = UserCredentialFactory.create_batch(3, credential=program_certificate)
+        expected = [course1_cred] + program_creds
+
+        # Create some more credentials that we don't expect to see returned
         UserCredentialFactory.create_batch(3)
-        program_certificate = ProgramCertificateFactory(site=self.site)
-        expected = UserCredentialFactory.create_batch(3, credential=program_certificate)
+        UserCredentialFactory(credential=course2_certificate)
 
         self.authenticate_user(self.user)
         self.add_user_permission(self.user, 'view_usercredential')
 
-        response = self.client.get(self.list_path + '?program_uuid={}'.format(program_certificate.program_uuid))
+        response = self.client.get(self.list_path + '?program_uuid={}'.format(program.uuid))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['results'], self.serialize_user_credential(expected, many=True))
+
+    def test_list_type_filtering(self):
+        """ Verify the endpoint returns data for all UserCredentials for the given type. """
+        program_certificate = ProgramCertificateFactory(site=self.site)
+        course_certificate = CourseCertificateFactory(site=self.site)
+
+        course_cred = UserCredentialFactory(credential=course_certificate)
+        program_cred = UserCredentialFactory(credential=program_certificate)
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'view_usercredential')
+
+        response = self.client.get(self.list_path + '?type=course-run')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['results'], self.serialize_user_credential([course_cred], many=True))
+
+        response = self.client.get(self.list_path + '?type=program')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['results'], self.serialize_user_credential([program_cred], many=True))
 
     @ddt.data('put', 'patch')
     def test_update(self, method):

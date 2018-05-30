@@ -11,7 +11,7 @@ from credentials.apps.api.v2.serializers import (
     CredentialField, UserCredentialAttributeSerializer, UserCredentialCreationSerializer, UserCredentialSerializer
 )
 from credentials.apps.credentials.tests.factories import (
-    ProgramCertificateFactory, UserCredentialAttributeFactory, UserCredentialFactory
+    CourseCertificateFactory, ProgramCertificateFactory, UserCredentialAttributeFactory, UserCredentialFactory
 )
 
 
@@ -20,6 +20,7 @@ class CredentialFieldTests(TestCase):
     def setUp(self):
         super(CredentialFieldTests, self).setUp()
         self.program_certificate = ProgramCertificateFactory()
+        self.course_certificate = CourseCertificateFactory()
         self.field_instance = CredentialField()
 
     def assert_program_uuid_validation_error_raised(self, program_uuid):
@@ -59,10 +60,21 @@ class CredentialFieldTests(TestCase):
         """ Verify the method serializes the credential details to a dict. """
 
         expected = {
+            'type': 'program',
             'program_uuid': self.program_certificate.program_uuid,
             'credential_id': self.program_certificate.id
         }
         self.assertEqual(self.field_instance.to_representation(self.program_certificate), expected)
+
+    def test_to_representation_data_with_course(self):
+        """ Verify the method serializes the credential details to a dict. """
+
+        expected = {
+            'type': 'course-run',
+            'course_run_id': self.course_certificate.course_id,
+            'mode': self.course_certificate.certificate_type,
+        }
+        self.assertEqual(self.field_instance.to_representation(self.course_certificate), expected)
 
 
 class UserCredentialAttributeSerializerTests(TestCase):
@@ -104,7 +116,7 @@ class UserCredentialCreationSerializerTests(TestCase):
 
 
 class UserCredentialSerializerTests(TestCase):
-    def test_data(self):
+    def test_program_credential(self):
         request = APIRequestFactory().get('/')
         program_certificate = ProgramCertificateFactory()
         user_credential = UserCredentialFactory(credential=program_certificate)
@@ -117,8 +129,42 @@ class UserCredentialSerializerTests(TestCase):
             'username': user_credential.username,
             'uuid': str(user_credential.uuid),
             'credential': {
+                'type': 'program',
                 'program_uuid': program_certificate.program_uuid,
                 'credential_id': program_certificate.id,
+            },
+            'download_url': user_credential.download_url,
+            'status': user_credential.status,
+            'attributes': [
+                {
+                    'name': user_credential_attribute.name,
+                    'value': user_credential_attribute.value
+                }
+            ],
+            'created': user_credential.created.strftime(api_settings.DATETIME_FORMAT),
+            'modified': user_credential.modified.strftime(api_settings.DATETIME_FORMAT),
+            'certificate_url': expected_url
+        }
+
+        actual = UserCredentialSerializer(user_credential, context={'request': request}).data
+        self.assertEqual(actual, expected)
+
+    def test_course_credential(self):
+        request = APIRequestFactory().get('/')
+        course_certificate = CourseCertificateFactory()
+        user_credential = UserCredentialFactory(credential=course_certificate)
+        user_credential_attribute = UserCredentialAttributeFactory(user_credential=user_credential)
+
+        expected_url = 'http://testserver{}'.format(
+            reverse('credentials:render', kwargs={'uuid': user_credential.uuid.hex}))
+
+        expected = {
+            'username': user_credential.username,
+            'uuid': str(user_credential.uuid),
+            'credential': {
+                'type': 'course-run',
+                'course_run_id': course_certificate.course_id,
+                'mode': course_certificate.certificate_type,
             },
             'download_url': user_credential.download_url,
             'status': user_credential.status,

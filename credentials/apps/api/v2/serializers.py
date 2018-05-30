@@ -9,7 +9,8 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.reverse import reverse
 
 from credentials.apps.api.accreditors import Accreditor
-from credentials.apps.credentials.models import ProgramCertificate, UserCredential, UserCredentialAttribute
+from credentials.apps.credentials.models import (CourseCertificate, ProgramCertificate, UserCredential,
+                                                 UserCredentialAttribute)
 
 logger = logging.getLogger(__name__)
 
@@ -19,23 +20,39 @@ class CredentialField(serializers.Field):
 
     def to_internal_value(self, data):
         program_uuid = data.get('program_uuid')
+        if program_uuid:
+            try:
+                return ProgramCertificate.objects.get(program_uuid=program_uuid, is_active=True)
+            except ObjectDoesNotExist:
+                msg = 'No active ProgramCertificate exists for program [{}]'.format(program_uuid)
+                logger.exception(msg)
+                raise ValidationError({'program_uuid': msg})
 
-        if not program_uuid:
-            raise ValidationError('Credential identifier is missing.')
+        course_run_id = data.get('course_run_id')
+        if course_run_id:
+            try:
+                return CourseCertificate.objects.get(course_id=course_run_id, is_active=True)
+            except ObjectDoesNotExist:
+                msg = 'No active CourseCertificate exists for course run [{}]'.format(course_run_id)
+                logger.exception(msg)
+                raise ValidationError({'course_run_id': msg})
 
-        try:
-            return ProgramCertificate.objects.get(program_uuid=program_uuid, is_active=True)
-        except ObjectDoesNotExist:
-            msg = 'No active ProgramCertificate exists for program [{}]'.format(program_uuid)
-            logger.exception(msg)
-            raise ValidationError({'program_uuid': msg})
+        raise ValidationError('Credential identifier is missing.')
 
     def to_representation(self, value):
         """ Serialize objects to a according to model content-type. """
-        credential = {
-            'credential_id': value.id,
-            'program_uuid': value.program_uuid,
-        }
+        if hasattr(value, 'program_uuid'):
+            credential = {
+                'type': 'program',
+                'credential_id': value.id,
+                'program_uuid': value.program_uuid,
+            }
+        else:  # course run
+            credential = {
+                'type': 'course-run',
+                'course_run_id': value.course_id,
+                'mode': value.certificate_type,
+            }
 
         return credential
 
