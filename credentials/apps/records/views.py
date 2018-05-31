@@ -19,12 +19,12 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
             {
                 'name': 'Dog Mind Reading',
                 'partner': 'DOGx',
-                'uuid': 'XXXXXXXX',
+                'uuid': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
             },
             {
                 "name": "MIT's Simple XSS <script>alert(\"Attack\")</script>",
                 'partner': 'MITx',
-                'uuid': 'YYYYYYYY',
+                'uuid': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
             },
         ]
 
