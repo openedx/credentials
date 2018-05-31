@@ -247,7 +247,7 @@ class User(AbstractUser):
         get_latest_by = 'date_joined'
 
     def __str__(self):
-        return self.get_full_name()
+        return self.username
 
     def get_full_name(self):
         return self.full_name or super(User, self).get_full_name()
