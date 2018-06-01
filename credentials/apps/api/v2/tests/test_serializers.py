@@ -9,13 +9,16 @@ from rest_framework.settings import api_settings
 from rest_framework.test import APIRequestFactory
 
 from credentials.apps.api.v2.serializers import (
-    CredentialField, UserCredentialAttributeSerializer, UserCredentialCreationSerializer, UserCredentialSerializer
+    CredentialField, UserCredentialAttributeSerializer, UserCredentialCreationSerializer, UserCredentialSerializer,
+    UserGradeSerializer
 )
+from credentials.apps.catalog.tests.factories import CourseFactory, CourseRunFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import CourseCertificate
 from credentials.apps.credentials.tests.factories import (
     CourseCertificateFactory, ProgramCertificateFactory, UserCredentialAttributeFactory, UserCredentialFactory
 )
+from credentials.apps.records.tests.factories import UserGradeFactory
 
 
 @ddt.ddt
@@ -124,6 +127,50 @@ class CredentialFieldTests(SiteMixin, TestCase):
             'mode': self.course_certificate.certificate_type,
         }
         self.assertEqual(self.field_instance.to_representation(self.course_certificate), expected)
+
+
+class UserGradeSerializerTests(SiteMixin, TestCase):
+    def test_to_representation(self):
+        grade = UserGradeFactory()
+
+        expected = {
+            'id': grade.id,
+            'username': grade.username,
+            'course_run': grade.course_run.key,
+            'letter_grade': grade.letter_grade,
+            'percent_grade': str(grade.percent_grade),
+            'verified': grade.verified,
+            'created': grade.created.strftime(api_settings.DATETIME_FORMAT),
+            'modified': grade.modified.strftime(api_settings.DATETIME_FORMAT),
+        }
+        actual = UserGradeSerializer(grade).data
+        self.assertDictEqual(actual, expected)
+
+    def test_to_internal_value(self):
+        Request = namedtuple('Request', ['site'])
+        serializer = UserGradeSerializer(context={'request': Request(site=self.site)})
+
+        data = {
+            'username': 'alice',
+            'course_run': 'nope',
+            'letter_grade': 'A',
+            'percent_grade': 0.9,
+            'verified': True,
+        }
+
+        with self.assertRaisesMessage(ValidationError, 'No CourseRun exists for key [nope]'):
+            serializer.to_internal_value(data)
+
+        course = CourseFactory(site=self.site)
+        course_run = CourseRunFactory(course=course)
+        data['course_run'] = course_run.key
+
+        grade = serializer.to_internal_value(data)
+        self.assertEqual(grade['username'], 'alice')
+        self.assertEqual(grade['course_run'], course_run)
+        self.assertEqual(grade['verified'], True)
+        self.assertEqual(grade['letter_grade'], 'A')
+        self.assertEqual(str(grade['percent_grade']), '0.9000')
 
 
 class UserCredentialAttributeSerializerTests(TestCase):

@@ -1,4 +1,5 @@
 import json
+from decimal import Decimal
 
 import ddt
 from django.contrib.auth.models import Permission
@@ -6,14 +7,17 @@ from django.urls import reverse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.test import APIRequestFactory, APITestCase
 
-from credentials.apps.api.v2.serializers import UserCredentialAttributeSerializer, UserCredentialSerializer
-from credentials.apps.catalog.tests.factories import CourseRunFactory, ProgramFactory
+from credentials.apps.api.v2.serializers import (UserCredentialAttributeSerializer, UserCredentialSerializer,
+                                                 UserGradeSerializer)
+from credentials.apps.catalog.tests.factories import CourseFactory, CourseRunFactory, ProgramFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests.factories import (
     CourseCertificateFactory, ProgramCertificateFactory, UserCredentialAttributeFactory, UserCredentialFactory
 )
+from credentials.apps.records.models import UserGrade
+from credentials.apps.records.tests.factories import UserGradeFactory
 
 JSON_CONTENT_TYPE = 'application/json'
 LOGGER_NAME = 'credentials.apps.credentials.issuers'
@@ -332,3 +336,118 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         response = self.client.get(self.list_path)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(response.data['results'][0], self.serialize_user_credential(credential))
+
+
+@ddt.ddt
+class GradeViewSetTests(SiteMixin, APITestCase):
+    list_path = reverse('api:v2:grades-list')
+
+    def setUp(self):
+        super(GradeViewSetTests, self).setUp()
+        self.user = UserFactory()
+        self.course = CourseFactory(site=self.site)
+        self.course_run = CourseRunFactory(course=self.course)
+        self.data = {
+            'username': 'test_user',
+            'course_run': self.course_run.key,
+            'letter_grade': 'A',
+            'percent_grade': 0.9,
+            'verified': True,
+        }
+
+    def serialize_user_grade(self, user_grade, many=False):
+        """ Serialize the given UserGrade object(s). """
+        request = APIRequestFactory(SERVER_NAME=self.site.domain).get('/')
+        return UserGradeSerializer(user_grade, context={'request': request}, many=many).data
+
+    def authenticate_user(self, user):
+        """ Login as the given user. """
+        self.client.logout()
+        self.client.login(username=user.username, password=USER_PASSWORD)
+
+    def add_user_permission(self, user, permission):
+        """ Assigns a permission of the given name to the user. """
+        user.user_permissions.add(Permission.objects.get(codename=permission))
+
+    def assert_access_denied(self, user, method, path, data=None):
+        """ Asserts the given user cannot access the given path via the specified HTTP action/method. """
+        self.client.login(username=user.username, password=USER_PASSWORD)
+        if data:
+            data = json.dumps(data)
+        response = getattr(self.client, method)(path, data=data, content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 403)
+
+    def test_authentication(self):
+        """ Verify the endpoint requires an authenticated user. """
+        self.client.logout()
+        response = self.client.post(self.list_path, data=json.dumps(self.data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 401)
+
+        superuser = UserFactory(is_staff=True, is_superuser=True)
+        self.authenticate_user(superuser)
+        response = self.client.post(self.list_path, data=json.dumps(self.data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 201)
+
+    def test_create(self):
+        # Verify users without the add permission are denied access
+        self.assert_access_denied(self.user, 'post', self.list_path, data=self.data)
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'add_usergrade')
+        response = self.client.post(self.list_path, data=json.dumps(self.data), content_type=JSON_CONTENT_TYPE)
+        grade = UserGrade.objects.last()
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data, self.serialize_user_grade(grade))
+
+        self.assertEqual(grade.username, self.data['username'])
+        self.assertTrue(grade.verified)
+        self.assertEqual(grade.letter_grade, self.data['letter_grade'])
+        self.assertEqual(grade.percent_grade, Decimal('0.9'))
+        self.assertEqual(grade.course_run, self.course_run)
+
+    def test_create_with_existing_user_grade(self):
+        """ Verify that, if a user has already been issued a credential, further attempts to issue the same credential
+        will NOT create a new credential, but update the attributes of the existing credential.
+        """
+        grade = UserGradeFactory(course_run=self.course_run)
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'add_usergrade')
+
+        # POSTing the exact data that exists in the database should not change the UserGrade
+        data = self.serialize_user_grade(grade)
+        response = self.client.post(self.list_path, data=JSONRenderer().render(data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data, self.serialize_user_grade(grade))
+
+        # POSTing with modified data should update the existing UserGrade
+        data = self.serialize_user_grade(grade)
+        data['letter_grade'] = 'B'
+        response = self.client.post(self.list_path, data=JSONRenderer().render(data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 201)
+
+        grade.refresh_from_db()
+        self.assertEqual(grade.letter_grade, 'B')
+        self.assertDictEqual(response.data, self.serialize_user_grade(grade))
+
+    @ddt.data('put', 'patch')
+    def test_update(self, method):
+        """ Verify the endpoint supports updating the status of a UserGrade, but no other fields. """
+        grade = UserGradeFactory(
+            course_run=self.course_run,
+            username=self.user.username,
+            letter_grade='C',
+        )
+        path = reverse('api:v2:grades-detail', kwargs={'pk': grade.id})
+
+        # Verify users without the change permission are denied access
+        self.assert_access_denied(self.user, method, path, data=self.data)
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'change_usergrade')
+        response = getattr(self.client, method)(path, data=self.data)
+
+        grade.refresh_from_db()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(grade.letter_grade, self.data['letter_grade'])
+        self.assertDictEqual(response.data, self.serialize_user_grade(grade))

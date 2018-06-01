@@ -8,37 +8,21 @@ from django_extensions.db.models import TimeStampedModel
 
 from credentials.apps.catalog.models import CourseRun
 from credentials.apps.core.models import User
-from credentials.apps.credentials import constants
 from credentials.apps.credentials.models import ProgramCertificate
-
-
-def _choices(*values):
-    """
-    Helper for use with model field 'choices'.
-    """
-    return [(value,) * 2 for value in values]
 
 
 class UserGrade(TimeStampedModel):
     """
     A grade for a specific user and course run
     """
-    user = models.ForeignKey(User)
+    username = models.CharField(max_length=150, blank=False)
     course_run = models.ForeignKey(CourseRun)
     letter_grade = models.CharField(max_length=255, blank=False)
     percent_grade = models.DecimalField(max_digits=5, decimal_places=4, null=False)
-    mode = models.CharField(
-        max_length=255,
-        blank=False,
-        choices=_choices(
-            constants.CertificateType.HONOR,
-            constants.CertificateType.PROFESSIONAL,
-            constants.CertificateType.VERIFIED
-        )
-    )
+    verified = models.BooleanField(verbose_name='Verified Learner ID', default=True)
 
     class Meta(object):
-        unique_together = ('user', 'course_run')
+        unique_together = ('username', 'course_run')
 
 
 class ProgramCertRecord(TimeStampedModel):
