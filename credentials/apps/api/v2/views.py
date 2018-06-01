@@ -29,10 +29,10 @@ class CredentialViewSet(viewsets.ModelViewSet):
         return queryset
 
     def create(self, request, *args, **kwargs):
-        """ Create a new credential.
+        """ Create or update a credential.
 
         This endpoint does not work in the swagger docs because it is not configured to accept dicts.
-        Use OPTIONS api/v<version>/credentials/ to understand the schema.
+        Use OPTIONS api/vX/credentials/ to understand the schema.
         ---
         serializer: UserCredentialCreationSerializer
         omit_parameters:

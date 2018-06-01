@@ -7,7 +7,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 
 from credentials.apps.api.exceptions import DuplicateAttributeError
-from credentials.apps.credentials.models import ProgramCertificate, UserCredential, UserCredentialAttribute
+from credentials.apps.credentials.constants import UserCredentialStatus
+from credentials.apps.credentials.models import (CourseCertificate, ProgramCertificate, UserCredential,
+                                                 UserCredentialAttribute)
 from credentials.apps.credentials.utils import validate_duplicate_attributes
 
 logger = logging.getLogger(__name__)
@@ -32,25 +34,37 @@ class AbstractCredentialIssuer(object):
         """
         raise NotImplementedError  # pragma: no cover
 
-    @abc.abstractmethod
-    def issue_credential(self, credential, username, attributes=None):
+    @transaction.atomic
+    def issue_credential(self, credential, username, status=UserCredentialStatus.AWARDED, attributes=None):
         """
         Issue a credential to the user.
 
         This action is idempotent. If the user has already earned the credential, a new one WILL NOT be issued. The
-        existing credential WILL NOT be modified.
+        existing credential WILL be modified.
 
         Arguments:
             credential (AbstractCredential): Type of credential to issue.
             username (str): username of user for which credential required
+            status (str): status of credential
             attributes (List[dict]): optional list of attributes that should be associated with the issued credential.
 
         Returns:
             UserCredential
         """
-        raise NotImplementedError  # pragma: no cover
+        user_credential, __ = UserCredential.objects.update_or_create(
+            username=username,
+            credential_content_type=ContentType.objects.get_for_model(credential),
+            credential_id=credential.id,
+            defaults={
+                'status': status,
+            },
+        )
 
-    @abc.abstractmethod
+        self.set_credential_attributes(user_credential, attributes)
+
+        return user_credential
+
+    @transaction.atomic
     def set_credential_attributes(self, user_credential, attributes):
         """
         Add attributes to the given UserCredential.
@@ -59,26 +73,6 @@ class AbstractCredentialIssuer(object):
             user_credential (AbstractCredential): Type of credential to issue.
             attributes (List[dict]): optional list of attributes that should be associated with the issued credential.
         """
-        raise NotImplementedError  # pragma: no cover
-
-
-class ProgramCertificateIssuer(AbstractCredentialIssuer):
-    """ Issues ProgramCertificates. """
-    issued_credential_type = ProgramCertificate
-
-    @transaction.atomic
-    def issue_credential(self, credential, username, attributes=None):
-        user_credential, __ = UserCredential.objects.get_or_create(
-            username=username,
-            credential_content_type=ContentType.objects.get_for_model(credential),
-            credential_id=credential.id
-        )
-
-        self.set_credential_attributes(user_credential, attributes)
-
-        return user_credential
-
-    def set_credential_attributes(self, user_credential, attributes):
         if not attributes:
             return
 
@@ -91,3 +85,13 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
                 name=attr.get('name'),
                 defaults={'value': attr.get('value')}
             )
+
+
+class ProgramCertificateIssuer(AbstractCredentialIssuer):
+    """ Issues ProgramCertificates. """
+    issued_credential_type = ProgramCertificate
+
+
+class CourseCertificateIssuer(AbstractCredentialIssuer):
+    """ Issues CourseCertificates. """
+    issued_credential_type = CourseCertificate

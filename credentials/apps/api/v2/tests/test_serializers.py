@@ -1,3 +1,4 @@
+from collections import namedtuple
 from uuid import uuid4
 
 import ddt
@@ -10,24 +11,36 @@ from rest_framework.test import APIRequestFactory
 from credentials.apps.api.v2.serializers import (
     CredentialField, UserCredentialAttributeSerializer, UserCredentialCreationSerializer, UserCredentialSerializer
 )
+from credentials.apps.core.tests.mixins import SiteMixin
+from credentials.apps.credentials.models import CourseCertificate
 from credentials.apps.credentials.tests.factories import (
     CourseCertificateFactory, ProgramCertificateFactory, UserCredentialAttributeFactory, UserCredentialFactory
 )
 
 
 @ddt.ddt
-class CredentialFieldTests(TestCase):
+class CredentialFieldTests(SiteMixin, TestCase):
     def setUp(self):
         super(CredentialFieldTests, self).setUp()
-        self.program_certificate = ProgramCertificateFactory()
-        self.course_certificate = CourseCertificateFactory()
+        self.program_certificate = ProgramCertificateFactory(site=self.site)
+        self.course_certificate = CourseCertificateFactory(site=self.site, certificate_type='verified')
         self.field_instance = CredentialField()
+        self.field_instance.context['request'] = namedtuple('HttpRequest', ['site'])(self.site)
 
     def assert_program_uuid_validation_error_raised(self, program_uuid):
         try:
             self.field_instance.to_internal_value({'program_uuid': program_uuid})
         except ValidationError as ex:
             expected = {'program_uuid': 'No active ProgramCertificate exists for program [{}]'.format(program_uuid)}
+            self.assertEqual(ex.detail, expected)
+
+    def assert_course_run_key_validation_error_raised(self, course_run_key):
+        try:
+            self.field_instance.to_internal_value({'course_run_key': course_run_key, 'mode': 'verified'})
+        except ValidationError as ex:
+            expected = {
+                'course_run_key': 'No active CourseCertificate exists for course run [{}]'.format(course_run_key)
+            }
             self.assertEqual(ex.detail, expected)
 
     def test_to_internal_value_with_empty_program_uuid(self):
@@ -42,6 +55,11 @@ class CredentialFieldTests(TestCase):
         """
         self.assert_program_uuid_validation_error_raised(uuid4())
 
+    def test_to_internal_value_with_invalid_site(self, ):
+        """ Verify the method raises a ValidationError if the passed program UUID belongs to a different site. """
+        certificate = ProgramCertificateFactory()  # without setting site=self.site
+        self.assert_program_uuid_validation_error_raised(certificate.program_uuid)
+
     def test_to_internal_value_with_inactive_program_certificate(self, ):
         """ Verify the method raises a ValidationError if the ProgramCertificate is NOT active. """
         self.program_certificate.is_active = False
@@ -54,6 +72,37 @@ class CredentialFieldTests(TestCase):
         self.assertEqual(
             self.field_instance.to_internal_value({'program_uuid': self.program_certificate.program_uuid}),
             self.program_certificate
+        )
+
+    def test_to_internal_value_with_created_course_credential(self):
+        """ Verify the method creates a course credential if needed. """
+        credential = self.field_instance.to_internal_value({'course_run_key': 'create-me', 'mode': 'verified'})
+        self.assertEqual(credential, CourseCertificate.objects.get(course_id='create-me'))
+
+    def test_to_internal_value_with_created_course_credential_read_only(self):
+        """ Verify the method refuses to create a course credential when read-only. """
+        self.field_instance.read_only = True
+        self.assert_course_run_key_validation_error_raised('create-me')
+
+    def test_to_internal_value_with_created_course_credential_no_type_change(self):
+        """ Verify the method won't update cert information when creating a course credential. """
+        credential = self.field_instance.to_internal_value({'course_run_key': self.course_certificate.course_id,
+                                                            'mode': 'honor'})
+        credential.refresh_from_db()  # just in case
+        self.assertEqual(credential.certificate_type, 'verified')
+
+    def test_to_internal_value_with_inactive_course_credential(self):
+        """ Verify the method raises a ValidationError if the CourseCertificate is NOT active. """
+        self.course_certificate.is_active = False
+        self.course_certificate.save()
+        self.assert_course_run_key_validation_error_raised(self.course_certificate.course_id)
+
+    def test_to_internal_value_with_valid_course_credential(self):
+        """ Verify the method serializes the course credential details to a dict. """
+        self.assertEqual(
+            self.field_instance.to_internal_value({'course_run_key': self.course_certificate.course_id,
+                                                   'mode': 'verified'}),
+            self.course_certificate
         )
 
     def test_to_representation_data_with_program(self):
@@ -71,7 +120,7 @@ class CredentialFieldTests(TestCase):
 
         expected = {
             'type': 'course-run',
-            'course_run_id': self.course_certificate.course_id,
+            'course_run_key': self.course_certificate.course_id,
             'mode': self.course_certificate.certificate_type,
         }
         self.assertEqual(self.field_instance.to_representation(self.course_certificate), expected)
@@ -163,7 +212,7 @@ class UserCredentialSerializerTests(TestCase):
             'uuid': str(user_credential.uuid),
             'credential': {
                 'type': 'course-run',
-                'course_run_id': course_certificate.course_id,
+                'course_run_key': course_certificate.course_id,
                 'mode': course_certificate.certificate_type,
             },
             'download_url': user_credential.download_url,
