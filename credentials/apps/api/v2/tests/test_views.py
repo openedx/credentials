@@ -64,7 +64,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_create(self):
-        program_certificate = ProgramCertificateFactory()
+        program_certificate = ProgramCertificateFactory(site=self.site)
         expected_username = 'test_user'
         expected_attribute_name = 'fake-name'
         expected_attribute_value = 'fake-value'
@@ -73,6 +73,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
             'credential': {
                 'program_uuid': str(program_certificate.program_uuid)
             },
+            'status': 'awarded',
             'attributes': [
                 {
                     'name': expected_attribute_name,
@@ -103,7 +104,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
     def test_create_with_duplicate_attributes(self):
         """ Verify an error is returned if an attempt is made to create a UserCredential with multiple attributes
         of the same name. """
-        program_certificate = ProgramCertificateFactory()
+        program_certificate = ProgramCertificateFactory(site=self.site)
         data = {
             'username': 'test-user',
             'credential': {
@@ -131,7 +132,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         """ Verify that, if a user has already been issued a credential, further attempts to issue the same credential
         will NOT create a new credential, but update the attributes of the existing credential.
         """
-        user_credential = UserCredentialFactory()
+        user_credential = UserCredentialFactory(credential__site=self.site)
         self.authenticate_user(self.user)
         self.add_user_permission(self.user, 'add_usercredential')
 
@@ -141,9 +142,10 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data, self.serialize_user_credential(user_credential))
 
-        # POSTing with modified attributes should update the attributes of the existing UserCredential
+        # POSTing with modified status/attributes should update the existing UserCredential
         data = self.serialize_user_credential(user_credential)
         expected_attribute = UserCredentialAttributeFactory.build()
+        data['status'] = 'revoked'
         data['attributes'] = [
             UserCredentialAttributeSerializer(expected_attribute).data
         ]

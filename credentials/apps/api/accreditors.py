@@ -2,7 +2,8 @@
 import logging
 
 from credentials.apps.api import exceptions
-from credentials.apps.credentials.issuers import ProgramCertificateIssuer
+from credentials.apps.credentials.constants import UserCredentialStatus
+from credentials.apps.credentials.issuers import CourseCertificateIssuer, ProgramCertificateIssuer
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +13,7 @@ class Accreditor(object):
     class for generating credential.
     """
     def __init__(self, issuers=None):
-        self.issuers = issuers or [ProgramCertificateIssuer()]
+        self.issuers = issuers or [CourseCertificateIssuer(), ProgramCertificateIssuer()]
         self._create_credential_type_issuer_map()
 
     def _create_credential_type_issuer_map(self):
@@ -29,12 +30,13 @@ class Accreditor(object):
             else:
                 self.credential_type_issuer_map[credential_type] = issuer
 
-    def issue_credential(self, credential, username, attributes=None):
+    def issue_credential(self, credential, username, status=UserCredentialStatus.AWARDED, attributes=None):
         """Issues a credential.
 
         Arguments:
             credential (AbstractCredential): Type of credential to issue.
-            username (string): Username of the recipient.
+            username (str): Username of the recipient.
+            status (str): Status of credential.
             attributes (List[dict]): attributes list containing dictionaries of attributes
 
         Returns:
@@ -52,4 +54,4 @@ class Accreditor(object):
                 )
             )
 
-        return credential_issuer.issue_credential(credential, username, attributes)
+        return credential_issuer.issue_credential(credential, username, status, attributes)

@@ -52,3 +52,9 @@ SOCIAL_AUTH_EDX_OIDC_PUBLIC_URL_ROOT = os.environ.get('SOCIAL_AUTH_EDX_OIDC_PUBL
 SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY = os.environ.get('SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY',
                                                               'credentials-secret')
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = str2bool(os.environ.get('SOCIAL_AUTH_REDIRECT_IS_HTTPS', False))
+
+JWT_AUTH['JWT_ISSUERS'].append({
+    'AUDIENCE': 'lms-key',
+    'ISSUER': 'http://edx.devstack.lms:18000/oauth2',
+    'SECRET_KEY': 'lms-secret',
+})

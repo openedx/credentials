@@ -9,6 +9,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.reverse import reverse
 
 from credentials.apps.api.accreditors import Accreditor
+from credentials.apps.credentials.constants import UserCredentialStatus
 from credentials.apps.credentials.models import (CourseCertificate, ProgramCertificate, UserCredential,
                                                  UserCredentialAttribute)
 
@@ -19,6 +20,8 @@ class CredentialField(serializers.Field):
     """ Field identifying the credential type and identifiers."""
 
     def to_internal_value(self, data):
+        site = self.context['request'].site
+
         program_uuid = data.get('program_uuid')
         if program_uuid:
             try:
@@ -28,14 +31,30 @@ class CredentialField(serializers.Field):
                 logger.exception(msg)
                 raise ValidationError({'program_uuid': msg})
 
-        course_run_id = data.get('course_run_id')
-        if course_run_id:
-            try:
-                return CourseCertificate.objects.get(course_id=course_run_id, is_active=True)
-            except ObjectDoesNotExist:
-                msg = 'No active CourseCertificate exists for course run [{}]'.format(course_run_id)
+        course_run_key = data.get('course_run_key')
+        if course_run_key:
+            if self.read_only:
+                try:
+                    cert = CourseCertificate.objects.get(course_id=course_run_key, site=site)
+                except ObjectDoesNotExist:
+                    cert = None
+            else:
+                # Create course cert on the fly, but don't upgrade it to active if it's manually been turned off
+                cert, _ = CourseCertificate.objects.get_or_create(
+                    course_id=course_run_key,
+                    site=site,
+                    defaults={
+                        'is_active': True,
+                        'certificate_type': data.get('mode'),
+                    },
+                )
+
+            if cert is None or not cert.is_active:
+                msg = 'No active CourseCertificate exists for course run [{}]'.format(course_run_key)
                 logger.exception(msg)
-                raise ValidationError({'course_run_id': msg})
+                raise ValidationError({'course_run_key': msg})
+
+            return cert
 
         raise ValidationError('Credential identifier is missing.')
 
@@ -50,7 +69,7 @@ class CredentialField(serializers.Field):
         else:  # course run
             credential = {
                 'type': 'course-run',
-                'course_run_id': value.course_id,
+                'course_run_key': value.course_id,
                 'mode': value.certificate_type,
             }
 
@@ -125,9 +144,10 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
         accreditor = Accreditor()
         credential = validated_data['credential']
         username = validated_data['username']
+        status = validated_data.get('status', UserCredentialStatus.AWARDED)
         attributes = validated_data.pop('attributes', None)
 
-        return accreditor.issue_credential(credential, username, attributes)
+        return accreditor.issue_credential(credential, username, status=status, attributes=attributes)
 
     def create(self, validated_data):
         return self.issue_credential(validated_data)
