@@ -34,18 +34,20 @@ tests: ## Run tests and generate coverage report
 	coverage report
 	$(NODE_BIN)/gulp test
 
-static-assets:
+static: ## Gather all static assets for production (minimized)
+	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --optimize-minimize
 	python manage.py compilejsi18n
 	python manage.py collectstatic --noinput -i *.scss
 
-static: static-assets## Gather all static assets for production (minimized)
-	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --optimize-minimize
-
-static.dev: static-assets ## Gather all static assets for development (not minimized)
+static.dev: ## Gather all static assets for development (not minimized)
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress
+	python manage.py compilejsi18n
+	python manage.py collectstatic --noinput -i *.scss
 
-static.watch: static-assets ## Gather static assets when they change (not minimized)
+static.watch: ## Gather static assets when they change (not minimized)
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --watch
+	python manage.py compilejsi18n
+	python manage.py collectstatic --noinput -i *.scss
 
 migrate: ## Apply database migrations
 	python manage.py migrate --noinput
