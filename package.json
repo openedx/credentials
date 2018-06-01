@@ -45,7 +45,6 @@
     "enzyme-adapter-react-16": "1.1.1",
     "eslint": "^3.18.0",
     "eslint-config-edx": "4.0.0",
-    "eslint-plugin-jasmine": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1",
     "jasmine-core": "^2.5.2",
@@ -59,5 +58,5 @@
     "karma-jasmine-jquery-2": "^0.1.1",
     "karma-spec-reporter": "0.0.30",
     "karma-webpack": "^2.0.9"
-  }
+  } 
 }
