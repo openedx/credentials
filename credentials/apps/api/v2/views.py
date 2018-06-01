@@ -1,13 +1,15 @@
 import logging
 
 from django.db.models import Q
-from rest_framework import viewsets
+from rest_framework import mixins, viewsets
 from rest_framework.response import Response
 
 from credentials.apps.api.v2.filters import UserCredentialFilter
 from credentials.apps.api.v2.permissions import UserCredentialPermissions
-from credentials.apps.api.v2.serializers import UserCredentialCreationSerializer, UserCredentialSerializer
+from credentials.apps.api.v2.serializers import (UserCredentialCreationSerializer, UserCredentialSerializer,
+                                                 UserGradeSerializer)
 from credentials.apps.credentials.models import UserCredential
+from credentials.apps.records.models import UserGrade
 
 log = logging.getLogger(__name__)
 
@@ -82,3 +84,24 @@ class CredentialViewSet(viewsets.ModelViewSet):
             - query
         """
         return super(CredentialViewSet, self).update(request, *args, **kwargs)
+
+
+# A write-only endpoint for now
+class GradeViewSet(mixins.CreateModelMixin,
+                   mixins.UpdateModelMixin,
+                   viewsets.GenericViewSet):
+    permission_classes = (UserCredentialPermissions,)
+    serializer_class = UserGradeSerializer
+    queryset = UserGrade.objects.all()
+
+    def create(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
+        """ Create a new grade. """
+        return super(GradeViewSet, self).create(request, *args, **kwargs)
+
+    def partial_update(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
+        """ Update a grade. """
+        return super(GradeViewSet, self).partial_update(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
+        """ Update a grade. """
+        return super(GradeViewSet, self).update(request, *args, **kwargs)

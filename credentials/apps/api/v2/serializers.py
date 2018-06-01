@@ -9,9 +9,11 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.reverse import reverse
 
 from credentials.apps.api.accreditors import Accreditor
+from credentials.apps.catalog.models import CourseRun
 from credentials.apps.credentials.constants import UserCredentialStatus
 from credentials.apps.credentials.models import (CourseCertificate, ProgramCertificate, UserCredential,
                                                  UserCredentialAttribute)
+from credentials.apps.records.models import UserGrade
 
 logger = logging.getLogger(__name__)
 
@@ -90,6 +92,23 @@ class UserCertificateURLField(serializers.ReadOnlyField):  # pylint: disable=abs
         )
 
 
+class CourseRunField(serializers.Field):
+    """ Field for CourseRun foreign keys """
+
+    def to_internal_value(self, data):
+        site = self.context['request'].site
+        try:
+            return CourseRun.objects.get(key=data, course__site=site)
+        except ObjectDoesNotExist:
+            msg = 'No CourseRun exists for key [{}]'.format(data)
+            logger.exception(msg)
+            raise ValidationError(msg)
+
+    def to_representation(self, value):
+        """ Build the CourseRun for html view. """
+        return value.key
+
+
 class UserCredentialAttributeSerializer(serializers.ModelSerializer):
     """ Serializer for CredentialAttribute objects """
 
@@ -156,3 +175,33 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
         model = UserCredential
         fields = UserCredentialSerializer.Meta.fields
         read_only_fields = ('download_url', 'uuid', 'created', 'modified',)
+
+
+class UserGradeSerializer(serializers.ModelSerializer):
+    """ Serializer for UserGrade objects. """
+    course_run = CourseRunField()
+
+    class Meta(object):
+        model = UserGrade
+        fields = (
+            'id', 'username', 'course_run', 'letter_grade', 'percent_grade', 'verified', 'created', 'modified',
+        )
+        read_only_fields = (
+            'id', 'created', 'modified',
+        )
+        # turn off validation, it only tries to complain about unique_together when updating existing objects
+        validators = []
+
+    def create(self, validated_data):
+        # If these next two are missing, the serializer will have already caught the error
+        username = validated_data.get('username')
+        course_run = validated_data.get('course_run')
+
+        # Support updating or creating when posting to a grade endpoint, since clients don't necessarily know the
+        # resource ID to use and we don't need to make them care.
+        grade, _ = UserGrade.objects.update_or_create(
+            username=username,
+            course_run=course_run,
+            defaults=validated_data,
+        )
+        return grade

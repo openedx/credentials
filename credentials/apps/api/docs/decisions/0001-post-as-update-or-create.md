@@ -18,5 +18,5 @@ it true."
 
 ## Decision
 
-Despite it being slightly non-RESTful, we'll treat a POST on the main credentials endpoint
-as an update-or-create instead of the normal just-create.
+Despite it being slightly non-RESTful, we'll treat a POST on the credentials or grades
+endpoints as an update-or-create instead of the normal just-create.
