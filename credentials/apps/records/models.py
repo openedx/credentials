@@ -1,12 +1,15 @@
 """
 Models for the records app.
 """
+import uuid
+
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
 
 from credentials.apps.catalog.models import CourseRun
 from credentials.apps.core.models import User
 from credentials.apps.credentials import constants
+from credentials.apps.credentials.models import ProgramCertificate
 
 
 def _choices(*values):
@@ -36,3 +39,19 @@ class UserGrade(TimeStampedModel):
 
     class Meta(object):
         unique_together = ('user', 'course_run')
+
+
+class ProgramCertRecord(TimeStampedModel):
+    """
+    Connects a User with a Program Certificate
+    """
+    certificate = models.ForeignKey(ProgramCertificate)
+    user = models.ForeignKey(User)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+
+    def __str__(self):
+        return 'ProgramCertificateRecord: {uuid}'.format(uuid=self.uuid)
+
+    class Meta(object):
+        unique_together = (('certificate', 'user'),)
+        verbose_name = "A viewable record of a program certificate"
