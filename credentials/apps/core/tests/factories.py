@@ -43,4 +43,5 @@ class SiteConfigurationFactory(django.DjangoModelFactory):
     homepage_url = Faker('url')
     company_name = Faker('word')
     certificate_help_url = Faker('url')
+    records_help_url = Faker('url')
     twitter_username = Faker('word')

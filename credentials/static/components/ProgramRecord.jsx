@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { Button } from '@edx/paragon';
 
 import FoldingTable from './FoldingTable';
-import StringUtils from '../js/StringUtils';
 import ShareProgramRecordModal from './ShareProgramRecordModal';
-
+import StringUtils from './Utils';
 
 class ProgramRecord extends React.Component {
 

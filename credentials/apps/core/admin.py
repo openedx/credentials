@@ -31,7 +31,7 @@ class SiteConfigurationAdmin(admin.ModelAdmin):
         (_('URLs'), {
             'fields': (
                 'lms_url_root', 'catalog_api_url', 'tos_url', 'privacy_policy_url', 'homepage_url',
-                'verified_certificate_url', 'certificate_help_url',
+                'verified_certificate_url', 'certificate_help_url', 'records_help_url',
             )
         }),
         (_('Social Sharing'), {

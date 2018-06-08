@@ -5,6 +5,8 @@ import { Button } from '@edx/paragon';
 
 import FoldingTable from './FoldingTable';
 
+import StringUtils from './Utils';
+
 class RecordsList extends React.Component {
   static convertPropsDataToTableData(propsData) {
     return propsData.map(x => ({
@@ -20,22 +22,12 @@ class RecordsList extends React.Component {
     );
   }
 
-  static renderFAQ() {
-    // TODO: not final wording, not gettext'ed
+  static renderFAQ(helpUrl) {
     return (
       <footer className="faq">
-        <h3 className="hd-3">{gettext('FAQ')}</h3>
-        <ul>
-          <li>
-            <a href="/help/who">Who can I share this with?</a>
-          </li>
-          <li>
-            <a href="/help/what">What will they be able to see when I share it?</a>
-          </li>
-          <li>
-            <a href="/help/stop">Can I stop sharing with someone after I’ve shared with them?</a>
-          </li>
-        </ul>
+        <h3 className="hd-4">{gettext('Questions about Learner Records?')}</h3>
+        { StringUtils.renderDangerousHtml(gettext('To learn more about records you can {openTag} read more in our records help area.{closeTag}'),
+            { openTag: `<a href=${helpUrl}>`, closeTag: '</a>' }) }
       </footer>
     );
   }
@@ -93,6 +85,7 @@ class RecordsList extends React.Component {
 
   render() {
     const hasPrograms = this.state.programs.length > 0;
+    const hasHelpUrl = this.props.helpUrl !== '';
     const hasContent = hasPrograms; // will check for courses when we show those too
     return (
       <main className="record">
@@ -105,7 +98,7 @@ class RecordsList extends React.Component {
         </header>
         {hasPrograms && this.renderPrograms()}
         {hasContent || RecordsList.renderEmpty()}
-        {hasContent && RecordsList.renderFAQ()}
+        {hasContent && hasHelpUrl && RecordsList.renderFAQ(this.props.helpUrl)}
       </main>
     );
   }
@@ -113,10 +106,12 @@ class RecordsList extends React.Component {
 
 RecordsList.propTypes = {
   programs: PropTypes.arrayOf(PropTypes.object),
+  helpUrl: PropTypes.string,
 };
 
 RecordsList.defaultProps = {
   programs: [],
+  helpUrl: '',
 };
 
 export default RecordsList;

@@ -42,6 +42,7 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
             '--homepage-url={homepage_url}'.format(homepage_url=self.site_configuration.homepage_url),
             '--company-name={company_name}'.format(company_name=self.site_configuration.company_name),
             '--certificate-help-url={}'.format(self.site_configuration.certificate_help_url),
+            '--records-help-url={}'.format(self.site_configuration.records_help_url),
             '--theme-name={}'.format(self.site_configuration.theme_name),
         ]
 
@@ -65,6 +66,7 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
         self.assertEqual(site_configuration.homepage_url, self.site_configuration.homepage_url)
         self.assertEqual(site_configuration.company_name, self.site_configuration.company_name)
         self.assertEqual(site_configuration.certificate_help_url, self.site_configuration.certificate_help_url)
+        self.assertEqual(site_configuration.records_help_url, self.site_configuration.records_help_url)
         self.assertEqual(site_configuration.twitter_username, self.site_configuration.twitter_username)
         self.assertEqual(site_configuration.facebook_app_id, self.site_configuration.facebook_app_id)
         self.assertEqual(site_configuration.segment_key, self.site_configuration.segment_key)
@@ -133,6 +135,10 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
          '--catalog-api-url=fake.catalog.server', '--site-name=Fake Site Name', '--tos-url=fake.tos.url'
          '--privacy-policy-url=fake.privacy.policy', '--homepage-url=fake.home.page', '--company-name=Fake Company'
          '--certificate-help-url==fake.certificate.url'],
+        ['--site-id=1', '--site-domain=fake.server', '--platform-name=Fake Name', '--lms-url-root=fake.lms.server'
+         '--catalog-api-url=fake.catalog.server', '--site-name=Fake Site Name', '--tos-url=fake.tos.url'
+         '--privacy-policy-url=fake.privacy.policy', '--homepage-url=fake.home.page', '--company-name=Fake Company'
+         '--certificate-help-url==fake.certificate.url', '--records-help-url=fake.records.url'],
     )
     def test_missing_arguments(self, command_args):
         """ Verify CommandError is raised when required arguments are missing """

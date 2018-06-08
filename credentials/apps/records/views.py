@@ -30,6 +30,12 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        request = self.request
+
+        site_configuration = request.site.siteconfiguration
+
+        records_help_url = site_configuration.records_help_url if site_configuration else ''
+
         context.update({
             'child_templates': {
                 'footer': self.select_theme_template(['_footer.html']),
@@ -37,6 +43,7 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
             },
             'programs': json.dumps(self._get_programs(), sort_keys=True),
             'render_language': self.request.LANGUAGE_CODE,
+            'records_help_url': records_help_url,
         })
         return context
 
