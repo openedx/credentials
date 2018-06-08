@@ -81,6 +81,13 @@ class SiteConfiguration(models.Model):
         blank=False,
         null=True,
     )
+    records_help_url = models.URLField(
+        verbose_name='Student Records Help URL',
+        help_text='URL of page for questions about Student Records',
+        blank=True,
+        null=True,
+        default=''
+    )
     facebook_app_id = models.CharField(
         verbose_name=_('Facebook App ID'),
         help_text=_('Facebook app ID used for sharing'),

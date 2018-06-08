@@ -101,6 +101,14 @@ class Command(BaseCommand):
             help='Certificate Help URL'
         )
         parser.add_argument(
+            '--records-help-url',
+            action='store',
+            dest='records_help_url',
+            type=str,
+            required=False,
+            help='Records Help URL'
+        )
+        parser.add_argument(
             '--segment-key',
             action='store',
             dest='segment_key',
@@ -186,6 +194,7 @@ class Command(BaseCommand):
                 'homepage_url': options.get('homepage_url'),
                 'company_name': options.get('company_name'),
                 'certificate_help_url': options.get('certificate_help_url'),
+                'records_help_url': options.get('records_help_url'),
                 'twitter_username': options.get('twitter_username'),
                 'enable_linkedin_sharing': options.get('enable_linkedin_sharing'),
                 'enable_twitter_sharing': options.get('enable_twitter_sharing'),

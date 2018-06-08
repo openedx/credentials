@@ -9,10 +9,11 @@ describe('records list', () => {
     setFixtures('<div id="wrapper"></div>');
   });
 
-  function init(programs) {
+  function init(programs, helpUrl) {
     ReactDOM.render(
       React.createElement(RecordsList, {
         programs,
+        helpUrl,
       }, null),
       document.getElementById('wrapper'),
     );
@@ -61,5 +62,19 @@ describe('records list', () => {
 
     expect(firstButton.parentElement.getAttribute('href')).toContain('/UUID1');
     expect(secondButton.parentElement.getAttribute('href')).toContain('/UUID2');
+  });
+
+  it('Links to records help url', () => {
+    const testLink = 'https://edx.org/help/records';
+    init(programData(), testLink);
+    const linkNode = find('.faq span a');
+
+    expect(linkNode.getAttribute('href')).toContain(testLink);
+  });
+
+  it('Does not show faq footer if link not provided', () => {
+    init(programData());
+
+    expect(find('.faq')).not.toExist();
   });
 });

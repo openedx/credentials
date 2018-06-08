@@ -79,6 +79,13 @@ class RecordsViewTests(SiteMixin, TestCase):
                                       '}]\')')
         self.assertNotContains(response, '<xss>')
 
+    def test_help_url(self):
+        """ Verify that the records help url gets loaded into the context """
+        response = self._render_records()
+        response_context_data = response.context_data
+        self.assertIn('records_help_url', response_context_data)
+        self.assertNotEqual(response_context_data['records_help_url'], '')
+
 
 @override_flag(WAFFLE_FLAG_RECORDS, active=True)
 class ProgramRecordViewTests(SiteMixin, TestCase):
