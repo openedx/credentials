@@ -11,6 +11,8 @@ from waffle.testutils import override_flag
 
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
+from credentials.apps.credentials.constants import UUID_PATTERN
+from credentials.apps.credentials.tests.factories import ProgramCertificateFactory, UserCredentialFactory
 from ..constants import WAFFLE_FLAG_RECORDS
 
 
@@ -151,3 +153,72 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
                                       "\\u0022school\\u0022: \\u0022XSS School\\u0022}, \\u0022uuid\\u0022: " +
                                       "\\u0022uuid\\u0022}\')")
         self.assertNotContains(response, '<xss>')
+
+
+@override_flag(WAFFLE_FLAG_RECORDS, active=True)
+class ProgramRecordTests(TestCase):
+    USERNAME = "test-user"
+
+    def setUp(self):
+        super().setUp()
+        user = UserFactory(username=self.USERNAME)
+        self.client.login(username=user.username, password=USER_PASSWORD)
+        self.user_credential = UserCredentialFactory(username=self.USERNAME)
+        self.pc = ProgramCertificateFactory()
+        self.user_credential.credential = self.pc
+        self.user_credential.save()
+
+    def test_user_creation(self):
+        """Verify successful creation of a ProgramCertRecord and return of a uuid"""
+        rev = reverse('records:cert_creation')
+        data = {'username': self.USERNAME, 'program_cert_uuid': self.pc.program_uuid}
+        response = self.client.post(rev, data)
+        json_data = response.json()
+
+        self.assertEqual(response.status_code, 201)
+        self.assertRegex(json_data['uuid'], UUID_PATTERN)  # pylint: disable=deprecated-method
+
+    def test_different_user_creation(self):
+        """ Verify that the view rejects a User attempting to create a ProgramCertRecord for another """
+        diff_username = 'diff-user'
+        rev = reverse('records:cert_creation')
+        UserFactory(username=diff_username)
+        data = {'username': diff_username, 'program_cert_uuid': self.pc.program_uuid}
+        response = self.client.post(rev, data)
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_no_user_credenital(self):
+        """ Verify that the view rejects a User attempting to create a ProgramCertRecord for which they don't
+        have the User Credentials """
+        pc2 = ProgramCertificateFactory()
+        rev = reverse('records:cert_creation')
+        data = {'username': self.USERNAME, 'program_cert_uuid': pc2.program_uuid}
+        response = self.client.post(rev, data)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_pcr_already_exists(self):
+        """ Verify that the view returns the existing ProgramCertRecord when one already exists for the given username
+        and program certificate uuid"""
+
+        rev = reverse('records:cert_creation')
+        data = {'username': self.USERNAME, 'program_cert_uuid': self.pc.program_uuid}
+        response = self.client.post(rev, data)
+        pcr_uuid = response.json()['uuid']
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.post(rev, data)
+        pcr_uuid2 = response.json()['uuid']
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(pcr_uuid, pcr_uuid2)
+
+    @override_flag(WAFFLE_FLAG_RECORDS, active=False)
+    def test_feature_toggle(self):
+        """ Verify that the view rejects everyone without the waffle flag. """
+        rev = reverse('records:cert_creation')
+        data = {'username': self.USERNAME, 'program_cert_uuid': self.pc.program_uuid}
+        response = self.client.post(rev, data)
+
+        self.assertEqual(404, response.status_code)

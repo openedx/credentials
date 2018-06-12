@@ -3,9 +3,14 @@ import waffle
 
 from django import http
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.views.generic import TemplateView, View
 
+from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
+from credentials.apps.credentials.models import ProgramCertificate, UserCredential
+from credentials.apps.records.models import ProgramCertRecord
 
 from .constants import WAFFLE_FLAG_RECORDS
 
@@ -135,4 +140,41 @@ class ProgramRecordView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
     def dispatch(self, request, *args, **kwargs):
         if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
             raise http.Http404()
+        return super().dispatch(request, *args, **kwargs)
+
+
+class ProgramRecordCreationView(View):
+    """
+    Creates a new Program Certificate Record from given username and program certificate uuid,
+    returns the uuid of the created Program Certificate Record
+    """
+
+    def post(self, request):
+        username = request.POST.get('username')
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User does not exist'}, status=404)
+
+        # verify that the user or an admin is making the request
+        if username != request.user.get_username() and not request.user.is_staff:
+            return JsonResponse({'error': 'Permission denied'}, status=403)
+
+        cert_uuid = request.POST.get('program_cert_uuid')
+        certificate = get_object_or_404(ProgramCertificate, program_uuid=cert_uuid)
+
+        # verify that the User has the User Credentials for the Program Certificate
+        try:
+            UserCredential.objects.get(username=username, program_credentials__program_uuid=cert_uuid)
+        except UserCredential.DoesNotExist:
+            return JsonResponse({'error': 'User does not have credentials'}, status=404)
+
+        pcr, created = ProgramCertRecord.objects.get_or_create(user=user, certificate=certificate)
+        status_code = 201 if created else 200
+
+        return JsonResponse({'uuid': pcr.uuid.hex}, status=status_code)
+
+    def dispatch(self, request, *args, **kwargs):
+        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
+            return JsonResponse({'error': 'Waffle flag not enabled'}, status=404)
         return super().dispatch(request, *args, **kwargs)
