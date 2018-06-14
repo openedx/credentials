@@ -11,14 +11,3 @@ WORKDIR /edx/app/credentials/credentials
 RUN apt-get update && apt-get install -y \
     iceweasel \
     xvfb
-
-COPY Makefile /edx/app/credentials/credentials/
-COPY requirements.txt /edx/app/credentials/credentials/
-COPY package.json /edx/app/credentials/credentials/
-COPY requirements/ /edx/app/credentials/credentials/requirements/
-
-RUN make requirements production-requirements
-
-ADD . /edx/app/credentials/credentials/
-
-RUN make static

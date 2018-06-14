@@ -17,5 +17,4 @@ services:
       - DJANGO_SETTINGS_MODULE=credentials.settings.test
       - ENABLE_DJANGO_TOOLBAR=1
     volumes:
-      - ./.git:/edx/app/credentials/credentials/.git
-      - ./coverage:/edx/app/credentials/credentials/coverage
+      - .:/edx/app/credentials/credentials

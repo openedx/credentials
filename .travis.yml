@@ -40,6 +40,8 @@ before_install:
 install: true
 
 script:
+  - make exec-requirements
+  - make exec-static
   - make exec-check_translations_up_to_date
   - make exec-validate-translations
   - make exec-quality

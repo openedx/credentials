@@ -76,6 +76,9 @@ exec-check_translations_up_to_date: ## test translations on a container
 exec-clean: ## Remove all generated files from a container
 	docker exec -t credentials bash -c 'make clean'
 
+exec-requirements:
+	docker exec -t credentials bash -c 'make requirements production-requirements'
+
 exec-static: ## Gather static assets on a container
 	docker exec -t credentials bash -c 'make static'
 
