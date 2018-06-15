@@ -50,12 +50,12 @@ class ShareProgramRecordModal extends React.Component {
       urlError,
       urlReturned,
     } = this.state;
-    const { onClose } = this.props;
+    const { onClose, parentSelector } = this.props;
 
     return (
       <Modal
         title={gettext('Share Link to Record')}
-        parentSelector=".program-record"
+        parentSelector={parentSelector}
         onClose={onClose}
         body={(
           <div>
@@ -117,6 +117,7 @@ class ShareProgramRecordModal extends React.Component {
 
 ShareProgramRecordModal.propTypes = {
   onClose: PropTypes.func,
+  parentSelector: PropTypes.string.isRequired,
 };
 
 ShareProgramRecordModal.defaultProps = {
