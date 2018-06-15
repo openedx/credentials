@@ -7,6 +7,33 @@ import ShareProgramRecordModal from './ShareProgramRecordModal';
 import StringUtils from './Utils';
 
 class ProgramRecord extends React.Component {
+  constructor(props) {
+    super(props);
+    this.loadShareModel = this.loadShareModel.bind(this);
+    this.closeShareModel = this.closeShareModel.bind(this);
+    this.setShareButton = this.setShareButton.bind(this);
+    this.state = {
+      record: this.props.record,
+      shareModelOpen: false,
+    };
+  }
+
+  setShareButton(button) {
+    this.shareButton = button;
+  }
+
+  loadShareModel() {
+    this.setState({
+      shareModelOpen: true,
+    });
+  }
+
+  closeShareModel() {
+    this.setState({
+      shareModelOpen: false,
+    });
+    this.shareButton.focus();
+  }
 
   static renderProgramName(data) {
     return (
@@ -32,7 +59,6 @@ class ProgramRecord extends React.Component {
       </section>
     );
   }
-
   static renderLearnerInfo(id, data) {
     // Convert the data to an array despite being a single object to use the FoldingTable styles
     const dataArr = [data.learner];
@@ -89,34 +115,6 @@ class ProgramRecord extends React.Component {
     );
   }
 
-  constructor(props) {
-    super(props);
-    this.loadShareModel = this.loadShareModel.bind(this);
-    this.closeShareModel = this.closeShareModel.bind(this);
-    this.setShareButton = this.setShareButton.bind(this);
-    this.state = {
-      record: this.props.record,
-      shareModelOpen: false,
-    };
-  }
-
-  setShareButton(button) {
-    this.shareButton = button;
-  }
-
-  loadShareModel() {
-    this.setState({
-      shareModelOpen: true,
-    });
-  }
-
-  closeShareModel() {
-    this.setState({
-      shareModelOpen: false,
-    });
-    this.shareButton.focus();
-  }
-
   render() {
     const { record, shareModelOpen } = this.state;
     const recordWrapperClass = 'program-record';
@@ -148,7 +146,10 @@ class ProgramRecord extends React.Component {
           this.state.record.grades,
         )}
         {shareModelOpen &&
-          <ShareProgramRecordModal onClose={this.closeShareModel} />
+          <ShareProgramRecordModal
+            onClose={this.closeShareModel}
+            parentSelector={`.${recordWrapperClass}`}
+          />
         }
       </main>
     );

@@ -12,8 +12,7 @@
             "last 2 versions",
             "IE >= 11"
           ]
-        },
-        "modules": false
+        }
       }
     ],
     "babel-preset-react"

@@ -15,6 +15,13 @@ class RecordsList extends React.Component {
     }));
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      programs: RecordsList.convertPropsDataToTableData(this.props.programs),
+    };
+  }
+
   static renderEmpty() {
     // TODO: not final wording, not gettext'ed
     return (
@@ -65,13 +72,6 @@ class RecordsList extends React.Component {
         <hr />
       </section>
     );
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      programs: RecordsList.convertPropsDataToTableData(this.props.programs),
-    };
   }
 
   renderPrograms() {

@@ -1,0 +1,26 @@
+{
+  "roots": [
+    "<rootDir>/credentials/static/components/"
+  ],
+  "transform": {
+    "^.+\\.jsx?$": "babel-jest"
+  },
+  "setupFiles": [
+    "./jest_setup/shim.js",
+    "./jest_setup/setupTests.js"
+  ],
+  "moduleFileExtensions": [
+    "js",
+    "jsx"
+  ],
+  "moduleDirectories": [
+    "node_modules"
+  ],
+  "coveragePathIgnorePatterns": [
+    "/node_modules/",
+    "/jest_setup/"
+  ],
+  "transformIgnorePatterns": [
+    "/node_modules/(?!(@edx/paragon)/).*/"
+  ]
+}

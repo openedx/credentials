@@ -32,6 +32,9 @@ quality: ## Run linters
 quality-js: ## Run JavaScript linter
 	$(NODE_BIN)/gulp lint
 
+test-react: ## Run Jest tests for React
+	npm run test-react
+
 tests: ## Run tests and generate coverage report
 	coverage run -m pytest --ds credentials.settings.test --durations=25
 	coverage report

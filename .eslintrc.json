@@ -1,20 +1,31 @@
 {
   "extends": [
-    "eslint-config-edx",
-    "plugin:jasmine/recommended"
+    "eslint-config-edx"
   ],
+  "parser": "babel-eslint",
+  "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "config/*.js",
+          "**/*.test.jsx"
+        ]
+      }
+    ],
+    "class-methods-use-this": [
+      "off"
+    ]
+  },
+  "env": {
+    "jest": true
+  },
   "sourceType": "module",
   "ecmaVersion": "2017",
   "globals": {
     "FB": true,
     "gettext": true,
     "loadFixtures": true
-  },
-  "plugins": [
-    "jasmine"
-  ],
-  "env": {
-    "jasmine": true
   },
   "settings": {
     "import/resolver": {
