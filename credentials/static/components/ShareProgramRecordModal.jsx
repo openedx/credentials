@@ -2,6 +2,7 @@ import 'babel-polyfill'; // Needed to support Promises on legacy browsers
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import Cookies from 'js-cookie';
 import { Button, Icon, InputText, Modal, StatusAlert } from '@edx/paragon';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
@@ -20,14 +21,28 @@ class ShareProgramRecordModal extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/user?ID=12345')
+    const { username, uuid } = this.props;
+
+    const headers = {
+      withCredentials: true,
+      headers: {
+        'X-CSRFToken': Cookies.get('credentials_csrftoken'),
+      },
+    };
+
+    axios.post('/records/new/', {
+      username,
+      uuid,
+    }, headers)
       .then(this.setProgramRecordUrl)
       .catch(this.setUrlError);
   }
 
-  setProgramRecordUrl(/* response */) {
+  setProgramRecordUrl(response) {
+    // TODO: remove console.log once API integration verified
+    console.log(`setProgramRecordUrl: ${response}`); // eslint-disable-line no-console
     this.setState({
-      programRecordUrl: '/my/program/record',
+      programRecordUrl: response.uuid,
       urlReturned: true,
       urlError: false,
     });
@@ -118,6 +133,8 @@ class ShareProgramRecordModal extends React.Component {
 ShareProgramRecordModal.propTypes = {
   onClose: PropTypes.func,
   parentSelector: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  uuid: PropTypes.string.isRequired,
 };
 
 ShareProgramRecordModal.defaultProps = {

@@ -9,13 +9,15 @@ let promise;
 
 const defaultProps = {
   parentSelector: 'body',
+  username: 'Pennywise',
+  uuid: '1a2b3c4d',
 };
 
 describe('<ShareProgramRecordModal />', () => {
   describe('Happy Path', () => {
     beforeEach(() => {
       promise = Promise.resolve({ uuid: '21366aa129514333a4a9f32161ad3a69' });
-      axios.get.mockImplementation(() => promise);
+      axios.post.mockImplementation(() => promise);
       wrapper = mount(<ShareProgramRecordModal {...defaultProps} />);
     });
 
@@ -65,7 +67,7 @@ describe('<ShareProgramRecordModal />', () => {
         status: 400,
         response: { message: 'problem' },
       });
-      axios.get.mockImplementation(() => promise);
+      axios.post.mockImplementation(() => promise);
       wrapper = mount(<ShareProgramRecordModal {...defaultProps} />);
     });
 

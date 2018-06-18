@@ -36,11 +36,13 @@ const defaultProps = {
       letter_grade: 'A',
     },
   ],
+  uuid: '1a2b3c4d',
+  platform_name: 'testX',
 };
 
 describe('<ProgramRecord />', () => {
   it('renders correct sections', () => {
-    wrapper = mount(<ProgramRecord record={defaultProps} />);
+    wrapper = mount(<ProgramRecord {...defaultProps} />);
 
     expect(wrapper.find('.program-record').length).toEqual(1);
     expect(wrapper.find('#program-record-title-bar').length).toEqual(1);
@@ -49,7 +51,7 @@ describe('<ProgramRecord />', () => {
   });
 
   it('renders correct records', () => {
-    wrapper = mount(<ProgramRecord record={defaultProps} />);
+    wrapper = mount(<ProgramRecord {...defaultProps} />);
     const programRows = wrapper.find('#program-record .table-responsive tbody tr');
 
     const firstRowData = programRows.at(0).find('td');
