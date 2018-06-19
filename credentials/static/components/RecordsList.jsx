@@ -32,6 +32,7 @@ class RecordsList extends React.Component {
   static renderFAQ(helpUrl) {
     return (
       <footer className="faq">
+        <hr />
         <h3 className="hd-4">{gettext('Questions about Learner Records?')}</h3>
         { StringUtils.renderDangerousHtml(gettext('To learn more about records you can {openTag} read more in our records help area.{closeTag}'),
             { openTag: `<a href=${helpUrl}>`, closeTag: '</a>' }) }
@@ -69,7 +70,6 @@ class RecordsList extends React.Component {
           data={data}
           dataKey="uuid"
         />
-        <hr />
       </section>
     );
   }
