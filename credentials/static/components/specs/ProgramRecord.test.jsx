@@ -38,12 +38,15 @@ const defaultProps = {
   ],
   uuid: '1a2b3c4d',
   platform_name: 'testX',
+  loadModalsAsChildren: false,
 };
 
 describe('<ProgramRecord />', () => {
-  it('renders correct sections', () => {
+  beforeEach(() => {
     wrapper = mount(<ProgramRecord {...defaultProps} />);
+  });
 
+  it('renders correct sections', () => {
     expect(wrapper.find('.program-record').length).toEqual(1);
     expect(wrapper.find('#program-record-title-bar').length).toEqual(1);
     expect(wrapper.find('#learner-info').length).toEqual(1);
@@ -51,7 +54,6 @@ describe('<ProgramRecord />', () => {
   });
 
   it('renders correct records', () => {
-    wrapper = mount(<ProgramRecord {...defaultProps} />);
     const programRows = wrapper.find('#program-record .table-responsive tbody tr');
 
     const firstRowData = programRows.at(0).find('td');
@@ -61,5 +63,41 @@ describe('<ProgramRecord />', () => {
     const secondRowData = programRows.at(1).find('td');
     expect(secondRowData.at(0).text()).toEqual('Course 2');
     expect(secondRowData.at(0).key()).toEqual('name');
+  });
+
+  it('loads the send learner record modal', () => {
+    expect(wrapper.find('.modal-dialog').length).toBe(0);
+    wrapper.find('#program-record-actions button.btn-primary').simulate('click');
+    wrapper.update();
+    expect(wrapper.find('.modal-dialog').length).toBe(1);
+  });
+
+  it('closes the send learner record modal', () => {
+    expect(wrapper.find('.modal-dialog').length).toBe(0);
+    wrapper.find('#program-record-actions button.btn-primary').simulate('click');
+    wrapper.update();
+    expect(wrapper.find('.modal-dialog').length).toBe(1);
+    wrapper.find('.modal-dialog .modal-header button').simulate('click');
+    wrapper.update();
+    expect(wrapper.find('.modal-dialog').length).toBe(0);
+    expect(wrapper.find('#program-record-actions button.btn-primary').html()).toEqual(document.activeElement.outerHTML);
+  });
+
+  it('loads the share program url modal', () => {
+    expect(wrapper.find('.modal-dialog').length).toBe(0);
+    wrapper.find('#program-record-actions button.btn-secondary').simulate('click');
+    wrapper.update();
+    expect(wrapper.find('.modal-dialog').length).toBe(1);
+  });
+
+  it('closes the share program url modal', () => {
+    expect(wrapper.find('.modal-dialog').length).toBe(0);
+    wrapper.find('#program-record-actions button.btn-secondary').simulate('click');
+    wrapper.update();
+    expect(wrapper.find('.modal-dialog').length).toBe(1);
+    wrapper.find('.modal-dialog .modal-header button').simulate('click');
+    wrapper.update();
+    expect(wrapper.find('.modal-dialog').length).toBe(0);
+    expect(wrapper.find('#program-record-actions button.btn-secondary').html()).toEqual(document.activeElement.outerHTML);
   });
 });

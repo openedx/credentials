@@ -18,8 +18,10 @@ function getUUID() {
 }
 
 function ProgramRecordFactory(parent, props) {
-  const formattedProps = { ...props.record };
-  formattedProps.uuid = getUUID();
+  const formattedProps = {
+    ...props.record,
+    uuid: getUUID(),
+  };
 
   ReactDOM.render(
     React.createElement(ProgramRecord, { ...formattedProps }, null),
