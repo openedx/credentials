@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button } from '@edx/paragon';
 
 import FoldingTable from './FoldingTable';
+import SendLearnerRecordModal from './SendLearnerRecordModal';
 import ShareProgramRecordModal from './ShareProgramRecordModal';
 import StringUtils from './Utils';
 
@@ -10,30 +11,47 @@ class ProgramRecord extends React.Component {
   constructor(props) {
     super(props);
 
+    this.loadSendRecordModal = this.loadSendRecordModal.bind(this);
     this.loadShareModel = this.loadShareModel.bind(this);
+    this.closeSendRecordModal = this.closeSendRecordModal.bind(this);
     this.closeShareModel = this.closeShareModel.bind(this);
-    this.setShareButton = this.setShareButton.bind(this);
-
+    this.setActiveButton = this.setActiveButton.bind(this);
     this.state = {
       shareModelOpen: false,
+      sendRecordModalOpen: false,
     };
   }
 
-  setShareButton(button) {
-    this.shareButton = button;
+  setActiveButton(button) {
+    this.activeButton = button;
   }
 
-  loadShareModel() {
+  loadSendRecordModal(event) {
+    this.setState({
+      sendRecordModalOpen: true,
+    });
+    this.setActiveButton(event.target);
+  }
+
+  loadShareModel(event) {
     this.setState({
       shareModelOpen: true,
     });
+    this.setActiveButton(event.target);
+  }
+
+  closeSendRecordModal() {
+    this.setState({
+      sendRecordModalOpen: false,
+    });
+    this.activeButton.focus();
   }
 
   closeShareModel() {
     this.setState({
       shareModelOpen: false,
     });
-    this.shareButton.focus();
+    this.activeButton.focus();
   }
 
   renderLearnerInfo() {
@@ -63,20 +81,35 @@ class ProgramRecord extends React.Component {
   }
 
   render() {
-    const { shareModelOpen } = this.state;
-    const { learner, program, platform_name, grades, uuid } = this.props;
+    const {
+      learner,
+      program,
+      platform_name: platformName,
+      grades,
+      uuid,
+      loadModalsAsChildren,
+    } = this.props;
+    const { sendRecordModalOpen, shareModelOpen } = this.state;
     const recordWrapperClass = 'program-record';
+    const defaultModalProps = {
+      ...(loadModalsAsChildren && { parentSelector: `.${recordWrapperClass}` }),
+    };
 
     return (
       <main className={recordWrapperClass}>
         {learner &&
-          <section id="program-record-actions" className={['program-record-row']}>
+          <section id="program-record-actions" className="program-record-row">
             <a href="/records/" className="top-bar-link flex-4">
               <span className="fa fa-caret-left" aria-hidden="true" /> {gettext('Back to My Records')}
             </a>
             <Button
+              label={gettext('Send Learner Record')}
+              className={['btn-primary']}
+              onClick={this.loadSendRecordModal}
+            />
+            <Button
               label={gettext('Share')}
-              className={['btn-primary', 'flex-1']}
+              className={['btn-secondary']}
               onClick={this.loadShareModel}
               inputRef={this.setShareButton}
             />
@@ -88,7 +121,7 @@ class ProgramRecord extends React.Component {
               { StringUtils.interpolate(gettext('{program_name} Record'), { program_name: program.name }) }
             </div>
             <div name="school-name" className="hd-3">
-              { StringUtils.interpolate(gettext('{platform} | {school}'), { platform: platform_name, school: program.school }) }
+              { StringUtils.interpolate(gettext('{platform} | {school}'), { platform: platformName, school: program.school }) }
             </div>
           </section>
         }
@@ -121,10 +154,16 @@ class ProgramRecord extends React.Component {
             <hr />
           </section>
         }
+        {sendRecordModalOpen &&
+          <SendLearnerRecordModal
+            {...defaultModalProps}
+            onClose={this.closeSendRecordModal}
+          />
+        }
         {shareModelOpen &&
           <ShareProgramRecordModal
+            {...defaultModalProps}
             onClose={this.closeShareModel}
-            parentSelector={`.${recordWrapperClass}`}
             username={learner.username}
             uuid={uuid}
           />
@@ -143,6 +182,11 @@ ProgramRecord.propTypes = {
   grades: PropTypes.arrayOf(PropTypes.object).isRequired,
   uuid: PropTypes.string.isRequired,
   platform_name: PropTypes.string.isRequired,
+  loadModalsAsChildren: PropTypes.bool,
+};
+
+ProgramRecord.defaultProps = {
+  loadModalsAsChildren: true,
 };
 
 export default ProgramRecord;
