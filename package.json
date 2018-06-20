@@ -18,9 +18,7 @@
     "babel-polyfill": "6.23.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "bi-app-sass": "1.1.0",
     "bootstrap": "4.0.0-alpha.6",
-    "bourbon": "4.3.4",
     "css-loader": "^0.27.3",
     "edx-pattern-library": "0.16.1",
     "extract-text-webpack-plugin": "^2.1.0",
@@ -35,7 +33,6 @@
     "react-copy-to-clipboard": "5.0.1",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.13.2",
-    "susy": "2.2.14",
     "url-loader": "^0.5.8",
     "webpack": "^2.2.1",
     "webpack-bundle-tracker": "^0.2.0"
