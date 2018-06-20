@@ -144,7 +144,6 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         data = self.serialize_user_credential(user_credential)
         response = self.client.post(self.list_path, data=JSONRenderer().render(data), content_type=JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.data, self.serialize_user_credential(user_credential))
 
         # POSTing with modified status/attributes should update the existing UserCredential
         data = self.serialize_user_credential(user_credential)
@@ -407,18 +406,12 @@ class GradeViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(grade.course_run, self.course_run)
 
     def test_create_with_existing_user_grade(self):
-        """ Verify that, if a user has already been issued a credential, further attempts to issue the same credential
-        will NOT create a new credential, but update the attributes of the existing credential.
+        """ Verify that, if a user has already been issued a grade, further attempts to issue the same grade
+        will NOT create a new grade, but update the fields of the existing grade.
         """
         grade = UserGradeFactory(course_run=self.course_run)
         self.authenticate_user(self.user)
         self.add_user_permission(self.user, 'add_usergrade')
-
-        # POSTing the exact data that exists in the database should not change the UserGrade
-        data = self.serialize_user_grade(grade)
-        response = self.client.post(self.list_path, data=JSONRenderer().render(data), content_type=JSON_CONTENT_TYPE)
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.data, self.serialize_user_grade(grade))
 
         # POSTing with modified data should update the existing UserGrade
         data = self.serialize_user_grade(grade)
