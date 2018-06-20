@@ -4,6 +4,7 @@ import { Button } from '@edx/paragon';
 // import Cookies from 'js-cookie';
 
 import FoldingTable from './FoldingTable';
+import ProgramIcon from './ProgramIcon';
 import SendLearnerRecordModal from './SendLearnerRecordModal';
 import ShareProgramRecordModal from './ShareProgramRecordModal';
 import StringUtils from './Utils';
@@ -23,6 +24,9 @@ class ProgramRecord extends React.Component {
     // this.isPublic = !userCookie ||
     //  (StringUtils.parseDirtyJSON(userCookie).username !== props.learner.username);
 
+    this.formatDate = this.formatDate.bind(this);
+    this.formatGradeData = this.formatGradeData.bind(this);
+    this.formatPercentage = this.formatPercentage.bind(this);
     this.state = {
       shareModelOpen: false,
       sendRecordModalOpen: false,
@@ -61,30 +65,39 @@ class ProgramRecord extends React.Component {
     this.activeButton.focus();
   }
 
-  renderLearnerInfo() {
-    const { learner, platform_name } = this.props;
+  formatDate(isoDate) {
+    if (!isoDate) {
+      return isoDate;
+    }
 
-    return (
-      <section id="learner-info" className="learner-info">
-        <FoldingTable
-          columns={[
-            { key: 'full_name', label: gettext('Name') },
-            { key: 'username', label: StringUtils.interpolate(gettext('{platform} User ID'), { platform: platform_name }),
-            },
-            { key: 'email', label: gettext('Email') },
-          ]}
-          foldedColumns={[
-            { key: 'full_name', className: 'hd-5 emphasized', format: gettext('Name: {}') },
-            { key: 'username', className: 'hd-5 emphasized', format: StringUtils.interpolate(gettext('{platform} User ID: {}'), { platform: platform_name }) },
-            { key: 'email', className: 'hd-5 emphasized', format: gettext('Email: {}') },
-          ]}
-          // Convert the data to an array despite being a single
-          // object to use the FoldingTable styles
-          data={[learner]}
-          dataKey="username"
-        />
-      </section>
-    );
+    const date = new Date(isoDate);
+
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear().toString().slice(2)}`;
+  }
+
+  formatPercentage(decimal) {
+    if (!decimal) {
+      return decimal;
+    }
+
+    return `${parseInt(decimal * 100, 10)}%`;
+  }
+
+  formatGradeData() {
+    const { grades } = this.props;
+
+    return grades.map(course => ({
+      ...course,
+      // If certificate not earned hide some fields
+      ...(!course.issue_date && { course_id: null }),
+      ...(!course.issue_date && { letter_grade: null }),
+      ...(!course.issue_date && { attempts: null }),
+      percent_grade: this.formatPercentage(course.percent_grade),
+      issue_date: this.formatDate(course.issue_date),
+      status: course.issue_date ?
+        <span className="badge badge-success">{gettext('Earned')}</span> :
+        <span className="badge badge-default">{gettext('Not Earned')}</span>,
+    }));
   }
 
   render() {
@@ -92,75 +105,93 @@ class ProgramRecord extends React.Component {
       learner,
       program,
       platform_name: platformName,
-      grades,
       uuid,
       loadModalsAsChildren,
     } = this.props;
     const { sendRecordModalOpen, shareModelOpen } = this.state;
-    const recordWrapperClass = 'program-record';
+    const recordWrapperClass = 'program-record-wrapper';
     const defaultModalProps = {
       ...(loadModalsAsChildren && { parentSelector: `.${recordWrapperClass}` }),
     };
 
     return (
       <main className={recordWrapperClass}>
-        {learner &&
-          <section id="program-record-actions" className="program-record-row">
-            <a href="/records/" className="top-bar-link flex-4">
-              <span className="fa fa-caret-left" aria-hidden="true" /> {gettext('Back to My Records')}
-            </a>
-            <Button
-              label={gettext('Send Learner Record')}
-              className={['btn-primary']}
-              onClick={this.loadSendRecordModal}
-            />
-            <Button
-              label={gettext('Share')}
-              className={['btn-secondary']}
-              onClick={this.loadShareModel}
-              inputRef={this.setShareButton}
-            />
-          </section>
-        }
-        {program &&
-          <section id="program-record-title-bar" className="program-record-row">
-            <div name="program-name" className="hd-3 flex-1">
-              { StringUtils.interpolate(gettext('{program_name} Record'), { program_name: program.name }) }
+        <section className="program-record-actions program-record-row">
+          <a href="/records/" className="top-bar-link flex-4">
+            <span className="fa fa-caret-left" aria-hidden="true" /> {gettext('Back to My Records')}
+          </a>
+          <Button
+            label={gettext('Send Learner Record')}
+            className={['btn-primary']}
+            onClick={this.loadSendRecordModal}
+          />
+          <Button
+            label={gettext('Share')}
+            className={['btn-secondary']}
+            onClick={this.loadShareModel}
+            inputRef={this.setShareButton}
+          />
+        </section>
+
+        <section className="program-record">
+          <header className="d-flex justify-content-between program-record-header">
+            <div className="program-overview">
+              <h1 className="program-title h2">{ StringUtils.interpolate(gettext('{name} Record'), { name: program.name }) }</h1>
+              <div className="text-muted program-type">
+                <ProgramIcon type={program.type} className="program-icon" />
+                { StringUtils.interpolate(gettext('{type} Program Record'), { type: program.type }) }
+              </div>
+              <div className="d-flex program-status">
+                <span className="badge badge-warning">{program.progress}</span>
+                <span className="updated">
+                  { StringUtils.interpolate(
+                      gettext('Last Updated {date}'), {
+                        date: this.formatDate(program.last_updated),
+                      },
+                    )
+                  }
+                </span>
+              </div>
             </div>
-            <div name="school-name" className="hd-3">
+            <div name="school-name" className="hd-3 school-name">
               { StringUtils.interpolate(gettext('{platform} | {school}'), { platform: platformName, school: program.school }) }
             </div>
-          </section>
-        }
-        {learner && this.renderLearnerInfo()}
-        {grades &&
-          <section id="program-record">
+          </header>
+
+          <div className="learner-info">
+            <h3 className="h4 font-weight-normal user">{learner.full_name}</h3>
+            <div className="details">
+              {learner.username}<span className="pipe">|</span>{learner.email}
+            </div>
+          </div>
+
+          <div className="program-record-grades">
             <FoldingTable
               columns={[
                 { key: 'name', label: gettext('Course Name') },
                 { key: 'school', label: gettext('School') },
-                { key: 'attempts', label: gettext('Verified Attempts') },
                 { key: 'course_id', label: gettext('Course ID') },
-                { key: 'issue_date', label: gettext('Issue Date') },
                 { key: 'percent_grade', label: gettext('Highest Grade Earned') },
                 { key: 'letter_grade', label: gettext('Letter Grade') },
+                { key: 'attempts', label: gettext('Verified Attempts') },
+                { key: 'issue_date', label: gettext('Date Earned') },
+                { key: 'status', label: gettext('Status') },
               ]}
               foldedColumns={[
                 { key: 'name', className: 'hd-5 emphasized' },
                 { key: 'school' },
-                { key: 'attempts', format: gettext('Verified Attempts: {}') },
                 { key: 'course_id', format: gettext('Course ID: {}') },
-                { key: 'start', format: gettext('Start Date: {}') },
-                { key: 'end', format: gettext('End Date: {}') },
                 { key: 'percent_grade', format: gettext('Percent Grade: {}') },
                 { key: 'letter_grade', format: gettext('Letter Grade: {}') },
+                { key: 'attempts', format: gettext('Verified Attempts: {}') },
+                { key: 'issue_date', format: gettext('Date Earned: {}') },
+                { key: 'status', label: gettext('Status: {}') },
               ]}
-              data={grades}
+              data={this.formatGradeData()}
               dataKey="name"
             />
-            <hr />
-          </section>
-        }
+          </div>
+        </section>
         {sendRecordModalOpen &&
           <SendLearnerRecordModal
             {...defaultModalProps}
@@ -189,6 +220,9 @@ ProgramRecord.propTypes = {
   program: PropTypes.shape({
     name: PropTypes.string,
     school: PropTypes.string,
+    progress: PropTypes.string,
+    type: PropTypes.string,
+    last_updated: PropTypes.string,
   }).isRequired,
   grades: PropTypes.arrayOf(PropTypes.object).isRequired,
   uuid: PropTypes.string.isRequired,
