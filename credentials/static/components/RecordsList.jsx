@@ -8,10 +8,10 @@ import FoldingTable from './FoldingTable';
 import StringUtils from './Utils';
 
 class RecordsList extends React.Component {
-  static convertPropsDataToTableData(propsData) {
-    return propsData.map(x => ({
-      ...x,
-      button: RecordsList.renderProgramButton(x.uuid),
+  static convertPropsDataToTableData(programs) {
+    return programs.map(program => ({
+      ...program,
+      button: RecordsList.renderProgramButton(program.uuid),
     }));
   }
 
