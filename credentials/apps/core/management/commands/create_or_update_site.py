@@ -106,6 +106,7 @@ class Command(BaseCommand):
             dest='records_help_url',
             type=str,
             required=False,
+            default='',
             help='Records Help URL'
         )
         parser.add_argument(
