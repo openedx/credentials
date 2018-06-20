@@ -304,6 +304,25 @@ OAUTH_ID_TOKEN_EXPIRATION = 60
 
 SOCIAL_AUTH_STRATEGY = 'auth_backends.strategies.EdxDjangoStrategy'
 
+SOCIAL_AUTH_PIPELINE = (
+    # This first block is a copy of the default pipelines from auth_backends.strategies.EdxDjangoStrategy.
+    # We can't import that module here to reference the default set directly (circular dependencies), so we just
+    # duplicate it.
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'auth_backends.pipeline.get_user_if_exists',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+    'auth_backends.pipeline.update_email',
+
+    # Credentials-specific pipeline below
+    'credentials.apps.core.utils.update_full_name',
+)
+
 # Set these to the correct values for your OAuth2/OpenID Connect provider (e.g., devstack)
 SOCIAL_AUTH_EDX_OIDC_KEY = 'replace-me'
 SOCIAL_AUTH_EDX_OIDC_SECRET = 'replace-me'

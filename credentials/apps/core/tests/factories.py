@@ -17,6 +17,7 @@ class UserFactory(django.DjangoModelFactory):
     password = PostGenerationMethodCall('set_password', USER_PASSWORD)
     first_name = Faker('first_name')
     last_name = Faker('last_name')
+    full_name = Faker('name')
     email = Faker('safe_email')
     is_staff = False
     is_active = True
