@@ -21,6 +21,10 @@ class ShareProgramRecordModal extends React.Component {
   }
 
   componentDidMount() {
+    this.getRecordUrl();
+  }
+
+  getRecordUrl() {
     const { username, uuid } = this.props;
 
     const headers = {

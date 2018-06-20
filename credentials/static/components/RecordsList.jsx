@@ -2,9 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import StringUtils from './Utils';
 
-import MicroMastersIcon from '../images/icons/micromasters.svg';
-import XseriesIcon from '../images/icons/xseries.svg';
-import ProfessionalIcon from '../images/icons/professional.svg';
+import ProgramIcon from './ProgramIcon';
 
 class RecordsList extends React.Component {
   static renderEmpty() {
@@ -23,23 +21,6 @@ class RecordsList extends React.Component {
     );
   }
 
-  static renderProgramIcon(type) {
-    const lowerType = type.toLowerCase();
-    let icon = false;
-    if (lowerType === 'micromasters') {
-      icon = MicroMastersIcon;
-    } else if (lowerType === 'xseries') {
-      icon = XseriesIcon;
-    } else if (lowerType === 'professional-certificate') {
-      icon = ProfessionalIcon;
-    }
-    if (icon) {
-      // eslint-disable-next-line react/no-danger
-      return (<span className="inline-data certificate-icon" aria-hidden="true" dangerouslySetInnerHTML={{ __html: icon }} />);
-    }
-    return null;
-  }
-
   static renderRows(data) {
     return data.map(row => (
       <li className="record-card" key={row.uuid}>
@@ -48,7 +29,7 @@ class RecordsList extends React.Component {
             <div className="col-md record-data-col">
               <div className="program-title">{row.name}</div>
               <div className="record-data-inline">
-                {RecordsList.renderProgramIcon(row.type)}
+                <ProgramIcon type={row.type} className="inline-data certificate-icon" />
                 <span className="record-partner inline-data">{row.partner}</span>
                 <span className="inline-data"> {' | '} </span>
                 <span className="font-weight-bold inline-data">{row.progress}</span>
