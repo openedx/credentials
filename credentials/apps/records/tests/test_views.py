@@ -1,18 +1,24 @@
 """
 Tests for records rendering views.
 """
+import json
 import uuid
 
+from django.contrib.contenttypes.models import ContentType
 from django.template.loader import select_template
 from django.test import TestCase
 from django.urls import reverse
 from mock import patch
 from waffle.testutils import override_flag
 
+from credentials.apps.catalog.tests.factories import (CourseFactory, CourseRunFactory, OrganizationFactory,
+                                                      ProgramFactory)
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.constants import UUID_PATTERN
-from credentials.apps.credentials.tests.factories import ProgramCertificateFactory, UserCredentialFactory
+from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
+                                                          UserCredentialFactory)
+
 from ..constants import WAFFLE_FLAG_RECORDS
 
 
@@ -22,11 +28,38 @@ class RecordsViewTests(SiteMixin, TestCase):
 
     def setUp(self):
         super().setUp()
-        user = UserFactory(username=self.MOCK_USER_DATA['username'])
-        self.client.login(username=user.username, password=USER_PASSWORD)
+        self.user = UserFactory(username=self.MOCK_USER_DATA['username'])
+        self.orgs = [OrganizationFactory.create(name=name) for name in ['TestOrg1', 'TestOrg2']]
+        self.course = CourseFactory.create()
+        self.course_runs = [CourseRunFactory.create(course=self.course) for _ in range(2)]
+        self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs)
+        self.course_certs = [CourseCertificateFactory.create(
+            course_id=course_run.key
+        ) for course_run in self.course_runs]
+        self.program_cert = ProgramCertificateFactory.create(program_uuid=self.program.uuid)
+        self.course_credential_content_type = ContentType.objects.get(
+            app_label='credentials',
+            model='coursecertificate'
+        )
+        self.program_credential_content_type = ContentType.objects.get(
+            app_label='credentials',
+            model='programcertificate'
+        )
+        self.course_user_credentials = [UserCredentialFactory.create(
+            username=self.user.username,
+            credential_content_type=self.course_credential_content_type,
+            credential=course_cert
+        ) for course_cert in self.course_certs]
+        self.program_user_credentials = UserCredentialFactory.create(
+            username=self.user.username,
+            credential_content_type=self.program_credential_content_type,
+            credential=self.program_cert
+        )
+
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
 
     def _render_records(self, program_data=None, status_code=200):
-        """ Helper method to render a user certificate."""
+        """ Helper method to mock and render a user certificate."""
         if program_data is None:
             program_data = []
 
@@ -87,6 +120,79 @@ class RecordsViewTests(SiteMixin, TestCase):
         response_context_data = response.context_data
         self.assertIn('records_help_url', response_context_data)
         self.assertNotEqual(response_context_data['records_help_url'], '')
+
+    def test_completed_render_from_db(self):
+        """ Verify that a program cert that is completed is the only entry, despite having course certificates """
+        response = self.client.get(reverse('records:index'))
+        self.assertEqual(response.status_code, 200)
+        program_data = json.loads(response.context_data['programs'])
+        expected_program_data = [
+            {
+                'uuid': str(self.program.uuid),
+                'partner': 'TestOrg1, TestOrg2',
+                'name': self.program.title,
+                'progress': 'Completed at {}'.format(self.program_cert.modified)
+            }
+        ]
+        self.assertEqual(program_data, expected_program_data)
+
+    def test_in_progress_from_db(self):
+        """ Verify that no program cert, but course certs reuslts in an In Progress program """
+        # Delete the program
+        self.program_cert.delete()
+        response = self.client.get(reverse('records:index'))
+        self.assertEqual(response.status_code, 200)
+        program_data = json.loads(response.context_data['programs'])
+        expected_program_data = [
+            {
+                'uuid': str(self.program.uuid),
+                'partner': 'TestOrg1, TestOrg2',
+                'name': self.program.title,
+                'progress': 'In Progress'
+            }
+        ]
+        self.assertEqual(program_data, expected_program_data)
+
+    def test_multiple_programs(self):
+        """ Test that multiple programs can appear, in progress and completed """
+        # Create a second program, and delete the first one's certificate
+        new_course = CourseFactory.create()
+        new_course_run = CourseRunFactory.create(course=new_course)
+        new_program = ProgramFactory.create(course_runs=[new_course_run], authoring_organizations=self.orgs)
+        new_course_cert = CourseCertificateFactory.create(course_id=new_course_run.key)
+        new_program_cert = ProgramCertificateFactory.create(program_uuid=new_program.uuid)
+        # Make a new user credential
+        UserCredentialFactory.create(
+            username=self.user.username,
+            credential_content_type=self.program_credential_content_type,
+            credential=new_course_cert
+        )
+        # Make a new program credential
+        UserCredentialFactory.create(
+            username=self.user.username,
+            credential_content_type=self.program_credential_content_type,
+            credential=new_program_cert
+        )
+        self.program_user_credentials.delete()
+
+        response = self.client.get(reverse('records:index'))
+        self.assertEqual(response.status_code, 200)
+        program_data = json.loads(response.context_data['programs'])
+        expected_program_data = [
+            {
+                'uuid': str(self.program.uuid),
+                'partner': 'TestOrg1, TestOrg2',
+                'name': self.program.title,
+                'progress': 'In Progress'
+            },
+            {
+                'uuid': str(new_program.uuid),
+                'partner': 'TestOrg1, TestOrg2',
+                'name': new_program.title,
+                'progress': 'Completed at {}'.format(new_program_cert.modified)
+            }
+        ]
+        self.assertEqual(program_data, expected_program_data)
 
 
 @override_flag(WAFFLE_FLAG_RECORDS, active=True)
