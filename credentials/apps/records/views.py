@@ -63,8 +63,7 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
         # Get the completed programs and a UUID set using the program_credentials
         program_credential_ids = map(lambda program_credential: program_credential.credential_id, program_credentials)
         program_certificates = ProgramCertificate.objects.filter(id__in=program_credential_ids)
-        completed_programs = dict({program_certificate.program_uuid: program_certificate
-                                   for program_certificate in program_certificates})
+        completed_program_uuids = set(program_certificate.program_uuid for program_certificate in program_certificates)
 
         return [
             {
@@ -72,9 +71,7 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
                 'partner': ', '.join(program.authoring_organizations.values_list('name', flat=True)),
                 'uuid': program.uuid.hex,
                 'type': slugify(program.type),
-                'progress': _('In Progress') if program.uuid not in completed_programs else _(
-                    'Completed at {completed_date}'
-                ).format(completed_date=completed_programs[program.uuid].modified)
+                'progress': _('Completed') if program.uuid in completed_program_uuids else _('In Progress')
             } for program in programs]
 
     def get_context_data(self, **kwargs):

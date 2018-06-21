@@ -130,11 +130,11 @@ class RecordsViewTests(SiteMixin, TestCase):
         program_data = json.loads(response.context_data['programs'])
         expected_program_data = [
             {
-                'uuid': self.program.uuid.hex,
-                'partner': 'TestOrg1, TestOrg2',
                 'name': self.program.title,
-                'progress': 'Completed at {}'.format(self.program_cert.modified),
+                'partner': 'TestOrg1, TestOrg2',
+                'uuid': self.program.uuid.hex,
                 'type': slugify(self.program.type),
+                'progress': 'Completed',
             }
         ]
         self.assertEqual(program_data, expected_program_data)
@@ -148,11 +148,11 @@ class RecordsViewTests(SiteMixin, TestCase):
         program_data = json.loads(response.context_data['programs'])
         expected_program_data = [
             {
-                'uuid': self.program.uuid.hex,
-                'partner': 'TestOrg1, TestOrg2',
                 'name': self.program.title,
-                'progress': 'In Progress',
+                'partner': 'TestOrg1, TestOrg2',
+                'uuid': self.program.uuid.hex,
                 'type': slugify(self.program.type),
+                'progress': 'In Progress',
             }
         ]
         self.assertEqual(program_data, expected_program_data)
@@ -185,18 +185,18 @@ class RecordsViewTests(SiteMixin, TestCase):
         program_data = json.loads(response.context_data['programs'])
         expected_program_data = [
             {
-                'uuid': self.program.uuid.hex,
-                'partner': 'TestOrg1, TestOrg2',
                 'name': self.program.title,
-                'progress': 'In Progress',
+                'partner': 'TestOrg1, TestOrg2',
+                'uuid': self.program.uuid.hex,
                 'type': slugify(self.program.type),
+                'progress': 'In Progress',
             },
             {
-                'uuid': new_program.uuid.hex,
-                'partner': 'TestOrg1, TestOrg2',
                 'name': new_program.title,
-                'progress': 'Completed at {}'.format(new_program_cert.modified),
+                'partner': 'TestOrg1, TestOrg2',
+                'uuid': new_program.uuid.hex,
                 'type': slugify(new_program.type),
+                'progress': 'Completed',
             }
         ]
         self.assertEqual(program_data, expected_program_data)
