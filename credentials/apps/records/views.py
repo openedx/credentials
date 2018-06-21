@@ -1,15 +1,18 @@
 import json
-import waffle
 
+import waffle
 from django import http
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.contenttypes.models import ContentType
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView, View
 
+from credentials.apps.catalog.models import CourseRun, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
-from credentials.apps.credentials.models import ProgramCertificate, UserCredential
+from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredential
 from credentials.apps.records.models import ProgramCertRecord
 
 from .constants import WAFFLE_FLAG_RECORDS
@@ -18,20 +21,58 @@ from .constants import WAFFLE_FLAG_RECORDS
 class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
     template_name = 'records.html'
 
-    def _get_programs(self):
-        # FIXME: Stop using fake data here, obviously
+    def _get_programs(self, request):
+        user = request.user
+        # Get the content types for course and program certs, query for both in single query
+        course_cert_content_types = ContentType.objects.filter(
+            app_label='credentials',
+            model__in=['coursecertificate', 'programcertificate']
+        )
+        course_certificate_type = None
+        program_certificate_type = None
+        for course_cert_content_type in course_cert_content_types:
+            if course_cert_content_type.model == 'coursecertificate':
+                course_certificate_type = course_cert_content_type
+            elif course_cert_content_type.model == 'programcertificate':
+                program_certificate_type = course_cert_content_type
+
+        # Get all user credentials, then sort them out to course/programs
+        user_credentials = UserCredential.objects.filter(
+            username=user.username,
+            credential_content_type__in=course_cert_content_types
+        )
+        course_credentials = []
+        program_credentials = []
+        for credential in user_credentials:
+            if credential.credential_content_type_id == course_certificate_type.id:
+                course_credentials.append(credential)
+            elif credential.credential_content_type_id == program_certificate_type.id:
+                program_credentials.append(credential)
+
+        # Using the course credentials, get the programs associated with them via course runs
+        course_credential_ids = map(lambda course_credential: course_credential.credential_id, course_credentials)
+        course_certificates = CourseCertificate.objects.filter(id__in=course_credential_ids)
+        course_run_keys = map(lambda course_certificate: course_certificate.course_id, course_certificates)
+        course_runs = CourseRun.objects.filter(key__in=course_run_keys)
+        programs = Program.objects.filter(course_runs__in=course_runs).distinct().prefetch_related(
+            'authoring_organizations'
+        )
+
+        # Get the completed programs and a UUID set using the program_credentials
+        program_credential_ids = map(lambda program_credential: program_credential.credential_id, program_credentials)
+        program_certificates = ProgramCertificate.objects.filter(id__in=program_credential_ids)
+        completed_programs = dict({program_certificate.program_uuid: program_certificate
+                                   for program_certificate in program_certificates})
+
         return [
             {
-                'name': 'Dog Mind Reading',
-                'partner': 'DOGx',
-                'uuid': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-            },
-            {
-                "name": "MIT's Simple XSS <script>alert(\"Attack\")</script>",
-                'partner': 'MITx',
-                'uuid': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
-            },
-        ]
+                'name': program.title,
+                'partner': ', '.join(program.authoring_organizations.values_list('name', flat=True)),
+                'uuid': str(program.uuid),
+                'progress': _('In Progress') if program.uuid not in completed_programs else _(
+                    'Completed at {completed_date}'
+                ).format(completed_date=completed_programs[program.uuid].modified)
+            } for program in programs]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -46,7 +87,7 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
                 'footer': self.select_theme_template(['_footer.html']),
                 'header': self.select_theme_template(['_header.html']),
             },
-            'programs': json.dumps(self._get_programs(), sort_keys=True),
+            'programs': json.dumps(self._get_programs(request), sort_keys=True),
             'render_language': self.request.LANGUAGE_CODE,
             'records_help_url': records_help_url,
         })
