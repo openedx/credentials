@@ -172,7 +172,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_user_grades(user, course_runs):
-        """ Seed user grades for the edx test users"""
+        """ Seed user grades for the test users """
         user_grades = []
 
         for course_run in course_runs:

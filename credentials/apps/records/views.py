@@ -1,4 +1,5 @@
 import json
+from collections import defaultdict
 
 import waffle
 from django import http
@@ -13,7 +14,7 @@ from credentials.apps.catalog.models import CourseRun, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredential
-from credentials.apps.records.models import ProgramCertRecord
+from credentials.apps.records.models import ProgramCertRecord, UserGrade
 
 from .constants import WAFFLE_FLAG_RECORDS
 
@@ -102,71 +103,74 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
 class ProgramRecordView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
     template_name = 'programs.html'
 
-    def _get_record(self):
-        # FIXME: Stop using fake data here, can reconsider data format as well
-        return {
-            'learner': {
-                'full_name': 'Firsty Lasty',
-                'username': 'edxIsGood',
-                'email': 'edx@example.com',
-            },
-            'program': {
-                'name': 'Test Program ',
-                'school': 'TestX'
-            },
-            'platform_name': 'edX',
-            'grades': [
-                {
-                    'name': 'Course 1',
-                    'school': 'TestX',
-                    'attempts': 1,
-                    'course_id': 'course1x',
-                    'issue_date': '2018-01-01',
-                    'percent_grade': '98%',
-                    'letter_grade': 'A'
-                },
-                {
-                    'name': 'Course 2',
-                    'school': 'TestX',
-                    'attempts': 1,
-                    'course_id': 'course2x',
-                    'issue_date': '2018-01-01',
-                    'percent_grade': '98%',
-                    'letter_grade': 'A'
-                },
-                {
-                    'name': 'Course 3',
-                    'school': 'TestX',
-                    'attempts': 1,
-                    'course_id': 'course3x',
-                    'issue_date': '2018-01-01',
-                    'percent_grade': '98%',
-                    'letter_grade': 'A'
-                },
-                {
-                    'name': 'Course 4',
-                    'school': 'TestX',
-                    'attempts': 1,
-                    'course_id': 'course4x',
-                    'issue_date': '2018-01-01',
-                    'percent_grade': '98%',
-                    'letter_grade': 'A'
-                },
-                {
-                    'name': 'Course 5',
-                    'school': 'TestX',
-                    'attempts': 1,
-                    'course_id': 'course5x',
-                    'issue_date': '2018-01-01',
-                    'percent_grade': '98%',
-                    'letter_grade': 'A'
-                }
-            ]
-        }
+    def _get_record(self, program_uuid):
+        user = self.request.user
+        platform_name = self.request.site.siteconfiguration.platform_name
+
+        program = Program.objects.prefetch_related('course_runs').get(uuid=program_uuid)
+        program_course_runs = program.course_runs.all()
+
+        # Get all courses and their keys associated with a program
+        program_course_run_keys = set([course_run.key for course_run in program_course_runs])
+
+        # Get all of the user course-certificates associated with the program courses
+        course_certificate_content_type = ContentType.objects.get(app_label='credentials', model='coursecertificate')
+        course_user_credentials = set(UserCredential.objects.filter(username=user.username,
+                                      credential_content_type=course_certificate_content_type,
+                                      status=UserCredential.AWARDED))
+        course_certificates = CourseCertificate.objects.filter(course_id__in=program_course_run_keys,
+                                                               user_credentials__in=course_user_credentials)
+        # Maps course run 'key' to the cert
+        course_certificate_dict = {
+            course_certificate.course_id: course_certificate for course_certificate in course_certificates}
+
+        # Get all (verified) user grades relevant to this program
+        course_grades = UserGrade.objects.select_related('course_run__course').filter(
+            username=user.username, course_run__in=program_course_runs, verified=True)
+
+        # Keep track of number of attempts and best attempt per course
+        num_attempts_dict = defaultdict(int)
+        highest_attempt_dict = {}
+
+        # Find the highest course cert grades for each course
+        for course_grade in course_grades:
+            course_run = course_grade.course_run
+            course = course_grade.course_run.course
+
+            if course_run.key in course_certificate_dict:
+                num_attempts_dict[course] += 1
+                percent_grade = float(course_grade.percent_grade)  # Use the percent instead of letters
+
+                if (course not in highest_attempt_dict or
+                        (course in highest_attempt_dict and
+                            percent_grade > highest_attempt_dict[course].percent_grade)):
+                    highest_attempt_dict[course] = course_grade
+
+        learner_data = {'full_name': user.get_full_name(),
+                        'username': user.username,
+                        'email': user.email}
+
+        program_data = {'name': program.title,
+                        'school': ','.join(program.authoring_organizations.values_list('name', flat=True))}
+
+        course_data = [{'name': course.title,
+                        'school': ','.join(course.owners.values_list('name', flat=True)),
+                        'attempts': num_attempts_dict[course],
+                        'course_id': course.key,
+                        'issue_date': course_certificate_dict[grade.course_run.key].modified.isoformat(),
+                        'percent_grade': float(grade.percent_grade),
+                        'letter_grade': grade.letter_grade,
+                        } for course, grade in highest_attempt_dict.items()]
+
+        return {'learner': learner_data,
+                'program': program_data,
+                'platform_name': platform_name,
+                'grades': course_data}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        record = self._get_record()
+        program_uuid = kwargs['uuid']
+        record = self._get_record(program_uuid)
         context.update({
             'child_templates': {
                 'footer': self.select_theme_template(['_footer.html']),
