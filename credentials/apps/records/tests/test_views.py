@@ -13,11 +13,12 @@ from waffle.testutils import override_flag
 
 from credentials.apps.catalog.tests.factories import (CourseFactory, CourseRunFactory, OrganizationFactory,
                                                       ProgramFactory)
-from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
+from credentials.apps.core.tests.factories import USER_PASSWORD, SiteConfigurationFactory, SiteFactory, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.constants import UUID_PATTERN
 from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
                                                           UserCredentialFactory)
+from credentials.apps.records.tests.factories import UserGradeFactory
 
 from ..constants import WAFFLE_FLAG_RECORDS
 
@@ -201,11 +202,32 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
     def setUp(self):
         super().setUp()
-        user = UserFactory(username=self.MOCK_USER_DATA['username'])
-        self.client.login(username=user.username, password=USER_PASSWORD)
+
+        self.user = UserFactory(username=self.MOCK_USER_DATA['username'])
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
+
+        self.site = SiteFactory()
+        self.site_configuration = SiteConfigurationFactory(site=self.site)
+
+        self.course = CourseFactory()
+        self.course_runs = [CourseRunFactory(course=self.course) for _ in range(2)]
+
+        self.user_grade_low = UserGradeFactory(username=self.MOCK_USER_DATA['username'],
+                                               course_run=self.course_runs[0], letter_grade='C', percent_grade=0.70)
+        self.user_grade_high = UserGradeFactory(username=self.MOCK_USER_DATA['username'],
+                                                course_run=self.course_runs[1], letter_grade='A', percent_grade=1.00)
+
+        self.course_certs = [CourseCertificateFactory(course_id=course_run.key) for course_run in self.course_runs]
+        credential_content_type = ContentType.objects.get(app_label='credentials', model='coursecertificate')
+        self.user_credentials = [UserCredentialFactory(username=self.MOCK_USER_DATA['username'],
+                                 credential_content_type=credential_content_type, credential=course_cert)
+                                 for course_cert in self.course_certs]
+        self.org_names = ['CCC', 'AAA', 'BBB']
+        self.orgs = [OrganizationFactory(name=name, site=self.site) for name in self.org_names]
+        self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs)
 
     def _render_program_record(self, record_data=None, status_code=200):
-        """ Helper method to render a user certificate."""
+        """ Helper method to mock rendering a user certificate."""
         if record_data is None:
             record_data = {}
 
@@ -241,6 +263,54 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         actual_child_templates = response_context_data['child_templates']
         self.assert_matching_template_origin(actual_child_templates['footer'], '_footer.html')
         self.assert_matching_template_origin(actual_child_templates['header'], '_header.html')
+
+    def test_highest_grades(self):
+        """ Verify that the view only shows the highest grades and counts attemps """
+        response = self.client.get(reverse('records:programs', kwargs={'uuid': self.program.uuid.hex}))
+        grades = json.loads(response.context_data['record'])['grades']
+        self.assertEqual(len(grades), 1)
+        grade = grades[0]
+
+        expected_grade = {'name': self.course.title,
+                          'school': '',
+                          'attempts': 2,
+                          'course_id': self.course.key,
+                          'issue_date': self.course_certs[1].modified.isoformat(),
+                          'percent_grade': 1.0,
+                          'letter_grade': 'A'}
+
+        self.assertEqual(grade, expected_grade)
+
+    def test_organization_order(self):
+        """ Test that the organizations are returned in the order they were added """
+        self.course.owners = self.orgs
+        response = self.client.get(reverse('records:programs', kwargs={'uuid': self.program.uuid.hex}))
+        program_data = json.loads(response.context_data['record'])['program']
+        grade = json.loads(response.context_data['record'])['grades'][0]
+
+        self.assertEqual(program_data['school'], ','.join(self.org_names))
+        self.assertEqual(grade['school'], ','.join(self.org_names))
+
+    def test_learner_data(self):
+        """ Test that the learner data is returned succesfully """
+        response = self.client.get(reverse('records:programs', kwargs={'uuid': self.program.uuid.hex}))
+        learner_data = json.loads(response.context_data['record'])['learner']
+
+        expected = {'full_name': self.user.get_full_name(),
+                    'username': str(self.user),
+                    'email': self.user.email}
+
+        self.assertEqual(learner_data, expected)
+
+    def test_program_data(self):
+        """ Test that the program data is returned successfully """
+        response = self.client.get(reverse('records:programs', kwargs={'uuid': self.program.uuid.hex}))
+        program_data = json.loads(response.context_data['record'])['program']
+
+        expected = {'name': self.program.title,
+                    'school': ','.join(self.org_names)}
+
+        self.assertEqual(program_data, expected)
 
     def test_xss(self):
         """ Verify that the view protects against xss in translations. """
@@ -294,7 +364,7 @@ class ProgramRecordTests(TestCase):
 
         self.assertEqual(response.status_code, 403)
 
-    def test_no_user_credenital(self):
+    def test_no_user_credential(self):
         """ Verify that the view rejects a User attempting to create a ProgramCertRecord for which they don't
         have the User Credentials """
         pc2 = ProgramCertificateFactory()
