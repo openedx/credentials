@@ -53,6 +53,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         body = {
             'uuid': str(program_uuid),
             'title': self.PROGRAM_NAME,
+            'subtitle': self.faker.word(),
             'type': self.PROGRAM_TYPE,
             'authoring_organizations': [
                 {
