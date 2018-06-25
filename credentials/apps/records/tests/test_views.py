@@ -5,6 +5,7 @@ import json
 import uuid
 
 from django.contrib.contenttypes.models import ContentType
+from django.template.defaultfilters import slugify
 from django.template.loader import select_template
 from django.test import TestCase
 from django.urls import reverse
@@ -13,7 +14,7 @@ from waffle.testutils import override_flag
 
 from credentials.apps.catalog.tests.factories import (CourseFactory, CourseRunFactory, OrganizationFactory,
                                                       ProgramFactory)
-from credentials.apps.core.tests.factories import USER_PASSWORD, SiteConfigurationFactory, SiteFactory, UserFactory
+from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.constants import UUID_PATTERN
 from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
@@ -30,14 +31,14 @@ class RecordsViewTests(SiteMixin, TestCase):
     def setUp(self):
         super().setUp()
         self.user = UserFactory(username=self.MOCK_USER_DATA['username'])
-        self.orgs = [OrganizationFactory.create(name=name) for name in ['TestOrg1', 'TestOrg2']]
-        self.course = CourseFactory.create()
+        self.orgs = [OrganizationFactory.create(name=name, site=self.site) for name in ['TestOrg1', 'TestOrg2']]
+        self.course = CourseFactory.create(site=self.site)
         self.course_runs = [CourseRunFactory.create(course=self.course) for _ in range(2)]
-        self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs)
+        self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site)
         self.course_certs = [CourseCertificateFactory.create(
-            course_id=course_run.key
+            course_id=course_run.key, site=self.site,
         ) for course_run in self.course_runs]
-        self.program_cert = ProgramCertificateFactory.create(program_uuid=self.program.uuid)
+        self.program_cert = ProgramCertificateFactory.create(program_uuid=self.program.uuid, site=self.site)
         self.course_credential_content_type = ContentType.objects.get(
             app_label='credentials',
             model='coursecertificate'
@@ -129,10 +130,11 @@ class RecordsViewTests(SiteMixin, TestCase):
         program_data = json.loads(response.context_data['programs'])
         expected_program_data = [
             {
-                'uuid': str(self.program.uuid),
+                'uuid': self.program.uuid.hex,
                 'partner': 'TestOrg1, TestOrg2',
                 'name': self.program.title,
-                'progress': 'Completed at {}'.format(self.program_cert.modified)
+                'progress': 'Completed at {}'.format(self.program_cert.modified),
+                'type': slugify(self.program.type),
             }
         ]
         self.assertEqual(program_data, expected_program_data)
@@ -146,10 +148,11 @@ class RecordsViewTests(SiteMixin, TestCase):
         program_data = json.loads(response.context_data['programs'])
         expected_program_data = [
             {
-                'uuid': str(self.program.uuid),
+                'uuid': self.program.uuid.hex,
                 'partner': 'TestOrg1, TestOrg2',
                 'name': self.program.title,
-                'progress': 'In Progress'
+                'progress': 'In Progress',
+                'type': slugify(self.program.type),
             }
         ]
         self.assertEqual(program_data, expected_program_data)
@@ -157,11 +160,12 @@ class RecordsViewTests(SiteMixin, TestCase):
     def test_multiple_programs(self):
         """ Test that multiple programs can appear, in progress and completed """
         # Create a second program, and delete the first one's certificate
-        new_course = CourseFactory.create()
+        new_course = CourseFactory.create(site=self.site)
         new_course_run = CourseRunFactory.create(course=new_course)
-        new_program = ProgramFactory.create(course_runs=[new_course_run], authoring_organizations=self.orgs)
-        new_course_cert = CourseCertificateFactory.create(course_id=new_course_run.key)
-        new_program_cert = ProgramCertificateFactory.create(program_uuid=new_program.uuid)
+        new_program = ProgramFactory.create(course_runs=[new_course_run], authoring_organizations=self.orgs,
+                                            site=self.site)
+        new_course_cert = CourseCertificateFactory.create(course_id=new_course_run.key, site=self.site)
+        new_program_cert = ProgramCertificateFactory.create(program_uuid=new_program.uuid, site=self.site)
         # Make a new user credential
         UserCredentialFactory.create(
             username=self.user.username,
@@ -181,16 +185,18 @@ class RecordsViewTests(SiteMixin, TestCase):
         program_data = json.loads(response.context_data['programs'])
         expected_program_data = [
             {
-                'uuid': str(self.program.uuid),
+                'uuid': self.program.uuid.hex,
                 'partner': 'TestOrg1, TestOrg2',
                 'name': self.program.title,
-                'progress': 'In Progress'
+                'progress': 'In Progress',
+                'type': slugify(self.program.type),
             },
             {
-                'uuid': str(new_program.uuid),
+                'uuid': new_program.uuid.hex,
                 'partner': 'TestOrg1, TestOrg2',
                 'name': new_program.title,
-                'progress': 'Completed at {}'.format(new_program_cert.modified)
+                'progress': 'Completed at {}'.format(new_program_cert.modified),
+                'type': slugify(new_program.type),
             }
         ]
         self.assertEqual(program_data, expected_program_data)
@@ -206,10 +212,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.user = UserFactory(username=self.MOCK_USER_DATA['username'])
         self.client.login(username=self.user.username, password=USER_PASSWORD)
 
-        self.site = SiteFactory()
-        self.site_configuration = SiteConfigurationFactory(site=self.site)
-
-        self.course = CourseFactory()
+        self.course = CourseFactory(site=self.site)
         self.course_runs = [CourseRunFactory(course=self.course) for _ in range(2)]
 
         self.user_grade_low = UserGradeFactory(username=self.MOCK_USER_DATA['username'],
@@ -217,14 +220,15 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.user_grade_high = UserGradeFactory(username=self.MOCK_USER_DATA['username'],
                                                 course_run=self.course_runs[1], letter_grade='A', percent_grade=1.00)
 
-        self.course_certs = [CourseCertificateFactory(course_id=course_run.key) for course_run in self.course_runs]
+        self.course_certs = [CourseCertificateFactory(course_id=course_run.key, site=self.site)
+                             for course_run in self.course_runs]
         credential_content_type = ContentType.objects.get(app_label='credentials', model='coursecertificate')
         self.user_credentials = [UserCredentialFactory(username=self.MOCK_USER_DATA['username'],
                                  credential_content_type=credential_content_type, credential=course_cert)
                                  for course_cert in self.course_certs]
         self.org_names = ['CCC', 'AAA', 'BBB']
         self.orgs = [OrganizationFactory(name=name, site=self.site) for name in self.org_names]
-        self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs)
+        self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site)
 
     def _render_program_record(self, record_data=None, status_code=200):
         """ Helper method to mock rendering a user certificate."""
@@ -288,8 +292,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         program_data = json.loads(response.context_data['record'])['program']
         grade = json.loads(response.context_data['record'])['grades'][0]
 
-        self.assertEqual(program_data['school'], ','.join(self.org_names))
-        self.assertEqual(grade['school'], ','.join(self.org_names))
+        self.assertEqual(program_data['school'], ', '.join(self.org_names))
+        self.assertEqual(grade['school'], ', '.join(self.org_names))
 
     def test_learner_data(self):
         """ Test that the learner data is returned succesfully """
@@ -308,7 +312,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         program_data = json.loads(response.context_data['record'])['program']
 
         expected = {'name': self.program.title,
-                    'school': ','.join(self.org_names)}
+                    'type': slugify(self.program.type),
+                    'school': ', '.join(self.org_names)}
 
         self.assertEqual(program_data, expected)
 

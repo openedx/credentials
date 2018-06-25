@@ -69,6 +69,7 @@ def parse_program(site, data):
         uuid=data['uuid'],
         defaults={
             'title': data['title'],
+            'type': data['type'],
         },
     )
 

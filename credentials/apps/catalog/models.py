@@ -75,6 +75,7 @@ class Program(TimeStampedModel):
     # We store runs not courses, since not all runs of a course are in a program
     course_runs = SortedManyToManyField(CourseRun, related_name='programs')
     authoring_organizations = SortedManyToManyField(Organization, blank=True, related_name='authored_programs')
+    type = models.CharField(max_length=32, blank=False, default='')
 
     class Meta:
         unique_together = (
