@@ -29,8 +29,9 @@ class ParseTests(TestCase):
     COURSE1_VALUES = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd4', 'key': 'coursekey', 'title': 'Course Title'}
 
     PROGRAM1_DATA = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd5', 'title': 'Program Title',
-                     'authoring_organizations': [ORG1_DATA], 'courses': [COURSE1_DATA]}
-    PROGRAM1_VALUES = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd5', 'title': 'Program Title'}
+                     'authoring_organizations': [ORG1_DATA], 'courses': [COURSE1_DATA], 'type': 'MicroMasters'}
+    PROGRAM1_VALUES = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd5', 'title': 'Program Title',
+                       'type': 'MicroMasters'}
 
     def setUp(self):
         super(ParseTests, self).setUp()

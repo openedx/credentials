@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
+from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView, View
 
@@ -52,10 +53,10 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
 
         # Using the course credentials, get the programs associated with them via course runs
         course_credential_ids = map(lambda course_credential: course_credential.credential_id, course_credentials)
-        course_certificates = CourseCertificate.objects.filter(id__in=course_credential_ids)
+        course_certificates = CourseCertificate.objects.filter(id__in=course_credential_ids, site=request.site)
         course_run_keys = map(lambda course_certificate: course_certificate.course_id, course_certificates)
         course_runs = CourseRun.objects.filter(key__in=course_run_keys)
-        programs = Program.objects.filter(course_runs__in=course_runs).distinct().prefetch_related(
+        programs = Program.objects.filter(course_runs__in=course_runs, site=request.site).distinct().prefetch_related(
             'authoring_organizations'
         )
 
@@ -69,7 +70,8 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
             {
                 'name': program.title,
                 'partner': ', '.join(program.authoring_organizations.values_list('name', flat=True)),
-                'uuid': str(program.uuid),
+                'uuid': program.uuid.hex,
+                'type': slugify(program.type),
                 'progress': _('In Progress') if program.uuid not in completed_programs else _(
                     'Completed at {completed_date}'
                 ).format(completed_date=completed_programs[program.uuid].modified)
@@ -107,7 +109,7 @@ class ProgramRecordView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
         user = self.request.user
         platform_name = self.request.site.siteconfiguration.platform_name
 
-        program = Program.objects.prefetch_related('course_runs').get(uuid=program_uuid)
+        program = Program.objects.prefetch_related('course_runs').get(uuid=program_uuid, site=self.request.site)
         program_course_runs = program.course_runs.all()
 
         # Get all courses and their keys associated with a program
@@ -119,7 +121,8 @@ class ProgramRecordView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
                                       credential_content_type=course_certificate_content_type,
                                       status=UserCredential.AWARDED))
         course_certificates = CourseCertificate.objects.filter(course_id__in=program_course_run_keys,
-                                                               user_credentials__in=course_user_credentials)
+                                                               user_credentials__in=course_user_credentials,
+                                                               site=self.request.site)
         # Maps course run 'key' to the cert
         course_certificate_dict = {
             course_certificate.course_id: course_certificate for course_certificate in course_certificates}
@@ -151,10 +154,11 @@ class ProgramRecordView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
                         'email': user.email}
 
         program_data = {'name': program.title,
-                        'school': ','.join(program.authoring_organizations.values_list('name', flat=True))}
+                        'type': slugify(program.type),
+                        'school': ', '.join(program.authoring_organizations.values_list('name', flat=True))}
 
         course_data = [{'name': course.title,
-                        'school': ','.join(course.owners.values_list('name', flat=True)),
+                        'school': ', '.join(course.owners.values_list('name', flat=True)),
                         'attempts': num_attempts_dict[course],
                         'course_id': course.key,
                         'issue_date': course_certificate_dict[grade.course_run.key].modified.isoformat(),

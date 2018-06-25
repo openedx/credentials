@@ -62,6 +62,7 @@ class ProgramFactory(factory.DjangoModelFactory):
     site = factory.SubFactory(SiteFactory)
     uuid = factory.LazyFunction(uuid4)
     title = FuzzyText(prefix="Test Program ")
+    type = FuzzyText()
 
     @factory.post_generation
     def course_runs(self, create, extracted):
