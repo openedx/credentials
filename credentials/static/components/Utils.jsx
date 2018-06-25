@@ -25,6 +25,11 @@ class StringUtils {
       <span dangerouslySetInnerHTML={{ __html: htmlString }} />
     );
   }
+  // Parses a JSON string that contains encoded commas and escaped quotes around keys/values
+  // edx-user-info cookie is an example of where this is needed
+  static parseDirtyJSON(jsonString) {
+    return JSON.parse(jsonString.replace(/\\"/g, '"').replace(/\\054/g, ','));
+  }
 }
 
 export default StringUtils;

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@edx/paragon';
+// import Cookies from 'js-cookie';
 
 import FoldingTable from './FoldingTable';
 import SendLearnerRecordModal from './SendLearnerRecordModal';
@@ -16,6 +17,12 @@ class ProgramRecord extends React.Component {
     this.closeSendRecordModal = this.closeSendRecordModal.bind(this);
     this.closeShareModel = this.closeShareModel.bind(this);
     this.setActiveButton = this.setActiveButton.bind(this);
+
+    // TODO: uncomment when implementing LEARNER-5550, as well as the Cookies import above
+    // const userCookie = Cookies.get('edx-user-info');
+    // this.isPublic = !userCookie ||
+    //  (StringUtils.parseDirtyJSON(userCookie).username !== props.learner.username);
+
     this.state = {
       shareModelOpen: false,
       sendRecordModalOpen: false,
@@ -174,7 +181,11 @@ class ProgramRecord extends React.Component {
 }
 
 ProgramRecord.propTypes = {
-  learner: PropTypes.shape({}).isRequired,
+  learner: PropTypes.shape({
+    email: PropTypes.string,
+    full_name: PropTypes.string,
+    username: PropTypes.string,
+  }).isRequired,
   program: PropTypes.shape({
     name: PropTypes.string,
     school: PropTypes.string,
