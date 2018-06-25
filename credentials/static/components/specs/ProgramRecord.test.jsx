@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import ProgramRecord from '../ProgramRecord';
+import StringUtils from '../Utils';
 
 let wrapper;
 
@@ -40,6 +41,9 @@ const defaultProps = {
   platform_name: 'testX',
   loadModalsAsChildren: false,
 };
+
+// eslint-disable-next-line no-useless-escape
+const cookieJSON = '{\"username\": \"edx\"\\054 \"version\": 1\\054 \"header_urls\": {\"learner_profile\": \"http://localhost:18000/u/edx\"\\054 \"resume_block\": \"sample\"}}';
 
 describe('<ProgramRecord />', () => {
   beforeEach(() => {
@@ -99,5 +103,13 @@ describe('<ProgramRecord />', () => {
     wrapper.update();
     expect(wrapper.find('.modal-dialog').length).toBe(0);
     expect(wrapper.find('#program-record-actions button.btn-secondary').html()).toEqual(document.activeElement.outerHTML);
+  });
+
+  it('correctly parses cookie JSON', () => {
+    const parsed = StringUtils.parseDirtyJSON(cookieJSON);
+
+    expect(parsed.username).toEqual('edx');
+    expect(parsed.version).toBe(1);
+    expect(parsed.header_urls.resume_block).toBe('sample');
   });
 });
