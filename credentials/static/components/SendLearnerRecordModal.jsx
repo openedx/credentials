@@ -2,8 +2,9 @@ import 'babel-polyfill'; // Needed to support Promises on legacy browsers
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, CheckBoxGroup, CheckBox, Modal } from '@edx/paragon';
+import trackEvent from './Analytics';
 
-class ShareProgramRecordModal extends React.Component {
+class SendLearnerRecordModal extends React.Component {
   constructor(props) {
     super(props);
     this.sendRecord = this.sendRecord.bind(this);
@@ -14,15 +15,30 @@ class ShareProgramRecordModal extends React.Component {
     };
   }
 
-  sendRecord() {
-    this.setState({
-      recordSent: true,
-    });
+  // Get the organizations we are sharing for the analytics event
+  // TODO: remove hardcoded values once the state is no longer hardcoded
+  getCheckedOrganizations() {
+    const organizations = [];
+
+    if (this.state.RIT) { organizations.push('RIT'); }
+    if (this.state.MIT) { organizations.push('MIT'); }
+    return organizations;
   }
 
   updateState(checked, name) {
     this.setState({
       [name]: !this.state[name],
+    });
+  }
+
+  sendRecord() {
+    this.setState({
+      recordSent: true,
+    });
+    trackEvent('edx.bi.credentials.program_record.send_finished', {
+      category: 'records',
+      'program-uuid': this.props.uuid,
+      organizations: this.getCheckedOrganizations(),
     });
   }
 
@@ -69,17 +85,18 @@ class ShareProgramRecordModal extends React.Component {
   }
 }
 
-ShareProgramRecordModal.propTypes = {
+SendLearnerRecordModal.propTypes = {
   onClose: PropTypes.func,
   parentSelector: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
   ]),
+  uuid: PropTypes.string.isRequired,
 };
 
-ShareProgramRecordModal.defaultProps = {
+SendLearnerRecordModal.defaultProps = {
   onClose: () => {},
   parentSelector: false,
 };
 
-export default ShareProgramRecordModal;
+export default SendLearnerRecordModal;

@@ -8,6 +8,7 @@ import ProgramIcon from './ProgramIcon';
 import SendLearnerRecordModal from './SendLearnerRecordModal';
 import ShareProgramRecordModal from './ShareProgramRecordModal';
 import StringUtils from './Utils';
+import trackEvent from './Analytics';
 
 class ProgramRecord extends React.Component {
   constructor(props) {
@@ -54,6 +55,10 @@ class ProgramRecord extends React.Component {
       sendRecordModalOpen: true,
     });
     this.setActiveButton(event.target);
+    trackEvent('edx.bi.credentials.program_record.send_started', {
+      category: 'records',
+      'program-uuid': this.props.uuid,
+    });
   }
 
   loadShareModel(event) {
@@ -61,6 +66,10 @@ class ProgramRecord extends React.Component {
       shareModelOpen: true,
     });
     this.setActiveButton(event.target);
+    trackEvent('edx.bi.credentials.program_record.share_started', {
+      category: 'records',
+      'program-uuid': this.props.uuid,
+    });
   }
 
   closeSendRecordModal() {
@@ -224,6 +233,7 @@ class ProgramRecord extends React.Component {
           <SendLearnerRecordModal
             {...defaultModalProps}
             onClose={this.closeSendRecordModal}
+            uuid={uuid}
           />
         }
         {shareModelOpen &&

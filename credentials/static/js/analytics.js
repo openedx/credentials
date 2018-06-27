@@ -3,9 +3,11 @@
  *
  * Emits a tracking event via window.analytics.track().
  */
-function handleClick() {
-  const attributes = this.attributes;
-  const eventName = this.getAttribute('data-track-event');
+function handleClick(event) {
+  const target = event.target;
+
+  const attributes = target.attributes;
+  const eventName = target.getAttribute('data-track-event');
   const eventProperties = {};
   const eventPropertyPrefix = 'data-track-event-property-';
 
@@ -30,8 +32,6 @@ function setupClickHandlers() {
 
   for (let i = 0, len = clickElements.length; i < len; i += 1) {
     const clickElement = clickElements[i];
-
-
     clickElement.addEventListener('click', handleClick);
   }
 }
@@ -41,8 +41,8 @@ function setupClickHandlers() {
 /*eslint-enable*/
 
   analytics.load(window.edx.segment.key);
-  analytics.page();
 
+  analytics.page();
   setupClickHandlers();
 }
 }();

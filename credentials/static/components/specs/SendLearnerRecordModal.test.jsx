@@ -6,6 +6,7 @@ let wrapper;
 
 const defaultProps = {
   parentSelector: 'body',
+  uuid: 'test-uuid',
 };
 
 describe('<SendLearnerRecordModal />', () => {
@@ -38,5 +39,11 @@ describe('<SendLearnerRecordModal />', () => {
     wrapper.find('.modal-footer button.btn-primary').simulate('click');
     wrapper.update();
     expect(wrapper.state('recordSent')).toBe(true);
+  });
+
+  it('gets the correct checked organizations', () => {
+    wrapper.find('.modal-body input').at(0).simulate('change', { target: { checked: true } });
+    expect(wrapper.state('RIT')).toBe(true);
+    expect(wrapper.instance().getCheckedOrganizations()).toEqual(['RIT']);
   });
 });
