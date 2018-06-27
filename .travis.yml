@@ -32,6 +32,15 @@ matrix:
         - make exec-validate-translations
         - make exec-quality
 
+    - env: TESTNAME=acceptance-tests
+      install:
+        - make exec-requirements
+      script:
+        - make exec-static
+        - make exec-accept
+      addons:
+          firefox: latest
+
     - env: TESTNAME=unit-tests
 
       # Doing so is a waste of time since they won't be used.

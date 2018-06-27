@@ -1,53 +1,28 @@
-import logging
+from django.conf import settings
 
-from edx_rest_api_client.client import EdxRestApiClient
-
-from acceptance_tests import config
-from acceptance_tests.pages import LMSLoginPage
-
-log = logging.getLogger(__name__)
+try:
+    from acceptance_tests import auth
+except ImportError:
+    # Avoid pylint errors when auth doesn't exist
+    auth = None
 
 
 class LoginMixin(object):
-    """ Mixin used for log in through LMS login page."""
+    """ Mixin used for log in through a cookie."""
 
-    def setUp(self):
-        super(LoginMixin, self).setUp()
-        self.lms_login_page = LMSLoginPage(self.browser)
+    def login(self):
+        """ Craft cookie to fake a login. """
+        assert auth, "auth.py could not be imported from acceptance_tests"
 
-    def login_with_lms(self):
-        """ Visit LMS and login."""
-        email = config.LMS_EMAIL
-        password = config.LMS_PASSWORD
+        # First visit a guaranteed 404, just to get selenium in the right domain (it doesn't like us setting cookies
+        # for places we aren't in, even if we specify a domain).
+        self.driver.get('http://localhost:19150/not-a-place')
 
-        self.lms_login_page.browser.get(self.lms_login_page.url())  # pylint: disable=not-callable
-        self.lms_login_page.login(email, password)
-
-
-class CredentialsApiMixin(object):
-    """ Mixin used for login on credentials."""
-    def setUp(self):
-        super(CredentialsApiMixin, self).setUp()
-        self.data = None
-
-    @property
-    def credential_api_client(self):
-        try:
-            api_client = EdxRestApiClient(config.CREDENTIALS_API_URL, oauth_access_token=config.ACCESS_TOKEN)
-        except Exception:  # pylint: disable=broad-except
-            log.exception("Failed to initialize the API client with url '%s'.", config.CREDENTIALS_API_URL)
-            return
-        return api_client
-
-    def create_credential(self):
-        """Create user credential for a program."""
-        self.data = self.credential_api_client.credentials.post({
-            'username': config.LMS_USERNAME,
-            'credential': {'program_uuid': config.PROGRAM_UUID},
-            'attributes': []
+        self.driver.add_cookie({
+            'name': settings.SESSION_COOKIE_NAME,
+            'value': auth.SESSION_KEY,
+            'secure': False,
+            'path': '/',
         })
 
-    def change_credential_status(self, status):
-        """Update the credential status to awarded or revoked."""
-        self.data['status'] = status
-        self.credential_api_client.credentials(self.data['id']).patch(self.data)
+        self.driver.refresh()
