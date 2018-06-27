@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import { Button, Icon, InputText, Modal, StatusAlert } from '@edx/paragon';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import trackEvent from './Analytics';
 
 class ShareProgramRecordModal extends React.Component {
   constructor(props) {
@@ -114,6 +115,10 @@ class ShareProgramRecordModal extends React.Component {
                   <Button
                     label={gettext('Copy Link')}
                     className={['btn-primary']}
+                    onClick={trackEvent('edx.bi.credential.program_record.share_url_copied', {
+                      category: 'records',
+                      'program-uuid': this.props.uuid,
+                    })}
                   />
                 </CopyToClipboard>
               </div>
