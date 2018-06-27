@@ -156,6 +156,7 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
             },
             'user_data': {
                 'name': 'John Doe',
+                'username': self.request.user.username,
             },
             'child_templates': {
                 'credential': self.select_theme_template(

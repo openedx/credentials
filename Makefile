@@ -88,7 +88,10 @@ exec-quality: ## Run linters on a container
 exec-tests: ## Run tests on a container
 	docker exec -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && xvfb-run make tests'
 
-exec-validate: exec-validate-translations exec-clean exec-static exec-quality exec-tests ## Run linters and tests after checking translations and gathering static assets
+exec-accept: ## Run acceptance tests on a container
+	docker exec -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make accept'
+
+exec-validate: exec-validate-translations exec-clean exec-static exec-quality exec-tests exec-accept ## Run linters and tests after checking translations and gathering static assets
 
 exec-coverage: ## Generate XML coverage report on a container
 	docker exec -t credentials bash -c 'coverage xml'
@@ -109,7 +112,7 @@ down: ## Bring down all services and remove associated resources
 	docker-compose down
 
 accept: ## Run acceptance tests
-	pytest acceptance_tests
+	./acceptance_tests/runtests.sh
 
 extract_translations: ## Extract strings to be translated, outputting .po files
 	cd credentials && PYTHONPATH=.. i18n_tool extract -v

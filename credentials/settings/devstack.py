@@ -45,6 +45,7 @@ MEDIA_URL = os.environ.get('MEDIA_URL', '/media/')
 STATICFILES_STORAGE = os.environ.get('STATICFILES_STORAGE', 'django.contrib.staticfiles.storage.StaticFilesStorage')
 STATIC_URL = os.environ.get('STATIC_URL', '/static/')
 
+OAUTH2_PROVIDER_URL = 'http://edx.devstack.lms:18000/oauth2'
 SOCIAL_AUTH_EDX_OIDC_KEY = os.environ.get('SOCIAL_AUTH_EDX_OIDC_KEY', 'credentials-key')
 SOCIAL_AUTH_EDX_OIDC_SECRET = os.environ.get('SOCIAL_AUTH_EDX_OIDC_SECRET', 'credentials-secret')
 SOCIAL_AUTH_EDX_OIDC_ISSUER = os.environ.get('SOCIAL_AUTH_EDX_OIDC_ISSUER', 'http://edx.devstack.lms:18000/oauth2')

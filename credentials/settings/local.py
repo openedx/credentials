@@ -1,9 +1,12 @@
-from credentials.settings._debug_toolbar import *
 from credentials.settings.base import *
-from credentials.settings.utils import get_logger_config
+from credentials.settings.utils import get_logger_config, str2bool
 
-DEBUG = True
+DEBUG = str2bool(os.environ.get('DEBUG', True))
 INTERNAL_IPS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
+
+if DEBUG:
+    from credentials.settings._debug_toolbar import *  # Enables toolbar
 
 # CACHE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#caches
@@ -54,7 +57,7 @@ PROGRAMS_CACHE_TTL = 60
 USER_CACHE_TTL = 60
 
 # LOGGING
-LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel='DEBUG')
+LOGGING = get_logger_config(debug=True, dev_env=True, local_loglevel='DEBUG')
 
 #####################################################################
 # Lastly, see if the developer has any local overrides.
