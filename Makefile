@@ -68,25 +68,25 @@ up-test: ## Bring up services for testing
 	docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
 
 exec-validate-translations: ## Check translations on a container
-	docker exec -t credentials bash -c 'make validate_translations'
+	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make validate_translations'
 
 exec-check_translations_up_to_date: ## test translations on a container
-	docker exec -t credentials bash -c 'make check_translations_up_to_date'
+	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make check_translations_up_to_date'
 
 exec-clean: ## Remove all generated files from a container
-	docker exec -t credentials bash -c 'make clean'
+	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make clean'
 
 exec-requirements:
-	docker exec -t credentials bash -c 'make requirements production-requirements'
+	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make requirements && make production-requirements'
 
 exec-static: ## Gather static assets on a container
-	docker exec -t credentials bash -c 'make static'
+	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make static'
 
 exec-quality: ## Run linters on a container
-	docker exec -t credentials bash -c 'make quality'
+	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make quality'
 
 exec-tests: ## Run tests on a container
-	docker exec -it credentials bash -c 'xvfb-run make tests'
+	docker exec -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && xvfb-run make tests'
 
 exec-validate: exec-validate-translations exec-clean exec-static exec-quality exec-tests ## Run linters and tests after checking translations and gathering static assets
 

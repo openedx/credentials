@@ -18,3 +18,4 @@ services:
       - ENABLE_DJANGO_TOOLBAR=1
     volumes:
       - .:/edx/app/credentials/credentials
+      - /edx/app/credentials/credentials/node_modules
