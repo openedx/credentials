@@ -16,7 +16,7 @@ clean: ## Remove all generated files
 	git clean -fd credentials/conf/locale
 
 production-requirements: ## Install requirements for production
-	npm install --production
+	npm install --production --no-save
 	pip install -r requirements.txt
 
 requirements: ## Install requirements for local development
