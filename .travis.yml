@@ -17,25 +17,8 @@ cache:
   - pip
 
 before_install:
-  # Confirm Docker version and login credentials
-  - docker --version
-  - echo -n "$DOCKER_PASSWORD" | docker login -u="$DOCKER_USERNAME" --password-stdin
+  - docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
 
-  # Upgrade Docker
-  - sudo apt-get -y update
-  - sudo apt-get -y install -o Dpkg::Options::="--force-confnew" docker-ce
-  - docker --version
-
-  # Build the image.
-  - docker-compose build
-
-  # Ensure we have a place to store coverage output
-  - mkdir -p coverage
-
-  # Bring everything online
-  - make up-test
-
-# Do NOT install Python requirements.
 # Doing so is a waste of time since they won't be used.
 install: true
 
@@ -51,7 +34,3 @@ after_success:
   - pip install --upgrade codecov
   - make exec-coverage
   - codecov
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
-    echo -n "$DOCKER_PASSWORD" | docker login -u="$DOCKER_USERNAME" --password-stdin;
-    docker push edxops/credentials:devstack-slim;
-    fi
