@@ -43,8 +43,6 @@ class ShareProgramRecordModal extends React.Component {
   }
 
   setProgramRecordUrl(response) {
-    // TODO: remove console.log once API integration verified
-    console.log(`setProgramRecordUrl: ${response}`); // eslint-disable-line no-console
     this.setState({
       programRecordUrl: response.uuid,
       urlReturned: true,
