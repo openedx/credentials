@@ -21,6 +21,7 @@ from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
                                                           UserCredentialFactory)
 from credentials.apps.records.tests.factories import UserGradeFactory
+from credentials.apps.records.tests.utils import dump_random_state
 
 from ..constants import WAFFLE_FLAG_RECORDS
 
@@ -31,11 +32,16 @@ class RecordsViewTests(SiteMixin, TestCase):
 
     def setUp(self):
         super().setUp()
+        dump_random_state()
+
         self.user = UserFactory(username=self.MOCK_USER_DATA['username'])
         self.orgs = [OrganizationFactory.create(name=name, site=self.site) for name in ['TestOrg1', 'TestOrg2']]
         self.course = CourseFactory.create(site=self.site)
-        self.course_runs = [CourseRunFactory.create(course=self.course) for _ in range(2)]
-        self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site)
+        self.course_runs = CourseRunFactory.create_batch(2, course=self.course)
+        self.program = ProgramFactory(title="TestProgram1",
+                                      course_runs=self.course_runs,
+                                      authoring_organizations=self.orgs,
+                                      site=self.site)
         self.course_certs = [CourseCertificateFactory.create(
             course_id=course_run.key, site=self.site,
         ) for course_run in self.course_runs]
@@ -163,10 +169,14 @@ class RecordsViewTests(SiteMixin, TestCase):
         # Create a second program, and delete the first one's certificate
         new_course = CourseFactory.create(site=self.site)
         new_course_run = CourseRunFactory.create(course=new_course)
-        new_program = ProgramFactory.create(course_runs=[new_course_run], authoring_organizations=self.orgs,
+
+        new_program = ProgramFactory.create(title='ZTestProgram',
+                                            course_runs=[new_course_run],
+                                            authoring_organizations=self.orgs,
                                             site=self.site)
         new_course_cert = CourseCertificateFactory.create(course_id=new_course_run.key, site=self.site)
         new_program_cert = ProgramCertificateFactory.create(program_uuid=new_program.uuid, site=self.site)
+
         # Make a new user credential
         UserCredentialFactory.create(
             username=self.user.username,
@@ -184,7 +194,7 @@ class RecordsViewTests(SiteMixin, TestCase):
         response = self.client.get(reverse('records:index'))
         self.assertEqual(response.status_code, 200)
         program_data = json.loads(response.context_data['programs'])
-        expected_program_data = sorted([
+        expected_program_data = [
             {
                 'name': self.program.title,
                 'partner': 'TestOrg1, TestOrg2',
@@ -199,7 +209,7 @@ class RecordsViewTests(SiteMixin, TestCase):
                 'type': slugify(new_program.type),
                 'progress': 'Completed',
             }
-        ], key=lambda x: x['name'])
+        ]
         self.assertEqual(program_data, expected_program_data)
 
 
@@ -209,12 +219,13 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
     def setUp(self):
         super().setUp()
+        dump_random_state()
 
         self.user = UserFactory(username=self.MOCK_USER_DATA['username'])
         self.client.login(username=self.user.username, password=USER_PASSWORD)
 
         self.course = CourseFactory(site=self.site)
-        self.course_runs = [CourseRunFactory(course=self.course) for _ in range(3)]
+        self.course_runs = CourseRunFactory.create_batch(3, course=self.course)
 
         self.user_grade_low = UserGradeFactory(username=self.MOCK_USER_DATA['username'],
                                                course_run=self.course_runs[0], letter_grade='A', percent_grade=0.70)
@@ -323,7 +334,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         self.assertEqual(expected_course_run_keys, actual_course_run_keys)
 
-    def course_run_no_credential(self):
+    def test_course_run_no_credential(self):
         """ Adds a course run with no credential and tests that it doesn't appear in the results """
         new_course_run = CourseRunFactory()
         self.program.course_runs.add(new_course_run)  # pylint: disable=no-member
@@ -385,12 +396,12 @@ class ProgramRecordTests(TestCase):
 
     def setUp(self):
         super().setUp()
+        dump_random_state()
+
         user = UserFactory(username=self.USERNAME)
         self.client.login(username=user.username, password=USER_PASSWORD)
         self.user_credential = UserCredentialFactory(username=self.USERNAME)
-        self.pc = ProgramCertificateFactory()
-        self.user_credential.credential = self.pc
-        self.user_credential.save()
+        self.pc = self.user_credential.credential  # Default is Program Cert
 
     def test_user_creation(self):
         """Verify successful creation of a ProgramCertRecord and return of a uuid"""
@@ -425,7 +436,6 @@ class ProgramRecordTests(TestCase):
     def test_pcr_already_exists(self):
         """ Verify that the view returns the existing ProgramCertRecord when one already exists for the given username
         and program certificate uuid"""
-
         rev = reverse('records:cert_creation')
         data = {'username': self.USERNAME, 'program_cert_uuid': self.pc.program_uuid}
         response = self.client.post(rev, data)
