@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@edx/paragon';
-// import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 import FoldingTable from './FoldingTable';
 import ProgramIcon from './ProgramIcon';
@@ -18,11 +18,7 @@ class ProgramRecord extends React.Component {
     this.closeSendRecordModal = this.closeSendRecordModal.bind(this);
     this.closeShareModel = this.closeShareModel.bind(this);
     this.setActiveButton = this.setActiveButton.bind(this);
-
-    // TODO: uncomment when implementing LEARNER-5550, as well as the Cookies import above
-    // const userCookie = Cookies.get('edx-user-info');
-    // this.isPublic = !userCookie ||
-    //  (StringUtils.parseDirtyJSON(userCookie).username !== props.learner.username);
+    this.downloadRecord = this.downloadRecord.bind(this);
 
     this.formatDate = this.formatDate.bind(this);
     this.formatGradeData = this.formatGradeData.bind(this);
@@ -30,7 +26,23 @@ class ProgramRecord extends React.Component {
     this.state = {
       shareModelOpen: false,
       sendRecordModalOpen: false,
+      isPublic: true,
+      recordDownloaded: false,
     };
+  }
+
+  componentDidMount() {
+    this.setUser();
+  }
+
+  setUser() {
+    const userCookie = Cookies.get('prod-edx-user-info');
+    const { learner } = this.props;
+
+    this.setState({
+      isPublic: !userCookie ||
+        (StringUtils.parseDirtyJSON(userCookie).username !== learner.username),
+    });
   }
 
   setActiveButton(button) {
@@ -63,6 +75,11 @@ class ProgramRecord extends React.Component {
       shareModelOpen: false,
     });
     this.activeButton.focus();
+  }
+
+  downloadRecord() {
+    // TODO: Add functionality as part of LEARNER-5513
+    this.setState({ recordDownloaded: true });
   }
 
   formatDate(isoDate) {
@@ -108,7 +125,7 @@ class ProgramRecord extends React.Component {
       uuid,
       loadModalsAsChildren,
     } = this.props;
-    const { sendRecordModalOpen, shareModelOpen } = this.state;
+    const { sendRecordModalOpen, shareModelOpen, isPublic } = this.state;
     const recordWrapperClass = 'program-record-wrapper';
     const defaultModalProps = {
       ...(loadModalsAsChildren && { parentSelector: `.${recordWrapperClass}` }),
@@ -116,22 +133,33 @@ class ProgramRecord extends React.Component {
 
     return (
       <main className={recordWrapperClass}>
-        <section className="program-record-actions program-record-row">
-          <a href="/records/" className="top-bar-link flex-4">
-            <span className="fa fa-caret-left" aria-hidden="true" /> {gettext('Back to My Records')}
-          </a>
-          <Button
-            label={gettext('Send Learner Record')}
-            className={['btn-primary']}
-            onClick={this.loadSendRecordModal}
-          />
-          <Button
-            label={gettext('Share')}
-            className={['btn-secondary']}
-            onClick={this.loadShareModel}
-            inputRef={this.setShareButton}
-          />
-        </section>
+        {!isPublic &&
+          <section className="program-record-actions program-record-row">
+            <a href="/records/" className="top-bar-link flex-4">
+              <span className="fa fa-caret-left" aria-hidden="true" /> {gettext('Back to My Records')}
+            </a>
+            <Button
+              label={gettext('Send Learner Record')}
+              className={['btn-primary']}
+              onClick={this.loadSendRecordModal}
+            />
+            <Button
+              label={gettext('Share')}
+              className={['btn-secondary']}
+              onClick={this.loadShareModel}
+              inputRef={this.setShareButton}
+            />
+          </section>
+        }
+        {isPublic &&
+          <section className="program-record-actions program-record-row justify-content-end">
+            <Button
+              label={gettext('Download Record')}
+              className={['btn-primary']}
+              onClick={this.downloadRecord}
+            />
+          </section>
+        }
 
         <section className="program-record">
           <header className="d-flex justify-content-between program-record-header">

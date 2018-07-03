@@ -59,6 +59,17 @@ describe('<ShareProgramRecordModal />', () => {
         expect(wrapper.find('.modal-dialog').length).toBe(0);
       });
     });
+
+    it('updates state if the url is copied to the clipboard', () => {
+      expect(wrapper.state('urlCopied')).toBe(false);
+
+      return promise.then(() => {
+        wrapper.update();
+        expect(wrapper.state('urlCopied')).toBe(false);
+        wrapper.instance().setUrlAsCopied('text', 'result');
+        expect(wrapper.state('urlCopied')).toBe(true);
+      });
+    });
   });
 
   describe('Sad Path', () => {

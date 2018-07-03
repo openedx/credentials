@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import Cookies from 'js-cookie';
 import ProgramRecord from '../ProgramRecord';
 import StringUtils from '../Utils';
 
@@ -56,85 +57,114 @@ const defaultProps = {
 const cookieJSON = '{\"username\": \"edx\"\\054 \"version\": 1\\054 \"header_urls\": {\"learner_profile\": \"http://localhost:18000/u/edx\"\\054 \"resume_block\": \"sample\"}}';
 
 describe('<ProgramRecord />', () => {
-  beforeEach(() => {
-    wrapper = mount(<ProgramRecord {...defaultProps} />);
+  describe('User viewing own record', () => {
+    beforeEach(() => {
+      wrapper = mount(<ProgramRecord {...defaultProps} />);
+      wrapper.setState({ isPublic: false });
+    });
+
+    it('renders correct sections', () => {
+      expect(wrapper.find('.program-record').length).toEqual(1);
+      expect(wrapper.find('.program-record-header').length).toEqual(1);
+      expect(wrapper.find('.learner-info').length).toEqual(1);
+      expect(wrapper.find('.program-record-grades').length).toEqual(1);
+      expect(wrapper.find('.program-record-actions button').length).toEqual(2);
+      expect(wrapper.find('.program-record-actions button.btn-primary').text()).toBe('Send Learner Record');
+      expect(wrapper.find('.program-record-actions button.btn-secondary').text()).toBe('Share');
+    });
+
+    it('renders correct records', () => {
+      const programRows = wrapper.find('.program-record-grades tbody tr');
+      const { grades } = defaultProps;
+
+      const firstRowData = programRows.at(0).find('td');
+      expect(firstRowData.at(0).text()).toEqual(grades[0].name);
+      expect(firstRowData.at(0).key()).toEqual('name');
+      expect(firstRowData.at(1).text()).toEqual(grades[0].school);
+      expect(firstRowData.at(2).text()).toEqual(grades[0].course_id);
+      expect(firstRowData.at(3).text()).toEqual('82%');
+      expect(firstRowData.at(4).text()).toEqual('B');
+      expect(firstRowData.at(5).text()).toEqual('1');
+      expect(firstRowData.at(6).text()).toEqual('6/29/18');
+      expect(firstRowData.at(7).text()).toEqual('Earned');
+
+      const thirdRowData = programRows.at(2).find('td');
+      expect(thirdRowData.at(0).text()).toEqual(grades[2].name);
+      expect(thirdRowData.at(0).key()).toEqual('name');
+      expect(thirdRowData.at(1).text()).toEqual(grades[2].school);
+      expect(thirdRowData.at(2).text()).toEqual('');
+      expect(thirdRowData.at(3).text()).toEqual('');
+      expect(thirdRowData.at(4).text()).toEqual('');
+      expect(thirdRowData.at(5).text()).toEqual('');
+      expect(thirdRowData.at(6).text()).toEqual('');
+      expect(thirdRowData.at(7).text()).toEqual('Not Earned');
+    });
+
+    it('loads the send learner record modal', () => {
+      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      wrapper.find('.program-record-actions button.btn-primary').simulate('click');
+      wrapper.update();
+      expect(wrapper.find('.modal-dialog').length).toBe(1);
+    });
+
+    it('closes the send learner record modal', () => {
+      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      wrapper.find('.program-record-actions button.btn-primary').simulate('click');
+      wrapper.update();
+      expect(wrapper.find('.modal-dialog').length).toBe(1);
+      wrapper.find('.modal-dialog .modal-header button').simulate('click');
+      wrapper.update();
+      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      expect(wrapper.find('.program-record-actions button.btn-primary').html()).toEqual(document.activeElement.outerHTML);
+    });
+
+    it('loads the share program url modal', () => {
+      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      wrapper.find('.program-record-actions button.btn-secondary').simulate('click');
+      wrapper.update();
+      expect(wrapper.find('.modal-dialog').length).toBe(1);
+    });
+
+    it('closes the share program url modal', () => {
+      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      wrapper.find('.program-record-actions button.btn-secondary').simulate('click');
+      wrapper.update();
+      expect(wrapper.find('.modal-dialog').length).toBe(1);
+      wrapper.find('.modal-dialog .modal-header button').simulate('click');
+      wrapper.update();
+      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      expect(wrapper.find('.program-record-actions button.btn-secondary').html()).toEqual(document.activeElement.outerHTML);
+    });
+
+    it('correctly parses cookie JSON', () => {
+      const parsed = StringUtils.parseDirtyJSON(cookieJSON);
+
+      expect(parsed.username).toEqual('edx');
+      expect(parsed.version).toBe(1);
+      expect(parsed.header_urls.resume_block).toBe('sample');
+    });
   });
 
-  it('renders correct sections', () => {
-    expect(wrapper.find('.program-record').length).toEqual(1);
-    expect(wrapper.find('.program-record-header').length).toEqual(1);
-    expect(wrapper.find('.learner-info').length).toEqual(1);
-    expect(wrapper.find('.program-record-grades').length).toEqual(1);
-  });
+  describe('Public view of record', () => {
+    beforeEach(() => {
+      Cookies.set('prod-edx-user-info', cookieJSON, { path: '' });
+      wrapper = mount(<ProgramRecord {...defaultProps} />);
+    });
 
-  it('renders correct records', () => {
-    const programRows = wrapper.find('.program-record-grades tbody tr');
-    const { grades } = defaultProps;
+    it('renders correct sections', () => {
+      expect(wrapper.find('.program-record').length).toEqual(1);
+      expect(wrapper.find('.program-record-header').length).toEqual(1);
+      expect(wrapper.find('.learner-info').length).toEqual(1);
+      expect(wrapper.find('.program-record-grades').length).toEqual(1);
+      expect(wrapper.find('.program-record-actions button').length).toEqual(1);
+      expect(wrapper.find('.program-record-actions button.btn-primary').text()).toBe('Download Record');
+    });
 
-    const firstRowData = programRows.at(0).find('td');
-    expect(firstRowData.at(0).text()).toEqual(grades[0].name);
-    expect(firstRowData.at(0).key()).toEqual('name');
-    expect(firstRowData.at(1).text()).toEqual(grades[0].school);
-    expect(firstRowData.at(2).text()).toEqual(grades[0].course_id);
-    expect(firstRowData.at(3).text()).toEqual('82%');
-    expect(firstRowData.at(4).text()).toEqual('B');
-    expect(firstRowData.at(5).text()).toEqual('1');
-    expect(firstRowData.at(6).text()).toEqual('6/29/18');
-    expect(firstRowData.at(7).text()).toEqual('Earned');
-
-    const thirdRowData = programRows.at(2).find('td');
-    expect(thirdRowData.at(0).text()).toEqual(grades[2].name);
-    expect(thirdRowData.at(0).key()).toEqual('name');
-    expect(thirdRowData.at(1).text()).toEqual(grades[2].school);
-    expect(thirdRowData.at(2).text()).toEqual('');
-    expect(thirdRowData.at(3).text()).toEqual('');
-    expect(thirdRowData.at(4).text()).toEqual('');
-    expect(thirdRowData.at(5).text()).toEqual('');
-    expect(thirdRowData.at(6).text()).toEqual('');
-    expect(thirdRowData.at(7).text()).toEqual('Not Earned');
-  });
-
-  it('loads the send learner record modal', () => {
-    expect(wrapper.find('.modal-dialog').length).toBe(0);
-    wrapper.find('.program-record-actions button.btn-primary').simulate('click');
-    wrapper.update();
-    expect(wrapper.find('.modal-dialog').length).toBe(1);
-  });
-
-  it('closes the send learner record modal', () => {
-    expect(wrapper.find('.modal-dialog').length).toBe(0);
-    wrapper.find('.program-record-actions button.btn-primary').simulate('click');
-    wrapper.update();
-    expect(wrapper.find('.modal-dialog').length).toBe(1);
-    wrapper.find('.modal-dialog .modal-header button').simulate('click');
-    wrapper.update();
-    expect(wrapper.find('.modal-dialog').length).toBe(0);
-    expect(wrapper.find('.program-record-actions button.btn-primary').html()).toEqual(document.activeElement.outerHTML);
-  });
-
-  it('loads the share program url modal', () => {
-    expect(wrapper.find('.modal-dialog').length).toBe(0);
-    wrapper.find('.program-record-actions button.btn-secondary').simulate('click');
-    wrapper.update();
-    expect(wrapper.find('.modal-dialog').length).toBe(1);
-  });
-
-  it('closes the share program url modal', () => {
-    expect(wrapper.find('.modal-dialog').length).toBe(0);
-    wrapper.find('.program-record-actions button.btn-secondary').simulate('click');
-    wrapper.update();
-    expect(wrapper.find('.modal-dialog').length).toBe(1);
-    wrapper.find('.modal-dialog .modal-header button').simulate('click');
-    wrapper.update();
-    expect(wrapper.find('.modal-dialog').length).toBe(0);
-    expect(wrapper.find('.program-record-actions button.btn-secondary').html()).toEqual(document.activeElement.outerHTML);
-  });
-
-  it('correctly parses cookie JSON', () => {
-    const parsed = StringUtils.parseDirtyJSON(cookieJSON);
-
-    expect(parsed.username).toEqual('edx');
-    expect(parsed.version).toBe(1);
-    expect(parsed.header_urls.resume_block).toBe('sample');
+    it('downloads record', () => {
+      expect(wrapper.state('recordDownloaded')).toBe(false);
+      wrapper.find('.program-record-actions button.btn-primary').simulate('click');
+      wrapper.update();
+      expect(wrapper.state('recordDownloaded')).toBe(true);
+    });
   });
 });
