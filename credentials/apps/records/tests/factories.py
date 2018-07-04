@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 import factory
 from factory.fuzzy import FuzzyChoice, FuzzyDecimal
 
@@ -22,5 +24,6 @@ class ProgramCertRecordFactory(factory.django.DjangoModelFactory):
     class Meta(object):
         model = models.ProgramCertRecord
 
+    uuid = factory.LazyFunction(uuid4)
     certificate = factory.SubFactory(ProgramCertificateFactory)
     user = factory.SubFactory(UserFactory)

@@ -5,16 +5,7 @@ import ProgramRecord from './ProgramRecord';
 
 function getUUID() {
   const url = window.location.pathname;
-  const urlPrefix = 'records/programs/';
-  let uuid = url.substring(url.indexOf(urlPrefix) + urlPrefix.length);
-
-  const queryIndex = uuid.indexOf('?');
-  if (queryIndex > -1) {
-    uuid = uuid.substring(0, queryIndex);
-  }
-
-  // Remove any trailing slashes
-  return uuid.replace(/\//g, '');
+  return /records\/programs\/(?:shared\/)?([a-zA-Z0-9]{32})/.exec(url)[1];
 }
 
 function ProgramRecordFactory(parent, props) {

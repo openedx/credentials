@@ -1,5 +1,7 @@
+import axios from 'axios';
 import React from 'react';
 import PropTypes from 'prop-types';
+import FileDownload from 'js-file-download';
 import { Button } from '@edx/paragon';
 
 import FoldingTable from './FoldingTable';
@@ -71,9 +73,15 @@ class ProgramRecord extends React.Component {
     this.activeButton.focus();
   }
 
-  downloadRecord() {
-    // TODO: Add functionality as part of LEARNER-5513
+  downloadRecord(uuid) {
     this.setState({ recordDownloaded: true });
+    axios({
+      url: `/records/programs/shared/csvs/${uuid}`,
+      method: 'GET',
+      responseType: 'blob',
+    }).then((response) => {
+      FileDownload(response.data, /filename=(.*)/.exec(response.headers['content-disposition'])[1]);
+    });
   }
 
   formatDate(isoDate) {
@@ -151,7 +159,8 @@ class ProgramRecord extends React.Component {
             <Button
               label={gettext('Download Record')}
               className={['btn-primary']}
-              onClick={this.downloadRecord}
+              onClick={() => this.downloadRecord(uuid)}
+              uuid={uuid}
             />
           </section>
         }
