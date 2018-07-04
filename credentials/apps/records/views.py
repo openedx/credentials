@@ -1,13 +1,16 @@
+import csv
 import datetime
+import io
 import json
 import urllib.parse
 from collections import defaultdict
 
 import waffle
+from analytics.client import Client as SegmentClient
 from django import http
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
 from django.urls import reverse
@@ -23,6 +26,85 @@ from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserGrade
 
 from .constants import WAFFLE_FLAG_RECORDS
+
+
+def get_record_data(user, program_uuid, site, platform_name=None):
+    program = Program.objects.prefetch_related('course_runs__course').get(uuid=program_uuid, site=site)
+    program_course_runs = program.course_runs.all()
+    program_course_runs_set = set(program_course_runs)
+
+    # Find program credential if it exists (indicates if user has completed this program)
+    program_credential_query = UserCredential.objects.filter(
+        username=user.username,
+        program_credentials__program_uuid=program_uuid)
+
+    # Get all of the user course-certificates associated with the program courses
+    course_certificate_content_type = ContentType.objects.get(app_label='credentials', model='coursecertificate')
+    course_user_credentials = UserCredential.objects.prefetch_related('credential').filter(
+        username=user.username,
+        credential_content_type=course_certificate_content_type, )
+
+    # Maps course run key to the associated credential
+    user_credential_dict = {
+        user_credential.credential.course_id: user_credential for user_credential in course_user_credentials}
+
+    # Get all (verified) user grades relevant to this program
+    course_grades = UserGrade.objects.select_related('course_run__course').filter(
+        username=user.username, course_run__in=program_course_runs_set, verified=True)
+
+    # Keep track of number of attempts and best attempt per course
+    num_attempts_dict = defaultdict(int)
+    highest_attempt_dict = {}  # Maps course -> highest grade earned
+    last_updated = None
+
+    # Find the highest course cert grades for each course
+    for course_grade in course_grades:
+        course_run = course_grade.course_run
+        course = course_run.course
+        user_credential = user_credential_dict.get(course_run.key)
+
+        if user_credential is not None:
+            num_attempts_dict[course] += 1
+            last_updated = max(last_updated, course_grade.modified) if last_updated else course_grade.modified
+
+            # Update grade if grade is higher and part of awarded cert
+            if user_credential.status == UserCredential.AWARDED:
+                current = highest_attempt_dict.setdefault(course, course_grade)
+                if course_grade.percent_grade > current.percent_grade:
+                    highest_attempt_dict[course] = course_grade
+
+    last_updated = last_updated or datetime.datetime.today()
+
+    learner_data = {'full_name': user.get_full_name(),
+                    'username': user.username,
+                    'email': user.email, }
+
+    program_data = {'name': program.title,
+                    'type': slugify(program.type),
+                    'type_name': program.type,
+                    'completed': program_credential_query.exists(),
+                    'last_updated': last_updated.isoformat(),
+                    'school': ', '.join(program.authoring_organizations.values_list('name', flat=True))}
+
+    # Add course-run data to the response in the order that is maintained by the Program's sorted field
+    course_data = []
+    for course_run in program_course_runs:
+        course = course_run.course
+        grade = highest_attempt_dict.get(course)
+        if grade is not None and grade.course_run == course_run:
+            course_data.append({
+                'name': course_run.title,
+                'school': ', '.join(course.owners.values_list('name', flat=True)),
+                'attempts': num_attempts_dict[course],
+                'course_id': course_run.key,
+                'issue_date': user_credential_dict[course_run.key].modified.isoformat(),
+                'percent_grade': float(grade.percent_grade),
+                'letter_grade': grade.letter_grade or _('N/A'), })
+
+    return {'learner': learner_data,
+            'program': program_data,
+            'platform_name': platform_name,
+            'grades': course_data, }
 
 
 class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
@@ -131,85 +213,12 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
         else:
             user = self.request.user
             program_uuid = uuid
-
-        platform_name = self.request.site.siteconfiguration.platform_name
-
-        program = Program.objects.prefetch_related('course_runs__course').get(uuid=program_uuid, site=self.request.site)
-        program_course_runs = program.course_runs.all()
-        program_course_runs_set = set(program_course_runs)
-
-        # Find program credential if it exists (indicates if user has completed this program)
-        program_credential_query = UserCredential.objects.filter(
-            username=user.username,
-            program_credentials__program_uuid=program_uuid)
-
-        # Get all of the user course-certificates associated with the program courses
-        course_certificate_content_type = ContentType.objects.get(app_label='credentials', model='coursecertificate')
-        course_user_credentials = UserCredential.objects.prefetch_related('credential').filter(
-            username=user.username,
-            credential_content_type=course_certificate_content_type,)
-
-        # Maps course run key to the associated credential
-        user_credential_dict = {
-            user_credential.credential.course_id: user_credential for user_credential in course_user_credentials}
-
-        # Get all (verified) user grades relevant to this program
-        course_grades = UserGrade.objects.select_related('course_run__course').filter(
-            username=user.username, course_run__in=program_course_runs_set, verified=True)
-
-        # Keep track of number of attempts and best attempt per course
-        num_attempts_dict = defaultdict(int)
-        highest_attempt_dict = {}  # Maps course -> highest grade earned
-        last_updated = None
-
-        # Find the highest course cert grades for each course
-        for course_grade in course_grades:
-            course_run = course_grade.course_run
-            course = course_run.course
-            user_credential = user_credential_dict.get(course_run.key)
-
-            if user_credential is not None:
-                num_attempts_dict[course] += 1
-                last_updated = max(last_updated, course_grade.modified) if last_updated else course_grade.modified
-
-                # Update grade if grade is higher and part of awarded cert
-                if user_credential.status == UserCredential.AWARDED:
-                    current = highest_attempt_dict.setdefault(course, course_grade)
-                    if course_grade.percent_grade > current.percent_grade:
-                        highest_attempt_dict[course] = course_grade
-
-        last_updated = last_updated or datetime.datetime.today()
-
-        learner_data = {'full_name': user.get_full_name(),
-                        'username': user.username,
-                        'email': user.email, }
-
-        program_data = {'name': program.title,
-                        'type': slugify(program.type),
-                        'type_name': program.type,
-                        'completed': program_credential_query.exists(),
-                        'last_updated': last_updated.isoformat(),
-                        'school': ', '.join(program.authoring_organizations.values_list('name', flat=True))}
-
-        # Add course-run data to the response in the order that is maintained by the Program's sorted field
-        course_data = []
-        for course_run in program_course_runs:
-            course = course_run.course
-            grade = highest_attempt_dict.get(course)
-            if grade is not None and grade.course_run == course_run:
-                course_data.append({
-                    'name': course_run.title,
-                    'school': ', '.join(course.owners.values_list('name', flat=True)),
-                    'attempts': num_attempts_dict[course],
-                    'course_id': course_run.key,
-                    'issue_date': user_credential_dict[course_run.key].modified.isoformat(),
-                    'percent_grade': float(grade.percent_grade),
-                    'letter_grade': grade.letter_grade or _('N/A'), })
-
-        return {'learner': learner_data,
-                'program': program_data,
-                'platform_name': platform_name,
-                'grades': course_data, }
+        return get_record_data(
+            user,
+            program_uuid,
+            self.request.site,
+            platform_name=self.request.site.siteconfiguration.platform_name
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -226,6 +235,7 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
             'render_language': self.request.LANGUAGE_CODE,
             'is_public': is_public,
             'icons_template': self.try_select_theme_template(['credentials/programs.html']),
+            'uuid': uuid
         })
         return context
 
@@ -313,3 +323,81 @@ class ProgramRecordCreationView(LoginRequiredMixin, View):
         if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
             return JsonResponse({'error': 'Waffle flag not enabled'}, status=404)
         return super().dispatch(request, *args, **kwargs)
+
+
+class ProgramRecordCsvView(View):
+    """
+    Returns a csv view of the Progam Record for a Learner from a username and program_uuid
+    """
+
+    class SegmentHttpResponse(HttpResponse):
+        def __init__(self, *args, **kwargs):
+            # Pop off the unneeded args that are sent to segment
+            self.event = kwargs.pop('event')
+            self.properties = kwargs.pop('properties')
+            self.context = kwargs.pop('context')
+            self.anonymous_id = kwargs.pop('anonymous_id')
+            self.segment_client = kwargs.pop('segment_client')
+            super(ProgramRecordCsvView.SegmentHttpResponse, self).__init__(*args, **kwargs)
+
+        def close(self):
+            self.segment_client.track(
+                self.anonymous_id,
+                event=self.event,
+                properties=self.properties,
+                context=self.context
+            )
+            super(ProgramRecordCsvView.SegmentHttpResponse, self).close()
+
+    def get(self, request, *args, **kwargs):
+        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
+            raise http.Http404()
+
+        site_configuration = request.site.siteconfiguration
+        segment_client = SegmentClient(write_key=site_configuration.segment_key)
+
+        program_cert_record = get_object_or_404(ProgramCertRecord, uuid=kwargs.get('uuid'))
+        record = get_record_data(program_cert_record.user, program_cert_record.program.uuid, request.site)
+
+        properties = {
+            'category': 'records',
+            'program_uuid': program_cert_record.program.uuid.hex,
+            'record_uuid': program_cert_record.uuid.hex,
+        }
+        context = {
+            'page': {
+                'path': request.path,
+                'referrer': request.META.get('HTTP_REFERER'),
+            },
+            'userAgent': request.META.get('HTTP_USER_AGENT'),
+        }
+
+        segment_client.track(
+            request.COOKIES.get('ajs_anonymous_id'),
+            context=context,
+            event='edx.bi.credentials.program_record.download_started',
+            properties=properties,
+        )
+
+        string_io = io.StringIO()
+        writer = csv.DictWriter(string_io, record['grades'][0].keys(), quoting=csv.QUOTE_ALL)
+        writer.writeheader()
+        writer.writerows(record['grades'])
+        string_io.seek(0)
+        filename = '{username}_{program_name}_grades.csv'.format(
+            username=record['learner']['username'],
+            program_name=record['program']['name']
+        )
+        response = ProgramRecordCsvView.SegmentHttpResponse(
+            string_io,
+            anonymous_id=request.COOKIES.get('ajs_anonymous_id'),
+            content_type='text/csv',
+            context=context,
+            event='edx.bi.credentials.program_record.download_finished',
+            properties=properties,
+            segment_client=segment_client,
+        )
+        response['Content-Disposition'] = 'attachment; filename={filename}'.format(
+            filename=filename.replace(' ', '_').lower()
+        )
+        return response

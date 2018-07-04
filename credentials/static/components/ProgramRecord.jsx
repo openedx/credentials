@@ -82,10 +82,11 @@ class ProgramRecord extends React.Component {
     this.activeButton.focus();
   }
 
-  downloadRecord() {
-    // TODO: Add functionality as part of LEARNER-5513
+  downloadRecord(uuid) {
     this.setState({ recordDownloaded: true });
+    window.location = `/records/programs/shared/${uuid}/csv`;
   }
+
 
   formatDate(isoDate) {
     if (!isoDate) {
@@ -233,7 +234,8 @@ class ProgramRecord extends React.Component {
             <Button
               label={gettext('Download Record')}
               className={['btn-primary']}
-              onClick={this.downloadRecord}
+              onClick={() => this.downloadRecord(uuid)}
+              uuid={uuid}
             />
           </section>
         }
