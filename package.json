@@ -37,6 +37,7 @@
     "sass-loader": "^6.0.3",
     "style-loader": "^0.13.2",
     "susy": "2.2.14",
+    "svg-inline-loader": "^0.8.0",
     "url-loader": "^0.5.8",
     "webpack": "^2.2.1",
     "webpack-bundle-tracker": "^0.2.0"
@@ -63,7 +64,6 @@
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-jquery-2": "^0.1.1",
     "karma-spec-reporter": "0.0.30",
-    "karma-webpack": "^2.0.9",
-    "svg-inline-loader": "^0.8.0"
+    "karma-webpack": "^2.0.9"
   }
 }
