@@ -1,6 +1,8 @@
 """
 Tests for records rendering views.
 """
+import csv
+import io
 import json
 import uuid
 
@@ -583,3 +585,71 @@ class ProgramSendTests(SiteMixin, TestCase):
         """ Verify that the view rejects everyone without the waffle flag. """
         response = self.post()
         self.assertEqual(404, response.status_code)
+
+
+class ProgramRecordCsvViewTests(SiteMixin, TestCase):
+    MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }
+
+    def setUp(self):
+        super().setUp()
+        self.user = UserFactory(username=self.MOCK_USER_DATA['username'])
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.course = CourseFactory(site=self.site)
+        self.course_runs = [CourseRunFactory(course=self.course) for _ in range(3)]
+        self.user_grade_low = UserGradeFactory(username=self.MOCK_USER_DATA['username'],
+                                               course_run=self.course_runs[0], letter_grade='A', percent_grade=0.70)
+        self.user_grade_high = UserGradeFactory(username=self.MOCK_USER_DATA['username'],
+                                                course_run=self.course_runs[1], letter_grade='C', percent_grade=1.00)
+        self.user_grade_revoked_cert = UserGradeFactory(username=self.MOCK_USER_DATA['username'],
+                                                        course_run=self.course_runs[2], letter_grade='B',
+                                                        percent_grade=.80)
+        self.course_certs = [CourseCertificateFactory(course_id=course_run.key, site=self.site)
+                             for course_run in self.course_runs]
+        self.credential_content_type = ContentType.objects.get(app_label='credentials', model='coursecertificate')
+        self.user_credentials = [UserCredentialFactory(username=self.MOCK_USER_DATA['username'],
+                                 credential_content_type=self.credential_content_type, credential=course_cert)
+                                 for course_cert in self.course_certs]
+        self.user_credentials[2].status = UserCredential.REVOKED
+        self.org_names = ['CCC', 'AAA', 'BBB']
+        self.orgs = [OrganizationFactory(name=name, site=self.site) for name in self.org_names]
+        self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site)
+        self.program_cert_record = ProgramCertRecordFactory.create(user=self.user, program=self.program)
+
+    @override_flag(WAFFLE_FLAG_RECORDS, active=False)
+    def test_feature_toggle(self):
+        """ Verify that the view 404s if feature is disabled"""
+        response = self.client.get(reverse(
+            'records:program_record_csv',
+            kwargs={'uuid': self.program_cert_record.uuid.hex})
+        )
+        self.assertEqual(404, response.status_code)
+
+    @override_flag(WAFFLE_FLAG_RECORDS, active=True)
+    @patch('credentials.apps.records.views.SegmentClient', autospec=True)
+    def test_404s_with_no_program_cert_record(self, segment_client):  # pylint: disable=unused-argument
+        """ Verify that the view 404s if a program cert record isn't found"""
+        self.program_cert_record.delete()
+        response = self.client.get(reverse(
+            'records:program_record_csv',
+            kwargs={'uuid': self.program_cert_record.uuid.hex})
+        )
+        self.assertEqual(404, response.status_code)
+
+    @override_flag(WAFFLE_FLAG_RECORDS, active=True)
+    @patch('credentials.apps.records.views.SegmentClient', autospec=True)
+    @patch('credentials.apps.records.views.SegmentClient.track', autospec=True)
+    def tests_creates_csv(self, segment_client, track):  # pylint: disable=unused-argument
+        """ Verify that the csv parses and contains all of the necessary headers"""
+        response = self.client.get(
+            reverse('records:program_record_csv', kwargs={'uuid': self.program_cert_record.uuid.hex})
+        )
+        self.assertEqual(200, response.status_code)
+        self.assertTrue(track.called)
+        content = response.content.decode('utf-8')
+        csv_reader = csv.reader(io.StringIO(content))
+        body = list(csv_reader)
+        csv_headers = body.pop(0)
+        # Check that the header is present in the response bytestring
+        headers = ['course_id', 'percent_grade', 'attempts', 'school', 'issue_date', 'letter_grade', 'name']
+        for header in headers:
+            self.assertIn(header, csv_headers)
