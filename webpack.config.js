@@ -76,7 +76,17 @@ module.exports = {
             },
             {
                 test: /\.svg$/,
-                loader: 'svg-inline-loader',
+                oneOf: [
+
+                    {
+                        exclude: path.resolve('./credentials/static/bundles/fonts/'),
+                        use: 'file-loader'
+                    },
+                    {
+                        include: path.resolve('./credentials/static/images/'),
+                        use: 'svg-inline-loader'
+                    }
+                ]
             }
         ]
     },
