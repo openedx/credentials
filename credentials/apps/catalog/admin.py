@@ -2,8 +2,6 @@
 
 from django.contrib import admin
 
-from credentials.apps.catalog.models import Course, CourseRun, Organization, Program
-
 
 class CourseAdmin(admin.ModelAdmin):
     """ Admin for the Course model."""
@@ -27,9 +25,3 @@ class ProgramAdmin(admin.ModelAdmin):
     """ Admin for the Program model."""
     list_display = ('title', 'uuid')
     search_fields = ('title', 'uuid')
-
-
-admin.site.register(Course, CourseAdmin)
-admin.site.register(CourseRun, CourseRunAdmin)
-admin.site.register(Organization, OrganizationAdmin)
-admin.site.register(Program, ProgramAdmin)
