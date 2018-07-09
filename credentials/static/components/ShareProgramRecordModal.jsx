@@ -45,7 +45,7 @@ class ShareProgramRecordModal extends React.Component {
 
   setProgramRecordUrl(response) {
     this.setState({
-      programRecordUrl: response.uuid,
+      programRecordUrl: response.data.url,
       urlReturned: true,
       urlError: false,
     });

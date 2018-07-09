@@ -25,6 +25,8 @@ from credentials.apps.records.tests.utils import dump_random_state
 
 from ..constants import WAFFLE_FLAG_RECORDS
 
+JSON_CONTENT_TYPE = 'application/json'
+
 
 @override_flag(WAFFLE_FLAG_RECORDS, active=True)
 class RecordsViewTests(SiteMixin, TestCase):
@@ -436,20 +438,22 @@ class ProgramRecordTests(TestCase):
     def test_user_creation(self):
         """Verify successful creation of a ProgramCertRecord and return of a uuid"""
         rev = reverse('records:cert_creation')
-        data = {'username': self.USERNAME, 'program_cert_uuid': self.pc.program_uuid}
-        response = self.client.post(rev, data)
+        data = {'username': self.USERNAME, 'uuid': self.pc.program_uuid.hex}
+        jdata = json.dumps(data).encode('utf-8')
+        response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
         json_data = response.json()
 
         self.assertEqual(response.status_code, 201)
-        self.assertRegex(json_data['uuid'], UUID_PATTERN)  # pylint: disable=deprecated-method
+        self.assertRegex(json_data['url'], UUID_PATTERN)  # pylint: disable=deprecated-method
 
     def test_different_user_creation(self):
         """ Verify that the view rejects a User attempting to create a ProgramCertRecord for another """
         diff_username = 'diff-user'
         rev = reverse('records:cert_creation')
         UserFactory(username=diff_username)
-        data = {'username': diff_username, 'program_cert_uuid': self.pc.program_uuid}
-        response = self.client.post(rev, data)
+        data = {'username': diff_username, 'uuid': self.pc.program_uuid.hex}
+        jdata = json.dumps(data).encode('utf-8')
+        response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
 
         self.assertEqual(response.status_code, 403)
 
@@ -458,8 +462,9 @@ class ProgramRecordTests(TestCase):
         have the User Credentials """
         pc2 = ProgramCertificateFactory()
         rev = reverse('records:cert_creation')
-        data = {'username': self.USERNAME, 'program_cert_uuid': pc2.program_uuid}
-        response = self.client.post(rev, data)
+        data = {'username': self.USERNAME, 'uuid': pc2.program_uuid.hex}
+        jdata = json.dumps(data).encode('utf-8')
+        response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
 
         self.assertEqual(response.status_code, 404)
 
@@ -467,22 +472,24 @@ class ProgramRecordTests(TestCase):
         """ Verify that the view returns the existing ProgramCertRecord when one already exists for the given username
         and program certificate uuid"""
         rev = reverse('records:cert_creation')
-        data = {'username': self.USERNAME, 'program_cert_uuid': self.pc.program_uuid}
-        response = self.client.post(rev, data)
-        pcr_uuid = response.json()['uuid']
+        data = {'username': self.USERNAME, 'uuid': self.pc.program_uuid.hex}
+        jdata = json.dumps(data).encode('utf-8')
+        response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
+        url1 = response.json()['url']
         self.assertEqual(response.status_code, 201)
 
-        response = self.client.post(rev, data)
-        pcr_uuid2 = response.json()['uuid']
+        response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
+        url2 = response.json()['url']
         self.assertEqual(response.status_code, 200)
 
-        self.assertEqual(pcr_uuid, pcr_uuid2)
+        self.assertEqual(url1, url2)
 
     @override_flag(WAFFLE_FLAG_RECORDS, active=False)
     def test_feature_toggle(self):
         """ Verify that the view rejects everyone without the waffle flag. """
         rev = reverse('records:cert_creation')
-        data = {'username': self.USERNAME, 'program_cert_uuid': self.pc.program_uuid}
-        response = self.client.post(rev, data)
+        data = {'username': self.USERNAME, 'uuid': self.pc.program_uuid.hex}
+        jdata = json.dumps(data).encode('utf-8')
+        response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
 
         self.assertEqual(404, response.status_code)

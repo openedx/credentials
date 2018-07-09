@@ -8,6 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView, View
 
@@ -218,7 +219,10 @@ class ProgramRecordCreationView(View):
     """
 
     def post(self, request):
-        username = request.POST.get('username')
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+
+        username = body['username']
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
@@ -228,7 +232,7 @@ class ProgramRecordCreationView(View):
         if username != request.user.get_username() and not request.user.is_staff:
             return JsonResponse({'error': 'Permission denied'}, status=403)
 
-        cert_uuid = request.POST.get('program_cert_uuid')
+        cert_uuid = body['uuid']
         certificate = get_object_or_404(ProgramCertificate, program_uuid=cert_uuid)
 
         # verify that the User has the User Credentials for the Program Certificate
@@ -240,7 +244,8 @@ class ProgramRecordCreationView(View):
         pcr, created = ProgramCertRecord.objects.get_or_create(user=user, certificate=certificate)
         status_code = 201 if created else 200
 
-        return JsonResponse({'uuid': pcr.uuid.hex}, status=status_code)
+        url = request.build_absolute_uri(reverse("records:public_programs", kwargs={'uuid': pcr.uuid.hex}))
+        return JsonResponse({'url': url}, status=status_code)
 
     def dispatch(self, request, *args, **kwargs):
         if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):

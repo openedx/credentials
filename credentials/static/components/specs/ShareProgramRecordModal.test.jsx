@@ -16,7 +16,7 @@ const defaultProps = {
 describe('<ShareProgramRecordModal />', () => {
   describe('Happy Path', () => {
     beforeEach(() => {
-      promise = Promise.resolve({ uuid: '21366aa129514333a4a9f32161ad3a69' });
+      promise = Promise.resolve({ data: { url: 'http://www.edx.org/records/programs/shared/121213ca8212f7c6f1048aa604f0d0f0/' } });
       axios.post.mockImplementation(() => promise);
       wrapper = mount(<ShareProgramRecordModal {...defaultProps} />);
     });
