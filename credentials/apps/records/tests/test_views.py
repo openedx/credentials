@@ -20,7 +20,7 @@ from credentials.apps.credentials.constants import UUID_PATTERN
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
                                                           UserCredentialFactory)
-from credentials.apps.records.tests.factories import UserGradeFactory
+from credentials.apps.records.tests.factories import ProgramCertRecordFactory, UserGradeFactory
 from credentials.apps.records.tests.utils import dump_random_state
 
 from ..constants import WAFFLE_FLAG_RECORDS
@@ -245,6 +245,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.org_names = ['CCC', 'AAA', 'BBB']
         self.orgs = [OrganizationFactory(name=name, site=self.site) for name in self.org_names]
         self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site)
+        self.pcr = ProgramCertRecordFactory(certificate=ProgramCertificateFactory(program_uuid=self.program.uuid),
+                                            user=self.user)
 
     def _render_program_record(self, record_data=None, status_code=200):
         """ Helper method to mock rendering a user certificate."""
@@ -253,7 +255,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         with patch('credentials.apps.records.views.ProgramRecordView._get_record') as get_record:
             get_record.return_value = record_data
-            response = self.client.get(reverse('records:programs', kwargs={'uuid': uuid.uuid4().hex}))
+            response = self.client.get(reverse('records:private_programs', kwargs={'uuid': uuid.uuid4().hex}))
             self.assertEqual(response.status_code, status_code)
 
         return response
@@ -262,11 +264,17 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         expected = select_template([expected_template_name])
         self.assertEqual(actual.origin, expected.origin)
 
-    def test_no_anonymous_access(self):
-        """ Verify that the view rejects non-logged-in users. """
+    def test_no_anonymous_access_private(self):
+        """ Verify that the private view rejects non-logged-in users. """
         self.client.logout()
         response = self._render_program_record(status_code=302)
         self.assertRegex(response.url, '^/login/.*')  # pylint: disable=deprecated-method
+
+    def test_anonymous_access_public(self):
+        """ Verify that the public view does not reject non-logged-in users"""
+        self.client.logout()
+        response = self.client.get(reverse('records:public_programs', kwargs={'uuid': self.pcr.uuid.hex}))
+        self.assertContains(response, 'Record')
 
     @override_flag(WAFFLE_FLAG_RECORDS, active=False)
     def test_feature_toggle(self):
@@ -284,12 +292,34 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assert_matching_template_origin(actual_child_templates['footer'], '_footer.html')
         self.assert_matching_template_origin(actual_child_templates['header'], '_header.html')
 
+    def test_public_access(self):
+        """ Verify that the public view instructs front end to be public """
+        response = self.client.get(reverse('records:public_programs', kwargs={'uuid': self.pcr.uuid.hex}))
+        is_public = response.context_data['is_public']
+        self.assertTrue(is_public)
+
+    def test_private_access(self):
+        """ Verify that the private view instructs front end to be private """
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        is_public = response.context_data['is_public']
+        self.assertFalse(is_public)
+
+    def test_public_private_data(self):
+        """ Verify that the public and private views return the same record data """
+        response = self.client.get(reverse('records:public_programs', kwargs={'uuid': self.pcr.uuid.hex}))
+        public_data = json.loads(response.context_data['record'])
+
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        private_data = json.loads(response.context_data['record'])
+
+        self.assertEqual(private_data, public_data)
+
     def test_highest_grades(self):
         """ Verify that the view only shows the highest *percentage* grade
 
             Also verified that the attempts are counted correctly, even with revoked certs
         """
-        response = self.client.get(reverse('records:programs', kwargs={'uuid': self.program.uuid.hex}))
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         grades = json.loads(response.context_data['record'])['grades']
         self.assertEqual(len(grades), 1)
         grade = grades[0]
@@ -307,7 +337,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
     def test_organization_order(self):
         """ Test that the organizations are returned in the order they were added """
         self.course.owners = self.orgs
-        response = self.client.get(reverse('records:programs', kwargs={'uuid': self.program.uuid.hex}))
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         program_data = json.loads(response.context_data['record'])['program']
         grade = json.loads(response.context_data['record'])['grades'][0]
 
@@ -326,7 +356,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
                               credential_content_type=self.credential_content_type,
                               credential=new_course_cert)
 
-        response = self.client.get(reverse('records:programs', kwargs={'uuid': self.program.uuid.hex}))
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         grades = json.loads(response.context_data['record'])['grades']
 
         expected_course_run_keys = [course_run.key for course_run in [self.course_runs[1], new_course_run]]
@@ -343,7 +373,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
                          percent_grade=.05)
         CourseCertificateFactory(course_id=new_course_run.key, site=self.site)
 
-        response = self.client.get(reverse('records:programs', kwargs={'uuid': self.program.uuid.hex}))
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         grades = json.loads(response.context_data['record'])['grades']
         self.assertEqual(len(grades), 1)
 
@@ -351,7 +381,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
     def test_learner_data(self):
         """ Test that the learner data is returned succesfully """
-        response = self.client.get(reverse('records:programs', kwargs={'uuid': self.program.uuid.hex}))
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         learner_data = json.loads(response.context_data['record'])['learner']
 
         expected = {'full_name': self.user.get_full_name(),
@@ -362,7 +392,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
     def test_program_data(self):
         """ Test that the program data is returned successfully """
-        response = self.client.get(reverse('records:programs', kwargs={'uuid': self.program.uuid.hex}))
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         program_data = json.loads(response.context_data['record'])['program']
 
         expected = {'name': self.program.title,

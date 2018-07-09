@@ -3,7 +3,7 @@ from collections import defaultdict
 
 import waffle
 from django import http
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -99,11 +99,28 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
         return super().dispatch(request, *args, **kwargs)
 
 
-class ProgramRecordView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
+class ConditionallyRequireLoginMixin(AccessMixin):
+    """ Variant of LoginRequiredMixin that allows a user not to be logged in if is_public argument is true"""
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated and not kwargs['is_public']:
+            return self.handle_no_permission()
+        return super(ConditionallyRequireLoginMixin, self).dispatch(request, *args, **kwargs)
+
+
+class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewMixin):
     template_name = 'programs.html'
 
-    def _get_record(self, program_uuid):
-        user = self.request.user
+    def _get_record(self, uuid, is_public):
+        # if a public view, the uuid is that of a ProgramCertRecord,
+        # if private, the uuid is that of a Program
+        if is_public:
+            program_cert_record = get_object_or_404(ProgramCertRecord, uuid=uuid)
+            user = program_cert_record.user
+            program_uuid = program_cert_record.certificate.program_uuid
+        else:
+            user = self.request.user
+            program_uuid = uuid
+
         platform_name = self.request.site.siteconfiguration.platform_name
 
         program = Program.objects.prefetch_related('course_runs__course').get(uuid=program_uuid, site=self.request.site)
@@ -173,8 +190,9 @@ class ProgramRecordView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        program_uuid = kwargs['uuid']
-        record = self._get_record(program_uuid)
+        uuid = kwargs['uuid']
+        is_public = kwargs['is_public']
+        record = self._get_record(uuid, is_public)
         context.update({
             'child_templates': {
                 'footer': self.select_theme_template(['_footer.html']),
@@ -183,6 +201,7 @@ class ProgramRecordView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
             'record': json.dumps(record, sort_keys=True),
             'program_name': record.get('program', {}).get('name'),
             'render_language': self.request.LANGUAGE_CODE,
+            'is_public': is_public,
         })
         return context
 
