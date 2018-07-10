@@ -20,6 +20,7 @@ function getUUID() {
 function ProgramRecordFactory(parent, props) {
   const formattedProps = {
     ...props.record,
+    isPublic: props.isPublic,
     uuid: getUUID(),
   };
 
