@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@edx/paragon';
-import Cookies from 'js-cookie';
 
 import FoldingTable from './FoldingTable';
 import ProgramIcon from './ProgramIcon';
@@ -30,20 +29,6 @@ class ProgramRecord extends React.Component {
       isPublic: true,
       recordDownloaded: false,
     };
-  }
-
-  componentDidMount() {
-    this.setUser();
-  }
-
-  setUser() {
-    const userCookie = Cookies.get('prod-edx-user-info');
-    const { learner } = this.props;
-
-    this.setState({
-      isPublic: !userCookie ||
-        (StringUtils.parseDirtyJSON(userCookie).username !== learner.username),
-    });
   }
 
   setActiveButton(button) {
@@ -131,10 +116,11 @@ class ProgramRecord extends React.Component {
       learner,
       program,
       platform_name: platformName,
+      isPublic,
       uuid,
       loadModalsAsChildren,
     } = this.props;
-    const { sendRecordModalOpen, shareModelOpen, isPublic } = this.state;
+    const { sendRecordModalOpen, shareModelOpen } = this.state;
     const recordWrapperClass = 'program-record-wrapper';
     const defaultModalProps = {
       ...(loadModalsAsChildren && { parentSelector: `.${recordWrapperClass}` }),
@@ -263,12 +249,14 @@ ProgramRecord.propTypes = {
     last_updated: PropTypes.string,
   }).isRequired,
   grades: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isPublic: PropTypes.bool,
   uuid: PropTypes.string.isRequired,
   platform_name: PropTypes.string.isRequired,
   loadModalsAsChildren: PropTypes.bool,
 };
 
 ProgramRecord.defaultProps = {
+  isPublic: true,
   loadModalsAsChildren: true,
 };
 
