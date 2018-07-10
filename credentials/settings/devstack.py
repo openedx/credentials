@@ -36,6 +36,8 @@ DATABASES = {
 
 INSTALLED_APPS += ['credentials.apps.edx_credentials_extensions']
 
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
 DEFAULT_FILE_STORAGE = os.environ.get('DEFAULT_FILE_STORAGE', 'django.core.files.storage.FileSystemStorage')
 MEDIA_URL = os.environ.get('MEDIA_URL', '/media/')
 

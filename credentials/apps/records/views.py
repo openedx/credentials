@@ -11,11 +11,13 @@ from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView, View
+from edx_ace import Recipient, ace
 
-from credentials.apps.catalog.models import CourseRun, Program
+from credentials.apps.catalog.models import CourseRun, CreditPathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredential
+from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserGrade
 
 from .constants import WAFFLE_FLAG_RECORDS
@@ -212,13 +214,56 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
         return super().dispatch(request, *args, **kwargs)
 
 
-class ProgramRecordCreationView(View):
+class ProgramSendView(LoginRequiredMixin, View):
+    """
+    Sends a program via email to a requested partner
+    """
+
+    def post(self, request, **kwargs):
+        username = request.POST.get('username')
+        pathway_id = request.POST.get('pathway_id')
+
+        # verify that the user or an admin is making the request
+        if username != request.user.get_username() and not request.user.is_staff:
+            return JsonResponse({'error': 'Permission denied'}, status=403)
+
+        program_uuid = kwargs['uuid']
+        program = get_object_or_404(Program, program_uuid=program_uuid, site=request.site)
+        pathway = get_object_or_404(CreditPathway, id=pathway_id)
+        certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)
+        user = get_object_or_404(User, username=username)
+        public_record, _ = ProgramCertRecord.objects.get_or_create(user=user, certificate=certificate)
+
+        record_path = reverse('records:public_programs', kwargs={'uuid': public_record.uuid.hex})
+        record_link = request.build_absolute_uri(record_path)
+
+        msg = ProgramCreditRequest(request.site).personalize(
+            recipient=Recipient(username=None, email_address=pathway.email),
+            language=certificate.language,
+            user_context={
+                'pathway_name': pathway.name,
+                'program_name': program.name,
+                'record_link': record_link,
+                'user_full_name': request.user.get_full_name(),
+            },
+        )
+        ace.send(msg)
+
+        return http.HttpResponse(status=200)
+
+    def dispatch(self, request, *args, **kwargs):
+        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
+            return JsonResponse({'error': 'Waffle flag not enabled'}, status=404)
+        return super().dispatch(request, *args, **kwargs)
+
+
+class ProgramRecordCreationView(LoginRequiredMixin, View):
     """
     Creates a new Program Certificate Record from given username and program certificate uuid,
     returns the uuid of the created Program Certificate Record
     """
 
-    def post(self, request):
+    def post(self, request, **kwargs):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
 
@@ -232,12 +277,12 @@ class ProgramRecordCreationView(View):
         if username != request.user.get_username() and not request.user.is_staff:
             return JsonResponse({'error': 'Permission denied'}, status=403)
 
-        cert_uuid = body['uuid']
-        certificate = get_object_or_404(ProgramCertificate, program_uuid=cert_uuid)
+        program_uuid = kwargs['uuid']
+        certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)
 
         # verify that the User has the User Credentials for the Program Certificate
         try:
-            UserCredential.objects.get(username=username, program_credentials__program_uuid=cert_uuid)
+            UserCredential.objects.get(username=username, program_credentials__program_uuid=program_uuid)
         except UserCredential.DoesNotExist:
             return JsonResponse({'error': 'User does not have credentials'}, status=404)
 

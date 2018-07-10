@@ -5,9 +5,11 @@ import json
 import uuid
 
 from django.contrib.contenttypes.models import ContentType
+from django.core import mail
 from django.template.defaultfilters import slugify
 from django.template.loader import select_template
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.urls import reverse
 from mock import patch
 from waffle.testutils import override_flag
@@ -20,6 +22,7 @@ from credentials.apps.credentials.constants import UUID_PATTERN
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
                                                           UserCredentialFactory)
+from credentials.apps.records.models import ProgramCertRecord
 from credentials.apps.records.tests.factories import ProgramCertRecordFactory, UserGradeFactory
 from credentials.apps.records.tests.utils import dump_random_state
 
@@ -423,7 +426,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
 
 @override_flag(WAFFLE_FLAG_RECORDS, active=True)
-class ProgramRecordTests(TestCase):
+class ProgramRecordTests(SiteMixin, TestCase):
     USERNAME = "test-user"
 
     def setUp(self):
@@ -432,13 +435,22 @@ class ProgramRecordTests(TestCase):
 
         user = UserFactory(username=self.USERNAME)
         self.client.login(username=user.username, password=USER_PASSWORD)
-        self.user_credential = UserCredentialFactory(username=self.USERNAME)
-        self.pc = self.user_credential.credential  # Default is Program Cert
+        self.pc = ProgramCertificateFactory(site=self.site)
+        self.user_credential = UserCredentialFactory(username=self.USERNAME, credential=self.pc)
+
+    def test_login_required(self):
+        """Verify no access without a login"""
+        self.client.logout()
+        rev = reverse('records:share_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        data = {'username': self.USERNAME}
+        response = self.client.post(rev, data)
+        self.assertEqual(response.status_code, 302)  # redirect to a login page
+        self.assertTrue(response.url.startswith('/login/?next='))
 
     def test_user_creation(self):
         """Verify successful creation of a ProgramCertRecord and return of a uuid"""
-        rev = reverse('records:cert_creation')
-        data = {'username': self.USERNAME, 'uuid': self.pc.program_uuid.hex}
+        rev = reverse('records:share_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        data = {'username': self.USERNAME}
         jdata = json.dumps(data).encode('utf-8')
         response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
         json_data = response.json()
@@ -449,9 +461,9 @@ class ProgramRecordTests(TestCase):
     def test_different_user_creation(self):
         """ Verify that the view rejects a User attempting to create a ProgramCertRecord for another """
         diff_username = 'diff-user'
-        rev = reverse('records:cert_creation')
+        rev = reverse('records:share_program', kwargs={'uuid': self.pc.program_uuid.hex})
         UserFactory(username=diff_username)
-        data = {'username': diff_username, 'uuid': self.pc.program_uuid.hex}
+        data = {'username': diff_username}
         jdata = json.dumps(data).encode('utf-8')
         response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
 
@@ -461,8 +473,8 @@ class ProgramRecordTests(TestCase):
         """ Verify that the view rejects a User attempting to create a ProgramCertRecord for which they don't
         have the User Credentials """
         pc2 = ProgramCertificateFactory()
-        rev = reverse('records:cert_creation')
-        data = {'username': self.USERNAME, 'uuid': pc2.program_uuid.hex}
+        rev = reverse('records:share_program', kwargs={'uuid': pc2.program_uuid.hex})
+        data = {'username': self.USERNAME}
         jdata = json.dumps(data).encode('utf-8')
         response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
 
@@ -471,8 +483,8 @@ class ProgramRecordTests(TestCase):
     def test_pcr_already_exists(self):
         """ Verify that the view returns the existing ProgramCertRecord when one already exists for the given username
         and program certificate uuid"""
-        rev = reverse('records:cert_creation')
-        data = {'username': self.USERNAME, 'uuid': self.pc.program_uuid.hex}
+        rev = reverse('records:share_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        data = {'username': self.USERNAME}
         jdata = json.dumps(data).encode('utf-8')
         response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
         url1 = response.json()['url']
@@ -487,9 +499,106 @@ class ProgramRecordTests(TestCase):
     @override_flag(WAFFLE_FLAG_RECORDS, active=False)
     def test_feature_toggle(self):
         """ Verify that the view rejects everyone without the waffle flag. """
-        rev = reverse('records:cert_creation')
-        data = {'username': self.USERNAME, 'uuid': self.pc.program_uuid.hex}
+        rev = reverse('records:share_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        data = {'username': self.USERNAME}
         jdata = json.dumps(data).encode('utf-8')
         response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
+
+        self.assertEqual(404, response.status_code)
+
+
+@override_flag(WAFFLE_FLAG_RECORDS, active=True)
+@override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
+class ProgramSendTests(SiteMixin, TestCase):
+    USERNAME = "test-user"
+
+    def setUp(self):
+        super().setUp()
+
+        self.user = UserFactory(username=self.USERNAME)
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.pc = ProgramCertificateFactory(site=self.site)
+        self.user_credential = UserCredentialFactory(username=self.USERNAME, credential=self.pc)
+
+        mail.outbox = []
+
+    def test_login_required(self):
+        """Verify no access without a login"""
+        self.client.logout()
+        rev = reverse('records:send_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        data = {'username': self.USERNAME}
+        response = self.client.post(rev, data)
+        self.assertEqual(response.status_code, 302)  # redirect to a login page
+        self.assertTrue(response.url.startswith('/login/?next='))
+
+    def test_creates_cert_record(self):
+        """ Verify that the view creates a ProgramCertRecord as needed. """
+        rev = reverse('records:send_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        data = {'username': self.USERNAME}
+
+        with self.assertRaises(ProgramCertRecord.DoesNotExist):
+            ProgramCertRecord.objects.get(user=self.user, certificate=self.pc)
+
+        response = self.client.post(rev, data)
+        self.assertEqual(response.status_code, 200)
+
+        ProgramCertRecord.objects.get(user=self.user, certificate=self.pc)
+
+    def test_different_user(self):
+        """ Verify that the view rejects a User attempting to send a program """
+        diff_username = 'diff-user'
+        rev = reverse('records:send_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        UserFactory(username=diff_username)
+        data = {'username': diff_username}
+        response = self.client.post(rev, data)
+
+        self.assertEqual(response.status_code, 403)
+
+    @patch('credentials.apps.records.views.ace')
+    def test_from_address_set(self, mock_ace):
+        """ Verify that the email uses the proper from address """
+        rev = reverse('records:send_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        data = {'username': self.USERNAME}
+        response = self.client.post(rev, data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(mock_ace.send.call_args[0][0].options['from_address'],
+                         self.site_configuration.partner_from_address)
+
+    @patch('credentials.apps.records.views.ace')
+    def test_from_address_unset(self, mock_ace):
+        """ Verify that the email uses the proper default from address """
+        self.site_configuration.partner_from_address = None
+        self.site_configuration.save()
+
+        rev = reverse('records:send_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        data = {'username': self.USERNAME}
+        response = self.client.post(rev, data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(mock_ace.send.call_args[0][0].options['from_address'],
+                         'no-reply@' + self.site.domain)  # pylint: disable=no-member
+
+    def test_email_content(self):
+        """Verify an email is actually sent"""
+        rev = reverse('records:send_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        data = {'username': self.USERNAME}
+        response = self.client.post(rev, data)
+        self.assertEqual(response.status_code, 200)
+
+        # Check output and make sure it seems correct
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        self.assertIn('Program Credit Request', email.subject)
+        self.assertIn('Please go to the following page', email.body)
+        self.assertEqual(self.site_configuration.partner_from_address, email.from_email)
+        self.assertListEqual(['edx@example.com'], email.to)
+
+    @override_flag(WAFFLE_FLAG_RECORDS, active=False)
+    def test_feature_toggle(self):
+        """ Verify that the view rejects everyone without the waffle flag. """
+        rev = reverse('records:send_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        data = {'username': self.USERNAME}
+        response = self.client.post(rev, data)
 
         self.assertEqual(404, response.status_code)
