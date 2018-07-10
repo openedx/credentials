@@ -7,7 +7,7 @@ import ProgramIcon from './ProgramIcon';
 class RecordsList extends React.Component {
   static renderEmpty() {
     return (
-      <p className="paragraph-grey">{gettext('No records yet. Try enrolling in a program.')}</p>
+      <p className="paragraph-grey">{gettext('No records yet. Program records are created once you have earned at least one course certificate in a program.')}</p>
     );
   }
 
@@ -81,7 +81,7 @@ class RecordsList extends React.Component {
           RecordsList.renderResponsiveList(
             'program-records-list',
             gettext('Program Records'),
-            gettext('A program record is created once you have earned at least one Verified Certificate in a program.'),
+            gettext('A program record is created once you have earned at least one course certificate in a program.'),
             programs,
           )
         }
