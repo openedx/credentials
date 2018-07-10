@@ -10,5 +10,7 @@ urlpatterns = [
         name='private_programs'),
     url(r'^programs/shared/{uuid}/$'.format(uuid=UUID_PATTERN), views.ProgramRecordView.as_view(), {'is_public': True},
         name='public_programs'),
-    url(r'^new/$', views.ProgramRecordCreationView.as_view(), name='cert_creation'),
+    url(r'^programs/{uuid}/send$'.format(uuid=UUID_PATTERN), views.ProgramSendView.as_view(), name='send_program'),
+    url(r'^programs/{uuid}/share$'.format(uuid=UUID_PATTERN), views.ProgramRecordCreationView.as_view(),
+        name='share_program'),
 ]
