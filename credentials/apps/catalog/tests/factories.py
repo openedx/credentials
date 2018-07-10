@@ -8,7 +8,7 @@ import factory
 from factory.fuzzy import FuzzyDateTime, FuzzyText
 from pytz import UTC
 
-from credentials.apps.catalog.models import Course, CourseRun, Organization, Program
+from credentials.apps.catalog.models import Course, CourseRun, CreditPathway, Organization, Program
 from credentials.apps.core.tests.factories import SiteFactory
 
 
@@ -73,3 +73,18 @@ class ProgramFactory(factory.DjangoModelFactory):
     def authoring_organizations(self, create, extracted):
         if create:
             add_m2m_data(self.authoring_organizations, extracted)
+
+
+class CreditPathwayFactory(factory.DjangoModelFactory):
+    class Meta(object):
+        model = CreditPathway
+
+    site = factory.SubFactory(SiteFactory)
+    name = FuzzyText(prefix="Test Pathway ")
+    org_name = FuzzyText()
+    email = factory.Faker('safe_email')
+
+    @factory.post_generation
+    def programs(self, create, extracted):
+        if create:
+            add_m2m_data(self.programs, extracted)

@@ -356,6 +356,12 @@ JWT_AUTH = {
     'JWT_DECODE_HANDLER': 'edx_rest_framework_extensions.utils.jwt_decode_handler',
 }
 
+# Email sending
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACE_ENABLED_CHANNELS = ['django_email']
+ACE_CHANNEL_DEFAULT_EMAIL = 'django_email'
+ACE_CHANNEL_TRANSACTIONAL_EMAIL = 'django_email'
+
 # Set up logging for development use (logging to stdout)
 LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel='DEBUG')
 

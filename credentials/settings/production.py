@@ -23,6 +23,10 @@ DICT_UPDATE_KEYS = ('JWT_AUTH',)
 # be here as a default.
 FILE_STORAGE_BACKEND = {}
 
+EMAIL_BACKEND = 'django_ses.SESBackend'
+AWS_SES_REGION_NAME = environ.get('AWS_SES_REGION_NAME', 'us-east-1')
+AWS_SES_REGION_ENDPOINT = environ.get('AWS_SES_REGION_ENDPOINT', 'email.us-east-1.amazonaws.com')
+
 CONFIG_FILE = get_env_setting('CREDENTIALS_CFG')
 with open(CONFIG_FILE, encoding='utf-8') as f:
     config_from_yaml = yaml.load(f)

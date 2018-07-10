@@ -35,9 +35,8 @@ class ShareProgramRecordModal extends React.Component {
       },
     };
 
-    axios.post('/records/new/', {
+    axios.post(`/records/programs/${uuid}/share`, {
       username,
-      uuid,
     }, headers)
       .then(this.setProgramRecordUrl)
       .catch(this.setUrlError);
