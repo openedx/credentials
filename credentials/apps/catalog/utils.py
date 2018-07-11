@@ -2,7 +2,7 @@
 
 from django.db import transaction
 
-from credentials.apps.catalog.models import Course, CourseRun, Organization, Program
+from credentials.apps.catalog.models import Course, CourseRun, CreditPathway, Organization, Program
 
 
 # Note: these parsing functions don't attempt to clear out old data that is no longer provided by Discovery.
@@ -84,3 +84,20 @@ def parse_program(site, data):
         program.course_runs.add(*course_runs)
 
     return program
+
+
+@transaction.atomic
+def parse_pathway(site, data):
+    pathway, _ = CreditPathway.objects.update_or_create(
+        site=site,
+        name=data['name'],
+        org_name=data['org_name'],
+        email=data['email']
+    )
+
+    pathway.programs.clear()
+    for program_data in data['programs']:
+        program = Program.objects.get(uuid=program_data['uuid'])
+        pathway.programs.add(program)
+
+    return pathway

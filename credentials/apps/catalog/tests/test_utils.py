@@ -7,7 +7,9 @@ from django.test import TestCase
 
 from credentials.apps.catalog.models import Course, CourseRun, Organization, Program
 from credentials.apps.catalog.tests.factories import CourseFactory
-from credentials.apps.catalog.utils import parse_course, parse_course_run, parse_organization, parse_program
+from credentials.apps.catalog.utils import (
+    parse_course, parse_course_run, parse_organization, parse_pathway, parse_program
+)
 from credentials.apps.core.tests.factories import SiteFactory
 
 
@@ -32,6 +34,9 @@ class ParseTests(TestCase):
                      'authoring_organizations': [ORG1_DATA], 'courses': [COURSE1_DATA], 'type': 'MicroMasters'}
     PROGRAM1_VALUES = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd5', 'title': 'Program Title',
                        'type': 'MicroMasters'}
+
+    PATHWAY1_DATA = {'name': 'Test Pathway', 'org_name': 'Pathway Org', 'email': 'test@example.com',
+                     'programs': [PROGRAM1_DATA]}
 
     def setUp(self):
         super(ParseTests, self).setUp()
@@ -149,3 +154,12 @@ class ParseTests(TestCase):
         self.assertEqual(Course.objects.all().count(), 0)
         self.assertEqual(CourseRun.objects.all().count(), 0)
         self.assertEqual(Organization.objects.all().count(), 0)
+
+    def test_parse_pathway(self):
+        # We assume that programs are parsed separately from pathway data.
+        parse_program(self.site, self.PROGRAM1_DATA)
+        pathway = parse_pathway(self.site, self.PATHWAY1_DATA)
+        assert pathway.name == self.PATHWAY1_DATA['name']
+        assert pathway.email == self.PATHWAY1_DATA['email']
+        assert pathway.org_name == self.PATHWAY1_DATA['org_name']
+        assert str(pathway.programs.all()[0].uuid) == self.PROGRAM1_DATA['uuid']
