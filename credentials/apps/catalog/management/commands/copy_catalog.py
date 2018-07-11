@@ -5,7 +5,7 @@ import logging
 from django.contrib.sites.models import Site
 from django.core.management import BaseCommand
 
-from credentials.apps.catalog.utils import parse_program
+from credentials.apps.catalog.utils import parse_pathway, parse_program
 from credentials.apps.core.models import SiteConfiguration
 
 logger = logging.getLogger(__name__)
@@ -39,6 +39,7 @@ class Command(BaseCommand):
             logger.info('Copying catalog data for site {}'.format(site.domain))
             client = site_config.catalog_api_client
             Command.fetch_programs(site, client, page_size=page_size)
+            Command.fetch_pathways(site, client, page_size=page_size)
 
     @staticmethod
     def fetch_programs(site, client, page_size=None):
@@ -49,3 +50,13 @@ class Command(BaseCommand):
                 logger.info('Copying program "{}"'.format(program['title']))
                 parse_program(site, program)
             next_page = next_page + 1 if programs['next'] else None
+
+    @staticmethod
+    def fetch_pathways(site, client, page_size=None):
+        next_page = 1
+        while next_page:
+            pathways = client.credit_pathways.get(exclude_utm=1, page=next_page, page_size=page_size)
+            for pathway in pathways['results']:
+                logger.info('Copying pathway "{}"'.format(pathway['name']))
+                parse_pathway(site, pathway)
+            next_page = next_page + 1 if pathways['next'] else None

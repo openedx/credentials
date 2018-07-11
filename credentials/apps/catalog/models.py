@@ -84,3 +84,19 @@ class Program(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+
+class CreditPathway(TimeStampedModel):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    org_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    programs = SortedManyToManyField(Program, related_name='pathways')
+
+    class Meta:
+        unique_together = (
+            ('site', 'name', 'org_name')
+        )
+
+    def __str__(self):
+        return self.name
