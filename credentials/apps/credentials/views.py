@@ -50,7 +50,8 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
         return get_object_or_404(
             UserCredential,
             uuid=self.kwargs.get('uuid'),
-            status=UserCredential.AWARDED
+            status=UserCredential.AWARDED,
+            program_credentials__site=self.request.site,
         )
 
     def get_context_data(self, **kwargs):

@@ -13,7 +13,7 @@ from django.utils.text import slugify
 from faker import Faker
 from mock import patch
 
-from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
+from credentials.apps.core.tests.factories import USER_PASSWORD, SiteConfigurationFactory, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
 from credentials.apps.credentials.models import ProgramCertificate, UserCredential
@@ -42,13 +42,15 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         user = UserFactory(username=self.MOCK_USER_DATA['username'])
         self.client.login(username=user.username, password=USER_PASSWORD)
 
-    def _render_user_credential(self, use_proper_logo_url=True):
+    def _render_user_credential(self, use_proper_logo_url=True, user_credential=None, program_certificate=None):
         """ Helper method to render a user certificate."""
+        user_credential = user_credential or self.user_credential
+        program_certificate = program_certificate or self.program_certificate
         if use_proper_logo_url:
             certificate_logo_image_url = self.faker.url()
         else:
             certificate_logo_image_url = None
-        program_uuid = self.program_certificate.program_uuid
+        program_uuid = program_certificate.program_uuid
         program_endpoint = 'programs/{uuid}/'.format(uuid=str(program_uuid))
         body = {
             'uuid': str(program_uuid),
@@ -82,7 +84,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
 
         with patch('credentials.apps.core.models.SiteConfiguration.get_user_api_data') as user_data:
             user_data.return_value = self.MOCK_USER_DATA
-            response = self.client.get(self.user_credential.get_absolute_url())
+            response = self.client.get(user_credential.get_absolute_url())
             self.assertEqual(response.status_code, 200)
 
         return response
@@ -143,6 +145,33 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         path = reverse('credentials:render', kwargs={'uuid': uuid.uuid4().hex})
         response = self.client.get(path)
         self.assertEqual(response.status_code, 404)
+
+    @responses.activate
+    def test_invalid_site(self):
+        """ Verify that the view returns a 404 if user_credentials are displayed on a site
+        they are not associated with.
+        """
+        domain = 'unused.testsite'
+        site_configuration = SiteConfigurationFactory(
+            site__domain=domain,
+        )
+        test_site = site_configuration.site
+        test_program_certificate = factories.ProgramCertificateFactory(site=test_site)
+        test_signatory_1 = factories.SignatoryFactory()
+        test_signatory_2 = factories.SignatoryFactory()
+        test_program_certificate.signatories.add(test_signatory_1, test_signatory_2)
+        test_user_credential = factories.UserCredentialFactory(
+            username=self.MOCK_USER_DATA['username'], credential=test_program_certificate
+        )
+        response = self.client.get(test_user_credential.get_absolute_url())
+        self.assertEqual(response.status_code, 404)
+        # Change the program certificate site to the client's site and check that the
+        # response returns the user's certificate.
+        test_program_certificate.site = self.site
+        test_program_certificate.save()
+        response = self._render_user_credential(user_credential=test_user_credential,
+                                                program_certificate=test_program_certificate)
+        self.assertEqual(response.status_code, 200)
 
     def test_invalid_credential(self):
         """ Verify the view returns 404 for attempts to render unsupported credentials. """
