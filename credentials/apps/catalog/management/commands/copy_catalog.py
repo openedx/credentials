@@ -39,7 +39,9 @@ class Command(BaseCommand):
             logger.info('Copying catalog data for site {}'.format(site.domain))
             client = site_config.catalog_api_client
             Command.fetch_programs(site, client, page_size=page_size)
+            logger.info('Finished copying programs.')
             Command.fetch_pathways(site, client, page_size=page_size)
+            logger.info('Finished copying pathways.')
 
     @staticmethod
     def fetch_programs(site, client, page_size=None):

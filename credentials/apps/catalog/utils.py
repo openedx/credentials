@@ -88,11 +88,16 @@ def parse_program(site, data):
 
 @transaction.atomic
 def parse_pathway(site, data):
+    """
+    Assumes that the associated programs were parsed before this is run.
+    """
     pathway, _ = CreditPathway.objects.update_or_create(
         site=site,
         name=data['name'],
-        org_name=data['org_name'],
-        email=data['email']
+        defaults={
+            'email': data['email'],
+            'org_name': data['org_name']
+        }
     )
 
     pathway.programs.clear()
