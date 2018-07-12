@@ -95,7 +95,7 @@ class CreditPathway(TimeStampedModel):
 
     class Meta:
         unique_together = (
-            ('site', 'name', 'org_name')
+            ('site', 'name')
         )
 
     def __str__(self):
