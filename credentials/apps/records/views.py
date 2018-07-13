@@ -300,6 +300,7 @@ class ProgramSendView(LoginRequiredMixin, View):
         if username != request.user.get_username() and not request.user.is_staff:
             return JsonResponse({'error': 'Permission denied'}, status=403)
 
+        credential = UserCredential.objects.filter(username=username, program_credentials__program_uuid=program_uuid)
         program = get_object_or_404(Program, uuid=program_uuid, site=request.site)
         pathway = get_object_or_404(CreditPathway, id=pathway_id, programs__uuid=program_uuid)
         certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)
@@ -313,6 +314,7 @@ class ProgramSendView(LoginRequiredMixin, View):
 
         record_path = reverse('records:public_programs', kwargs={'uuid': public_record.uuid.hex})
         record_link = request.build_absolute_uri(record_path)
+        csv_link = urllib.parse.urljoin(record_link, "csv")
 
         msg = ProgramCreditRequest(request.site).personalize(
             recipient=Recipient(username=None, email_address=pathway.email),
@@ -322,6 +324,8 @@ class ProgramSendView(LoginRequiredMixin, View):
                 'program_name': program.title,
                 'record_link': record_link,
                 'user_full_name': request.user.get_full_name(),
+                'program_completed': credential.exists(),
+                'csv_link': csv_link,
             },
         )
         ace.send(msg)

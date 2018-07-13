@@ -4,6 +4,7 @@ Tests for records rendering views.
 import csv
 import io
 import json
+import urllib.parse
 import uuid
 
 from django.contrib.contenttypes.models import ContentType
@@ -612,18 +613,37 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertEqual(mock_ace.send.call_args[0][0].options['from_address'],
                          'no-reply@' + self.site.domain)  # pylint: disable=no-member
 
-    def test_email_content(self):
+    def test_email_content_complete(self):
         """Verify an email is actually sent"""
+        response = self.post()
+        self.assertEqual(response.status_code, 200)
+        public_record = ProgramCertRecord.objects.get(user=self.user, program=self.program)
+        record_path = reverse('records:public_programs', kwargs={'uuid': public_record.uuid.hex})
+        record_link = "http://" + self.site.domain + record_path  # pylint: disable=no-member
+        csv_link = urllib.parse.urljoin(record_link, "csv")
+
+        # Check output and make sure it seems correct
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        self.assertIn(self.program.title + ' Credit Request for', email.subject)
+        self.assertIn(self.user.get_full_name() + ' would like to apply for credit in the ' + self.pathway.name,
+                      email.body)
+        self.assertIn("has sent their completed program record for", email.body)
+        self.assertIn("<a href=\"" + record_link + "\">View Program Record</a>", email.body)
+        self.assertIn("<a href=\"" + csv_link + "\">Download Record (CSV)</a>", email.body)
+        self.assertEqual(self.site_configuration.partner_from_address, email.from_email)
+        self.assertListEqual([self.pathway.email], email.to)
+
+    def test_email_content_incomplete(self):
+        """Verify an email is actually sent"""
+        self.user_credential.delete()
         response = self.post()
         self.assertEqual(response.status_code, 200)
 
         # Check output and make sure it seems correct
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox[0]
-        self.assertIn('Program Credit Request', email.subject)
-        self.assertIn('Please go to the following page', email.body)
-        self.assertEqual(self.site_configuration.partner_from_address, email.from_email)
-        self.assertListEqual([self.pathway.email], email.to)
+        self.assertIn("has sent their partially completed program record for", email.body)
 
     def prevent_sending_second_email(self):
         """ Verify that an email can't be sent twice """
