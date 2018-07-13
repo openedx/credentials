@@ -1,3 +1,4 @@
+import datetime
 import json
 from collections import defaultdict
 
@@ -74,7 +75,7 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
                 'partner': ', '.join(program.authoring_organizations.values_list('name', flat=True)),
                 'uuid': program.uuid.hex,
                 'type': slugify(program.type),
-                'progress': _('Completed') if program.uuid in completed_program_uuids else _('In Progress')
+                'completed': program.uuid in completed_program_uuids,
             } for program in programs]
 
     def get_context_data(self, **kwargs):
@@ -130,6 +131,11 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
         program_course_runs = program.course_runs.all()
         program_course_runs_set = set(program_course_runs)
 
+        # Find program credential if it exists (indicates if user has completed this program)
+        program_credential_query = UserCredential.objects.filter(
+            username=user.username,
+            program_credentials__program_uuid=program_uuid)
+
         # Get all of the user course-certificates associated with the program courses
         course_certificate_content_type = ContentType.objects.get(app_label='credentials', model='coursecertificate')
         course_user_credentials = UserCredential.objects.prefetch_related('credential').filter(
@@ -147,6 +153,7 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
         # Keep track of number of attempts and best attempt per course
         num_attempts_dict = defaultdict(int)
         highest_attempt_dict = {}  # Maps course -> highest grade earned
+        last_updated = None
 
         # Find the highest course cert grades for each course
         for course_grade in course_grades:
@@ -156,6 +163,7 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
 
             if user_credential is not None:
                 num_attempts_dict[course] += 1
+                last_updated = max(last_updated, course_grade.modified) if last_updated else course_grade.modified
 
                 # Update grade if grade is higher and part of awarded cert
                 if user_credential.status == UserCredential.AWARDED:
@@ -163,12 +171,17 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
                     if course_grade.percent_grade > current.percent_grade:
                         highest_attempt_dict[course] = course_grade
 
+        last_updated = last_updated or datetime.datetime.today()
+
         learner_data = {'full_name': user.get_full_name(),
                         'username': user.username,
                         'email': user.email, }
 
         program_data = {'name': program.title,
                         'type': slugify(program.type),
+                        'type_name': program.type,
+                        'completed': program_credential_query.exists(),
+                        'last_updated': last_updated.isoformat(),
                         'school': ', '.join(program.authoring_organizations.values_list('name', flat=True))}
 
         # Add course-run data to the response in the order that is maintained by the Program's sorted field
