@@ -36,6 +36,13 @@ class SiteConfiguration(models.Model):
         blank=False,
         default='openedx'
     )
+    partner_from_address = models.EmailField(
+        verbose_name='Email address for partners',
+        help_text='An address to use for the "From" field of any automated emails sent out to partners. ' +
+                  'If not defined, no-reply@sitedomain will be used.',
+        blank=True,
+        null=True,
+    )
     lms_url_root = models.URLField(
         verbose_name=_('LMS base url for custom site'),
         help_text=_("Root URL of this site's LMS (e.g. https://courses.stage.edx.org)"),

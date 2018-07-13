@@ -39,6 +39,7 @@ class SiteConfigurationFactory(django.DjangoModelFactory):
     lms_url_root = Faker('url')
     catalog_api_url = Faker('url')
     platform_name = Faker('word')
+    partner_from_address = Faker('safe_email')
     tos_url = Faker('url')
     privacy_policy_url = Faker('url')
     homepage_url = Faker('url')
