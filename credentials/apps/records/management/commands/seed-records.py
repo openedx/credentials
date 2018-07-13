@@ -7,10 +7,11 @@ from django.core.management import BaseCommand
 from django.db import transaction
 from faker import Faker
 
-from credentials.apps.catalog.models import Course, CourseRun, Organization, Program
+from credentials.apps.catalog.models import Course, CourseRun, CreditPathway, Organization, Program
 from credentials.apps.core.models import User
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, Signatory, UserCredential
-from credentials.apps.records.models import ProgramCertRecord, UserGrade
+from credentials.apps.records.constants import UserCreditPathwayStatus
+from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
 
 logger = logging.getLogger(__name__)
 
@@ -70,11 +71,18 @@ class Command(BaseCommand):
         program_certificates = Command.seed_program_certificates(site, programs)
         Command.seed_user_credentials(user, program_certificates, course_certificates, faker)
         Command.seed_program_cert_records(user, programs, faker)
+        credit_pathways = Command.seed_credit_pathways(site, programs)
+        Command.seed_user_credit_pathways(user, credit_pathways)
 
     @staticmethod
     def get_site(site_name):
         """ Get a specific site by its name """
-        return Site.objects.get(name=site_name)
+        site = Site.objects.get(name=site_name)
+        if site:
+            logger.info("Retrieved site: %s", site_name)
+        else:
+            logger.info("Error retrieving site: %s", site_name)
+        return site
 
     @staticmethod
     def seed_organizations(site, faker):
@@ -174,10 +182,9 @@ class Command(BaseCommand):
     def seed_user_grades(user, course_runs):
         """ Seed user grades for the test users """
         user_grades = []
-
         for course_run in course_runs:
             user_grade, created = UserGrade.objects.get_or_create(
-                username=str(user),
+                username=user.username,
                 course_run=course_run,
                 letter_grade='B',
                 percent_grade=0.82,
@@ -243,7 +250,7 @@ class Command(BaseCommand):
             user_credential, created = UserCredential.objects.get_or_create(
                 credential_content_type=ContentType.objects.get_for_model(program_certificate),
                 credential_id=program_certificate.id,
-                username=str(user),
+                username=user.username,
                 status=UserCredential.AWARDED,
                 download_url="http://localhost:18150/download",
                 uuid=faker.uuid4())
@@ -255,7 +262,7 @@ class Command(BaseCommand):
             user_credential, created = UserCredential.objects.get_or_create(
                 credential_content_type=ContentType.objects.get_for_model(course_certificate),
                 credential_id=course_certificate.id,
-                username=str(user),
+                username=user.username,
                 status=UserCredential.AWARDED,
                 download_url="http://localhost:18150/download",
                 uuid=faker.uuid4())
@@ -280,3 +287,34 @@ class Command(BaseCommand):
             program_cert_records.append(program_cert_record)
 
         return program_cert_records
+
+    @staticmethod
+    def seed_credit_pathways(site, programs):
+        """ Seed two credit pathways """
+        all_program_pathway, created = CreditPathway.objects.get_or_create(
+            site=site,
+            name='All program pathway',
+            org_name="MIT")
+        all_program_pathway.programs = programs
+        Command.log_action("CreditPathway with name", all_program_pathway.name, created)
+
+        one_program_pathway, created = CreditPathway.objects.get_or_create(
+            site=site,
+            name='One program pathway',
+            org_name="MIT")
+        one_program_pathway.programs = [programs[0]]
+        Command.log_action("CreditPathway with name", one_program_pathway.name, created)
+
+        return [all_program_pathway, one_program_pathway]
+
+    @staticmethod
+    def seed_user_credit_pathways(user, credit_pathways):
+        """ Seed one UserCreditPathway, this denotes that a user
+        has sent an email to that pathway """
+        user_credit_pathway, created = UserCreditPathway.objects.get_or_create(
+            user=user,
+            credit_pathway=credit_pathways[1],
+            status=UserCreditPathwayStatus.SENT)
+        Command.log_action("UserCreditPathway for user", user.username, created)
+
+        return user_credit_pathway

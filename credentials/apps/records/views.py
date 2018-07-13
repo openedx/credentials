@@ -22,8 +22,9 @@ from credentials.apps.catalog.models import CourseRun, CreditPathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredential
+from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
-from credentials.apps.records.models import ProgramCertRecord, UserGrade
+from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
 
 from .constants import WAFFLE_FLAG_RECORDS
 
@@ -31,7 +32,17 @@ from .constants import WAFFLE_FLAG_RECORDS
 def get_record_data(user, program_uuid, site, platform_name=None):
         program = Program.objects.prefetch_related('course_runs__course').get(uuid=program_uuid, site=site)
         program_course_runs = program.course_runs.all()
-        program_course_runs_set = set(program_course_runs)
+        program_course_runs_set = frozenset(program_course_runs)
+
+        # Get all credit pathway organizations and their statuses
+        program_credit_pathways = program.pathways.all()
+        program_credit_pathways_set = frozenset(program_credit_pathways)
+        user_credit_pathways = UserCreditPathway.objects.select_related('credit_pathway').filter(
+            user=user, credit_pathway__in=program_credit_pathways_set).all()
+        user_credit_pathways_dict = {user_pathway.credit_pathway:
+                                     user_pathway.status for user_pathway in user_credit_pathways}
+        credit_pathways = [(pathway, user_credit_pathways_dict.setdefault(pathway, ''))
+                           for pathway in program_credit_pathways]
 
         # Find program credential if it exists (indicates if user has completed this program)
         program_credential_query = UserCredential.objects.filter(
@@ -86,6 +97,10 @@ def get_record_data(user, program_uuid, site, platform_name=None):
                         'last_updated': last_updated.isoformat(),
                         'school': ', '.join(program.authoring_organizations.values_list('name', flat=True))}
 
+        credit_pathway_data = [{'name': credit_pathway[0].name,
+                                'id': credit_pathway[0].id,
+                                'status': credit_pathway[1]} for credit_pathway in credit_pathways]
+
         # Add course-run data to the response in the order that is maintained by the Program's sorted field
         course_data = []
         added_courses = set()
@@ -120,7 +135,8 @@ def get_record_data(user, program_uuid, site, platform_name=None):
         return {'learner': learner_data,
                 'program': program_data,
                 'platform_name': platform_name,
-                'grades': course_data, }
+                'grades': course_data,
+                'credit_pathways': credit_pathway_data, }
 
 
 class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
@@ -166,7 +182,8 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
         # Get the completed programs and a UUID set using the program_credentials
         program_credential_ids = map(lambda program_credential: program_credential.credential_id, program_credentials)
         program_certificates = ProgramCertificate.objects.filter(id__in=program_credential_ids)
-        completed_program_uuids = set(program_certificate.program_uuid for program_certificate in program_certificates)
+        completed_program_uuids = frozenset(
+            program_certificate.program_uuid for program_certificate in program_certificates)
 
         return [
             {
@@ -289,6 +306,11 @@ class ProgramSendView(LoginRequiredMixin, View):
         user = get_object_or_404(User, username=username)
         public_record, _ = ProgramCertRecord.objects.get_or_create(user=user, program=program)
 
+        # Make sure we haven't already sent an email with a 'sent' status
+        if UserCreditPathway.objects.filter(
+                user=user, credit_pathway=pathway, status=UserCreditPathwayStatus.SENT).exists():
+            return JsonResponse({'error': 'Pathway email already sent'}, status=400)
+
         record_path = reverse('records:public_programs', kwargs={'uuid': public_record.uuid.hex})
         record_link = request.build_absolute_uri(record_path)
 
@@ -303,6 +325,13 @@ class ProgramSendView(LoginRequiredMixin, View):
             },
         )
         ace.send(msg)
+
+        # Create a record of this email so that we can't send multiple times
+        # If the status was previously changed, we want to reset it to SENT
+        UserCreditPathway.objects.update_or_create(
+            user=user,
+            credit_pathway=pathway,
+            defaults={'status': UserCreditPathwayStatus.SENT}, )
 
         return http.HttpResponse(status=200)
 

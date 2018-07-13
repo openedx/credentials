@@ -16,14 +16,8 @@ from django_extensions.db.models import TimeStampedModel
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 
+from credentials.apps.core.utils import _choices
 from credentials.apps.credentials import constants
-
-
-def _choices(*values):
-    """
-    Helper for use with model field 'choices'.
-    """
-    return [(value,) * 2 for value in values]
 
 
 def signatory_assets_path(instance, filename):

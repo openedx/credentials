@@ -4,11 +4,13 @@ Models for the records app.
 import uuid
 
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 
-from credentials.apps.catalog.models import CourseRun, Program
+from credentials.apps.catalog.models import CourseRun, CreditPathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.credentials.models import ProgramCertificate
+from credentials.apps.records import constants
 
 
 class UserGrade(TimeStampedModel):
@@ -44,3 +46,26 @@ class ProgramCertRecord(TimeStampedModel):
 
     class Meta(object):
         verbose_name = "Shared Program Records"
+
+
+class UserCreditPathway(TimeStampedModel):
+    """
+    Connects a user to a credit pathway
+    This is used to track when a user sends a record to that organization
+    The timestamp is used for error tracking and support
+    """
+    STATUS_CHOICES = [
+        (constants.UserCreditPathwayStatus.SENT, _('sent')),
+        ('', _('other')),
+    ]
+
+    user = models.ForeignKey(User)
+    credit_pathway = models.ForeignKey(CreditPathway)
+    status = models.CharField(
+        max_length=15,
+        choices=STATUS_CHOICES,
+        default=constants.UserCreditPathwayStatus.SENT,
+    )
+
+    class Meta(object):
+        unique_together = ('user', 'credit_pathway')

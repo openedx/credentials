@@ -49,6 +49,18 @@ const defaultProps = {
       school: 'TestX',
     },
   ],
+  credit_pathways: [
+    {
+      name: 'testX',
+      id: 1,
+      status: '',
+    },
+    {
+      name: 'MITx',
+      id: 2,
+      status: 'sent',
+    },
+  ],
   isPublic: false,
   icons: {
     micromasters: 'micromasters-icon',
@@ -155,23 +167,6 @@ describe('<ProgramRecord />', () => {
       expect(wrapper.find('.modal-dialog .modal-header').text()).toEqual('Send to testX Credit Partner');
     });
 
-    it('calls sendRecords and shows the loading alert', () => {
-      // Setup axios mocks
-      const postPromise = Promise.resolve();
-      axios.post.mockImplementation(() => postPromise);
-      const allPromise = Promise.resolve();
-      axios.all.mockImplementation(() => allPromise);
-
-      expect(wrapper.find('.alert-info').prop('hidden')).toBe(true);
-      wrapper.find('.program-record-actions button.btn-primary').simulate('click');
-      wrapper.update();
-      wrapper.find('.modal-body input').at(0).simulate('change', { target: { checked: true } });
-      wrapper.find('.modal-body input').at(1).simulate('change', { target: { checked: true } });
-      wrapper.find('.modal-footer button.btn-primary').simulate('click');
-      wrapper.update();
-      expect(wrapper.find('.alert-info').prop('hidden')).toBe(false);
-    });
-
     it('shows the info alert', () => {
       expect(wrapper.find('.alert-info').prop('hidden')).toBe(true);
       wrapper.setState({ sendRecordLoadingAlertOpen: true });
@@ -226,12 +221,12 @@ describe('<ProgramRecord />', () => {
       const allPromise = Promise.resolve();
       axios.all.mockImplementation(() => allPromise);
 
-      wrapper.instance().sendRecords(['MIT', 'RIT']);
+      wrapper.instance().sendRecords(['testX', 'MITx']);
 
       return allPromise.then(() => {
         wrapper.update();
         expect(wrapper.state('sendRecordSuccessAlertOpen')).toBe(true);
-        expect(wrapper.state('sendRecordSuccessOrgs')).toEqual(['MIT', 'RIT']);
+        expect(wrapper.state('sendRecordSuccessOrgs')).toEqual(['testX', 'MITx']);
       });
     });
 
@@ -241,12 +236,12 @@ describe('<ProgramRecord />', () => {
       const allPromise = Promise.resolve();
       axios.all.mockImplementation(() => allPromise);
 
-      wrapper.instance().sendRecords(['MIT', 'RIT']);
+      wrapper.instance().sendRecords(['testX', 'MITx']);
 
       return allPromise.then(() => {
         wrapper.update();
         expect(wrapper.state('sendRecordFailureAlertOpen')).toBe(true);
-        expect(wrapper.state('sendRecordFailureOrgs')).toEqual(['MIT', 'RIT']);
+        expect(wrapper.state('sendRecordFailureOrgs')).toEqual(['testX', 'MITx']);
       });
     });
   });
