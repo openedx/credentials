@@ -162,10 +162,14 @@ class ProgramRecord extends React.Component {
               <h1 className="program-title h2">{ StringUtils.interpolate(gettext('{name} Record'), { name: program.name }) }</h1>
               <div className="text-muted program-type">
                 <ProgramIcon type={program.type} className="program-icon" />
-                { StringUtils.interpolate(gettext('{type} Program Record'), { type: program.type }) }
+                { StringUtils.interpolate(gettext('{type} Program Record'), { type: program.type_name }) }
               </div>
               <div className="d-flex program-status">
-                <span className="badge badge-warning">{program.progress}</span>
+                {program.completed ?
+                  <span className="badge badge-success">{gettext('Earned')}</span>
+                 :
+                  <span className="badge badge-warning">{gettext('Partially Completed')}</span>
+                }
                 <span className="updated">
                   { StringUtils.interpolate(
                       gettext('Last Updated {date}'), {
@@ -244,8 +248,9 @@ ProgramRecord.propTypes = {
   program: PropTypes.shape({
     name: PropTypes.string,
     school: PropTypes.string,
-    progress: PropTypes.string,
+    completed: PropTypes.bool,
     type: PropTypes.string,
+    type_name: PropTypes.string,
     last_updated: PropTypes.string,
   }).isRequired,
   grades: PropTypes.arrayOf(PropTypes.object).isRequired,

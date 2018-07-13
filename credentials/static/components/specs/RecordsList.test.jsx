@@ -12,28 +12,28 @@ const defaultProps = {
       partner: 'Partner1',
       uuid: 'UUID1',
       type: 'micromasters',
-      progress: 'Completed',
+      completed: true,
     },
     {
       name: 'Program2',
       partner: 'Partner2',
       uuid: 'UUID2',
       type: 'professional-certificate',
-      progress: 'Completed',
+      completed: true,
     },
     {
       name: 'Program3',
       partner: 'Partner3',
       uuid: 'UUID3',
       type: 'xseries',
-      progress: 'In Progress',
+      completed: false,
     },
     {
       name: 'Program4',
       partner: 'Partner4',
       uuid: 'UUID4',
       type: 'non-edx',
-      progress: 'In Progress',
+      completed: false,
     },
   ],
 };
@@ -41,7 +41,7 @@ const defaultProps = {
 const testRowData = (row, index) => {
   expect(row.find('.program-title').text()).toEqual(defaultProps.programs[index].name);
   expect(row.find('span').at(1).text()).toEqual(defaultProps.programs[index].partner);
-  expect(row.find('span').at(3).text()).toEqual(defaultProps.programs[index].progress);
+  expect(row.find('span').at(3).text()).toEqual(defaultProps.programs[index].completed ? 'Completed' : 'In Progress');
 };
 
 describe('<RecordsList />', () => {

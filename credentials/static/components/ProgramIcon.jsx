@@ -8,14 +8,13 @@ import ProfessionalIcon from '../images/icons/professional.svg';
 const ProgramIcon = (props) => {
   const { className, element, type } = props;
 
-  const lowerType = type.toLowerCase();
   let icon = false;
 
-  if (lowerType === 'micromasters') {
+  if (type === 'micromasters') {
     icon = MicroMastersIcon;
-  } else if (lowerType === 'xseries') {
+  } else if (type === 'xseries') {
     icon = XseriesIcon;
-  } else if (lowerType === 'professional-certificate') {
+  } else if (type === 'professional-certificate') {
     icon = ProfessionalIcon;
   }
 

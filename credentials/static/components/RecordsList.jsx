@@ -32,7 +32,9 @@ class RecordsList extends React.Component {
                 <ProgramIcon type={row.type} className="inline-data certificate-icon" />
                 <span className="record-partner inline-data">{row.partner}</span>
                 <span className="inline-data"> {' | '} </span>
-                <span className="font-weight-bold inline-data">{row.progress}</span>
+                <span className="font-weight-bold inline-data">{
+                  row.completed ? gettext('Completed') : gettext('In Progress')
+                }</span>
               </div>
             </div>
             <div className="col-md record-btn-col">
@@ -98,7 +100,7 @@ RecordsList.propTypes = {
     partner: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    progress: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
   })).isRequired,
   helpUrl: PropTypes.string,
 };

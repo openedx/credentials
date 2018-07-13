@@ -22,7 +22,7 @@ from credentials.apps.credentials.constants import UUID_PATTERN
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
                                                           UserCredentialFactory)
-from credentials.apps.records.models import ProgramCertRecord
+from credentials.apps.records.models import ProgramCertRecord, UserGrade
 from credentials.apps.records.tests.factories import ProgramCertRecordFactory, UserGradeFactory
 from credentials.apps.records.tests.utils import dump_random_state
 
@@ -104,7 +104,7 @@ class RecordsViewTests(SiteMixin, TestCase):
         response = self._render_records()
         response_context_data = response.context_data
 
-        self.assertContains(response, 'My Records')
+        self.assertContains(response, 'My Learner Records')
 
         actual_child_templates = response_context_data['child_templates']
         self.assert_matching_template_origin(actual_child_templates['footer'], '_footer.html')
@@ -146,7 +146,7 @@ class RecordsViewTests(SiteMixin, TestCase):
                 'partner': 'TestOrg1, TestOrg2',
                 'uuid': self.program.uuid.hex,
                 'type': slugify(self.program.type),
-                'progress': 'Completed',
+                'completed': True,
             }
         ]
         self.assertEqual(program_data, expected_program_data)
@@ -164,7 +164,7 @@ class RecordsViewTests(SiteMixin, TestCase):
                 'partner': 'TestOrg1, TestOrg2',
                 'uuid': self.program.uuid.hex,
                 'type': slugify(self.program.type),
-                'progress': 'In Progress',
+                'completed': False,
             }
         ]
         self.assertEqual(program_data, expected_program_data)
@@ -205,14 +205,14 @@ class RecordsViewTests(SiteMixin, TestCase):
                 'partner': 'TestOrg1, TestOrg2',
                 'uuid': self.program.uuid.hex,
                 'type': slugify(self.program.type),
-                'progress': 'In Progress',
+                'completed': False,
             },
             {
                 'name': new_program.title,
                 'partner': 'TestOrg1, TestOrg2',
                 'uuid': new_program.uuid.hex,
                 'type': slugify(new_program.type),
-                'progress': 'Completed',
+                'completed': True,
             }
         ]
         self.assertEqual(program_data, expected_program_data)
@@ -402,6 +402,9 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         expected = {'name': self.program.title,
                     'type': slugify(self.program.type),
+                    'type_name': self.program.type,
+                    'completed': False,
+                    'last_updated': UserGrade.objects.last().modified.isoformat(),
                     'school': ', '.join(self.org_names)}
 
         self.assertEqual(program_data, expected)

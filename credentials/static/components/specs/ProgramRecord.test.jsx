@@ -13,8 +13,9 @@ const defaultProps = {
   program: {
     name: 'Test Program',
     school: 'TestX',
-    progress: 'Partially Completed',
-    type: 'MicroMasters',
+    completed: false,
+    type: 'micromasters',
+    type_name: 'MicroMasters',
     last_updated: '2018-06-29T18:15:01.805131+00:00',
   },
   grades: [
@@ -67,6 +68,7 @@ describe('<ProgramRecord />', () => {
       expect(wrapper.find('.program-record-actions button').length).toEqual(2);
       expect(wrapper.find('.program-record-actions button.btn-primary').text()).toBe('Send Learner Record');
       expect(wrapper.find('.program-record-actions button.btn-secondary').text()).toBe('Share');
+      expect(wrapper.find('.program-status .badge').text()).toBe('Partially Completed');
     });
 
     it('renders correct records', () => {
@@ -130,6 +132,18 @@ describe('<ProgramRecord />', () => {
       wrapper.update();
       expect(wrapper.find('.modal-dialog').length).toBe(0);
       expect(wrapper.find('.program-record-actions button.btn-secondary').html()).toEqual(document.activeElement.outerHTML);
+    });
+  });
+
+  describe('Completed record', () => {
+    beforeEach(() => {
+      const completedProps = defaultProps;
+      completedProps.program.completed = true;
+      wrapper = mount(<ProgramRecord {...completedProps} />);
+    });
+
+    it('labeled correctly', () => {
+      expect(wrapper.find('.program-status .badge').text()).toBe('Earned');
     });
   });
 
