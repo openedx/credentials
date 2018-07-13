@@ -8,6 +8,28 @@ const defaultProps = {
   parentSelector: 'body',
   uuid: 'test-uuid',
   sendHandler: jest.fn(),
+  creditPathways: {
+    testX: {
+      sent: false,
+      checked: false,
+      id: 1,
+    },
+    MITx: {
+      sent: false,
+      checked: false,
+      id: 2,
+    },
+  },
+  creditPathwaysList: [
+    {
+      name: 'testX',
+      status: '',
+    },
+    {
+      name: 'MITx',
+      status: '',
+    },
+  ],
   typeName: 'MicroMasters',
   platformName: 'partnerX',
 };
@@ -37,16 +59,24 @@ describe('<SendLearnerRecordModal />', () => {
   });
 
   it('calls sendHandler if selected', () => {
-    wrapper.find('.modal-body input').at(0).simulate('change', { target: { checked: true } });
-    expect(wrapper.state('RIT')).toBe(true);
+    wrapper.find('.modal-body input').at(0).simulate('change');
+    const pathways = wrapper.state().creditPathways;
+    pathways.testX.checked = true;
+    const numCheckedOrganizations = 1;
+    wrapper.instance().setState({ pathways, numCheckedOrganizations });
     wrapper.find('.modal-footer button.btn-primary').simulate('click');
     wrapper.update();
     expect(defaultProps.sendHandler.mock.calls.length).toBe(1);
   });
 
   it('gets the correct checked organizations', () => {
-    wrapper.find('.modal-body input').at(0).simulate('change', { target: { checked: true } });
-    expect(wrapper.state('RIT')).toBe(true);
-    expect(wrapper.instance().getCheckedOrganizations()).toEqual(['RIT']);
+    wrapper.state().creditPathways.testX.checked = true;
+    expect(wrapper.instance().getCheckedOrganizations()).toEqual(['testX']);
+  });
+
+  it('enables send button when at least one organization is checked', () => {
+    expect(wrapper.find('.modal-footer button.btn-primary').prop('disabled')).toBe(true);
+    wrapper.find('.modal-body input').at(0).simulate('change');
+    expect(wrapper.find('.modal-footer button.btn-primary').prop('disabled')).toBe(false);
   });
 });

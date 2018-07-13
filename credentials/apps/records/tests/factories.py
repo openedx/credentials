@@ -3,7 +3,7 @@ from uuid import uuid4
 import factory
 from factory.fuzzy import FuzzyChoice, FuzzyDecimal
 
-from credentials.apps.catalog.tests.factories import CourseRunFactory, ProgramFactory
+from credentials.apps.catalog.tests.factories import CourseRunFactory, CreditPathwayFactory, ProgramFactory
 from credentials.apps.core.tests.factories import UserFactory
 from credentials.apps.records import models
 
@@ -26,3 +26,11 @@ class ProgramCertRecordFactory(factory.django.DjangoModelFactory):
     uuid = factory.LazyFunction(uuid4)
     program = factory.SubFactory(ProgramFactory)
     user = factory.SubFactory(UserFactory)
+
+
+class UserCreditPathwayFactory(factory.django.DjangoModelFactory):
+    class Meta(object):
+        model = models.UserCreditPathway
+
+    user = factory.SubFactory(UserFactory)
+    credit_pathway = factory.SubFactory(CreditPathwayFactory)

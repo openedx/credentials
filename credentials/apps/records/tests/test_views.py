@@ -24,8 +24,10 @@ from credentials.apps.credentials.constants import UUID_PATTERN
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
                                                           UserCredentialFactory)
-from credentials.apps.records.models import ProgramCertRecord, UserGrade
-from credentials.apps.records.tests.factories import ProgramCertRecordFactory, UserGradeFactory
+from credentials.apps.records.constants import UserCreditPathwayStatus
+from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
+from credentials.apps.records.tests.factories import (ProgramCertRecordFactory, UserCreditPathwayFactory,
+                                                      UserGradeFactory)
 from credentials.apps.records.tests.utils import dump_random_state
 
 from ..constants import WAFFLE_FLAG_RECORDS
@@ -254,6 +256,9 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site)
         self.pcr = ProgramCertRecordFactory(program=self.program, user=self.user)
 
+        self.credit_pathway = CreditPathwayFactory(site=self.site)
+        self.credit_pathway.programs = [self.program]
+
     def _render_program_record(self, record_data=None, status_code=200):
         """ Helper method to mock rendering a user certificate."""
         if record_data is None:
@@ -426,6 +431,30 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         self.assertEqual(program_data, expected)
 
+    def test_credit_pathway_data(self):
+        """ Test that the credit pathway data is returned successfully """
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        credit_pathway_data = json.loads(response.context_data['record'])['credit_pathways']
+
+        expected = [{'name': self.credit_pathway.name,
+                     'id': self.credit_pathway.id,
+                     'status': ''}]
+
+        self.assertEqual(credit_pathway_data, expected)
+
+    def test_sent_credit_pathway_status(self):
+        """ Test that a credit pathway that has already been sent includes a pathway """
+        UserCreditPathwayFactory(credit_pathway=self.credit_pathway, user=self.user)
+
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        credit_pathway_data = json.loads(response.context_data['record'])['credit_pathways']
+
+        expected = [{'name': self.credit_pathway.name,
+                     'id': self.credit_pathway.id,
+                     'status': 'sent'}]
+
+        self.assertEqual(credit_pathway_data, expected)
+
     def test_xss(self):
         """ Verify that the view protects against xss in translations. """
         response = self._render_program_record({
@@ -595,6 +624,20 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertIn('Please go to the following page', email.body)
         self.assertEqual(self.site_configuration.partner_from_address, email.from_email)
         self.assertListEqual([self.pathway.email], email.to)
+
+    def prevent_sending_second_email(self):
+        """ Verify that an email can't be sent twice """
+        UserCreditPathwayFactory(credit_pathway=self.pathway, user=self.user)
+        response = self.post()
+        self.assertEqual(response.status_code, 400)
+
+    def test_resend_email(self):
+        """ Verify that a manually updated email status can be resent """
+        UserCreditPathwayFactory(credit_pathway=self.pathway, user=self.user, status='')
+        response = self.post()
+        self.assertEqual(response.status_code, 200)
+        user_credit_pathway = UserCreditPathway.objects.get(user=self.user, credit_pathway=self.pathway)
+        self.assertEqual(user_credit_pathway.status, UserCreditPathwayStatus.SENT)
 
     @override_flag(WAFFLE_FLAG_RECORDS, active=False)
     def test_feature_toggle(self):

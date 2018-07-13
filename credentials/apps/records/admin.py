@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from credentials.apps.records.models import ProgramCertRecord, UserGrade
+from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
 
 
 @admin.register(ProgramCertRecord)
@@ -20,3 +20,11 @@ class UserGradeAdmin(admin.ModelAdmin):
     list_display = ('username', 'course_run', 'letter_grade', 'percent_grade',)
     search_fields = ('username', 'course_run__key', 'mode',)
     raw_id_fields = ('course_run',)
+
+
+@admin.register(UserCreditPathway)
+class UserCreditPathwayAdmin(admin.ModelAdmin):
+    """ Admin for UserCreditPathway """
+    list_display = ('user', 'credit_pathway', 'status',)
+    search_fields = ('user__username', 'credit_pathway__org_name', 'status',)
+    raw_id_fields = ('credit_pathway',)

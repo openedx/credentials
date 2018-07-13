@@ -26,10 +26,15 @@ class ProgramRecord extends React.Component {
     this.formatDate = this.formatDate.bind(this);
     this.formatGradeData = this.formatGradeData.bind(this);
     this.sendRecords = this.sendRecords.bind(this);
+    this.updateCreditPathwaysSent = this.updateCreditPathwaysSent.bind(this);
+    this.sendRecords = this.sendRecords.bind(this);
     this.formatPercentage = this.formatPercentage.bind(this);
     this.closeSendRecordFailureAlert = this.closeSendRecordFailureAlert.bind(this);
     this.closeSendRecordSuccessAlert = this.closeSendRecordSuccessAlert.bind(this);
     this.closeSendRecordLoadingAlert = this.closeSendRecordLoadingAlert.bind(this);
+    this.creditPathways = this.parseCreditPathways();
+    this.showSendRecordButton = this.props.credit_pathways.length > 0;
+
     this.state = {
       shareModelOpen: false,
       sendRecordModalOpen: false,
@@ -127,6 +132,30 @@ class ProgramRecord extends React.Component {
     }));
   }
 
+  updateCreditPathwaysSent(successOrgs) {
+    for (let i = 0; i < successOrgs.length; i += 1) {
+      this.creditPathways[successOrgs[i]].sent = true;
+    }
+  }
+
+  // Parse the list of credit pathways into an object
+  parseCreditPathways() {
+    const creditPathways = {};
+
+    for (let i = 0; i < this.props.credit_pathways.length; i += 1) {
+      const pathway = this.props.credit_pathways[i];
+      const sent = (pathway.status === 'sent');
+
+      creditPathways[pathway.name] = {
+        sent,
+        checked: sent,
+        id: pathway.id,
+      };
+    }
+
+    return creditPathways;
+  }
+
   // Posts to the send records API for each org that is selected
   // This functionality should be included in the Send Record Modal and
   // not passed as a callback; using redux to update global state
@@ -158,7 +187,7 @@ class ProgramRecord extends React.Component {
     // Disabling eslint error since make_translations fails when using backticks
     // eslint-disable-next-line prefer-template
     axios.all(orgs.map(org => axios.post('/records/programs/' + uuid + '/send',
-    { username: this.props.learner.username, pathway_id: 'placeholder' }, // TODO: Finalize pathway info with LEARNER-5592
+      { username: this.props.learner.username, pathway_id: this.creditPathways[org].id },
       headers)
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
@@ -181,11 +210,12 @@ class ProgramRecord extends React.Component {
         sendRecordFailureAlertOpen: showFailure,
         sendRecordLoadingAlertOpen: false,
       });
+      this.updateCreditPathwaysSent(successOrgs);
     });
   }
 
   closeSendRecordFailureAlert() {
-    this.setState({ sendRecordFailureOrgs: [], sendRecordSuccessAlertOpen: false });
+    this.setState({ sendRecordFailureOrgs: [], sendRecordFailureAlertOpen: false });
   }
 
   closeSendRecordSuccessAlert() {
@@ -222,11 +252,13 @@ class ProgramRecord extends React.Component {
             <a href="/records/" className="top-bar-link flex-4">
               <span className="fa fa-caret-left" aria-hidden="true" /> {gettext('Back to My Records')}
             </a>
-            <Button
-              label={gettext('Send Learner Record')}
-              className={['btn-primary']}
-              onClick={this.loadSendRecordModal}
-            />
+            {this.showSendRecordButton &&
+              <Button
+                label={gettext('Send Learner Record')}
+                className={['btn-primary']}
+                onClick={this.loadSendRecordModal}
+              />
+            }
             <Button
               label={gettext('Share')}
               className={['btn-secondary']}
@@ -366,6 +398,11 @@ class ProgramRecord extends React.Component {
             uuid={uuid}
             typeName={program.type_name}
             platformName={platformName}
+            // Using this JSON trick since the {...} syntax and Object.assign() both don't work here
+            // For some reason they were not properly creating copies
+            creditPathways={JSON.parse(JSON.stringify(this.creditPathways))}
+            // Passing both a list and an object so that we can maintain pathway ordering
+            creditPathwaysList={this.props.credit_pathways}
           />
         }
         {shareModelOpen &&
@@ -398,6 +435,7 @@ ProgramRecord.propTypes = {
     last_updated: PropTypes.string,
   }).isRequired,
   grades: PropTypes.arrayOf(PropTypes.object).isRequired,
+  credit_pathways: PropTypes.arrayOf(PropTypes.object),
   isPublic: PropTypes.bool,
   icons: PropTypes.shape(),
   uuid: PropTypes.string.isRequired,
@@ -407,6 +445,7 @@ ProgramRecord.propTypes = {
 };
 
 ProgramRecord.defaultProps = {
+  credit_pathways: [],
   isPublic: true,
   icons: {},
   loadModalsAsChildren: true,

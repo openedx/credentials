@@ -7,34 +7,69 @@ import StringUtils from './Utils';
 class SendLearnerRecordModal extends React.Component {
   constructor(props) {
     super(props);
-    this.updateState = this.updateState.bind(this);
+    this.checkCreditPathway = this.checkCreditPathway.bind(this);
     this.getCheckedOrganizations = this.getCheckedOrganizations.bind(this);
     this.callSendHandler = this.callSendHandler.bind(this);
+    this.getPathwayDisplayName = this.getPathwayDisplayName.bind(this);
     this.state = {
-      RIT: false,
-      MIT: false,
+      creditPathways: this.props.creditPathways,
+      numCheckedOrganizations: 0, // Used to decide if we should gray out the 'send' button
     };
   }
 
-  // Get the organizations we are sharing for the analytics event
-  // TODO: remove hardcoded values once the state is no longer hardcoded
+
+  // Get the organizations that are currently checked off
   getCheckedOrganizations() {
     const organizations = [];
 
-    if (this.state.RIT) { organizations.push('RIT'); }
-    if (this.state.MIT) { organizations.push('MIT'); }
+    for (let i = 0; i < this.props.creditPathwaysList.length; i += 1) {
+      const name = this.props.creditPathwaysList[i].name;
+      const pathway = this.state.creditPathways[name];
+
+      if (pathway.checked && !pathway.sent) {
+        organizations.push(name);
+      }
+    }
+
     return organizations;
   }
 
-  updateState(checked, name) {
-    this.setState({
-      [name]: !this.state[name],
-    });
+
+  getPathwayDisplayName(name) {
+    const pathway = this.state.creditPathways[name];
+
+    if (pathway.sent) {
+      return StringUtils.interpolate(gettext('{name} - Sent'), { name });
+    }
+
+    return name;
   }
 
   callSendHandler() {
     this.props.sendHandler(this.getCheckedOrganizations());
+
+    // Close the modal since the send status shows up on the ProgramRecord page
+    this.props.onClose();
   }
+
+
+  // Update a credit pathway's state when the checkbox is updated
+  checkCreditPathway(checked, name) {
+    let count = this.state.numCheckedOrganizations;
+    if (checked) {
+      count += 1;
+    } else {
+      count -= 1;
+    }
+
+    const creditPathways = { ...this.state.creditPathways };
+    creditPathways[name].checked = checked;
+    this.setState({
+      numCheckedOrganizations: count,
+      creditPathways,
+    });
+  }
+
 
   render() {
     const { onClose, parentSelector, typeName, platformName } = this.props;
@@ -58,20 +93,17 @@ class SendLearnerRecordModal extends React.Component {
             )}</p>
             <p>{ gettext('Select organization(s) you wish to send this record to:') }</p>
             <CheckBoxGroup>
-              <CheckBox
-                id="checkbox1"
-                name="RIT"
-                label="RIT"
-                onChange={this.updateState}
-                checked={this.state.RIT}
-              />
-              <CheckBox
-                id="checkbox2"
-                name="MIT"
-                label="MIT"
-                onChange={this.updateState}
-                checked={this.state.MIT}
-              />
+              {this.props.creditPathwaysList.map(pathway => (
+                <CheckBox
+                  id={'checkbox'}
+                  name={pathway.name}
+                  label={this.getPathwayDisplayName(pathway.name)}
+                  key={pathway.name}
+                  disabled={this.state.creditPathways[pathway.name].sent}
+                  onChange={this.checkCreditPathway}
+                  checked={this.state.creditPathways[pathway.name].checked}
+                />
+              ))}
             </CheckBoxGroup>
           </div>
         )}
@@ -81,6 +113,7 @@ class SendLearnerRecordModal extends React.Component {
             label={gettext('Send')}
             buttonType="primary"
             onClick={this.callSendHandler}
+            disabled={this.state.numCheckedOrganizations <= 0}
           />,
         ]}
       />
@@ -98,11 +131,17 @@ SendLearnerRecordModal.propTypes = {
   uuid: PropTypes.string.isRequired,
   typeName: PropTypes.string.isRequired,
   platformName: PropTypes.string.isRequired,
+  // TODO: replace with redux global state variables
+  // eslint-disable-next-line react/forbid-prop-types
+  creditPathways: PropTypes.object,
+  creditPathwaysList: PropTypes.arrayOf(PropTypes.object),
 };
 
 SendLearnerRecordModal.defaultProps = {
   onClose: () => {},
   parentSelector: false,
+  creditPathways: {},
+  creditPathwaysList: [],
 };
 
 export default SendLearnerRecordModal;
