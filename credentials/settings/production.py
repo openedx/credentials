@@ -43,6 +43,8 @@ with open(CONFIG_FILE, encoding='utf-8') as f:
 if 'EXTRA_APPS' in locals():
     INSTALLED_APPS += EXTRA_APPS
 
+EMAIL_BACKEND = 'django_ses.SESBackend'
+
 DB_OVERRIDES = dict(
     PASSWORD=environ.get('DB_MIGRATION_PASS', DATABASES['default']['PASSWORD']),
     ENGINE=environ.get('DB_MIGRATION_ENGINE', DATABASES['default']['ENGINE']),
