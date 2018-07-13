@@ -1,8 +1,10 @@
 import React from 'react';
+import axios from 'axios';
 import { mount } from 'enzyme';
 import ProgramRecord from '../ProgramRecord';
 
 let wrapper;
+jest.mock('axios');
 
 const defaultProps = {
   learner: {
@@ -117,6 +119,9 @@ describe('<ProgramRecord />', () => {
     });
 
     it('loads the share program url modal', () => {
+      const promise = Promise.resolve({ uuid: '21366aa129514333a4a9f32161ad3a69' });
+      axios.post.mockImplementation(() => promise);
+
       expect(wrapper.find('.modal-dialog').length).toBe(0);
       wrapper.find('.program-record-actions button.btn-secondary').simulate('click');
       wrapper.update();
@@ -132,6 +137,101 @@ describe('<ProgramRecord />', () => {
       wrapper.update();
       expect(wrapper.find('.modal-dialog').length).toBe(0);
       expect(wrapper.find('.program-record-actions button.btn-secondary').html()).toEqual(document.activeElement.outerHTML);
+    });
+
+    it('calls sendRecords and shows the loading alert', () => {
+      // Setup axios mocks
+      const postPromise = Promise.resolve();
+      axios.post.mockImplementation(() => postPromise);
+      const allPromise = Promise.resolve();
+      axios.all.mockImplementation(() => allPromise);
+
+      expect(wrapper.find('.alert-info').prop('hidden')).toBe(true);
+      wrapper.find('.program-record-actions button.btn-primary').simulate('click');
+      wrapper.update();
+      wrapper.find('.modal-body input').at(0).simulate('change', { target: { checked: true } });
+      wrapper.find('.modal-body input').at(1).simulate('change', { target: { checked: true } });
+      wrapper.find('.modal-footer button.btn-primary').simulate('click');
+      wrapper.update();
+      expect(wrapper.find('.alert-info').prop('hidden')).toBe(false);
+    });
+
+    it('shows the info alert', () => {
+      expect(wrapper.find('.alert-info').prop('hidden')).toBe(true);
+      wrapper.setState({ sendRecordLoadingAlertOpen: true });
+      wrapper.update();
+      expect(wrapper.find('.alert-info').prop('hidden')).toBe(false);
+    });
+
+    it('shows the success alert', () => {
+      expect(wrapper.find('.alert-success').prop('hidden')).toBe(true);
+      wrapper.setState({ sendRecordSuccessOrgs: ['RIT'], sendRecordSuccessAlertOpen: true });
+      wrapper.update();
+      expect(wrapper.find('.alert-success').prop('hidden')).toBe(false);
+    });
+
+    it('shows the failure alert', () => {
+      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(true);
+      wrapper.setState({ sendRecordFailureOrgs: ['RIT'], sendRecordFailureAlertOpen: true });
+      wrapper.update();
+      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(false);
+    });
+
+    it('closes the info alert', () => {
+      expect(wrapper.find('.alert-info').prop('hidden')).toBe(true);
+      wrapper.setState({ sendRecordLoadingAlertOpen: true });
+      wrapper.update();
+      expect(wrapper.find('.alert-info').prop('hidden')).toBe(false);
+      wrapper.find('.alert-info .close').simulate('click');
+      expect(wrapper.find('.alert-info').prop('hidden')).toBe(true);
+    });
+
+    it('closes the success alert', () => {
+      expect(wrapper.find('.alert-success').prop('hidden')).toBe(true);
+      wrapper.setState({ sendRecordSuccessOrgs: ['RIT'], sendRecordSuccessAlertOpen: true });
+      wrapper.update();
+      expect(wrapper.find('.alert-success').prop('hidden')).toBe(false);
+      wrapper.find('.alert-success .close').simulate('click');
+      expect(wrapper.find('.alert-success').prop('hidden')).toBe(true);
+    });
+
+    it('closes the failure alert', () => {
+      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(true);
+      wrapper.setState({ sendRecordFailureOrgs: ['RIT'], sendRecordFailureAlertOpen: true });
+      wrapper.update();
+      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(false);
+      wrapper.find('.alert-danger .close').simulate('click');
+      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(true);
+    });
+
+    it('correctly categorizes send request success', () => {
+      const postPromise = Promise.resolve({ status: 200 });
+      axios.post.mockImplementation(() => postPromise);
+      const allPromise = Promise.resolve();
+      axios.all.mockImplementation(() => allPromise);
+
+      wrapper.instance().sendRecords(['MIT', 'RIT']);
+
+      return allPromise.then(() => {
+        wrapper.update();
+        expect(wrapper.state('sendRecordSuccessAlertOpen')).toBe(true);
+        expect(wrapper.state('sendRecordSuccessOrgs')).toEqual(['MIT', 'RIT']);
+      });
+    });
+
+    it('correctly categorizes send request failure', () => {
+      const postPromise = Promise.resolve({ status: 400, response: { message: 'error' } });
+      axios.post.mockImplementation(() => postPromise);
+      const allPromise = Promise.resolve();
+      axios.all.mockImplementation(() => allPromise);
+
+      wrapper.instance().sendRecords(['MIT', 'RIT']);
+
+      return allPromise.then(() => {
+        wrapper.update();
+        expect(wrapper.state('sendRecordFailureAlertOpen')).toBe(true);
+        expect(wrapper.state('sendRecordFailureOrgs')).toEqual(['MIT', 'RIT']);
+      });
     });
   });
 
