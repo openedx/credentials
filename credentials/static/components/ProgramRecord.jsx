@@ -1,6 +1,8 @@
 import React from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Button } from '@edx/paragon';
+import { Button, Icon, StatusAlert } from '@edx/paragon';
+import Cookies from 'js-cookie';
 
 import FoldingTable from './FoldingTable';
 import ProgramIcon from './ProgramIcon';
@@ -22,12 +24,21 @@ class ProgramRecord extends React.Component {
 
     this.formatDate = this.formatDate.bind(this);
     this.formatGradeData = this.formatGradeData.bind(this);
+    this.sendRecords = this.sendRecords.bind(this);
     this.formatPercentage = this.formatPercentage.bind(this);
+    this.closeSendRecordFailureAlert = this.closeSendRecordFailureAlert.bind(this);
+    this.closeSendRecordSuccessAlert = this.closeSendRecordSuccessAlert.bind(this);
+    this.closeSendRecordLoadingAlert = this.closeSendRecordLoadingAlert.bind(this);
     this.state = {
       shareModelOpen: false,
       sendRecordModalOpen: false,
       isPublic: true,
       recordDownloaded: false,
+      sendRecordSuccessOrgs: [],
+      sendRecordFailureOrgs: [],
+      sendRecordSuccessAlertOpen: false,
+      sendRecordFailureAlertOpen: false,
+      sendRecordLoadingAlertOpen: false,
     };
   }
 
@@ -111,6 +122,76 @@ class ProgramRecord extends React.Component {
     }));
   }
 
+  // Posts to the send records API for each org that is selected
+  // This functionality should be included in the Send Record Modal and
+  // not passed as a callback; using redux to update global state
+  sendRecords(orgs) {
+    const headers = {
+      withCredentials: true,
+      headers: {
+        'X-CSRFToken': Cookies.get('credentials_csrftoken'),
+      },
+    };
+
+    const uuid = this.props.uuid;
+
+    trackEvent('edx.bi.credentials.program_record.send_finished', {
+      category: 'records',
+      'program-uuid': this.props.uuid,
+      organizations: orgs,
+    });
+
+    // Show the loading "info" alert
+    this.setState({ sendRecordLoadingAlertOpen: true });
+
+    const successOrgs = [];
+    const failureOrgs = [];
+    let showSuccess = false;
+    let showFailure = false;
+
+    // Send all requeests and update success and failure statuses
+    // Disabling eslint error since make_translations fails when using backticks
+    // eslint-disable-next-line prefer-template
+    axios.all(orgs.map(org => axios.post('/records/programs/' + uuid + '/send',
+    { username: this.props.learner.username, pathway_id: 'placeholder' }, // TODO: Finalize pathway info with LEARNER-5592
+      headers)
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          successOrgs.push(org);
+        } else {
+          failureOrgs.push(org);
+        }
+      })
+      .catch((() => {
+        failureOrgs.push(org);
+      })),
+    ))
+    .then(() => {
+      if (successOrgs.length > 0) { showSuccess = true; }
+      if (failureOrgs.length > 0) { showFailure = true; }
+      this.setState({
+        sendRecordSuccessOrgs: successOrgs,
+        sendRecordFailureOrgs: failureOrgs,
+        sendRecordSuccessAlertOpen: showSuccess,
+        sendRecordFailureAlertOpen: showFailure,
+        sendRecordLoadingAlertOpen: false,
+      });
+    });
+  }
+
+  closeSendRecordFailureAlert() {
+    this.setState({ sendRecordFailureOrgs: [], sendRecordSuccessAlertOpen: false });
+  }
+
+  closeSendRecordSuccessAlert() {
+    this.setState({ sendRecordSuccessOrgs: [], sendRecordFailureAlertOpen: false });
+  }
+
+  closeSendRecordLoadingAlert() {
+    this.setState({ sendRecordLoadingAlertOpen: false });
+  }
+
+
   render() {
     const {
       learner,
@@ -155,7 +236,51 @@ class ProgramRecord extends React.Component {
             />
           </section>
         }
-
+        {
+          <StatusAlert
+            alertType="info"
+            open={this.state.sendRecordLoadingAlertOpen}
+            onClose={this.closeSendRecordLoadingAlert}
+            dialog={
+              <div>
+                <span className="hd-5">{ gettext('We are sending your program record.') }</span>
+                <Icon className={['fa', 'fa-spinner', 'fa-spin']} />
+              </div>
+             }
+          />
+        }
+        {
+          <StatusAlert
+            alertType="danger"
+            open={this.state.sendRecordFailureAlertOpen}
+            onClose={this.closeSendRecordFailureAlert}
+            dialog={
+              <div>
+                <span className="hd-5">{ gettext('We were unable to send your program record.') }</span>
+                <span className="text-muted alert-body">
+                  {StringUtils.interpolate(gettext('We were unable to send your record to {orgs}.  You can attempt to send this record again.  Contact support if this issue persists.'),
+                      { orgs: StringUtils.formatStringList(this.state.sendRecordFailureOrgs) })}
+                </span>
+              </div>
+             }
+          />
+        }
+        {
+          <StatusAlert
+            alertType="success"
+            open={this.state.sendRecordSuccessAlertOpen}
+            onClose={this.closeSendRecordSuccessAlert}
+            dialog={
+              <div>
+                <span className="hd-5">{ gettext('You have successfully shared your Learner Record') }</span>
+                <span className="text-muted alert-body">
+                  {StringUtils.interpolate(gettext('You have sent your record to {orgs}.  Next, ensure you understand their application process.'),
+                      { orgs: StringUtils.formatStringList(this.state.sendRecordSuccessOrgs) })}
+                </span>
+              </div>
+             }
+          />
+        }
         <section className="program-record">
           <header className="d-flex justify-content-between program-record-header">
             <div className="program-overview">
@@ -223,6 +348,7 @@ class ProgramRecord extends React.Component {
           <SendLearnerRecordModal
             {...defaultModalProps}
             onClose={this.closeSendRecordModal}
+            sendHandler={this.sendRecords}
             uuid={uuid}
           />
         }

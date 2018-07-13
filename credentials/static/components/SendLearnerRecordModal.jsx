@@ -2,13 +2,13 @@ import 'babel-polyfill'; // Needed to support Promises on legacy browsers
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, CheckBoxGroup, CheckBox, Modal } from '@edx/paragon';
-import trackEvent from './Analytics';
 
 class SendLearnerRecordModal extends React.Component {
   constructor(props) {
     super(props);
-    this.sendRecord = this.sendRecord.bind(this);
     this.updateState = this.updateState.bind(this);
+    this.getCheckedOrganizations = this.getCheckedOrganizations.bind(this);
+    this.callSendHandler = this.callSendHandler.bind(this);
     this.state = {
       RIT: false,
       MIT: false,
@@ -31,15 +31,8 @@ class SendLearnerRecordModal extends React.Component {
     });
   }
 
-  sendRecord() {
-    this.setState({
-      recordSent: true,
-    });
-    trackEvent('edx.bi.credentials.program_record.send_finished', {
-      category: 'records',
-      'program-uuid': this.props.uuid,
-      organizations: this.getCheckedOrganizations(),
-    });
+  callSendHandler() {
+    this.props.sendHandler(this.getCheckedOrganizations());
   }
 
   render() {
@@ -77,7 +70,7 @@ class SendLearnerRecordModal extends React.Component {
           <Button
             label={gettext('Send')}
             buttonType="primary"
-            onClick={this.sendRecord}
+            onClick={this.callSendHandler}
           />,
         ]}
       />
@@ -87,6 +80,7 @@ class SendLearnerRecordModal extends React.Component {
 
 SendLearnerRecordModal.propTypes = {
   onClose: PropTypes.func,
+  sendHandler: PropTypes.func.isRequired,
   parentSelector: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,

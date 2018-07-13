@@ -7,6 +7,7 @@ let wrapper;
 const defaultProps = {
   parentSelector: 'body',
   uuid: 'test-uuid',
+  sendHandler: jest.fn(),
 };
 
 describe('<SendLearnerRecordModal />', () => {
@@ -33,12 +34,12 @@ describe('<SendLearnerRecordModal />', () => {
     expect(wrapper.find('.modal-dialog').length).toBe(0);
   });
 
-  it('sends a record if selected', () => {
+  it('calls sendHandler if selected', () => {
     wrapper.find('.modal-body input').at(0).simulate('change', { target: { checked: true } });
     expect(wrapper.state('RIT')).toBe(true);
     wrapper.find('.modal-footer button.btn-primary').simulate('click');
     wrapper.update();
-    expect(wrapper.state('recordSent')).toBe(true);
+    expect(defaultProps.sendHandler.mock.calls.length).toBe(1);
   });
 
   it('gets the correct checked organizations', () => {
