@@ -63,7 +63,7 @@ module.exports = {
                 }
             },
             {
-                test: /\.(ttf|eot)$/,
+                test: /\.(ttf|eot|svg)$/,
                 loader: 'file-loader',
                 query: {
                     name: 'font/[name]-[hash].[ext]'
@@ -74,20 +74,7 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'babel-loader',
             },
-            {
-                test: /\.svg$/,
-                oneOf: [
 
-                    {
-                        exclude: path.resolve('./credentials/static/bundles/fonts/'),
-                        use: 'file-loader'
-                    },
-                    {
-                        include: path.resolve('./credentials/static/images/'),
-                        use: 'svg-inline-loader'
-                    }
-                ]
-            }
         ]
     },
     resolve: {

@@ -3,8 +3,7 @@
     "<rootDir>/credentials/static/components/"
   ],
   "transform": {
-    "^.+\\.jsx?$": "babel-jest",
-    ".+\\.(svg)$": "jest-transform-stub"
+    "^.+\\.jsx?$": "babel-jest"
   },
   "setupFiles": [
     "./jest_setup/shim.js",
