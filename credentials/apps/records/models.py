@@ -6,7 +6,7 @@ import uuid
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
 
-from credentials.apps.catalog.models import CourseRun
+from credentials.apps.catalog.models import CourseRun, Program
 from credentials.apps.core.models import User
 from credentials.apps.credentials.models import ProgramCertificate
 
@@ -27,8 +27,9 @@ class UserGrade(TimeStampedModel):
 
 class ProgramCertRecord(TimeStampedModel):
     """
-    Connects a User with a Program Certificate
+    Connects a User with a Program
     """
+    program = models.ForeignKey(Program, null=True)
     certificate = models.ForeignKey(ProgramCertificate)
     user = models.ForeignKey(User)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
