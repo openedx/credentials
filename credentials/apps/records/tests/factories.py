@@ -1,9 +1,8 @@
 import factory
 from factory.fuzzy import FuzzyChoice, FuzzyDecimal
 
-from credentials.apps.catalog.tests.factories import CourseRunFactory
+from credentials.apps.catalog.tests.factories import CourseRunFactory, ProgramFactory
 from credentials.apps.core.tests.factories import UserFactory
-from credentials.apps.credentials.tests.factories import ProgramCertificateFactory
 from credentials.apps.records import models
 
 
@@ -22,5 +21,5 @@ class ProgramCertRecordFactory(factory.django.DjangoModelFactory):
     class Meta(object):
         model = models.ProgramCertRecord
 
-    certificate = factory.SubFactory(ProgramCertificateFactory)
+    program = factory.SubFactory(ProgramFactory)
     user = factory.SubFactory(UserFactory)
