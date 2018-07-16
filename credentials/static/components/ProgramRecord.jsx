@@ -198,6 +198,7 @@ class ProgramRecord extends React.Component {
       program,
       platform_name: platformName,
       isPublic,
+      icons,
       uuid,
       loadModalsAsChildren,
     } = this.props;
@@ -284,10 +285,12 @@ class ProgramRecord extends React.Component {
         <section className="program-record">
           <header className="d-flex justify-content-between program-record-header">
             <div className="program-overview">
-              <h1 className="program-title h2">{ StringUtils.interpolate(gettext('{name} Record'), { name: program.name }) }</h1>
-              <div className="text-muted program-type">
-                <ProgramIcon type={program.type} className="program-icon" />
-                { StringUtils.interpolate(gettext('{type} Program Record'), { type: program.type_name }) }
+              <div className="program-headings">
+                <h1 className="program-title h2">{ StringUtils.interpolate(gettext('{name} Record'), { name: program.name }) }</h1>
+                <div className="text-muted program-type">
+                  <ProgramIcon type={program.type} iconDict={icons} className="program-icon" />
+                  { StringUtils.interpolate(gettext('{type} Program Record'), { type: program.type_name }) }
+                </div>
               </div>
               <div className="d-flex program-status">
                 {program.completed ?
@@ -381,6 +384,7 @@ ProgramRecord.propTypes = {
   }).isRequired,
   grades: PropTypes.arrayOf(PropTypes.object).isRequired,
   isPublic: PropTypes.bool,
+  icons: PropTypes.shape(),
   uuid: PropTypes.string.isRequired,
   platform_name: PropTypes.string.isRequired,
   loadModalsAsChildren: PropTypes.bool,
@@ -388,6 +392,7 @@ ProgramRecord.propTypes = {
 
 ProgramRecord.defaultProps = {
   isPublic: true,
+  icons: {},
   loadModalsAsChildren: true,
 };
 

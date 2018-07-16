@@ -7,6 +7,11 @@ let wrapper;
 const defaultProps = {
   helpUrl: 'https://edx.org/help/records',
   profileUrl: 'https://example.com',
+  icons: {
+    micromasters: 'micromasters-icon',
+    professional_certificate: 'professional-certificate-icon',
+    xseries: 'xseries-icon',
+  },
   programs: [
     {
       name: 'Program1',

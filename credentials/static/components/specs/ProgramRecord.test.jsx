@@ -50,6 +50,11 @@ const defaultProps = {
     },
   ],
   isPublic: false,
+  icons: {
+    micromasters: 'micromasters-icon',
+    professional_certificate: 'professional-certificate-icon',
+    xseries: 'xseries-icon',
+  },
   uuid: '1a2b3c4d',
   platform_name: 'testX',
   loadModalsAsChildren: false,

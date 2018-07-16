@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, get_user_model, login
 from django.db import DatabaseError, connection, transaction
 from django.http import Http404, JsonResponse
 from django.shortcuts import redirect, render_to_response
+from django.template import TemplateDoesNotExist
 from django.template.loader import select_template
 from django.views.generic import View
 
@@ -103,6 +104,15 @@ class ThemeViewMixin:
 
     def select_theme_template(self, templates):
         return select_template(self.add_theme_to_template_names(templates))
+
+    def try_select_theme_template(self, templates):
+        """ Select a template or return an empty string if the template doesn't exist.
+        Provides ability to check if a template exists before including it.
+        """
+        try:
+            return select_template(self.add_theme_to_template_names(templates))
+        except TemplateDoesNotExist:
+            return ''
 
 
 def render_500(request, template_name='500.html'):  # pylint: disable=unused-argument

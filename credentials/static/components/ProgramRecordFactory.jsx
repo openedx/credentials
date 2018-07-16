@@ -21,6 +21,7 @@ function ProgramRecordFactory(parent, props) {
   const formattedProps = {
     ...props.record,
     isPublic: props.isPublic,
+    icons: props.icons,
     uuid: getUUID(),
   };
 
