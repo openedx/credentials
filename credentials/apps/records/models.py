@@ -17,7 +17,7 @@ class UserGrade(TimeStampedModel):
     """
     username = models.CharField(max_length=150, blank=False)
     course_run = models.ForeignKey(CourseRun)
-    letter_grade = models.CharField(max_length=255, blank=False)
+    letter_grade = models.CharField(max_length=255, blank=True)
     percent_grade = models.DecimalField(max_digits=5, decimal_places=4, null=False)
     verified = models.BooleanField(verbose_name='Verified Learner ID', default=True)
 

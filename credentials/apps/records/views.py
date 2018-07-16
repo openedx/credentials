@@ -184,7 +184,7 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
                     'course_id': course_run.key,
                     'issue_date': user_credential_dict[course_run.key].modified.isoformat(),
                     'percent_grade': float(grade.percent_grade),
-                    'letter_grade': grade.letter_grade, })
+                    'letter_grade': grade.letter_grade or _('N/A'), })
 
         return {'learner': learner_data,
                 'program': program_data,

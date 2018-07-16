@@ -405,6 +405,31 @@ class GradeViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(grade.percent_grade, Decimal('0.9'))
         self.assertEqual(grade.course_run, self.course_run)
 
+    def test_create_with_empty_letter_grade(self):
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'add_usergrade')
+
+        # Empty value
+        self.data['username'] = 'empty'
+        self.data['letter_grade'] = ''
+        response = self.client.post(self.list_path, data=json.dumps(self.data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data, self.serialize_user_grade(UserGrade.objects.last()))
+
+        # No value
+        self.data['username'] = 'noexist'
+        del self.data['letter_grade']
+        response = self.client.post(self.list_path, data=json.dumps(self.data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data, self.serialize_user_grade(UserGrade.objects.last()))
+
+        # Null value
+        self.data['username'] = 'null'
+        self.data['letter_grade'] = None
+        response = self.client.post(self.list_path, data=json.dumps(self.data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data, self.serialize_user_grade(UserGrade.objects.last()))
+
     def test_create_with_existing_user_grade(self):
         """ Verify that, if a user has already been issued a grade, further attempts to issue the same grade
         will NOT create a new grade, but update the fields of the existing grade.
