@@ -127,7 +127,7 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
         if is_public:
             program_cert_record = get_object_or_404(ProgramCertRecord, uuid=uuid)
             user = program_cert_record.user
-            program_uuid = program_cert_record.certificate.program_uuid
+            program_uuid = program_cert_record.program.uuid
         else:
             user = self.request.user
             program_uuid = uuid
@@ -256,7 +256,7 @@ class ProgramSendView(LoginRequiredMixin, View):
         pathway = get_object_or_404(CreditPathway, id=pathway_id, programs__uuid=program_uuid)
         certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)
         user = get_object_or_404(User, username=username)
-        public_record, _ = ProgramCertRecord.objects.get_or_create(user=user, certificate=certificate)
+        public_record, _ = ProgramCertRecord.objects.get_or_create(user=user, program=program)
 
         record_path = reverse('records:public_programs', kwargs={'uuid': public_record.uuid.hex})
         record_link = request.build_absolute_uri(record_path)
@@ -283,7 +283,7 @@ class ProgramSendView(LoginRequiredMixin, View):
 
 class ProgramRecordCreationView(LoginRequiredMixin, View):
     """
-    Creates a new Program Certificate Record from given username and program certificate uuid,
+    Creates a new Program Certificate Record from given username and program uuid,
     returns the uuid of the created Program Certificate Record
     """
 
@@ -302,15 +302,8 @@ class ProgramRecordCreationView(LoginRequiredMixin, View):
             return JsonResponse({'error': 'Permission denied'}, status=403)
 
         program_uuid = kwargs['uuid']
-        certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)
-
-        # verify that the User has the User Credentials for the Program Certificate
-        try:
-            UserCredential.objects.get(username=username, program_credentials__program_uuid=program_uuid)
-        except UserCredential.DoesNotExist:
-            return JsonResponse({'error': 'User does not have credentials'}, status=404)
-
-        pcr, created = ProgramCertRecord.objects.get_or_create(user=user, certificate=certificate)
+        program = get_object_or_404(Program, uuid=program_uuid, site=request.site)
+        pcr, created = ProgramCertRecord.objects.get_or_create(user=user, program=program)
         status_code = 201 if created else 200
 
         url = request.build_absolute_uri(reverse("records:public_programs", kwargs={'uuid': pcr.uuid.hex}))

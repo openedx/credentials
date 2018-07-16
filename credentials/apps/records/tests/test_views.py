@@ -250,8 +250,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.org_names = ['CCC', 'AAA', 'BBB']
         self.orgs = [OrganizationFactory(name=name, site=self.site) for name in self.org_names]
         self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site)
-        self.pcr = ProgramCertRecordFactory(certificate=ProgramCertificateFactory(program_uuid=self.program.uuid),
-                                            user=self.user)
+        self.pcr = ProgramCertRecordFactory(program=self.program, user=self.user)
 
     def _render_program_record(self, record_data=None, status_code=200):
         """ Helper method to mock rendering a user certificate."""
@@ -438,13 +437,12 @@ class ProgramRecordTests(SiteMixin, TestCase):
 
         user = UserFactory(username=self.USERNAME)
         self.client.login(username=user.username, password=USER_PASSWORD)
-        self.pc = ProgramCertificateFactory(site=self.site)
-        self.user_credential = UserCredentialFactory(username=self.USERNAME, credential=self.pc)
+        self.program = ProgramFactory(site=self.site)
 
     def test_login_required(self):
         """Verify no access without a login"""
         self.client.logout()
-        rev = reverse('records:share_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        rev = reverse('records:share_program', kwargs={'uuid': self.program.uuid.hex})
         data = {'username': self.USERNAME}
         response = self.client.post(rev, data)
         self.assertEqual(response.status_code, 302)  # redirect to a login page
@@ -452,7 +450,7 @@ class ProgramRecordTests(SiteMixin, TestCase):
 
     def test_user_creation(self):
         """Verify successful creation of a ProgramCertRecord and return of a uuid"""
-        rev = reverse('records:share_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        rev = reverse('records:share_program', kwargs={'uuid': self.program.uuid.hex})
         data = {'username': self.USERNAME}
         jdata = json.dumps(data).encode('utf-8')
         response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
@@ -464,7 +462,7 @@ class ProgramRecordTests(SiteMixin, TestCase):
     def test_different_user_creation(self):
         """ Verify that the view rejects a User attempting to create a ProgramCertRecord for another """
         diff_username = 'diff-user'
-        rev = reverse('records:share_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        rev = reverse('records:share_program', kwargs={'uuid': self.program.uuid.hex})
         UserFactory(username=diff_username)
         data = {'username': diff_username}
         jdata = json.dumps(data).encode('utf-8')
@@ -472,21 +470,10 @@ class ProgramRecordTests(SiteMixin, TestCase):
 
         self.assertEqual(response.status_code, 403)
 
-    def test_no_user_credential(self):
-        """ Verify that the view rejects a User attempting to create a ProgramCertRecord for which they don't
-        have the User Credentials """
-        pc2 = ProgramCertificateFactory()
-        rev = reverse('records:share_program', kwargs={'uuid': pc2.program_uuid.hex})
-        data = {'username': self.USERNAME}
-        jdata = json.dumps(data).encode('utf-8')
-        response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
-
-        self.assertEqual(response.status_code, 404)
-
     def test_pcr_already_exists(self):
         """ Verify that the view returns the existing ProgramCertRecord when one already exists for the given username
         and program certificate uuid"""
-        rev = reverse('records:share_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        rev = reverse('records:share_program', kwargs={'uuid': self.program.uuid.hex})
         data = {'username': self.USERNAME}
         jdata = json.dumps(data).encode('utf-8')
         response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
@@ -502,7 +489,7 @@ class ProgramRecordTests(SiteMixin, TestCase):
     @override_flag(WAFFLE_FLAG_RECORDS, active=False)
     def test_feature_toggle(self):
         """ Verify that the view rejects everyone without the waffle flag. """
-        rev = reverse('records:share_program', kwargs={'uuid': self.pc.program_uuid.hex})
+        rev = reverse('records:share_program', kwargs={'uuid': self.program.uuid.hex})
         data = {'username': self.USERNAME}
         jdata = json.dumps(data).encode('utf-8')
         response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
@@ -543,12 +530,12 @@ class ProgramSendTests(SiteMixin, TestCase):
     def test_creates_cert_record(self):
         """ Verify that the view creates a ProgramCertRecord as needed. """
         with self.assertRaises(ProgramCertRecord.DoesNotExist):
-            ProgramCertRecord.objects.get(user=self.user, certificate=self.pc)
+            ProgramCertRecord.objects.get(user=self.user, program=self.program)
 
         response = self.post()
         self.assertEqual(response.status_code, 200)
 
-        ProgramCertRecord.objects.get(user=self.user, certificate=self.pc)
+        ProgramCertRecord.objects.get(user=self.user, program=self.program)
 
     def test_different_user(self):
         """ Verify that the view rejects a User attempting to send a program """
