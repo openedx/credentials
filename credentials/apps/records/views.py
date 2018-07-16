@@ -100,6 +100,7 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
             'profile_url': profile_url,
             'render_language': self.request.LANGUAGE_CODE,
             'records_help_url': records_help_url,
+            'icons_template': self.try_select_theme_template(['credentials/records.html']),
         })
         return context
 
@@ -224,6 +225,7 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
             'program_name': record.get('program', {}).get('name'),
             'render_language': self.request.LANGUAGE_CODE,
             'is_public': is_public,
+            'icons_template': self.try_select_theme_template(['credentials/programs.html']),
         })
         return context
 

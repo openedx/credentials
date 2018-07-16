@@ -29,7 +29,7 @@ class RecordsList extends React.Component {
     );
   }
 
-  static renderRows(data) {
+  static renderRows(data, icons) {
     return data.map(row => (
       <li className="record-card" key={row.uuid}>
         <div className="record-container">
@@ -37,7 +37,7 @@ class RecordsList extends React.Component {
             <div className="col-md record-data-col">
               <div className="program-title">{row.name}</div>
               <div className="record-data-inline">
-                <ProgramIcon type={row.type} className="inline-data certificate-icon" />
+                <ProgramIcon type={row.type} iconDict={icons} className="inline-data certificate-icon" />
                 <span className="record-partner inline-data">{row.partner}</span>
                 <span className="inline-data"> {' | '} </span>
                 <span className="font-weight-bold inline-data">{
@@ -59,7 +59,7 @@ class RecordsList extends React.Component {
     );
   }
 
-  static renderResponsiveList(id, title, help, data) {
+  static renderResponsiveList(id, title, help, data, icons) {
     return (
       <section id={id} className="responsive-list">
         <header className="pad-text-block">
@@ -67,14 +67,14 @@ class RecordsList extends React.Component {
           <p className="paragraph-grey">{help}</p>
         </header>
         <ul className="list-unstyled">
-          {this.renderRows(data)}
+          {this.renderRows(data, icons)}
         </ul>
       </section>
     );
   }
 
   render() {
-    const { programs, helpUrl, profileUrl } = this.props;
+    const { programs, helpUrl, profileUrl, icons } = this.props;
     const hasPrograms = programs.length > 0;
     const hasHelpUrl = helpUrl !== '';
     const hasProfileUrl = profileUrl !== '';
@@ -95,6 +95,7 @@ class RecordsList extends React.Component {
             gettext('Program Records'),
             gettext('A program record is created once you have earned at least one course certificate in a program.'),
             programs,
+            icons,
           )
         }
         {hasContent || RecordsList.renderEmpty()}
@@ -114,12 +115,14 @@ RecordsList.propTypes = {
   })).isRequired,
   helpUrl: PropTypes.string,
   profileUrl: PropTypes.string,
+  icons: PropTypes.shape(),
 };
 
 RecordsList.defaultProps = {
   programs: [],
   helpUrl: '',
   profileUrl: '',
+  icons: {},
 };
 
 export default RecordsList;
