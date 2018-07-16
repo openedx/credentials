@@ -192,6 +192,14 @@ class UserGradeSerializer(serializers.ModelSerializer):
         # turn off validation, it only tries to complain about unique_together when updating existing objects
         validators = []
 
+    def is_valid(self, raise_exception=False):
+        # The LMS sometimes gives us None for the letter grade for some reason. But since the model doesn't take
+        # null, just convert it into an empty string instead.
+        if self.initial_data.get('letter_grade', '') is None:
+            self.initial_data['letter_grade'] = ''
+
+        return super(UserGradeSerializer, self).is_valid(raise_exception)
+
     def create(self, validated_data):
         # If these next two are missing, the serializer will have already caught the error
         username = validated_data.get('username')
