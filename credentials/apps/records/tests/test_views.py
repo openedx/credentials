@@ -12,8 +12,8 @@ from django.urls import reverse
 from mock import patch
 from waffle.testutils import override_flag
 
-from credentials.apps.catalog.tests.factories import (CourseFactory, CourseRunFactory, OrganizationFactory,
-                                                      ProgramFactory)
+from credentials.apps.catalog.tests.factories import (CourseFactory, CourseRunFactory, CreditPathwayFactory,
+                                                      OrganizationFactory, ProgramFactory)
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.constants import UUID_PATTERN
@@ -249,6 +249,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site)
         self.pcr = ProgramCertRecordFactory(certificate=ProgramCertificateFactory(program_uuid=self.program.uuid),
                                             user=self.user)
+        self.credit_pathway = CreditPathwayFactory(site=self.site, programs=[self.program])
 
     def _render_program_record(self, record_data=None, status_code=200):
         """ Helper method to mock rendering a user certificate."""
@@ -402,6 +403,16 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
                     'school': ', '.join(self.org_names)}
 
         self.assertEqual(program_data, expected)
+
+    def test_pathway_data(self):
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        pathway_data = json.loads(response.context_data['record'])['pathways'][0]
+        expected = {
+            'name': self.credit_pathway.name,
+            'org_name': self.credit_pathway.org_name,
+            'email': self.credit_pathway.email,
+        }
+        self.assertEqual(pathway_data, expected)
 
     def test_xss(self):
         """ Verify that the view protects against xss in translations. """

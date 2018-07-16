@@ -48,6 +48,13 @@ const defaultProps = {
   ],
   isPublic: false,
   uuid: '1a2b3c4d',
+  pathways: [
+    {
+      name: 'Test Pathway',
+      org_name: 'Test Pathway Org',
+      email: 'pathway@example.com',
+    },
+  ],
   platform_name: 'testX',
   loadModalsAsChildren: false,
 };

@@ -12,7 +12,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView, View
 
-from credentials.apps.catalog.models import CourseRun, Program
+from credentials.apps.catalog.models import CourseRun, CreditPathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredential
@@ -184,16 +184,28 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
                     'percent_grade': float(grade.percent_grade),
                     'letter_grade': grade.letter_grade, })
 
+        # Get credit pathways for the given program.
+        pathways = CreditPathway.objects.filter(programs__uuid=program.uuid)
+        pathways_data = []
+        for pathway in pathways:
+            pathways_data.append({
+                'name': pathway.name,
+                'org_name': pathway.org_name,
+                'email': pathway.email,
+            })
+
         return {'learner': learner_data,
                 'program': program_data,
                 'platform_name': platform_name,
-                'grades': course_data, }
+                'grades': course_data,
+                'pathways': pathways_data}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         uuid = kwargs['uuid']
         is_public = kwargs['is_public']
         record = self._get_record(uuid, is_public)
+
         context.update({
             'child_templates': {
                 'footer': self.select_theme_template(['_footer.html']),

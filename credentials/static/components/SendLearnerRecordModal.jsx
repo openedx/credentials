@@ -10,18 +10,16 @@ class SendLearnerRecordModal extends React.Component {
     this.sendRecord = this.sendRecord.bind(this);
     this.updateState = this.updateState.bind(this);
     this.state = {
-      RIT: false,
-      MIT: false,
+      pathways: props.pathways,
     };
   }
 
   // Get the organizations we are sharing for the analytics event
-  // TODO: remove hardcoded values once the state is no longer hardcoded
   getCheckedOrganizations() {
     const organizations = [];
-
-    if (this.state.RIT) { organizations.push('RIT'); }
-    if (this.state.MIT) { organizations.push('MIT'); }
+    this.state.pathways.forEach((pathway) => {
+      organizations.push(pathway.org_name);
+    });
     return organizations;
   }
 
@@ -55,20 +53,13 @@ class SendLearnerRecordModal extends React.Component {
             <p>{ gettext('You can directly share your program record with an edX partner that accepts credit transfer for this MicroMasters Program. Once you send your record you cannot unsend it.') }</p>
             <p>{ gettext('Select organization(s) you wish to send this record to:') }</p>
             <CheckBoxGroup>
-              <CheckBox
-                id="checkbox1"
-                name="RIT"
-                label="RIT"
-                onChange={this.updateState}
-                checked={this.state.RIT}
-              />
-              <CheckBox
-                id="checkbox2"
-                name="MIT"
-                label="MIT"
-                onChange={this.updateState}
-                checked={this.state.MIT}
-              />
+              {this.state.pathways.map(pathway =>
+                (<CheckBox
+                  name={pathway.name}
+                  label={pathway.name}
+                  onChange={this.updateState}
+                />) // eslint-disable-line comma-dangle
+              )}
             </CheckBoxGroup>
           </div>
         )}
@@ -92,6 +83,7 @@ SendLearnerRecordModal.propTypes = {
     PropTypes.bool,
   ]),
   uuid: PropTypes.string.isRequired,
+  pathways: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 SendLearnerRecordModal.defaultProps = {

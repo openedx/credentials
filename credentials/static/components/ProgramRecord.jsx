@@ -115,6 +115,7 @@ class ProgramRecord extends React.Component {
     const {
       learner,
       program,
+      pathways,
       platform_name: platformName,
       isPublic,
       uuid,
@@ -220,6 +221,7 @@ class ProgramRecord extends React.Component {
             {...defaultModalProps}
             onClose={this.closeSendRecordModal}
             uuid={uuid}
+            pathways={pathways}
           />
         }
         {shareModelOpen &&
@@ -248,6 +250,7 @@ ProgramRecord.propTypes = {
     type: PropTypes.string,
     last_updated: PropTypes.string,
   }).isRequired,
+  pathways: PropTypes.arrayOf(PropTypes.object).isRequired,
   grades: PropTypes.arrayOf(PropTypes.object).isRequired,
   isPublic: PropTypes.bool,
   uuid: PropTypes.string.isRequired,

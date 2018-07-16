@@ -7,6 +7,13 @@ let wrapper;
 const defaultProps = {
   parentSelector: 'body',
   uuid: 'test-uuid',
+  pathways: [
+    {
+      name: 'Test Pathway',
+      org_name: 'Test Pathway Org',
+      email: 'pathway@example.com',
+    },
+  ],
 };
 
 describe('<SendLearnerRecordModal />', () => {
