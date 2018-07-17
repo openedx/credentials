@@ -20,7 +20,7 @@ production-requirements: ## Install requirements for production
 	pip install -r requirements.txt
 
 requirements: ## Install requirements for local development
-	npm install
+	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
 	pip install -r requirements/local.txt
 
 quality: ## Run linters
