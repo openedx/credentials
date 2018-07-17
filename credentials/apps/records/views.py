@@ -3,10 +3,10 @@ import datetime
 import io
 import json
 import urllib.parse
-from collections import defaultdict
-
-import waffle
 from analytics.client import Client as SegmentClient
+from collections import defaultdict
+import waffle
+
 from django import http
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
@@ -29,82 +29,98 @@ from .constants import WAFFLE_FLAG_RECORDS
 
 
 def get_record_data(user, program_uuid, site, platform_name=None):
-    program = Program.objects.prefetch_related('course_runs__course').get(uuid=program_uuid, site=site)
-    program_course_runs = program.course_runs.all()
-    program_course_runs_set = set(program_course_runs)
+        program = Program.objects.prefetch_related('course_runs__course').get(uuid=program_uuid, site=site)
+        program_course_runs = program.course_runs.all()
+        program_course_runs_set = set(program_course_runs)
 
-    # Find program credential if it exists (indicates if user has completed this program)
-    program_credential_query = UserCredential.objects.filter(
-        username=user.username,
-        program_credentials__program_uuid=program_uuid)
+        # Find program credential if it exists (indicates if user has completed this program)
+        program_credential_query = UserCredential.objects.filter(
+            username=user.username,
+            program_credentials__program_uuid=program_uuid)
 
-    # Get all of the user course-certificates associated with the program courses
-    course_certificate_content_type = ContentType.objects.get(app_label='credentials', model='coursecertificate')
-    course_user_credentials = UserCredential.objects.prefetch_related('credential').filter(
-        username=user.username,
-        credential_content_type=course_certificate_content_type, )
+        # Get all of the user course-certificates associated with the program courses
+        course_certificate_content_type = ContentType.objects.get(app_label='credentials', model='coursecertificate')
+        course_user_credentials = UserCredential.objects.prefetch_related('credential').filter(
+            username=user.username,
+            credential_content_type=course_certificate_content_type,)
 
-    # Maps course run key to the associated credential
-    user_credential_dict = {
-        user_credential.credential.course_id: user_credential for user_credential in course_user_credentials}
+        # Maps course run key to the associated credential
+        user_credential_dict = {
+            user_credential.credential.course_id: user_credential for user_credential in course_user_credentials}
 
-    # Get all (verified) user grades relevant to this program
-    course_grades = UserGrade.objects.select_related('course_run__course').filter(
-        username=user.username, course_run__in=program_course_runs_set, verified=True)
+        # Get all (verified) user grades relevant to this program
+        course_grades = UserGrade.objects.select_related('course_run__course').filter(
+            username=user.username, course_run__in=program_course_runs_set, verified=True)
 
-    # Keep track of number of attempts and best attempt per course
-    num_attempts_dict = defaultdict(int)
-    highest_attempt_dict = {}  # Maps course -> highest grade earned
-    last_updated = None
+        # Keep track of number of attempts and best attempt per course
+        num_attempts_dict = defaultdict(int)
+        highest_attempt_dict = {}  # Maps course -> highest grade earned
+        last_updated = None
 
-    # Find the highest course cert grades for each course
-    for course_grade in course_grades:
-        course_run = course_grade.course_run
-        course = course_run.course
-        user_credential = user_credential_dict.get(course_run.key)
+        # Find the highest course cert grades for each course
+        for course_grade in course_grades:
+            course_run = course_grade.course_run
+            course = course_run.course
+            user_credential = user_credential_dict.get(course_run.key)
 
-        if user_credential is not None:
-            num_attempts_dict[course] += 1
-            last_updated = max(last_updated, course_grade.modified) if last_updated else course_grade.modified
+            if user_credential is not None:
+                num_attempts_dict[course] += 1
+                last_updated = max(last_updated, course_grade.modified) if last_updated else course_grade.modified
 
-            # Update grade if grade is higher and part of awarded cert
-            if user_credential.status == UserCredential.AWARDED:
-                current = highest_attempt_dict.setdefault(course, course_grade)
-                if course_grade.percent_grade > current.percent_grade:
-                    highest_attempt_dict[course] = course_grade
+                # Update grade if grade is higher and part of awarded cert
+                if user_credential.status == UserCredential.AWARDED:
+                    current = highest_attempt_dict.setdefault(course, course_grade)
+                    if course_grade.percent_grade > current.percent_grade:
+                        highest_attempt_dict[course] = course_grade
 
-    last_updated = last_updated or datetime.datetime.today()
+        last_updated = last_updated or datetime.datetime.today()
 
-    learner_data = {'full_name': user.get_full_name(),
-                    'username': user.username,
-                    'email': user.email, }
+        learner_data = {'full_name': user.get_full_name(),
+                        'username': user.username,
+                        'email': user.email, }
 
-    program_data = {'name': program.title,
-                    'type': slugify(program.type),
-                    'type_name': program.type,
-                    'completed': program_credential_query.exists(),
-                    'last_updated': last_updated.isoformat(),
-                    'school': ', '.join(program.authoring_organizations.values_list('name', flat=True))}
+        program_data = {'name': program.title,
+                        'type': slugify(program.type),
+                        'type_name': program.type,
+                        'completed': program_credential_query.exists(),
+                        'last_updated': last_updated.isoformat(),
+                        'school': ', '.join(program.authoring_organizations.values_list('name', flat=True))}
 
-    # Add course-run data to the response in the order that is maintained by the Program's sorted field
-    course_data = []
-    for course_run in program_course_runs:
-        course = course_run.course
-        grade = highest_attempt_dict.get(course)
-        if grade is not None and grade.course_run == course_run:
-            course_data.append({
-                'name': course_run.title,
-                'school': ', '.join(course.owners.values_list('name', flat=True)),
-                'attempts': num_attempts_dict[course],
-                'course_id': course_run.key,
-                'issue_date': user_credential_dict[course_run.key].modified.isoformat(),
-                'percent_grade': float(grade.percent_grade),
-                'letter_grade': grade.letter_grade or _('N/A'), })
+        # Add course-run data to the response in the order that is maintained by the Program's sorted field
+        course_data = []
+        added_courses = set()
+        for course_run in program_course_runs:
+            course = course_run.course
+            grade = highest_attempt_dict.get(course)
 
-    return {'learner': learner_data,
-            'program': program_data,
-            'platform_name': platform_name,
-            'grades': course_data, }
+            # If user hasn't taken this course yet, or doesn't have a cert, we want to show empty values
+            if grade is None and course not in added_courses:
+                course_data.append({
+                    'name': course.title,
+                    'school': ', '.join(course.owners.values_list('name', flat=True)),
+                    'attempts': 0,
+                    'course_id': '',
+                    'issue_date': '',
+                    'percent_grade': 0.0,
+                    'letter_grade': '', })
+                added_courses.add(course)
+
+            # If the user has taken the course, show the course_run info for the highest grade
+            elif grade is not None and grade.course_run == course_run:
+                course_data.append({
+                    'name': course_run.title,
+                    'school': ', '.join(course.owners.values_list('name', flat=True)),
+                    'attempts': num_attempts_dict[course],
+                    'course_id': course_run.key,
+                    'issue_date': user_credential_dict[course_run.key].modified.isoformat(),
+                    'percent_grade': float(grade.percent_grade),
+                    'letter_grade': grade.letter_grade or _('N/A'), })
+                added_courses.add(course)
+
+        return {'learner': learner_data,
+                'program': program_data,
+                'platform_name': platform_name,
+                'grades': course_data, }
 
 
 class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):

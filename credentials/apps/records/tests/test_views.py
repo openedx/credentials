@@ -353,7 +353,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
     def test_course_run_order(self):
         """ Test that the course_runs are returned in the program order """
         new_course_run = CourseRunFactory()
-        self.program.course_runs.add(new_course_run)  # pylint: disable=no-member
+        self.program.course_runs.add(new_course_run)
         UserGradeFactory(username=self.MOCK_USER_DATA['username'],
                          course_run=new_course_run, letter_grade='C',
                          percent_grade=.70)
@@ -371,9 +371,9 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(expected_course_run_keys, actual_course_run_keys)
 
     def test_course_run_no_credential(self):
-        """ Adds a course run with no credential and tests that it doesn't appear in the results """
+        """ Adds a course run with no credential and tests that it does appear in the results """
         new_course_run = CourseRunFactory()
-        self.program.course_runs.add(new_course_run)  # pylint: disable=no-member
+        self.program.course_runs.add(new_course_run)
         UserGradeFactory(username=self.MOCK_USER_DATA['username'],
                          course_run=new_course_run, letter_grade='F',
                          percent_grade=.05)
@@ -381,9 +381,25 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         grades = json.loads(response.context_data['record'])['grades']
+        self.assertEqual(len(grades), 2)
+
+        self.assertEqual(new_course_run.course.title, grades[1]['name'])
+
+    def test_multiple_attempts_no_cert(self):
+        """ Adds a course with two failed course_run attempts (no cert) and verifies that
+        the course only shows up once """
+        new_course = CourseFactory(site=self.site)
+        new_course_runs = CourseRunFactory.create_batch(2, course=new_course)
+        _ = [UserGradeFactory(username=self.MOCK_USER_DATA['username'],
+                              course_run=course_run,
+                              letter_grade='F',
+                              percent_grade=0.20) for course_run in new_course_runs]
+        self.program.course_runs = new_course_runs
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        grades = json.loads(response.context_data['record'])['grades']
         self.assertEqual(len(grades), 1)
 
-        self.assertEqual(self.course_runs[1].key, grades[0]['course_id'])
+        self.assertEqual(new_course.title, grades[0]['name'])
 
     def test_learner_data(self):
         """ Test that the learner data is returned succesfully """
