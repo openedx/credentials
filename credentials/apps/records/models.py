@@ -29,7 +29,7 @@ class ProgramCertRecord(TimeStampedModel):
     """
     Connects a User with a Program
     """
-    certificate = models.ForeignKey(ProgramCertificate)
+    certificate = models.ForeignKey(ProgramCertificate, null=True)
     program = models.ForeignKey(Program, null=True)
     user = models.ForeignKey(User)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -38,5 +38,4 @@ class ProgramCertRecord(TimeStampedModel):
         return 'ProgramCertificateRecord: {uuid}'.format(uuid=self.uuid)
 
     class Meta(object):
-        unique_together = (('certificate', 'user'),)
         verbose_name = "A viewable record of a program"
