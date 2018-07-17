@@ -21,6 +21,14 @@ class RecordsList extends React.Component {
     );
   }
 
+  static renderProfile(profileUrl) {
+    return (
+      <a href={profileUrl} className="top-bar-link flex-4">
+        <span className="fa fa-caret-left" aria-hidden="true" /> {gettext('Back to My Profile')}
+      </a>
+    );
+  }
+
   static renderRows(data) {
     return data.map(row => (
       <li className="record-card" key={row.uuid}>
@@ -66,12 +74,14 @@ class RecordsList extends React.Component {
   }
 
   render() {
-    const { programs, helpUrl } = this.props;
+    const { programs, helpUrl, profileUrl } = this.props;
     const hasPrograms = programs.length > 0;
     const hasHelpUrl = helpUrl !== '';
+    const hasProfileUrl = profileUrl !== '';
     const hasContent = hasPrograms; // will check for courses when we show those too
     return (
       <main className="record">
+        {hasProfileUrl && RecordsList.renderProfile(profileUrl)}
         <header className="pad-text-block">
           <h2 className="hd-2 text-black">{
             // Translators: A 'record' here means something like a
@@ -103,11 +113,13 @@ RecordsList.propTypes = {
     completed: PropTypes.bool.isRequired,
   })).isRequired,
   helpUrl: PropTypes.string,
+  profileUrl: PropTypes.string,
 };
 
 RecordsList.defaultProps = {
   programs: [],
   helpUrl: '',
+  profileUrl: '',
 };
 
 export default RecordsList;

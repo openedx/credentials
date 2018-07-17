@@ -6,6 +6,7 @@ let wrapper;
 
 const defaultProps = {
   helpUrl: 'https://edx.org/help/records',
+  profileUrl: 'https://example.com',
   programs: [
     {
       name: 'Program1',
