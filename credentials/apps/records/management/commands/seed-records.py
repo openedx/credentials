@@ -69,7 +69,7 @@ class Command(BaseCommand):
         course_certificates = Command.seed_course_certificates(site, course_runs)
         program_certificates = Command.seed_program_certificates(site, programs)
         Command.seed_user_credentials(user, program_certificates, course_certificates, faker)
-        Command.seed_program_cert_records(user, program_certificates, faker)
+        Command.seed_program_cert_records(user, programs, faker)
 
     @staticmethod
     def get_site(site_name):
@@ -266,17 +266,17 @@ class Command(BaseCommand):
         return user_program_credentials, user_course_credentials
 
     @staticmethod
-    def seed_program_cert_records(user, program_certificates, faker):
+    def seed_program_cert_records(user, programs, faker):
         """ Seed  program cert records for user"""
         program_cert_records = []
 
-        for program_certificate in program_certificates:
+        for program in programs:
             program_cert_record, created = ProgramCertRecord.objects.get_or_create(
-                certificate=program_certificate,
+                program=program,
                 user=user,
                 uuid=faker.uuid4())
 
-            Command.log_action("Program Certificate with ID", program_certificate.id, created)
+            Command.log_action("Program Cert Record with ID", program_cert_record.id, created)
             program_cert_records.append(program_cert_record)
 
         return program_cert_records
