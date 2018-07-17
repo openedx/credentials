@@ -2,20 +2,19 @@ import csv
 import io
 import json
 from collections import defaultdict
-from analytics.client import Client as SegmentClient
 
 import waffle
+from analytics.client import Client as SegmentClient
 from django import http
-from django.core.signals import request_finished, request_started
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
-from django.dispatch import receiver
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView, View
+from edx_ace import Recipient, ace
 
 from credentials.apps.catalog.models import CourseRun, CreditPathway, Program
 from credentials.apps.core.models import User
@@ -23,7 +22,6 @@ from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredential
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserGrade
-from edx_ace import Recipient, ace
 
 from .constants import WAFFLE_FLAG_RECORDS
 
