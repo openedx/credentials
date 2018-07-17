@@ -1,5 +1,6 @@
 import datetime
 import json
+import urllib.parse
 from collections import defaultdict
 
 import waffle
@@ -84,7 +85,11 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
 
         site_configuration = request.site.siteconfiguration
 
-        records_help_url = site_configuration.records_help_url if site_configuration else ''
+        profile_url = ''
+        records_help_url = ''
+        if site_configuration:
+            profile_url = urllib.parse.urljoin(site_configuration.homepage_url, 'u/' + request.user.username)
+            records_help_url = site_configuration.records_help_url
 
         context.update({
             'child_templates': {
@@ -92,6 +97,7 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
                 'header': self.select_theme_template(['_header.html']),
             },
             'programs': json.dumps(self._get_programs(request), sort_keys=True),
+            'profile_url': profile_url,
             'render_language': self.request.LANGUAGE_CODE,
             'records_help_url': records_help_url,
         })
