@@ -2,11 +2,14 @@ import csv
 import io
 import json
 from collections import defaultdict
+from analytics.client import Client as SegmentClient
 
 import waffle
 from django import http
+from django.core.signals import request_finished, request_started
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
+from django.dispatch import receiver
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
@@ -311,12 +314,51 @@ class ProgramRecordCsvView(View):
     Returns a csv view of the Progam Record for a Learner from a username and program_uuid
     """
 
+    class SegmentHttpResponse(HttpResponse):
+        def __init__(self, *args, **kwargs):
+            # Pop off the unneeded args that are sent to segment
+            self.event = kwargs.pop('event')
+            self.properties = kwargs.pop('properties')
+            self.context = kwargs.pop('context')
+            self.anonymous_id = kwargs.pop('anonymous_id')
+            self.segment_client = kwargs.pop('segment_client')
+            super(ProgramRecordCsvView.SegmentHttpResponse, self).__init__(*args, **kwargs)
+
+        def close(self):
+            self.segment_client.track(
+                self.anonymous_id,
+                event=self.event,
+                properties=self.properties,
+                context=self.context
+            )
+            super(HttpResponse, self).close()
+
     def get(self, request, *args, **kwargs):
         if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
             raise http.Http404()
+
+        site_configuration = request.site.siteconfiguration
+        segment_client = SegmentClient(write_key=site_configuration.segment_key)
+
         program_cert_record = get_object_or_404(ProgramCertRecord, uuid=kwargs.get('uuid'))
         program_certificate = get_object_or_404(ProgramCertificate, id=program_cert_record.certificate_id)
         record = get_record_data(program_cert_record.user, program_certificate.program_uuid, request.site)
+
+        segment_client.track(request.COOKIES['ajs_anonymous_id'],
+            event='edx.bi.credentials.program_record.download_started',
+            properties={
+                'category': 'records',
+                'program_uuid': str(program_certificate.program_uuid),
+                'record_uuid': str(program_cert_record.uuid),
+            },
+            context={
+                'page': {
+                    'path': request.path,
+                    'referrer': request.META['HTTP_REFERER'],
+                },
+                'userAgent': request.META['HTTP_USER_AGENT'],
+            },
+        )
 
         string_io = io.StringIO()
         writer = csv.DictWriter(string_io, record['grades'][0].keys(), quoting=csv.QUOTE_ALL)
@@ -327,6 +369,24 @@ class ProgramRecordCsvView(View):
             username=record['learner']['username'],
             program_name=record['program']['name']
         )
-        response = HttpResponse(string_io, content_type='text/csv')
+        response = ProgramRecordCsvView.SegmentHttpResponse(
+            string_io,
+            anonymous_id=request.COOKIES['ajs_anonymous_id'],
+            content_type='text/csv',
+            context={
+                'page': {
+                    'path': request.path,
+                    'referrer': request.META['HTTP_REFERER'],
+                },
+                'userAgent': request.META['HTTP_USER_AGENT'],
+            },
+            event='edx.bi.credentials.program_record.download_finished',
+            properties={
+                'category': 'records',
+                'program-uuid': program_certificate.program_uuid,
+                'record-uuid': program_cert_record.uuid,
+            },
+            segment_client=segment_client
+        )
         response['Content-Disposition'] = 'attachment; filename={filename}'.format(filename=filename)
         return response

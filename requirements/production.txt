@@ -1,6 +1,7 @@
 # Packages required in a production environment
 -r base.txt
 
+analytics-python==1.2.9
 boto==2.45.0
 django-ses==0.8.5
 gevent==1.2.1
