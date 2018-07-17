@@ -344,20 +344,24 @@ class ProgramRecordCsvView(View):
         program_certificate = get_object_or_404(ProgramCertificate, id=program_cert_record.certificate_id)
         record = get_record_data(program_cert_record.user, program_certificate.program_uuid, request.site)
 
-        segment_client.track(request.COOKIES['ajs_anonymous_id'],
+        properties = {
+            'category': 'records',
+            'program_uuid': program_certificate.program_uuid.hex,
+            'record_uuid': program_cert_record.uuid.hex,
+        }
+        context = {
+            'page': {
+                'path': request.path,
+                'referrer': request.META['HTTP_REFERER'],
+            },
+            'userAgent': request.META['HTTP_USER_AGENT'],
+        }
+
+        segment_client.track(
+            request.COOKIES['ajs_anonymous_id'],
+            context=context,
             event='edx.bi.credentials.program_record.download_started',
-            properties={
-                'category': 'records',
-                'program_uuid': str(program_certificate.program_uuid),
-                'record_uuid': str(program_cert_record.uuid),
-            },
-            context={
-                'page': {
-                    'path': request.path,
-                    'referrer': request.META['HTTP_REFERER'],
-                },
-                'userAgent': request.META['HTTP_USER_AGENT'],
-            },
+            properties=properties,
         )
 
         string_io = io.StringIO()
@@ -373,20 +377,10 @@ class ProgramRecordCsvView(View):
             string_io,
             anonymous_id=request.COOKIES['ajs_anonymous_id'],
             content_type='text/csv',
-            context={
-                'page': {
-                    'path': request.path,
-                    'referrer': request.META['HTTP_REFERER'],
-                },
-                'userAgent': request.META['HTTP_USER_AGENT'],
-            },
+            context=context,
             event='edx.bi.credentials.program_record.download_finished',
-            properties={
-                'category': 'records',
-                'program-uuid': program_certificate.program_uuid,
-                'record-uuid': program_cert_record.uuid,
-            },
-            segment_client=segment_client
+            properties=properties,
+            segment_client=segment_client,
         )
         response['Content-Disposition'] = 'attachment; filename={filename}'.format(filename=filename)
         return response
