@@ -225,6 +225,10 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
         uuid = kwargs['uuid']
         is_public = kwargs['is_public']
         record = self._get_record(uuid, is_public)
+
+        site_configuration = self.request.site.siteconfiguration
+        records_help_url = site_configuration.records_help_url if site_configuration else ''
+
         context.update({
             'child_templates': {
                 'footer': self.select_theme_template(['_footer.html']),
@@ -235,7 +239,8 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
             'render_language': self.request.LANGUAGE_CODE,
             'is_public': is_public,
             'icons_template': self.try_select_theme_template(['credentials/programs.html']),
-            'uuid': uuid
+            'uuid': uuid,
+            'records_help_url': records_help_url,
         })
         return context
 

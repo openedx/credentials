@@ -11,6 +11,8 @@ const defaultProps = {
   parentSelector: 'body',
   username: 'Pennywise',
   uuid: '1a2b3c4d',
+  platformName: 'partnerX',
+  onSwitchToSend: jest.fn(),
 };
 
 describe('<ShareProgramRecordModal />', () => {
@@ -68,6 +70,16 @@ describe('<ShareProgramRecordModal />', () => {
         expect(wrapper.state('urlCopied')).toBe(false);
         wrapper.instance().setUrlAsCopied('text', 'result');
         expect(wrapper.state('urlCopied')).toBe(true);
+      });
+    });
+
+    it('links to send modal', () => {
+      expect(wrapper.find('.modal-dialog').length).toBe(1);
+
+      return promise.then(() => {
+        wrapper.update();
+        wrapper.find('.modal-dialog .switch-to-send').simulate('click');
+        expect(defaultProps.onSwitchToSend.mock.calls.length).toBe(1);
       });
     });
   });

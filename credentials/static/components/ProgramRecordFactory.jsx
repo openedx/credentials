@@ -9,6 +9,7 @@ function ProgramRecordFactory(parent, props) {
     isPublic: props.isPublic,
     icons: props.icons,
     uuid: props.uuid,
+    helpUrl: props.helpUrl,
   };
 
   ReactDOM.render(
