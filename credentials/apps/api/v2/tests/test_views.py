@@ -6,16 +6,17 @@ from django.contrib.auth.models import Permission
 from django.urls import reverse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.test import APIRequestFactory, APITestCase
+from testfixtures import LogCapture
 
 from credentials.apps.api.v2.serializers import (UserCredentialAttributeSerializer, UserCredentialSerializer,
                                                  UserGradeSerializer)
+from credentials.apps.api.v2.views import CredentialRateThrottle
 from credentials.apps.catalog.tests.factories import CourseFactory, CourseRunFactory, ProgramFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import UserCredential
-from credentials.apps.credentials.tests.factories import (
-    CourseCertificateFactory, ProgramCertificateFactory, UserCredentialAttributeFactory, UserCredentialFactory
-)
+from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
+                                                          UserCredentialAttributeFactory, UserCredentialFactory)
 from credentials.apps.records.models import UserGrade
 from credentials.apps.records.tests.factories import UserGradeFactory
 
@@ -469,3 +470,103 @@ class GradeViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(grade.letter_grade, self.data['letter_grade'])
         self.assertDictEqual(response.data, self.serialize_user_grade(grade))
+
+
+@ddt.ddt
+class ThrottlingTests(SiteMixin, APITestCase):
+    """ Tests for CredentialRateThrottle """
+
+    def setUp(self):
+        super(ThrottlingTests, self).setUp()
+        self.throttle = CredentialRateThrottle()
+        self.user = UserFactory()
+
+    def authenticate_user(self, user):
+        """ Login as the given user. """
+        self.client.logout()
+        self.client.login(username=user.username, password=USER_PASSWORD)
+
+    def add_user_permission(self, user, permission):
+        """ Assigns a permission of the given name to the user. """
+        user.user_permissions.add(Permission.objects.get(codename=permission))
+
+    @ddt.data('credential_view', 'grade_view')
+    def test_throttle_configuration(self, scope):
+        """ Verify that Throttling is configured for each scope. """
+        self.throttle.scope = scope
+        self.assertIsNotNone(self.throttle.parse_rate(self.throttle.get_rate()))
+
+    def assert_throttling_log_correct(self, log_capture, view_set):
+        """ Helper for testing correct log output for throttling. """
+        log_capture.check(
+            (
+                'credentials.apps.api.v2.views',
+                'WARNING',
+                'Credentials API endpoint {} is being throttled.'.format(view_set)
+            )
+        )
+
+    def test_credential_view_throttling(self):
+        """
+        Verify requests are throttled and a message is logged after limit.
+
+        Note: There is a potential for this test to be flaky in the case the
+        endpoint we are testing slows down over time and/or the rate limit is
+        increased.
+        """
+        with LogCapture() as log:
+            list_path = reverse('api:v2:credentials-list')
+            self.authenticate_user(self.user)
+            self.add_user_permission(self.user, 'view_usercredential')
+
+            self.throttle.scope = 'credential_view'
+            rate_limit, _ = self.throttle.parse_rate(self.throttle.get_rate())
+            # All requests up to the rate limit should be acceptable
+            for _ in range(0, rate_limit):
+                response = self.client.get(list_path)
+                self.assertEqual(response.status_code, 200)
+
+            # Request after limit should NOT be acceptable
+            response = self.client.get(list_path)
+            self.assertEqual(response.status_code, 429)
+            self.assert_throttling_log_correct(log, 'CredentialViewSet')
+
+    def test_grade_view_throttling(self):
+        """
+        Verify requests are throttled and a message is logged after limit.
+
+        Note: There is a potential for this test to be flaky in the case the
+        endpoint we are testing slows down over time and/or the rate limit is
+        increased.
+        """
+        with LogCapture() as log:
+            course = CourseFactory(site=self.site)
+            course_run = CourseRunFactory(course=course)
+            data = {
+                'username': 'test_user',
+                'course_run': course_run.key,
+                'letter_grade': 'A',
+                'percent_grade': 0.9,
+                'verified': True,
+            }
+            grade = UserGradeFactory(
+                course_run=course_run,
+                username=self.user.username,
+                letter_grade='C',
+            )
+            path = reverse('api:v2:grades-detail', kwargs={'pk': grade.id})
+
+            self.authenticate_user(self.user)
+            self.add_user_permission(self.user, 'change_usergrade')
+
+            self.throttle.scope = 'grade_view'
+            rate_limit, _ = self.throttle.parse_rate(self.throttle.get_rate())
+            # All requests up to the rate limit should be acceptable
+            for _ in range(0, rate_limit):
+                response = getattr(self.client, 'put')(path, data=data)
+                self.assertEqual(response.status_code, 200)
+
+            # Request after limit should NOT be acceptable
+            response = getattr(self.client, 'put')(path, data=data)
+            self.assertEqual(response.status_code, 429)
+            self.assert_throttling_log_correct(log, 'GradeViewSet')

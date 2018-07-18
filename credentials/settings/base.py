@@ -376,7 +376,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.DjangoModelPermissions',),
     'PAGE_SIZE': 20,
-    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%SZ'
+    'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%SZ',
+    'EXCEPTION_HANDLER': 'credentials.apps.api.v2.views.credentials_throttle_handler',
 }
 
 # DJANGO DEBUG TOOLBAR CONFIGURATION
