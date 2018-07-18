@@ -596,6 +596,7 @@ class ProgramSendTests(SiteMixin, TestCase):
 
 class ProgramRecordCsvViewTests(SiteMixin, TestCase):
     MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }
+
     def setUp(self):
         super().setUp()
         self.user = UserFactory(username=self.MOCK_USER_DATA['username'])
@@ -629,14 +630,16 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
         self.assertEqual(404, response.status_code)
 
     @override_flag(WAFFLE_FLAG_RECORDS, active=True)
-    def test_404s_with_no_program_cert_record(self):
+    @patch('credentials.apps.records.views.SegmentClient', autospec=True)
+    def test_404s_with_no_program_cert_record(self, client):
         """ Verify that the view 404s if a program cert record isn't found"""
         self.program_cert_record.delete()
         response = self.client.get(reverse('records:program_record_csv', kwargs={'uuid': self.program_cert_record.uuid.hex}))
         self.assertEqual(404, response.status_code)
 
     @override_flag(WAFFLE_FLAG_RECORDS, active=True)
-    def test_404s_with_no_program_cert(self):
+    @patch('credentials.apps.records.views.SegmentClient', autospec=True)
+    def test_404s_with_no_program_cert(self, client):
         """ Verify that the view 404s if a program cert isn't found"""
         self.program_cert.delete()
         response = self.client.get(
@@ -645,12 +648,15 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
         self.assertEqual(404, response.status_code)
 
     @override_flag(WAFFLE_FLAG_RECORDS, active=True)
-    def test_404s_with_no_program_cert(self):
+    @patch('credentials.apps.records.views.SegmentClient', autospec=True)
+    @patch('credentials.apps.records.views.SegmentClient.track', autospec=True)
+    def test_404s_with_no_program_cert(self, client, track):
         """ Verify that the view 404s if a program cert isn't found"""
         response = self.client.get(
             reverse('records:program_record_csv', kwargs={'uuid': self.program_cert_record.uuid.hex})
         )
         self.assertEqual(200, response.status_code)
+        self.assertTrue(track.called)
         # Check that the header is present in the response bytestring
         headers = ['course_id','percent_grade','attempts','school','issue_date','letter_grade','name']
         response_content = response.content.decode('utf-8')

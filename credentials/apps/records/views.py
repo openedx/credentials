@@ -350,13 +350,13 @@ class ProgramRecordCsvView(View):
         context = {
             'page': {
                 'path': request.path,
-                'referrer': request.META['HTTP_REFERER'],
+                'referrer': request.META.get('HTTP_REFERER'),
             },
-            'userAgent': request.META['HTTP_USER_AGENT'],
+            'userAgent': request.META.get('HTTP_USER_AGENT'),
         }
 
         segment_client.track(
-            request.COOKIES['ajs_anonymous_id'],
+            request.COOKIES.get('ajs_anonymous_id'),
             context=context,
             event='edx.bi.credentials.program_record.download_started',
             properties=properties,
@@ -373,7 +373,7 @@ class ProgramRecordCsvView(View):
         )
         response = ProgramRecordCsvView.SegmentHttpResponse(
             string_io,
-            anonymous_id=request.COOKIES['ajs_anonymous_id'],
+            anonymous_id=request.COOKIES.get('ajs_anonymous_id'),
             content_type='text/csv',
             context=context,
             event='edx.bi.credentials.program_record.download_finished',
