@@ -5,6 +5,7 @@ import { Button, Icon, StatusAlert } from '@edx/paragon';
 import Cookies from 'js-cookie';
 
 import FoldingTable from './FoldingTable';
+import RecordsHelp from './RecordsHelp';
 import ProgramIcon from './ProgramIcon';
 import SendLearnerRecordModal from './SendLearnerRecordModal';
 import ShareProgramRecordModal from './ShareProgramRecordModal';
@@ -49,6 +50,7 @@ class ProgramRecord extends React.Component {
   loadSendRecordModal(event) {
     this.setState({
       sendRecordModalOpen: true,
+      shareModelOpen: false,
     });
     this.setActiveButton(event.target);
     trackEvent('edx.bi.credentials.program_record.send_started', {
@@ -59,6 +61,7 @@ class ProgramRecord extends React.Component {
 
   loadShareModel(event) {
     this.setState({
+      sendRecordModalOpen: false,
       shareModelOpen: true,
     });
     this.setActiveButton(event.target);
@@ -111,6 +114,7 @@ class ProgramRecord extends React.Component {
 
     return grades.map(course => ({
       ...course,
+      course_id: course.course_id.replace(/^course-v1:/, ''),
       // If certificate not earned hide some fields
       ...(!course.issue_date && { course_id: null }),
       ...(!course.issue_date && { letter_grade: null }),
@@ -202,12 +206,14 @@ class ProgramRecord extends React.Component {
       icons,
       uuid,
       loadModalsAsChildren,
+      helpUrl,
     } = this.props;
     const { sendRecordModalOpen, shareModelOpen } = this.state;
     const recordWrapperClass = 'program-record-wrapper';
     const defaultModalProps = {
       ...(loadModalsAsChildren && { parentSelector: `.${recordWrapperClass}` }),
     };
+    const hasHelpUrl = helpUrl !== '';
 
     return (
       <main className={recordWrapperClass}>
@@ -349,20 +355,27 @@ class ProgramRecord extends React.Component {
             />
           </div>
         </section>
+
+        {hasHelpUrl && <RecordsHelp helpUrl={helpUrl} />}
+
         {sendRecordModalOpen &&
           <SendLearnerRecordModal
             {...defaultModalProps}
             onClose={this.closeSendRecordModal}
             sendHandler={this.sendRecords}
             uuid={uuid}
+            typeName={program.type_name}
+            platformName={platformName}
           />
         }
         {shareModelOpen &&
           <ShareProgramRecordModal
             {...defaultModalProps}
             onClose={this.closeShareModel}
+            onSwitchToSend={this.loadSendRecordModal}
             username={learner.username}
             uuid={uuid}
+            platformName={platformName}
           />
         }
       </main>
@@ -390,12 +403,14 @@ ProgramRecord.propTypes = {
   uuid: PropTypes.string.isRequired,
   platform_name: PropTypes.string.isRequired,
   loadModalsAsChildren: PropTypes.bool,
+  helpUrl: PropTypes.string,
 };
 
 ProgramRecord.defaultProps = {
   isPublic: true,
   icons: {},
   loadModalsAsChildren: true,
+  helpUrl: '',
 };
 
 export default ProgramRecord;

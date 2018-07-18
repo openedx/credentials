@@ -8,6 +8,8 @@ const defaultProps = {
   parentSelector: 'body',
   uuid: 'test-uuid',
   sendHandler: jest.fn(),
+  typeName: 'MicroMasters',
+  platformName: 'partnerX',
 };
 
 describe('<SendLearnerRecordModal />', () => {
@@ -17,7 +19,7 @@ describe('<SendLearnerRecordModal />', () => {
 
   it('displays the program record url if API returns successfully', () => {
     expect(wrapper.find('.modal-dialog').length).toBe(1);
-    expect(wrapper.find('.modal-header .modal-title').text()).toBe('Send to edX Credit Partner');
+    expect(wrapper.find('.modal-header .modal-title').text()).toBe('Send to partnerX Credit Partner');
     expect(wrapper.find('.modal-header button').length).toBe(1);
     expect(wrapper.find('.modal-footer button').length).toBe(2);
   });

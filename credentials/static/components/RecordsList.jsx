@@ -1,23 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import StringUtils from './Utils';
 
 import ProgramIcon from './ProgramIcon';
+import RecordsHelp from './RecordsHelp';
 
 class RecordsList extends React.Component {
   static renderEmpty() {
     return (
       <p className="paragraph-grey">{gettext('No records yet. Program records are created once you have earned at least one course certificate in a program.')}</p>
-    );
-  }
-
-  static renderFAQ(helpUrl) {
-    return (
-      <footer className="faq pad-text-block">
-        <h3 className="hd-4 text-black">{gettext('Questions about Learner Records?')}</h3>
-        { StringUtils.renderDangerousHtml(gettext('To learn more about records you can {openTag} read more in our records help area.{closeTag}'),
-            { openTag: `<a href=${helpUrl}>`, closeTag: '</a>' }) }
-      </footer>
     );
   }
 
@@ -41,7 +31,7 @@ class RecordsList extends React.Component {
                 <span className="record-partner inline-data">{row.partner}</span>
                 <span className="inline-data"> {' | '} </span>
                 <span className="font-weight-bold inline-data">{
-                  row.completed ? gettext('Completed') : gettext('In Progress')
+                  row.completed ? gettext('Earned') : gettext('Partially Completed')
                 }</span>
               </div>
             </div>
@@ -99,7 +89,7 @@ class RecordsList extends React.Component {
           )
         }
         {hasContent || RecordsList.renderEmpty()}
-        {hasContent && hasHelpUrl && RecordsList.renderFAQ(helpUrl)}
+        {hasHelpUrl && <RecordsHelp helpUrl={helpUrl} />}
       </main>
     );
   }

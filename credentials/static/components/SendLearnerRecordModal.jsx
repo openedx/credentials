@@ -2,6 +2,7 @@ import 'babel-polyfill'; // Needed to support Promises on legacy browsers
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, CheckBoxGroup, CheckBox, Modal } from '@edx/paragon';
+import StringUtils from './Utils';
 
 class SendLearnerRecordModal extends React.Component {
   constructor(props) {
@@ -36,16 +37,25 @@ class SendLearnerRecordModal extends React.Component {
   }
 
   render() {
-    const { onClose, parentSelector } = this.props;
+    const { onClose, parentSelector, typeName, platformName } = this.props;
 
     return (
       <Modal
-        title={gettext('Send to edX Credit Partner')}
+        title={StringUtils.interpolate(
+          gettext('Send to {platform} Credit Partner'),
+          { platform: platformName },
+        )}
         {...(parentSelector && { parentSelector })}
         onClose={onClose}
         body={(
           <div>
-            <p>{ gettext('You can directly share your program record with an edX partner that accepts credit transfer for this MicroMasters Program. Once you send your record you cannot unsend it.') }</p>
+            <p>{ StringUtils.interpolate(
+              gettext('You can directly share your program record with {platform} partners that accept credit for this {type} Program. Once you send your record you cannot unsend it.'),
+              {
+                platform: platformName,
+                type: typeName,
+              },
+            )}</p>
             <p>{ gettext('Select organization(s) you wish to send this record to:') }</p>
             <CheckBoxGroup>
               <CheckBox
@@ -86,6 +96,8 @@ SendLearnerRecordModal.propTypes = {
     PropTypes.bool,
   ]),
   uuid: PropTypes.string.isRequired,
+  typeName: PropTypes.string.isRequired,
+  platformName: PropTypes.string.isRequired,
 };
 
 SendLearnerRecordModal.defaultProps = {

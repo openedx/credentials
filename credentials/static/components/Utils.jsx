@@ -5,12 +5,14 @@ class StringUtils {
   static interpolate(formatString, parameters) {
     return formatString.replace(/{\w+}/g, (parameter) => {
       const parameterName = parameter.slice(1, -1);
-      return String(parameters[parameterName]);
+      if (parameterName in parameters) {
+        return String(parameters[parameterName]);
+      }
+      return `{${parameterName}}`;
     });
   }
 
-  // FIXME: Make sure that HTML is sanitized for XSS first
-  // Reference: https://openedx.atlassian.net/browse/LEARNER-5537
+  // This is mostly safe, as i18n_tool will scan for xss attacks in translations
   static renderDangerousHtml(formatString, parameters) {
     let htmlString;
 

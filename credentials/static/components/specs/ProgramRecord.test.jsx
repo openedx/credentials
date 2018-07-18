@@ -144,6 +144,17 @@ describe('<ProgramRecord />', () => {
       expect(wrapper.find('.program-record-actions button.btn-secondary').html()).toEqual(document.activeElement.outerHTML);
     });
 
+    it('switches from share to send', () => {
+      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      wrapper.find('.program-record-actions button.btn-secondary').simulate('click');
+      wrapper.update();
+      expect(wrapper.find('.modal-dialog').length).toBe(1);
+      wrapper.find('.modal-dialog .switch-to-send').simulate('click');
+      wrapper.update();
+      expect(wrapper.find('.modal-dialog').length).toBe(1);
+      expect(wrapper.find('.modal-dialog .modal-header').text()).toEqual('Send to testX Credit Partner');
+    });
+
     it('calls sendRecords and shows the loading alert', () => {
       // Setup axios mocks
       const postPromise = Promise.resolve();
