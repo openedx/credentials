@@ -21,6 +21,7 @@ production-requirements: ## Install requirements for production
 
 requirements: ## Install requirements for local development
 	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
+	cat /root/.npm/_logs/2018-07*
 	pip install -r requirements/local.txt
 
 quality: ## Run linters
@@ -42,6 +43,7 @@ tests: ## Run tests and generate coverage report
 	make test-react
 
 static: ## Gather all static assets for production (minimized)
+	cat /root/.npm/_logs/2018-07*
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --optimize-minimize
 	python manage.py compilejsi18n
 	python manage.py collectstatic --noinput -i *.scss
