@@ -19,18 +19,30 @@ cache:
 before_install:
   - docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
 
-# Doing so is a waste of time since they won't be used.
-install: true
+matrix:
+  include:
+    - env: TESTNAME=quality-and-translations
 
-script:
-  - make exec-requirements
-  - make exec-static
-  - make exec-check_translations_up_to_date
-  - make exec-validate-translations
-  - make exec-quality
-  - make exec-tests
+      # Doing so is a waste of time since they won't be used.
+      install: true
 
-after_success:
-  - pip install --upgrade codecov
-  - make exec-coverage
-  - codecov
+      script:
+        - make exec-requirements
+        - make exec-check_translations_up_to_date
+        - make exec-validate-translations
+        - make exec-quality
+
+    - env: TESTNAME=unit-tests
+
+      # Doing so is a waste of time since they won't be used.
+      install: true
+
+      script:
+        - make exec-requirements
+        - make exec-static
+        - make exec-tests
+
+      after_success:
+        - pip install --upgrade codecov
+        - make exec-coverage
+        - codecov
