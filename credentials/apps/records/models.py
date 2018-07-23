@@ -35,7 +35,7 @@ class ProgramCertRecord(TimeStampedModel):
         default=None,
         help_text='Note: certificate is deprecated, and is kept around because it is used in an old data migration.'
     )
-    program = models.ForeignKey(Program, null=True)
+    program = models.ForeignKey(Program)
     user = models.ForeignKey(User)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
