@@ -29,7 +29,12 @@ class ProgramCertRecord(TimeStampedModel):
     """
     Connects a User with a Program
     """
-    certificate = models.ForeignKey(ProgramCertificate, null=True)
+    certificate = models.ForeignKey(
+        ProgramCertificate,
+        null=True,
+        default=None,
+        help_text='Note: certificate is deprecated, and is kept around because it is used in an old data migration.'
+    )
     program = models.ForeignKey(Program, null=True)
     user = models.ForeignKey(User)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
