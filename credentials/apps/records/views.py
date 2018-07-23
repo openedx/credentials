@@ -3,10 +3,10 @@ import datetime
 import io
 import json
 import urllib.parse
-from analytics.client import Client as SegmentClient
 from collections import defaultdict
-import waffle
 
+import waffle
+from analytics.client import Client as SegmentClient
 from django import http
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
