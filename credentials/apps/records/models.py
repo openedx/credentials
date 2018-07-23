@@ -43,4 +43,4 @@ class ProgramCertRecord(TimeStampedModel):
         return 'ProgramCertificateRecord: {uuid}'.format(uuid=self.uuid)
 
     class Meta(object):
-        verbose_name = "A viewable record of a program"
+        verbose_name = "Shared Program Records"

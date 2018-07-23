@@ -102,7 +102,7 @@ def parse_pathway(site, data):
 
     pathway.programs.clear()
     for program_data in data['programs']:
-        program = Program.objects.get(uuid=program_data['uuid'])
+        program = Program.objects.get(site=site, uuid=program_data['uuid'])
         pathway.programs.add(program)
 
     return pathway
