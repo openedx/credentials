@@ -10,7 +10,9 @@ from credentials.apps.records.models import ProgramCertRecord
 
 def seed_program_cert_records(apps, schema_editor):
     for pcr in ProgramCertRecord.objects.all():
-        pcr.program = Program.objects.get(uuid=pcr.certificate.program_uuid)
+        program_uuid = pcr.certificate.program_uuid
+        site = pcr.certificate.site
+        pcr.program = Program.objects.get(site=site, uuid=program_uuid)
         pcr.save()
 
 
