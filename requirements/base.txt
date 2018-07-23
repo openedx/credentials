@@ -25,4 +25,4 @@ pytz==2016.10
 six==1.10.0
 
 # TODO Install in configuration
-git+https://github.com/edx/credentials-themes.git@0.1.20#egg=edx_credentials_themes==0.1.20
+git+https://github.com/edx/credentials-themes.git@0.1.21#egg=edx_credentials_themes==0.1.21
