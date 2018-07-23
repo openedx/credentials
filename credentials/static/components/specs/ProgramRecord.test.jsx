@@ -259,7 +259,7 @@ describe('<ProgramRecord />', () => {
     });
 
     it('labeled correctly', () => {
-      expect(wrapper.find('.program-status .badge').text()).toBe('Earned');
+      expect(wrapper.find('.program-status .badge').text()).toBe('Completed');
     });
   });
 

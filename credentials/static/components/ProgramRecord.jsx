@@ -119,7 +119,7 @@ class ProgramRecord extends React.Component {
       ...(!course.issue_date && { course_id: null }),
       ...(!course.issue_date && { letter_grade: null }),
       ...(!course.issue_date && { attempts: null }),
-      percent_grade: this.formatPercentage(course.percent_grade),
+      percent_grade: course.issue_date ? this.formatPercentage(course.percent_grade) : '',
       issue_date: this.formatDate(course.issue_date),
       status: course.issue_date ?
         <span className="badge badge-success">{gettext('Earned')}</span> :
@@ -302,7 +302,7 @@ class ProgramRecord extends React.Component {
               </div>
               <div className="d-flex program-status">
                 {program.completed ?
-                  <span className="badge badge-success">{gettext('Earned')}</span>
+                  <span className="badge badge-success">{gettext('Completed')}</span>
                  :
                   <span className="badge badge-warning">{gettext('Partially Completed')}</span>
                 }

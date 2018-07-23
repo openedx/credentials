@@ -186,7 +186,7 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
         profile_url = ''
         records_help_url = ''
         if site_configuration:
-            profile_url = urllib.parse.urljoin(site_configuration.homepage_url, 'u/' + request.user.username)
+            profile_url = urllib.parse.urljoin(site_configuration.lms_url_root, 'u/' + request.user.username)
             records_help_url = site_configuration.records_help_url
 
         context.update({

@@ -138,6 +138,7 @@ class ShareProgramRecordModal extends React.Component {
                 <InputText
                   value={programRecordUrl}
                   name="program-record-share-url"
+                  className={['program-record-share-url']}
                   label={<span className="sr-only">{gettext('Program Record URL')}</span>}
                   disabled
                 />

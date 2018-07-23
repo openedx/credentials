@@ -25,6 +25,7 @@ from django.views.defaults import page_not_found
 from rest_framework_swagger.views import get_swagger_view
 
 from credentials.apps.core import views as core_views
+from credentials.views import FaviconView
 
 
 admin.autodiscover()
@@ -41,6 +42,7 @@ urlpatterns = auth_urlpatterns + [
     url(r'^health/$', core_views.health, name='health'),
     url(r'^management/', include('credentials.apps.edx_django_extensions.urls', namespace='management')),
     url(r'^records/', include('credentials.apps.records.urls', namespace='records')),
+    url(r'^favicon\.ico$', FaviconView.as_view(permanent=True)),
 ]
 
 handler500 = 'credentials.apps.core.views.render_500'
