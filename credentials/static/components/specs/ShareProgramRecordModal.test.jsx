@@ -107,7 +107,7 @@ describe('<ShareProgramRecordModal />', () => {
         expect(wrapper.find('.modal-body .alert-danger').length).toBe(1);
 
         const errorText = 'We were unable to create your record link.';
-        expect(wrapper.find('.modal-body .alert-danger h3').text()).toBe(errorText);
+        expect(wrapper.find('.modal-body .alert-danger span').text()).toBe(errorText);
       });
     });
   });

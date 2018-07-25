@@ -439,7 +439,22 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         expected = [{'name': self.credit_pathway.name,
                      'id': self.credit_pathway.id,
-                     'status': ''}]
+                     'status': '',
+                     'is_active': True}]
+
+        self.assertEqual(credit_pathway_data, expected)
+
+    def test_credit_pathway_no_email(self):
+        """ Test that a credit pathway data without an email is inactive """
+        self.credit_pathway.email = ''
+        self.credit_pathway.save()
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        credit_pathway_data = json.loads(response.context_data['record'])['credit_pathways']
+
+        expected = [{'name': self.credit_pathway.name,
+                     'id': self.credit_pathway.id,
+                     'status': '',
+                     'is_active': False}]
 
         self.assertEqual(credit_pathway_data, expected)
 
@@ -452,7 +467,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         expected = [{'name': self.credit_pathway.name,
                      'id': self.credit_pathway.id,
-                     'status': 'sent'}]
+                     'status': 'sent',
+                     'is_active': True}]
 
         self.assertEqual(credit_pathway_data, expected)
 

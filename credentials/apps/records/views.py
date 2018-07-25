@@ -99,7 +99,9 @@ def get_record_data(user, program_uuid, site, platform_name=None):
 
         credit_pathway_data = [{'name': credit_pathway[0].name,
                                 'id': credit_pathway[0].id,
-                                'status': credit_pathway[1]} for credit_pathway in credit_pathways]
+                                'status': credit_pathway[1],
+                                'is_active': bool(credit_pathway[0].email)}
+                               for credit_pathway in credit_pathways]
 
         # Add course-run data to the response in the order that is maintained by the Program's sorted field
         course_data = []
