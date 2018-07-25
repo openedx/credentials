@@ -4,7 +4,7 @@ from django.db.models import Q
 from rest_framework import mixins, viewsets
 from rest_framework.exceptions import Throttled
 from rest_framework.response import Response
-from rest_framework.throttling import ScopedRateThrottle
+from rest_framework.throttling import UserRateThrottle
 from rest_framework.views import exception_handler
 
 from credentials.apps.api.v2.filters import UserCredentialFilter
@@ -33,12 +33,10 @@ def credentials_throttle_handler(exc, context):
     return response
 
 
-class CredentialRateThrottle(ScopedRateThrottle):
-    """ Rate limits requests to the credentials endpoints. """
-
+class CredentialViewThrottle(UserRateThrottle):
+    """ Rate limits requests to the credential endpoint. """
     THROTTLE_RATES = {
-        'credential_view': '15/minute',
-        'grade_view': '90/minute',
+        'user': '15/minute',
     }
 
 
@@ -47,8 +45,7 @@ class CredentialViewSet(viewsets.ModelViewSet):
     lookup_field = 'uuid'
     permission_classes = (UserCredentialPermissions,)
     serializer_class = UserCredentialSerializer
-    throttle_classes = (CredentialRateThrottle,)
-    throttle_scope = 'credential_view'
+    throttle_classes = (CredentialViewThrottle,)
 
     def get_queryset(self):
         queryset = UserCredential.objects.all()
@@ -116,14 +113,20 @@ class CredentialViewSet(viewsets.ModelViewSet):
         return super(CredentialViewSet, self).update(request, *args, **kwargs)
 
 
+class GradeViewThrottle(UserRateThrottle):
+    """ Rate limits requests to the grade endpoint. """
+    THROTTLE_RATES = {
+        'user': '90/minute',
+    }
+
+
 # A write-only endpoint for now
 class GradeViewSet(mixins.CreateModelMixin,
                    mixins.UpdateModelMixin,
                    viewsets.GenericViewSet):
     permission_classes = (UserCredentialPermissions,)
     serializer_class = UserGradeSerializer
-    throttle_classes = (CredentialRateThrottle,)
-    throttle_scope = 'grade_view'
+    throttle_classes = (GradeViewThrottle,)
     queryset = UserGrade.objects.all()
 
     def create(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation

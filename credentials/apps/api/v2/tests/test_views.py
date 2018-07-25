@@ -10,7 +10,7 @@ from testfixtures import LogCapture
 
 from credentials.apps.api.v2.serializers import (UserCredentialAttributeSerializer, UserCredentialSerializer,
                                                  UserGradeSerializer)
-from credentials.apps.api.v2.views import CredentialRateThrottle
+from credentials.apps.api.v2.views import CredentialViewThrottle, GradeViewThrottle
 from credentials.apps.catalog.tests.factories import CourseFactory, CourseRunFactory, ProgramFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
@@ -472,13 +472,11 @@ class GradeViewSetTests(SiteMixin, APITestCase):
         self.assertDictEqual(response.data, self.serialize_user_grade(grade))
 
 
-@ddt.ddt
 class ThrottlingTests(SiteMixin, APITestCase):
-    """ Tests for CredentialRateThrottle """
+    """ Tests for throttling the credentials api endpoints """
 
     def setUp(self):
         super(ThrottlingTests, self).setUp()
-        self.throttle = CredentialRateThrottle()
         self.user = UserFactory()
 
     def authenticate_user(self, user):
@@ -489,12 +487,6 @@ class ThrottlingTests(SiteMixin, APITestCase):
     def add_user_permission(self, user, permission):
         """ Assigns a permission of the given name to the user. """
         user.user_permissions.add(Permission.objects.get(codename=permission))
-
-    @ddt.data('credential_view', 'grade_view')
-    def test_throttle_configuration(self, scope):
-        """ Verify that Throttling is configured for each scope. """
-        self.throttle.scope = scope
-        self.assertIsNotNone(self.throttle.parse_rate(self.throttle.get_rate()))
 
     def assert_throttling_log_correct(self, log_capture, view_set):
         """ Helper for testing correct log output for throttling. """
@@ -515,12 +507,12 @@ class ThrottlingTests(SiteMixin, APITestCase):
         increased.
         """
         with LogCapture() as log:
+            throttle = CredentialViewThrottle()
             list_path = reverse('api:v2:credentials-list')
             self.authenticate_user(self.user)
             self.add_user_permission(self.user, 'view_usercredential')
 
-            self.throttle.scope = 'credential_view'
-            rate_limit, _ = self.throttle.parse_rate(self.throttle.get_rate())
+            rate_limit, _ = throttle.parse_rate(throttle.get_rate())
             # All requests up to the rate limit should be acceptable
             for _ in range(0, rate_limit):
                 response = self.client.get(list_path)
@@ -540,6 +532,7 @@ class ThrottlingTests(SiteMixin, APITestCase):
         increased.
         """
         with LogCapture() as log:
+            throttle = GradeViewThrottle()
             course = CourseFactory(site=self.site)
             course_run = CourseRunFactory(course=course)
             data = {
@@ -559,8 +552,7 @@ class ThrottlingTests(SiteMixin, APITestCase):
             self.authenticate_user(self.user)
             self.add_user_permission(self.user, 'change_usergrade')
 
-            self.throttle.scope = 'grade_view'
-            rate_limit, _ = self.throttle.parse_rate(self.throttle.get_rate())
+            rate_limit, _ = throttle.parse_rate(throttle.get_rate())
             # All requests up to the rate limit should be acceptable
             for _ in range(0, rate_limit):
                 response = getattr(self.client, 'put')(path, data=data)
