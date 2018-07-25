@@ -150,6 +150,7 @@ class ProgramRecord extends React.Component {
         sent,
         checked: sent,
         id: pathway.id,
+        isActive: pathway.is_active,
       };
     }
 
@@ -298,7 +299,7 @@ class ProgramRecord extends React.Component {
             dialog={
               <div>
                 <span className="hd-5">{ gettext('We were unable to send your program record.') }</span>
-                <span className="text-muted alert-body">
+                <span className="alert-body">
                   {StringUtils.interpolate(gettext('We were unable to send your record to {orgs}.  You can attempt to send this record again.  Contact support if this issue persists.'),
                       { orgs: StringUtils.formatStringList(this.state.sendRecordFailureOrgs) })}
                 </span>
@@ -314,7 +315,7 @@ class ProgramRecord extends React.Component {
             dialog={
               <div>
                 <span className="hd-5">{ gettext('You have successfully shared your Learner Record') }</span>
-                <span className="text-muted alert-body">
+                <span className="alert-body">
                   {StringUtils.interpolate(gettext('You have sent your record to {orgs}.  Next, ensure you understand their application process.'),
                       { orgs: StringUtils.formatStringList(this.state.sendRecordSuccessOrgs) })}
                 </span>

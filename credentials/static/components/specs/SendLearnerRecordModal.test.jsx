@@ -13,11 +13,19 @@ const defaultProps = {
       sent: false,
       checked: false,
       id: 1,
+      isActive: true,
     },
     MITx: {
-      sent: false,
+      sent: true,
       checked: false,
       id: 2,
+      isActive: true,
+    },
+    HarvardX: {
+      sent: false,
+      checked: false,
+      id: 3,
+      isActive: false,
     },
   },
   creditPathwaysList: [
@@ -27,6 +35,9 @@ const defaultProps = {
     },
     {
       name: 'MITx',
+      status: 'sent',
+    },
+    { name: 'HarvardX',
       status: '',
     },
   ],
@@ -78,5 +89,18 @@ describe('<SendLearnerRecordModal />', () => {
     expect(wrapper.find('.modal-footer button.btn-primary').prop('disabled')).toBe(true);
     wrapper.find('.modal-body input').at(0).simulate('change');
     expect(wrapper.find('.modal-footer button.btn-primary').prop('disabled')).toBe(false);
+  });
+
+  it('gets the correct organization display names', () => {
+    expect(wrapper.instance().getPathwayDisplayName('testX')).toEqual('testX');
+    expect(wrapper.instance().getPathwayDisplayName('MITx')).toEqual('MITx - Sent');
+    expect(wrapper.instance().getPathwayDisplayName('HarvardX')).toEqual('HarvardX - Not Yet Available');
+  });
+
+  it('correctly determines inactive pathways', () => {
+    expect(wrapper.instance().checkAnyInactivePathways()).toBe(true);
+    wrapper.state().creditPathways.testX.isActive = true;
+    wrapper.state().creditPathways.HarvardX.isActive = true;
+    expect(wrapper.instance().checkAnyInactivePathways()).toBe(false);
   });
 });

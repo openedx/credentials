@@ -117,8 +117,8 @@ class ShareProgramRecordModal extends React.Component {
                 dismissible={false}
                 dialog={(
                   <div>
-                    <h3>{ gettext('We were unable to create your record link.') }</h3>
-                    <p>{ gettext('You can close this window and try again.') }</p>
+                    <span className="hd-5">{ gettext('We were unable to create your record link.') }</span>
+                    <p className="alert-body">{ gettext('You can close this window and try again.') }</p>
                   </div>
                 )}
               />

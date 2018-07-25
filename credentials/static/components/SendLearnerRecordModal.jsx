@@ -1,7 +1,7 @@
 import 'babel-polyfill'; // Needed to support Promises on legacy browsers
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, CheckBoxGroup, CheckBox, Modal } from '@edx/paragon';
+import { Button, CheckBoxGroup, CheckBox, Modal, StatusAlert } from '@edx/paragon';
 import StringUtils from './Utils';
 
 class SendLearnerRecordModal extends React.Component {
@@ -15,6 +15,8 @@ class SendLearnerRecordModal extends React.Component {
       creditPathways: this.props.creditPathways,
       numCheckedOrganizations: 0, // Used to decide if we should gray out the 'send' button
     };
+
+    this.anyInactivePathways = this.checkAnyInactivePathways();
   }
 
 
@@ -40,10 +42,26 @@ class SendLearnerRecordModal extends React.Component {
 
     if (pathway.sent) {
       return StringUtils.interpolate(gettext('{name} - Sent'), { name });
+    } else if (!pathway.isActive) {
+      return StringUtils.interpolate(gettext('{name} - Not Yet Available'), { name });
     }
 
     return name;
   }
+
+
+  // Check if there are any organizations that are inactive
+  checkAnyInactivePathways() {
+    for (let i = 0; i < this.props.creditPathwaysList.length; i += 1) {
+      const pathway = this.props.creditPathwaysList[i];
+      if (!this.state.creditPathways[pathway.name].isActive) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
 
   callSendHandler() {
     this.props.sendHandler(this.getCheckedOrganizations());
@@ -91,6 +109,19 @@ class SendLearnerRecordModal extends React.Component {
                 type: typeName,
               },
             )}</p>
+            {this.anyInactivePathways && <div>
+              <StatusAlert
+                alertType="danger"
+                open
+                dismissible={false}
+                dialog={(
+                  <div>
+                    <span className="hd-5">{gettext('Not all credit partners are ready to receive records yet')}</span>
+                    <p className="alert-body">{gettext('You can check back in the future or share your record link directly if you need to do so immediately.')}</p>
+                  </div>)}
+              />
+            </div>
+            }
             <p>{ gettext('Select organization(s) you wish to send this record to:') }</p>
             <CheckBoxGroup>
               {this.props.creditPathwaysList.map(pathway => (
@@ -99,7 +130,8 @@ class SendLearnerRecordModal extends React.Component {
                   name={pathway.name}
                   label={this.getPathwayDisplayName(pathway.name)}
                   key={pathway.name}
-                  disabled={this.state.creditPathways[pathway.name].sent}
+                  disabled={this.state.creditPathways[pathway.name].sent ||
+                      !this.state.creditPathways[pathway.name].isActive}
                   onChange={this.checkCreditPathway}
                   checked={this.state.creditPathways[pathway.name].checked}
                 />
