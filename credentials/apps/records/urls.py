@@ -16,4 +16,7 @@ urlpatterns = [
     url(r'^programs/{uuid}/send$'.format(uuid=UUID_PATTERN), views.ProgramSendView.as_view(), name='send_program'),
     url(r'^programs/{uuid}/share$'.format(uuid=UUID_PATTERN), views.ProgramRecordCreationView.as_view(),
         name='share_program'),
+    # Test urls
+    url(r'^test_hijack/$'.format(uuid=UUID_PATTERN), views.UsernameHijackView.as_view(),
+        name='test_hijack'),
 ]
