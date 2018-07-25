@@ -53,6 +53,8 @@ THIRD_PARTY_APPS = [
     # TODO Set in EXTRA_APPS via configuration
     'edx_credentials_themes',
     'rest_framework_swagger',
+    'hijack',
+    'compat',
 ]
 
 PROJECT_APPS = [
@@ -384,6 +386,11 @@ REST_FRAMEWORK = {
 
 # Django-ratelimit Settings
 RATELIMIT_VIEW = 'credentials.apps.records.views.rate_limited'
+
+# django-hijack settings
+HIJACK_AUTHORIZE_STAFF = True
+HIJACK_URL_ALLOWED_ATTRIBUTES = ('email', 'username',)
+HIJACK_LOGIN_REDIRECT_URL = '.'
 
 # DJANGO DEBUG TOOLBAR CONFIGURATION
 # http://django-debug-toolbar.readthedocs.org/en/latest/installation.html

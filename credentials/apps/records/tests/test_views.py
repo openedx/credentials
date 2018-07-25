@@ -8,6 +8,7 @@ import json
 import urllib.parse
 import uuid
 
+import ddt
 from django.contrib.contenttypes.models import ContentType
 from django.core import mail
 from django.template.defaultfilters import slugify
@@ -111,6 +112,7 @@ class RecordsViewTests(SiteMixin, TestCase):
         actual_child_templates = response_context_data['child_templates']
         self.assert_matching_template_origin(actual_child_templates['footer'], '_footer.html')
         self.assert_matching_template_origin(actual_child_templates['header'], '_header.html')
+        self.assert_matching_template_origin(actual_child_templates['masquerade'], '_masquerade.html')
 
     def test_xss(self):
         """ Verify that the view protects against xss in translations. """
@@ -295,6 +297,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         actual_child_templates = response_context_data['child_templates']
         self.assert_matching_template_origin(actual_child_templates['footer'], '_footer.html')
         self.assert_matching_template_origin(actual_child_templates['header'], '_header.html')
+        self.assert_matching_template_origin(actual_child_templates['masquerade'], '_masquerade.html')
 
     def test_public_access(self):
         """ Verify that the public view instructs front end to be public """
@@ -842,3 +845,48 @@ class RecordsThrottlingTests(SiteMixin, TestCase):
                 'WARNING',
                 'Credentials records endpoint is being throttled.',
             )
+
+
+@ddt.ddt
+class MasqueradeBannerFactoryTests(SiteMixin, TestCase):
+    """ Tests for verifying proper loading of the Masquerade Banner Factory. """
+    MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }
+
+    def setUp(self):
+        self.user = UserFactory(username=self.MOCK_USER_DATA['username'])
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
+
+    def _render_page(self, page):
+        """ Helper method to render the given page with no record/program data. """
+        if page == 'records':
+            response = self.client.get(reverse('records:index'))
+        elif page == 'programs':
+            with patch('credentials.apps.records.views.ProgramRecordView._get_record') as get_record:
+                get_record.return_value = {}
+                response = self.client.get(reverse('records:private_programs', kwargs={'uuid': uuid.uuid4().hex}))
+
+        return response
+
+    @ddt.data('records', 'programs',)
+    def test_masquerade_banner_will_appear_for_staff(self, page):
+        """ Verify that staff will see the masquerade bar. """
+        staff = UserFactory(username='test-staff', is_staff=True)
+        self.client.login(username=staff.username, password=USER_PASSWORD)
+        response = self._render_page(page)
+        self.assertContains(response, 'MasqueradeBannerFactory')
+
+    @ddt.data('records', 'programs',)
+    def test_masquerade_banner_will_appear_for_masqueraders(self, page):
+        """ Verify that masqueraders will see the masquerade bar. """
+        session = self.client.session
+        session['is_hijacked_user'] = True
+        session.save()
+        response = self._render_page(page)
+        self.assertContains(response, 'MasqueradeBannerFactory')
+
+    @ddt.data('records', 'programs',)
+    def test_masquerade_banner_will_not_appear(self, page):
+        """ Verify that the masquerade banner will not appear for other users. """
+        response = self._render_page(page)
+
+        self.assertNotContains(response, 'MasqueradeBannerFactory')
