@@ -250,7 +250,7 @@ class ProgramRecord extends React.Component {
       <main className={recordWrapperClass}>
         {!isPublic &&
           <section className="program-record-actions program-record-row">
-            <a href="/records/" className="top-bar-link flex-4">
+            <a href="/records/" className="top-bar-link">
               <span className="fa fa-caret-left" aria-hidden="true" /> {gettext('Back to My Records')}
             </a>
             {this.showSendRecordButton &&

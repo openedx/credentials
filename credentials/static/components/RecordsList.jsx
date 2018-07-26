@@ -7,7 +7,7 @@ import RecordsHelp from './RecordsHelp';
 class RecordsList extends React.Component {
   static renderEmpty() {
     return (
-      <p className="paragraph-grey">{gettext('No records yet. Program records are created once you have earned at least one course certificate in a program.')}</p>
+      <p className="paragraph-grey pad-text-block">{gettext('No records yet. Program records are created once you have earned at least one course certificate in a program.')}</p>
     );
   }
 
