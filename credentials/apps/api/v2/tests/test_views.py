@@ -19,6 +19,7 @@ from credentials.apps.credentials.tests.factories import (CourseCertificateFacto
                                                           UserCredentialAttributeFactory, UserCredentialFactory)
 from credentials.apps.records.models import UserGrade
 from credentials.apps.records.tests.factories import UserGradeFactory
+from credentials.shared.log_checker import assert_log_correct
 
 JSON_CONTENT_TYPE = 'application/json'
 LOGGER_NAME = 'credentials.apps.credentials.issuers'
@@ -537,7 +538,12 @@ class ThrottlingTests(SiteMixin, APITestCase):
             # Request after limit should NOT be acceptable
             response = self.client.get(list_path)
             self.assertEqual(response.status_code, 429)
-            self.assert_throttling_log_correct(log, 'CredentialViewSet')
+            assert_log_correct(
+                log,
+                'credentials.apps.api.v2.views',
+                'WARNING',
+                'Credentials API endpoint CredentialViewSet is being throttled.',
+            )
 
     def test_grade_view_throttling(self):
         """ Verify requests are throttled and a message is logged after limit. """
@@ -566,7 +572,12 @@ class ThrottlingTests(SiteMixin, APITestCase):
             # Request after limit should NOT be acceptable
             response = getattr(self.client, 'put')(path, data=data)
             self.assertEqual(response.status_code, 429)
-            self.assert_throttling_log_correct(log, 'GradeViewSet')
+            assert_log_correct(
+                log,
+                'credentials.apps.api.v2.views',
+                'WARNING',
+                'Credentials API endpoint GradeViewSet is being throttled.',
+            )
 
     def test_staff_override(self):
         """ Verify a superuser does not get throttled for lower rate. """

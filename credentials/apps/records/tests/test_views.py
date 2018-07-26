@@ -15,6 +15,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from mock import patch
+from testfixtures import LogCapture
 from waffle.testutils import override_flag
 
 from credentials.apps.catalog.tests.factories import (CourseFactory, CourseRunFactory, CreditPathwayFactory,
@@ -30,8 +31,9 @@ from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 from credentials.apps.records.tests.factories import (ProgramCertRecordFactory, UserCreditPathwayFactory,
                                                       UserGradeFactory)
 from credentials.apps.records.tests.utils import dump_random_state
+from credentials.shared.log_checker import assert_log_correct
 
-from ..constants import WAFFLE_FLAG_RECORDS
+from ..constants import RECORDS_RATE_LIMIT, WAFFLE_FLAG_RECORDS
 
 JSON_CONTENT_TYPE = 'application/json'
 
@@ -762,3 +764,89 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
         headers = ['course_id', 'percent_grade', 'attempts', 'school', 'issue_date', 'letter_grade', 'name']
         for header in headers:
             self.assertIn(header, csv_headers)
+
+
+@override_flag(WAFFLE_FLAG_RECORDS, active=True)
+class RecordsThrottlingTests(SiteMixin, TestCase):
+    """ Tests for throttling the records endpoint. """
+    USERNAME = "test-user"
+
+    def setUp(self):
+        super().setUp()
+        dump_random_state()
+        self.user = UserFactory(username=self.USERNAME)
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.program = ProgramFactory(site=self.site)
+        self.rate_limit = self.parse_rate(RECORDS_RATE_LIMIT)
+
+    def post(self, url, json_data):
+        """ Helper for posting given data to a url. """
+        return self.client.post(url, data=json_data, content_type=JSON_CONTENT_TYPE)
+
+    def parse_rate(self, rate_limit):
+        """ Helper to get integer rate limit from string representation. """
+        count, _ = rate_limit.split('/')
+        return int(count)
+
+    def hit_rate_limit(self, attempts, endpoint, url, json_data):
+        """
+        Helper for just hitting, not exceeding the rate limit.
+
+        Note: There is a potential for any test using this helper to be flaky
+        in the case the endpoint we are testing slows down over time and/or the
+        rate limit is increased.
+        """
+        for _ in range(attempts):
+            response = self.post(url, json_data)
+            if endpoint == 'send_program':
+                # Delete credit pathway after post to enable resending email
+                UserCreditPathway.objects.all().delete()
+
+            self.assertEqual(response.status_code, 200)
+
+    def exceed_rate_limit(self, url, json_data):
+        """ Helper for making a request to exceed the rate limit. """
+        response = self.post(url, json_data)
+        self.assertEqual(response.status_code, 429)
+
+    def test_record_creation_throttling(self):
+        """ Verify endpoint is throttled and a message is logged after limit. """
+        with LogCapture() as log:
+            url = reverse('records:share_program', kwargs={'uuid': self.program.uuid.hex})
+            data = {'username': self.USERNAME}
+            json_data = json.dumps(data).encode('utf-8')
+
+            # All requests up to the rate limit should be acceptable
+            response = self.post(url, json_data)
+            self.assertEqual(response.status_code, 201)
+            self.hit_rate_limit(self.rate_limit - 1, 'share_program', url, json_data)
+
+            # Request after limit should NOT be acceptable
+            self.exceed_rate_limit(url, json_data)
+            assert_log_correct(
+                log,
+                'credentials.apps.records.views',
+                'WARNING',
+                'Credentials records endpoint is being throttled.',
+            )
+
+    def test_program_send_throttling(self):
+        """ Verify endpoint is throttled and a message is logged after limit. """
+        with LogCapture() as log:
+            ProgramCertificateFactory(site=self.site, program_uuid=self.program.uuid)
+            url = reverse('records:send_program', kwargs={'uuid': self.program.uuid.hex})
+            pathway = CreditPathwayFactory(site=self.site, programs=[self.program])
+            data = {'username': self.USERNAME, 'pathway_id': pathway.id}
+            json_data = json.dumps(data).encode('utf-8')
+
+            # All requests up to the rate limit should be acceptable
+            self.hit_rate_limit(self.rate_limit, 'send_program', url, json_data)
+
+            # Request after limit should NOT be acceptable
+            self.exceed_rate_limit(url, json_data)
+            assert_log_correct(
+                log,
+                'credentials.apps.records.views',
+                'WARNING',
+                'Credentials records endpoint is being throttled.',
+            )

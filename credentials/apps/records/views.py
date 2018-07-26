@@ -2,6 +2,7 @@ import csv
 import datetime
 import io
 import json
+import logging
 import urllib.parse
 from collections import defaultdict
 
@@ -17,6 +18,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView, View
 from edx_ace import Recipient, ace
+from ratelimit.mixins import RatelimitMixin
 
 from credentials.apps.catalog.models import CourseRun, CreditPathway, Program
 from credentials.apps.core.models import User
@@ -26,7 +28,14 @@ from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
 
-from .constants import WAFFLE_FLAG_RECORDS
+from .constants import RECORDS_RATE_LIMIT, WAFFLE_FLAG_RECORDS
+
+log = logging.getLogger(__name__)
+
+
+def rate_limited(request, exception):  # pylint: disable=unused-argument
+    log.warning("Credentials records endpoint is being throttled.")
+    return JsonResponse({'error': 'Too Many Requests'}, status=429)
 
 
 class RecordsEnabledMixin(object):
@@ -287,10 +296,14 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
         return context
 
 
-class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
+class ProgramSendView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, View):
     """
     Sends a program via email to a requested partner
     """
+    ratelimit_key = 'user'
+    ratelimit_rate = RECORDS_RATE_LIMIT
+    ratelimit_block = True
+    ratelimit_method = 'POST'
 
     def post(self, request, **kwargs):
         body_unicode = request.body.decode('utf-8')
@@ -344,11 +357,15 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
         return http.HttpResponse(status=200)
 
 
-class ProgramRecordCreationView(LoginRequiredMixin, RecordsEnabledMixin, View):
+class ProgramRecordCreationView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, View):
     """
     Creates a new Program Certificate Record from given username and program uuid,
     returns the uuid of the created Program Certificate Record
     """
+    ratelimit_key = 'user'
+    ratelimit_rate = RECORDS_RATE_LIMIT
+    ratelimit_block = True
+    ratelimit_method = 'POST'
 
     def post(self, request, **kwargs):
         body_unicode = request.body.decode('utf-8')
@@ -375,7 +392,12 @@ class ProgramRecordCreationView(LoginRequiredMixin, RecordsEnabledMixin, View):
 
 class ProgramRecordCsvView(RecordsEnabledMixin, View):
     """
-    Returns a csv view of the Progam Record for a Learner from a username and program_uuid
+    Returns a csv view of the Progam Record for a Learner from a username and program_uuid.
+
+    Note:  We are currently not rate limiting this endpoint due to the issues
+    surrounding rate limiting unauthenticated users.  If this endpoint starts
+    causing trouble down the line, may be worth adding annotated rate limits
+    that force users to solve a captcha.
     """
 
     class SegmentHttpResponse(HttpResponse):
