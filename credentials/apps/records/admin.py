@@ -27,4 +27,4 @@ class UserCreditPathwayAdmin(admin.ModelAdmin):
     """ Admin for UserCreditPathway """
     list_display = ('user', 'credit_pathway', 'status',)
     search_fields = ('user__username', 'credit_pathway__org_name', 'status',)
-    raw_id_fields = ('credit_pathway',)
+    raw_id_fields = ('user', 'credit_pathway',)

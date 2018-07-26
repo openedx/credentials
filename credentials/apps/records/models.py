@@ -45,7 +45,7 @@ class ProgramCertRecord(TimeStampedModel):
         return 'ProgramCertificateRecord: {uuid}'.format(uuid=self.uuid)
 
     class Meta(object):
-        verbose_name = "Shared Program Records"
+        verbose_name = "Shared program record"
 
 
 class UserCreditPathway(TimeStampedModel):
