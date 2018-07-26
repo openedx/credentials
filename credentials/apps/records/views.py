@@ -325,7 +325,7 @@ class ProgramSendView(LoginRequiredMixin, View):
                 'pathway_name': pathway.name,
                 'program_name': program.title,
                 'record_link': record_link,
-                'user_full_name': request.user.get_full_name(),
+                'user_full_name': request.user.get_full_name() or request.user.username,
                 'program_completed': credential.exists(),
                 'csv_link': csv_link,
             },

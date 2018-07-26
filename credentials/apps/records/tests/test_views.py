@@ -619,6 +619,19 @@ class ProgramSendTests(SiteMixin, TestCase):
                          self.site_configuration.partner_from_address)
 
     @patch('credentials.apps.records.views.ace')
+    def test_no_full_name(self, mock_ace):
+        """ Verify that the email uses the username as a backup for the full name. """
+        self.user.full_name = ''
+        self.user.first_name = ''
+        self.user.last_name = ''
+        self.user.save()
+
+        response = self.post()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(mock_ace.send.call_args[0][0].context['user_full_name'],
+                         self.user.username)
+
+    @patch('credentials.apps.records.views.ace')
     def test_from_address_unset(self, mock_ace):
         """ Verify that the email uses the proper default from address """
         self.site_configuration.partner_from_address = None
@@ -641,12 +654,13 @@ class ProgramSendTests(SiteMixin, TestCase):
         # Check output and make sure it seems correct
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox[0]
+        message = str(email.message())
         self.assertIn(self.program.title + ' Credit Request for', email.subject)
         self.assertIn(self.user.get_full_name() + ' would like to apply for credit in the ' + self.pathway.name,
-                      email.body)
-        self.assertIn("has sent their completed program record for", email.body)
-        self.assertIn("<a href=\"" + record_link + "\">View Program Record</a>", email.body)
-        self.assertIn("<a href=\"" + csv_link + "\">Download Record (CSV)</a>", email.body)
+                      message)
+        self.assertIn("has sent their completed program record for", message)
+        self.assertIn("<a href=\"" + record_link + "\">View Program Record</a>", message)
+        self.assertIn("<a href=\"" + csv_link + "\">Download Record (CSV)</a>", message)
         self.assertEqual(self.site_configuration.partner_from_address, email.from_email)
         self.assertListEqual([self.pathway.email], email.to)
 
@@ -659,7 +673,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         # Check output and make sure it seems correct
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox[0]
-        self.assertIn("has sent their partially completed program record for", email.body)
+        self.assertIn("has sent their partially completed program record for", str(email.message()))
 
     def prevent_sending_second_email(self):
         """ Verify that an email can't be sent twice """
