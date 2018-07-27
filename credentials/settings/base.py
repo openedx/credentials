@@ -361,6 +361,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACE_ENABLED_CHANNELS = ['django_email']
 ACE_CHANNEL_DEFAULT_EMAIL = 'django_email'
 ACE_CHANNEL_TRANSACTIONAL_EMAIL = 'django_email'
+ACE_CHANNEL_SAILTHRU_TEMPLATE_NAME = ''  # unused, but required to be set or we see an exception
 
 # Set up logging for development use (logging to stdout)
 LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel='DEBUG')
