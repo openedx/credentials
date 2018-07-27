@@ -132,9 +132,12 @@ class ProgramRecord extends React.Component {
     }));
   }
 
+  // Once we send the records, we want to update the checkboxes
   updateCreditPathwaysSent(successOrgs) {
     for (let i = 0; i < successOrgs.length; i += 1) {
-      this.creditPathways[successOrgs[i]].sent = true;
+      const pathway = this.creditPathways[successOrgs[i]];
+      pathway.sent = true;
+      pathway.checked = true;
     }
   }
 
@@ -220,7 +223,7 @@ class ProgramRecord extends React.Component {
   }
 
   closeSendRecordSuccessAlert() {
-    this.setState({ sendRecordSuccessOrgs: [], sendRecordFailureAlertOpen: false });
+    this.setState({ sendRecordSuccessOrgs: [], sendRecordSuccessAlertOpen: false });
   }
 
   closeSendRecordLoadingAlert() {
@@ -350,7 +353,7 @@ class ProgramRecord extends React.Component {
               </div>
             </div>
             <div name="school-name" className="hd-3 school-name">
-              { StringUtils.interpolate(gettext('{platform} | {school}'), { platform: platformName, school: program.school }) }
+              { StringUtils.interpolate('{platform} | {school}', { platform: platformName, school: program.school }) }
             </div>
           </header>
 
