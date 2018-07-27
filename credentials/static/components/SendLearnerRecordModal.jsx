@@ -126,10 +126,10 @@ class SendLearnerRecordModal extends React.Component {
             <CheckBoxGroup>
               {this.props.creditPathwaysList.map(pathway => (
                 <CheckBox
-                  id={'checkbox'}
+                  id={`checkbox-${pathway.id}`}
                   name={pathway.name}
                   label={this.getPathwayDisplayName(pathway.name)}
-                  key={pathway.name}
+                  key={pathway.id}
                   disabled={this.state.creditPathways[pathway.name].sent ||
                       !this.state.creditPathways[pathway.name].isActive}
                   onChange={this.checkCreditPathway}
