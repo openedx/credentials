@@ -490,7 +490,7 @@ class ThrottlingTests(SiteMixin, APITestCase):
         """ Assigns a permission of the given name to the user. """
         user.user_permissions.add(Permission.objects.get(codename=permission))
 
-    @ddt.data('credential_view', 'grade_view')
+    @ddt.data('credential_view', 'grade_view', 'staff_override')
     def test_throttle_configuration(self, scope):
         """ Verify that Throttling is configured for each scope. """
         self.throttle.scope = scope
@@ -506,25 +506,33 @@ class ThrottlingTests(SiteMixin, APITestCase):
             )
         )
 
-    def test_credential_view_throttling(self):
+    def hit_rate_limit(self, scope, path, data=None):
         """
-        Verify requests are throttled and a message is logged after limit.
+        Helper for just hitting, not exceeding the scope's rate limit.
 
-        Note: There is a potential for this test to be flaky in the case the
-        endpoint we are testing slows down over time and/or the rate limit is
-        increased.
+        Note: There is a potential for any test using this helper to be flaky
+        in the case the endpoint we are testing slows down over time and/or the
+        rate limit is increased.
         """
+        self.throttle.scope = scope
+        rate_limit, _ = self.throttle.parse_rate(self.throttle.get_rate())
+        for _ in range(0, rate_limit):
+            if scope == 'credential_view':
+                response = self.client.get(path)
+            else:
+                response = getattr(self.client, 'put')(path, data=data)
+
+            self.assertEqual(response.status_code, 200)
+
+    def test_credential_view_throttling(self):
+        """ Verify requests are throttled and a message is logged after limit. """
         with LogCapture() as log:
             list_path = reverse('api:v2:credentials-list')
             self.authenticate_user(self.user)
             self.add_user_permission(self.user, 'view_usercredential')
 
-            self.throttle.scope = 'credential_view'
-            rate_limit, _ = self.throttle.parse_rate(self.throttle.get_rate())
             # All requests up to the rate limit should be acceptable
-            for _ in range(0, rate_limit):
-                response = self.client.get(list_path)
-                self.assertEqual(response.status_code, 200)
+            self.hit_rate_limit('credential_view', list_path)
 
             # Request after limit should NOT be acceptable
             response = self.client.get(list_path)
@@ -532,13 +540,7 @@ class ThrottlingTests(SiteMixin, APITestCase):
             self.assert_throttling_log_correct(log, 'CredentialViewSet')
 
     def test_grade_view_throttling(self):
-        """
-        Verify requests are throttled and a message is logged after limit.
-
-        Note: There is a potential for this test to be flaky in the case the
-        endpoint we are testing slows down over time and/or the rate limit is
-        increased.
-        """
+        """ Verify requests are throttled and a message is logged after limit. """
         with LogCapture() as log:
             course = CourseFactory(site=self.site)
             course_run = CourseRunFactory(course=course)
@@ -555,18 +557,26 @@ class ThrottlingTests(SiteMixin, APITestCase):
                 letter_grade='C',
             )
             path = reverse('api:v2:grades-detail', kwargs={'pk': grade.id})
-
             self.authenticate_user(self.user)
             self.add_user_permission(self.user, 'change_usergrade')
 
-            self.throttle.scope = 'grade_view'
-            rate_limit, _ = self.throttle.parse_rate(self.throttle.get_rate())
-            # All requests up to the rate limit should be acceptable
-            for _ in range(0, rate_limit):
-                response = getattr(self.client, 'put')(path, data=data)
-                self.assertEqual(response.status_code, 200)
+            # All requests up to limit should be acceptable
+            self.hit_rate_limit('grade_view', path, data)
 
             # Request after limit should NOT be acceptable
             response = getattr(self.client, 'put')(path, data=data)
             self.assertEqual(response.status_code, 429)
             self.assert_throttling_log_correct(log, 'GradeViewSet')
+
+    def test_staff_override(self):
+        """ Verify a superuser does not get throttled for lower rate. """
+        list_path = reverse('api:v2:credentials-list')
+        superuser = UserFactory(is_staff=True, is_superuser=True)
+        self.authenticate_user(superuser)
+
+        # All requests up to the rate limit should be acceptable
+        self.hit_rate_limit('credential_view', list_path)
+
+        # Request after lower limit should still be acceptable for a superuser
+        response = self.client.get(list_path)
+        self.assertEqual(response.status_code, 200)
