@@ -159,7 +159,7 @@ class ShareProgramRecordModal extends React.Component {
             }
             {!urlReturned && !urlError &&
               <div className="loading-wrapper d-inline-flex">
-                <Icon className={['fa', 'fa-spinner', 'fa-spin']} />
+                <Icon id="ShareModalIcon" className={['fa', 'fa-spinner', 'fa-spin']} />
                 <p>{ gettext('Loading record link...') }</p>
               </div>
             }
