@@ -289,7 +289,7 @@ class ProgramRecord extends React.Component {
             dialog={
               <div>
                 <span className="hd-5">{ gettext('We are sending your program record.') }</span>
-                <Icon className={['fa', 'fa-spinner', 'fa-spin']} />
+                <Icon id="StatusAlertIcon" className={['fa', 'fa-spinner', 'fa-spin']} />
               </div>
              }
           />
@@ -358,7 +358,7 @@ class ProgramRecord extends React.Component {
           </header>
 
           <div className="learner-info">
-            <h3 className="h4 font-weight-normal user">{learner.full_name}</h3>
+            {learner.full_name && <span className="h4 font-weight-normal user">{learner.full_name}</span>}
             <div className="details">
               {learner.username}<span className="pipe">|</span>{learner.email}
             </div>
