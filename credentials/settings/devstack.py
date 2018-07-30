@@ -49,7 +49,7 @@ SOCIAL_AUTH_EDX_OIDC_KEY = os.environ.get('SOCIAL_AUTH_EDX_OIDC_KEY', 'credentia
 SOCIAL_AUTH_EDX_OIDC_SECRET = os.environ.get('SOCIAL_AUTH_EDX_OIDC_SECRET', 'credentials-secret')
 SOCIAL_AUTH_EDX_OIDC_ISSUER = os.environ.get('SOCIAL_AUTH_EDX_OIDC_ISSUER', 'http://edx.devstack.lms:18000/oauth2')
 SOCIAL_AUTH_EDX_OIDC_URL_ROOT = os.environ.get('SOCIAL_AUTH_EDX_OIDC_URL_ROOT', 'http://edx.devstack.lms:18000/oauth2')
-SOCIAL_AUTH_EDX_OIDC_LOGOUT_URL = os.environ.get('SOCIAL_AUTH_EDX_OIDC_LOGOUT_URL', ' http://localhost:18000/logout')
+SOCIAL_AUTH_EDX_OIDC_LOGOUT_URL = os.environ.get('SOCIAL_AUTH_EDX_OIDC_LOGOUT_URL', 'http://localhost:18000/logout')
 SOCIAL_AUTH_EDX_OIDC_PUBLIC_URL_ROOT = os.environ.get('SOCIAL_AUTH_EDX_OIDC_PUBLIC_URL_ROOT',
                                                       'http://localhost:18000/oauth2')
 SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY = os.environ.get('SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY',
