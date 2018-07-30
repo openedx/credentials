@@ -149,7 +149,7 @@ class ShareProgramRecordModal extends React.Component {
                   <Button
                     label={gettext('Copy Link')}
                     className={['btn-primary']}
-                    onClick={trackEvent('edx.bi.credential.program_record.share_url_copied', {
+                    onClick={trackEvent('edx.bi.credentials.program_record.share_url_copied', {
                       category: 'records',
                       'program-uuid': this.props.uuid,
                     })}
