@@ -23,7 +23,8 @@ from ratelimit.mixins import RatelimitMixin
 from credentials.apps.catalog.models import CourseRun, CreditPathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
-from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredential
+from credentials.apps.credentials.models import (CourseCertificate, ProgramCertificate, UserCredential,
+                                                 UserCredentialAttribute)
 from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
@@ -36,6 +37,8 @@ log = logging.getLogger(__name__)
 def rate_limited(request, exception):  # pylint: disable=unused-argument
     log.warning("Credentials records endpoint is being throttled.")
     return JsonResponse({'error': 'Too Many Requests'}, status=429)
+
+logger = logging.getLogger(__name__)
 
 
 class RecordsEnabledMixin(object):
@@ -56,6 +59,19 @@ class ConditionallyRequireLoginMixin(AccessMixin):
         if not request.user.is_authenticated and not kwargs['is_public']:
             return self.handle_no_permission()
         return super(ConditionallyRequireLoginMixin, self).dispatch(request, *args, **kwargs)
+
+
+def datetime_from_visible_date(date):
+    """ Turn a string version of a datetime, provided to us by the LMS in a particular format it uses for
+        visible_date attributes, and turn it into a datetime object. """
+    try:
+        parsed = datetime.datetime.strptime(date, '%Y-%m-%dT%H:%M:%SZ')
+        # The timezone is always UTC (as indicated by the Z). It looks like in python3.7, we could
+        # just use %z instead of replacing the tzinfo with a UTC value.
+        return parsed.replace(tzinfo=datetime.timezone.utc)
+    except ValueError as e:
+        logger.exception('%s', e)
+        return None
 
 
 def get_record_data(user, program_uuid, site, platform_name=None):
@@ -88,6 +104,13 @@ def get_record_data(user, program_uuid, site, platform_name=None):
         user_credential_dict = {
             user_credential.credential.course_id: user_credential for user_credential in course_user_credentials}
 
+        # Maps course run key to the associated visible_date attribute
+        visible_dates = UserCredentialAttribute.objects.prefetch_related('user_credential__credential').filter(
+            user_credential__in=course_user_credentials, name='visible_date')
+        visible_date_dict = {
+            visible_date.user_credential.credential.course_id: datetime_from_visible_date(visible_date.value)
+            for visible_date in visible_dates}
+
         # Get all (verified) user grades relevant to this program
         course_grades = UserGrade.objects.select_related('course_run__course').filter(
             username=user.username, course_run__in=program_course_runs_set, verified=True)
@@ -97,15 +120,19 @@ def get_record_data(user, program_uuid, site, platform_name=None):
         highest_attempt_dict = {}  # Maps course -> highest grade earned
         last_updated = None
 
+        now = datetime.datetime.now(datetime.timezone.utc)
+
         # Find the highest course cert grades for each course
         for course_grade in course_grades:
             course_run = course_grade.course_run
             course = course_run.course
             user_credential = user_credential_dict.get(course_run.key)
+            visible_date = visible_date_dict.get(course_run.key)
 
-            if user_credential is not None:
+            is_visible = not visible_date or visible_date < now
+            if is_visible and user_credential is not None:
                 num_attempts_dict[course] += 1
-                last_updated = max(last_updated, course_grade.modified) if last_updated else course_grade.modified
+                last_updated = max(filter(None, [visible_date, course_grade.modified, last_updated]))
 
                 # Update grade if grade is higher and part of awarded cert
                 if user_credential.status == UserCredential.AWARDED:
@@ -153,12 +180,13 @@ def get_record_data(user, program_uuid, site, platform_name=None):
 
             # If the user has taken the course, show the course_run info for the highest grade
             elif grade is not None and grade.course_run == course_run:
+                issue_date = visible_date_dict.get(course_run.key) or user_credential_dict[course_run.key].created
                 course_data.append({
                     'name': course_run.title,
                     'school': ', '.join(course.owners.values_list('name', flat=True)),
                     'attempts': num_attempts_dict[course],
                     'course_id': course_run.key,
-                    'issue_date': user_credential_dict[course_run.key].modified.isoformat(),
+                    'issue_date': issue_date.isoformat(),
                     'percent_grade': float(grade.percent_grade),
                     'letter_grade': grade.letter_grade or _('N/A'), })
                 added_courses.add(course)
