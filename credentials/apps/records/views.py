@@ -29,6 +29,26 @@ from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 from .constants import WAFFLE_FLAG_RECORDS
 
 
+class RecordsEnabledMixin(object):
+    """ Only allows view if records are enabled for the installation & site.
+        Note that the API views are will still be active even if records is disabled.
+        You may want to disable records support in the LMS if you want to stop data being sent over. """
+    def dispatch(self, request, *args, **kwargs):
+        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
+            raise http.Http404()
+        if not request.site.siteconfiguration.records_enabled:
+            raise http.Http404()
+        return super().dispatch(request, *args, **kwargs)
+
+
+class ConditionallyRequireLoginMixin(AccessMixin):
+    """ Variant of LoginRequiredMixin that allows a user not to be logged in if is_public argument is true"""
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated and not kwargs['is_public']:
+            return self.handle_no_permission()
+        return super(ConditionallyRequireLoginMixin, self).dispatch(request, *args, **kwargs)
+
+
 def get_record_data(user, program_uuid, site, platform_name=None):
         program = Program.objects.prefetch_related('course_runs__course').get(uuid=program_uuid, site=site)
         program_course_runs = program.course_runs.all()
@@ -141,7 +161,7 @@ def get_record_data(user, program_uuid, site, platform_name=None):
                 'credit_pathways': credit_pathway_data, }
 
 
-class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
+class RecordsView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
     template_name = 'records.html'
 
     def _get_programs(self, request):
@@ -221,21 +241,8 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
         })
         return context
 
-    def dispatch(self, request, *args, **kwargs):
-        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
-            raise http.Http404()
-        return super().dispatch(request, *args, **kwargs)
 
-
-class ConditionallyRequireLoginMixin(AccessMixin):
-    """ Variant of LoginRequiredMixin that allows a user not to be logged in if is_public argument is true"""
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated and not kwargs['is_public']:
-            return self.handle_no_permission()
-        return super(ConditionallyRequireLoginMixin, self).dispatch(request, *args, **kwargs)
-
-
-class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewMixin):
+class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
     template_name = 'programs.html'
 
     def _get_record(self, uuid, is_public):
@@ -279,13 +286,8 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
         })
         return context
 
-    def dispatch(self, request, *args, **kwargs):
-        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
-            raise http.Http404()
-        return super().dispatch(request, *args, **kwargs)
 
-
-class ProgramSendView(LoginRequiredMixin, View):
+class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
     """
     Sends a program via email to a requested partner
     """
@@ -341,13 +343,8 @@ class ProgramSendView(LoginRequiredMixin, View):
 
         return http.HttpResponse(status=200)
 
-    def dispatch(self, request, *args, **kwargs):
-        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
-            return JsonResponse({'error': 'Waffle flag not enabled'}, status=404)
-        return super().dispatch(request, *args, **kwargs)
 
-
-class ProgramRecordCreationView(LoginRequiredMixin, View):
+class ProgramRecordCreationView(LoginRequiredMixin, RecordsEnabledMixin, View):
     """
     Creates a new Program Certificate Record from given username and program uuid,
     returns the uuid of the created Program Certificate Record
@@ -375,13 +372,8 @@ class ProgramRecordCreationView(LoginRequiredMixin, View):
         url = request.build_absolute_uri(reverse("records:public_programs", kwargs={'uuid': pcr.uuid.hex}))
         return JsonResponse({'url': url}, status=status_code)
 
-    def dispatch(self, request, *args, **kwargs):
-        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
-            return JsonResponse({'error': 'Waffle flag not enabled'}, status=404)
-        return super().dispatch(request, *args, **kwargs)
 
-
-class ProgramRecordCsvView(View):
+class ProgramRecordCsvView(RecordsEnabledMixin, View):
     """
     Returns a csv view of the Progam Record for a Learner from a username and program_uuid
     """
@@ -406,9 +398,6 @@ class ProgramRecordCsvView(View):
             super(ProgramRecordCsvView.SegmentHttpResponse, self).close()
 
     def get(self, request, *args, **kwargs):
-        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
-            raise http.Http404()
-
         site_configuration = request.site.siteconfiguration
         segment_client = SegmentClient(write_key=site_configuration.segment_key)
 

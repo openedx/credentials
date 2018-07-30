@@ -88,9 +88,14 @@ class SiteConfiguration(models.Model):
         blank=False,
         null=True,
     )
+    records_enabled = models.BooleanField(
+        verbose_name=_('Enable Learner Records'),
+        help_text=_('Enable the Records feature. The LMS has a similar setting.'),
+        default=True,
+    )
     records_help_url = models.URLField(
-        verbose_name='Student Records Help URL',
-        help_text='URL of page for questions about Student Records',
+        verbose_name=_('Learner Records Help URL'),
+        help_text=_('URL of page for questions about Learner Records'),
         blank=True,
         null=False,
         default=''

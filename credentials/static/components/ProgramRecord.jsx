@@ -367,6 +367,8 @@ class ProgramRecord extends React.Component {
           <div className="program-record-grades">
             <FoldingTable
               columns={[
+                // Note that when you change one of these strings, you should look at
+                // the foldedColumns for any necessary changes there too.
                 { key: 'name', label: gettext('Course Name') },
                 { key: 'school', label: gettext('School') },
                 { key: 'course_id', label: gettext('Course ID') },
@@ -380,7 +382,7 @@ class ProgramRecord extends React.Component {
                 { key: 'name', className: 'hd-5 emphasized' },
                 { key: 'school' },
                 { key: 'course_id', format: gettext('Course ID: {}') },
-                { key: 'percent_grade', format: gettext('Percent Grade: {}') },
+                { key: 'percent_grade', format: gettext('Highest Grade Earned: {}') },
                 { key: 'letter_grade', format: gettext('Letter Grade: {}') },
                 { key: 'attempts', format: gettext('Verified Attempts: {}') },
                 { key: 'issue_date', format: gettext('Date Earned: {}') },
