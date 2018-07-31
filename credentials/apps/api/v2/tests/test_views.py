@@ -578,16 +578,3 @@ class ThrottlingTests(SiteMixin, APITestCase):
                 'WARNING',
                 'Credentials API endpoint GradeViewSet is being throttled.',
             )
-
-    def test_staff_override(self):
-        """ Verify a superuser does not get throttled for lower rate. """
-        list_path = reverse('api:v2:credentials-list')
-        superuser = UserFactory(is_staff=True, is_superuser=True)
-        self.authenticate_user(superuser)
-
-        # All requests up to the rate limit should be acceptable
-        self.hit_rate_limit('credential_view', list_path)
-
-        # Request after lower limit should still be acceptable for a superuser
-        response = self.client.get(list_path)
-        self.assertEqual(response.status_code, 200)
