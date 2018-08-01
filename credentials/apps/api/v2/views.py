@@ -39,7 +39,7 @@ class CredentialRateThrottle(ScopedRateThrottle):
     THROTTLE_RATES = {
         'credential_view': '15/minute',
         'grade_view': '90/minute',
-        'staff_override': '200/minute',
+        'staff_override': '1500/minute',
     }
 
     def allow_request(self, request, view):
