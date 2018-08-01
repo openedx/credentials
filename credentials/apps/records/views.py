@@ -44,12 +44,14 @@ logger = logging.getLogger(__name__)
 class RecordsEnabledMixin(object):
     """ Only allows view if records are enabled for the installation & site.
         Note that the API views are will still be active even if records is disabled.
-        You may want to disable records support in the LMS if you want to stop data being sent over. """
+        You may want to disable records support in the LMS if you want to stop data being sent over.
+        If the user is not logged in, we direct them to a login page first. """
     def dispatch(self, request, *args, **kwargs):
-        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
-            raise http.Http404()
-        if not request.site.siteconfiguration.records_enabled:
-            raise http.Http404()
+        if request.user.is_authenticated:
+            if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
+                raise http.Http404()
+            if not request.site.siteconfiguration.records_enabled:
+                raise http.Http404()
         return super().dispatch(request, *args, **kwargs)
 
 
