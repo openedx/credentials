@@ -1,6 +1,7 @@
 analytics-python==1.2.9
 coreapi==2.3.1
 django==1.11.11
+django-hijack==2.1.7
 django-extensions==1.7.9
 django-filter==1.0.4
 django-ratelimit==1.1.0

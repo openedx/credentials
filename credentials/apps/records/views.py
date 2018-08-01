@@ -198,6 +198,20 @@ def get_record_data(user, program_uuid, site, platform_name=None):
                 'credit_pathways': credit_pathway_data, }
 
 
+class UsernameHijackView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
+    template_name = 'hijack_view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'child_templates': {
+                'footer': self.select_theme_template(['_footer.html']),
+                'header': self.select_theme_template(['_header.html']),
+            },
+        })
+        return context
+
+
 class RecordsView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
     template_name = 'records.html'
 

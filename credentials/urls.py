@@ -43,6 +43,7 @@ urlpatterns = auth_urlpatterns + [
     url(r'^management/', include('credentials.apps.edx_django_extensions.urls', namespace='management')),
     url(r'^records/', include('credentials.apps.records.urls', namespace='records')),
     url(r'^favicon\.ico$', FaviconView.as_view(permanent=True)),
+    url(r'^hijack/', include('hijack.urls', namespace='hijack')),
 ]
 
 handler500 = 'credentials.apps.core.views.render_500'
