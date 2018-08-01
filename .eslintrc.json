@@ -15,6 +15,15 @@
     ],
     "class-methods-use-this": [
       "off"
+    ],
+    // Remove once xgettext supports backticks
+    "prefer-template": [
+      "off"
+    ],
+    // Remove once xgettext supports backticks
+    "no-restricted-syntax": [
+      "error",
+      "TemplateLiteral"
     ]
   },
   "env": {

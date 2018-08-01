@@ -10,7 +10,7 @@ const RecordsHelp = (props) => {
       <h1 className="hd-4 text-black">{gettext('Questions about Learner Records?')}</h1>
       {StringUtils.renderDangerousHtml(
         gettext('To learn more about records you can {start_anchor}read more in our records help area.{end_anchor}'),
-        { start_anchor: `<a href=${helpUrl}>`, end_anchor: '</a>' },
+        { start_anchor: '<a href=' + helpUrl + '>', end_anchor: '</a>' },
       )}
     </footer>
   );

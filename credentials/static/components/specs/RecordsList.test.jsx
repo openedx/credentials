@@ -2,6 +2,9 @@ import React from 'react';
 import { mount } from 'enzyme';
 import RecordsList from '../RecordsList';
 
+// Remove once xgettext supports backticks and this rule is removed
+/* eslint-disable no-restricted-syntax */
+
 let wrapper;
 
 const defaultProps = {
