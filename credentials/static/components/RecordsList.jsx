@@ -37,7 +37,7 @@ class RecordsList extends React.Component {
             </div>
             <div className="col-md record-btn-col">
               <div className="view-record-container">
-                <a href={`/records/programs/${row.uuid}`} className="btn view-record-btn font-weight-bold">
+                <a href={'/records/programs/' + row.uuid} className="btn view-record-btn font-weight-bold">
                   {gettext('View Program Record')}
                 </a>
               </div>

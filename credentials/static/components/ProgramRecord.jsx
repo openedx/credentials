@@ -92,7 +92,7 @@ class ProgramRecord extends React.Component {
 
   downloadRecord(uuid) {
     this.setState({ recordDownloaded: true });
-    window.location = `/records/programs/shared/${uuid}/csv`;
+    window.location = '/records/programs/shared/' + { uuid } + '/csv';
   }
 
 
@@ -103,7 +103,11 @@ class ProgramRecord extends React.Component {
 
     const date = new Date(isoDate);
 
-    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear().toString().slice(2)}`;
+    return StringUtils.interpolate('{month}/{date}/{year}', {
+      month: date.getMonth() + 1,
+      date: date.getDate(),
+      year: date.getFullYear().toString().slice(2),
+    });
   }
 
   formatPercentage(decimal) {
@@ -111,7 +115,7 @@ class ProgramRecord extends React.Component {
       return decimal;
     }
 
-    return `${parseInt(decimal * 100, 10)}%`;
+    return parseInt(decimal * 100, 10).toString() + '%';
   }
 
   formatGradeData() {
@@ -245,7 +249,7 @@ class ProgramRecord extends React.Component {
     const { sendRecordModalOpen, shareModelOpen } = this.state;
     const recordWrapperClass = 'program-record-wrapper';
     const defaultModalProps = {
-      ...(loadModalsAsChildren && { parentSelector: `.${recordWrapperClass}` }),
+      ...(loadModalsAsChildren && { parentSelector: '.' + recordWrapperClass }),
     };
     const hasHelpUrl = helpUrl !== '';
 

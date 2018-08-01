@@ -8,7 +8,7 @@ class StringUtils {
       if (parameterName in parameters) {
         return String(parameters[parameterName]);
       }
-      return `{${parameterName}}`;
+      return '{' + parameterName + '}';
     });
   }
 
