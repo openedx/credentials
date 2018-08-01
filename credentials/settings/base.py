@@ -80,6 +80,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'waffle.middleware.WaffleMiddleware',
+    'ratelimit.middleware.RatelimitMiddleware',
 )
 
 ROOT_URLCONF = 'credentials.urls'
@@ -361,6 +362,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACE_ENABLED_CHANNELS = ['django_email']
 ACE_CHANNEL_DEFAULT_EMAIL = 'django_email'
 ACE_CHANNEL_TRANSACTIONAL_EMAIL = 'django_email'
+ACE_CHANNEL_SAILTHRU_TEMPLATE_NAME = ''  # unused, but required to be set or we see an exception
 
 # Set up logging for development use (logging to stdout)
 LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel='DEBUG')
@@ -379,6 +381,9 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%SZ',
     'EXCEPTION_HANDLER': 'credentials.apps.api.v2.views.credentials_throttle_handler',
 }
+
+# Django-ratelimit Settings
+RATELIMIT_VIEW = 'credentials.apps.records.views.rate_limited'
 
 # DJANGO DEBUG TOOLBAR CONFIGURATION
 # http://django-debug-toolbar.readthedocs.org/en/latest/installation.html

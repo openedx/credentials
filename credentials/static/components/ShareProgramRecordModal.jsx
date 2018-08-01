@@ -117,8 +117,8 @@ class ShareProgramRecordModal extends React.Component {
                 dismissible={false}
                 dialog={(
                   <div>
-                    <h3>{ gettext('We were unable to create your record link.') }</h3>
-                    <p>{ gettext('You can close this window and try again.') }</p>
+                    <span className="hd-5">{ gettext('We were unable to create your record link.') }</span>
+                    <p className="alert-body">{ gettext('You can close this window and try again.') }</p>
                   </div>
                 )}
               />
@@ -138,6 +138,7 @@ class ShareProgramRecordModal extends React.Component {
                 <InputText
                   value={programRecordUrl}
                   name="program-record-share-url"
+                  className={['program-record-share-url']}
                   label={<span className="sr-only">{gettext('Program Record URL')}</span>}
                   disabled
                 />
@@ -148,7 +149,7 @@ class ShareProgramRecordModal extends React.Component {
                   <Button
                     label={gettext('Copy Link')}
                     className={['btn-primary']}
-                    onClick={trackEvent('edx.bi.credential.program_record.share_url_copied', {
+                    onClick={trackEvent('edx.bi.credentials.program_record.share_url_copied', {
                       category: 'records',
                       'program-uuid': this.props.uuid,
                     })}
@@ -158,7 +159,7 @@ class ShareProgramRecordModal extends React.Component {
             }
             {!urlReturned && !urlError &&
               <div className="loading-wrapper d-inline-flex">
-                <Icon className={['fa', 'fa-spinner', 'fa-spin']} />
+                <Icon id="ShareModalIcon" className={['fa', 'fa-spinner', 'fa-spin']} />
                 <p>{ gettext('Loading record link...') }</p>
               </div>
             }

@@ -28,12 +28,6 @@ class StringUtils {
     );
   }
 
-  // Parses a JSON string that contains encoded commas and escaped quotes around keys/values
-  // edx-user-info cookie is an example of where this is needed
-  static parseDirtyJSON(jsonString) {
-    return JSON.parse(jsonString.replace(/\\"/g, '"').replace(/\\054/g, ','));
-  }
-
   // Make a human readable string of string items concatenated with ','s and 'and'
   // e.g. 'first, second, third, and last' or 'first and second'
   static formatStringList(items) {

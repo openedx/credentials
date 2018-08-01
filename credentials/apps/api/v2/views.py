@@ -39,7 +39,15 @@ class CredentialRateThrottle(ScopedRateThrottle):
     THROTTLE_RATES = {
         'credential_view': '15/minute',
         'grade_view': '90/minute',
+        'staff_override': '200/minute',
     }
+
+    def allow_request(self, request, view):
+        user = request.user
+        if user.is_authenticated and (user.is_staff or user.is_superuser):
+            setattr(view, 'throttle_scope', 'staff_override')
+
+        return super(CredentialRateThrottle, self).allow_request(request, view)
 
 
 class CredentialViewSet(viewsets.ModelViewSet):

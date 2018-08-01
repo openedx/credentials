@@ -48,7 +48,7 @@ const testRowData = (row, index) => {
   expect(row.find('.program-title').text()).toEqual(defaultProps.programs[index].name);
   expect(row.find('span').at(1).text()).toEqual(defaultProps.programs[index].partner);
   expect(row.find('span').at(3).text()).toEqual(defaultProps.programs[index].completed ?
-    'Earned' : 'Partially Complete');
+    'Completed' : 'Partially Complete');
 };
 
 describe('<RecordsList />', () => {

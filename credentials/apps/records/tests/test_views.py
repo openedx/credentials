@@ -2,8 +2,10 @@
 Tests for records rendering views.
 """
 import csv
+import datetime
 import io
 import json
+import urllib.parse
 import uuid
 
 from django.contrib.contenttypes.models import ContentType
@@ -14,6 +16,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 from mock import patch
+from testfixtures import LogCapture
 from waffle.testutils import override_flag
 
 from credentials.apps.catalog.tests.factories import (CourseFactory, CourseRunFactory, CreditPathwayFactory,
@@ -23,12 +26,16 @@ from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.constants import UUID_PATTERN
 from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
-                                                          UserCredentialFactory)
-from credentials.apps.records.models import ProgramCertRecord, UserGrade
-from credentials.apps.records.tests.factories import ProgramCertRecordFactory, UserGradeFactory
+                                                          UserCredentialAttributeFactory, UserCredentialFactory)
+from credentials.apps.records.constants import UserCreditPathwayStatus
+from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
+from credentials.apps.records.tests.factories import (ProgramCertRecordFactory, UserCreditPathwayFactory,
+                                                      UserGradeFactory)
 from credentials.apps.records.tests.utils import dump_random_state
+from credentials.apps.records.views import datetime_from_visible_date
+from credentials.shared.log_checker import assert_log_correct
 
-from ..constants import WAFFLE_FLAG_RECORDS
+from ..constants import RECORDS_RATE_LIMIT, WAFFLE_FLAG_RECORDS
 
 JSON_CONTENT_TYPE = 'application/json'
 
@@ -249,10 +256,14 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
                                  credential_content_type=self.credential_content_type, credential=course_cert)
                                  for course_cert in self.course_certs]
         self.user_credentials[2].status = UserCredential.REVOKED
+        self.user_credentials[2].save()
         self.org_names = ['CCC', 'AAA', 'BBB']
         self.orgs = [OrganizationFactory(name=name, site=self.site) for name in self.org_names]
         self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site)
         self.pcr = ProgramCertRecordFactory(program=self.program, user=self.user)
+
+        self.credit_pathway = CreditPathwayFactory(site=self.site)
+        self.credit_pathway.programs = [self.program]
 
     def _render_program_record(self, record_data=None, status_code=200):
         """ Helper method to mock rendering a user certificate."""
@@ -334,11 +345,30 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
                           'school': '',
                           'attempts': 3,
                           'course_id': self.course_runs[1].key,
-                          'issue_date': self.user_credentials[1].modified.isoformat(),
+                          'issue_date': self.user_credentials[1].created.isoformat(),
                           'percent_grade': self.user_grade_high.percent_grade,
                           'letter_grade': self.user_grade_high.letter_grade, }
 
         self.assertEqual(grade, expected_grade)
+
+    def test_visible_date_as_issue_date(self):
+        """ Verify that we show visible_date when available """
+        UserCredentialAttributeFactory(user_credential=self.user_credentials[1], name='visible_date',
+                                       value='2017-07-31T09:32:46Z')
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        grades = json.loads(response.context_data['record'])['grades']
+        self.assertEqual(len(grades), 1)
+        self.assertEqual(grades[0]['issue_date'], '2017-07-31T09:32:46+00:00')
+
+    def test_future_visible_date_not_shown(self):
+        """ Verify that we don't show certificates with a visible_date in the future """
+        UserCredentialAttributeFactory(user_credential=self.user_credentials[1], name='visible_date',
+                                       value=datetime.datetime.max.strftime('%Y-%m-%dT%H:%M:%SZ'))
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        grades = json.loads(response.context_data['record'])['grades']
+        self.assertEqual(len(grades), 1)
+        self.assertEqual(grades[0]['course_id'], self.course_runs[0].key)  # 0 instead of 1 now that 1 is in future
+        self.assertEqual(grades[0]['issue_date'], self.user_credentials[0].created.isoformat())
 
     def test_organization_order(self):
         """ Test that the organizations are returned in the order they were added """
@@ -349,6 +379,14 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         self.assertEqual(program_data['school'], ', '.join(self.org_names))
         self.assertEqual(grade['school'], ', '.join(self.org_names))
+
+    def test_datetime_from_visible_date(self):
+        """ Verify that we convert LMS dates correctly. """
+        self.assertIsNone(datetime_from_visible_date(''))
+        self.assertIsNone(datetime_from_visible_date('2018-07-31'))
+        self.assertIsNone(datetime_from_visible_date('2018-07-31T09:32:46+00:00'))  # should be Z for timezone
+        self.assertEqual(datetime_from_visible_date('2018-07-31T09:32:46Z'),
+                         datetime.datetime(2018, 7, 31, 9, 32, 46, tzinfo=datetime.timezone.utc))
 
     def test_course_run_order(self):
         """ Test that the course_runs are returned in the program order """
@@ -425,6 +463,46 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
                     'school': ', '.join(self.org_names)}
 
         self.assertEqual(program_data, expected)
+
+    def test_credit_pathway_data(self):
+        """ Test that the credit pathway data is returned successfully """
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        credit_pathway_data = json.loads(response.context_data['record'])['credit_pathways']
+
+        expected = [{'name': self.credit_pathway.name,
+                     'id': self.credit_pathway.id,
+                     'status': '',
+                     'is_active': True}]
+
+        self.assertEqual(credit_pathway_data, expected)
+
+    def test_credit_pathway_no_email(self):
+        """ Test that a credit pathway data without an email is inactive """
+        self.credit_pathway.email = ''
+        self.credit_pathway.save()
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        credit_pathway_data = json.loads(response.context_data['record'])['credit_pathways']
+
+        expected = [{'name': self.credit_pathway.name,
+                     'id': self.credit_pathway.id,
+                     'status': '',
+                     'is_active': False}]
+
+        self.assertEqual(credit_pathway_data, expected)
+
+    def test_sent_credit_pathway_status(self):
+        """ Test that a credit pathway that has already been sent includes a pathway """
+        UserCreditPathwayFactory(credit_pathway=self.credit_pathway, user=self.user)
+
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        credit_pathway_data = json.loads(response.context_data['record'])['credit_pathways']
+
+        expected = [{'name': self.credit_pathway.name,
+                     'id': self.credit_pathway.id,
+                     'status': 'sent',
+                     'is_active': True}]
+
+        self.assertEqual(credit_pathway_data, expected)
 
     def test_xss(self):
         """ Verify that the view protects against xss in translations. """
@@ -573,6 +651,19 @@ class ProgramSendTests(SiteMixin, TestCase):
                          self.site_configuration.partner_from_address)
 
     @patch('credentials.apps.records.views.ace')
+    def test_no_full_name(self, mock_ace):
+        """ Verify that the email uses the username as a backup for the full name. """
+        self.user.full_name = ''
+        self.user.first_name = ''
+        self.user.last_name = ''
+        self.user.save()
+
+        response = self.post()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(mock_ace.send.call_args[0][0].context['user_full_name'],
+                         self.user.username)
+
+    @patch('credentials.apps.records.views.ace')
     def test_from_address_unset(self, mock_ace):
         """ Verify that the email uses the proper default from address """
         self.site_configuration.partner_from_address = None
@@ -583,18 +674,52 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertEqual(mock_ace.send.call_args[0][0].options['from_address'],
                          'no-reply@' + self.site.domain)  # pylint: disable=no-member
 
-    def test_email_content(self):
+    def test_email_content_complete(self):
         """Verify an email is actually sent"""
+        response = self.post()
+        self.assertEqual(response.status_code, 200)
+        public_record = ProgramCertRecord.objects.get(user=self.user, program=self.program)
+        record_path = reverse('records:public_programs', kwargs={'uuid': public_record.uuid.hex})
+        record_link = "http://" + self.site.domain + record_path  # pylint: disable=no-member
+        csv_link = urllib.parse.urljoin(record_link, "csv")
+
+        # Check output and make sure it seems correct
+        self.assertEqual(len(mail.outbox), 1)
+        email = mail.outbox[0]
+        message = str(email.message())
+        self.assertIn(self.program.title + ' Credit Request for', email.subject)
+        self.assertIn(self.user.get_full_name() + ' would like to apply for credit in the ' + self.pathway.name,
+                      message)
+        self.assertIn("has sent their completed program record for", message)
+        self.assertIn("<a href=\"" + record_link + "\">View Program Record</a>", message)
+        self.assertIn("<a href=\"" + csv_link + "\">Download Record (CSV)</a>", message)
+        self.assertEqual(self.site_configuration.partner_from_address, email.from_email)
+        self.assertListEqual([self.pathway.email], email.to)
+
+    def test_email_content_incomplete(self):
+        """Verify an email is actually sent"""
+        self.user_credential.delete()
         response = self.post()
         self.assertEqual(response.status_code, 200)
 
         # Check output and make sure it seems correct
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox[0]
-        self.assertIn('Program Credit Request', email.subject)
-        self.assertIn('Please go to the following page', email.body)
-        self.assertEqual(self.site_configuration.partner_from_address, email.from_email)
-        self.assertListEqual([self.pathway.email], email.to)
+        self.assertIn("has sent their partially completed program record for", str(email.message()))
+
+    def prevent_sending_second_email(self):
+        """ Verify that an email can't be sent twice """
+        UserCreditPathwayFactory(credit_pathway=self.pathway, user=self.user)
+        response = self.post()
+        self.assertEqual(response.status_code, 400)
+
+    def test_resend_email(self):
+        """ Verify that a manually updated email status can be resent """
+        UserCreditPathwayFactory(credit_pathway=self.pathway, user=self.user, status='')
+        response = self.post()
+        self.assertEqual(response.status_code, 200)
+        user_credit_pathway = UserCreditPathway.objects.get(user=self.user, credit_pathway=self.pathway)
+        self.assertEqual(user_credit_pathway.status, UserCreditPathwayStatus.SENT)
 
     @override_flag(WAFFLE_FLAG_RECORDS, active=False)
     def test_feature_toggle(self):
@@ -669,3 +794,89 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
         headers = ['course_id', 'percent_grade', 'attempts', 'school', 'issue_date', 'letter_grade', 'name']
         for header in headers:
             self.assertIn(header, csv_headers)
+
+
+@override_flag(WAFFLE_FLAG_RECORDS, active=True)
+class RecordsThrottlingTests(SiteMixin, TestCase):
+    """ Tests for throttling the records endpoint. """
+    USERNAME = "test-user"
+
+    def setUp(self):
+        super().setUp()
+        dump_random_state()
+        self.user = UserFactory(username=self.USERNAME)
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.program = ProgramFactory(site=self.site)
+        self.rate_limit = self.parse_rate(RECORDS_RATE_LIMIT)
+
+    def post(self, url, json_data):
+        """ Helper for posting given data to a url. """
+        return self.client.post(url, data=json_data, content_type=JSON_CONTENT_TYPE)
+
+    def parse_rate(self, rate_limit):
+        """ Helper to get integer rate limit from string representation. """
+        count, _ = rate_limit.split('/')
+        return int(count)
+
+    def hit_rate_limit(self, attempts, endpoint, url, json_data):
+        """
+        Helper for just hitting, not exceeding the rate limit.
+
+        Note: There is a potential for any test using this helper to be flaky
+        in the case the endpoint we are testing slows down over time and/or the
+        rate limit is increased.
+        """
+        for _ in range(attempts):
+            response = self.post(url, json_data)
+            if endpoint == 'send_program':
+                # Delete credit pathway after post to enable resending email
+                UserCreditPathway.objects.all().delete()
+
+            self.assertEqual(response.status_code, 200)
+
+    def exceed_rate_limit(self, url, json_data):
+        """ Helper for making a request to exceed the rate limit. """
+        response = self.post(url, json_data)
+        self.assertEqual(response.status_code, 429)
+
+    def test_record_creation_throttling(self):
+        """ Verify endpoint is throttled and a message is logged after limit. """
+        with LogCapture() as log:
+            url = reverse('records:share_program', kwargs={'uuid': self.program.uuid.hex})
+            data = {'username': self.USERNAME}
+            json_data = json.dumps(data).encode('utf-8')
+
+            # All requests up to the rate limit should be acceptable
+            response = self.post(url, json_data)
+            self.assertEqual(response.status_code, 201)
+            self.hit_rate_limit(self.rate_limit - 1, 'share_program', url, json_data)
+
+            # Request after limit should NOT be acceptable
+            self.exceed_rate_limit(url, json_data)
+            assert_log_correct(
+                log,
+                'credentials.apps.records.views',
+                'WARNING',
+                'Credentials records endpoint is being throttled.',
+            )
+
+    def test_program_send_throttling(self):
+        """ Verify endpoint is throttled and a message is logged after limit. """
+        with LogCapture() as log:
+            ProgramCertificateFactory(site=self.site, program_uuid=self.program.uuid)
+            url = reverse('records:send_program', kwargs={'uuid': self.program.uuid.hex})
+            pathway = CreditPathwayFactory(site=self.site, programs=[self.program])
+            data = {'username': self.USERNAME, 'pathway_id': pathway.id}
+            json_data = json.dumps(data).encode('utf-8')
+
+            # All requests up to the rate limit should be acceptable
+            self.hit_rate_limit(self.rate_limit, 'send_program', url, json_data)
+
+            # Request after limit should NOT be acceptable
+            self.exceed_rate_limit(url, json_data)
+            assert_log_correct(
+                log,
+                'credentials.apps.records.views',
+                'WARNING',
+                'Credentials records endpoint is being throttled.',
+            )

@@ -7,13 +7,13 @@ import RecordsHelp from './RecordsHelp';
 class RecordsList extends React.Component {
   static renderEmpty() {
     return (
-      <p className="paragraph-grey">{gettext('No records yet. Program records are created once you have earned at least one course certificate in a program.')}</p>
+      <p className="paragraph-grey pad-text-block">{gettext('No records yet. Program records are created once you have earned at least one course certificate in a program.')}</p>
     );
   }
 
   static renderProfile(profileUrl) {
     return (
-      <a href={profileUrl} className="top-bar-link flex-4">
+      <a href={profileUrl} className="top-bar-link flex-4 pad-text-block">
         <span className="fa fa-caret-left" aria-hidden="true" /> {gettext('Back to My Profile')}
       </a>
     );
@@ -31,7 +31,7 @@ class RecordsList extends React.Component {
                 <span className="record-partner inline-data">{row.partner}</span>
                 <span className="inline-data"> {' | '} </span>
                 <span className="font-weight-bold inline-data">{
-                  row.completed ? gettext('Earned') : gettext('Partially Completed')
+                  row.completed ? gettext('Completed') : gettext('Partially Completed')
                 }</span>
               </div>
             </div>

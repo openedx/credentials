@@ -26,10 +26,15 @@ class ProgramRecord extends React.Component {
     this.formatDate = this.formatDate.bind(this);
     this.formatGradeData = this.formatGradeData.bind(this);
     this.sendRecords = this.sendRecords.bind(this);
+    this.updateCreditPathwaysSent = this.updateCreditPathwaysSent.bind(this);
+    this.sendRecords = this.sendRecords.bind(this);
     this.formatPercentage = this.formatPercentage.bind(this);
     this.closeSendRecordFailureAlert = this.closeSendRecordFailureAlert.bind(this);
     this.closeSendRecordSuccessAlert = this.closeSendRecordSuccessAlert.bind(this);
     this.closeSendRecordLoadingAlert = this.closeSendRecordLoadingAlert.bind(this);
+    this.creditPathways = this.parseCreditPathways();
+    this.showSendRecordButton = this.props.credit_pathways.length > 0;
+
     this.state = {
       shareModelOpen: false,
       sendRecordModalOpen: false,
@@ -119,12 +124,40 @@ class ProgramRecord extends React.Component {
       ...(!course.issue_date && { course_id: null }),
       ...(!course.issue_date && { letter_grade: null }),
       ...(!course.issue_date && { attempts: null }),
-      percent_grade: this.formatPercentage(course.percent_grade),
+      percent_grade: course.issue_date ? this.formatPercentage(course.percent_grade) : '',
       issue_date: this.formatDate(course.issue_date),
       status: course.issue_date ?
         <span className="badge badge-success">{gettext('Earned')}</span> :
         <span className="badge badge-default">{gettext('Not Earned')}</span>,
     }));
+  }
+
+  // Once we send the records, we want to update the checkboxes
+  updateCreditPathwaysSent(successOrgs) {
+    for (let i = 0; i < successOrgs.length; i += 1) {
+      const pathway = this.creditPathways[successOrgs[i]];
+      pathway.sent = true;
+      pathway.checked = true;
+    }
+  }
+
+  // Parse the list of credit pathways into an object
+  parseCreditPathways() {
+    const creditPathways = {};
+
+    for (let i = 0; i < this.props.credit_pathways.length; i += 1) {
+      const pathway = this.props.credit_pathways[i];
+      const sent = (pathway.status === 'sent');
+
+      creditPathways[pathway.name] = {
+        sent,
+        checked: sent,
+        id: pathway.id,
+        isActive: pathway.is_active,
+      };
+    }
+
+    return creditPathways;
   }
 
   // Posts to the send records API for each org that is selected
@@ -158,7 +191,7 @@ class ProgramRecord extends React.Component {
     // Disabling eslint error since make_translations fails when using backticks
     // eslint-disable-next-line prefer-template
     axios.all(orgs.map(org => axios.post('/records/programs/' + uuid + '/send',
-    { username: this.props.learner.username, pathway_id: 'placeholder' }, // TODO: Finalize pathway info with LEARNER-5592
+      { username: this.props.learner.username, pathway_id: this.creditPathways[org].id },
       headers)
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
@@ -181,15 +214,16 @@ class ProgramRecord extends React.Component {
         sendRecordFailureAlertOpen: showFailure,
         sendRecordLoadingAlertOpen: false,
       });
+      this.updateCreditPathwaysSent(successOrgs);
     });
   }
 
   closeSendRecordFailureAlert() {
-    this.setState({ sendRecordFailureOrgs: [], sendRecordSuccessAlertOpen: false });
+    this.setState({ sendRecordFailureOrgs: [], sendRecordFailureAlertOpen: false });
   }
 
   closeSendRecordSuccessAlert() {
-    this.setState({ sendRecordSuccessOrgs: [], sendRecordFailureAlertOpen: false });
+    this.setState({ sendRecordSuccessOrgs: [], sendRecordSuccessAlertOpen: false });
   }
 
   closeSendRecordLoadingAlert() {
@@ -219,14 +253,16 @@ class ProgramRecord extends React.Component {
       <main className={recordWrapperClass}>
         {!isPublic &&
           <section className="program-record-actions program-record-row">
-            <a href="/records/" className="top-bar-link flex-4">
+            <a href="/records/" className="top-bar-link">
               <span className="fa fa-caret-left" aria-hidden="true" /> {gettext('Back to My Records')}
             </a>
-            <Button
-              label={gettext('Send Learner Record')}
-              className={['btn-primary']}
-              onClick={this.loadSendRecordModal}
-            />
+            {this.showSendRecordButton &&
+              <Button
+                label={gettext('Send Learner Record')}
+                className={['btn-primary']}
+                onClick={this.loadSendRecordModal}
+              />
+            }
             <Button
               label={gettext('Share')}
               className={['btn-secondary']}
@@ -253,7 +289,7 @@ class ProgramRecord extends React.Component {
             dialog={
               <div>
                 <span className="hd-5">{ gettext('We are sending your program record.') }</span>
-                <Icon className={['fa', 'fa-spinner', 'fa-spin']} />
+                <Icon id="StatusAlertIcon" className={['fa', 'fa-spinner', 'fa-spin']} />
               </div>
              }
           />
@@ -266,7 +302,7 @@ class ProgramRecord extends React.Component {
             dialog={
               <div>
                 <span className="hd-5">{ gettext('We were unable to send your program record.') }</span>
-                <span className="text-muted alert-body">
+                <span className="alert-body">
                   {StringUtils.interpolate(gettext('We were unable to send your record to {orgs}.  You can attempt to send this record again.  Contact support if this issue persists.'),
                       { orgs: StringUtils.formatStringList(this.state.sendRecordFailureOrgs) })}
                 </span>
@@ -282,7 +318,7 @@ class ProgramRecord extends React.Component {
             dialog={
               <div>
                 <span className="hd-5">{ gettext('You have successfully shared your Learner Record') }</span>
-                <span className="text-muted alert-body">
+                <span className="alert-body">
                   {StringUtils.interpolate(gettext('You have sent your record to {orgs}.  Next, ensure you understand their application process.'),
                       { orgs: StringUtils.formatStringList(this.state.sendRecordSuccessOrgs) })}
                 </span>
@@ -302,7 +338,7 @@ class ProgramRecord extends React.Component {
               </div>
               <div className="d-flex program-status">
                 {program.completed ?
-                  <span className="badge badge-success">{gettext('Earned')}</span>
+                  <span className="badge badge-success">{gettext('Completed')}</span>
                  :
                   <span className="badge badge-warning">{gettext('Partially Completed')}</span>
                 }
@@ -317,12 +353,12 @@ class ProgramRecord extends React.Component {
               </div>
             </div>
             <div name="school-name" className="hd-3 school-name">
-              { StringUtils.interpolate(gettext('{platform} | {school}'), { platform: platformName, school: program.school }) }
+              { StringUtils.interpolate('{platform} | {school}', { platform: platformName, school: program.school }) }
             </div>
           </header>
 
           <div className="learner-info">
-            <h3 className="h4 font-weight-normal user">{learner.full_name}</h3>
+            {learner.full_name && <span className="h4 font-weight-normal user">{learner.full_name}</span>}
             <div className="details">
               {learner.username}<span className="pipe">|</span>{learner.email}
             </div>
@@ -331,6 +367,8 @@ class ProgramRecord extends React.Component {
           <div className="program-record-grades">
             <FoldingTable
               columns={[
+                // Note that when you change one of these strings, you should look at
+                // the foldedColumns for any necessary changes there too.
                 { key: 'name', label: gettext('Course Name') },
                 { key: 'school', label: gettext('School') },
                 { key: 'course_id', label: gettext('Course ID') },
@@ -344,7 +382,7 @@ class ProgramRecord extends React.Component {
                 { key: 'name', className: 'hd-5 emphasized' },
                 { key: 'school' },
                 { key: 'course_id', format: gettext('Course ID: {}') },
-                { key: 'percent_grade', format: gettext('Percent Grade: {}') },
+                { key: 'percent_grade', format: gettext('Highest Grade Earned: {}') },
                 { key: 'letter_grade', format: gettext('Letter Grade: {}') },
                 { key: 'attempts', format: gettext('Verified Attempts: {}') },
                 { key: 'issue_date', format: gettext('Date Earned: {}') },
@@ -366,6 +404,11 @@ class ProgramRecord extends React.Component {
             uuid={uuid}
             typeName={program.type_name}
             platformName={platformName}
+            // Using this JSON trick since the {...} syntax and Object.assign() both don't work here
+            // For some reason they were not properly creating copies
+            creditPathways={JSON.parse(JSON.stringify(this.creditPathways))}
+            // Passing both a list and an object so that we can maintain pathway ordering
+            creditPathwaysList={this.props.credit_pathways}
           />
         }
         {shareModelOpen &&
@@ -398,6 +441,7 @@ ProgramRecord.propTypes = {
     last_updated: PropTypes.string,
   }).isRequired,
   grades: PropTypes.arrayOf(PropTypes.object).isRequired,
+  credit_pathways: PropTypes.arrayOf(PropTypes.object),
   isPublic: PropTypes.bool,
   icons: PropTypes.shape(),
   uuid: PropTypes.string.isRequired,
@@ -407,6 +451,7 @@ ProgramRecord.propTypes = {
 };
 
 ProgramRecord.defaultProps = {
+  credit_pathways: [],
   isPublic: true,
   icons: {},
   loadModalsAsChildren: true,

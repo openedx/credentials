@@ -2,6 +2,7 @@ import csv
 import datetime
 import io
 import json
+import logging
 import urllib.parse
 from collections import defaultdict
 
@@ -17,21 +18,76 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView, View
 from edx_ace import Recipient, ace
+from ratelimit.mixins import RatelimitMixin
 
 from credentials.apps.catalog.models import CourseRun, CreditPathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
-from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredential
+from credentials.apps.credentials.models import (CourseCertificate, ProgramCertificate, UserCredential,
+                                                 UserCredentialAttribute)
+from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
-from credentials.apps.records.models import ProgramCertRecord, UserGrade
+from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
 
-from .constants import WAFFLE_FLAG_RECORDS
+from .constants import RECORDS_RATE_LIMIT, WAFFLE_FLAG_RECORDS
+
+log = logging.getLogger(__name__)
+
+
+def rate_limited(request, exception):  # pylint: disable=unused-argument
+    log.warning("Credentials records endpoint is being throttled.")
+    return JsonResponse({'error': 'Too Many Requests'}, status=429)
+
+logger = logging.getLogger(__name__)
+
+
+class RecordsEnabledMixin(object):
+    """ Only allows view if records are enabled for the installation & site.
+        Note that the API views are will still be active even if records is disabled.
+        You may want to disable records support in the LMS if you want to stop data being sent over. """
+    def dispatch(self, request, *args, **kwargs):
+        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
+            raise http.Http404()
+        if not request.site.siteconfiguration.records_enabled:
+            raise http.Http404()
+        return super().dispatch(request, *args, **kwargs)
+
+
+class ConditionallyRequireLoginMixin(AccessMixin):
+    """ Variant of LoginRequiredMixin that allows a user not to be logged in if is_public argument is true"""
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated and not kwargs['is_public']:
+            return self.handle_no_permission()
+        return super(ConditionallyRequireLoginMixin, self).dispatch(request, *args, **kwargs)
+
+
+def datetime_from_visible_date(date):
+    """ Turn a string version of a datetime, provided to us by the LMS in a particular format it uses for
+        visible_date attributes, and turn it into a datetime object. """
+    try:
+        parsed = datetime.datetime.strptime(date, '%Y-%m-%dT%H:%M:%SZ')
+        # The timezone is always UTC (as indicated by the Z). It looks like in python3.7, we could
+        # just use %z instead of replacing the tzinfo with a UTC value.
+        return parsed.replace(tzinfo=datetime.timezone.utc)
+    except ValueError as e:
+        logger.exception('%s', e)
+        return None
 
 
 def get_record_data(user, program_uuid, site, platform_name=None):
         program = Program.objects.prefetch_related('course_runs__course').get(uuid=program_uuid, site=site)
         program_course_runs = program.course_runs.all()
-        program_course_runs_set = set(program_course_runs)
+        program_course_runs_set = frozenset(program_course_runs)
+
+        # Get all credit pathway organizations and their statuses
+        program_credit_pathways = program.pathways.all()
+        program_credit_pathways_set = frozenset(program_credit_pathways)
+        user_credit_pathways = UserCreditPathway.objects.select_related('credit_pathway').filter(
+            user=user, credit_pathway__in=program_credit_pathways_set).all()
+        user_credit_pathways_dict = {user_pathway.credit_pathway:
+                                     user_pathway.status for user_pathway in user_credit_pathways}
+        credit_pathways = [(pathway, user_credit_pathways_dict.setdefault(pathway, ''))
+                           for pathway in program_credit_pathways]
 
         # Find program credential if it exists (indicates if user has completed this program)
         program_credential_query = UserCredential.objects.filter(
@@ -48,6 +104,13 @@ def get_record_data(user, program_uuid, site, platform_name=None):
         user_credential_dict = {
             user_credential.credential.course_id: user_credential for user_credential in course_user_credentials}
 
+        # Maps course run key to the associated visible_date attribute
+        visible_dates = UserCredentialAttribute.objects.prefetch_related('user_credential__credential').filter(
+            user_credential__in=course_user_credentials, name='visible_date')
+        visible_date_dict = {
+            visible_date.user_credential.credential.course_id: datetime_from_visible_date(visible_date.value)
+            for visible_date in visible_dates}
+
         # Get all (verified) user grades relevant to this program
         course_grades = UserGrade.objects.select_related('course_run__course').filter(
             username=user.username, course_run__in=program_course_runs_set, verified=True)
@@ -57,15 +120,19 @@ def get_record_data(user, program_uuid, site, platform_name=None):
         highest_attempt_dict = {}  # Maps course -> highest grade earned
         last_updated = None
 
+        now = datetime.datetime.now(datetime.timezone.utc)
+
         # Find the highest course cert grades for each course
         for course_grade in course_grades:
             course_run = course_grade.course_run
             course = course_run.course
             user_credential = user_credential_dict.get(course_run.key)
+            visible_date = visible_date_dict.get(course_run.key)
 
-            if user_credential is not None:
+            is_visible = not visible_date or visible_date < now
+            if is_visible and user_credential is not None:
                 num_attempts_dict[course] += 1
-                last_updated = max(last_updated, course_grade.modified) if last_updated else course_grade.modified
+                last_updated = max(filter(None, [visible_date, course_grade.modified, last_updated]))
 
                 # Update grade if grade is higher and part of awarded cert
                 if user_credential.status == UserCredential.AWARDED:
@@ -85,6 +152,12 @@ def get_record_data(user, program_uuid, site, platform_name=None):
                         'completed': program_credential_query.exists(),
                         'last_updated': last_updated.isoformat(),
                         'school': ', '.join(program.authoring_organizations.values_list('name', flat=True))}
+
+        credit_pathway_data = [{'name': credit_pathway[0].name,
+                                'id': credit_pathway[0].id,
+                                'status': credit_pathway[1],
+                                'is_active': bool(credit_pathway[0].email)}
+                               for credit_pathway in credit_pathways]
 
         # Add course-run data to the response in the order that is maintained by the Program's sorted field
         course_data = []
@@ -107,12 +180,13 @@ def get_record_data(user, program_uuid, site, platform_name=None):
 
             # If the user has taken the course, show the course_run info for the highest grade
             elif grade is not None and grade.course_run == course_run:
+                issue_date = visible_date_dict.get(course_run.key) or user_credential_dict[course_run.key].created
                 course_data.append({
                     'name': course_run.title,
                     'school': ', '.join(course.owners.values_list('name', flat=True)),
                     'attempts': num_attempts_dict[course],
                     'course_id': course_run.key,
-                    'issue_date': user_credential_dict[course_run.key].modified.isoformat(),
+                    'issue_date': issue_date.isoformat(),
                     'percent_grade': float(grade.percent_grade),
                     'letter_grade': grade.letter_grade or _('N/A'), })
                 added_courses.add(course)
@@ -120,10 +194,11 @@ def get_record_data(user, program_uuid, site, platform_name=None):
         return {'learner': learner_data,
                 'program': program_data,
                 'platform_name': platform_name,
-                'grades': course_data, }
+                'grades': course_data,
+                'credit_pathways': credit_pathway_data, }
 
 
-class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
+class RecordsView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
     template_name = 'records.html'
 
     def _get_programs(self, request):
@@ -166,7 +241,8 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
         # Get the completed programs and a UUID set using the program_credentials
         program_credential_ids = map(lambda program_credential: program_credential.credential_id, program_credentials)
         program_certificates = ProgramCertificate.objects.filter(id__in=program_credential_ids)
-        completed_program_uuids = set(program_certificate.program_uuid for program_certificate in program_certificates)
+        completed_program_uuids = frozenset(
+            program_certificate.program_uuid for program_certificate in program_certificates)
 
         return [
             {
@@ -186,7 +262,7 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
         profile_url = ''
         records_help_url = ''
         if site_configuration:
-            profile_url = urllib.parse.urljoin(site_configuration.homepage_url, 'u/' + request.user.username)
+            profile_url = urllib.parse.urljoin(site_configuration.lms_url_root, 'u/' + request.user.username)
             records_help_url = site_configuration.records_help_url
 
         context.update({
@@ -202,21 +278,8 @@ class RecordsView(LoginRequiredMixin, TemplateView, ThemeViewMixin):
         })
         return context
 
-    def dispatch(self, request, *args, **kwargs):
-        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
-            raise http.Http404()
-        return super().dispatch(request, *args, **kwargs)
 
-
-class ConditionallyRequireLoginMixin(AccessMixin):
-    """ Variant of LoginRequiredMixin that allows a user not to be logged in if is_public argument is true"""
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated and not kwargs['is_public']:
-            return self.handle_no_permission()
-        return super(ConditionallyRequireLoginMixin, self).dispatch(request, *args, **kwargs)
-
-
-class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewMixin):
+class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
     template_name = 'programs.html'
 
     def _get_record(self, uuid, is_public):
@@ -260,16 +323,15 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, TemplateView, ThemeViewM
         })
         return context
 
-    def dispatch(self, request, *args, **kwargs):
-        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
-            raise http.Http404()
-        return super().dispatch(request, *args, **kwargs)
 
-
-class ProgramSendView(LoginRequiredMixin, View):
+class ProgramSendView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, View):
     """
     Sends a program via email to a requested partner
     """
+    ratelimit_key = 'user'
+    ratelimit_rate = RECORDS_RATE_LIMIT
+    ratelimit_block = True
+    ratelimit_method = 'POST'
 
     def post(self, request, **kwargs):
         body_unicode = request.body.decode('utf-8')
@@ -283,14 +345,21 @@ class ProgramSendView(LoginRequiredMixin, View):
         if username != request.user.get_username() and not request.user.is_staff:
             return JsonResponse({'error': 'Permission denied'}, status=403)
 
+        credential = UserCredential.objects.filter(username=username, program_credentials__program_uuid=program_uuid)
         program = get_object_or_404(Program, uuid=program_uuid, site=request.site)
         pathway = get_object_or_404(CreditPathway, id=pathway_id, programs__uuid=program_uuid)
         certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)
         user = get_object_or_404(User, username=username)
         public_record, _ = ProgramCertRecord.objects.get_or_create(user=user, program=program)
 
+        # Make sure we haven't already sent an email with a 'sent' status
+        if UserCreditPathway.objects.filter(
+                user=user, credit_pathway=pathway, status=UserCreditPathwayStatus.SENT).exists():
+            return JsonResponse({'error': 'Pathway email already sent'}, status=400)
+
         record_path = reverse('records:public_programs', kwargs={'uuid': public_record.uuid.hex})
         record_link = request.build_absolute_uri(record_path)
+        csv_link = urllib.parse.urljoin(record_link, "csv")
 
         msg = ProgramCreditRequest(request.site).personalize(
             recipient=Recipient(username=None, email_address=pathway.email),
@@ -299,24 +368,32 @@ class ProgramSendView(LoginRequiredMixin, View):
                 'pathway_name': pathway.name,
                 'program_name': program.title,
                 'record_link': record_link,
-                'user_full_name': request.user.get_full_name(),
+                'user_full_name': request.user.get_full_name() or request.user.username,
+                'program_completed': credential.exists(),
+                'csv_link': csv_link,
             },
         )
         ace.send(msg)
 
+        # Create a record of this email so that we can't send multiple times
+        # If the status was previously changed, we want to reset it to SENT
+        UserCreditPathway.objects.update_or_create(
+            user=user,
+            credit_pathway=pathway,
+            defaults={'status': UserCreditPathwayStatus.SENT}, )
+
         return http.HttpResponse(status=200)
 
-    def dispatch(self, request, *args, **kwargs):
-        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
-            return JsonResponse({'error': 'Waffle flag not enabled'}, status=404)
-        return super().dispatch(request, *args, **kwargs)
 
-
-class ProgramRecordCreationView(LoginRequiredMixin, View):
+class ProgramRecordCreationView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, View):
     """
     Creates a new Program Certificate Record from given username and program uuid,
     returns the uuid of the created Program Certificate Record
     """
+    ratelimit_key = 'user'
+    ratelimit_rate = RECORDS_RATE_LIMIT
+    ratelimit_block = True
+    ratelimit_method = 'POST'
 
     def post(self, request, **kwargs):
         body_unicode = request.body.decode('utf-8')
@@ -340,15 +417,15 @@ class ProgramRecordCreationView(LoginRequiredMixin, View):
         url = request.build_absolute_uri(reverse("records:public_programs", kwargs={'uuid': pcr.uuid.hex}))
         return JsonResponse({'url': url}, status=status_code)
 
-    def dispatch(self, request, *args, **kwargs):
-        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
-            return JsonResponse({'error': 'Waffle flag not enabled'}, status=404)
-        return super().dispatch(request, *args, **kwargs)
 
-
-class ProgramRecordCsvView(View):
+class ProgramRecordCsvView(RecordsEnabledMixin, View):
     """
-    Returns a csv view of the Progam Record for a Learner from a username and program_uuid
+    Returns a csv view of the Progam Record for a Learner from a username and program_uuid.
+
+    Note:  We are currently not rate limiting this endpoint due to the issues
+    surrounding rate limiting unauthenticated users.  If this endpoint starts
+    causing trouble down the line, may be worth adding annotated rate limits
+    that force users to solve a captcha.
     """
 
     class SegmentHttpResponse(HttpResponse):
@@ -371,9 +448,6 @@ class ProgramRecordCsvView(View):
             super(ProgramRecordCsvView.SegmentHttpResponse, self).close()
 
     def get(self, request, *args, **kwargs):
-        if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
-            raise http.Http404()
-
         site_configuration = request.site.siteconfiguration
         segment_client = SegmentClient(write_key=site_configuration.segment_key)
 
