@@ -65,6 +65,7 @@ class UserCreditPathway(TimeStampedModel):
         max_length=15,
         choices=STATUS_CHOICES,
         default=constants.UserCreditPathwayStatus.SENT,
+        blank=True,
     )
 
     class Meta(object):
