@@ -11,6 +11,7 @@ from credentials.apps.credentials.constants import UserCredentialStatus
 from credentials.apps.credentials.models import (CourseCertificate, ProgramCertificate, UserCredential,
                                                  UserCredentialAttribute)
 from credentials.apps.credentials.utils import validate_duplicate_attributes
+from credentials.apps.records.utils import send_updated_emails_for_program
 
 logger = logging.getLogger(__name__)
 
@@ -90,6 +91,46 @@ class AbstractCredentialIssuer(object):
 class ProgramCertificateIssuer(AbstractCredentialIssuer):
     """ Issues ProgramCertificates. """
     issued_credential_type = ProgramCertificate
+
+    @transaction.atomic
+    def issue_credential(self, credential, username, status=UserCredentialStatus.AWARDED, attributes=None):
+        """
+        Issue a Program Certificate to the user.
+
+        This function is being overriden to provide functionality for sending
+        an updated email to credit pathway partners
+
+        This action is idempotent. If the user has already earned the
+        credential, a new one WILL NOT be issued. The existing credential
+        WILL be modified.
+
+        Arguments:
+            credential (AbstractCredential): Type of credential to issue.
+            username (str): username of user for which credential required
+            status (str): status of credential
+            attributes (List[dict]): optional list of attributes that should be associated with the issued credential.
+
+        Returns:
+            UserCredential
+        """
+        user_credential, created = UserCredential.objects.update_or_create(
+            username=username,
+            credential_content_type=ContentType.objects.get_for_model(credential),
+            credential_id=credential.id,
+            defaults={
+                'status': status,
+            },
+        )
+
+        # Send an updated email to a credit pathway org only if the user has previously sent one
+        # This function call should be moved into some type of task queue
+        # once credentials has that functionality
+        if created:
+            send_updated_emails_for_program(username, credential)
+
+        self.set_credential_attributes(user_credential, attributes)
+
+        return user_credential
 
 
 class CourseCertificateIssuer(AbstractCredentialIssuer):

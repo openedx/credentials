@@ -4,6 +4,8 @@ Tests for Issuer class.
 from django.test import TestCase
 
 from credentials.apps.api.exceptions import DuplicateAttributeError
+from credentials.apps.catalog.tests.factories import ProgramFactory
+from credentials.apps.core.tests.factories import SiteFactory, UserFactory
 from credentials.apps.credentials.issuers import CourseCertificateIssuer, ProgramCertificateIssuer
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredentialAttribute
 from credentials.apps.credentials.tests.factories import CourseCertificateFactory, ProgramCertificateFactory
@@ -22,6 +24,7 @@ class CertificateIssuerBase(object):
         super(CertificateIssuerBase, self).setUp()
         self.certificate = self.cert_factory.create()
         self.username = 'tester'
+        self.user = UserFactory(username=self.username)
         self.user_cred = self.issuer.issue_credential(self.certificate, self.username)
         self.attributes = [{"name": "whitelist_reason", "value": "Reason for whitelisting."}]
 
@@ -45,7 +48,7 @@ class CertificateIssuerBase(object):
 
     def test_issue_credential_with_attributes(self):
         """ Verify credentials can be issued with attributes."""
-
+        UserFactory(username='testuser2')
         user_credential = self.issuer.issue_credential(self.certificate, 'testuser2', attributes=self.attributes)
         self._assert_usercredential_fields(user_credential, self.certificate, 'testuser2', 'awarded', self.attributes)
 
@@ -129,6 +132,15 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
     issuer = ProgramCertificateIssuer()
     cert_factory = ProgramCertificateFactory
     cert_type = ProgramCertificate
+
+    def setUp(self):
+        self.site = SiteFactory()
+        self.program = ProgramFactory(site=self.site)
+        self.certificate = self.cert_factory.create(program_uuid=self.program.uuid, site=self.site)
+        self.username = 'tester'
+        self.user = UserFactory(username=self.username)
+        self.user_cred = self.issuer.issue_credential(self.certificate, self.username)
+        self.attributes = [{"name": "whitelist_reason", "value": "Reason for whitelisting."}]
 
 
 class CourseCertificateIssuerTests(CertificateIssuerBase, TestCase):

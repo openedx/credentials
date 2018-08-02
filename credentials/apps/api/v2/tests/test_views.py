@@ -70,8 +70,9 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_create(self):
-        program_certificate = ProgramCertificateFactory(site=self.site)
-        expected_username = 'test_user'
+        program = ProgramFactory(site=self.site)
+        program_certificate = ProgramCertificateFactory(site=self.site, program_uuid=program.uuid)
+        expected_username = self.user.username
         expected_attribute_name = 'fake-name'
         expected_attribute_value = 'fake-value'
         data = {

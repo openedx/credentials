@@ -373,6 +373,7 @@ class ProgramSendView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, V
                 'record_link': record_link,
                 'user_full_name': request.user.get_full_name() or request.user.username,
                 'program_completed': credential.exists(),
+                'previously_sent': False,
                 'csv_link': csv_link,
             },
         )
