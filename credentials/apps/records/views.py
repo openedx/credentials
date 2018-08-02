@@ -456,6 +456,27 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
         program_cert_record = get_object_or_404(ProgramCertRecord, uuid=kwargs.get('uuid'))
         record = get_record_data(program_cert_record.user, program_cert_record.program.uuid, request.site)
 
+        program = program_cert_record.program
+        program_name = program.title
+        program_type = program.type
+        platform = program.site.siteconfiguration.platform_name
+        authoring_orgs = ', '.join([org.name for org in program.authoring_organizations.all()])
+        user = program_cert_record.user
+        name = user.full_name
+        username = user.username
+        email = user.email
+
+        user_metadata = [
+            ['Program Name', program_name],
+            ['Program Type', program_type],
+            ['Platform Provider', platform],
+            ['Authoring Organization(s)', authoring_orgs],
+            ['Learner Name', name],
+            ['Username', username],
+            ['Email', email],
+            [''],
+        ]
+
         properties = {
             'category': 'records',
             'program_uuid': program_cert_record.program.uuid.hex,
@@ -477,6 +498,8 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
         )
 
         string_io = io.StringIO()
+        writer = csv.writer(string_io, quoting=csv.QUOTE_ALL)
+        writer.writerows(user_metadata)
         writer = csv.DictWriter(string_io, record['grades'][0].keys(), quoting=csv.QUOTE_ALL)
         writer.writeheader()
         writer.writerows(record['grades'])
