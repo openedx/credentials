@@ -454,26 +454,17 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
         segment_client = SegmentClient(write_key=site_configuration.segment_key)
 
         program_cert_record = get_object_or_404(ProgramCertRecord, uuid=kwargs.get('uuid'))
-        record = get_record_data(program_cert_record.user, program_cert_record.program.uuid, request.site)
-
-        program = program_cert_record.program
-        program_name = program.title
-        program_type = program.type
-        platform = program.site.siteconfiguration.platform_name
-        authoring_orgs = ', '.join([org.name for org in program.authoring_organizations.all()])
-        user = program_cert_record.user
-        name = user.full_name
-        username = user.username
-        email = user.email
+        record = get_record_data(program_cert_record.user, program_cert_record.program.uuid, request.site,
+                                 platform_name=site_configuration.platform_name)
 
         user_metadata = [
-            ['Program Name', program_name],
-            ['Program Type', program_type],
-            ['Platform Provider', platform],
-            ['Authoring Organization(s)', authoring_orgs],
-            ['Learner Name', name],
-            ['Username', username],
-            ['Email', email],
+            ['Program Name', record['program']['name']],
+            ['Program Type', record['program']['type_name']],
+            ['Platform Provider', record['platform_name']],
+            ['Authoring Organization(s)', record['program']['school']],
+            ['Learner Name', record['learner']['full_name']],
+            ['Username', record['learner']['username']],
+            ['Email', record['learner']['email']],
             [''],
         ]
 
