@@ -92,7 +92,7 @@ class ProgramRecord extends React.Component {
 
   downloadRecord(uuid) {
     this.setState({ recordDownloaded: true });
-    window.location = '/records/programs/shared/' + { uuid } + '/csv';
+    window.location = '/records/programs/shared/' + uuid + '/csv';
   }
 
 

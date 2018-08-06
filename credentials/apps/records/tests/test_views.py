@@ -780,7 +780,7 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
     @patch('credentials.apps.records.views.SegmentClient', autospec=True)
     @patch('credentials.apps.records.views.SegmentClient.track', autospec=True)
     def tests_creates_csv(self, segment_client, track):  # pylint: disable=unused-argument
-        """ Verify that the csv parses and contains all of the necessary metadata and headers"""
+        """ Verify that the csv parses and contains all of the necessary titles/headers"""
         response = self.client.get(
             reverse('records:program_record_csv', kwargs={'uuid': self.program_cert_record.uuid.hex})
         )
@@ -789,22 +789,11 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
         content = response.content.decode('utf-8')
         csv_reader = csv.reader(io.StringIO(content))
         body = list(csv_reader)
-
-        program = self.program_cert_record.program
-        user = self.program_cert_record.user
-        user_metadata = [
-            ['Program Name', program.title],
-            ['Program Type', program.type],
-            ['Platform Provider', program.site.siteconfiguration.platform_name],
-            ['Authoring Organization(s)', ', '.join([org.name for org in program.authoring_organizations.all()])],
-            ['Learner Name', user.full_name],
-            ['Username', user.username],
-            ['Email', user.email],
-            [''],
-        ]
-        # check each metadata row
-        for row in user_metadata:
-            self.assertEqual(row, body.pop(0))
+        metadata_titles = ['Program Name', 'Program Type', 'Platform Provider', 'Authoring Organization(s)',
+                           'Learner Name', 'Username', 'Email', '']
+        # check the title of each metadata row
+        for title in metadata_titles:
+            self.assertEqual(title, body.pop(0)[0])
         csv_headers = body.pop(0)
         # Check that the header is present in the response bytestring
         headers = ['course_id', 'percent_grade', 'attempts', 'school', 'issue_date', 'letter_grade', 'name']
