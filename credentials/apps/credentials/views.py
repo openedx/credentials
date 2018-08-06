@@ -62,11 +62,11 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
         if user_credential.credential_content_type.model_class() != ProgramCertificate:
             raise Http404
 
-        program_details = user_credential.credential.program_details
-        for organization in program_details.organizations:
-            if not organization.certificate_logo_image_url:
-                raise MissingCertificateLogoError('No certificate image logo defined for program: [{program_uuid}]'.
-                                                  format(program_uuid=program_details.uuid))
+        # program_details = user_credential.credential.program_details
+        # for organization in program_details.organizations:
+        #     if not organization.certificate_logo_image_url:
+        #         raise MissingCertificateLogoError('No certificate image logo defined for program: [{program_uuid}]'.
+        #                                           format(program_uuid=program_details.uuid))
 
         user_data = user_credential.credential.site.siteconfiguration.get_user_api_data(user_credential.username)
         content_language = to_language(user_credential.credential.language)
@@ -78,13 +78,13 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
             'render_language': content_language if content_language else settings.LANGUAGE_CODE,
 
             # NOTE: In the future this can be set to the course_name and/or seat type
-            'page_title': program_details.type,
+            'page_title': 'Program', #program_details.type,
 
             # NOTE: In the future this can be set to the course_name
-            'program_name': program_details.title,
+            'program_name': 'Title' #program_details.title,
         })
-        if program_details.hours_of_effort:
-            context.update({'hours_of_effort': program_details.hours_of_effort})
+        # if program_details.hours_of_effort:
+        #     context.update({'hours_of_effort': program_details.hours_of_effort})
 
         return context
 

@@ -81,6 +81,7 @@ MIDDLEWARE_CLASSES = (
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'waffle.middleware.WaffleMiddleware',
     'ratelimit.middleware.RatelimitMiddleware',
+    'credentials.apps.core.middleware.SegmentMiddleware',
 )
 
 ROOT_URLCONF = 'credentials.urls'
