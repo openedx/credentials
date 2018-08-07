@@ -12,6 +12,7 @@ class ShareProgramRecordModal extends React.Component {
   constructor(props) {
     super(props);
 
+    this.checkUrlCopied = this.checkUrlCopied.bind(this);
     this.setProgramRecordUrl = this.setProgramRecordUrl.bind(this);
     this.setUrlError = this.setUrlError.bind(this);
     this.setUrlAsCopied = this.setUrlAsCopied.bind(this);
@@ -59,6 +60,17 @@ class ShareProgramRecordModal extends React.Component {
 
   setUrlError() {
     this.setState({ urlError: true });
+  }
+
+  checkUrlCopied() {
+    // if the full url is copied, behave as if the "Copy Link" button was clicked
+    if (window.getSelection().toString() === this.state.programRecordUrl) {
+      this.setUrlAsCopied(this.state.programRecordUrl, true);
+      trackEvent('edx.bi.credentials.program_record.share_url_copied', {
+        category: 'records',
+        'program-uuid': this.props.uuid,
+      });
+    }
   }
 
   // This logic is a bit complicated, so we separate it out
@@ -135,13 +147,15 @@ class ShareProgramRecordModal extends React.Component {
             {this.renderSwitchToSendParagraph()}
             {urlReturned &&
               <div>
-                <InputText
-                  value={programRecordUrl}
-                  name="program-record-share-url"
-                  className={['program-record-share-url']}
-                  label={<span className="sr-only">{gettext('Program Record URL')}</span>}
-                  disabled
-                />
+                <div onCopy={this.checkUrlCopied}>
+                  <InputText
+                    value={programRecordUrl}
+                    name="program-record-share-url"
+                    className={['program-record-share-url']}
+                    label={<span className="sr-only">{gettext('Program Record URL')}</span>}
+                    disabled
+                  />
+                </div>
                 <CopyToClipboard
                   text={programRecordUrl}
                   onCopy={this.setUrlAsCopied}
