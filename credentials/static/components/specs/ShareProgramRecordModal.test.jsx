@@ -62,7 +62,7 @@ describe('<ShareProgramRecordModal />', () => {
       });
     });
 
-    it('updates state if the url is copied to the clipboard', () => {
+    it('updates state if the url is copied to the clipboard via button', () => {
       expect(wrapper.state('urlCopied')).toBe(false);
 
       return promise.then(() => {
@@ -70,6 +70,28 @@ describe('<ShareProgramRecordModal />', () => {
         expect(wrapper.state('urlCopied')).toBe(false);
         wrapper.instance().setUrlAsCopied('text', 'result');
         expect(wrapper.state('urlCopied')).toBe(true);
+      });
+    });
+
+    it('updates state when the full url is manually copied to clipboard', () => {
+      window.getSelection = () => wrapper.state('programRecordUrl');
+      expect(wrapper.find('.modal-dialog').length).toBe(1);
+
+      return promise.then(() => {
+        wrapper.update();
+        wrapper.find('.modal-body .form-group input').simulate('copy');
+        expect(wrapper.state('urlCopied')).toBe(true);
+      });
+    });
+
+    it('does not update state when part of the url is manually copied to clipboard', () => {
+      window.getSelection = () => 'not_the_url';
+      expect(wrapper.find('.modal-dialog').length).toBe(1);
+
+      return promise.then(() => {
+        wrapper.update();
+        wrapper.find('.modal-body .form-group input').simulate('copy');
+        expect(wrapper.state('urlCopied')).toBe(false);
       });
     });
 
