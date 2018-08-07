@@ -56,7 +56,8 @@ Program certificates can be configured to render in a specific language by follo
 Translation Management
 ~~~~~~~~~~~~~~~~~~~~~~
 Translations need to be updated whenever user facing text is added or changed in the repository. This is typically
-done in three steps.
+done in three steps. If you are a developer using docker and you are trying to update translations, please see the
+next section.
 
 #. Extract strings that have been marked for translation into message `(.po) files`_. This can be done by running
    the Django `makemessages`_ command, which will create or update message (.po) files for each specified locale
@@ -75,7 +76,23 @@ done in three steps.
 
 For more information about translation management, please refer to the `Django internationalization documentation`_.
 
-.. _internationalization coding guidelines: http://edx.readthedocs.io/projects/edx-developer-guide/en/latest/conventions/internationalization/i18n.html
+Translation Management with Docker
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If you are using docker and you have added or changed user facing text in the repository, you can update or change
+translations using the following steps and commands that are provided in the credentials ``Makefile``.
+
+#. Make sure to stage your changes that need to be committed.
+
+#. Extract the messages, generate and compile the dummy translations, and verify that the translation files are
+   up-to-date. This can be done by running the following command:
+
+   .. code-block:: bash
+
+      $ make check_translations_up_to_date
+
+#. Finally, stage your updated translation files to be committed with the rest of your work.
+
+.. _internationalization coding guidelines: http://edx.readthedocs.io/projects/edx-developer-guide/en/latest/internationalization/i18n.html#internationalization-coding-guidelines
 .. _Django internationalization documentation: https://docs.djangoproject.com/en/1.11/topics/i18n
 .. _LANGUAGE_CODE setting: https://docs.djangoproject.com/en/1.11/ref/settings/#language-code
 .. _Django docs for language_code: https://docs.djangoproject.com/en/1.11/topics/i18n/#term-language-code
