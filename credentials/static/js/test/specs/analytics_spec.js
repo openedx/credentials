@@ -13,7 +13,7 @@ describe('analytics module', () => {
     analyticsTestButton.click();
 
     const expectedProperties = {
-      category: 'certificate',
+      category: 'certificates',
     };
 
     expect(window.analytics.track).toHaveBeenCalledWith('edx.bi.test', expectedProperties);
