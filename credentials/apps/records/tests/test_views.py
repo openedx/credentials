@@ -17,7 +17,6 @@ from django.test.utils import override_settings
 from django.urls import reverse
 from mock import patch
 from testfixtures import LogCapture
-from waffle.testutils import override_flag
 
 from credentials.apps.catalog.tests.factories import (CourseFactory, CourseRunFactory, CreditPathwayFactory,
                                                       OrganizationFactory, ProgramFactory)
@@ -35,12 +34,11 @@ from credentials.apps.records.tests.utils import dump_random_state
 from credentials.apps.records.views import datetime_from_visible_date
 from credentials.shared.log_checker import assert_log_correct
 
-from ..constants import RECORDS_RATE_LIMIT, WAFFLE_FLAG_RECORDS
+from ..constants import RECORDS_RATE_LIMIT
 
 JSON_CONTENT_TYPE = 'application/json'
 
 
-@override_flag(WAFFLE_FLAG_RECORDS, active=True)
 class RecordsViewTests(SiteMixin, TestCase):
     MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }
 
@@ -102,11 +100,6 @@ class RecordsViewTests(SiteMixin, TestCase):
         self.client.logout()
         response = self._render_records(status_code=302)
         self.assertRegex(response.url, '^/login/.*')  # pylint: disable=deprecated-method
-
-    @override_flag(WAFFLE_FLAG_RECORDS, active=False)
-    def test_feature_toggle(self):
-        """ Verify that the view rejects everyone without the waffle flag. """
-        self._render_records(status_code=404)
 
     def test_normal_access(self):
         """ Verify that the view works in default case. """
@@ -227,7 +220,6 @@ class RecordsViewTests(SiteMixin, TestCase):
         self.assertEqual(program_data, expected_program_data)
 
 
-@override_flag(WAFFLE_FLAG_RECORDS, active=True)
 class ProgramRecordViewTests(SiteMixin, TestCase):
     MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }
 
@@ -292,11 +284,6 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.client.logout()
         response = self.client.get(reverse('records:public_programs', kwargs={'uuid': self.pcr.uuid.hex}))
         self.assertContains(response, 'Record')
-
-    @override_flag(WAFFLE_FLAG_RECORDS, active=False)
-    def test_feature_toggle(self):
-        """ Verify that the view rejects everyone without the waffle flag. """
-        self._render_program_record(status_code=404)
 
     def test_normal_access(self):
         """ Verify that the view works in default case. """
@@ -523,7 +510,6 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertNotContains(response, '<xss>')
 
 
-@override_flag(WAFFLE_FLAG_RECORDS, active=True)
 class ProgramRecordTests(SiteMixin, TestCase):
     USERNAME = "test-user"
 
@@ -582,18 +568,7 @@ class ProgramRecordTests(SiteMixin, TestCase):
 
         self.assertEqual(url1, url2)
 
-    @override_flag(WAFFLE_FLAG_RECORDS, active=False)
-    def test_feature_toggle(self):
-        """ Verify that the view rejects everyone without the waffle flag. """
-        rev = reverse('records:share_program', kwargs={'uuid': self.program.uuid.hex})
-        data = {'username': self.USERNAME}
-        jdata = json.dumps(data).encode('utf-8')
-        response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
 
-        self.assertEqual(404, response.status_code)
-
-
-@override_flag(WAFFLE_FLAG_RECORDS, active=True)
 @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
 class ProgramSendTests(SiteMixin, TestCase):
     USERNAME = "test-user"
@@ -721,12 +696,6 @@ class ProgramSendTests(SiteMixin, TestCase):
         user_credit_pathway = UserCreditPathway.objects.get(user=self.user, credit_pathway=self.pathway)
         self.assertEqual(user_credit_pathway.status, UserCreditPathwayStatus.SENT)
 
-    @override_flag(WAFFLE_FLAG_RECORDS, active=False)
-    def test_feature_toggle(self):
-        """ Verify that the view rejects everyone without the waffle flag. """
-        response = self.post()
-        self.assertEqual(404, response.status_code)
-
 
 class ProgramRecordCsvViewTests(SiteMixin, TestCase):
     MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }
@@ -756,16 +725,6 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
         self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site)
         self.program_cert_record = ProgramCertRecordFactory.create(user=self.user, program=self.program)
 
-    @override_flag(WAFFLE_FLAG_RECORDS, active=False)
-    def test_feature_toggle(self):
-        """ Verify that the view 404s if feature is disabled"""
-        response = self.client.get(reverse(
-            'records:program_record_csv',
-            kwargs={'uuid': self.program_cert_record.uuid.hex})
-        )
-        self.assertEqual(404, response.status_code)
-
-    @override_flag(WAFFLE_FLAG_RECORDS, active=True)
     @patch('credentials.apps.records.views.SegmentClient', autospec=True)
     def test_404s_with_no_program_cert_record(self, segment_client):  # pylint: disable=unused-argument
         """ Verify that the view 404s if a program cert record isn't found"""
@@ -776,7 +735,6 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
         )
         self.assertEqual(404, response.status_code)
 
-    @override_flag(WAFFLE_FLAG_RECORDS, active=True)
     @patch('credentials.apps.records.views.SegmentClient', autospec=True)
     @patch('credentials.apps.records.views.SegmentClient.track', autospec=True)
     def tests_creates_csv(self, segment_client, track):  # pylint: disable=unused-argument
@@ -801,7 +759,6 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
             self.assertIn(header, csv_headers)
 
 
-@override_flag(WAFFLE_FLAG_RECORDS, active=True)
 class RecordsThrottlingTests(SiteMixin, TestCase):
     """ Tests for throttling the records endpoint. """
     USERNAME = "test-user"
