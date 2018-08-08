@@ -6,7 +6,6 @@ import logging
 import urllib.parse
 from collections import defaultdict
 
-import waffle
 from analytics.client import Client as SegmentClient
 from django import http
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
@@ -29,7 +28,7 @@ from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
 
-from .constants import RECORDS_RATE_LIMIT, WAFFLE_FLAG_RECORDS
+from .constants import RECORDS_RATE_LIMIT
 
 log = logging.getLogger(__name__)
 
@@ -48,8 +47,6 @@ class RecordsEnabledMixin(object):
         If the user is not logged in, we direct them to a login page first. """
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            if not waffle.flag_is_active(request, WAFFLE_FLAG_RECORDS):
-                raise http.Http404()
             if not request.site.siteconfiguration.records_enabled:
                 raise http.Http404()
         return super().dispatch(request, *args, **kwargs)
