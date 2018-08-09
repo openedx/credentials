@@ -1,27 +1,53 @@
 Testing
 =======
 
-The command below runs the Python tests and code quality validation—Pylint and PEP8.
+All the below commands should be run from inside the credentials container.
+
+The command below runs all of the Python and JS tests:
 
 .. code-block:: bash
 
-    $ make validate
+    $ make tests
 
-Code quality validation can be run independently with:
+Code quality validation (e.g. linters) can be run independently with:
 
 .. code-block:: bash
 
     $ make quality
+    
+The Python tests can be run independantly with:
 
-Writing Tests
+.. code-block:: bash
+
+    $ pytest --ds credentials.settings.test
+    
+The react js tests can be run independantly with:
+
+.. code-block:: bash
+
+    $ make test-react
+    
+The js quality tests can be run independantly with:
+
+.. code-block:: bash
+
+    $ make quality-js
+    
+
+Writing Python Tests
 -------------
 Tests should be written for all new features. The `Django docs`_ are a good resource for learning how to test Django code.
 
 .. _Django docs: https://docs.djangoproject.com/en/1.8/topics/testing/
 
 
+Writing JS tests
+----------------
+All new front-end features should be made with React, subsequently, all tests written for those features should use the Jest testing framework.
+
 Acceptance Testing
 ------------------
+**Note: The acceptance test framework is not currently operational**
 
 The project also includes acceptance tests used to verify behavior which relies on external systems like the LMS,
 programs. At a minimum, these tests should be run against a staging environment before deploying

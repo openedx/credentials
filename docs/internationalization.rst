@@ -76,6 +76,8 @@ next section.
 
 For more information about translation management, please refer to the `Django internationalization documentation`_.
 
+Note: We also rely on Django's extraction for js/jsx files as well.  Since Django's extraction does not support es6 (more specifically template literals), we have temporarily disallowed using this feature via an eslint rule.
+
 Translation Management with Docker
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 If you are using docker and you have added or changed user facing text in the repository, you can update or change
@@ -89,6 +91,7 @@ translations using the following steps and commands that are provided in the cre
    .. code-block:: bash
 
       $ make check_translations_up_to_date
+
 
 #. Finally, stage your updated translation files to be committed with the rest of your work.
 
