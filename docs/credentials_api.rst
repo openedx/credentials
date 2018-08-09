@@ -45,6 +45,7 @@ Create a New Credential
   parameter. 
 * If you send a program-based user credential request, you can only provide the
   ``whitelist`` attribute.
+* When creating a user credential for a program, the API also checks to see if an updated email needs to be sent to a credit pathway.  For more information, please consult the Credit Pathways doc.
 
 
 Update a Credential
