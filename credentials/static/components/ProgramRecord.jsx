@@ -258,7 +258,8 @@ class ProgramRecord extends React.Component {
         {!isPublic &&
           <section className="program-record-actions program-record-row">
             <a href="/records/" className="top-bar-link">
-              <span className="fa fa-caret-left" aria-hidden="true" /> {gettext('Back to My Records')}
+              <span className="fa fa-caret-left" aria-hidden="true" />
+              <span className="fa fa-caret-right" aria-hidden="true" /> {gettext('Back to My Records')}
             </a>
             {this.showSendRecordButton &&
               <Button
@@ -363,8 +364,11 @@ class ProgramRecord extends React.Component {
 
           <div className="learner-info">
             {learner.full_name && <span className="h4 font-weight-normal user">{learner.full_name}</span>}
-            <div className="details">
+            <div className="details-ltr">
               {learner.username}<span className="pipe">|</span>{learner.email}
+            </div>
+            <div className="details-rtl">
+              {learner.email}<span className="pipe">|</span>{learner.username}
             </div>
           </div>
 
