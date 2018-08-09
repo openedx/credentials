@@ -14,7 +14,8 @@ class RecordsList extends React.Component {
   static renderProfile(profileUrl) {
     return (
       <a href={profileUrl} className="top-bar-link flex-4 pad-text-block">
-        <span className="fa fa-caret-left" aria-hidden="true" /> {gettext('Back to My Profile')}
+        <span className="fa fa-caret-left" aria-hidden="true" />
+        <span className="fa fa-caret-right" aria-hidden="true" /> {gettext('Back to My Profile')}
       </a>
     );
   }

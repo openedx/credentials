@@ -86,14 +86,14 @@ class MasqueradeBanner extends React.Component {
         <div className="masquerade-banner-actions">
           <form onSubmit={this.handleSubmit} className="masquerade-form form-group">
             <label htmlFor="masquerade-select" className="masquerade-label"> { gettext('View as: ') }
-              <select value={this.state.masqueradeTarget} onChange={this.handleSelectChange} className="masquerade-select">
+              <select className="masquerade-select" id="masquerade-select" onChange={this.handleSelectChange} value={this.state.masqueradeTarget} >
                 <option value="Staff">{gettext('Staff')}</option>
                 <option value="Specific Learner">{gettext('Specific Learner')}</option>
               </select>
             </label>
             {(this.targetingLearner() && !this.props.masquerading) &&
               <label htmlFor="masquerade-input" className="masquerade-label"> { gettext('Username or email: ') }
-                <input type="text" className="masquerade-input" onChange={this.handleInputChange} value={this.state.identifier} />
+                <input type="text" className="masquerade-input" id="masquerade-input" onChange={this.handleInputChange} value={this.state.identifier} />
               </label>
             }
             {this.props.masquerading &&
