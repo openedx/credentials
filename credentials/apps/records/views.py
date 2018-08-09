@@ -268,13 +268,11 @@ class RecordsView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView, ThemeVi
             'child_templates': {
                 'footer': self.select_theme_template(['_footer.html']),
                 'header': self.select_theme_template(['_header.html']),
-                'masquerade': self.select_theme_template(['_masquerade.html']),
             },
             'programs': json.dumps(self._get_programs(request), sort_keys=True),
             'profile_url': profile_url,
             'render_language': self.request.LANGUAGE_CODE,
             'records_help_url': records_help_url,
-            'request': request,
             'icons_template': self.try_select_theme_template(['credentials/records.html']),
         })
         return context
@@ -313,7 +311,6 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
             'child_templates': {
                 'footer': self.select_theme_template(['_footer.html']),
                 'header': self.select_theme_template(['_header.html']),
-                'masquerade': self.select_theme_template(['_masquerade.html']),
             },
             'record': json.dumps(record, sort_keys=True),
             'program_name': record.get('program', {}).get('name'),
@@ -322,7 +319,6 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
             'icons_template': self.try_select_theme_template(['credentials/programs.html']),
             'uuid': uuid,
             'records_help_url': records_help_url,
-            'request': self.request,
         })
         return context
 
