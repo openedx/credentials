@@ -88,6 +88,7 @@ class Program(TimeStampedModel):
 
 class CreditPathway(TimeStampedModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    uuid = models.UUIDField(verbose_name='UUID', null=True)  # temporary, will be unique in future
     name = models.CharField(max_length=255)
     org_name = models.CharField(max_length=255)
     email = models.EmailField()
@@ -95,7 +96,7 @@ class CreditPathway(TimeStampedModel):
 
     class Meta:
         unique_together = (
-            ('site', 'name')
+            ('site', 'name', 'uuid')
         )
 
     def __str__(self):

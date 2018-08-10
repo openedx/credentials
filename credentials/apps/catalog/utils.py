@@ -96,7 +96,8 @@ def parse_pathway(site, data):
         name=data['name'],
         defaults={
             'email': data['email'],
-            'org_name': data['org_name']
+            'org_name': data['org_name'],
+            'uuid': data['uuid'] if 'uuid' in data else None,  # temporary, will be identifier in future
         }
     )
 
