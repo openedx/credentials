@@ -5,6 +5,7 @@ import logging
 from django.contrib.sites.models import Site
 from django.core.management import BaseCommand
 
+from credentials.apps.catalog.models import CreditPathway
 from credentials.apps.catalog.utils import parse_pathway, parse_program
 from credentials.apps.core.models import SiteConfiguration
 
@@ -55,6 +56,10 @@ class Command(BaseCommand):
 
     @staticmethod
     def fetch_pathways(site, client, page_size=None):
+        # delete all pathways to remove duplicates
+        # temporary, will be removed in a follow up PR
+        CreditPathway.objects.all().delete()
+
         next_page = 1
         while next_page:
             pathways = client.credit_pathways.get(exclude_utm=1, page=next_page, page_size=page_size)
