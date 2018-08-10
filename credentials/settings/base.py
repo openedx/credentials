@@ -71,6 +71,7 @@ INSTALLED_APPS += THIRD_PARTY_APPS
 INSTALLED_APPS += PROJECT_APPS
 
 MIDDLEWARE_CLASSES = (
+    'edx_django_utils.cache.middleware.RequestCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,6 +84,8 @@ MIDDLEWARE_CLASSES = (
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'waffle.middleware.WaffleMiddleware',
     'ratelimit.middleware.RatelimitMiddleware',
+    'edx_django_utils.cache.middleware.TieredCacheMiddleware',
+    'edx_rest_framework_extensions.middleware.RequestMetricsMiddleware',
 )
 
 ROOT_URLCONF = 'credentials.urls'
