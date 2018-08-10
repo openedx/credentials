@@ -2,6 +2,7 @@ const BundleTracker = require('webpack-bundle-tracker');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 module.exports = {
     cache: true,
@@ -28,7 +29,8 @@ module.exports = {
 
     plugins: [
         new BundleTracker({filename: './webpack-stats.json'}),
-        new ExtractTextPlugin('[name]-[hash].css')
+        new ExtractTextPlugin('[name]-[hash].css'),
+        new HardSourceWebpackPlugin()
     ],
 
     externals: {
