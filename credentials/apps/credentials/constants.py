@@ -20,3 +20,4 @@ class CertificateType(object):
     HONOR = 'honor'
     VERIFIED = 'verified'
     PROFESSIONAL = 'professional'
+    NO_ID_PROFESSIONAL = 'no-id-professional'

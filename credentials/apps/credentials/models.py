@@ -175,7 +175,8 @@ class CourseCertificate(AbstractCertificate):
         choices=_choices(
             constants.CertificateType.HONOR,
             constants.CertificateType.PROFESSIONAL,
-            constants.CertificateType.VERIFIED
+            constants.CertificateType.VERIFIED,
+            constants.CertificateType.NO_ID_PROFESSIONAL,
         )
     )
     user_credentials = GenericRelation(
