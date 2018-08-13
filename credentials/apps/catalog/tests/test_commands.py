@@ -98,6 +98,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
 
     PATHWAYS = [
         {
+            'uuid': '0a391b70-50a6-4cdf-953d-617cb5ba670d',
             'name': 'Test Pathway',
             'org_name': 'TestX',
             'email': 'test-email@example.com',
@@ -106,6 +107,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
             ]
         },
         {
+            'uuid': 'b13739e3-a966-4591-930e-a338e6083c63',
             'name': 'Test Pathway 2',
             'org_name': 'TestX',
             'email': 'test-email@example.com',
@@ -176,7 +178,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
     def assertPathwaysSaved(self):
         self.assertEqual(CreditPathway.objects.all().count(), len(self.PATHWAYS))
         for pathway in self.PATHWAYS:
-            CreditPathway.objects.get(name=pathway['name'])
+            CreditPathway.objects.get(uuid=pathway['uuid'])
 
     def assertFirstSaved(self):
         self.assertEqual(Program.objects.all().count(), 1)

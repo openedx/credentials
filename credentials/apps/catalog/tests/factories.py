@@ -79,6 +79,7 @@ class CreditPathwayFactory(factory.DjangoModelFactory):
     class Meta(object):
         model = CreditPathway
 
+    uuid = factory.LazyFunction(uuid4)
     site = factory.SubFactory(SiteFactory)
     name = FuzzyText(prefix="Test Pathway ")
     org_name = FuzzyText()
