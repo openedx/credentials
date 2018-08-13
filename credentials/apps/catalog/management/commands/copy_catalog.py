@@ -5,7 +5,6 @@ import logging
 from django.contrib.sites.models import Site
 from django.core.management import BaseCommand
 
-from credentials.apps.catalog.models import CreditPathway
 from credentials.apps.catalog.utils import parse_pathway, parse_program
 from credentials.apps.core.models import SiteConfiguration
 
@@ -29,10 +28,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         page_size = options.get('page_size')
-
-        # delete all pathways to remove duplicates
-        # temporary, will be removed in a follow up PR
-        CreditPathway.objects.all().delete()
 
         for site in Site.objects.all():
             site_configs = SiteConfiguration.objects.filter(site=site)

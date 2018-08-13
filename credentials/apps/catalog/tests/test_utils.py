@@ -35,8 +35,8 @@ class ParseTests(TestCase):
     PROGRAM1_VALUES = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd5', 'title': 'Program Title',
                        'type': 'MicroMasters'}
 
-    PATHWAY1_DATA = {'name': 'Test Pathway', 'org_name': 'Pathway Org', 'email': 'test@example.com',
-                     'programs': [PROGRAM1_DATA]}
+    PATHWAY1_DATA = {'uuid': 'b13739e3-a966-4591-930e-a338e6083c63', 'name': 'Test Pathway', 'org_name': 'Pathway Org',
+                     'email': 'test@example.com', 'programs': [PROGRAM1_DATA]}
 
     def setUp(self):
         super(ParseTests, self).setUp()
@@ -159,6 +159,7 @@ class ParseTests(TestCase):
         # We assume that programs are parsed separately from pathway data.
         parse_program(self.site, self.PROGRAM1_DATA)
         pathway = parse_pathway(self.site, self.PATHWAY1_DATA)
+        assert pathway.uuid == self.PATHWAY1_DATA['uuid']
         assert pathway.name == self.PATHWAY1_DATA['name']
         assert pathway.email == self.PATHWAY1_DATA['email']
         assert pathway.org_name == self.PATHWAY1_DATA['org_name']

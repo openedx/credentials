@@ -92,12 +92,12 @@ def parse_pathway(site, data):
     Assumes that the associated programs were parsed before this is run.
     """
     pathway, _ = CreditPathway.objects.update_or_create(
+        uuid=data['uuid'],
         site=site,
-        name=data['name'],
         defaults={
+            'name': data['name'],
             'email': data['email'],
             'org_name': data['org_name'],
-            'uuid': data['uuid'] if 'uuid' in data else None,  # temporary, will be identifier in future
         }
     )
 
