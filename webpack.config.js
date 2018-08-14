@@ -4,6 +4,26 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
+const isDevstack = (process.env.DJANGO_SETTINGS_MODULE === 'credentials.settings.devstack');
+
+
+// Conditionally add all of the plugins
+function getPlugins() {
+  const plugins = [];
+
+  plugins.push(new BundleTracker({ filename: './webpack-stats.json' }));
+  plugins.push(new ExtractTextPlugin('[name]-[hash].css'));
+  
+  // Only load this plugin in devstack since we are not sure if
+  // caching could cause issues in production builds later on
+  if (isDevstack) {
+    plugins.push(new HardSourceWebpackPlugin());
+  }
+
+  return plugins;
+}
+
+
 module.exports = {
     cache: true,
 
@@ -27,11 +47,7 @@ module.exports = {
         libraryTarget: 'window',
     },
 
-    plugins: [
-        new BundleTracker({filename: './webpack-stats.json'}),
-        new ExtractTextPlugin('[name]-[hash].css'),
-        new HardSourceWebpackPlugin()
-    ],
+    plugins: getPlugins(),
 
     externals: {
       gettext: 'gettext',
