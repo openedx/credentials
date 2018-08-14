@@ -1,7 +1,7 @@
 Theming
 =======
 
-The base credential template is divided into three customizable sections:
+The base certificate template is divided into three customizable sections:
 
 * Header
 * Certificate
@@ -101,6 +101,38 @@ Course certificates can be overridden at the following levels:
 * Course (e.g. edX+DemoX)
 * Course run (e.g. course-v1:edX+DemoX+4T2017) + seat type
 
+Records Theming
+---------------
+The records list and program record pages show customizable icons for each program type. By default, no icons will appear, unless a theme has the appropriate templates.
+
+The templates for these two pages contain React factory calls which render the content onto the page. In order to add icons to the page, an ``icon`` parameter must be passed into the factory call, which is a dictionary mapping each slugifed program type to its icon. The base template factory calls do no have this parameter, but if a theme template exists, it will get included instead of using the base factory call.
+
+These themed templates can be created by first copying the records_factory block from the `records template`_ and the program_record_factory block from the `programs template`_. Paste this code into new files in your theme's templates directory, at credentials/records.html and credentials/programs.html, respectively. In these new files, add in the ``icons`` parameter as seen in the example credentials/records.html below.
+
+.. _records template: https://github.com/edx/credentials/blob/master/credentials/templates/records.html
+.. _programs template: https://github.com/edx/credentials/blob/master/credentials/templates/programs.html
+.. code-block:: JSX
+
+    {% block records_factory %}
+      <script type="text/javascript">
+        RecordsFactory('records', {
+          programs: JSON.parse('{{programs|escapejs}}'),
+          helpUrl: '{{records_help_url}}',
+          profileUrl: '{{profile_url}}',
+          icons: {
+            sample_type1: '{% spaceless %}{% include "theme_name/images/sample-type1-icon.svg" %}{% endspaceless %}',
+            sample_type2: '{% spaceless %}{% include "theme_name/images/sample-type2-icon.svg" %}{% endspaceless %}',
+          },
+        });
+      </script>
+    {% endblock %}
+
+The key for each icon should be the slugified program type, with underscores replacing hyphens. 
+
+The value should be the SVG, inline. To do this, you must include the SVG as a template, and with whitespace removed.
+
+Note that this implementation creates a dependency in which any updates to the base factory calls must be copied over to the theme's factory calls, if the changes are desired to be seen there. 
+
 Internationalization
 ~~~~~~~~~~~~~~~~~~~~
 Strings that appear in overridden files can be marked for translation by wrapping them in Django translation functions.
@@ -108,7 +140,7 @@ Refer to the `Django internationalization documentation`_ for more details.
 
 Translations for custom strings can be provided by including a top level directory named ``locale`` within the theme
 application. The ``locale`` directory should contain the compiled translation (.mo) files (produced by running the
-``django-admin.py compilemessages`` command), and should be structured according to the conventions described in `How
+``make compile_translations`` command), and should be structured according to the conventions described in `How
 Django discovers translations`_. The directory tree example provided above in the `Creating a Theme`_ section includes
 a properly structured ``locale`` directory.
 
@@ -116,5 +148,8 @@ Translations included with the theme application are available to the including 
 between translations provided by the theme application and the including application are resolved according to the
 precedence rules described in `How Django discovers translations`_.
 
+For more information on translations, look at the Internationalization_ documentation.
+
 .. _Django internationalization documentation: https://docs.djangoproject.com/en/1.11/topics/i18n/translation/#internationalization-in-template-code
 .. _How Django discovers translations: https://docs.djangoproject.com/en/1.11/topics/i18n/translation/#how-django-discovers-translations
+.. _Internationalization: https://edx-credentials.readthedocs.io/en/latest/internationalization.html
