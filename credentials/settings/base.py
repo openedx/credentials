@@ -390,7 +390,10 @@ RATELIMIT_VIEW = 'credentials.apps.records.views.rate_limited'
 # django-hijack settings
 HIJACK_AUTHORIZE_STAFF = True
 HIJACK_URL_ALLOWED_ATTRIBUTES = ('email', 'username',)
-HIJACK_LOGIN_REDIRECT_URL = '.'
+# Since we force reload pages when masquerading/hijacking, users don't
+# actually hit this page.  The admin endpoint just acts as a safe
+# follow through for all users to hit in the django-hijack redirect.
+HIJACK_LOGIN_REDIRECT_URL = '/admin/'
 
 # DJANGO DEBUG TOOLBAR CONFIGURATION
 # http://django-debug-toolbar.readthedocs.org/en/latest/installation.html
