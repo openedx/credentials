@@ -20,6 +20,7 @@ class UserFactory(django.DjangoModelFactory):
     full_name = Faker('name')
     email = Faker('safe_email')
     is_staff = False
+    is_superuser = False
     is_active = True
 
 

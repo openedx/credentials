@@ -397,6 +397,7 @@ HIJACK_URL_ALLOWED_ATTRIBUTES = ('email', 'username',)
 # actually hit this page.  The admin endpoint just acts as a safe
 # follow through for all users to hit in the django-hijack redirect.
 HIJACK_LOGIN_REDIRECT_URL = '/admin/'
+HIJACK_AUTHORIZATION_CHECK = 'credentials.apps.records.utils.masquerading_authorized'
 
 # DJANGO DEBUG TOOLBAR CONFIGURATION
 # http://django-debug-toolbar.readthedocs.org/en/latest/installation.html
