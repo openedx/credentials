@@ -30,6 +30,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         page_size = options.get('page_size')
 
+        # delete all pathways to remove duplicates
+        # temporary, will be removed in a follow up PR
+        CreditPathway.objects.all().delete()
+
         for site in Site.objects.all():
             site_configs = SiteConfiguration.objects.filter(site=site)
             site_config = site_configs.get() if site_configs.exists() else None
@@ -56,10 +60,6 @@ class Command(BaseCommand):
 
     @staticmethod
     def fetch_pathways(site, client, page_size=None):
-        # delete all pathways to remove duplicates
-        # temporary, will be removed in a follow up PR
-        CreditPathway.objects.all().delete()
-
         next_page = 1
         while next_page:
             pathways = client.credit_pathways.get(exclude_utm=1, page=next_page, page_size=page_size)
