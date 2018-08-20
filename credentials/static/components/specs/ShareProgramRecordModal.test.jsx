@@ -62,6 +62,13 @@ describe('<ShareProgramRecordModal />', () => {
       });
     });
 
+    it('renders the url input as read only', () => (
+      promise.then(() => {
+        wrapper.update();
+        expect(wrapper.find('.modal-body .form-group input').prop('readOnly')).toBe(true);
+      })
+    ));
+
     it('updates state if the url is copied to the clipboard via button', () => {
       expect(wrapper.state('urlCopied')).toBe(false);
 
@@ -74,22 +81,26 @@ describe('<ShareProgramRecordModal />', () => {
     });
 
     it('updates state when the full url is manually copied to clipboard', () => {
-      window.getSelection = () => wrapper.state('programRecordUrl');
       expect(wrapper.find('.modal-dialog').length).toBe(1);
 
       return promise.then(() => {
         wrapper.update();
-        wrapper.find('.modal-body .form-group input').simulate('copy');
+        const input = wrapper.find('.modal-dialog .form-group input').getDOMNode();
+        input.selectionStart = 0;
+        input.selectionEnd = input.value.length; // Select all of the url to copy
+        wrapper.find('.modal-dialog .form-group input').simulate('copy');
         expect(wrapper.state('urlCopied')).toBe(true);
       });
     });
 
     it('does not update state when part of the url is manually copied to clipboard', () => {
-      window.getSelection = () => 'not_the_url';
       expect(wrapper.find('.modal-dialog').length).toBe(1);
 
       return promise.then(() => {
         wrapper.update();
+        const input = wrapper.find('.modal-dialog .form-group input').getDOMNode();
+        input.selectionStart = 0;
+        input.selectionEnd = 5; // Only select part of the url to copy
         wrapper.find('.modal-body .form-group input').simulate('copy');
         expect(wrapper.state('urlCopied')).toBe(false);
       });
