@@ -49,7 +49,7 @@ const defaultProps = {
       school: 'TestX',
     },
   ],
-  credit_pathways: [
+  pathways: [
     {
       name: 'testX',
       id: 1,

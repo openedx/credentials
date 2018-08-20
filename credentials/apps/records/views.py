@@ -78,16 +78,16 @@ def get_record_data(user, program_uuid, site, platform_name=None):
         program_course_runs = program.course_runs.all()
         program_course_runs_set = frozenset(program_course_runs)
 
-        # Get all credit pathway organizations and their statuses
+        # Get all pathway organizations and their statuses
         # Use program.pathways once Pathway has that related name
-        program_credit_pathways = program.pathway_set.all()
-        program_credit_pathways_set = frozenset(program_credit_pathways)
+        program_pathways = program.pathway_set.all()
+        program_pathways_set = frozenset(program_pathways)
         user_credit_pathways = UserCreditPathway.objects.select_related('pathway').filter(
-            user=user, pathway__in=program_credit_pathways_set).all()
+            user=user, pathway__in=program_pathways_set).all()
         user_credit_pathways_dict = {user_pathway.pathway:
                                      user_pathway.status for user_pathway in user_credit_pathways}
-        credit_pathways = [(pathway, user_credit_pathways_dict.setdefault(pathway, ''))
-                           for pathway in program_credit_pathways]
+        pathways = [(pathway, user_credit_pathways_dict.setdefault(pathway, ''))
+                    for pathway in program_pathways]
 
         # Find program credential if it exists (indicates if user has completed this program)
         program_credential_query = UserCredential.objects.filter(
@@ -153,11 +153,11 @@ def get_record_data(user, program_uuid, site, platform_name=None):
                         'last_updated': last_updated.isoformat(),
                         'school': ', '.join(program.authoring_organizations.values_list('name', flat=True))}
 
-        credit_pathway_data = [{'name': credit_pathway[0].name,
-                                'id': credit_pathway[0].id,
-                                'status': credit_pathway[1],
-                                'is_active': bool(credit_pathway[0].email)}
-                               for credit_pathway in credit_pathways]
+        pathway_data = [{'name': pathway[0].name,
+                         'id': pathway[0].id,
+                         'status': pathway[1],
+                         'is_active': bool(pathway[0].email)}
+                        for pathway in pathways]
 
         # Add course-run data to the response in the order that is maintained by the Program's sorted field
         course_data = []
@@ -195,7 +195,7 @@ def get_record_data(user, program_uuid, site, platform_name=None):
                 'program': program_data,
                 'platform_name': platform_name,
                 'grades': course_data,
-                'credit_pathways': credit_pathway_data, }
+                'pathways': pathway_data, }
 
 
 class RecordsView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):

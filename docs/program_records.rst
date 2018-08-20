@@ -58,6 +58,6 @@ A learner can also choose to send the record to a site partner, to receive credi
 Note that this merely sends an email to the partner so they can see the record.
 Each partner will have their own process for initiating or processing a credit request, of which viewing a learnerʼs record is one small part.
 
-Read the :doc:`credit pathways <credit_pathways>` documentation for more information on how to enable and configure requesting credit.
+Read the :doc:`pathways <pathways>` documentation for more information on how to enable and configure requesting credit.
 
 If no credit pathways are enabled for a given program, the ``Send Learner Record`` button will not appear on that programʼs records.

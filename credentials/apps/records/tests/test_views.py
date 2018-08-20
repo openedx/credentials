@@ -454,45 +454,45 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         self.assertEqual(program_data, expected)
 
-    def test_credit_pathway_data(self):
-        """ Test that the credit pathway data is returned successfully """
+    def test_pathway_data(self):
+        """ Test that the pathway data is returned successfully """
         response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
-        credit_pathway_data = json.loads(response.context_data['record'])['credit_pathways']
+        pathway_data = json.loads(response.context_data['record'])['pathways']
 
         expected = [{'name': self.pathway.name,
                      'id': self.pathway.id,
                      'status': '',
                      'is_active': True}]
 
-        self.assertEqual(credit_pathway_data, expected)
+        self.assertEqual(pathway_data, expected)
 
-    def test_credit_pathway_no_email(self):
-        """ Test that a credit pathway data without an email is inactive """
+    def test_pathway_no_email(self):
+        """ Test that a pathway without an email is inactive """
         self.pathway.email = ''
         self.pathway.save()
         response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
-        credit_pathway_data = json.loads(response.context_data['record'])['credit_pathways']
+        pathway_data = json.loads(response.context_data['record'])['pathways']
 
         expected = [{'name': self.pathway.name,
                      'id': self.pathway.id,
                      'status': '',
                      'is_active': False}]
 
-        self.assertEqual(credit_pathway_data, expected)
+        self.assertEqual(pathway_data, expected)
 
-    def test_sent_credit_pathway_status(self):
-        """ Test that a credit pathway that has already been sent includes a pathway """
+    def test_sent_pathway_status(self):
+        """ Test that a user credit pathway pathway that has already been sent includes a pathway """
         UserCreditPathwayFactory(pathway=self.pathway, user=self.user)
 
         response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
-        credit_pathway_data = json.loads(response.context_data['record'])['credit_pathways']
+        pathway_data = json.loads(response.context_data['record'])['pathways']
 
         expected = [{'name': self.pathway.name,
                      'id': self.pathway.id,
                      'status': 'sent',
                      'is_active': True}]
 
-        self.assertEqual(credit_pathway_data, expected)
+        self.assertEqual(pathway_data, expected)
 
     def test_xss(self):
         """ Verify that the view protects against xss in translations. """
@@ -794,7 +794,7 @@ class RecordsThrottlingTests(SiteMixin, TestCase):
         for _ in range(attempts):
             response = self.post(url, json_data)
             if endpoint == 'send_program':
-                # Delete credit pathway after post to enable resending email
+                # Delete user credit pathway after post to enable resending email
                 UserCreditPathway.objects.all().delete()
 
             self.assertEqual(response.status_code, 200)

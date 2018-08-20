@@ -98,7 +98,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         Issue a Program Certificate to the user.
 
         This function is being overriden to provide functionality for sending
-        an updated email to credit pathway partners
+        an updated email to pathway partners
 
         This action is idempotent. If the user has already earned the
         credential, a new one WILL NOT be issued. The existing credential
@@ -122,7 +122,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
             },
         )
 
-        # Send an updated email to a credit pathway org only if the user has previously sent one
+        # Send an updated email to a pathway org only if the user has previously sent one
         # This function call should be moved into some type of task queue
         # once credentials has that functionality
         if created:
