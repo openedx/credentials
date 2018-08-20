@@ -62,9 +62,16 @@ class ShareProgramRecordModal extends React.Component {
     this.setState({ urlError: true });
   }
 
-  checkUrlCopied() {
-    // if the full url is copied, behave as if the "Copy Link" button was clicked
-    if (window.getSelection().toString() === this.state.programRecordUrl) {
+  getSelectedText(inputField, inputValue) {
+    return inputValue.substring(inputField.selectionStart, inputField.selectionEnd);
+  }
+
+  checkUrlCopied(event) {
+    const urlInput = event.target;
+    const url = this.state.programRecordUrl;
+
+    // If the full url is copied, behave as if the "Copy Link" button was clicked
+    if (this.getSelectedText(urlInput, url) === url) {
       this.setUrlAsCopied(this.state.programRecordUrl, true);
       trackEvent('edx.bi.credentials.program_record.share_url_copied', {
         category: 'records',
@@ -153,7 +160,7 @@ class ShareProgramRecordModal extends React.Component {
                     name="program-record-share-url"
                     className={['program-record-share-url']}
                     label={<span className="sr-only">{gettext('Program Record URL')}</span>}
-                    disabled
+                    readOnly
                   />
                 </div>
                 <CopyToClipboard
