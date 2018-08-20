@@ -22,11 +22,12 @@ def send_updated_emails_for_program(username, program_certificate):
         user = User.objects.get(username=username)
         program_uuid = program_certificate.program_uuid
 
-        program = Program.objects.prefetch_related('pathways').get(site=site, uuid=program_uuid)
-        pathways_set = frozenset(program.pathways.all())
+        # Use prefetch_related('pathways') and program.pathways once Pathway has that related name
+        program = Program.objects.get(site=site, uuid=program_uuid)
+        pathways_set = frozenset(program.pathway_set.all())
 
-        user_pathways = UserCreditPathway.objects.select_related('credit_pathway').filter(
-            user=user, credit_pathway__in=pathways_set, status=UserCreditPathwayStatus.SENT)
+        user_pathways = UserCreditPathway.objects.select_related('pathway').filter(
+            user=user, pathway__in=pathways_set, status=UserCreditPathwayStatus.SENT)
 
         # Return here if the user doesn't have a program cert record
         try:
@@ -40,7 +41,7 @@ def send_updated_emails_for_program(username, program_certificate):
         # Send emails for those already marked as "SENT"
         for user_pathway in user_pathways:
 
-            pathway = user_pathway.credit_pathway
+            pathway = user_pathway.pathway
             record_path = reverse('records:public_programs', kwargs={'uuid': pcr.uuid.hex})
             record_link = site.domain + record_path
             csv_link = urllib.parse.urljoin(record_link, "csv")

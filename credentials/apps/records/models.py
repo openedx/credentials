@@ -60,7 +60,7 @@ class UserCreditPathway(TimeStampedModel):
     ]
 
     user = models.ForeignKey(User)
-    credit_pathway = models.ForeignKey(CreditPathway)
+    credit_pathway = models.ForeignKey(CreditPathway, null=True)
     pathway = models.ForeignKey(Pathway, null=True)
     status = models.CharField(
         max_length=15,
@@ -70,4 +70,4 @@ class UserCreditPathway(TimeStampedModel):
     )
 
     class Meta(object):
-        unique_together = ('user', 'credit_pathway')
+        unique_together = ('user', 'pathway')

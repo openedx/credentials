@@ -19,7 +19,7 @@ from django.views.generic import TemplateView, View
 from edx_ace import Recipient, ace
 from ratelimit.mixins import RatelimitMixin
 
-from credentials.apps.catalog.models import CourseRun, CreditPathway, Program
+from credentials.apps.catalog.models import CourseRun, Pathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.models import (CourseCertificate, ProgramCertificate, UserCredential,
@@ -79,11 +79,12 @@ def get_record_data(user, program_uuid, site, platform_name=None):
         program_course_runs_set = frozenset(program_course_runs)
 
         # Get all credit pathway organizations and their statuses
-        program_credit_pathways = program.pathways.all()
+        # Use program.pathways once Pathway has that related name
+        program_credit_pathways = program.pathway_set.all()
         program_credit_pathways_set = frozenset(program_credit_pathways)
-        user_credit_pathways = UserCreditPathway.objects.select_related('credit_pathway').filter(
-            user=user, credit_pathway__in=program_credit_pathways_set).all()
-        user_credit_pathways_dict = {user_pathway.credit_pathway:
+        user_credit_pathways = UserCreditPathway.objects.select_related('pathway').filter(
+            user=user, pathway__in=program_credit_pathways_set).all()
+        user_credit_pathways_dict = {user_pathway.pathway:
                                      user_pathway.status for user_pathway in user_credit_pathways}
         credit_pathways = [(pathway, user_credit_pathways_dict.setdefault(pathway, ''))
                            for pathway in program_credit_pathways]
@@ -350,14 +351,14 @@ class ProgramSendView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, V
 
         credential = UserCredential.objects.filter(username=username, program_credentials__program_uuid=program_uuid)
         program = get_object_or_404(Program, uuid=program_uuid, site=request.site)
-        pathway = get_object_or_404(CreditPathway, id=pathway_id, programs__uuid=program_uuid)
+        pathway = get_object_or_404(Pathway, id=pathway_id, programs__uuid=program_uuid)
         certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)
         user = get_object_or_404(User, username=username)
         public_record, _ = ProgramCertRecord.objects.get_or_create(user=user, program=program)
 
         # Make sure we haven't already sent an email with a 'sent' status
         if UserCreditPathway.objects.filter(
-                user=user, credit_pathway=pathway, status=UserCreditPathwayStatus.SENT).exists():
+                user=user, pathway=pathway, status=UserCreditPathwayStatus.SENT).exists():
             return JsonResponse({'error': 'Pathway email already sent'}, status=400)
 
         record_path = reverse('records:public_programs', kwargs={'uuid': public_record.uuid.hex})
@@ -383,7 +384,7 @@ class ProgramSendView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, V
         # If the status was previously changed, we want to reset it to SENT
         UserCreditPathway.objects.update_or_create(
             user=user,
-            credit_pathway=pathway,
+            pathway=pathway,
             defaults={'status': UserCreditPathwayStatus.SENT}, )
 
         return http.HttpResponse(status=200)

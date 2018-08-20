@@ -8,7 +8,7 @@ import factory
 from factory.fuzzy import FuzzyDateTime, FuzzyText
 from pytz import UTC
 
-from credentials.apps.catalog.models import Course, CourseRun, CreditPathway, Organization, Program
+from credentials.apps.catalog.models import Course, CourseRun, Organization, Pathway, Program
 from credentials.apps.core.tests.factories import SiteFactory
 
 
@@ -75,9 +75,9 @@ class ProgramFactory(factory.DjangoModelFactory):
             add_m2m_data(self.authoring_organizations, extracted)
 
 
-class CreditPathwayFactory(factory.DjangoModelFactory):
+class PathwayFactory(factory.DjangoModelFactory):
     class Meta(object):
-        model = CreditPathway
+        model = Pathway
 
     uuid = factory.LazyFunction(uuid4)
     site = factory.SubFactory(SiteFactory)

@@ -7,7 +7,7 @@ from django.core.management import BaseCommand
 from django.db import transaction
 from faker import Faker
 
-from credentials.apps.catalog.models import Course, CourseRun, CreditPathway, Organization, Program
+from credentials.apps.catalog.models import Course, CourseRun, Organization, Pathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, Signatory, UserCredential
 from credentials.apps.records.constants import UserCreditPathwayStatus
@@ -71,8 +71,8 @@ class Command(BaseCommand):
         program_certificates = Command.seed_program_certificates(site, programs)
         Command.seed_user_credentials(user, program_certificates, course_certificates, faker)
         Command.seed_program_cert_records(user, programs, faker)
-        credit_pathways = Command.seed_credit_pathways(site, programs)
-        Command.seed_user_credit_pathways(user, credit_pathways)
+        pathways = Command.seed_pathways(site, programs, faker)
+        Command.seed_user_credit_pathways(user, pathways)
 
     @staticmethod
     def get_site(site_name):
@@ -289,31 +289,33 @@ class Command(BaseCommand):
         return program_cert_records
 
     @staticmethod
-    def seed_credit_pathways(site, programs):
-        """ Seed two credit pathways """
-        all_program_pathway, created = CreditPathway.objects.get_or_create(
+    def seed_pathways(site, programs, faker):
+        """ Seed two pathways """
+        all_program_pathway, created = Pathway.objects.get_or_create(
             site=site,
             name='All program pathway',
-            org_name="MIT")
+            org_name="MIT",
+            uuid=faker.uuid4())
         all_program_pathway.programs = programs
-        Command.log_action("CreditPathway with name", all_program_pathway.name, created)
+        Command.log_action("Pathway with name", all_program_pathway.name, created)
 
-        one_program_pathway, created = CreditPathway.objects.get_or_create(
+        one_program_pathway, created = Pathway.objects.get_or_create(
             site=site,
             name='One program pathway',
-            org_name="MIT")
+            org_name="MIT",
+            uuid=faker.uuid4())
         one_program_pathway.programs = [programs[0]]
-        Command.log_action("CreditPathway with name", one_program_pathway.name, created)
+        Command.log_action("Pathway with name", one_program_pathway.name, created)
 
         return [all_program_pathway, one_program_pathway]
 
     @staticmethod
-    def seed_user_credit_pathways(user, credit_pathways):
+    def seed_user_credit_pathways(user, pathways):
         """ Seed one UserCreditPathway, this denotes that a user
         has sent an email to that pathway """
         user_credit_pathway, created = UserCreditPathway.objects.get_or_create(
             user=user,
-            credit_pathway=credit_pathways[1],
+            pathway=pathways[1],
             status=UserCreditPathwayStatus.SENT)
         Command.log_action("UserCreditPathway for user", user.username, created)
 

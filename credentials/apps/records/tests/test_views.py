@@ -19,8 +19,8 @@ from django.urls import reverse
 from mock import patch
 from testfixtures import LogCapture
 
-from credentials.apps.catalog.tests.factories import (CourseFactory, CourseRunFactory, CreditPathwayFactory,
-                                                      OrganizationFactory, ProgramFactory)
+from credentials.apps.catalog.tests.factories import (CourseFactory, CourseRunFactory, OrganizationFactory,
+                                                      PathwayFactory, ProgramFactory)
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.constants import UUID_PATTERN
@@ -256,8 +256,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site)
         self.pcr = ProgramCertRecordFactory(program=self.program, user=self.user)
 
-        self.credit_pathway = CreditPathwayFactory(site=self.site)
-        self.credit_pathway.programs = [self.program]
+        self.pathway = PathwayFactory(site=self.site)
+        self.pathway.programs = [self.program]
 
     def _render_program_record(self, record_data=None, status_code=200):
         """ Helper method to mock rendering a user certificate."""
@@ -459,8 +459,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         credit_pathway_data = json.loads(response.context_data['record'])['credit_pathways']
 
-        expected = [{'name': self.credit_pathway.name,
-                     'id': self.credit_pathway.id,
+        expected = [{'name': self.pathway.name,
+                     'id': self.pathway.id,
                      'status': '',
                      'is_active': True}]
 
@@ -468,13 +468,13 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
     def test_credit_pathway_no_email(self):
         """ Test that a credit pathway data without an email is inactive """
-        self.credit_pathway.email = ''
-        self.credit_pathway.save()
+        self.pathway.email = ''
+        self.pathway.save()
         response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         credit_pathway_data = json.loads(response.context_data['record'])['credit_pathways']
 
-        expected = [{'name': self.credit_pathway.name,
-                     'id': self.credit_pathway.id,
+        expected = [{'name': self.pathway.name,
+                     'id': self.pathway.id,
                      'status': '',
                      'is_active': False}]
 
@@ -482,13 +482,13 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
     def test_sent_credit_pathway_status(self):
         """ Test that a credit pathway that has already been sent includes a pathway """
-        UserCreditPathwayFactory(credit_pathway=self.credit_pathway, user=self.user)
+        UserCreditPathwayFactory(pathway=self.pathway, user=self.user)
 
         response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         credit_pathway_data = json.loads(response.context_data['record'])['credit_pathways']
 
-        expected = [{'name': self.credit_pathway.name,
-                     'id': self.credit_pathway.id,
+        expected = [{'name': self.pathway.name,
+                     'id': self.pathway.id,
                      'status': 'sent',
                      'is_active': True}]
 
@@ -582,7 +582,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.user = UserFactory(username=self.USERNAME)
         self.client.login(username=self.user.username, password=USER_PASSWORD)
         self.program = ProgramFactory(site=self.site)
-        self.pathway = CreditPathwayFactory(site=self.site, programs=[self.program])
+        self.pathway = PathwayFactory(site=self.site, programs=[self.program])
         self.pc = ProgramCertificateFactory(site=self.site, program_uuid=self.program.uuid)
         self.user_credential = UserCredentialFactory(username=self.USERNAME, credential=self.pc)
         self.data = {'username': self.USERNAME, 'pathway_id': self.pathway.id}
@@ -687,16 +687,16 @@ class ProgramSendTests(SiteMixin, TestCase):
 
     def prevent_sending_second_email(self):
         """ Verify that an email can't be sent twice """
-        UserCreditPathwayFactory(credit_pathway=self.pathway, user=self.user)
+        UserCreditPathwayFactory(pathway=self.pathway, user=self.user)
         response = self.post()
         self.assertEqual(response.status_code, 400)
 
     def test_resend_email(self):
         """ Verify that a manually updated email status can be resent """
-        UserCreditPathwayFactory(credit_pathway=self.pathway, user=self.user, status='')
+        UserCreditPathwayFactory(pathway=self.pathway, user=self.user, status='')
         response = self.post()
         self.assertEqual(response.status_code, 200)
-        user_credit_pathway = UserCreditPathway.objects.get(user=self.user, credit_pathway=self.pathway)
+        user_credit_pathway = UserCreditPathway.objects.get(user=self.user, pathway=self.pathway)
         self.assertEqual(user_credit_pathway.status, UserCreditPathwayStatus.SENT)
 
 
@@ -830,7 +830,7 @@ class RecordsThrottlingTests(SiteMixin, TestCase):
         with LogCapture() as log:
             ProgramCertificateFactory(site=self.site, program_uuid=self.program.uuid)
             url = reverse('records:send_program', kwargs={'uuid': self.program.uuid.hex})
-            pathway = CreditPathwayFactory(site=self.site, programs=[self.program])
+            pathway = PathwayFactory(site=self.site, programs=[self.program])
             data = {'username': self.USERNAME, 'pathway_id': pathway.id}
             json_data = json.dumps(data).encode('utf-8')
 
