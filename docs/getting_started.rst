@@ -107,7 +107,7 @@ your settings and created the database (if necessary). Migrations can be run wit
 
     $ python manage.py migrate
 
-.. _Django's migrate command: https://docs.djangoproject.com/en/1.8/ref/django-admin/#django-admin-migrate
+.. _Django's migrate command: https://docs.djangoproject.com/en/1.11/ref/django-admin/#django-admin-migrate
 
 
 Run the server
@@ -119,4 +119,4 @@ OIDC client via LMS admin.
 
     $ python manage.py runserver 8150
 
-.. _Django's runserver command: https://docs.djangoproject.com/en/1.8/ref/django-admin/#runserver-port-or-address-port
+.. _Django's runserver command: https://docs.djangoproject.com/en/1.11/ref/django-admin/#django-admin-runserver

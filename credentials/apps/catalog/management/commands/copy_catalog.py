@@ -32,7 +32,10 @@ class Command(BaseCommand):
         for site in Site.objects.all():
             site_configs = SiteConfiguration.objects.filter(site=site)
             site_config = site_configs.get() if site_configs.exists() else None
-            if not site_config or not site_config.catalog_api_url:
+
+            # We skip the site if records_enabled is false - remember to remove that check once we start
+            # using the catalog data for certificates too.
+            if not site_config or not site_config.catalog_api_url or not site_config.records_enabled:
                 logger.info('Skipping site {}. No configuration.'.format(site.domain))
                 continue
 

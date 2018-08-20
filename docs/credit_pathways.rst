@@ -1,17 +1,17 @@
 Credit Pathways
-==============
+===============
 Credit pathways represent channels where learners can send their program records to institutions for credit.
 
 Creation
 --------
-Credit pathways get created in the course-discovery_ admin. 
+Credit pathways get created in the course-discovery_ admin.
 Credentials receives these pathways by calling the ``copy_catalog`` management command.
 
 .. _course-discovery: https://github.com/edx/course-discovery
 
 Sending Learner Records
 -----------------------
-Credit pathways appear in the Send Learner Record modal on the program record page. 
+Credit pathways appear in the Send Learner Record modal on the program record page.
 This modal shows each pathway associated with program, with the requirement that the pathway has an email address.
 If no pathways exist with an email address, the Send Learner Record button will not be visible.
 

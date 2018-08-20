@@ -94,7 +94,7 @@ ROOT_URLCONF = 'credentials.urls'
 WSGI_APPLICATION = 'credentials.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 # Set this value in the environment-specific files (e.g. local.py, production.py, test.py)
 DATABASES = {
     'default': {
@@ -255,7 +255,7 @@ WEBPACK_LOADER = {
 # END STATIC FILE CONFIGURATION
 
 # TEMPLATE CONFIGURATION
-# See: https://docs.djangoproject.com/en/1.8/ref/settings/#templates
+# See: https://docs.djangoproject.com/en/1.11/ref/settings/#templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

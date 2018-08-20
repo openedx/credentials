@@ -18,6 +18,7 @@ This repository contains the edX Credentials Service, used as the backend to sup
    theming
    credentials_admin
    configuring_certificates
+   program_records
    credit_pathways
    analytics
    credentials_api
