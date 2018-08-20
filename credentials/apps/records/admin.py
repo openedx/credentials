@@ -25,6 +25,6 @@ class UserGradeAdmin(admin.ModelAdmin):
 @admin.register(UserCreditPathway)
 class UserCreditPathwayAdmin(admin.ModelAdmin):
     """ Admin for UserCreditPathway """
-    list_display = ('user', 'credit_pathway', 'status',)
-    search_fields = ('user__username', 'credit_pathway__org_name', 'status',)
-    raw_id_fields = ('user', 'credit_pathway',)
+    list_display = ('user', 'pathway', 'status',)
+    search_fields = ('user__username', 'pathway__org_name', 'status',)
+    raw_id_fields = ('user', 'pathway',)

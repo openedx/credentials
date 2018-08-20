@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 
-from credentials.apps.catalog.tests.factories import CreditPathwayFactory, ProgramFactory
+from credentials.apps.catalog.tests.factories import PathwayFactory, ProgramFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.tests.factories import ProgramCertificateFactory
@@ -24,7 +24,7 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
         self.user = UserFactory(username=self.USERNAME)
         self.client.login(username=self.user.username, password=USER_PASSWORD)
         self.program = ProgramFactory(site=self.site)
-        self.pathway = CreditPathwayFactory(site=self.site, programs=[self.program])
+        self.pathway = PathwayFactory(site=self.site, programs=[self.program])
         self.pc = ProgramCertificateFactory(site=self.site, program_uuid=self.program.uuid)
         self.pcr = ProgramCertRecordFactory(program=self.program, user=self.user)
         self.data = {'username': self.USERNAME, 'pathway_id': self.pathway.id}
@@ -39,7 +39,7 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
         # Mock sending an email to the partner
         UserCreditPathwayFactory(
             user=self.user,
-            credit_pathway=self.pathway,
+            pathway=self.pathway,
             status=UserCreditPathwayStatus.SENT)
         self.assertEqual(0, len(mail.outbox))
 
