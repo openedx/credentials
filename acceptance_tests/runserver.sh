@@ -1,4 +1,4 @@
-export DEBUG=0
+export DEBUG_TOOLBAR=0
 export DJANGO_SETTINGS_MODULE=credentials.settings.local
 
 trap cleanup TERM EXIT

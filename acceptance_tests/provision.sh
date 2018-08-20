@@ -39,7 +39,7 @@ acceptance_user, _ = User.objects.update_or_create(
     username='acceptance_tester',
     defaults={
         'email': 'acceptance@example.com',
-        'full_name': 'Acceptance Tester',
+        'full_name': "'';!--\"<XSS>=&{()}", # bokchoy-provided xss checker string ('XSS_INJECTION' in bokchoy code)
         'is_active': True,
         'is_staff': False,
         'is_superuser': False,

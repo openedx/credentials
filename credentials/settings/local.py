@@ -1,12 +1,10 @@
+from credentials.settings._debug_toolbar import *  # Enables toolbar
 from credentials.settings.base import *
-from credentials.settings.utils import get_logger_config, str2bool
+from credentials.settings.utils import get_logger_config
 
-DEBUG = str2bool(os.environ.get('DEBUG', True))
+DEBUG = True
 INTERNAL_IPS = ['127.0.0.1']
 ALLOWED_HOSTS = ['*']
-
-if DEBUG:
-    from credentials.settings._debug_toolbar import *  # Enables toolbar
 
 # CACHE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#caches
@@ -40,7 +38,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 
 # Set these to the correct values for your OAuth2/OpenID Connect provider (e.g., devstack)
-OAUTH2_PROVIDER_URL = 'http://127.0.0.1:8000/oauth2'
+OAUTH2_PROVIDER_URL = 'http://localhost:18000/oauth2'
 SOCIAL_AUTH_EDX_OIDC_KEY = 'credentials-key'
 SOCIAL_AUTH_EDX_OIDC_SECRET = 'credentials-secret'
 SOCIAL_AUTH_EDX_OIDC_URL_ROOT = OAUTH2_PROVIDER_URL

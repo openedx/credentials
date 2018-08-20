@@ -220,7 +220,11 @@ class Command(BaseCommand):
             program_certificate, created = ProgramCertificate.objects.get_or_create(
                 site=site,
                 program_uuid=program.uuid,
-                language='en')
+                defaults={
+                    'is_active': True,
+                    'language': 'en',
+                },
+            )
 
             Command.log_action("Program certificate for", program.title, created)
             program_certificates.append(program_certificate)
@@ -252,8 +256,7 @@ class Command(BaseCommand):
                 credential_id=program_certificate.id,
                 username=user.username,
                 status=UserCredential.AWARDED,
-                download_url="http://localhost:18150/download",
-                uuid=faker.uuid4())
+                download_url="http://localhost:18150/download")
 
             Command.log_action("User Credential for", program_certificate, created)
             user_program_credentials.append(user_credential)
@@ -264,8 +267,7 @@ class Command(BaseCommand):
                 credential_id=course_certificate.id,
                 username=user.username,
                 status=UserCredential.AWARDED,
-                download_url="http://localhost:18150/download",
-                uuid=faker.uuid4())
+                download_url="http://localhost:18150/download")
 
             Command.log_action("User Credential for Course", course_certificate.course_id, created)
             user_course_credentials.append(user_credential)
