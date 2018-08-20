@@ -254,9 +254,9 @@ class ProgramRecord extends React.Component {
     const hasHelpUrl = helpUrl !== '';
 
     return (
-      <main className={recordWrapperClass}>
+      <main id="main-content" className={recordWrapperClass} tabIndex="-1">
         {!isPublic &&
-          <section className="program-record-actions program-record-row">
+          <div className="program-record-actions program-record-row">
             <a href="/records/" className="top-bar-link">
               <span className="fa fa-caret-left" aria-hidden="true" />
               <span className="fa fa-caret-right" aria-hidden="true" /> {gettext('Back to My Records')}
@@ -274,17 +274,17 @@ class ProgramRecord extends React.Component {
               onClick={this.loadShareModel}
               inputRef={this.setShareButton}
             />
-          </section>
+          </div>
         }
         {isPublic &&
-          <section className="program-record-actions program-record-row justify-content-end">
+          <div className="program-record-actions program-record-row justify-content-end">
             <Button
               label={gettext('Download Record')}
               className={['btn-primary']}
               onClick={() => this.downloadRecord(uuid)}
               uuid={uuid}
             />
-          </section>
+          </div>
         }
         {
           <StatusAlert
@@ -331,7 +331,7 @@ class ProgramRecord extends React.Component {
              }
           />
         }
-        <section className="program-record">
+        <article className="program-record">
           <header className="d-flex justify-content-between program-record-header">
             <div className="program-overview">
               <div className="program-headings">
@@ -400,7 +400,7 @@ class ProgramRecord extends React.Component {
               dataKey="name"
             />
           </div>
-        </section>
+        </article>
 
         {hasHelpUrl && <RecordsHelp helpUrl={helpUrl} />}
 

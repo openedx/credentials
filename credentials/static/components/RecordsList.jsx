@@ -38,7 +38,7 @@ class RecordsList extends React.Component {
             </div>
             <div className="col-md record-btn-col">
               <div className="view-record-container">
-                <a href={'/records/programs/' + row.uuid} className="btn view-record-btn font-weight-bold">
+                <a href={'/records/programs/' + row.uuid + '/'} className="btn view-record-btn font-weight-bold">
                   {gettext('View Program Record')}
                 </a>
               </div>
@@ -71,7 +71,7 @@ class RecordsList extends React.Component {
     const hasProfileUrl = profileUrl !== '';
     const hasContent = hasPrograms; // will check for courses when we show those too
     return (
-      <main className="record">
+      <main id="main-content" className="record" tabIndex="-1">
         {hasProfileUrl && RecordsList.renderProfile(profileUrl)}
         <header className="pad-text-block">
           <h2 className="hd-2 text-black">{

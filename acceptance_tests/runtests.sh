@@ -1,9 +1,15 @@
 BASEDIR=$(dirname $0)
 
+export DJANGO_SETTINGS_MODULE=credentials.settings.local
+
+# Selenium config
 export SELENIUM_BROWSER=firefox
 export PATH="$PATH:$BASEDIR/../node_modules/geckodriver/bin"
-export DJANGO_SETTINGS_MODULE=credentials.settings.local
+
+# Bokchoy config
 export BOKCHOY_A11Y_CUSTOM_RULES_FILE="$BASEDIR/../node_modules/edx-custom-a11y-rules/lib/custom_a11y_rules.js"
+export VERIFY_ACCESSIBILITY="true"
+export VERIFY_XSS="true"
 
 # Make sure that if this script stops, we try to clean up the runservers we started
 trap cleanup TERM EXIT

@@ -11,10 +11,10 @@ class CredentialViewTests(LoginMixin, WebAppTest):
         self.login()
         page = CredentialsExamplePage(self.browser)
         page.visit()
-        self.assertNotEqual([], self.browser.find_elements_by_css_selector('.message-actions'))
+        self.assertTrue(page.q(css='.message-actions').is_present())
 
-    def atest_action_bar_logged_out(self):
+    def test_action_bar_logged_out(self):
         """Verify the certificate action bar does not appear when logged out."""
         page = CredentialsExamplePage(self.browser)
         page.visit()
-        self.assertEqual([], self.browser.find_elements_by_css_selector('.message-actions'))
+        self.assertFalse(page.q(css='.message-actions').is_present())
