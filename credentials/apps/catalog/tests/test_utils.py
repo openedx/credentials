@@ -159,13 +159,7 @@ class ParseTests(TestCase):
         # We assume that programs are parsed separately from pathway data.
         parse_program(self.site, self.PROGRAM1_DATA)
 
-        # Temporary: Remove duplicate pathway parsing and testing with CreditPathway
-        credit_pathway, pathway = parse_pathway(self.site, self.PATHWAY1_DATA)
-        assert credit_pathway.uuid == self.PATHWAY1_DATA['uuid']
-        assert credit_pathway.name == self.PATHWAY1_DATA['name']
-        assert credit_pathway.email == self.PATHWAY1_DATA['email']
-        assert credit_pathway.org_name == self.PATHWAY1_DATA['org_name']
-        assert str(credit_pathway.programs.all()[0].uuid) == self.PROGRAM1_DATA['uuid']
+        pathway = parse_pathway(self.site, self.PATHWAY1_DATA)
         assert pathway.uuid == self.PATHWAY1_DATA['uuid']
         assert pathway.name == self.PATHWAY1_DATA['name']
         assert pathway.email == self.PATHWAY1_DATA['email']

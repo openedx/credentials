@@ -33,7 +33,7 @@ class ProgramRecord extends React.Component {
     this.closeSendRecordSuccessAlert = this.closeSendRecordSuccessAlert.bind(this);
     this.closeSendRecordLoadingAlert = this.closeSendRecordLoadingAlert.bind(this);
     this.creditPathways = this.parseCreditPathways();
-    this.showSendRecordButton = this.props.credit_pathways.length > 0;
+    this.showSendRecordButton = this.props.pathways.length > 0;
 
     this.state = {
       shareModelOpen: false,
@@ -149,8 +149,8 @@ class ProgramRecord extends React.Component {
   parseCreditPathways() {
     const creditPathways = {};
 
-    for (let i = 0; i < this.props.credit_pathways.length; i += 1) {
-      const pathway = this.props.credit_pathways[i];
+    for (let i = 0; i < this.props.pathways.length; i += 1) {
+      const pathway = this.props.pathways[i];
       const sent = (pathway.status === 'sent');
 
       creditPathways[pathway.name] = {
@@ -416,7 +416,7 @@ class ProgramRecord extends React.Component {
             // For some reason they were not properly creating copies
             creditPathways={JSON.parse(JSON.stringify(this.creditPathways))}
             // Passing both a list and an object so that we can maintain pathway ordering
-            creditPathwaysList={this.props.credit_pathways}
+            creditPathwaysList={this.props.pathways}
           />
         }
         {shareModelOpen &&
@@ -449,7 +449,7 @@ ProgramRecord.propTypes = {
     last_updated: PropTypes.string,
   }).isRequired,
   grades: PropTypes.arrayOf(PropTypes.object).isRequired,
-  credit_pathways: PropTypes.arrayOf(PropTypes.object),
+  pathways: PropTypes.arrayOf(PropTypes.object),
   isPublic: PropTypes.bool,
   icons: PropTypes.shape(),
   uuid: PropTypes.string.isRequired,
@@ -459,7 +459,7 @@ ProgramRecord.propTypes = {
 };
 
 ProgramRecord.defaultProps = {
-  credit_pathways: [],
+  pathways: [],
   isPublic: true,
   icons: {},
   loadModalsAsChildren: true,

@@ -5,7 +5,7 @@ from django.core.management import call_command
 from django.test import TestCase
 from faker import Faker
 
-from credentials.apps.catalog.models import Course, CourseRun, CreditPathway, Organization, Pathway, Program
+from credentials.apps.catalog.models import Course, CourseRun, Organization, Pathway, Program
 from credentials.apps.catalog.tests.factories import OrganizationFactory, ProgramFactory
 from credentials.apps.core.tests.factories import SiteConfigurationFactory
 from credentials.apps.core.tests.mixins import SiteMixin
@@ -176,10 +176,8 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
         CourseRun.objects.get(key='course-v1:CakeX+Course1+Run2')
 
     def assertPathwaysSaved(self):
-        self.assertEqual(CreditPathway.objects.all().count(), len(self.PATHWAYS))  # Temporary: Remove with rename
         self.assertEqual(Pathway.objects.all().count(), len(self.PATHWAYS))
         for pathway in self.PATHWAYS:
-            CreditPathway.objects.get(uuid=pathway['uuid'])  # Temporary: Remove with rename
             Pathway.objects.get(uuid=pathway['uuid'])
 
     def assertFirstSaved(self):

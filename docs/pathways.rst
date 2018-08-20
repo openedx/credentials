@@ -1,10 +1,12 @@
-Credit Pathways
-===============
-Credit pathways represent channels where learners can send their program records to institutions for credit.
+Pathways
+========
+Pathways represent channels where learners can send their program records to institutions for credit or other
+reasons.  Pathways can be either professional, or for credit, but they are mostly used as credit pathways in
+credentials.
 
 Creation
 --------
-Credit pathways get created in the course-discovery_ admin.
+Pathways get created in the course-discovery_ admin.
 Credentials receives these pathways by calling the ``copy_catalog`` management command.
 
 .. _course-discovery: https://github.com/edx/course-discovery
