@@ -87,12 +87,36 @@ class Program(TimeStampedModel):
 
 
 class CreditPathway(TimeStampedModel):
+    """
+    To be deprecated in favor of the Pathway model.
+    """
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     uuid = models.UUIDField(verbose_name='UUID')
     name = models.CharField(max_length=255)
     org_name = models.CharField(max_length=255)
     email = models.EmailField()
     programs = SortedManyToManyField(Program, related_name='pathways')
+
+    class Meta:
+        unique_together = (
+            ('site', 'uuid'),
+        )
+
+    def __str__(self):
+        return self.name
+
+
+class Pathway(TimeStampedModel):
+    """
+    This is a copy of CreditPathway, which will be removed once we're moved over
+    to using this.
+    """
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    uuid = models.UUIDField(verbose_name='UUID')
+    name = models.CharField(max_length=255)
+    org_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    programs = SortedManyToManyField(Program)
 
     class Meta:
         unique_together = (
