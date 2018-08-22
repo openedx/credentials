@@ -206,7 +206,7 @@ class ProgramCertificate(AbstractCertificate):
     Configuration for Program Certificates.
     """
 
-    program_uuid = models.UUIDField(db_index=True, unique=True, null=False, blank=False, verbose_name=_('Program UUID'))
+    program_uuid = models.UUIDField(db_index=True, null=False, blank=False, verbose_name=_('Program UUID'))
     user_credentials = GenericRelation(
         UserCredential,
         content_type_field='credential_content_type',
@@ -236,6 +236,7 @@ class ProgramCertificate(AbstractCertificate):
 
     class Meta(object):
         verbose_name = "Program certificate configuration"
+        unique_together = (('site', 'program_uuid'),)
 
     def get_program_api_data(self):
         """ Returns program data from the Catalog API. """
