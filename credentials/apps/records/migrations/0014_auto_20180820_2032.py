@@ -9,7 +9,7 @@ def seed_user_credit_pathways(apps, schema_editor):
     UserCreditPathway = apps.get_model('records', 'UserCreditPathway')
     Pathway = apps.get_model('catalog', 'Pathway')
     for ucp in UserCreditPathway.objects.all():
-        if not ucp.pathway:
+        if not ucp.pathway and ucp.credit_pathway:
             site, uuid = ucp.credit_pathway.site, ucp.credit_pathway.uuid
             ucp.pathway = Pathway.objects.get(site=site, uuid=uuid)
             ucp.save()
