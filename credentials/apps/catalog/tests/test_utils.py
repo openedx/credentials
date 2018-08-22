@@ -31,9 +31,10 @@ class ParseTests(TestCase):
     COURSE1_VALUES = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd4', 'key': 'coursekey', 'title': 'Course Title'}
 
     PROGRAM1_DATA = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd5', 'title': 'Program Title',
-                     'authoring_organizations': [ORG1_DATA], 'courses': [COURSE1_DATA], 'type': 'MicroMasters'}
+                     'authoring_organizations': [ORG1_DATA], 'courses': [COURSE1_DATA], 'type': 'MicroMasters',
+                     'status': 'active'}
     PROGRAM1_VALUES = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd5', 'title': 'Program Title',
-                       'type': 'MicroMasters'}
+                       'type': 'MicroMasters', 'status': 'active'}
 
     PATHWAY1_DATA = {'uuid': 'b13739e3-a966-4591-930e-a338e6083c63', 'name': 'Test Pathway', 'org_name': 'Pathway Org',
                      'email': 'test@example.com', 'programs': [PROGRAM1_DATA]}

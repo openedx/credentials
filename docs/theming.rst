@@ -116,7 +116,9 @@ These themed templates can be created by first copying the records_factory block
     {% block records_factory %}
       <script type="text/javascript">
         RecordsFactory('records', {
+          title: '{{title}}',
           programs: JSON.parse('{{programs|escapejs}}'),
+          programHelp: '{{program_help}}',
           helpUrl: '{{records_help_url}}',
           profileUrl: '{{profile_url}}',
           icons: {
@@ -127,11 +129,11 @@ These themed templates can be created by first copying the records_factory block
       </script>
     {% endblock %}
 
-The key for each icon should be the slugified program type, with underscores replacing hyphens. 
+The key for each icon should be the slugified program type, with underscores replacing hyphens.
 
 The value should be the SVG, inline. To do this, you must include the SVG as a template, and with whitespace removed.
 
-Note that this implementation creates a dependency in which any updates to the base factory calls must be copied over to the theme's factory calls, if the changes are desired to be seen there. 
+Note that this implementation creates a dependency in which any updates to the base factory calls must be copied over to the theme's factory calls, if the changes are desired to be seen there.
 
 Internationalization
 ~~~~~~~~~~~~~~~~~~~~

@@ -21,6 +21,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
             'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd5',
             'title': 'A Fake Program',
             'type': 'MicroMasters',
+            'status': 'active',
             'authoring_organizations': [
                 {
                     'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd2',
@@ -56,6 +57,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
             'uuid': '33f0dded-fee9-4dec-a333-c9d8c2c82bd5',
             'title': 'A Second Fake Program',
             'type': 'Professional Certificate',
+            'status': 'retired',
             'authoring_organizations': [
                 {
                     'uuid': '33f0dded-fee9-4dec-a333-c9d8c2c82bd2',
@@ -148,6 +150,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
         endpoint = 'programs/?exclude_utm=1&page=' + str(page)
         if page_size:
             endpoint = endpoint + '&page_size=' + str(page_size)
+        endpoint = endpoint + '&published_course_runs_only=1'
         self.mock_catalog_api_response(endpoint, body, **kwargs)
 
     def mock_pathways_response(self, body, page=1, page_size=None, **kwargs):

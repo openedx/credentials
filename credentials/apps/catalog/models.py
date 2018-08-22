@@ -77,6 +77,12 @@ class Program(TimeStampedModel):
     authoring_organizations = SortedManyToManyField(Organization, blank=True, related_name='authored_programs')
     type = models.CharField(max_length=32, blank=False, default='')
 
+    ACTIVE = 'active'
+    RETIRED = 'retired'
+    DELETED = 'deleted'
+    UNPUBLISHED = 'unpublished'  # Discovery does give us unpublished programs...
+    status = models.CharField(max_length=24, blank=False, default='active')
+
     class Meta:
         unique_together = (
             ('site', 'uuid'),

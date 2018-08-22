@@ -10,7 +10,7 @@ except ImportError:
 class LoginMixin(object):
     """ Mixin used for log in through a cookie."""
 
-    def login(self):
+    def login(self, superuser=False):
         """ Craft cookie to fake a login. """
         assert auth, "auth.py could not be imported from acceptance_tests"
 
@@ -20,7 +20,7 @@ class LoginMixin(object):
 
         self.driver.add_cookie({
             'name': settings.SESSION_COOKIE_NAME,
-            'value': auth.SESSION_KEY,
+            'value': auth.SESSION_SUPER_KEY if superuser else auth.SESSION_KEY,
             'secure': False,
             'path': '/',
         })

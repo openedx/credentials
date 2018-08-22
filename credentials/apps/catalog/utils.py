@@ -70,6 +70,7 @@ def parse_program(site, data):
         defaults={
             'title': data['title'],
             'type': data['type'],
+            'status': data['status'],
         },
     )
 

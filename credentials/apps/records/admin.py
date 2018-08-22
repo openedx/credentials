@@ -18,7 +18,7 @@ class ProgramCertRecordAdmin(admin.ModelAdmin):
 class UserGradeAdmin(admin.ModelAdmin):
     """ Admin for the UserGrade model. """
     list_display = ('username', 'course_run', 'letter_grade', 'percent_grade',)
-    search_fields = ('username', 'course_run__key', 'mode',)
+    search_fields = ('username', 'course_run__key',)
     raw_id_fields = ('course_run',)
 
 
