@@ -25,6 +25,7 @@ from django.views.defaults import page_not_found
 from rest_framework_swagger.views import get_swagger_view
 
 from credentials.apps.core import views as core_views
+from credentials.apps.records.views import ProgramListingView
 from credentials.views import FaviconView
 
 
@@ -42,6 +43,7 @@ urlpatterns = auth_urlpatterns + [
     url(r'^health/$', core_views.health, name='health'),
     url(r'^management/', include('credentials.apps.edx_django_extensions.urls', namespace='management')),
     url(r'^records/', include('credentials.apps.records.urls', namespace='records')),
+    url(r'^program-listing/', ProgramListingView.as_view(), name='program_listing'),
     url(r'^favicon\.ico$', FaviconView.as_view(permanent=True)),
     url(r'^hijack/', include('hijack.urls', namespace='hijack')),
 ]

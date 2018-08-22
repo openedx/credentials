@@ -91,6 +91,7 @@ def get_record_data(user, program_uuid, site, platform_name=None):
         # Find program credential if it exists (indicates if user has completed this program)
         program_credential_query = UserCredential.objects.filter(
             username=user.username,
+            status=UserCredential.AWARDED,
             program_credentials__program_uuid=program_uuid)
 
         # Get all of the user course-certificates associated with the program courses
@@ -197,11 +198,11 @@ def get_record_data(user, program_uuid, site, platform_name=None):
                 'pathways': pathway_data, }
 
 
-class RecordsView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
+class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
     template_name = 'records.html'
 
-    def _get_programs(self, request):
-        user = request.user
+    def _get_credentials(self):
+        """ Returns two lists of credentials: a course list and a program list """
         # Get the content types for course and program certs, query for both in single query
         course_cert_content_types = ContentType.objects.filter(
             app_label='credentials',
@@ -217,7 +218,8 @@ class RecordsView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView, ThemeVi
 
         # Get all user credentials, then sort them out to course/programs
         user_credentials = UserCredential.objects.filter(
-            username=user.username,
+            username=self.request.user.username,
+            status=UserCredential.AWARDED,
             credential_content_type__in=course_cert_content_types
         )
         course_credentials = []
@@ -228,13 +230,34 @@ class RecordsView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView, ThemeVi
             elif credential.credential_content_type_id == program_certificate_type.id:
                 program_credentials.append(credential)
 
+        return course_credentials, program_credentials
+
+    def _course_credentials_to_course_runs(self, course_credentials):
+        """ Convert a list of course UserCredentials into a list of CourseRun objects """
         # Using the course credentials, get the programs associated with them via course runs
         course_credential_ids = map(lambda course_credential: course_credential.credential_id, course_credentials)
-        course_certificates = CourseCertificate.objects.filter(id__in=course_credential_ids, site=request.site)
+        course_certificates = CourseCertificate.objects.filter(id__in=course_credential_ids, site=self.request.site)
         course_run_keys = map(lambda course_certificate: course_certificate.course_id, course_certificates)
-        course_runs = CourseRun.objects.filter(key__in=course_run_keys)
-        programs = Program.objects.filter(course_runs__in=course_runs, site=request.site).distinct().prefetch_related(
-            'authoring_organizations'
+        return CourseRun.objects.filter(key__in=course_run_keys)
+
+    def _programs_context(self, include_empty_programs=False, include_retired_programs=False):
+        """ Translates a list of Program and UserCredentials (for programs) into context data. """
+        # Get all user credentials
+        course_credentials, program_credentials = self._get_credentials()
+
+        # Get course runs that this user has a credential in
+        course_runs = frozenset(self._course_credentials_to_course_runs(course_credentials))
+        course_filters = {} if include_empty_programs else {'course_runs__in': course_runs}
+
+        allowed_statuses = [Program.ACTIVE]
+        if include_retired_programs:
+            allowed_statuses.append(Program.RETIRED)
+
+        # Get a list of programs
+        programs = Program.objects.filter(
+            site=self.request.site, status__in=allowed_statuses, **course_filters
+        ).distinct().prefetch_related(
+            'authoring_organizations', 'course_runs',
         ).order_by('title')
 
         # Get the completed programs and a UUID set using the program_credentials
@@ -250,34 +273,71 @@ class RecordsView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView, ThemeVi
                 'uuid': program.uuid.hex,
                 'type': slugify(program.type),
                 'completed': program.uuid in completed_program_uuids,
+                'empty': not bool(course_runs.intersection(frozenset(program.course_runs.all()))),
             } for program in programs]
+
+    def _get_programs(self):
+        """ Returns a list of relevant program data (in _programs_context format) """
+        return []
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        request = self.request
-
-        site_configuration = request.site.siteconfiguration
-
-        profile_url = ''
-        records_help_url = ''
-        if site_configuration:
-            profile_url = urllib.parse.urljoin(site_configuration.lms_url_root, 'u/' + request.user.username)
-            records_help_url = site_configuration.records_help_url
 
         context.update({
             'child_templates': {
                 'footer': self.select_theme_template(['_footer.html']),
                 'header': self.select_theme_template(['_header.html']),
-                'masquerade': self.select_theme_template(['_masquerade.html']),
             },
-            'programs': json.dumps(self._get_programs(request), sort_keys=True),
-            'profile_url': profile_url,
+            'programs': json.dumps(self._get_programs(), sort_keys=True),
             'render_language': self.request.LANGUAGE_CODE,
-            'records_help_url': records_help_url,
-            'request': request,
+            'request': self.request,
             'icons_template': self.try_select_theme_template(['credentials/records.html']),
         })
+
         return context
+
+
+class RecordsView(RecordsListBaseView):
+    def _get_programs(self):
+        return self._programs_context(include_empty_programs=False, include_retired_programs=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        site_configuration = self.request.site.siteconfiguration
+        if site_configuration:
+            context['profile_url'] = urllib.parse.urljoin(site_configuration.lms_url_root,
+                                                          'u/' + self.request.user.username)
+            context['records_help_url'] = site_configuration.records_help_url
+
+        context['child_templates']['masquerade'] = self.select_theme_template(['_masquerade.html'])
+
+        # Translators: A 'record' here means something like a transcript -- a list of courses and grades.
+        context['title'] = _('My Learner Records')
+        context['program_help'] = _('A program record is created once you have earned at least one '
+                                    'course certificate in a program.')
+
+        return context
+
+
+class ProgramListingView(RecordsListBaseView):
+    def _get_programs(self):
+        return self._programs_context(include_empty_programs=True, include_retired_programs=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['title'] = _('Program Listing View')
+        context['program_help'] = _('The following is a list of all active programs for which program records '
+                                    'are being generated.')
+
+        return context
+
+    def dispatch(self, request, *args, **kwargs):
+        # Kick out non-superusers (skipping anonymous users, because they are redirected to a login screen instead)
+        if not request.user.is_anonymous and not request.user.is_superuser:
+            raise http.Http404()
+        return super().dispatch(request, *args, **kwargs)
 
 
 class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
@@ -348,7 +408,8 @@ class ProgramSendView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, V
         if username != request.user.get_username() and not request.user.is_staff:
             return JsonResponse({'error': 'Permission denied'}, status=403)
 
-        credential = UserCredential.objects.filter(username=username, program_credentials__program_uuid=program_uuid)
+        credential = UserCredential.objects.filter(username=username, status=UserCredential.AWARDED,
+                                                   program_credentials__program_uuid=program_uuid)
         program = get_object_or_404(Program, uuid=program_uuid, site=request.site)
         pathway = get_object_or_404(Pathway, id=pathway_id, programs__uuid=program_uuid)
         certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)

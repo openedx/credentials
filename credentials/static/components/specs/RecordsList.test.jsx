@@ -15,6 +15,8 @@ const defaultProps = {
     professional_certificate: 'professional-certificate-icon',
     xseries: 'xseries-icon',
   },
+  title: 'Records List',
+  programHelp: 'Help text for programs',
   programs: [
     {
       name: 'Program1',
@@ -22,6 +24,7 @@ const defaultProps = {
       uuid: 'UUID1',
       type: 'micromasters',
       completed: true,
+      empty: false,
     },
     {
       name: 'Program2',
@@ -29,6 +32,7 @@ const defaultProps = {
       uuid: 'UUID2',
       type: 'professional-certificate',
       completed: true,
+      empty: false,
     },
     {
       name: 'Program3',
@@ -36,6 +40,7 @@ const defaultProps = {
       uuid: 'UUID3',
       type: 'xseries',
       completed: false,
+      empty: false,
     },
     {
       name: 'Program4',
@@ -43,6 +48,15 @@ const defaultProps = {
       uuid: 'UUID4',
       type: 'non-edx',
       completed: false,
+      empty: false,
+    },
+    {
+      name: 'Program5',
+      partner: 'Partner5',
+      uuid: 'UUID5',
+      type: 'micromasters',
+      completed: false,
+      empty: true,
     },
   ],
 };
@@ -50,8 +64,12 @@ const defaultProps = {
 const testRowData = (row, index) => {
   expect(row.find('.program-title').text()).toEqual(defaultProps.programs[index].name);
   expect(row.find('span').at(1).text()).toEqual(defaultProps.programs[index].partner);
-  expect(row.find('span').at(3).text()).toEqual(defaultProps.programs[index].completed ?
-    'Completed' : 'Partially Complete');
+  if (defaultProps.programs[index].empty) {
+    expect(row.find('span').length).toEqual(1); // nothing after partner
+  } else {
+    expect(row.find('span').at(3).text()).toEqual(defaultProps.programs[index].completed ?
+      'Completed' : 'Partially Complete');
+  }
 };
 
 describe('<RecordsList />', () => {
@@ -65,6 +83,12 @@ describe('<RecordsList />', () => {
   it('does not show faq footer if link is not provided', () => {
     wrapper = mount(<RecordsList />);
     expect(wrapper.find('.faq').length).toBe(0);
+  });
+
+  it('shows custom header strings', () => {
+    wrapper = mount(<RecordsList {...defaultProps} />);
+    expect(wrapper.find('#main-content > header').text()).toEqual('Records List');
+    expect(wrapper.find('#program-records-list > header p').text()).toEqual('Help text for programs');
   });
 
   it('lists programs', () => {
@@ -87,6 +111,9 @@ describe('<RecordsList />', () => {
 
     const thirdProgramLink = programRows.at(2).find('.record-btn-col').find('a');
     expect(thirdProgramLink.prop('href')).toContain(`/${defaultProps.programs[2].uuid}`);
+
+    expect(programRows.at(3).find('.record-btn-col').exists()).toBe(true); // just double-check that button exists
+    expect(programRows.at(4).find('.record-btn-col').exists()).toBe(false); // but not when empty
   });
 
   it('no icon for programs with non-edx certificate type', () => {

@@ -17,19 +17,23 @@ class BasePage(PageObject):  # pylint: disable=abstract-method
         # anyway, but I'd rather be explicit about this).
         self.q(css='main')
 
+    @unguarded
+    def on_url(self):
+        return self.browser.current_url == self.url
+
 
 class CredentialsExamplePage(BasePage):
     url = CREDENTIALS_ROOT_URL + '/credentials/example/'
 
     def is_browser_on_page(self):
-        return self.q(css='main.accomplishment').is_present()
+        return self.on_url() and self.q(css='main.accomplishment').is_present()
 
 
 class MyLearnerRecordsPage(BasePage):
     url = CREDENTIALS_ROOT_URL + '/records/'
 
     def is_browser_on_page(self):
-        return self.q(css='main.record').is_present()
+        return self.on_url() and self.q(css='main.record').is_present()
 
     def go_to_record_page(self, uuid=None):
         if uuid is None:
@@ -54,4 +58,11 @@ class ProgramRecordPage(BasePage):
         self.page_url = CREDENTIALS_ROOT_URL + '/records/programs/{}/'.format(uuid)
 
     def is_browser_on_page(self):
-        return self.q(css='main.program-record-wrapper').is_present()
+        return self.on_url() and self.q(css='main.program-record-wrapper').is_present()
+
+
+class ProgramListingPage(BasePage):
+    url = CREDENTIALS_ROOT_URL + '/program-listing/'
+
+    def is_browser_on_page(self):
+        return self.on_url() and self.q(css='main.record').is_present()

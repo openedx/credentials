@@ -160,10 +160,14 @@ class Command(BaseCommand):
             courses = Course.objects.filter(owners=organization)
             course_runs = [CourseRun.objects.get(course=course) for course in courses]
 
-            program, created = Program.objects.get_or_create(
+            program, created = Program.objects.update_or_create(
                 site=site,
                 uuid=faker.uuid4(),
-                title='Program {}'.format(program_id))
+                defaults={
+                    'title': 'Program {}'.format(program_id),
+                    'status': 'active',
+                },
+            )
             program.course_runs = course_runs
             program.authoring_organizations = [organization]
             Command.log_action("Program", program_id, created)
@@ -217,7 +221,7 @@ class Command(BaseCommand):
         program_certificates = []
 
         for program in programs:
-            program_certificate, created = ProgramCertificate.objects.get_or_create(
+            program_certificate, created = ProgramCertificate.objects.update_or_create(
                 site=site,
                 program_uuid=program.uuid,
                 defaults={

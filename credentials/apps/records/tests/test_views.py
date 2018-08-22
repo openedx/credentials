@@ -19,6 +19,7 @@ from django.urls import reverse
 from mock import patch
 from testfixtures import LogCapture
 
+from credentials.apps.catalog.models import Program
 from credentials.apps.catalog.tests.factories import (CourseFactory, CourseRunFactory, OrganizationFactory,
                                                       PathwayFactory, ProgramFactory)
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
@@ -40,6 +41,7 @@ from ..constants import RECORDS_RATE_LIMIT
 JSON_CONTENT_TYPE = 'application/json'
 
 
+@ddt.ddt
 class RecordsViewTests(SiteMixin, TestCase):
     MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }
 
@@ -139,11 +141,22 @@ class RecordsViewTests(SiteMixin, TestCase):
         self.assertIn('records_help_url', response_context_data)
         self.assertNotEqual(response_context_data['records_help_url'], '')
 
-    def test_completed_render_from_db(self):
-        """ Verify that a program cert that is completed is the only entry, despite having course certificates """
+    @ddt.data(
+        (Program.ACTIVE, True),
+        (Program.RETIRED, True),
+        (Program.DELETED, False),
+        (Program.UNPUBLISHED, False),
+    )
+    @ddt.unpack
+    def test_completed_render_from_db(self, status, visible):
+        """ Verify that a program cert that is completed is returned correctly, with different statuses """
+        self.program.status = status
+        self.program.save()
+
         response = self.client.get(reverse('records:index'))
         self.assertEqual(response.status_code, 200)
         program_data = json.loads(response.context_data['programs'])
+
         expected_program_data = [
             {
                 'name': self.program.title,
@@ -151,9 +164,10 @@ class RecordsViewTests(SiteMixin, TestCase):
                 'uuid': self.program.uuid.hex,
                 'type': slugify(self.program.type),
                 'completed': True,
+                'empty': False,
             }
         ]
-        self.assertEqual(program_data, expected_program_data)
+        self.assertEqual(program_data, expected_program_data if visible else [])
 
     def test_in_progress_from_db(self):
         """ Verify that no program cert, but course certs reuslts in an In Progress program """
@@ -169,6 +183,7 @@ class RecordsViewTests(SiteMixin, TestCase):
                 'uuid': self.program.uuid.hex,
                 'type': slugify(self.program.type),
                 'completed': False,
+                'empty': False,
             }
         ]
         self.assertEqual(program_data, expected_program_data)
@@ -210,6 +225,7 @@ class RecordsViewTests(SiteMixin, TestCase):
                 'uuid': self.program.uuid.hex,
                 'type': slugify(self.program.type),
                 'completed': False,
+                'empty': False,
             },
             {
                 'name': new_program.title,
@@ -217,9 +233,143 @@ class RecordsViewTests(SiteMixin, TestCase):
                 'uuid': new_program.uuid.hex,
                 'type': slugify(new_program.type),
                 'completed': True,
+                'empty': False,
             }
         ]
         self.assertEqual(program_data, expected_program_data)
+
+
+# This view shares almost all the code with RecordsView above. So we'll just test the interesting differences.
+@ddt.ddt
+class ProgramListingViewTests(SiteMixin, TestCase):
+    MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }
+
+    def setUp(self):
+        super().setUp()
+        dump_random_state()
+
+        self.user = UserFactory(username=self.MOCK_USER_DATA['username'], is_superuser=True)
+        self.orgs = [OrganizationFactory.create(name=name, site=self.site) for name in ['TestOrg1', 'TestOrg2']]
+        self.course = CourseFactory.create(site=self.site)
+        self.course_runs = CourseRunFactory.create_batch(2, course=self.course)
+        self.program = ProgramFactory(title="TestProgram1",
+                                      course_runs=self.course_runs,
+                                      authoring_organizations=self.orgs,
+                                      site=self.site)
+        self.course_certs = [CourseCertificateFactory.create(
+            course_id=course_run.key, site=self.site,
+        ) for course_run in self.course_runs]
+        self.program_cert = ProgramCertificateFactory.create(program_uuid=self.program.uuid, site=self.site)
+        self.course_credential_content_type = ContentType.objects.get(
+            app_label='credentials',
+            model='coursecertificate'
+        )
+        self.program_credential_content_type = ContentType.objects.get(
+            app_label='credentials',
+            model='programcertificate'
+        )
+        self.course_user_credentials = [UserCredentialFactory.create(
+            username=self.user.username,
+            credential_content_type=self.course_credential_content_type,
+            credential=course_cert
+        ) for course_cert in self.course_certs]
+        self.program_user_credentials = UserCredentialFactory.create(
+            username=self.user.username,
+            credential_content_type=self.program_credential_content_type,
+            credential=self.program_cert
+        )
+
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
+
+    def _render_listing(self, expected_program_data=None, status_code=200):
+        """ Helper method to mock and render a user certificate."""
+        response = self.client.get(reverse('program_listing'))
+        self.assertEqual(response.status_code, status_code)
+
+        if expected_program_data is not None:
+            program_data = json.loads(response.context_data['programs'])
+            self.assertListEqual(program_data, expected_program_data)
+
+        return response
+
+    def _default_program_data(self, overrides=None):
+        # if nothing is adjusted, this is the expected listing
+        data = [
+            {
+                'name': self.program.title,
+                'partner': 'TestOrg1, TestOrg2',
+                'uuid': self.program.uuid.hex,
+                'type': slugify(self.program.type),
+                'completed': True,
+                'empty': False,
+            },
+        ]
+
+        if overrides is not None:
+            data[0].update(overrides)
+
+        return data
+
+    def assert_matching_template_origin(self, actual, expected_template_name):
+        expected = select_template([expected_template_name])
+        self.assertEqual(actual.origin, expected.origin)
+
+    def test_no_anonymous_access(self):
+        """ Verify that the view rejects non-logged-in users. """
+        self.client.logout()
+        response = self._render_listing(status_code=302)
+        self.assertRegexpMatches(response.url, '^/login/.*')  # pylint: disable=deprecated-method
+
+    def test_only_superuser_access(self):
+        """ Verify that the view rejects non-superusers. """
+        self.user.is_superuser = False
+        self.user.save()
+        self._render_listing(status_code=404)
+
+    def test_normal_access(self):
+        """ Verify that the view works in default case. """
+        response = self._render_listing()
+        response_context_data = response.context_data
+
+        self.assertContains(response, 'Program Listing View')
+
+        actual_child_templates = response_context_data['child_templates']
+        self.assert_matching_template_origin(actual_child_templates['footer'], '_footer.html')
+        self.assert_matching_template_origin(actual_child_templates['header'], '_header.html')
+        self.assertFalse('masquerade' in actual_child_templates)  # no masquerading on this view
+
+    @ddt.data(
+        (Program.ACTIVE, True),
+        (Program.RETIRED, False),  # this is different from RecordsView
+        (Program.DELETED, False),
+        (Program.UNPUBLISHED, False),
+    )
+    @ddt.unpack
+    def test_completed_render_from_db(self, status, visible):
+        """ Verify that a program cert that is completed is returned correctly, with different statuses """
+        self.program.status = status
+        self.program.save()
+
+        data = self._default_program_data() if visible else []
+        self._render_listing(expected_program_data=data)
+
+    def test_in_progress_from_db(self):
+        """ Verify that no program cert, but course certs results in an In Progress program """
+        # Delete the program cert
+        self.program_cert.delete()
+
+        data = self._default_program_data(overrides={'completed': False})
+        self._render_listing(expected_program_data=data)
+
+    def test_empty_programs(self):
+        """ Test that a program with no certs shows as empty """
+        # Delete all certs
+        for cert in self.course_certs:
+            cert.delete()
+        self.program_cert.delete()
+
+        data = self._default_program_data(overrides={'completed': False, 'empty': True})
+        self._render_listing(expected_program_data=data)
 
 
 class ProgramRecordViewTests(SiteMixin, TestCase):

@@ -30,19 +30,23 @@ class RecordsList extends React.Component {
               <div className="record-data-inline">
                 <ProgramIcon type={row.type} iconDict={icons} className="inline-data certificate-icon" />
                 <span className="record-partner inline-data">{row.partner}</span>
-                <span className="inline-data"> {' | '} </span>
-                <span className="font-weight-bold inline-data">{
-                  row.completed ? gettext('Completed') : gettext('Partially Completed')
-                }</span>
+                { row.empty || <span className="inline-data"> {' | '} </span>}
+                { row.empty ||
+                  <span className="font-weight-bold inline-data">{
+                    row.completed ? gettext('Completed') : gettext('Partially Completed')
+                  }</span>
+                }
               </div>
             </div>
-            <div className="col-md record-btn-col">
-              <div className="view-record-container">
-                <a href={'/records/programs/' + row.uuid + '/'} className="btn view-record-btn font-weight-bold">
-                  {gettext('View Program Record')}
-                </a>
+            { row.empty ||
+              <div className="col-md record-btn-col">
+                <div className="view-record-container">
+                  <a href={'/records/programs/' + row.uuid + '/'} className="btn view-record-btn font-weight-bold">
+                    {gettext('View Program Record')}
+                  </a>
+                </div>
               </div>
-            </div>
+            }
           </div>
         </div>
       </li>
@@ -74,17 +78,13 @@ class RecordsList extends React.Component {
       <main id="main-content" className="record" tabIndex="-1">
         {hasProfileUrl && RecordsList.renderProfile(profileUrl)}
         <header className="pad-text-block">
-          <h2 className="hd-2 text-black">{
-            // Translators: A 'record' here means something like a
-            // Translators: transcript -- a list of courses and grades.
-            gettext('My Learner Records')
-          }</h2>
+          <h2 className="hd-2 text-black">{this.props.title}</h2>
         </header>
         {hasPrograms &&
           RecordsList.renderResponsiveList(
             'program-records-list',
             gettext('Program Records'),
-            gettext('A program record is created once you have earned at least one course certificate in a program.'),
+            this.props.programHelp,
             programs,
             icons,
           )
@@ -97,20 +97,25 @@ class RecordsList extends React.Component {
 }
 
 RecordsList.propTypes = {
+  title: PropTypes.string,
   programs: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     partner: PropTypes.string.isRequired,
     uuid: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
+    empty: PropTypes.bool.isRequired,
   })).isRequired,
+  programHelp: PropTypes.string,
   helpUrl: PropTypes.string,
   profileUrl: PropTypes.string,
   icons: PropTypes.shape(),
 };
 
 RecordsList.defaultProps = {
+  title: '',
   programs: [],
+  programHelp: '',
   helpUrl: '',
   profileUrl: '',
   icons: {},
