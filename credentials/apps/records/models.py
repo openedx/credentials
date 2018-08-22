@@ -7,7 +7,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 
-from credentials.apps.catalog.models import CourseRun, CreditPathway, Pathway, Program
+from credentials.apps.catalog.models import CourseRun, Pathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.credentials.models import ProgramCertificate
 from credentials.apps.records import constants
@@ -60,8 +60,7 @@ class UserCreditPathway(TimeStampedModel):
     ]
 
     user = models.ForeignKey(User)
-    credit_pathway = models.ForeignKey(CreditPathway, null=True)
-    pathway = models.ForeignKey(Pathway, null=True)
+    pathway = models.ForeignKey(Pathway)
     status = models.CharField(
         max_length=15,
         choices=STATUS_CHOICES,
