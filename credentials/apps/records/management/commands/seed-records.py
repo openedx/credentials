@@ -12,6 +12,7 @@ from credentials.apps.core.models import User
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, Signatory, UserCredential
 from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
+from credentials.shared.constants import PathwayType
 
 logger = logging.getLogger(__name__)
 
@@ -73,6 +74,7 @@ class Command(BaseCommand):
         Command.seed_program_cert_records(user, programs, faker)
         pathways = Command.seed_pathways(site, programs, faker)
         Command.seed_user_credit_pathways(user, pathways)
+        industry_pathway = Command.seed_industry_pathway(site, programs, faker)
 
     @staticmethod
     def get_site(site_name):
@@ -326,3 +328,20 @@ class Command(BaseCommand):
         Command.log_action("UserCreditPathway for user", user.username, created)
 
         return user_credit_pathway
+
+    @staticmethod
+    def seed_industry_pathway(site, programs, faker):
+        """ Seed one industry pathway """
+        industry_pathway, created = Pathway.objects.get_or_create(
+            site=site,
+            uuid=faker.uuid4(),
+            defaults={
+                'name': 'Test industry pathway',
+                'org_name': 'Dunder Mifflin',
+                'pathway_type': PathwayType.INDUSTRY.value,
+            },
+        )
+        industry_pathway.programs = programs
+        Command.log_action("Industry pathway with name", industry_pathway.name, created)
+
+        return industry_pathway

@@ -54,11 +54,19 @@ const defaultProps = {
       name: 'testX',
       id: 1,
       status: '',
+      pathway_type: 'credit',
     },
     {
       name: 'MITx',
       id: 2,
       status: 'sent',
+      pathway_type: 'credit',
+    },
+    {
+      name: 'Dunder MifflinX',
+      id: 3,
+      status: '',
+      pathway_type: 'industry',
     },
   ],
   isPublic: false,
@@ -115,6 +123,24 @@ describe('<ProgramRecord />', () => {
       expect(thirdRowData.at(5).text()).toEqual('');
       expect(thirdRowData.at(6).text()).toEqual('');
       expect(thirdRowData.at(7).text()).toEqual('Not Earned');
+    });
+
+    it('filters out non-credit pathways', () => {
+      const expectedCreditPathways = {
+        MITx: {
+          checked: true,
+          id: 2,
+          isActive: undefined,
+          sent: true,
+        },
+        testX: {
+          checked: false,
+          id: 1,
+          isActive: undefined,
+          sent: false,
+        },
+      };
+      expect(wrapper.instance().parseCreditPathways()).toEqual(expectedCreditPathways);
     });
 
     it('loads the send learner record modal', () => {

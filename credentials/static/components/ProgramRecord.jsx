@@ -145,7 +145,7 @@ class ProgramRecord extends React.Component {
     }
   }
 
-  // Parse the list of credit pathways into an object
+  // Parse the list of credit pathways into an object, filtering out all non-credit pathways
   parseCreditPathways() {
     const creditPathways = {};
 
@@ -153,12 +153,14 @@ class ProgramRecord extends React.Component {
       const pathway = this.props.pathways[i];
       const sent = (pathway.status === 'sent');
 
-      creditPathways[pathway.name] = {
-        sent,
-        checked: sent,
-        id: pathway.id,
-        isActive: pathway.is_active,
-      };
+      if (pathway.pathway_type === 'credit') {
+        creditPathways[pathway.name] = {
+          sent,
+          checked: sent,
+          id: pathway.id,
+          isActive: pathway.is_active,
+        };
+      }
     }
 
     return creditPathways;
@@ -416,7 +418,7 @@ class ProgramRecord extends React.Component {
             // For some reason they were not properly creating copies
             creditPathways={JSON.parse(JSON.stringify(this.creditPathways))}
             // Passing both a list and an object so that we can maintain pathway ordering
-            creditPathwaysList={this.props.pathways}
+            creditPathwaysList={this.props.pathways.filter(pathway => pathway.pathway_type === 'credit')}
           />
         }
         {shareModelOpen &&
