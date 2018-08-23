@@ -79,8 +79,7 @@ def get_record_data(user, program_uuid, site, platform_name=None):
         program_course_runs_set = frozenset(program_course_runs)
 
         # Get all pathway organizations and their statuses
-        # Use program.pathways once Pathway has that related name
-        program_pathways = program.pathway_set.all()
+        program_pathways = program.pathways.all()
         program_pathways_set = frozenset(program_pathways)
         user_credit_pathways = UserCreditPathway.objects.select_related('pathway').filter(
             user=user, pathway__in=program_pathways_set).all()

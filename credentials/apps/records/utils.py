@@ -22,9 +22,8 @@ def send_updated_emails_for_program(username, program_certificate):
         user = User.objects.get(username=username)
         program_uuid = program_certificate.program_uuid
 
-        # Use prefetch_related('pathways') and program.pathways once Pathway has that related name
-        program = Program.objects.get(site=site, uuid=program_uuid)
-        pathways_set = frozenset(program.pathway_set.all())
+        program = Program.objects.prefetch_related('pathways').get(site=site, uuid=program_uuid)
+        pathways_set = frozenset(program.pathways.all())
 
         user_pathways = UserCreditPathway.objects.select_related('pathway').filter(
             user=user, pathway__in=pathways_set, status=UserCreditPathwayStatus.SENT)
