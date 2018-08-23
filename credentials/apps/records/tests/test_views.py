@@ -34,6 +34,7 @@ from credentials.apps.records.tests.factories import (ProgramCertRecordFactory, 
                                                       UserGradeFactory)
 from credentials.apps.records.tests.utils import dump_random_state
 from credentials.apps.records.views import datetime_from_visible_date
+from credentials.shared.constants import PathwayType
 from credentials.shared.log_checker import assert_log_correct
 
 from ..constants import RECORDS_RATE_LIMIT
@@ -612,7 +613,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         expected = [{'name': self.pathway.name,
                      'id': self.pathway.id,
                      'status': '',
-                     'is_active': True}]
+                     'is_active': True,
+                     'pathway_type': PathwayType.CREDIT.value}]
 
         self.assertEqual(pathway_data, expected)
 
@@ -626,7 +628,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         expected = [{'name': self.pathway.name,
                      'id': self.pathway.id,
                      'status': '',
-                     'is_active': False}]
+                     'is_active': False,
+                     'pathway_type': PathwayType.CREDIT.value}]
 
         self.assertEqual(pathway_data, expected)
 
@@ -640,7 +643,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         expected = [{'name': self.pathway.name,
                      'id': self.pathway.id,
                      'status': 'sent',
-                     'is_active': True}]
+                     'is_active': True,
+                     'pathway_type': PathwayType.CREDIT.value}]
 
         self.assertEqual(pathway_data, expected)
 

@@ -6,6 +6,7 @@ from django.db import models
 from django_extensions.db.models import TimeStampedModel
 
 from sortedm2m.fields import SortedManyToManyField
+from credentials.shared.constants import PathwayType
 
 logger = logging.getLogger(__name__)
 
@@ -102,6 +103,11 @@ class Pathway(TimeStampedModel):
     Pathways can be credit pathways that represent channels where learners can
     send their records for credit, or professional pathways.
     """
+    pathway_type = models.CharField(
+        max_length=255,
+        choices=[(tag.name, tag.value) for tag in PathwayType],
+        default=PathwayType.CREDIT.value,
+    )
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     uuid = models.UUIDField(verbose_name='UUID')
     name = models.CharField(max_length=255)

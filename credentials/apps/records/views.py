@@ -27,6 +27,7 @@ from credentials.apps.credentials.models import (CourseCertificate, ProgramCerti
 from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
+from credentials.shared.constants import PathwayType
 
 from .constants import RECORDS_RATE_LIMIT
 
@@ -156,7 +157,8 @@ def get_record_data(user, program_uuid, site, platform_name=None):
         pathway_data = [{'name': pathway[0].name,
                          'id': pathway[0].id,
                          'status': pathway[1],
-                         'is_active': bool(pathway[0].email)}
+                         'is_active': bool(pathway[0].email),
+                         'pathway_type': pathway[0].pathway_type, }
                         for pathway in pathways]
 
         # Add course-run data to the response in the order that is maintained by the Program's sorted field
@@ -411,7 +413,12 @@ class ProgramSendView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, V
         credential = UserCredential.objects.filter(username=username, status=UserCredential.AWARDED,
                                                    program_credentials__program_uuid=program_uuid)
         program = get_object_or_404(Program, uuid=program_uuid, site=request.site)
-        pathway = get_object_or_404(Pathway, id=pathway_id, programs__uuid=program_uuid)
+        pathway = get_object_or_404(
+            Pathway,
+            id=pathway_id,
+            programs__uuid=program_uuid,
+            pathway_type=PathwayType.CREDIT.value,
+        )
         certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)
         user = get_object_or_404(User, username=username)
         public_record, _ = ProgramCertRecord.objects.get_or_create(user=user, program=program)

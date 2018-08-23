@@ -3,6 +3,7 @@ Models for the records app.
 """
 import uuid
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
@@ -11,6 +12,7 @@ from credentials.apps.catalog.models import CourseRun, Pathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.credentials.models import ProgramCertificate
 from credentials.apps.records import constants
+from credentials.shared.constants import PathwayType
 
 
 class UserGrade(TimeStampedModel):
@@ -67,6 +69,15 @@ class UserCreditPathway(TimeStampedModel):
         default=constants.UserCreditPathwayStatus.SENT,
         blank=True,
     )
+
+    def clean(self):
+        # Don't allow pathway to have any type other than the CREDIT type
+        if self.pathway.pathway_type != PathwayType.CREDIT.value:
+            raise ValidationError({'pathway': _('User credit pathways can only be connected to credit pathways.')})
+
+    def save(self, *args, **kwargs):  # pylint: disable=arguments-differ
+        self.full_clean()
+        return super(UserCreditPathway, self).save(*args, **kwargs)
 
     class Meta(object):
         unique_together = ('user', 'pathway')
