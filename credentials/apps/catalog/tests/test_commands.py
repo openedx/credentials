@@ -154,7 +154,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
         self.mock_catalog_api_response(endpoint, body, **kwargs)
 
     def mock_pathways_response(self, body, page=1, page_size=None, **kwargs):
-        endpoint = 'credit_pathways/?exclude_utm=1&page=' + str(page)
+        endpoint = 'pathways/?exclude_utm=1&page=' + str(page)
         if page_size:
             endpoint = endpoint + '&page_size=' + str(page_size)
         self.mock_catalog_api_response(endpoint, body, **kwargs)

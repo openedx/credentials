@@ -61,8 +61,7 @@ class Command(BaseCommand):
     def fetch_pathways(site, client, page_size=None):
         next_page = 1
         while next_page:
-            # Switch to client.pathways.get(...) once discovery API endpoint is renamed
-            pathways = client.credit_pathways.get(exclude_utm=1, page=next_page, page_size=page_size)
+            pathways = client.pathways.get(exclude_utm=1, page=next_page, page_size=page_size)
             for pathway in pathways['results']:
                 logger.info('Copying pathway "{}"'.format(pathway['name']))
                 parse_pathway(site, pathway)
