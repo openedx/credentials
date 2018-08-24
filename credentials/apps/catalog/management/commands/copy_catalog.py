@@ -50,8 +50,7 @@ class Command(BaseCommand):
     def fetch_programs(site, client, page_size=None):
         next_page = 1
         while next_page:
-            programs = client.programs.get(exclude_utm=1, published_course_runs_only=1, page=next_page,
-                                           page_size=page_size)
+            programs = client.programs.get(exclude_utm=1, page=next_page, page_size=page_size)
             for program in programs['results']:
                 logger.info('Copying program "{}"'.format(program['title']))
                 parse_program(site, program)
