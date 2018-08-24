@@ -16,6 +16,7 @@ const defaultProps = {
     name: 'Test Program',
     school: 'TestX',
     completed: false,
+    empty: false,
     type: 'micromasters',
     type_name: 'MicroMasters',
     last_updated: '2018-06-29T18:15:01.805131+00:00',
@@ -274,13 +275,25 @@ describe('<ProgramRecord />', () => {
 
   describe('Completed record', () => {
     beforeEach(() => {
-      const completedProps = defaultProps;
+      const completedProps = JSON.parse(JSON.stringify(defaultProps));
       completedProps.program.completed = true;
       wrapper = mount(<ProgramRecord {...completedProps} />);
     });
 
     it('labeled correctly', () => {
       expect(wrapper.find('.program-status .badge').text()).toBe('Completed');
+    });
+  });
+
+  describe('Empty record', () => {
+    beforeEach(() => {
+      const completedProps = JSON.parse(JSON.stringify(defaultProps));
+      completedProps.program.empty = true;
+      wrapper = mount(<ProgramRecord {...completedProps} />);
+    });
+
+    it('labeled correctly', () => {
+      expect(wrapper.find('.program-status .badge').text()).toBe('Not Earned');
     });
   });
 

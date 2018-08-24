@@ -38,15 +38,13 @@ class RecordsList extends React.Component {
                 }
               </div>
             </div>
-            { row.empty ||
-              <div className="col-md record-btn-col">
-                <div className="view-record-container">
-                  <a href={'/records/programs/' + row.uuid + '/'} className="btn view-record-btn font-weight-bold">
-                    {gettext('View Program Record')}
-                  </a>
-                </div>
+            <div className="col-md-3 record-btn-col">
+              <div className="view-record-container">
+                <a href={'/records/programs/' + row.uuid + '/'} className="btn view-record-btn font-weight-bold">
+                  {row.empty ? gettext('View Example') : gettext('View Program Record')}
+                </a>
               </div>
-            }
+            </div>
           </div>
         </div>
       </li>
