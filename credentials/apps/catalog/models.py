@@ -55,6 +55,9 @@ class CourseRun(TimeStampedModel):
     start = models.DateTimeField(null=True, blank=True, db_index=True)
     end = models.DateTimeField(null=True, blank=True, db_index=True)
 
+    # Note that we don't have a status field here -- there are only two statuses for CourseRuns: published and
+    # unpublished. But unpublished is really used as a 'retired' flag. So in both cases, we want the run.
+
     class Meta:
         unique_together = (
             ('course', 'uuid'),
