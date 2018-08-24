@@ -373,6 +373,7 @@ class ProgramListingViewTests(SiteMixin, TestCase):
         self._render_listing(expected_program_data=data)
 
 
+@ddt.ddt
 class ProgramRecordViewTests(SiteMixin, TestCase):
     MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }
 
@@ -437,6 +438,28 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.client.logout()
         response = self.client.get(reverse('records:public_programs', kwargs={'uuid': self.pcr.uuid.hex}))
         self.assertContains(response, 'Record')
+
+    @ddt.data(True, False)
+    def test_access_to_empty_record(self, is_superuser):
+        """ Verify that the an empty record rejects non-superusers. """
+        # Make sure no credentials exist
+        self.user.is_superuser = is_superuser
+        self.user.save()
+
+        # Get rid of all credentials
+        for credential in self.user_credentials:
+            credential.status = UserCredential.REVOKED
+            credential.save()
+
+        expected_code = 200 if is_superuser else 404
+
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        self.assertEqual(response.status_code, expected_code)
+
+        # Confirm it is indeed reported as empty
+        if is_superuser:
+            program_data = json.loads(response.context_data['record'])['program']
+            self.assertTrue(program_data['empty'])
 
     def test_normal_access(self):
         """ Verify that the view works in default case. """
@@ -567,6 +590,10 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
     def test_multiple_attempts_no_cert(self):
         """ Adds a course with two failed course_run attempts (no cert) and verifies that
         the course only shows up once """
+        # Only superusers can view an empty program (we could add a real cert too here, but this is a more direct test)
+        self.user.is_superuser = True
+        self.user.save()
+
         new_course = CourseFactory(site=self.site)
         new_course_runs = CourseRunFactory.create_batch(2, course=new_course)
         _ = [UserGradeFactory(username=self.MOCK_USER_DATA['username'],
@@ -600,6 +627,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
                     'type': slugify(self.program.type),
                     'type_name': self.program.type,
                     'completed': False,
+                    'empty': False,
                     'last_updated': UserGrade.objects.last().modified.isoformat(),
                     'school': ', '.join(self.org_names)}
 

@@ -151,6 +151,7 @@ def get_record_data(user, program_uuid, site, platform_name=None):
                         'type': slugify(program.type),
                         'type_name': program.type,
                         'completed': program_credential_query.exists(),
+                        'empty': not highest_attempt_dict,
                         'last_updated': last_updated.isoformat(),
                         'school': ', '.join(program.authoring_organizations.values_list('name', flat=True))}
 
@@ -355,12 +356,19 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
         else:
             user = self.request.user
             program_uuid = uuid
-        return get_record_data(
+
+        data = get_record_data(
             user,
             program_uuid,
             self.request.site,
             platform_name=self.request.site.siteconfiguration.platform_name
         )
+
+        # Only allow superusers to view a record with no data in it (i.e. don't allow learners to guess URLs and view)
+        if not self.request.user.is_superuser and data['program']['empty']:
+            raise http.Http404()
+
+        return data
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

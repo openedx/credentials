@@ -344,10 +344,12 @@ class ProgramRecord extends React.Component {
                 </div>
               </div>
               <div className="d-flex program-status">
-                {program.completed ?
-                  <span className="badge badge-success">{gettext('Completed')}</span>
-                 :
-                  <span className="badge badge-warning">{gettext('Partially Completed')}</span>
+                {
+                  (program.completed &&
+                    <span className="badge badge-success">{gettext('Completed')}</span>) ||
+                  (program.empty &&
+                    <span className="badge badge-default">{gettext('Not Earned')}</span>) ||
+                  (<span className="badge badge-warning">{gettext('Partially Completed')}</span>)
                 }
                 <span className="updated">
                   { StringUtils.interpolate(
@@ -446,6 +448,7 @@ ProgramRecord.propTypes = {
     name: PropTypes.string,
     school: PropTypes.string,
     completed: PropTypes.bool,
+    empty: PropTypes.bool,
     type: PropTypes.string,
     type_name: PropTypes.string,
     last_updated: PropTypes.string,

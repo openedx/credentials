@@ -112,8 +112,9 @@ describe('<RecordsList />', () => {
     const thirdProgramLink = programRows.at(2).find('.record-btn-col').find('a');
     expect(thirdProgramLink.prop('href')).toContain(`/${defaultProps.programs[2].uuid}`);
 
-    expect(programRows.at(3).find('.record-btn-col').exists()).toBe(true); // just double-check that button exists
-    expect(programRows.at(4).find('.record-btn-col').exists()).toBe(false); // but not when empty
+    // Check text of button
+    expect(programRows.at(3).find('.record-btn-col').text()).toEqual('View Program Record');
+    expect(programRows.at(4).find('.record-btn-col').text()).toEqual('View Example');
   });
 
   it('no icon for programs with non-edx certificate type', () => {
