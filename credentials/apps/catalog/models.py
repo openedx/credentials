@@ -104,8 +104,8 @@ class Pathway(TimeStampedModel):
     send their records for credit, or professional pathways.
     """
     pathway_type = models.CharField(
-        max_length=255,
-        choices=[(tag.name, tag.value) for tag in PathwayType],
+        max_length=32,
+        choices=[(tag.value, tag.value) for tag in PathwayType],
         default=PathwayType.CREDIT.value,
     )
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
