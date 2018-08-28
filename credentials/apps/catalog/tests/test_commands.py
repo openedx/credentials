@@ -9,6 +9,7 @@ from credentials.apps.catalog.models import Course, CourseRun, Organization, Pat
 from credentials.apps.catalog.tests.factories import OrganizationFactory, ProgramFactory
 from credentials.apps.core.tests.factories import SiteConfigurationFactory
 from credentials.apps.core.tests.mixins import SiteMixin
+from credentials.shared.constants import PathwayType
 
 
 @ddt.ddt
@@ -106,7 +107,8 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
             'email': 'test-email@example.com',
             'programs': [
                 PROGRAMS[0]
-            ]
+            ],
+            'pathway_type': PathwayType.INDUSTRY.value,
         },
         {
             'uuid': 'b13739e3-a966-4591-930e-a338e6083c63',
@@ -115,7 +117,8 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
             'email': 'test-email@example.com',
             'programs': [
                 PROGRAMS[1]
-            ]
+            ],
+            'pathway_type': PathwayType.CREDIT.value,
         },
     ]
 
