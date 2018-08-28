@@ -99,6 +99,7 @@ def parse_pathway(site, data):
             'name': data['name'],
             'email': data['email'],
             'org_name': data['org_name'],
+            'pathway_type': data['pathway_type'],
         }
     )
 

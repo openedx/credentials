@@ -11,6 +11,7 @@ from credentials.apps.catalog.utils import (
     parse_course, parse_course_run, parse_organization, parse_pathway, parse_program
 )
 from credentials.apps.core.tests.factories import SiteFactory
+from credentials.shared.constants import PathwayType
 
 
 @ddt.ddt
@@ -37,7 +38,8 @@ class ParseTests(TestCase):
                        'type': 'MicroMasters', 'status': 'active'}
 
     PATHWAY1_DATA = {'uuid': 'b13739e3-a966-4591-930e-a338e6083c63', 'name': 'Test Pathway', 'org_name': 'Pathway Org',
-                     'email': 'test@example.com', 'programs': [PROGRAM1_DATA]}
+                     'email': 'test@example.com', 'programs': [PROGRAM1_DATA],
+                     'pathway_type': PathwayType.INDUSTRY.value}  # Check type is industry since type defaults to credit
 
     def setUp(self):
         super(ParseTests, self).setUp()
@@ -166,3 +168,4 @@ class ParseTests(TestCase):
         assert pathway.email == self.PATHWAY1_DATA['email']
         assert pathway.org_name == self.PATHWAY1_DATA['org_name']
         assert str(pathway.programs.all()[0].uuid) == self.PROGRAM1_DATA['uuid']
+        assert pathway.pathway_type == self.PATHWAY1_DATA['pathway_type']
