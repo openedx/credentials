@@ -3,6 +3,7 @@ from django.db.models import Q
 
 from credentials.apps.catalog.models import Program
 from credentials.apps.credentials.models import UserCredential
+from credentials.apps.credentials.utils import filter_visible
 
 
 class ProgramRelatedFilter(django_filters.Filter):
@@ -22,6 +23,10 @@ class CredentialTypeFilter(django_filters.Filter):
         return qs
 
 
+def handle_only_visible(qs, _name, value):
+    return filter_visible(qs) if value else qs
+
+
 class UserCredentialFilter(django_filters.FilterSet):
     program_uuid = ProgramRelatedFilter(
         label='UUID of the program for which the credential was awarded'
@@ -34,6 +39,7 @@ class UserCredentialFilter(django_filters.FilterSet):
         label='Status of the credential'
     )
     username = django_filters.CharFilter(label='Username of the recipient of the credential')
+    only_visible = django_filters.BooleanFilter(method=handle_only_visible)
 
     class Meta:
         model = UserCredential

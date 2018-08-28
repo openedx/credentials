@@ -38,6 +38,11 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         self.user_credential = factories.UserCredentialFactory(
             username=self.MOCK_USER_DATA['username'], credential=self.program_certificate
         )
+        self.visible_date_attr = factories.UserCredentialAttributeFactory(
+            user_credential=self.user_credential,
+            name='visible_date',
+            value='1970-01-01T01:01:01Z',
+        )
         self.platform_name = self.site.siteconfiguration.platform_name
         user = UserFactory(username=self.MOCK_USER_DATA['username'])
         self.client.login(username=user.username, password=USER_PASSWORD)
@@ -178,6 +183,32 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         self.user_credential = factories.UserCredentialFactory(credential=factories.CourseCertificateFactory())
         response = self.client.get(self.user_credential.get_absolute_url())
         self.assertEqual(response.status_code, 404)
+
+    def test_future_visible_date(self):
+        """ Verify that the view returns 404 when the uuid is valid but certificate is not yet visible. """
+        self.visible_date_attr.value = '9999-01-01T01:01:01Z'
+        self.visible_date_attr.save()
+        response = self.client.get(self.user_credential.get_absolute_url())
+        self.assertEqual(response.status_code, 404)
+
+    @responses.activate
+    def test_invalid_visible_date(self):
+        """ Verify that the view just returns normally when the valid_date attribute can't be understood. """
+        self.visible_date_attr.value = 'hello'
+        self.visible_date_attr.save()
+        self._render_user_credential()  # Will raise exception if not 200 status
+
+    @responses.activate
+    def test_no_visible_date(self):
+        """ Verify that the view just returns normally when there isn't a valid_date attribute. """
+        self.visible_date_attr.delete()
+        self._render_user_credential()  # Will raise exception if not 200 status
+
+    @responses.activate
+    def test_visible_date_as_issue_date(self):
+        """ Verify that the view renders the visible_date as the issue date. """
+        response = self._render_user_credential()
+        self.assertContains(response, 'Issued January 1970')
 
     @responses.activate
     def test_signatory_organization_name_override(self):

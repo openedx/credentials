@@ -22,8 +22,8 @@ from ratelimit.mixins import RatelimitMixin
 from credentials.apps.catalog.models import CourseRun, Pathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
-from credentials.apps.credentials.models import (CourseCertificate, ProgramCertificate, UserCredential,
-                                                 UserCredentialAttribute)
+from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredential
+from credentials.apps.credentials.utils import filter_visible, get_credential_visible_dates
 from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
@@ -37,8 +37,6 @@ log = logging.getLogger(__name__)
 def rate_limited(request, exception):  # pylint: disable=unused-argument
     log.warning("Credentials records endpoint is being throttled.")
     return JsonResponse({'error': 'Too Many Requests'}, status=429)
-
-logger = logging.getLogger(__name__)
 
 
 class RecordsEnabledMixin(object):
@@ -61,19 +59,6 @@ class ConditionallyRequireLoginMixin(AccessMixin):
         return super(ConditionallyRequireLoginMixin, self).dispatch(request, *args, **kwargs)
 
 
-def datetime_from_visible_date(date):
-    """ Turn a string version of a datetime, provided to us by the LMS in a particular format it uses for
-        visible_date attributes, and turn it into a datetime object. """
-    try:
-        parsed = datetime.datetime.strptime(date, '%Y-%m-%dT%H:%M:%SZ')
-        # The timezone is always UTC (as indicated by the Z). It looks like in python3.7, we could
-        # just use %z instead of replacing the tzinfo with a UTC value.
-        return parsed.replace(tzinfo=datetime.timezone.utc)
-    except ValueError as e:
-        logger.exception('%s', e)
-        return None
-
-
 def get_record_data(user, program_uuid, site, platform_name=None):
         program = Program.objects.prefetch_related('course_runs__course').get(uuid=program_uuid, site=site)
         program_course_runs = program.course_runs.all()
@@ -90,27 +75,23 @@ def get_record_data(user, program_uuid, site, platform_name=None):
                     for pathway in program_pathways]
 
         # Find program credential if it exists (indicates if user has completed this program)
-        program_credential_query = UserCredential.objects.filter(
+        program_credential_query = filter_visible(UserCredential.objects.filter(
             username=user.username,
             status=UserCredential.AWARDED,
-            program_credentials__program_uuid=program_uuid)
+            program_credentials__program_uuid=program_uuid))
 
-        # Get all of the user course-certificates associated with the program courses
+        # Get all of the user course-certificates associated with the program courses (including not AWARDED ones)
         course_certificate_content_type = ContentType.objects.get(app_label='credentials', model='coursecertificate')
-        course_user_credentials = UserCredential.objects.prefetch_related('credential').filter(
+        course_user_credentials = filter_visible(UserCredential.objects.prefetch_related('credential').filter(
             username=user.username,
-            credential_content_type=course_certificate_content_type,)
+            credential_content_type=course_certificate_content_type,))
 
         # Maps course run key to the associated credential
         user_credential_dict = {
             user_credential.credential.course_id: user_credential for user_credential in course_user_credentials}
 
-        # Maps course run key to the associated visible_date attribute
-        visible_dates = UserCredentialAttribute.objects.prefetch_related('user_credential__credential').filter(
-            user_credential__in=course_user_credentials, name='visible_date')
-        visible_date_dict = {
-            visible_date.user_credential.credential.course_id: datetime_from_visible_date(visible_date.value)
-            for visible_date in visible_dates}
+        # Maps credentials to visible_date datetimes (a date when the cert becomes valid)
+        visible_dates = get_credential_visible_dates(course_user_credentials)
 
         # Get all (verified) user grades relevant to this program
         course_grades = UserGrade.objects.select_related('course_run__course').filter(
@@ -121,18 +102,15 @@ def get_record_data(user, program_uuid, site, platform_name=None):
         highest_attempt_dict = {}  # Maps course -> highest grade earned
         last_updated = None
 
-        now = datetime.datetime.now(datetime.timezone.utc)
-
         # Find the highest course cert grades for each course
         for course_grade in course_grades:
             course_run = course_grade.course_run
             course = course_run.course
             user_credential = user_credential_dict.get(course_run.key)
-            visible_date = visible_date_dict.get(course_run.key)
 
-            is_visible = not visible_date or visible_date < now
-            if is_visible and user_credential is not None:
+            if user_credential is not None:
                 num_attempts_dict[course] += 1
+                visible_date = visible_dates[user_credential]
                 last_updated = max(filter(None, [visible_date, course_grade.modified, last_updated]))
 
                 # Update grade if grade is higher and part of awarded cert
@@ -183,7 +161,7 @@ def get_record_data(user, program_uuid, site, platform_name=None):
 
             # If the user has taken the course, show the course_run info for the highest grade
             elif grade is not None and grade.course_run == course_run:
-                issue_date = visible_date_dict.get(course_run.key) or user_credential_dict[course_run.key].created
+                issue_date = visible_dates[user_credential_dict[course_run.key]]
                 course_data.append({
                     'name': course_run.title,
                     'school': ', '.join(course.owners.values_list('name', flat=True)),
@@ -220,11 +198,11 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
                 program_certificate_type = course_cert_content_type
 
         # Get all user credentials, then sort them out to course/programs
-        user_credentials = UserCredential.objects.filter(
+        user_credentials = filter_visible(UserCredential.objects.filter(
             username=self.request.user.username,
             status=UserCredential.AWARDED,
             credential_content_type__in=course_cert_content_types
-        )
+        ))
         course_credentials = []
         program_credentials = []
         for credential in user_credentials:
@@ -238,7 +216,7 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
     def _course_credentials_to_course_runs(self, course_credentials):
         """ Convert a list of course UserCredentials into a list of CourseRun objects """
         # Using the course credentials, get the programs associated with them via course runs
-        course_credential_ids = map(lambda course_credential: course_credential.credential_id, course_credentials)
+        course_credential_ids = [x.credential_id for x in course_credentials if x.status == UserCredential.AWARDED]
         course_certificates = CourseCertificate.objects.filter(id__in=course_credential_ids, site=self.request.site)
         course_run_keys = map(lambda course_certificate: course_certificate.course_id, course_certificates)
         return CourseRun.objects.filter(key__in=course_run_keys)
@@ -265,7 +243,7 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
 
         # Get the completed programs and a UUID set using the program_credentials
         program_credential_ids = map(lambda program_credential: program_credential.credential_id, program_credentials)
-        program_certificates = ProgramCertificate.objects.filter(id__in=program_credential_ids)
+        program_certificates = ProgramCertificate.objects.filter(id__in=program_credential_ids, site=self.request.site)
         completed_program_uuids = frozenset(
             program_certificate.program_uuid for program_certificate in program_certificates)
 

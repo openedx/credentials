@@ -29,11 +29,10 @@ from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
                                                           UserCredentialAttributeFactory, UserCredentialFactory)
 from credentials.apps.records.constants import UserCreditPathwayStatus
-from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
+from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 from credentials.apps.records.tests.factories import (ProgramCertRecordFactory, UserCreditPathwayFactory,
                                                       UserGradeFactory)
 from credentials.apps.records.tests.utils import dump_random_state
-from credentials.apps.records.views import datetime_from_visible_date
 from credentials.shared.constants import PathwayType
 from credentials.shared.log_checker import assert_log_correct
 
@@ -75,7 +74,7 @@ class RecordsViewTests(SiteMixin, TestCase):
             credential_content_type=self.course_credential_content_type,
             credential=course_cert
         ) for course_cert in self.course_certs]
-        self.program_user_credentials = UserCredentialFactory.create(
+        self.program_user_credential = UserCredentialFactory.create(
             username=self.user.username,
             credential_content_type=self.program_credential_content_type,
             credential=self.program_cert
@@ -189,6 +188,16 @@ class RecordsViewTests(SiteMixin, TestCase):
         ]
         self.assertEqual(program_data, expected_program_data)
 
+    def test_not_visible_from_db(self):
+        """ Test that the program's visible_date is considered """
+        UserCredentialAttributeFactory(
+            user_credential=self.program_user_credential,
+            name='visible_date',
+            value='9999-01-01T01:01:01Z',
+        )
+        response = self.client.get(reverse('records:index'))
+        self.assertFalse(json.loads(response.context_data['programs'])[0]['completed'])
+
     def test_multiple_programs(self):
         """ Test that multiple programs can appear, in progress and completed """
         # Create a second program, and delete the first one's certificate
@@ -214,7 +223,7 @@ class RecordsViewTests(SiteMixin, TestCase):
             credential_content_type=self.program_credential_content_type,
             credential=new_program_cert
         )
-        self.program_user_credentials.delete()
+        self.program_user_credential.delete()
 
         response = self.client.get(reverse('records:index'))
         self.assertEqual(response.status_code, 200)
@@ -398,6 +407,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.course_certs = [CourseCertificateFactory(course_id=course_run.key, site=self.site)
                              for course_run in self.course_runs]
         self.credential_content_type = ContentType.objects.get(app_label='credentials', model='coursecertificate')
+        self.program_cert = ProgramCertificateFactory(site=self.site)
+        self.program_content_type = ContentType.objects.get(app_label='credentials', model='programcertificate')
         self.user_credentials = [UserCredentialFactory(username=self.MOCK_USER_DATA['username'],
                                  credential_content_type=self.credential_content_type, credential=course_cert)
                                  for course_cert in self.course_certs]
@@ -405,7 +416,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.user_credentials[2].save()
         self.org_names = ['CCC', 'AAA', 'BBB']
         self.orgs = [OrganizationFactory(name=name, site=self.site) for name in self.org_names]
-        self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site)
+        self.program = ProgramFactory(course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site,
+                                      uuid=self.program_cert.program_uuid)
         self.pcr = ProgramCertRecordFactory(program=self.program, user=self.user)
 
         self.pathway = PathwayFactory(site=self.site)
@@ -534,6 +546,26 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(grades[0]['course_id'], self.course_runs[0].key)  # 0 instead of 1 now that 1 is in future
         self.assertEqual(grades[0]['issue_date'], self.user_credentials[0].created.isoformat())
 
+    @ddt.data(
+        ('9999-01-01T01:01:01Z', False),
+        ('1970-01-01T01:01:01Z', True),
+        (None, True),
+    )
+    @ddt.unpack
+    def test_program_visible_date(self, date, completed):
+        """ Test that the program's visible_date is considered """
+        program_credential = UserCredentialFactory(
+            username=self.MOCK_USER_DATA['username'], credential_content_type=self.program_content_type,
+            credential=self.program_cert)
+        if date:
+            UserCredentialAttributeFactory(
+                user_credential=program_credential,
+                name='visible_date',
+                value=date,
+            )
+        response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
+        self.assertEqual(json.loads(response.context_data['record'])['program']['completed'], completed)
+
     def test_organization_order(self):
         """ Test that the organizations are returned in the order they were added """
         self.course.owners = self.orgs
@@ -543,14 +575,6 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         self.assertEqual(program_data['school'], ', '.join(self.org_names))
         self.assertEqual(grade['school'], ', '.join(self.org_names))
-
-    def test_datetime_from_visible_date(self):
-        """ Verify that we convert LMS dates correctly. """
-        self.assertIsNone(datetime_from_visible_date(''))
-        self.assertIsNone(datetime_from_visible_date('2018-07-31'))
-        self.assertIsNone(datetime_from_visible_date('2018-07-31T09:32:46+00:00'))  # should be Z for timezone
-        self.assertEqual(datetime_from_visible_date('2018-07-31T09:32:46Z'),
-                         datetime.datetime(2018, 7, 31, 9, 32, 46, tzinfo=datetime.timezone.utc))
 
     def test_course_run_order(self):
         """ Test that the course_runs are returned in the program order """
@@ -628,7 +652,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
                     'type_name': self.program.type,
                     'completed': False,
                     'empty': False,
-                    'last_updated': UserGrade.objects.last().modified.isoformat(),
+                    'last_updated': UserCredential.objects.last().created.isoformat(),
                     'school': ', '.join(self.org_names)}
 
         self.assertEqual(program_data, expected)
