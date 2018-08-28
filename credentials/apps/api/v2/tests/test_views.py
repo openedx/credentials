@@ -302,6 +302,37 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['results'], self.serialize_user_credential([program_cred], many=True))
 
+    def test_list_visible_filtering(self):
+        """ Verify the endpoint can filter by visible date. """
+        program_certificate = ProgramCertificateFactory(site=self.site)
+        course_certificate = CourseCertificateFactory(site=self.site)
+
+        course_cred = UserCredentialFactory(credential=course_certificate)
+        program_cred = UserCredentialFactory(credential=program_certificate)
+
+        UserCredentialAttributeFactory(
+            user_credential=program_cred,
+            name='visible_date',
+            value='9999-01-01T01:01:01Z',
+        )
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'view_usercredential')
+
+        both = [course_cred, program_cred]
+
+        response = self.client.get(self.list_path)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['results'], self.serialize_user_credential(both, many=True))
+
+        response = self.client.get(self.list_path + '?only_visible=True')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['results'], self.serialize_user_credential([course_cred], many=True))
+
+        response = self.client.get(self.list_path + '?only_visible=False')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data['results'], self.serialize_user_credential(both, many=True))
+
     @ddt.data('put', 'patch')
     def test_update(self, method):
         """ Verify the endpoint supports updating the status of a UserCredential, but no other fields. """

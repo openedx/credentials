@@ -1,3 +1,4 @@
+import datetime
 import logging
 import uuid
 
@@ -13,7 +14,7 @@ from django.views.generic import TemplateView
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
 from credentials.apps.credentials.models import OrganizationDetails, ProgramCertificate, ProgramDetails, UserCredential
-from credentials.apps.credentials.utils import to_language
+from credentials.apps.credentials.utils import get_credential_visible_date, to_language
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +63,11 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
         if user_credential.credential_content_type.model_class() != ProgramCertificate:
             raise Http404
 
+        visible_date = get_credential_visible_date(user_credential)
+        now = datetime.datetime.now(datetime.timezone.utc)
+        if now < visible_date:
+            raise Http404
+
         program_details = user_credential.credential.program_details
         for organization in program_details.organizations:
             if not organization.certificate_logo_image_url:
@@ -76,6 +82,7 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
             'user_data': user_data,
             'child_templates': self.get_child_templates(),
             'render_language': content_language if content_language else settings.LANGUAGE_CODE,
+            'issue_date': visible_date,
 
             # NOTE: In the future this can be set to the course_name and/or seat type
             'page_title': program_details.type,

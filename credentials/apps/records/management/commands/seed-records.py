@@ -9,6 +9,7 @@ from faker import Faker
 
 from credentials.apps.catalog.models import Course, CourseRun, Organization, Pathway, Program
 from credentials.apps.core.models import User
+from credentials.apps.credentials.constants import CertificateType
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, Signatory, UserCredential
 from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
@@ -67,9 +68,9 @@ class Command(BaseCommand):
         programs = Command.seed_programs(site, organizations, course_runs, faker)
         user = Command.get_user(username)
         Command.seed_user_grades(user, course_runs)
-        Command.seed_signatories(organizations)
-        course_certificates = Command.seed_course_certificates(site, course_runs)
-        program_certificates = Command.seed_program_certificates(site, programs)
+        signatories = Command.seed_signatories(organizations)
+        course_certificates = Command.seed_course_certificates(site, course_runs, signatories)
+        program_certificates = Command.seed_program_certificates(site, programs, signatories)
         Command.seed_user_credentials(user, program_certificates, course_certificates, faker)
         Command.seed_program_cert_records(user, programs, faker)
         pathways = Command.seed_pathways(site, programs, faker)
@@ -218,7 +219,7 @@ class Command(BaseCommand):
         return signatories
 
     @staticmethod
-    def seed_program_certificates(site, programs):
+    def seed_program_certificates(site, programs, signatories):
         """ Seed program certs for two programs """
         program_certificates = []
 
@@ -229,6 +230,7 @@ class Command(BaseCommand):
                 defaults={
                     'is_active': True,
                     'language': 'en',
+                    'signatories': signatories,
                 },
             )
 
@@ -238,13 +240,20 @@ class Command(BaseCommand):
         return program_certificates
 
     @staticmethod
-    def seed_course_certificates(site, course_runs):
+    def seed_course_certificates(site, course_runs, signatories):
         """ Seed course certificates for all courses for user edx"""
         course_certificates = []
 
         for course_run in course_runs:
-            course_certificate, created = CourseCertificate.objects.get_or_create(
-                site=site, course_id=course_run.key)
+            course_certificate, created = CourseCertificate.objects.update_or_create(
+                site=site,
+                course_id=course_run.key,
+                defaults={
+                    'is_active': True,
+                    'certificate_type': CertificateType.VERIFIED,
+                    'signatories': signatories,
+                }
+            )
             Command.log_action("Course certificate for course run", course_run, created)
             course_certificates.append(course_certificate)
 
