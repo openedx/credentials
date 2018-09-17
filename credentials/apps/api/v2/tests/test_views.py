@@ -3,10 +3,10 @@ from decimal import Decimal
 
 import ddt
 from django.contrib.auth.models import Permission
+from django.test import TestCase
 from django.urls import reverse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.test import APIRequestFactory, APITestCase
-from testfixtures import LogCapture
 
 from credentials.apps.api.v2.serializers import (UserCredentialAttributeSerializer, UserCredentialSerializer,
                                                  UserGradeSerializer)
@@ -19,7 +19,6 @@ from credentials.apps.credentials.tests.factories import (CourseCertificateFacto
                                                           UserCredentialAttributeFactory, UserCredentialFactory)
 from credentials.apps.records.models import UserGrade
 from credentials.apps.records.tests.factories import UserGradeFactory
-from credentials.shared.log_checker import assert_log_correct
 
 JSON_CONTENT_TYPE = 'application/json'
 LOGGER_NAME = 'credentials.apps.credentials.issuers'
@@ -506,120 +505,15 @@ class GradeViewSetTests(SiteMixin, APITestCase):
 
 
 @ddt.ddt
-class ThrottlingTests(SiteMixin, APITestCase):
-    """ Tests for CredentialRateThrottle """
+class ThrottlingTests(TestCase):
+    """ Tests for CredentialRateThrottle. """
 
     def setUp(self):
         super(ThrottlingTests, self).setUp()
         self.throttle = CredentialRateThrottle()
-        self.user = UserFactory()
-
-    def authenticate_user(self, user):
-        """ Login as the given user. """
-        self.client.logout()
-        self.client.login(username=user.username, password=USER_PASSWORD)
-
-    def add_user_permission(self, user, permission):
-        """ Assigns a permission of the given name to the user. """
-        user.user_permissions.add(Permission.objects.get(codename=permission))
 
     @ddt.data('credential_view', 'grade_view', 'staff_override')
     def test_throttle_configuration(self, scope):
-        """ Verify that Throttling is configured for each scope. """
+        """ Verify that throttling is configured for each scope. """
         self.throttle.scope = scope
         self.assertIsNotNone(self.throttle.parse_rate(self.throttle.get_rate()))
-
-    def assert_throttling_log_correct(self, log_capture, view_set):
-        """ Helper for testing correct log output for throttling. """
-        log_capture.check(
-            (
-                'credentials.apps.api.v2.views',
-                'WARNING',
-                'Credentials API endpoint {} is being throttled.'.format(view_set)
-            )
-        )
-
-    def hit_rate_limit(self, scope, path, data=None):
-        """
-        Helper for just hitting, not exceeding the scope's rate limit.
-
-        Note: There is a potential for any test using this helper to be flaky
-        in the case the endpoint we are testing slows down over time and/or the
-        rate limit is increased.
-        """
-        self.throttle.scope = scope
-        rate_limit, _ = self.throttle.parse_rate(self.throttle.get_rate())
-        for _ in range(0, rate_limit):
-            if scope == 'credential_view':
-                response = self.client.get(path)
-            else:
-                response = getattr(self.client, 'put')(path, data=data)
-
-            self.assertEqual(response.status_code, 200)
-
-    def test_credential_view_throttling(self):
-        """ Verify requests are throttled and a message is logged after limit. """
-        with LogCapture() as log:
-            list_path = reverse('api:v2:credentials-list')
-            self.authenticate_user(self.user)
-            self.add_user_permission(self.user, 'view_usercredential')
-
-            # All requests up to the rate limit should be acceptable
-            self.hit_rate_limit('credential_view', list_path)
-
-            # Request after limit should NOT be acceptable
-            response = self.client.get(list_path)
-            self.assertEqual(response.status_code, 429)
-            assert_log_correct(
-                log,
-                'credentials.apps.api.v2.views',
-                'WARNING',
-                'Credentials API endpoint CredentialViewSet is being throttled.',
-            )
-
-    def test_grade_view_throttling(self):
-        """ Verify requests are throttled and a message is logged after limit. """
-        with LogCapture() as log:
-            course = CourseFactory(site=self.site)
-            course_run = CourseRunFactory(course=course)
-            data = {
-                'username': 'test_user',
-                'course_run': course_run.key,
-                'letter_grade': 'A',
-                'percent_grade': 0.9,
-                'verified': True,
-            }
-            grade = UserGradeFactory(
-                course_run=course_run,
-                username=self.user.username,
-                letter_grade='C',
-            )
-            path = reverse('api:v2:grades-detail', kwargs={'pk': grade.id})
-            self.authenticate_user(self.user)
-            self.add_user_permission(self.user, 'change_usergrade')
-
-            # All requests up to limit should be acceptable
-            self.hit_rate_limit('grade_view', path, data)
-
-            # Request after limit should NOT be acceptable
-            response = getattr(self.client, 'put')(path, data=data)
-            self.assertEqual(response.status_code, 429)
-            assert_log_correct(
-                log,
-                'credentials.apps.api.v2.views',
-                'WARNING',
-                'Credentials API endpoint GradeViewSet is being throttled.',
-            )
-
-    def test_staff_override(self):
-        """ Verify a superuser does not get throttled for lower rate. """
-        list_path = reverse('api:v2:credentials-list')
-        superuser = UserFactory(is_staff=True, is_superuser=True)
-        self.authenticate_user(superuser)
-
-        # All requests up to the rate limit should be acceptable
-        self.hit_rate_limit('credential_view', list_path)
-
-        # Request after lower limit should still be acceptable for a superuser
-        response = self.client.get(list_path)
-        self.assertEqual(response.status_code, 200)
