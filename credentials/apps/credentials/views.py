@@ -58,6 +58,7 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(RenderCredential, self).get_context_data(**kwargs)
         user_credential = self.user_credential
+        organization_names = []
 
         # NOTE: We currently only support rendering program credentials
         if user_credential.credential_content_type.model_class() != ProgramCertificate:
@@ -70,9 +71,20 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
 
         program_details = user_credential.credential.program_details
         for organization in program_details.organizations:
+            organization_names.append(organization.display_name)
             if not organization.certificate_logo_image_url:
                 raise MissingCertificateLogoError('No certificate image logo defined for program: [{program_uuid}]'.
                                                   format(program_uuid=program_details.uuid))
+
+        org_name_string = ""
+        if len(organization_names) == 1:
+            org_name_string = organization_names[0]
+        elif len(organization_names) == 2:
+            org_name_string = _('{first_org} and {second_org}').format(first_org=organization_names[0],
+                                                                       second_org=organization_names[1])
+        elif organization_names:
+            org_name_string = _("{series_of_orgs}, and {last_org}").format(
+                series_of_orgs=', '.join(organization_names[:-1]), last_org=organization_names[-1])
 
         user_data = user_credential.credential.site.siteconfiguration.get_user_api_data(user_credential.username)
         content_language = to_language(user_credential.credential.language)
@@ -89,6 +101,7 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
 
             # NOTE: In the future this can be set to the course_name
             'program_name': program_details.title,
+            'org_name_string': org_name_string,
         })
         if program_details.hours_of_effort:
             context.update({'hours_of_effort': program_details.hours_of_effort})
