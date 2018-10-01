@@ -187,6 +187,7 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
             'page_title': program_details.type,
             'program_name': program_details.title,
             'render_language': settings.LANGUAGE_CODE,
+            'org_name_string': 'Example University',
         })
 
         return context
