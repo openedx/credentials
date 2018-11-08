@@ -256,18 +256,6 @@ class ExampleCredentialTests(SiteMixin, TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class HtmlEscapeTemplateTagTest(TestCase):
-    def test_xss_escape_rendered(self):
-        """ Verify htmlescape filter escapes javascript injection """
-        context = Context({})
-        template_to_render = Template(
-            '{% load html %}'
-            '{{ "<script>alert(\'xss\')</script>" | htmlescape}}'
-        )
-        rendered_template = template_to_render.render(context)
-        self.assertEqual(rendered_template.find('<script>'), -1)
-
-
 class I18nAssetsTemplateTagTest(TestCase):
     def test_construct_file_language_names(self):
         """ Verify that the method for constructing file paths properly creates the set"""
