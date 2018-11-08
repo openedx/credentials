@@ -26,6 +26,7 @@ pillow==4.0.0
 pygments==2.2.0
 pytz==2016.10
 six==1.10.0
+xss-utils==0.1.0
 
 # TODO Install in configuration
 git+https://github.com/edx/credentials-themes.git@0.1.25#egg=edx_credentials_themes==0.1.25
