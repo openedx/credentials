@@ -3,6 +3,10 @@ language: python
 python:
   - "3.5"
 
+branches:
+  only:
+    - master
+
 env:
   global:
     - secure: sw/gGXEWETCMr3FB0mnvBRPTMJZTmL8QCzv7mYtdhXoUdFH45w0mq0KQUtKSJrNDTt2QY/pkzaF5xneT2dKnCgrkNNsPHEDnV0CUbiEmj9U/GvuRQW79ADyp/eNx+L6enM2uLAlXnd7Un8NDXcDLrYJLnt2Xnm7o9zv+481eSGIIH+f6M7ZEbHQP1TzxQnRz+2xksZa3l/d7eFK9FRLhmUnEQHlVo7r9di2TdEAQUQmuTGEj0cgAN+l9eRKL8T7gf7UN3v7DRZ7qZ5O66yKyniQ05xyzem+bZFMAxry4TM6/TZU8Ghchbne+bT77UYeZcnSKunWdhK5PUntp02HpN9kaOjh02uwXm6wTxi9/Xjt/ap65ZPCeCOZ2dPBncdnbi9OZY13eIZHweQR1hwWVJAC7n9p6/svnQ5CRruN95zc6b+ZecRfvPfMgjAd9J9lw0hkHVqC2rq4e52trJQkXH3zw9GXQ/V/NorpGCTbXDSopuFtATAvNDx5W4jUmAcjHGQioKmfSm1EPN5x78ZxPd/QBIPR+1RKGScYLaWexuw3go/LSv5PL/m2vR1mzp+OQri6sd91K+up2xIp5k/VIa+j8uWQLi68vnv4lcQYRIKDsJmM6ItobFuMR+I2UB3Zk2flCDPMCJ8I0B5YZsRaF/luzYD3hU6S5FJIpdWaexXQ=
