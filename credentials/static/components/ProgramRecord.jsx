@@ -361,7 +361,7 @@ class ProgramRecord extends React.Component {
                 </span>
               </div>
             </div>
-            <div name="school-name" className="hd-3 school-name">
+            <div name="school-name" className="h3 school-name">
               { StringUtils.interpolate('{platform} | {school}', { platform: platformName, school: program.school }) }
             </div>
           </header>

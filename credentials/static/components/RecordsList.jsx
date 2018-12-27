@@ -56,7 +56,7 @@ class RecordsList extends React.Component {
     return (
       <section id={id} className="responsive-list">
         <header className="pad-text-block">
-          <h3 className="hd-3 text-black">{title}</h3>
+          <h3 className="h3 text-black">{title}</h3>
           <p className="paragraph-grey">{help}</p>
         </header>
         <ul className="list-unstyled">
@@ -76,7 +76,7 @@ class RecordsList extends React.Component {
       <main id="main-content" className="record" tabIndex="-1">
         {hasProfileUrl && RecordsList.renderProfile(profileUrl)}
         <header className="pad-text-block">
-          <h2 className="hd-2 text-black">{this.props.title}</h2>
+          <h2 className="h2 text-black">{this.props.title}</h2>
         </header>
         {hasPrograms &&
           RecordsList.renderResponsiveList(
