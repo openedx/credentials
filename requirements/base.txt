@@ -29,4 +29,4 @@ six==1.10.0
 xss-utils==0.1.0
 
 # TODO Install in configuration
-git+https://github.com/edx/credentials-themes.git@0.1.25#egg=edx_credentials_themes==0.1.25
+git+https://github.com/edx/credentials-themes.git@0.1.26#egg=edx_credentials_themes==0.1.26
