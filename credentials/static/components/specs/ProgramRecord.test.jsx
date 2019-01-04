@@ -95,7 +95,7 @@ describe('<ProgramRecord />', () => {
       expect(wrapper.find('.program-record-grades').length).toEqual(1);
       expect(wrapper.find('.program-record-actions button').length).toEqual(2);
       expect(wrapper.find('.program-record-actions button.btn-primary').text()).toBe('Send Learner Record');
-      expect(wrapper.find('.program-record-actions button.btn-secondary').text()).toBe('Share');
+      expect(wrapper.find('.program-record-actions button.btn-outline-primary').text()).toBe('Share');
       expect(wrapper.find('.program-status .badge').text()).toBe('Partially Completed');
     });
 
@@ -167,25 +167,25 @@ describe('<ProgramRecord />', () => {
       axios.post.mockImplementation(() => promise);
 
       expect(wrapper.find('.modal-dialog').length).toBe(0);
-      wrapper.find('.program-record-actions button.btn-secondary').simulate('click');
+      wrapper.find('.program-record-actions button.btn-outline-primary').simulate('click');
       wrapper.update();
       expect(wrapper.find('.modal-dialog').length).toBe(1);
     });
 
     it('closes the share program url modal', () => {
       expect(wrapper.find('.modal-dialog').length).toBe(0);
-      wrapper.find('.program-record-actions button.btn-secondary').simulate('click');
+      wrapper.find('.program-record-actions button.btn-outline-primary').simulate('click');
       wrapper.update();
       expect(wrapper.find('.modal-dialog').length).toBe(1);
       wrapper.find('.modal-dialog .modal-header button').simulate('click');
       wrapper.update();
       expect(wrapper.find('.modal-dialog').length).toBe(0);
-      expect(wrapper.find('.program-record-actions button.btn-secondary').html()).toEqual(document.activeElement.outerHTML);
+      expect(wrapper.find('.program-record-actions button.btn-outline-primary').html()).toEqual(document.activeElement.outerHTML);
     });
 
     it('switches from share to send', () => {
       expect(wrapper.find('.modal-dialog').length).toBe(0);
-      wrapper.find('.program-record-actions button.btn-secondary').simulate('click');
+      wrapper.find('.program-record-actions button.btn-outline-primary').simulate('click');
       wrapper.update();
       expect(wrapper.find('.modal-dialog').length).toBe(1);
       wrapper.find('.modal-dialog .switch-to-send').simulate('click');

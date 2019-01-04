@@ -230,9 +230,10 @@ class Command(BaseCommand):
                 defaults={
                     'is_active': True,
                     'language': 'en',
-                    'signatories': signatories,
                 },
             )
+            program_certificate.signatories = signatories
+            program_certificate.save()
 
             Command.log_action("Program certificate for", program.title, created)
             program_certificates.append(program_certificate)
@@ -251,9 +252,10 @@ class Command(BaseCommand):
                 defaults={
                     'is_active': True,
                     'certificate_type': CertificateType.VERIFIED,
-                    'signatories': signatories,
                 }
             )
+            course_certificate.signatories = signatories
+            course_certificate.save()
             Command.log_action("Course certificate for course run", course_run, created)
             course_certificates.append(course_certificate)
 
