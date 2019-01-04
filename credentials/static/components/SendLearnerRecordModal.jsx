@@ -116,7 +116,7 @@ class SendLearnerRecordModal extends React.Component {
                 dismissible={false}
                 dialog={(
                   <div>
-                    <span className="hd-5">{gettext('Not all credit partners are ready to receive records yet')}</span>
+                    <span className="h6">{gettext('Not all credit partners are ready to receive records yet')}</span>
                     <p className="alert-body">{gettext('You can check back in the future or share your record link directly if you need to do so immediately.')}</p>
                   </div>)}
               />

@@ -132,7 +132,7 @@ class ProgramRecord extends React.Component {
       issue_date: this.formatDate(course.issue_date),
       status: course.issue_date ?
         <span className="badge badge-success">{gettext('Earned')}</span> :
-        <span className="badge badge-default">{gettext('Not Earned')}</span>,
+        <span className="badge badge-secondary">{gettext('Not Earned')}</span>,
     }));
   }
 
@@ -272,7 +272,7 @@ class ProgramRecord extends React.Component {
             }
             <Button
               label={gettext('Share')}
-              className={['btn-secondary']}
+              className={['btn-outline-primary']}
               onClick={this.loadShareModel}
               inputRef={this.setShareButton}
             />
@@ -295,7 +295,7 @@ class ProgramRecord extends React.Component {
             onClose={this.closeSendRecordLoadingAlert}
             dialog={
               <div>
-                <span className="hd-5">{ gettext('We are sending your program record.') }</span>
+                <span className="h6">{ gettext('We are sending your program record.') }</span>
                 <Icon id="StatusAlertIcon" className={['fa', 'fa-spinner', 'fa-spin']} />
               </div>
              }
@@ -308,7 +308,7 @@ class ProgramRecord extends React.Component {
             onClose={this.closeSendRecordFailureAlert}
             dialog={
               <div>
-                <span className="hd-5">{ gettext('We were unable to send your program record.') }</span>
+                <span className="h6">{ gettext('We were unable to send your program record.') }</span>
                 <span className="alert-body">
                   {StringUtils.interpolate(gettext('We were unable to send your record to {orgs}.  You can attempt to send this record again.  Contact support if this issue persists.'),
                       { orgs: StringUtils.formatStringList(this.state.sendRecordFailureOrgs) })}
@@ -324,7 +324,7 @@ class ProgramRecord extends React.Component {
             onClose={this.closeSendRecordSuccessAlert}
             dialog={
               <div>
-                <span className="hd-5">{ gettext('You have successfully shared your Learner Record') }</span>
+                <span className="h6">{ gettext('You have successfully shared your Learner Record') }</span>
                 <span className="alert-body">
                   {StringUtils.interpolate(gettext('You have sent your record to {orgs}.  Next, ensure you understand their application process.'),
                       { orgs: StringUtils.formatStringList(this.state.sendRecordSuccessOrgs) })}
@@ -348,7 +348,7 @@ class ProgramRecord extends React.Component {
                   (program.completed &&
                     <span className="badge badge-success">{gettext('Completed')}</span>) ||
                   (program.empty &&
-                    <span className="badge badge-default">{gettext('Not Earned')}</span>) ||
+                    <span className="badge badge-secondary">{gettext('Not Earned')}</span>) ||
                   (<span className="badge badge-warning">{gettext('Partially Completed')}</span>)
                 }
                 <span className="updated">
@@ -361,7 +361,7 @@ class ProgramRecord extends React.Component {
                 </span>
               </div>
             </div>
-            <div name="school-name" className="h3 school-name">
+            <div name="school-name" className="h4 school-name">
               { StringUtils.interpolate('{platform} | {school}', { platform: platformName, school: program.school }) }
             </div>
           </header>
@@ -391,7 +391,7 @@ class ProgramRecord extends React.Component {
                 { key: 'status', label: gettext('Status') },
               ]}
               foldedColumns={[
-                { key: 'name', className: 'hd-5 emphasized' },
+                { key: 'name', className: 'h6 font-weight-bold' },
                 { key: 'school' },
                 { key: 'course_id', format: gettext('Course ID: {}') },
                 { key: 'percent_grade', format: gettext('Highest Grade Earned: {}') },
