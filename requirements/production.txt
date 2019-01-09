@@ -6,7 +6,7 @@ django-ses==0.8.5
 gevent==1.2.1
 gunicorn==19.6.0
 mysqlclient==1.3.10
-newrelic==2.98.0.81
+newrelic==4.8.0.110
 nodeenv==1.1.2
 PyYAML==3.12
 python-memcached==1.58
