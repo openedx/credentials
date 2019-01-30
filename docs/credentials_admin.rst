@@ -166,5 +166,5 @@ The following image shows a configured ``UserGrade`` model in the Django adminis
 Social Django
 -------------
 
-This service uses edX OpenID Connect (OIDC) together with social django for authentication. For information on
-setting up OIDC, see the getting started documentation.
+This service uses social django for authentication. For information on
+setting this up, see the getting started documentation.
