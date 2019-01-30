@@ -248,7 +248,7 @@ class SiteConfiguration(models.Model):
 
 
 class User(AbstractUser):
-    """ Custom user model for use with OpenID Connect. """
+    """ Custom user model for use with python-social-auth via edx-auth-backends. """
     full_name = models.CharField(_('Full Name'), max_length=255, blank=True, null=True)
 
     @property

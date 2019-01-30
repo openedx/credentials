@@ -37,7 +37,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # AUTHENTICATION
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 
-# Set these to the correct values for your OAuth2/OpenID Connect provider (e.g., devstack)
+# Set these to the correct values for your OAuth2 provider (e.g., devstack)
 OAUTH2_PROVIDER_URL = 'http://localhost:18000/oauth2'
 SOCIAL_AUTH_EDX_OAUTH2_KEY = 'credentials-key'
 SOCIAL_AUTH_EDX_OAUTH2_SECRET = 'credentials-secret'
