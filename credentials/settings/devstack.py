@@ -45,20 +45,27 @@ MEDIA_URL = os.environ.get('MEDIA_URL', '/media/')
 STATICFILES_STORAGE = os.environ.get('STATICFILES_STORAGE', 'django.contrib.staticfiles.storage.StaticFilesStorage')
 STATIC_URL = os.environ.get('STATIC_URL', '/static/')
 
+# Generic OAuth2 variables irrespective of SSO/backend service key types.
 OAUTH2_PROVIDER_URL = 'http://edx.devstack.lms:18000/oauth2'
-SOCIAL_AUTH_EDX_OIDC_KEY = os.environ.get('SOCIAL_AUTH_EDX_OIDC_KEY', 'credentials-key')
-SOCIAL_AUTH_EDX_OIDC_SECRET = os.environ.get('SOCIAL_AUTH_EDX_OIDC_SECRET', 'credentials-secret')
-SOCIAL_AUTH_EDX_OIDC_ISSUER = os.environ.get('SOCIAL_AUTH_EDX_OIDC_ISSUER', 'http://edx.devstack.lms:18000/oauth2')
-SOCIAL_AUTH_EDX_OIDC_URL_ROOT = os.environ.get('SOCIAL_AUTH_EDX_OIDC_URL_ROOT', 'http://edx.devstack.lms:18000/oauth2')
-SOCIAL_AUTH_EDX_OIDC_LOGOUT_URL = os.environ.get('SOCIAL_AUTH_EDX_OIDC_LOGOUT_URL', 'http://localhost:18000/logout')
-SOCIAL_AUTH_EDX_OIDC_PUBLIC_URL_ROOT = os.environ.get('SOCIAL_AUTH_EDX_OIDC_PUBLIC_URL_ROOT',
-                                                      'http://localhost:18000/oauth2')
-SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY = os.environ.get('SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY',
-                                                              'credentials-secret')
+
+# OAuth2 variables specific to social-auth/SSO login use case.
+SOCIAL_AUTH_EDX_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_EDX_OAUTH2_KEY', 'credentials-sso-key')
+SOCIAL_AUTH_EDX_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_EDX_OAUTH2_SECRET', 'credentials-sso-secret')
+SOCIAL_AUTH_EDX_OAUTH2_ISSUER = os.environ.get('SOCIAL_AUTH_EDX_OAUTH2_ISSUER', 'http://localhost:18000')
+SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT = os.environ.get('SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT', 'http://edx.devstack.lms:18000')
+SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL = os.environ.get('SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL', 'http://localhost:18000/logout')
+SOCIAL_AUTH_EDX_OAUTH2_PUBLIC_URL_ROOT = os.environ.get(
+    'SOCIAL_AUTH_EDX_OAUTH2_PUBLIC_URL_ROOT', 'http://localhost:18000',
+)
+
+# OAuth2 variables specific to backend service API calls.
+BACKEND_SERVICE_EDX_OAUTH2_KEY = os.environ.get('BACKEND_SERVICE_EDX_OAUTH2_KEY', 'credentials-backend-service-key')
+BACKEND_SERVICE_EDX_OAUTH2_SECRET = os.environ.get('BACKEND_SERVICE_EDX_OAUTH2_SECRET', 'credentials-backend-service-secret')
+
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = str2bool(os.environ.get('SOCIAL_AUTH_REDIRECT_IS_HTTPS', False))
 
 JWT_AUTH['JWT_ISSUERS'].append({
     'AUDIENCE': 'lms-key',
-    'ISSUER': 'http://edx.devstack.lms:18000/oauth2',
+    'ISSUER': 'http://localhost:18000/oauth2',
     'SECRET_KEY': 'lms-secret',
 })

@@ -41,7 +41,7 @@ def pipeline_set_user_roles(response, user=None, *_, **__):
 
 class JwtAuthentication(JSONWebTokenAuthentication):
     """
-    Custom authentication using JWT from the edx oidc provider.
+    Custom authentication using JWT from the edx oauth provider.
     """
 
     def authenticate_credentials(self, payload):
@@ -72,6 +72,8 @@ class BearerAuthentication(BaseBearerAuthentication):
     This authentication class is useful for authenticating an OAuth2 access token against a remote
     authentication provider. Clients should authenticate by passing the token key in the "Authorization" HTTP header,
     prepended with the string `"Bearer "`.
+
+    NOTE: This authentication class is deprecated, see ARCH-396.
     """
     def get_user_info_url(self):
         """ Returns the URL, hosted by the OAuth2 provider, from which user information can be pulled. """
