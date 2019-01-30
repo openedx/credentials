@@ -44,44 +44,37 @@ The following example shows how to use the Amazon S3 storage backend::
 .. _Amazon S3 storage backend: http://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html
 
 
-Configure edX OpenID Connect (OIDC)
------------------------------------
-This service relies on the edX OIDC (`OpenID Connect`_) authentication provider for login. Note that OIDC is built atop
-OAuth 2.0, and this document may use the terms interchangeably. Under our current architecture the LMS serves as our
-authentication provider.
+Configure edX OAuth
+-------------------
+This service relies on the LMS serves as the OAuth 2.0 authentication provider.
 
-Configuring credentials to work with OIDC requires registering a new client with the authentication
+Configuring credentials to work with OAuth requires registering a new client with the authentication
 provider and updating the Django settings for this project with the client credentials.
 
-.. _OpenID Connect: http://openid.net/specs/openid-connect-core-1_0.html
+A new OAuth 2.0 client can be created at ``http://localhost:18000/admin/oauth2_provider/application/``.
 
-
-A new OAuth 2.0 client can be created at ``http://127.0.0.1:8000/admin/oauth2/client/``.
-
-    1. Click the :guilabel:`Add client` button.
+    1. Click the :guilabel:`Add Application` button.
     2. Leave the user field blank.
     3. Specify the name of this service, ``credentials``, as the client name.
     4. Set the :guilabel:`URL` to the root path of this service: ``http://localhost:8150/``.
-    5. Set the :guilabel:`Redirect URL` to the OIDC client endpoint: ``https://localhost:8150/complete/edx-oidc/``.
+    5. Set the :guilabel:`Redirect URL` to the complete endpoint: ``http://localhost:18150/complete/edx-oauth2/``.
     6. Copy the :guilabel:`Client ID` and :guilabel:`Client Secret` values. They will be used later.
-    7. Select :guilabel:`Confidential (Web applications)` as the client type.
-    8. Click :guilabel:`Save`.
+    7. Select :guilabel:`Confidential` as the client type.
+    8. Select :guilabel:`Authorization code` as the authorization grant type.
+    9. Click :guilabel:`Save`.
 
 Now that you have the client credentials, you can update your settings (ideally in
 :file:`credentials/settings/local.py`). The table below describes the relevant settings.
 
-+-----------------------------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------------------+
-| Setting                                             | Description                                                                | Value                                                                    |
-+=====================================================+============================================================================+==========================================================================+
-| SOCIAL_AUTH_EDX_OIDC_KEY                            | OAuth 2.0 client key                                                       | (This should be set to the value generated when the client was created.) |
-+-----------------------------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------------------+
-| SOCIAL_AUTH_EDX_OIDC_SECRET                         | OAuth 2.0 client secret                                                    | (This should be set to the value generated when the client was created.) |
-+-----------------------------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------------------+
-| SOCIAL_AUTH_EDX_OIDC_URL_ROOT                       | OAuth 2.0 authentication URL                                               | http://127.0.0.1:8000/oauth2                                             |
-+-----------------------------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------------------+
-| SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY        | OIDC ID token decryption key. This value is used to validate the ID token. | (This should be the same value as SOCIAL_AUTH_EDX_OIDC_SECRET.)          |
-+-----------------------------------------------------+----------------------------------------------------------------------------+--------------------------------------------------------------------------+
-
++-----------------------------------+----------------------------------+--------------------------------------------------------------------------+
+| Setting                           | Description                      | Value                                                                    |
++===================================+==================================+==========================================================================+
+| SOCIAL_AUTH_EDX_OAUTH2_KEY        | OAuth 2.0 client key             | (This should be set to the value generated when the client was created.) |
++-----------------------------------+----------------------------------+--------------------------------------------------------------------------+
+| SOCIAL_AUTH_EDX_OAUTH2_SECRET     | OAuth 2.0 client secret          | (This should be set to the value generated when the client was created.) |
++-----------------------------------+----------------------------------+--------------------------------------------------------------------------+
+| SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT   | OAuth 2.0 authentication URL     | http://127.0.0.1:18000/oauth2                                            |
++-----------------------------------+----------------------------------+--------------------------------------------------------------------------+
 
 Service User
 ==============
@@ -113,7 +106,7 @@ your settings and created the database (if necessary). Migrations can be run wit
 Run the server
 --------------
 The server can be run with `Django's runserver command`_. If you opt to run on a different port, make sure you update
-OIDC client via LMS admin.
+OAuth2 client via LMS admin.
 
 .. code-block:: bash
 

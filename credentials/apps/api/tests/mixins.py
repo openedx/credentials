@@ -31,7 +31,7 @@ class JwtMixin(object):
 
     def generate_id_token(self, user, admin=False, ttl=1, **overrides):
         """Generate a JWT id_token that looks like the ones currently
-        returned by the edx oidc provider."""
+        returned by the edx oauth provider."""
 
         payload = self.default_payload(user=user, admin=admin, ttl=ttl)
         payload.update(overrides)
