@@ -41,7 +41,7 @@ def pipeline_set_user_roles(response, user=None, *_, **__):
 
 class JwtAuthentication(JSONWebTokenAuthentication):
     """
-    Custom authentication using JWT from the edx oidc provider.
+    Custom authentication using JWT from the edx oauth provider.
     """
 
     def authenticate_credentials(self, payload):
