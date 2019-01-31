@@ -336,6 +336,8 @@ SOCIAL_AUTH_EDX_OAUTH2_KEY = 'replace-me'
 SOCIAL_AUTH_EDX_OAUTH2_SECRET = 'replace-me'
 SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT = 'replace-me'
 SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL = 'replace-me'
+CLIENT_CREDENTIALS_EDX_OAUTH2_KEY = 'replace-me'
+CLIENT_CREDENTIALS_EDX_OAUTH2_SECRET = 'replace-me'
 
 # Request the user's permissions in the ID token
 EXTRA_SCOPE = ['permissions']
