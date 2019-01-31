@@ -135,15 +135,15 @@ class SiteConfiguration(models.Model):
 
     @property
     def oauth2_provider_url(self):
-        return settings.SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT
+        return settings.OAUTH2_PROVIDER_URL
 
     @property
     def oauth2_client_id(self):
-        return settings.SOCIAL_AUTH_EDX_OAUTH2_KEY
+        return settings.CLIENT_CREDENTIALS_EDX_OAUTH2_KEY
 
     @property
     def oauth2_client_secret(self):
-        return settings.SOCIAL_AUTH_EDX_OAUTH2_SECRET
+        return settings.CLIENT_CREDENTIALS_EDX_OAUTH2_SECRET
 
     @property
     def user_api_url(self):
