@@ -14,7 +14,7 @@ django-webpack-loader==0.5.0
 djangorestframework==3.6.3
 djangorestframework-jwt==1.10.0
 edx-ace==0.1.9
-edx-auth-backends==1.2.1
+edx-auth-backends==1.2.2
 edx-django-release-util==0.3.1
 edx-django-sites-extensions==2.4.0
 edx-django-utils==1.0.1
