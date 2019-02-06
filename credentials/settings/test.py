@@ -38,11 +38,11 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 MEDIA_ROOT = TEST_ROOT / 'uploads'
 MEDIA_URL = '/static/uploads/'
 
-OAUTH2_PROVIDER_URL = 'https://test-provider/oauth2'
-SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT = OAUTH2_PROVIDER_URL
+SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT = 'https://test-provider'
+BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL = 'https://test-provider/oauth2'
 
 JWT_AUTH.update({
     'JWT_SECRET_KEY': SOCIAL_AUTH_EDX_OAUTH2_SECRET,
-    'JWT_ISSUER': OAUTH2_PROVIDER_URL,
+    'JWT_ISSUER': 'https://test-provider/oauth2',
     'JWT_AUDIENCE': SOCIAL_AUTH_EDX_OAUTH2_KEY,
 })

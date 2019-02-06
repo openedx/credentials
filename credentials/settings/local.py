@@ -37,13 +37,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # AUTHENTICATION
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 
-# Generic OAuth2 variables irrespective of SSO/backend service key types.
-OAUTH2_PROVIDER_URL = 'http://localhost:18000/oauth2'
-
 # OAuth2 variables specific to social-auth/SSO login use case.
 SOCIAL_AUTH_EDX_OAUTH2_KEY = 'credentials-sso-key'
 SOCIAL_AUTH_EDX_OAUTH2_SECRET = 'credentials-sso-secret'
-SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT = OAUTH2_PROVIDER_URL
 
 # OAuth2 variables specific to backend service API calls.
 BACKEND_SERVICE_EDX_OAUTH2_KEY = 'credentials-backend-service-key'
@@ -71,6 +67,6 @@ if os.path.isfile(join(dirname(abspath(__file__)), 'private.py')):
 JWT_AUTH.update({
     'JWT_ALGORITHM': 'HS256',
     'JWT_SECRET_KEY': SOCIAL_AUTH_EDX_OAUTH2_SECRET,
-    'JWT_ISSUER': OAUTH2_PROVIDER_URL,
+    'JWT_ISSUER': SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT,
     'JWT_AUDIENCE': SOCIAL_AUTH_EDX_OAUTH2_KEY,
 })

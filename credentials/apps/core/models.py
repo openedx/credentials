@@ -135,7 +135,7 @@ class SiteConfiguration(models.Model):
 
     @property
     def oauth2_provider_url(self):
-        return settings.OAUTH2_PROVIDER_URL
+        return settings.BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL
 
     @property
     def oauth2_client_id(self):
