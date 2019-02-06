@@ -45,9 +45,6 @@ MEDIA_URL = os.environ.get('MEDIA_URL', '/media/')
 STATICFILES_STORAGE = os.environ.get('STATICFILES_STORAGE', 'django.contrib.staticfiles.storage.StaticFilesStorage')
 STATIC_URL = os.environ.get('STATIC_URL', '/static/')
 
-# Generic OAuth2 variables irrespective of SSO/backend service key types.
-OAUTH2_PROVIDER_URL = 'http://edx.devstack.lms:18000/oauth2'
-
 # OAuth2 variables specific to social-auth/SSO login use case.
 SOCIAL_AUTH_EDX_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_EDX_OAUTH2_KEY', 'credentials-sso-key')
 SOCIAL_AUTH_EDX_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_EDX_OAUTH2_SECRET', 'credentials-sso-secret')
@@ -61,6 +58,9 @@ SOCIAL_AUTH_EDX_OAUTH2_PUBLIC_URL_ROOT = os.environ.get(
 # OAuth2 variables specific to backend service API calls.
 BACKEND_SERVICE_EDX_OAUTH2_KEY = os.environ.get('BACKEND_SERVICE_EDX_OAUTH2_KEY', 'credentials-backend-service-key')
 BACKEND_SERVICE_EDX_OAUTH2_SECRET = os.environ.get('BACKEND_SERVICE_EDX_OAUTH2_SECRET', 'credentials-backend-service-secret')
+BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL = os.environ.get(
+    'BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL', 'http://edx.devstack.lms:18000/oauth2',
+)
 
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = str2bool(os.environ.get('SOCIAL_AUTH_REDIRECT_IS_HTTPS', False))
 

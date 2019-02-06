@@ -307,7 +307,6 @@ AUTHENTICATION_BACKENDS = (
 ENABLE_AUTO_AUTH = False
 AUTO_AUTH_USERNAME_PREFIX = 'auto_auth_'
 
-OAUTH2_PROVIDER_URL = None
 OAUTH_ID_TOKEN_EXPIRATION = 60
 
 SOCIAL_AUTH_STRATEGY = 'auth_backends.strategies.EdxDjangoStrategy'
@@ -334,10 +333,13 @@ SOCIAL_AUTH_PIPELINE = (
 # Set these to the correct values for your OAuth2 provider (e.g., devstack)
 SOCIAL_AUTH_EDX_OAUTH2_KEY = 'replace-me'
 SOCIAL_AUTH_EDX_OAUTH2_SECRET = 'replace-me'
+SOCIAL_AUTH_EDX_OAUTH2_ISSUER = 'replace-me'
 SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT = 'replace-me'
 SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL = 'replace-me'
+SOCIAL_AUTH_EDX_OAUTH2_PUBLIC_URL_ROOT = 'replace-me'
 BACKEND_SERVICE_EDX_OAUTH2_KEY = 'replace-me'
 BACKEND_SERVICE_EDX_OAUTH2_SECRET = 'replace-me'
+BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL = 'replace-me'
 
 # Request the user's permissions in the ID token
 EXTRA_SCOPE = ['permissions']

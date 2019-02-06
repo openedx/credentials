@@ -77,4 +77,4 @@ class BearerAuthentication(BaseBearerAuthentication):
     """
     def get_user_info_url(self):
         """ Returns the URL, hosted by the OAuth2 provider, from which user information can be pulled. """
-        return '{base}/user_info/'.format(base=settings.OAUTH2_PROVIDER_URL)
+        return '{base}/user_info/'.format(base=settings.BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL)
