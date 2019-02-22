@@ -964,6 +964,25 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
         for header in headers:
             self.assertIn(header, csv_headers)
 
+    @patch('credentials.apps.records.views.SegmentClient', autospec=True)
+    def test_filename(self, segment_client):  # pylint: disable=unused-argument
+        """
+        Verify that the filename in response Content-Disposition is utf-8 encoded
+        """
+        filename = '{username}_{program_name}_grades'.format(
+            username=self.user.username,
+            program_name=self.program_cert_record.program.title
+        )
+        filename = filename.replace(' ', '_').lower().encode('utf-8')
+        expected = 'attachment; filename="{filename}.csv"'.format(filename=filename)
+
+        response = self.client.get(
+            reverse('records:program_record_csv', kwargs={'uuid': self.program_cert_record.uuid.hex})
+        )
+        actual = response['Content-Disposition']
+
+        self.assertEqual(actual, expected)
+
 
 @ddt.ddt
 class MasqueradeBannerFactoryTests(SiteMixin, TestCase):

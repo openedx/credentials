@@ -551,7 +551,7 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
         writer.writeheader()
         writer.writerows(record['grades'])
         string_io.seek(0)
-        filename = '{username}_{program_name}_grades.csv'.format(
+        filename = '{username}_{program_name}_grades'.format(
             username=record['learner']['username'],
             program_name=record['program']['name']
         )
@@ -564,7 +564,8 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
             properties=properties,
             segment_client=segment_client,
         )
-        response['Content-Disposition'] = 'attachment; filename={filename}'.format(
-            filename=filename.replace(' ', '_').lower()
+        filename = filename.replace(' ', '_').lower().encode('utf-8')
+        response['Content-Disposition'] = 'attachment; filename="{filename}.csv"'.format(
+            filename=filename
         )
         return response
