@@ -431,3 +431,5 @@ if os.environ.get('ENABLE_DJANGO_TOOLBAR', False):
         'debug_toolbar.panels.redirects.RedirectsPanel',
     ]
 # END DJANGO DEBUG TOOLBAR CONFIGURATION
+
+USERNAME_REPLACEMENT_WORKER = "replace with valid username"
