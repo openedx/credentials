@@ -1,6 +1,7 @@
 """
 Custom permissions classes for use with DRF.
 """
+from django.conf import settings
 from rest_framework import permissions
 
 
@@ -40,3 +41,11 @@ class UserCredentialPermissions(permissions.DjangoModelPermissions):
             return default or (request.user.username.lower() == filtered_username)
 
         return default
+
+
+class CanReplaceUsername(permissions.BasePermission):
+    """
+    Grants access to the Username Replacement API for the service user.
+    """
+    def has_permission(self, request, view):
+        return request.user.username == getattr(settings, "USERNAME_REPLACEMENT_WORKER")
