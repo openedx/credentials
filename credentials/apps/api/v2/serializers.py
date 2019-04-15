@@ -166,7 +166,10 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
         status = validated_data.get('status', UserCredentialStatus.AWARDED)
         attributes = validated_data.pop('attributes', None)
 
-        return accreditor.issue_credential(credential, username, status=status, attributes=attributes)
+        # Retrieve the current site from request
+        site = self.context['request'].site
+
+        return accreditor.issue_credential(site, credential, username, status=status, attributes=attributes)
 
     def create(self, validated_data):
         return self.issue_credential(validated_data)
