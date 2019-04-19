@@ -1,11 +1,12 @@
 """
 Tests for Issuer class.
 """
+import mock
 from django.test import TestCase
 
 from credentials.apps.api.exceptions import DuplicateAttributeError
 from credentials.apps.catalog.tests.factories import ProgramFactory
-from credentials.apps.core.tests.factories import SiteFactory, UserFactory
+from credentials.apps.core.tests.factories import SiteConfigurationFactory, SiteFactory, UserFactory
 from credentials.apps.credentials.issuers import CourseCertificateIssuer, ProgramCertificateIssuer
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredentialAttribute
 from credentials.apps.credentials.tests.factories import CourseCertificateFactory, ProgramCertificateFactory
@@ -135,12 +136,32 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
 
     def setUp(self):
         self.site = SiteFactory()
+        self.site_config = SiteConfigurationFactory(site=self.site)
         self.program = ProgramFactory(site=self.site)
         self.certificate = self.cert_factory.create(program_uuid=self.program.uuid, site=self.site)
         self.username = 'tester'
         self.user = UserFactory(username=self.username)
         self.user_cred = self.issuer.issue_credential(self.certificate, self.username)
         self.attributes = [{"name": "whitelist_reason", "value": "Reason for whitelisting."}]
+
+    def test_records_enabled_is_unchecked(self):
+        """Verify that if SiteConfiguration.records_enabled is unchecked then don't send
+        updated email to a pathway org.
+        """
+        self.site_config.records_enabled = False
+        self.site_config.save()
+
+        with mock.patch('credentials.apps.credentials.issuers.send_updated_emails_for_program') as mock_method:
+            self.issuer.issue_credential(self.certificate, 'testuser3', attributes=self.attributes)
+            self.assertEqual(mock_method.call_count, 0)
+
+    def test_records_enabled_is_checked(self):
+        """Verify that if SiteConfiguration.records_enabled is checked and new record is created
+        then updated email is sent to a pathway org.
+        """
+        with mock.patch('credentials.apps.credentials.issuers.send_updated_emails_for_program') as mock_method:
+            self.issuer.issue_credential(self.certificate, 'testuser4', attributes=self.attributes)
+            self.assertEqual(mock_method.call_count, 1)
 
 
 class CourseCertificateIssuerTests(CertificateIssuerBase, TestCase):
