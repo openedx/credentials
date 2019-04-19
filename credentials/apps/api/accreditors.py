@@ -30,11 +30,10 @@ class Accreditor(object):
             else:
                 self.credential_type_issuer_map[credential_type] = issuer
 
-    def issue_credential(self, site, credential, username, status=UserCredentialStatus.AWARDED, attributes=None):
+    def issue_credential(self, credential, username, status=UserCredentialStatus.AWARDED, attributes=None):
         """Issues a credential.
 
         Arguments:
-            site (Site Object): The current site
             credential (AbstractCredential): Type of credential to issue.
             username (str): Username of the recipient.
             status (str): Status of credential.
@@ -55,4 +54,4 @@ class Accreditor(object):
                 )
             )
 
-        return credential_issuer.issue_credential(site, credential, username, status, attributes)
+        return credential_issuer.issue_credential(credential, username, status, attributes)
