@@ -125,7 +125,10 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         # Send an updated email to a pathway org only if the user has previously sent one
         # This function call should be moved into some type of task queue
         # once credentials has that functionality
-        if created:
+        site_config = getattr(credential.site, 'siteconfiguration', None)
+        # Add a check to see if records_enabled is True for the site associated with
+        # the credentials. If records is not enabled, we should not send this email
+        if created and site_config and site_config.records_enabled:
             send_updated_emails_for_program(username, credential)
 
         self.set_credential_attributes(user_credential, attributes)
