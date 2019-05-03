@@ -36,6 +36,8 @@ class ProgramRecord extends React.Component {
     this.showSendRecordButton = this.props.pathways.length > 0;
 
     this.state = {
+      focusActiveButton: false,
+      buttonDisabled: false,
       shareModelOpen: false,
       sendRecordModalOpen: false,
       isPublic: true,
@@ -48,6 +50,13 @@ class ProgramRecord extends React.Component {
     };
   }
 
+  componentDidUpdate() {
+    if (this.state.focusActiveButton) {
+      this.activeButton.focus();
+      this.state.focusActiveButton = false;
+    }
+  }
+
   setActiveButton(button) {
     this.activeButton = button;
   }
@@ -56,6 +65,7 @@ class ProgramRecord extends React.Component {
     this.setState({
       sendRecordModalOpen: true,
       shareModelOpen: false,
+      buttonDisabled: true,
     });
     this.setActiveButton(event.target);
     trackEvent('edx.bi.credentials.program_record.send_started', {
@@ -68,6 +78,7 @@ class ProgramRecord extends React.Component {
     this.setState({
       sendRecordModalOpen: false,
       shareModelOpen: true,
+      buttonDisabled: true,
     });
     this.setActiveButton(event.target);
     trackEvent('edx.bi.credentials.program_record.share_started', {
@@ -79,15 +90,17 @@ class ProgramRecord extends React.Component {
   closeSendRecordModal() {
     this.setState({
       sendRecordModalOpen: false,
+      buttonDisabled: false,
+      focusActiveButton: true,
     });
-    this.activeButton.focus();
   }
 
   closeShareModel() {
     this.setState({
       shareModelOpen: false,
+      buttonDisabled: false,
+      focusActiveButton: true,
     });
-    this.activeButton.focus();
   }
 
   downloadRecord(uuid) {
@@ -268,6 +281,7 @@ class ProgramRecord extends React.Component {
                 label={gettext('Send Learner Record')}
                 className={['btn-primary']}
                 onClick={this.loadSendRecordModal}
+                disabled={this.state.buttonDisabled}
               />
             }
             <Button
@@ -275,6 +289,7 @@ class ProgramRecord extends React.Component {
               className={['btn-outline-primary']}
               onClick={this.loadShareModel}
               inputRef={this.setShareButton}
+              disabled={this.state.buttonDisabled}
             />
           </div>
         }

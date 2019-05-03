@@ -48,6 +48,7 @@ class ProgramCertRecord(TimeStampedModel):
 
     class Meta(object):
         verbose_name = "Shared program record"
+        unique_together = ('program', 'user')
 
 
 class UserCreditPathway(TimeStampedModel):
