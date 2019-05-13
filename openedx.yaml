@@ -5,4 +5,6 @@ nick: cred
 oeps: 
   oep-7: true  # Python 3
 owner: schenedx
+supporting_teams:
+  - masters-neem
 openedx-release: {ref: master}
