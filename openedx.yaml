@@ -2,7 +2,7 @@
 # http://open-edx-proposals.readthedocs.io/en/latest/oeps/oep-0002.html#specification
 
 nick: cred
-oeps: {}
-owner: edx/learner
+oeps: 
+  oep-7: true  # Python 3
+owner: schenedx
 openedx-release: {ref: master}
-track-pulls: true
