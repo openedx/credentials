@@ -8,3 +8,5 @@ owner: schenedx
 supporting_teams:
   - masters-neem
 openedx-release: {ref: master}
+tags:
+  - webservice
