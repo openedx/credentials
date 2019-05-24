@@ -28,7 +28,11 @@ class CredentialFieldTests(SiteMixin, TestCase):
         self.program_certificate = ProgramCertificateFactory(site=self.site)
         self.course_certificate = CourseCertificateFactory(site=self.site, certificate_type='verified')
         self.field_instance = CredentialField()
-        self.field_instance.context['request'] = namedtuple('HttpRequest', ['site'])(self.site)
+        # see: https://github.com/encode/django-rest-framework/blob/3.9.x/rest_framework/fields.py#L610
+        # pylint: disable=protected-access
+        self.field_instance._context = {
+            'request': namedtuple('HttpRequest', ['site'])(self.site),
+        }
 
     def assert_program_uuid_validation_error_raised(self, program_uuid):
         try:
