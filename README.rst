@@ -30,6 +30,23 @@ Reporting Security Issues
 
 Please do not report security issues in public. Please email security@edx.org.
 
+Testing
+-------
+
+The command below runs all of the Python and JS tests::
+
+  $ make tests
+
+The Python tests can be run independently with::
+
+  $ pytest --ds credentials.settings.test
+
+If this is the first time you've run tests, you'll have to run::
+
+  $ make static
+
+first, otherwise you'll run into ``webpack_loader.exceptions.WebpackBundleLookupErrors``.
+
 Get Help
 --------
 
