@@ -46,3 +46,4 @@ JWT_AUTH.update({
     'JWT_ISSUER': 'https://test-provider/oauth2',
     'JWT_AUDIENCE': SOCIAL_AUTH_EDX_OAUTH2_KEY,
 })
+STATICFILES_STORAGE = None

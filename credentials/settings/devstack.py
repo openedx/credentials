@@ -64,8 +64,10 @@ BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL = os.environ.get(
 
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = str2bool(os.environ.get('SOCIAL_AUTH_REDIRECT_IS_HTTPS', False))
 
-JWT_AUTH['JWT_ISSUERS'].append({
-    'AUDIENCE': 'lms-key',
-    'ISSUER': 'http://localhost:18000/oauth2',
-    'SECRET_KEY': 'lms-secret',
-})
+JWT_AUTH['JWT_ISSUERS'] = [
+        {
+            'AUDIENCE': 'lms-key',
+            'ISSUER': 'http://127.0.0.1:8000/oauth2',
+            'SECRET_KEY': 'lms-secret'
+        }
+    ]
