@@ -101,11 +101,12 @@ WSGI_APPLICATION = 'credentials.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'NAME': 'credentials',
+        'USER': 'credentials001',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',  # Set to empty string for default.
+        'ATOMIC_REQUESTS': False,
     }
 }
 
@@ -331,14 +332,14 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 # Set these to the correct values for your OAuth2 provider (e.g., devstack)
-SOCIAL_AUTH_EDX_OAUTH2_KEY = 'replace-me'
-SOCIAL_AUTH_EDX_OAUTH2_SECRET = 'replace-me'
-SOCIAL_AUTH_EDX_OAUTH2_ISSUER = 'replace-me'
-SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT = 'replace-me'
-SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL = 'replace-me'
-BACKEND_SERVICE_EDX_OAUTH2_KEY = 'replace-me'
-BACKEND_SERVICE_EDX_OAUTH2_SECRET = 'replace-me'
-BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL = 'replace-me'
+SOCIAL_AUTH_EDX_OAUTH2_KEY = 'credentials-sso-key'
+SOCIAL_AUTH_EDX_OAUTH2_SECRET = 'credentials-sso-secret'
+SOCIAL_AUTH_EDX_OAUTH2_ISSUER = 'http://127.0.0.1:8000'
+SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT = 'http://127.0.0.1:8000'
+SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL = 'http://127.0.0.1:8000/logout'
+BACKEND_SERVICE_EDX_OAUTH2_KEY = 'credentials-backend-service-key'
+BACKEND_SERVICE_EDX_OAUTH2_SECRET = 'credentials-backend-service-secret'
+BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL = 'http://127.0.0.1:8000/logout'
 
 # Request the user's permissions in the ID token
 EXTRA_SCOPE = ['permissions']
@@ -358,12 +359,22 @@ USER_CACHE_TTL = 30 * 60
 CREDENTIALS_SERVICE_USER = 'credentials_service_user'
 
 JWT_AUTH = {
-    'JWT_ISSUERS': [],
+    'JWT_ISSUER': [
+        {
+            'AUDIENCE': 'SET-ME-PLEASE',
+            'ISSUER': 'http://127.0.0.1:8000/oauth2',
+            'SECRET_KEY': 'SET-ME-PLEASE'
+        }
+    ],
     'JWT_ALGORITHM': 'HS256',
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_PAYLOAD_GET_USERNAME_HANDLER': lambda d: d.get('preferred_username'),
     'JWT_LEEWAY': 1,
     'JWT_DECODE_HANDLER': 'edx_rest_framework_extensions.auth.jwt.decoder.jwt_decode_handler',
+    'JWT_PUBLIC_SIGNING_JWK_SET': None,
+    'JWT_AUTH_COOKIE_HEADER_PAYLOAD': 'edx-jwt-cookie-header-payload',
+    'JWT_AUTH_COOKIE_SIGNATURE': 'edx-jwt-cookie-signature',
+    'JWT_AUTH_REFRESH_COOKIE': 'edx-jwt-refresh-cookie',
 }
 
 # Email sending
@@ -433,3 +444,31 @@ if os.environ.get('ENABLE_DJANGO_TOOLBAR', False):
 # END DJANGO DEBUG TOOLBAR CONFIGURATION
 
 USERNAME_REPLACEMENT_WORKER = "replace with valid username"
+
+CSRF_COOKIE_SECURE = False
+FILE_STORAGE_BACKEND = {}
+EXTRA_APPS = []
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
+EDX_DRF_EXTENSIONS = {
+    "OAUTH2_USER_INFO_URL": "http://127.0.0.1:8000/oauth2/user_info"
+}
+API_ROOT = None
+MEDIA_STORAGE_BACKEND = {
+    'DEFAULT_FILE_STORAGE': 'django.core.files.storage.FileSystemStorage',
+    'MEDIA_ROOT': MEDIA_ROOT,
+    'MEDIA_URL': MEDIA_URL
+}
+SOCIAL_AUTH_EDX_OIDC_KEY = 'credentials-key'
+SOCIAL_AUTH_EDX_OIDC_SECRET = 'credentials-secret'
+SOCIAL_AUTH_EDX_OIDC_URL_ROOT = 'http://127.0.0.1:8000/oauth2'
+SOCIAL_AUTH_EDX_OIDC_LOGOUT_URL = 'http://127.0.0.1:8000/logout'
+SOCIAL_AUTH_EDX_OIDC_ID_TOKEN_DECRYPTION_KEY = SOCIAL_AUTH_EDX_OIDC_SECRET
+SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
+SOCIAL_AUTH_EDX_OIDC_PUBLIC_URL_ROOT = 'http://127.0.0.1:8000/oauth2'
+SOCIAL_AUTH_EDX_OIDC_ISSUER = 'http://127.0.0.1:8000/oauth2'
