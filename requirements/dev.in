@@ -1,6 +1,6 @@
 # Packages required for local development
--r test.txt
--r docs.txt
+-r test.in
+-r docs.in
 
 django-debug-toolbar==1.6
 
