@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := tests
 NODE_BIN=./node_modules/.bin
 
-.PHONY: requirements
+.PHONY: requirements upgrade
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message
