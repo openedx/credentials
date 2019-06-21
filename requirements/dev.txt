@@ -5,21 +5,27 @@
 #    make upgrade
 #
 analytics-python==1.2.9
-astroid==1.5.2            # via edx-lint, pylint, pylint-celery
+asn1crypto==0.24.0        # via cryptography
+astroid==1.5.2
 attrs==17.4.0
+bcrypt==3.1.7             # via paramiko
 bok-choy==0.7.0
+cached-property==1.5.1    # via docker-compose
 certifi==2019.6.16
+cffi==1.12.3              # via bcrypt, cryptography, pynacl
 chardet==3.0.4
-click-log==0.1.8          # via edx-lint
-click==7.0                # via click-log, edx-lint
-cookies==2.2.1            # via responses
+click-log==0.1.8
+click==7.0
+cookies==2.2.1
 coreapi==2.3.1
 coreschema==0.0.4
 coverage==4.3.4
+cryptography==2.7         # via paramiko
 ddt==1.1.1
 defusedxml==0.6.0
 django-appconf==1.0.3
 django-compat==1.0.15
+django-debug-toolbar==1.6
 django-extensions==1.7.9
 django-filter==1.0.4
 django-hijack==2.1.7
@@ -33,50 +39,64 @@ django-webpack-loader==0.5.0
 django==1.11.21
 djangorestframework-jwt==1.11.0
 djangorestframework==3.9.4
+docker-compose==1.24.1
+docker-pycreds==0.4.0     # via docker
+docker[ssh]==3.7.3        # via docker-compose
+dockerpty==0.4.1          # via docker-compose
+docopt==0.6.2             # via docker-compose
 edx-ace==0.1.9
 edx-auth-backends==1.2.2
 edx-django-release-util==0.3.1
 edx-django-sites-extensions==2.4.0
 edx-django-utils==1.0.1
 edx-drf-extensions==2.2.1
+edx-i18n-tools==0.4.8
 edx-lint==0.5.5
 edx-opaque-keys==0.4.1
 edx-rest-api-client==1.8.2
 git+https://github.com/edx/credentials-themes.git@0.1.28#egg=edx_credentials_themes==0.1.28
 factory-boy==2.11.1
-faker==1.0.7              # via factory-boy
+faker==1.0.7
 future==0.17.1
 httpretty==0.8.14
 idna==2.7
+importlib-metadata==0.18  # via path.py
 isort==4.2.5
 itypes==1.1.0
 jinja2==2.10.1
-lazy-object-proxy==1.4.1  # via astroid
-lazy==1.4                 # via bok-choy
+jsonschema==2.6.0         # via docker-compose
+lazy-object-proxy==1.4.1
+lazy==1.4
 markdown==2.6.8
 markupsafe==1.1.1
-mccabe==0.6.1             # via pylint
+mccabe==0.6.1
 mock==2.0.0
-needle==0.5.0             # via bok-choy
+needle==0.5.0
 newrelic==4.8.0.110
-nose==1.3.7               # via needle
+nose==1.3.7
 oauthlib==3.0.1
 olefile==0.46
 openapi-codec==1.3.2
+paramiko==2.6.0           # via docker
+path.py==12.0.1           # via edx-i18n-tools
 pbr==5.3.1
 pep8==1.7.0
 pillow==4.0.0
+polib==1.1.0              # via edx-i18n-tools
 psutil==1.2.1
-py==1.8.0                 # via pytest
+py==1.8.0
+pycparser==2.19           # via cffi
 pycryptodomex==3.8.2
 pygments==2.4.2
+pyinotify==0.9.6 ; "linux" in sys_platform
 pyjwkest==1.3.2
 pyjwt==1.7.1
-pylint-celery==0.3        # via edx-lint
-pylint-django==0.7.2      # via edx-lint
-pylint-plugin-utils==0.5  # via pylint-celery, pylint-django
-pylint==1.7.1             # via edx-lint, pylint-celery, pylint-django, pylint-plugin-utils
+pylint-celery==0.3
+pylint-django==0.7.2
+pylint-plugin-utils==0.5
+pylint==1.7.1
 pymongo==3.8.0
+pynacl==1.3.0             # via paramiko
 pytest-django==3.1.2
 pytest==3.0.7
 python-dateutil==2.8.0
@@ -87,20 +107,25 @@ requests-oauthlib==1.2.0
 requests==2.20.0
 responses==0.5.1
 rest-condition==1.0.3
-selenium==3.141.0         # via bok-choy, needle
+selenium==3.141.0
 semantic-version==2.6.0
 simplejson==3.16.0
 six==1.12.0
 slumber==0.7.1
 social-auth-app-django==1.2.0
 social-auth-core[openidconnect]==1.7.0
+sqlparse==0.3.0           # via django-debug-toolbar
 stevedore==1.30.1
 testfixtures==6.2.0
-text-unidecode==1.2       # via faker
+text-unidecode==1.2
+texttable==0.9.1          # via docker-compose
+transifex-client==0.12.4
 uritemplate==3.0.0
 urllib3==1.24.3
-wrapt==1.11.2             # via astroid
+websocket-client==0.56.0  # via docker, docker-compose
+wrapt==1.11.2
 xss-utils==0.1.0
+zipp==0.5.1               # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools==41.0.1        # via pytest

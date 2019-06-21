@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := tests
 NODE_BIN=./node_modules/.bin
 
-.PHONY: requirements
+.PHONY: requirements upgrade
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message
@@ -21,7 +21,7 @@ production-requirements: ## Install requirements for production
 
 requirements: ## Install requirements for local development
 	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
-	pip install -r requirements/local.txt
+	pip install -r requirements/dev.txt
 
 quality: ## Run linters
 	isort --check-only --recursive acceptance_tests/ credentials/
@@ -135,3 +135,13 @@ validate_translations: ## Test translations files
 	cd credentials && i18n_tool validate -v --check-all
 
 check_translations_up_to_date: fake_translations detect_changed_source_translations ## Install fake translations and check if translation files are up-to-date
+
+export CUSTOM_COMPILE_COMMAND = make upgrade
+upgrade: ## update the requirements/*.txt files with the latest packages satisfying requirements/*.in
+	pip install -q -r requirements/pip_tools.txt
+	pip-compile --rebuild --upgrade -o requirements/pip_tools.txt requirements/pip_tools.in
+	pip-compile --rebuild --upgrade -o requirements/base.txt requirements/base.in
+	pip-compile --rebuild --upgrade -o requirements/test.txt requirements/test.in
+	pip-compile --rebuild --upgrade -o requirements/docs.txt requirements/docs.in
+	pip-compile --rebuild --upgrade -o requirements/dev.txt requirements/dev.in
+	pip-compile --rebuild --upgrade -o requirements/production.txt requirements/production.in
