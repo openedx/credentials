@@ -141,7 +141,7 @@ upgrade: ## update the requirements/*.txt files with the latest packages satisfy
 	pip install -q -r requirements/pip_tools.txt
 	pip-compile --rebuild --upgrade -o requirements/pip_tools.txt requirements/pip_tools.in
 	pip-compile --rebuild --upgrade -o requirements/base.txt requirements/base.in
-	pip-compile --rebuild --upgrade -o requirements/dev.txt requirements/dev.in
-	pip-compile --rebuild --upgrade -o requirements/docs.txt requirements/docs.in
-	pip-compile --rebuild --upgrade -o requirements/production.txt requirements/production.in
 	pip-compile --rebuild --upgrade -o requirements/test.txt requirements/test.in
+	pip-compile --rebuild --upgrade -o requirements/docs.txt requirements/docs.in
+	pip-compile --rebuild --upgrade -o requirements/dev.txt requirements/dev.in
+	pip-compile --rebuild --upgrade -o requirements/production.txt requirements/production.in

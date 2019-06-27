@@ -1,3 +1,14 @@
+# Core dependencies for running credentials
+#
+# DON'T JUST ADD NEW DEPENDENCIES!!!
+#
+# If you open a pull request that adds a new dependency, you should:
+#   * verify that the dependency has a license compatible with AGPLv3
+#   * confirm that it has no system requirements beyond what we already install
+#   * run "make upgrade" to update the detailed requirements files
+
+-c constraints.txt
+
 analytics-python==1.2.9
 coreapi==2.3.1
 django<2.0
@@ -22,10 +33,12 @@ edx-drf-extensions==2.2.1
 edx-opaque-keys==0.4.1
 edx-rest-api-client==1.8.2
 markdown==2.6.8
+newrelic==4.8.0.110
 pillow==4.0.0
-pygments==2.2.0
-pytz==2016.10
-six==1.10.0
+pygments
+pytz
+requests==2.20.0
+six
 xss-utils==0.1.0
 
 # TODO Install in configuration

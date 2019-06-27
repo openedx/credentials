@@ -1,6 +1,11 @@
-# Packages required for local development
--r test.in
--r docs.in
+# Dependencies that are used in development environments.
+# Please do not use this file for packages that are needed in production or for test runs.
+#
+# These are installed automatically in devstack, and can also be installed manually using:
+#
+#    pip install -r requirements/dev.txt
+
+-r test.txt
 
 django-debug-toolbar==1.6
 
