@@ -25,6 +25,7 @@ from django.views.defaults import page_not_found
 from rest_framework_swagger.views import get_swagger_view
 
 from credentials.apps.core import views as core_views
+from credentials.apps.core.views import LogoutView
 from credentials.apps.records.views import ProgramListingView
 from credentials.views import FaviconView
 
@@ -33,7 +34,10 @@ admin.autodiscover()
 admin.site.site_header = _('Credentials Administration')
 admin.site.site_title = admin.site.site_header
 
-urlpatterns = oauth2_urlpatterns + [
+# NOTE 1: Add our logout override first to ensure it is registered by Django as the actual logout view.
+AUTH_URLS = [url(r'^logout/$', LogoutView.as_view(), name='logout'), ] + oauth2_urlpatterns
+
+urlpatterns = AUTH_URLS + [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include('credentials.apps.api.urls', namespace='api')),
     url(r'^api-auth/', include(oauth2_urlpatterns, namespace='rest_framework')),

@@ -2,6 +2,7 @@
 import logging
 import uuid
 
+from auth_backends.views import EdxOAuth2LogoutView
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, login
 from django.db import DatabaseError, connection, transaction
@@ -10,6 +11,8 @@ from django.shortcuts import redirect, render_to_response
 from django.template import TemplateDoesNotExist
 from django.template.loader import select_template
 from django.views.generic import View
+from rest_framework import views
+from rest_framework.permissions import AllowAny
 
 from credentials.apps.core.constants import Status
 try:
@@ -88,6 +91,14 @@ class AutoAuth(View):
         login(request, user)
 
         return redirect('/')
+
+
+class LogoutView(EdxOAuth2LogoutView, views.APIView):
+    """ Logout view that redirects the user to the LMS logout page. """
+    permission_classes = [AllowAny]
+
+    def get_redirect_url(self, *args, **kwargs):
+        return settings.SOCIAL_AUTH_EDX_OAUTH2_LOGOUT_URL
 
 
 class ThemeViewMixin:
