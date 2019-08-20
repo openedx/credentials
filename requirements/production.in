@@ -7,14 +7,12 @@
 #   * confirm that it has no system requirements beyond what we already install
 #   * run "make upgrade" to update the detailed requirements files
 
--r base.txt
+-r base.in
 
-boto==2.45.0
-django-ses==0.8.5
-gevent==1.2.1
-gunicorn==19.6.0
-mysqlclient==1.3.10
-newrelic==4.8.0.110
-nodeenv==1.1.2
-PyYAML==3.12
-python-memcached==1.58
+boto
+django-ses
+gevent
+gunicorn
+newrelic
+nodeenv
+PyYAML

@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := tests
 NODE_BIN=./node_modules/.bin
 
-.PHONY: requirements upgrade
+.PHONY: requirements upgrade piptools
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message
@@ -15,13 +15,13 @@ clean: ## Remove all generated files
 	rm -rf credentials/assets/ credentials/static/bundles/ credentials/static/jsi18n/ coverage htmlcov test_root/uploads
 	git clean -fd credentials/conf/locale
 
-production-requirements: ## Install requirements for production
+production-requirements: piptools ## Install requirements for production
 	npm install --production --no-save
-	pip install -r requirements.txt
+	pip-sync requirements.txt
 
-requirements: ## Install requirements for local development
+requirements: piptools ## Install requirements for local development
 	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
-	pip install -r requirements/dev.txt
+	pip-sync requirements/dev.txt
 
 quality: ## Run linters
 	isort --check-only --recursive acceptance_tests/ credentials/
@@ -136,9 +136,11 @@ validate_translations: ## Test translations files
 
 check_translations_up_to_date: fake_translations detect_changed_source_translations ## Install fake translations and check if translation files are up-to-date
 
-export CUSTOM_COMPILE_COMMAND = make upgrade
-upgrade: ## update the requirements/*.txt files with the latest packages satisfying requirements/*.in
+piptools: 
 	pip install -q -r requirements/pip_tools.txt
+
+export CUSTOM_COMPILE_COMMAND = make upgrade
+upgrade: piptools ## update the requirements/*.txt files with the latest packages satisfying requirements/*.in
 	pip-compile --rebuild --upgrade -o requirements/pip_tools.txt requirements/pip_tools.in
 	pip-compile --rebuild --upgrade -o requirements/base.txt requirements/base.in
 	pip-compile --rebuild --upgrade -o requirements/test.txt requirements/test.in
