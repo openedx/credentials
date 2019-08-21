@@ -1,7 +1,10 @@
+import urllib
+
 from django.core import mail
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
+from rest_framework.test import APIRequestFactory
 
 from credentials.apps.catalog.tests.factories import PathwayFactory, ProgramFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
@@ -29,6 +32,7 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
         self.pcr = ProgramCertRecordFactory(program=self.program, user=self.user)
         self.data = {'username': self.USERNAME, 'pathway_id': self.pathway.id}
         self.url = reverse('records:share_program', kwargs={'uuid': self.program.uuid.hex})
+        self.request = APIRequestFactory().get('/')
 
         mail.outbox = []
 
@@ -43,12 +47,17 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
             status=UserCreditPathwayStatus.SENT)
         self.assertEqual(0, len(mail.outbox))
 
-        send_updated_emails_for_program(self.USERNAME, self.pc)
+        send_updated_emails_for_program(self.request, self.USERNAME, self.pc)
 
         # Check that another email was sent
         self.assertEqual(1, len(mail.outbox))
         email = mail.outbox[0]
+        record_path = reverse('records:public_programs', kwargs={'uuid': self.pcr.uuid.hex})
+        expected_record_link = self.request.build_absolute_uri(record_path)
+        expected_csv_link = urllib.parse.urljoin(expected_record_link, "csv")
         self.assertIn(self.program.title + ' Updated Credit Request for', email.subject)
+        self.assertIn(expected_record_link, email.body)
+        self.assertIn(expected_csv_link, email.body)
 
     def test_no_previous_email_sent(self):
         """
@@ -56,7 +65,7 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
         """
         self.assertEqual(0, len(mail.outbox))
 
-        send_updated_emails_for_program(self.USERNAME, self.pc)
+        send_updated_emails_for_program(self.request, self.USERNAME, self.pc)
 
         # Check that no email was sent
         self.assertEqual(0, len(mail.outbox))

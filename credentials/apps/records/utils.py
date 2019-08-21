@@ -14,7 +14,7 @@ from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 logger = logging.getLogger(__name__)
 
 
-def send_updated_emails_for_program(username, program_certificate):
+def send_updated_emails_for_program(request, username, program_certificate):
         """ If the user has previously sent an email to a pathway org, we want to send
         an updated one when they finish the program.  This function is called from the
         credentials Program Certificate awarding API """
@@ -42,7 +42,7 @@ def send_updated_emails_for_program(username, program_certificate):
 
             pathway = user_pathway.pathway
             record_path = reverse('records:public_programs', kwargs={'uuid': pcr.uuid.hex})
-            record_link = site.domain + record_path
+            record_link = request.build_absolute_uri(record_path)
             csv_link = urllib.parse.urljoin(record_link, "csv")
 
             msg = ProgramCreditRequest(site).personalize(

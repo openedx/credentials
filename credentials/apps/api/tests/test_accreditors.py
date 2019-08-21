@@ -45,7 +45,7 @@ class AccreditorTests(TestCase):
         accreditor = Accreditor(issuers=[ProgramCertificateIssuer()])
         with patch.object(ProgramCertificateIssuer, 'issue_credential') as mock_method:
             accreditor.issue_credential(self.program_cert, 'tester', attributes=self.attributes)
-            mock_method.assert_called_with(self.program_cert, 'tester', 'awarded', self.attributes)
+            mock_method.assert_called_with(self.program_cert, 'tester', 'awarded', self.attributes, None)
 
     def test_constructor_with_multiple_issuers_for_same_credential_type(self):
         """ Verify the Accreditor supports a single Issuer per credential type.
