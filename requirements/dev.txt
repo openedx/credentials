@@ -7,7 +7,7 @@
 analytics-python==1.2.9
 argparse==1.4.0           # via stevedore
 asn1crypto==0.24.0        # via cryptography
-astroid==1.5.3            # via pylint, pylint-celery
+astroid==1.5.2            # via edx-lint, pylint, pylint-celery
 atomicwrites==1.3.0       # via pytest
 attrs==17.4.0             # via edx-ace, packaging, pytest
 bcrypt==3.1.7             # via paramiko
@@ -16,7 +16,7 @@ cached-property==1.5.1    # via docker-compose
 certifi==2019.6.16        # via requests
 cffi==1.12.3              # via bcrypt, cryptography, pynacl
 chardet==3.0.4            # via requests
-click-log==0.3.2          # via edx-lint
+click-log==0.1.8          # via edx-lint
 click==7.0                # via click-log, edx-lint
 coreapi==2.3.3
 coreschema==0.0.4         # via coreapi
@@ -52,7 +52,7 @@ edx-django-sites-extensions==2.4.0
 edx-django-utils==2.0.0
 edx-drf-extensions==2.4.0
 edx-i18n-tools==0.4.8
-edx-lint==1.3.0
+edx-lint==0.5.5
 edx-opaque-keys==1.0.1
 edx-rest-api-client==1.9.2
 git+https://github.com/edx/credentials-themes.git@0.1.28#egg=edx_credentials_themes==0.1.28
@@ -62,7 +62,7 @@ future==0.17.1            # via pyjwkest
 httpretty==0.9.6
 idna==2.7                 # via requests
 importlib-metadata==0.19  # via path.py, pluggy, pytest
-isort==4.3.21
+isort==4.2.5
 itypes==1.1.0             # via coreapi
 jinja2==2.10.1            # via coreschema
 jsonschema==2.6.0         # via docker-compose
@@ -98,7 +98,7 @@ pyjwt==1.7.1              # via djangorestframework-jwt, edx-auth-backends, edx-
 pylint-celery==0.3        # via edx-lint
 pylint-django==0.7.2      # via edx-lint
 pylint-plugin-utils==0.5  # via pylint-celery, pylint-django
-pylint==1.7.6             # via edx-lint, pylint-celery, pylint-django, pylint-plugin-utils
+pylint==1.7.1             # via edx-lint, pylint-celery, pylint-django, pylint-plugin-utils
 pymongo==3.9.0            # via edx-opaque-keys
 pynacl==1.3.0             # via paramiko
 pyparsing==2.4.2          # via packaging

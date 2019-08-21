@@ -16,10 +16,10 @@
 bok-choy
 coverage
 ddt
-edx-lint
+edx-lint==0.5.5
 factory-boy
 httpretty
-isort
+isort==4.2.5
 mock
 pep8
 pytest
