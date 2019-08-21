@@ -19,6 +19,11 @@ production-requirements: piptools ## Install requirements for production
 	npm install --production --no-save
 	pip-sync requirements.txt
 
+all-requirements: piptools ## Install local and prod requirements
+	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
+	npm install --production --no-save
+	pip-sync requirements/all.txt
+
 requirements: piptools ## Install requirements for local development
 	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
 	pip-sync requirements/dev.txt
@@ -77,7 +82,7 @@ exec-clean: ## Remove all generated files from a container
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make clean'
 
 exec-requirements:
-	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make requirements && make production-requirements'
+	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make all-requirements'
 
 exec-static: ## Gather static assets on a container
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make static'
@@ -147,3 +152,4 @@ upgrade: piptools ## update the requirements/*.txt files with the latest package
 	pip-compile --rebuild --upgrade -o requirements/docs.txt requirements/docs.in
 	pip-compile --rebuild --upgrade -o requirements/dev.txt requirements/dev.in
 	pip-compile --rebuild --upgrade -o requirements/production.txt requirements/production.in
+	pip-compile --rebuild --upgrade -o requirements/all.txt requirements/all.in
