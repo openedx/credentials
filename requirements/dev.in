@@ -5,14 +5,15 @@
 #
 #    pip install -r requirements/dev.txt
 
--r test.in
+-c constraints.txt
+-r test.txt
 
 # i18n
 transifex-client
 edx-i18n-tools
 
 # for docker devstack
-docker-compose >= 1.5.1
+docker-compose
 
 # More efficient checking for runserver reload trigger events
 pyinotify; "linux" in sys_platform

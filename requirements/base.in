@@ -11,11 +11,11 @@
 
 analytics-python
 coreapi
-django<2.0
-django-debug-toolbar==1.6
+django
+django-debug-toolbar
 django-hijack
 django-extensions
-django-filter==1.0.4
+django-filter
 django-ratelimit
 django-rest-swagger
 django-sortedm2m
@@ -36,7 +36,7 @@ edx-rest-api-client
 markdown
 mysqlclient
 newrelic
-pillow==4.0.0
+pillow
 pygments
 python-memcached
 pytz
@@ -45,4 +45,4 @@ six
 xss-utils
 
 # TODO Install in configuration
-git+https://github.com/edx/credentials-themes.git@0.1.28#egg=edx_credentials_themes==0.1.28
+git+https://github.com/edx/credentials-themes.git@0.1.27#egg=edx_credentials_themes==0.1.27

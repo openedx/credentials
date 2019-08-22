@@ -3,7 +3,8 @@
 # These are installed automatically in devstack, and can also be installed manually using:
 #
 #    pip-sync requirements/all.txt
+-c constraints.txt
 
--r dev.in
--r production.in
+-r dev.txt
+-r production.txt
 
