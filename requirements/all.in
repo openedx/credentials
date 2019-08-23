@@ -1,0 +1,10 @@
+# Dependencies that are used by the exec-* commands, they expect both prod and dev requirements to be present.
+#
+# These are installed automatically in devstack, and can also be installed manually using:
+#
+#    pip-sync requirements/all.txt
+-c constraints.txt
+
+-r dev.txt
+-r production.txt
+

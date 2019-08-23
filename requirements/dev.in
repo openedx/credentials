@@ -1,0 +1,19 @@
+# Dependencies that are used in development environments.
+# Please do not use this file for packages that are needed in production or for test runs.
+#
+# These are installed automatically in devstack, and can also be installed manually using:
+#
+#    pip install -r requirements/dev.txt
+
+-c constraints.txt
+-r test.txt
+
+# i18n
+transifex-client
+edx-i18n-tools
+
+# for docker devstack
+docker-compose
+
+# More efficient checking for runserver reload trigger events
+pyinotify; "linux" in sys_platform

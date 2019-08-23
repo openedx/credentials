@@ -1,0 +1,29 @@
+# This requirements file is only for python packages that need to be installed
+# for the credentials IDA in testing environments. This includes:
+#   * travis
+#   * devstack
+# Please do not use this file for packages that are needed in production
+#
+# DON'T JUST ADD NEW DEPENDENCIES!!!
+#
+# If you open a pull request that adds a new dependency, you should:
+#   * verify that the dependency has a license compatible with AGPLv3
+#   * confirm that it has no system requirements beyond what we already install
+#   * run "make upgrade" to update the detailed requirements files
+
+-c constraints.txt
+-r base.txt
+
+bok-choy
+coverage
+ddt
+edx-lint
+factory-boy
+httpretty
+isort
+mock
+pep8
+pytest
+pytest-django
+responses
+testfixtures
