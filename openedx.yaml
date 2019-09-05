@@ -6,7 +6,7 @@ oeps:
   oep-7: true  # Python 3
 owner: schenedx
 supporting_teams:
-  - masters-neem
+  - masters-devs
 openedx-release: {ref: master}
 tags:
   - webservice
