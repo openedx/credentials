@@ -280,7 +280,7 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
 
 class RecordsView(RecordsListBaseView):
     def _get_programs(self):
-        return self._programs_context(include_empty_programs=False, include_retired_programs=True)
+        return self._programs_context(include_empty_programs=False)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

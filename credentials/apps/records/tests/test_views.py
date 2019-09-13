@@ -140,7 +140,6 @@ class RecordsViewTests(SiteMixin, TestCase):
 
     @ddt.data(
         (Program.ACTIVE, True),
-        (Program.RETIRED, True),
         (Program.DELETED, False),
         (Program.UNPUBLISHED, False),
     )
