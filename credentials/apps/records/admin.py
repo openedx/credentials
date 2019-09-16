@@ -9,7 +9,7 @@ from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 class ProgramCertRecordAdmin(admin.ModelAdmin):
     """ Admin for the ProgramCertRecord model."""
     list_display = ('uuid', 'program', 'user',)
-    search_fields = ('uuid', 'program', 'user',)
+    search_fields = ('uuid', 'program__title', 'user__username',)
     raw_id_fields = ('program', 'user',)
     exclude = ('certificate',)
 
