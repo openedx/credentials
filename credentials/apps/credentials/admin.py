@@ -40,7 +40,14 @@ class ProgramCertificateAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
     form = ProgramCertificateAdminForm
     list_display = ('program_uuid', 'site', 'is_active')
     list_filter = ('is_active', 'site',)
-    search_fields = ('program_uuid',)
+    search_fields = ('program_uuid', )
+
+    def get_search_results(self, request, queryset, search_term):
+
+        queryset, use_distinct = super(ProgramCertificateAdmin, self).get_search_results(
+            request, queryset, search_term.replace('-', ''))
+
+        return queryset, use_distinct
 
 
 @admin.register(Signatory)
