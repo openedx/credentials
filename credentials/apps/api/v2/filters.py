@@ -1,4 +1,5 @@
 import django_filters
+from django.core.exceptions import ValidationError
 from django.db.models import Q
 
 from credentials.apps.catalog.models import Program
@@ -8,8 +9,14 @@ from credentials.apps.credentials.utils import filter_visible
 
 class ProgramRelatedFilter(django_filters.Filter):
     def filter(self, qs, value):
-        program = Program.objects.filter(uuid=value).first()
-        course_runs = [run.key for run in program.course_runs.all()] if program else []
+        try:
+            program = Program.objects.filter(uuid=value).first()
+        except ValidationError:
+            return UserCredential.objects.none()
+
+        course_runs = [
+            run.key for run in program.course_runs.all()
+        ] if program else []
         return qs.filter(Q(program_credentials__program_uuid=value) |
                          Q(course_credentials__course_id__in=course_runs))
 
@@ -38,7 +45,9 @@ class UserCredentialFilter(django_filters.FilterSet):
         choices=UserCredential._meta.get_field('status').choices,
         label='Status of the credential'
     )
-    username = django_filters.CharFilter(label='Username of the recipient of the credential')
+    username = django_filters.CharFilter(
+        label='Username of the recipient of the credential'
+    )
     only_visible = django_filters.BooleanFilter(method=handle_only_visible)
 
     class Meta:

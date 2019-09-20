@@ -256,6 +256,15 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
 
         self.assert_list_username_filter_request_succeeds(username, expected)
 
+    def test_innvalid_program_uuid_filtering(self):
+        """ Verify that endpoint returns no results for invalid program uuid
+        instead of raising ValidationError. """
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, 'view_usercredential')
+
+        response = self.client.get(self.list_path + '?program_uuid=1234fewef')
+        self.assertListEqual(response.data['results'], [])
+
     def test_list_program_uuid_filtering(self):
         """ Verify the endpoint returns data for all UserCredentials in the given program. """
 
