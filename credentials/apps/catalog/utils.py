@@ -25,9 +25,9 @@ def parse_organization(site, data):
 def parse_course_run(course, data):
     course_run, _ = CourseRun.objects.update_or_create(
         course=course,
-        uuid=data['uuid'],
+        key=data['key'],
         defaults={
-            'key': data['key'],
+            'uuid': data['uuid'],
             'title_override': data['title'] if data['title'] != course.title else None,
             'start': data['start'],
             'end': data['end'],
