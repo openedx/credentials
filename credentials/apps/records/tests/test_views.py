@@ -28,7 +28,6 @@ from credentials.apps.credentials.models import UserCredential
 from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
                                                           UserCredentialAttributeFactory, UserCredentialFactory)
 from credentials.apps.records.constants import UserCreditPathwayStatus
-from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 from credentials.apps.records.tests.factories import (ProgramCertRecordFactory, UserCreditPathwayFactory,
                                                       UserGradeFactory)
@@ -826,11 +825,11 @@ class ProgramSendTests(SiteMixin, TestCase):
 
     @patch('credentials.apps.records.views.ace')
     def test_from_address_set(self, mock_ace):
-        """ Verify that the email uses the proper from address  and learner address"""
+        """ Verify that the email uses the proper from address """
         response = self.post()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(mock_ace.send.call_args[0][0].options['from_address'],
-                         self.user.email)
+                         self.site_configuration.partner_from_address)
 
     @patch('credentials.apps.records.views.ace')
     def test_no_full_name(self, mock_ace):
@@ -845,15 +844,16 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertEqual(mock_ace.send.call_args[0][0].context['user_full_name'],
                          self.user.username)
 
-    def test_from_address_unset(self):
-        """ Verify that the exception is raised if email was none """
-        self.user.email = None
+    @patch('credentials.apps.records.views.ace')
+    def test_from_address_unset(self, mock_ace):
+        """ Verify that the email uses the proper default from address """
+        self.site_configuration.partner_from_address = None
         self.site_configuration.save()
 
         response = self.post()
         self.assertEqual(response.status_code, 200)
-        with self.assertRaisesMessage(Exception, "User email is missing."):
-            ProgramCreditRequest(self.site, self.user.email)
+        self.assertEqual(mock_ace.send.call_args[0][0].options['from_address'],
+                         'no-reply@' + self.site.domain)  # pylint: disable=no-member
 
     def test_email_content_complete(self):
         """Verify an email is actually sent"""
@@ -874,7 +874,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertIn("has sent their completed program record for", message)
         self.assertIn("<a href=\"" + record_link + "\">View Program Record</a>", message)
         self.assertIn("<a href=\"" + csv_link + "\">Download Record (CSV)</a>", message)
-        self.assertEqual(self.user.email, email.from_email)
+        self.assertEqual(self.site_configuration.partner_from_address, email.from_email)
         self.assertListEqual([self.pathway.email], email.to)
 
     def test_email_content_incomplete(self):

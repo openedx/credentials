@@ -417,7 +417,8 @@ class ProgramSendView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, V
         record_path = reverse('records:public_programs', kwargs={'uuid': public_record.uuid.hex})
         record_link = request.build_absolute_uri(record_path)
         csv_link = urllib.parse.urljoin(record_link, "csv")
-        msg = ProgramCreditRequest(request.site, user.email).personalize(
+
+        msg = ProgramCreditRequest(request.site).personalize(
             recipient=Recipient(username=None, email_address=pathway.email),
             language=certificate.language,
             user_context={

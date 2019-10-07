@@ -2,13 +2,13 @@ from edx_ace import MessageType
 
 
 class ProgramCreditRequest(MessageType):
-    def __init__(self, site, user_email, *args, **kwargs):
+    def __init__(self, site, *args, **kwargs):
         super(ProgramCreditRequest, self).__init__(*args, **kwargs)
 
-        if not user_email:
-            raise Exception("User email is missing.")
-
-        from_address = user_email
+        if site.siteconfiguration.partner_from_address:
+            from_address = site.siteconfiguration.partner_from_address
+        else:
+            from_address = 'no-reply@' + site.domain
 
         self.options.update({  # pylint: disable=no-member
             'from_address': from_address,

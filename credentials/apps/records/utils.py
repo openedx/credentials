@@ -45,7 +45,7 @@ def send_updated_emails_for_program(request, username, program_certificate):
             record_link = request.build_absolute_uri(record_path)
             csv_link = urllib.parse.urljoin(record_link, "csv")
 
-            msg = ProgramCreditRequest(site, user.email).personalize(
+            msg = ProgramCreditRequest(site).personalize(
                 recipient=Recipient(username=None, email_address=pathway.email),
                 language=program_certificate.language,
                 user_context={
