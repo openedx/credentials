@@ -875,6 +875,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertIn("<a href=\"" + record_link + "\">View Program Record</a>", message)
         self.assertIn("<a href=\"" + csv_link + "\">Download Record (CSV)</a>", message)
         self.assertEqual(self.site_configuration.partner_from_address, email.from_email)
+        self.assertEqual(self.user.email, email.reply_to[0])
         self.assertListEqual([self.pathway.email], email.to)
 
     def test_email_content_incomplete(self):

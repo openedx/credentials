@@ -35,7 +35,7 @@ django-webpack-loader==0.6.0
 django==1.11.25
 djangorestframework-jwt==1.11.0
 djangorestframework==3.10.3
-edx-ace==0.1.11
+edx-ace==0.1.12
 edx-auth-backends==2.0.2
 edx-django-release-util==0.3.1
 edx-django-sites-extensions==2.4.0
@@ -46,7 +46,7 @@ edx-opaque-keys==2.0.0
 edx-rest-api-client==1.9.2
 git+https://github.com/edx/credentials-themes.git@0.1.27#egg=edx_credentials_themes==0.1.27
 factory-boy==2.12.0
-faker==2.0.2              # via factory-boy
+faker==2.0.3              # via factory-boy
 future==0.18.0
 httpretty==0.9.7
 idna==2.7
