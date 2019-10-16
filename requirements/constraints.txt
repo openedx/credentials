@@ -14,7 +14,7 @@ pyyaml==3.12
 
 # Required to resolve requirements from base.in with inherited files 
 attrs==17.4.0
-edx-ace==0.1.11
+edx-ace==0.1.12
 pillow==4.0.0
 requests==2.20.1
 six==1.11.0
