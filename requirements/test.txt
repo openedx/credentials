@@ -40,7 +40,7 @@ edx-auth-backends==2.0.2
 edx-django-release-util==0.3.1
 edx-django-sites-extensions==2.4.0
 edx-django-utils==2.0.1
-edx-drf-extensions==2.4.1
+edx-drf-extensions==2.4.2
 edx-lint==0.5.5
 edx-opaque-keys==2.0.0
 edx-rest-api-client==1.9.2
@@ -84,7 +84,7 @@ pylint-plugin-utils==0.6  # via pylint-celery, pylint-django
 pylint==1.7.1             # via edx-lint, pylint-celery, pylint-django, pylint-plugin-utils
 pymongo==3.9.0
 pyparsing==2.4.2          # via packaging
-pytest-django==3.5.1
+pytest-django==3.6.0
 pytest==5.2.1
 python-dateutil==2.8.0
 python-memcached==1.59
