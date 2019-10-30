@@ -145,10 +145,6 @@ class Command(BaseCommand):
                 start_date=datetime(2018, 1, 1),
                 end_date=datetime(2018, 6, 1),
                 key=key,
-
-                # TODO: remove these fields during the next phase of the rollout.
-                start=datetime(2018, 1, 1),
-                end=datetime(2018, 6, 1),
             )
 
             Command.log_action("CourseRun for", course.title, created)
