@@ -29,8 +29,13 @@ def parse_course_run(course, data):
         defaults={
             'key': data['key'],
             'title_override': data['title'] if data['title'] != course.title else None,
-            'start': data['start'],
-            'end': data['end'],
+            # We are migrating all 'start' and 'end' model fields to include
+            # the _date suffix.  During this transition, support both variants
+            # provided by the Discovery service. DE-1708.
+            # TODO: After updating the Discovery service to send 'start_date'
+            # and 'end_date', simplify this logic.
+            'start_date': data['start_date'] if 'start_date' in data else data['start'],
+            'end_date': data['end_date'] if 'end_date' in data else data['end'],
         },
     )
     return course_run

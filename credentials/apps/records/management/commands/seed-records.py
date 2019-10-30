@@ -142,8 +142,8 @@ class Command(BaseCommand):
             course_run, created = CourseRun.objects.get_or_create(
                 course=course,
                 uuid=faker.uuid4(),
-                start=datetime(2018, 1, 1),
-                end=datetime(2018, 6, 1),
+                start_date=datetime(2018, 1, 1),
+                end_date=datetime(2018, 6, 1),
                 key=key)
 
             Command.log_action("CourseRun for", course.title, created)

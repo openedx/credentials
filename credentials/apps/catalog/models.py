@@ -53,8 +53,8 @@ class CourseRun(TimeStampedModel):
         max_length=255, default=None, null=True, blank=True,
         help_text="Title specific for this run of a course. "
                   "Leave this value blank to default to the parent course's title.")
-    start = models.DateTimeField(null=True, blank=True, db_index=True)
-    end = models.DateTimeField(null=True, blank=True, db_index=True)
+    start_date = models.DateTimeField(null=True, blank=True, db_index=True)
+    end_date = models.DateTimeField(null=True, blank=True, db_index=True)
 
     # Note that we don't have a status field here -- there are only two statuses for CourseRuns: published and
     # unpublished. But unpublished is really used as a 'retired' flag. So in both cases, we want the run.

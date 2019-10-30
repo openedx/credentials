@@ -13,7 +13,7 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(CourseRun)
 class CourseRunAdmin(admin.ModelAdmin):
-    list_display = ('key', 'uuid', 'title_override', 'start', 'end')
+    list_display = ('key', 'uuid', 'title_override', 'start_date', 'end_date')
     readonly_fields = ('uuid',)
     search_fields = ('key', 'title_override', 'uuid')
 
@@ -30,5 +30,6 @@ class PathwayAdmin(admin.ModelAdmin):
     list_display = ('name', 'org_name', 'pathway_type', 'email', 'uuid')
     readonly_fields = ('uuid',)
     search_fields = ('name', 'uuid')
+
 
 admin.site.register(Organization)
