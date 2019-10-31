@@ -53,6 +53,10 @@ class CourseRun(TimeStampedModel):
         max_length=255, default=None, null=True, blank=True,
         help_text="Title specific for this run of a course. "
                   "Leave this value blank to default to the parent course's title.")
+    start_date = models.DateTimeField(null=True, blank=True, db_index=True)
+    end_date = models.DateTimeField(null=True, blank=True, db_index=True)
+
+    # TODO: delete these two fields during the last stage of rolling out the field renames.
     start = models.DateTimeField(null=True, blank=True, db_index=True)
     end = models.DateTimeField(null=True, blank=True, db_index=True)
 
