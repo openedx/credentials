@@ -32,7 +32,7 @@ edx-auth-backends==2.0.2
 edx-django-release-util==0.3.1
 edx-django-sites-extensions==2.4.0
 edx-django-utils==2.0.1
-edx-drf-extensions==2.4.2
+edx-drf-extensions==2.4.5
 edx-opaque-keys==2.0.0
 edx-rest-api-client==1.9.2
 git+https://github.com/edx/credentials-themes.git@0.1.27#egg=edx_credentials_themes==0.1.27
