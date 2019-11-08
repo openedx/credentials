@@ -22,10 +22,10 @@ class ParseTests(TestCase):
 
     COURSERUN1_DATA = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd3', 'key': 'runkey',
                        'title': 'Course Run Title',
-                       'start': '2018-01-01T00:00:00Z', 'end': '2018-06-01T00:00:00Z'}
+                       'start_date': '2018-01-01T00:00:00Z', 'end_date': '2018-06-01T00:00:00Z'}
     COURSERUN1_VALUES = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd3', 'key': 'runkey',
                          'title_override': 'Course Run Title',
-                         'start': datetime(2018, 1, 1), 'end': datetime(2018, 6, 1)}
+                         'start_date': datetime(2018, 1, 1), 'end_date': datetime(2018, 6, 1)}
 
     COURSE1_DATA = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd4', 'key': 'coursekey', 'title': 'Course Title',
                     'owners': [ORG1_DATA], 'course_runs': [COURSERUN1_DATA]}

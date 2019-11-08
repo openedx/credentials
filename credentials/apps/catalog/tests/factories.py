@@ -51,8 +51,8 @@ class CourseRunFactory(factory.DjangoModelFactory):
     uuid = factory.LazyFunction(uuid4)
     key = FuzzyText(prefix='course-run-id/', suffix='/fake')
     title_override = None
-    start = FuzzyDateTime(datetime.datetime(2014, 1, 1, tzinfo=UTC))
-    end = FuzzyDateTime(datetime.datetime(2014, 1, 1, tzinfo=UTC)).end_dt
+    start_date = FuzzyDateTime(datetime.datetime(2014, 1, 1, tzinfo=UTC))
+    end_date = FuzzyDateTime(datetime.datetime(2014, 1, 1, tzinfo=UTC)).end_dt
 
 
 class ProgramFactory(factory.DjangoModelFactory):

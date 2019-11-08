@@ -37,10 +37,6 @@ def parse_course_run(course, data):
             # and 'end_date', simplify this logic.
             'start_date': data['start_date'] if 'start_date' in data else data['start'],
             'end_date': data['end_date'] if 'end_date' in data else data['end'],
-
-            # TODO: remove this during the next phase of the rename.
-            'start': data['start_date'] if 'start_date' in data else data['start'],
-            'end': data['end_date'] if 'end_date' in data else data['end'],
         },
     )
     return course_run
