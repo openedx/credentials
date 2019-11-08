@@ -97,6 +97,15 @@ class CourseRunField(serializers.Field):
 
     def to_internal_value(self, data):
         site = self.context['request'].site
+
+        # The following two conditions add transitionary logic while migrating off the old field names.
+        if 'start' in data:
+            data['start_date'] = data['start']
+            del data['start']
+        if 'end' in data:
+            data['end_date'] = data['end']
+            del data['end']
+
         try:
             return CourseRun.objects.get(key=data, course__site=site)
         except ObjectDoesNotExist:
