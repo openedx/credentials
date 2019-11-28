@@ -6,7 +6,7 @@
 #
 analytics-python==1.2.9
 attrs==17.4.0             # via edx-ace
-certifi==2019.9.11        # via requests
+certifi==2019.11.28       # via requests
 chardet==3.0.4            # via requests
 coreapi==2.3.3
 coreschema==0.0.4         # via coreapi
@@ -43,14 +43,14 @@ jinja2==2.10.3            # via coreschema
 markdown==3.1.1
 markupsafe==1.1.1         # via jinja2
 mysqlclient==1.4.6
-newrelic==5.2.3.131
+newrelic==5.4.0.132
 oauthlib==3.1.0           # via requests-oauthlib, social-auth-core
 olefile==0.46             # via pillow
 openapi-codec==1.3.2      # via django-rest-swagger
 pillow==4.0.0
 psutil==1.2.1             # via edx-django-utils, edx-drf-extensions
 pycryptodomex==3.9.4      # via pyjwkest
-pygments==2.4.2
+pygments==2.5.1
 pyjwkest==1.3.2           # via edx-drf-extensions, social-auth-core
 pyjwt==1.7.1              # via djangorestframework-jwt, edx-auth-backends, edx-rest-api-client, social-auth-core
 pymongo==3.9.0            # via edx-opaque-keys
@@ -76,4 +76,4 @@ urllib3==1.23             # via requests
 xss-utils==0.1.2
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.6.0        # via markdown
+# setuptools==42.0.1        # via markdown
