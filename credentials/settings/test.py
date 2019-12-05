@@ -5,7 +5,6 @@ from path import Path as path
 from credentials.settings.base import *
 from credentials.settings.utils import get_logger_config
 
-
 INSTALLED_APPS += [
     'credentials.apps.edx_credentials_extensions',
 ]
