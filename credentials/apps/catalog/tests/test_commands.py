@@ -123,7 +123,6 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
     ]
 
     def setUp(self):
-        # pylint: disable=no-member
         super(CopyCatalogCommandTests, self).setUp()
         self.site_configuration = SiteConfigurationFactory.build(segment_key=self.faker.word())
 
