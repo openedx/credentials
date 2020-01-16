@@ -14,7 +14,7 @@ defusedxml==0.6.0         # via python3-openid, social-auth-core
 django-appconf==1.0.3     # via django-statici18n
 django-compat==1.0.15     # via django-hijack
 django-debug-toolbar==1.6
-django-extensions==2.2.5
+django-extensions==2.2.6
 django-filter==1.0.4
 django-hijack==2.1.10
 django-ratelimit==2.0.0
@@ -31,10 +31,10 @@ edx-ace==0.1.12
 edx-auth-backends==2.0.2
 edx-django-release-util==0.3.3
 edx-django-sites-extensions==2.4.2
-edx-django-utils==2.0.2
+edx-django-utils==2.0.3
 edx-drf-extensions==2.4.5
 edx-opaque-keys==2.0.1
-edx-rest-api-client==1.9.2
+edx-rest-api-client==2.0.0
 git+https://github.com/edx/credentials-themes.git@0.1.27#egg=edx_credentials_themes==0.1.27
 future==0.18.2            # via pyjwkest
 idna==2.7                 # via requests
@@ -65,7 +65,7 @@ rest-condition==1.0.3     # via edx-drf-extensions
 sailthru-client==2.2.3    # via edx-ace
 semantic-version==2.8.4   # via edx-drf-extensions
 simplejson==3.17.0        # via django-rest-swagger, sailthru-client
-six==1.13.0
+six==1.14.0
 slumber==0.7.1            # via edx-rest-api-client
 social-auth-app-django==1.2.0  # via edx-auth-backends
 social-auth-core[openidconnect]==1.7.0  # via edx-auth-backends, social-auth-app-django
