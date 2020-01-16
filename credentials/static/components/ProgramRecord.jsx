@@ -128,7 +128,7 @@ class ProgramRecord extends React.Component {
       return decimal;
     }
 
-    return parseInt(decimal * 100, 10).toString() + '%';
+    return parseInt(Math.round(decimal * 100), 10).toString() + '%';
   }
 
   formatGradeData() {
