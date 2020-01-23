@@ -29,12 +29,12 @@ djangorestframework-jwt==1.11.0
 djangorestframework==3.11.0
 edx-ace==0.1.12
 edx-auth-backends==2.0.2
-edx-django-release-util==0.3.3
-edx-django-sites-extensions==2.4.2
+edx-django-release-util==0.3.5
+edx-django-sites-extensions==2.4.3
 edx-django-utils==2.0.3
 edx-drf-extensions==2.4.5
 edx-opaque-keys==2.0.1
-edx-rest-api-client==2.0.0
+edx-rest-api-client==3.0.0
 git+https://github.com/edx/credentials-themes.git@0.1.27#egg=edx_credentials_themes==0.1.27
 future==0.18.2            # via pyjwkest
 idna==2.7                 # via requests
