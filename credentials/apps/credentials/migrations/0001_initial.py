@@ -98,7 +98,7 @@ class Migration(migrations.Migration):
                 ('status', models.CharField(default='awarded', max_length=255, choices=[('awarded', 'awarded'), ('revoked', 'revoked')])),
                 ('download_url', models.CharField(help_text='Download URL for the PDFs.', max_length=255, null=True, blank=True)),
                 ('uuid', models.UUIDField(default=uuid.uuid4, editable=False)),
-                ('credential_content_type', models.ForeignKey(to='contenttypes.ContentType')),
+                ('credential_content_type', models.ForeignKey(to='contenttypes.ContentType', on_delete=models.CASCADE)),
             ],
         ),
         migrations.CreateModel(
@@ -109,7 +109,7 @@ class Migration(migrations.Migration):
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified')),
                 ('name', models.CharField(max_length=255)),
                 ('value', models.CharField(max_length=255)),
-                ('user_credential', models.ForeignKey(related_name='attributes', to='credentials.UserCredential')),
+                ('user_credential', models.ForeignKey(related_name='attributes', to='credentials.UserCredential', on_delete=models.CASCADE)),
             ],
         ),
         migrations.AddField(
@@ -120,12 +120,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='programcertificate',
             name='site',
-            field=models.ForeignKey(to='sites.Site'),
+            field=models.ForeignKey(to='sites.Site', on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='programcertificate',
             name='template',
-            field=models.ForeignKey(blank=True, to='credentials.CertificateTemplate', null=True),
+            field=models.ForeignKey(blank=True, to='credentials.CertificateTemplate', null=True, on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='coursecertificate',
@@ -135,12 +135,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='coursecertificate',
             name='site',
-            field=models.ForeignKey(to='sites.Site'),
+            field=models.ForeignKey(to='sites.Site', on_delete=models.CASCADE),
         ),
         migrations.AddField(
             model_name='coursecertificate',
             name='template',
-            field=models.ForeignKey(blank=True, to='credentials.CertificateTemplate', null=True),
+            field=models.ForeignKey(blank=True, to='credentials.CertificateTemplate', null=True, on_delete=models.CASCADE),
         ),
         migrations.AlterUniqueTogether(
             name='usercredentialattribute',
