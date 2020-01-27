@@ -38,7 +38,7 @@ class UserCredentialViewSetPermissions(permissions.DjangoModelPermissions):
         implicitly granted, until after DRF has fetched the requested object.
         """
         return super(UserCredentialViewSetPermissions, self).has_permission(request, view) or (
-            request.user.is_authenticated() and request.method in permissions.SAFE_METHODS
+            request.user.is_authenticated and request.method in permissions.SAFE_METHODS
         )
 
     def has_object_permission(self, request, view, obj):

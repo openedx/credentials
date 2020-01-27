@@ -14,7 +14,7 @@ from edx_rest_api_client.client import EdxRestApiClient
 
 
 class SiteConfiguration(models.Model):
-    site = models.OneToOneField(Site, null=False, blank=False)
+    site = models.OneToOneField(Site, null=False, blank=False, on_delete=models.CASCADE)
     platform_name = models.CharField(
         verbose_name=_('Platform Name'),
         help_text=_('Name of your Open edX platform'),

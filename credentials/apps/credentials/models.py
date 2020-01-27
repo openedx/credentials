@@ -56,7 +56,7 @@ class AbstractCredential(TimeStampedModel):
     """
     Abstract Credentials configuration model.
     """
-    site = models.ForeignKey(Site)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
 
     class Meta(object):
@@ -133,7 +133,8 @@ class UserCredential(TimeStampedModel):
     )
 
     credential_content_type = models.ForeignKey(
-        ContentType, limit_choices_to={'model__in': ('coursecertificate', 'programcertificate')}
+        ContentType, limit_choices_to={'model__in': ('coursecertificate', 'programcertificate')},
+        on_delete=models.CASCADE
     )
     credential_id = models.PositiveIntegerField()
     credential = GenericForeignKey('credential_content_type', 'credential_id')
@@ -278,7 +279,7 @@ class UserCredentialAttribute(TimeStampedModel):
     """
     Different attributes of User's Credential such as white list, grade etc.
     """
-    user_credential = models.ForeignKey(UserCredential, related_name='attributes')
+    user_credential = models.ForeignKey(UserCredential, related_name='attributes', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     value = models.CharField(max_length=255)
 
