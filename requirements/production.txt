@@ -32,12 +32,12 @@ djangorestframework-jwt==1.11.0
 djangorestframework==3.11.0
 edx-ace==0.1.12
 edx-auth-backends==2.0.2
-edx-django-release-util==0.3.5
+edx-django-release-util==0.3.6
 edx-django-sites-extensions==2.4.3
 edx-django-utils==2.0.3
 edx-drf-extensions==2.4.5
 edx-opaque-keys==2.0.1
-edx-rest-api-client==3.0.0
+edx-rest-api-client==3.0.2
 git+https://github.com/edx/credentials-themes.git@0.1.27#egg=edx_credentials_themes==0.1.27
 future==0.18.2
 gevent==1.4.0
@@ -45,7 +45,7 @@ greenlet==0.4.15          # via gevent
 gunicorn==20.0.4
 idna==2.7
 itypes==1.1.0
-jinja2==2.10.3
+jinja2==2.11.0
 markdown==3.1.1
 markupsafe==1.1.1
 mysqlclient==1.4.6
