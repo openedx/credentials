@@ -9,6 +9,8 @@ from credentials.apps.credentials.utils import filter_visible
 
 class ProgramRelatedFilter(django_filters.Filter):
     def filter(self, qs, value):
+        if value is None:
+            return qs
         try:
             program = Program.objects.filter(uuid=value).first()
         except ValidationError:

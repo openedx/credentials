@@ -56,7 +56,7 @@ class CredentialRateThrottle(ScopedRateThrottle):
 
 
 class CredentialViewSet(viewsets.ModelViewSet):
-    filter_class = UserCredentialFilter
+    filterset_class = UserCredentialFilter
     lookup_field = 'uuid'
     permission_classes = (UserCredentialPermissions,)
     serializer_class = UserCredentialSerializer
