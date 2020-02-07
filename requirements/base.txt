@@ -4,7 +4,9 @@
 #
 #    make upgrade
 #
+-e git+https://github.com/jsocol/django-ratelimit.git@72edbe8949fbf6699848e5847645a1998f121d46#egg=ratelimit
 analytics-python==1.2.9
+argparse==1.4.0           # via stevedore
 attrs==17.4.0             # via edx-ace
 certifi==2019.11.28       # via requests
 chardet==3.0.4            # via requests
@@ -14,44 +16,44 @@ defusedxml==0.6.0         # via python3-openid, social-auth-core
 django-appconf==1.0.3     # via django-statici18n
 django-compat==1.0.15     # via django-hijack
 django-debug-toolbar==1.6
-django-extensions==2.2.6
+django-extensions==2.2.8
 django-filter==1.0.4
 django-hijack==2.1.10
-django-ratelimit==2.0.0
 django-rest-swagger==2.2.0
 django-sortedm2m==3.0.0
 django-statici18n==1.9.0
 django-storages==1.8
 django-waffle==0.19.0
 django-webpack-loader==0.6.0
-django==1.11.27
+django==1.11.28
 djangorestframework-jwt==1.11.0
 djangorestframework==3.11.0
 edx-ace==0.1.12
-edx-auth-backends==2.0.2
+edx-auth-backends==3.0.2
 edx-django-release-util==0.3.6
 edx-django-sites-extensions==2.4.3
-edx-django-utils==2.0.3
-edx-drf-extensions==2.4.5
+edx-django-utils==2.0.4
+edx-drf-extensions==2.4.6
 edx-opaque-keys==2.0.1
 edx-rest-api-client==3.0.2
 git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30
 future==0.18.2            # via pyjwkest
 idna==2.7                 # via requests
 itypes==1.1.0             # via coreapi
-jinja2==2.11.0            # via coreschema
-markdown==3.1.1
+jinja2==2.11.1            # via coreschema
+markdown==3.2
 markupsafe==1.1.1         # via jinja2
 mysqlclient==1.4.6
-newrelic==5.4.1.134
+newrelic==5.6.0.135
 oauthlib==3.1.0           # via requests-oauthlib, social-auth-core
 olefile==0.46             # via pillow
 openapi-codec==1.3.2      # via django-rest-swagger
+pbr==5.4.4                # via stevedore
 pillow==4.0.0
 psutil==1.2.1             # via edx-django-utils, edx-drf-extensions
-pycryptodomex==3.9.4      # via pyjwkest
+pycryptodomex==3.9.6      # via pyjwkest
 pygments==2.5.2
-pyjwkest==1.3.2           # via edx-drf-extensions, social-auth-core
+pyjwkest==1.3.2           # via edx-drf-extensions
 pyjwt==1.7.1              # via djangorestframework-jwt, edx-auth-backends, edx-rest-api-client, social-auth-core
 pymongo==3.10.1           # via edx-opaque-keys
 python-dateutil==2.8.1    # via analytics-python, edx-ace, edx-drf-extensions
@@ -67,8 +69,8 @@ semantic-version==2.8.4   # via edx-drf-extensions
 simplejson==3.17.0        # via django-rest-swagger, sailthru-client
 six==1.14.0
 slumber==0.7.1            # via edx-rest-api-client
-social-auth-app-django==1.2.0  # via edx-auth-backends
-social-auth-core[openidconnect]==1.7.0  # via edx-auth-backends, social-auth-app-django
+social-auth-app-django==3.1.0  # via edx-auth-backends
+social-auth-core==3.2.0   # via edx-auth-backends, social-auth-app-django
 sqlparse==0.3.0           # via django-debug-toolbar
 stevedore==1.10.0         # via edx-ace, edx-opaque-keys
 uritemplate==3.0.1        # via coreapi
