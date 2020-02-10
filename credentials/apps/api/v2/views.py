@@ -19,6 +19,8 @@ from credentials.apps.records.models import UserGrade
 
 log = logging.getLogger(__name__)
 
+# pylint: disable= no-member
+
 
 def credentials_throttle_handler(exc, context):
     """ Exception handler for logging messages when an endpoint is throttled. """
@@ -48,7 +50,7 @@ class CredentialRateThrottle(ScopedRateThrottle):
     def allow_request(self, request, view):
         user = request.user
         if user.is_authenticated and (user.is_staff or user.is_superuser):
-            setattr(view, 'throttle_scope', 'staff_override')
+            view.throttle_scope = 'staff_override'
 
         return super(CredentialRateThrottle, self).allow_request(request, view)
 

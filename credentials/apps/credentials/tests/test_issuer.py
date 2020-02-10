@@ -15,7 +15,7 @@ LOGGER_NAME = 'credentials.apps.credentials.issuers'
 
 
 # pylint: disable=no-member
-class CertificateIssuerBase(object):
+class CertificateIssuerBase:
     """ Tests an Issuer class and its methods."""
     issuer = None
     cert_factory = None
@@ -135,11 +135,12 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
     cert_type = ProgramCertificate
 
     def setUp(self):
+        super().setUp()
         self.site = SiteFactory()
         self.site_config = SiteConfigurationFactory(site=self.site)
         self.program = ProgramFactory(site=self.site)
         self.certificate = self.cert_factory.create(program_uuid=self.program.uuid, site=self.site)
-        self.username = 'tester'
+        self.username = 'tester2'
         self.user = UserFactory(username=self.username)
         self.user_cred = self.issuer.issue_credential(self.certificate, self.username)
         self.attributes = [{"name": "whitelist_reason", "value": "Reason for whitelisting."}]

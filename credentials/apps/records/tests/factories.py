@@ -9,7 +9,7 @@ from credentials.apps.records import models
 
 
 class UserGradeFactory(factory.django.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = models.UserGrade
 
     username = factory.Sequence(lambda o: 'robot%d' % o)
@@ -20,7 +20,7 @@ class UserGradeFactory(factory.django.DjangoModelFactory):
 
 
 class ProgramCertRecordFactory(factory.django.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = models.ProgramCertRecord
 
     uuid = factory.LazyFunction(uuid4)
@@ -29,7 +29,7 @@ class ProgramCertRecordFactory(factory.django.DjangoModelFactory):
 
 
 class UserCreditPathwayFactory(factory.django.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = models.UserCreditPathway
 
     user = factory.SubFactory(UserFactory)

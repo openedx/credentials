@@ -7,14 +7,14 @@ UUID_REGEX = r'[0-9a-f]{32}'
 UUID_PATTERN = r'(?P<uuid>{})'.format(UUID_REGEX)
 
 
-class UserCredentialStatus(object):
+class UserCredentialStatus:
     """Allowed values for UserCredential.status"""
 
     AWARDED = 'awarded'
     REVOKED = 'revoked'
 
 
-class CertificateType(object):
+class CertificateType:
     """Allowed values for CourseCertificate.certificate_type"""
 
     HONOR = 'honor'

@@ -35,12 +35,12 @@ from .constants import RECORDS_RATE_LIMIT
 log = logging.getLogger(__name__)
 
 
-def rate_limited(request, exception):  # pylint: disable=unused-argument
+def rate_limited(request, exception):
     log.warning("Credentials records endpoint is being throttled.")
     return JsonResponse({'error': 'Too Many Requests'}, status=429)
 
 
-class RecordsEnabledMixin(object):
+class RecordsEnabledMixin:
     """ Only allows view if records are enabled for the installation & site.
         Note that the API views are will still be active even if records is disabled.
         You may want to disable records support in the LMS if you want to stop data being sent over.

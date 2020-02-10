@@ -115,7 +115,7 @@ class ThemeViewMixin:
             return ''
 
 
-def render_500(request, template_name='500.html'):  # pylint: disable=unused-argument
+def render_500(request, template_name='500.html'):
     """ Custom 500 error handler.
 
     Arguments:

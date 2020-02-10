@@ -22,7 +22,6 @@ from credentials.apps.credentials.tests import factories
 
 
 @ddt.ddt
-# pylint: disable=no-member
 class RenderCredentialViewTests(SiteMixin, TestCase):
     faker = Faker()
     MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }

@@ -7,7 +7,7 @@ except ImportError:
     auth = None
 
 
-class LoginMixin(object):
+class LoginMixin:
     """ Mixin used for log in through a cookie."""
 
     def login(self, superuser=False):

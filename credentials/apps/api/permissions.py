@@ -49,7 +49,6 @@ class UserCredentialViewSetPermissions(permissions.DjangoModelPermissions):
         """
         if super(UserCredentialViewSetPermissions, self).has_permission(request, view):
             return True
-        elif request.user.username.lower() == obj.username.lower():
+        if request.user.username.lower() == obj.username.lower():
             return True
-        else:
-            raise Http404
+        raise Http404

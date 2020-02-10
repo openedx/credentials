@@ -112,7 +112,7 @@ class CourseRunField(serializers.Field):
 class UserCredentialAttributeSerializer(serializers.ModelSerializer):
     """ Serializer for CredentialAttribute objects """
 
-    class Meta(object):
+    class Meta:
         model = UserCredentialAttribute
         fields = ('name', 'value')
 
@@ -124,7 +124,7 @@ class UserCredentialSerializer(serializers.ModelSerializer):
     attributes = UserCredentialAttributeSerializer(many=True, read_only=True)
     certificate_url = UserCertificateURLField(source='uuid', read_only=True)
 
-    class Meta(object):
+    class Meta:
         model = UserCredential
         fields = (
             'username', 'credential', 'status', 'download_url', 'uuid', 'attributes', 'created', 'modified',
@@ -172,7 +172,7 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return self.issue_credential(validated_data)
 
-    class Meta(object):
+    class Meta:
         model = UserCredential
         fields = UserCredentialSerializer.Meta.fields
         read_only_fields = ('download_url', 'uuid', 'created', 'modified',)
@@ -182,7 +182,7 @@ class UserGradeSerializer(serializers.ModelSerializer):
     """ Serializer for UserGrade objects. """
     course_run = CourseRunField()
 
-    class Meta(object):
+    class Meta:
         model = UserGrade
         fields = (
             'id', 'username', 'course_run', 'letter_grade', 'percent_grade', 'verified', 'created', 'modified',

@@ -13,7 +13,7 @@ class AbstractCertificateFactory(factory.django.DjangoModelFactory):
 
 
 class CourseCertificateFactory(AbstractCertificateFactory):
-    class Meta(object):
+    class Meta:
         model = models.CourseCertificate
 
     course_id = factory.Sequence(lambda o: 'course-%d' % o)
@@ -22,7 +22,7 @@ class CourseCertificateFactory(AbstractCertificateFactory):
 
 
 class ProgramCertificateFactory(AbstractCertificateFactory):
-    class Meta(object):
+    class Meta:
         model = models.ProgramCertificate
 
     is_active = True
@@ -30,7 +30,7 @@ class ProgramCertificateFactory(AbstractCertificateFactory):
 
 
 class UserCredentialFactory(factory.django.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = models.UserCredential
 
     credential = factory.SubFactory(ProgramCertificateFactory)
@@ -41,7 +41,7 @@ class UserCredentialFactory(factory.django.DjangoModelFactory):
 
 
 class UserCredentialAttributeFactory(factory.django.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = models.UserCredentialAttribute
 
     user_credential = factory.SubFactory(UserCredentialFactory)
@@ -50,7 +50,7 @@ class UserCredentialAttributeFactory(factory.django.DjangoModelFactory):
 
 
 class SignatoryFactory(factory.django.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = models.Signatory
 
     name = factory.Faker('name')

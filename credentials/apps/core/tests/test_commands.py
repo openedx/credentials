@@ -148,7 +148,6 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
     def test_enable_social_sharing(self, flag_name):
         """ Verify the command supports activating social sharing functionality. """
 
-        # pylint: disable=no-member
         self._call_command(
             site_domain=self.site.domain,
             site_name=self.site.name,
@@ -162,7 +161,6 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
         """ Verify the Facebook app ID is required to enable Facebook sharing. """
         kwargs = {'enable_facebook_sharing': True}
 
-        # pylint: disable=no-member
         with self.assertRaisesMessage(CommandError, 'A Facebook app ID must be supplied to enable Facebook sharing'):
             self._call_command(site_domain=self.site.domain, site_name=self.site.name, **kwargs)
 

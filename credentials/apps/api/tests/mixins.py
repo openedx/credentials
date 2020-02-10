@@ -16,7 +16,7 @@ from credentials.apps.core.tests.factories import UserFactory
 JWT_AUTH = 'JWT_AUTH'
 
 
-class JwtMixin(object):
+class JwtMixin:
     """ Mixin with JWT-related helper functions. """
 
     JWT_SECRET_KEY = getattr(settings, JWT_AUTH)['JWT_SECRET_KEY']
@@ -59,7 +59,7 @@ class JwtMixin(object):
         }
 
 
-class CredentialViewSetTestsMixin(object):
+class CredentialViewSetTestsMixin:
     """ Base Class for ProgramCredentialViewSetTests and CourseCredentialViewSetTests. """
 
     list_path = None

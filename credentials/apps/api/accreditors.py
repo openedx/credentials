@@ -1,4 +1,3 @@
-# pylint:  disable=missing-docstring
 import logging
 
 from credentials.apps.api import exceptions
@@ -8,7 +7,7 @@ from credentials.apps.credentials.issuers import CourseCertificateIssuer, Progra
 logger = logging.getLogger(__name__)
 
 
-class Accreditor(object):
+class Accreditor:
     """ Accreditor class identifies credential type and calls corresponding issuer
     class for generating credential.
     """

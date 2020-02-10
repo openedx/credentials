@@ -25,7 +25,7 @@ class UserGrade(TimeStampedModel):
     percent_grade = models.DecimalField(max_digits=5, decimal_places=4, null=False)
     verified = models.BooleanField(verbose_name='Verified Learner ID', default=True)
 
-    class Meta(object):
+    class Meta:
         unique_together = ('username', 'course_run')
 
 
@@ -47,7 +47,7 @@ class ProgramCertRecord(TimeStampedModel):
     def __str__(self):
         return 'ProgramCertificateRecord: {uuid}'.format(uuid=self.uuid)
 
-    class Meta(object):
+    class Meta:
         verbose_name = "Shared program record"
         unique_together = ('program', 'user')
 
@@ -81,5 +81,5 @@ class UserCreditPathway(TimeStampedModel):
         self.full_clean()
         return super(UserCreditPathway, self).save(*args, **kwargs)
 
-    class Meta(object):
+    class Meta:
         unique_together = ('user', 'pathway')

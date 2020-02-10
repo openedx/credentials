@@ -99,7 +99,7 @@ class RecordsViewTests(SiteMixin, TestCase):
         """ Verify that the view rejects non-logged-in users. """
         self.client.logout()
         response = self._render_records(status_code=302)
-        self.assertRegex(response.url, '^/login/.*')  # pylint: disable=deprecated-method
+        self.assertRegex(response.url, '^/login/.*')
 
     def test_normal_access(self):
         """ Verify that the view works in default case. """
@@ -343,7 +343,7 @@ class ProgramListingViewTests(SiteMixin, TestCase):
         actual_child_templates = response_context_data['child_templates']
         self.assert_matching_template_origin(actual_child_templates['footer'], '_footer.html')
         self.assert_matching_template_origin(actual_child_templates['header'], '_header.html')
-        self.assertFalse('masquerade' in actual_child_templates)  # no masquerading on this view
+        self.assertNotIn('masquerade', actual_child_templates)  # no masquerading on this view
 
     @ddt.data(
         (Program.ACTIVE, True),
@@ -440,7 +440,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         """ Verify that the private view rejects non-logged-in users. """
         self.client.logout()
         response = self._render_program_record(status_code=302)
-        self.assertRegex(response.url, '^/login/.*')  # pylint: disable=deprecated-method
+        self.assertRegex(response.url, '^/login/.*')
 
     def test_anonymous_access_public(self):
         """ Verify that the public view does not reject non-logged-in users"""
@@ -745,7 +745,7 @@ class ProgramRecordTests(SiteMixin, TestCase):
         json_data = response.json()
 
         self.assertEqual(response.status_code, 201)
-        self.assertRegex(json_data['url'], UUID_PATTERN)  # pylint: disable=deprecated-method
+        self.assertRegex(json_data['url'], UUID_PATTERN)
 
     def test_different_user_creation(self):
         """ Verify that the view rejects a User attempting to create a ProgramCertRecord for another """
@@ -853,7 +853,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         response = self.post()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(mock_ace.send.call_args[0][0].options['from_address'],
-                         'no-reply@' + self.site.domain)  # pylint: disable=no-member
+                         'no-reply@' + self.site.domain)
 
     def test_email_content_complete(self):
         """Verify an email is actually sent"""
@@ -861,7 +861,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertEqual(response.status_code, 200)
         public_record = ProgramCertRecord.objects.get(user=self.user, program=self.program)
         record_path = reverse('records:public_programs', kwargs={'uuid': public_record.uuid.hex})
-        record_link = "http://" + self.site.domain + record_path  # pylint: disable=no-member
+        record_link = "http://" + self.site.domain + record_path
         csv_link = urllib.parse.urljoin(record_link, "csv")
 
         # Check output and make sure it seems correct
@@ -991,6 +991,7 @@ class MasqueradeBannerFactoryTests(SiteMixin, TestCase):
     MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }
 
     def setUp(self):
+        super().setUp()
         self.user = UserFactory(username=self.MOCK_USER_DATA['username'])
         self.client.login(username=self.user.username, password=USER_PASSWORD)
 
