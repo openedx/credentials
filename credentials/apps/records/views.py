@@ -14,10 +14,10 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView, View
 from edx_ace import Recipient, ace
-from ratelimit.mixins import RatelimitMixin
 
 from credentials.apps.catalog.models import CourseRun, Pathway, Program
 from credentials.apps.core.models import User
@@ -28,6 +28,7 @@ from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
 from credentials.shared.constants import PathwayType
+from ratelimit.decorators import ratelimit
 
 from .constants import RECORDS_RATE_LIMIT
 
@@ -375,15 +376,16 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
         return context
 
 
-class ProgramSendView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, View):
+@method_decorator(
+    ratelimit(
+        key='user', rate=RECORDS_RATE_LIMIT,
+        method='POST', block=True
+    ), name='dispatch'
+)
+class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
     """
     Sends a program via email to a requested partner
     """
-    ratelimit_key = 'user'
-    ratelimit_rate = RECORDS_RATE_LIMIT
-    ratelimit_block = True
-    ratelimit_method = 'POST'
-
     def post(self, request, **kwargs):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
@@ -443,16 +445,17 @@ class ProgramSendView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, V
         return http.HttpResponse(status=200)
 
 
-class ProgramRecordCreationView(LoginRequiredMixin, RatelimitMixin, RecordsEnabledMixin, View):
+@method_decorator(
+    ratelimit(
+        key='user', rate=RECORDS_RATE_LIMIT,
+        method='POST', block=True
+    ), name='dispatch'
+)
+class ProgramRecordCreationView(LoginRequiredMixin, RecordsEnabledMixin, View):
     """
     Creates a new Program Certificate Record from given username and program uuid,
     returns the uuid of the created Program Certificate Record
     """
-    ratelimit_key = 'user'
-    ratelimit_rate = RECORDS_RATE_LIMIT
-    ratelimit_block = True
-    ratelimit_method = 'POST'
-
     def post(self, request, **kwargs):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)

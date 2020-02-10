@@ -16,7 +16,6 @@ django-debug-toolbar
 django-hijack
 django-extensions
 django-filter
-django-ratelimit
 django-rest-swagger
 django-sortedm2m
 django-statici18n
@@ -46,3 +45,6 @@ xss-utils
 
 # TODO Install in configuration
 git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30
+
+-e git+https://github.com/jsocol/django-ratelimit.git@72edbe8949fbf6699848e5847645a1998f121d46#egg=ratelimit
+
