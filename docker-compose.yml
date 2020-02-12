@@ -16,7 +16,9 @@ services:
     image: memcached:1.4.24
 
   credentials:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.travis
     command: ./manage.py runserver 0.0.0.0:18150
     container_name: credentials
     depends_on:
