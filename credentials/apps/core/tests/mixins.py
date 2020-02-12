@@ -10,7 +10,7 @@ from credentials.apps.core.tests.factories import SiteConfigurationFactory
 JSON = 'application/json'
 
 
-class SiteMixin(object):
+class SiteMixin:
     def setUp(self):
         super(SiteMixin, self).setUp()
         cache.clear()
@@ -28,7 +28,7 @@ class SiteMixin(object):
 
     def mock_access_token_response(self, status=200):
         """ Mock the response from the OAuth provider's access token endpoint. """
-        oauth2_provider_url = self.site.siteconfiguration.oauth2_provider_url  # pylint: disable=no-member
+        oauth2_provider_url = self.site.siteconfiguration.oauth2_provider_url
         url = '{root}/access_token'.format(root=oauth2_provider_url)
         token = 'abc123'
         body = json.dumps({
@@ -41,7 +41,7 @@ class SiteMixin(object):
 
     def mock_catalog_api_response(self, endpoint, body, status=200):
         """ Mock a response from a Catalog API endpoint. """
-        root = self.site.siteconfiguration.catalog_api_url.strip('/')  # pylint: disable=no-member
+        root = self.site.siteconfiguration.catalog_api_url.strip('/')
         url = '{root}/{endpoint}'.format(root=root, endpoint=endpoint)
         responses.add(responses.GET, url, body=json.dumps(body), content_type=JSON, status=status,
                       match_querystring=True)

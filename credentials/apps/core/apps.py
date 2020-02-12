@@ -9,4 +9,4 @@ class CoreAppConfig(AppConfig):
         super(CoreAppConfig, self).ready()
 
         # noinspection PyUnresolvedReferences
-        import credentials.apps.core.signals  # pylint: disable=unused-variable
+        import credentials.apps.core.signals  # pylint: disable=unused-import, import-outside-toplevel

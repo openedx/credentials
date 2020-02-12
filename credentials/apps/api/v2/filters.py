@@ -25,7 +25,7 @@ class CredentialTypeFilter(django_filters.Filter):
     def filter(self, qs, value):
         if value == 'program':
             return qs.filter(program_credentials__isnull=False)
-        elif value == 'course-run':
+        if value == 'course-run':
             return qs.filter(course_credentials__isnull=False)
         return qs
 

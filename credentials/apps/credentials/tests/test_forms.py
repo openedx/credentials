@@ -30,7 +30,7 @@ class ProgramCertificateAdminFormTests(TestCase):
         no certificate images. """
         sc = SiteConfigurationFactory()
         data = factory.build(dict, FACTORY_CLASS=ProgramCertificateFactory)
-        data['site'] = sc.site.id  # pylint: disable=no-member
+        data['site'] = sc.site.id
 
         form = ProgramCertificateAdminForm(data)
         with mock.patch.object(SiteConfiguration, 'get_program', return_value=self.BAD_MOCK_API_PROGRAM) as mock_method:

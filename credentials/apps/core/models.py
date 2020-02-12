@@ -258,11 +258,11 @@ class User(AbstractUser):
         Assumes user has authenticated at least once with edX Open ID Connect.
         """
         try:
-            return self.social_auth.first().extra_data['access_token']
+            return self.social_auth.first().extra_data['access_token']  # pylint: disable=no-member
         except Exception:  # pylint: disable=broad-except
             return None
 
-    class Meta(object):
+    class Meta:
         get_latest_by = 'date_joined'
 
     def __str__(self):

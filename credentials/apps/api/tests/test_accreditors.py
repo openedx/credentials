@@ -52,9 +52,10 @@ class AccreditorTests(TestCase):
         Attempts to register additional issuers for a credential type should
         result in a warning being logged.
         """
-        msg = 'The issuer [{}] is already registered to issue credentials of type [{}]. [{}] will NOT be used.'.format(
-            ProgramCertificateIssuer, self.program_credential, ProgramCertificateIssuer
-        )
+        msg = 'The issuer [{0}] is already registered to issue credentials of type [{1}]. [{0}] will NOT be used.'\
+            .format(
+                ProgramCertificateIssuer, self.program_credential
+            )
 
         with LogCapture(LOGGER_NAME) as l:
             accreditor = Accreditor(issuers=[ProgramCertificateIssuer(), ProgramCertificateIssuer()])

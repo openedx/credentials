@@ -7,7 +7,7 @@
 -e git+https://github.com/jsocol/django-ratelimit.git@72edbe8949fbf6699848e5847645a1998f121d46#egg=django-ratelimit
 analytics-python==1.2.9
 argparse==1.4.0
-astroid==1.5.2
+astroid==2.3.3
 attrs==17.4.0
 bcrypt==3.1.7             # via paramiko
 bok-choy==1.0.1
@@ -15,7 +15,7 @@ cached-property==1.5.1    # via docker-compose
 certifi==2019.11.28
 cffi==1.14.0              # via bcrypt, cryptography, pynacl
 chardet==3.0.4
-click-log==0.1.8
+click-log==0.3.2
 click==7.0
 coreapi==2.3.3
 coreschema==0.0.4
@@ -49,7 +49,7 @@ edx-django-sites-extensions==2.4.3
 edx-django-utils==2.0.4
 edx-drf-extensions==2.4.6
 edx-i18n-tools==0.5.0
-edx-lint==0.5.5
+edx-lint==1.4.1
 edx-opaque-keys==2.0.1
 edx-rest-api-client==3.0.2
 git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30
@@ -93,9 +93,9 @@ pyinotify==0.9.6 ; "linux" in sys_platform
 pyjwkest==1.3.2
 pyjwt==1.7.1
 pylint-celery==0.3
-pylint-django==0.7.2
+pylint-django==2.0.11
 pylint-plugin-utils==0.6
-pylint==1.7.1
+pylint==2.4.2
 pymongo==3.10.1
 pynacl==1.3.0             # via paramiko
 pyparsing==2.4.6
@@ -126,6 +126,7 @@ testfixtures==6.12.0
 text-unidecode==1.3
 texttable==1.6.2          # via docker-compose
 transifex-client==0.13.7
+typed-ast==1.4.1
 unidecode==1.1.1          # via python-slugify
 uritemplate==3.0.1
 urllib3==1.24.3

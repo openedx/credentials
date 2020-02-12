@@ -28,7 +28,7 @@ def _set_user_roles(user, payload):
         user.groups.remove(admin_group)
 
 
-def pipeline_set_user_roles(response, user=None, *_, **__):
+def pipeline_set_user_roles(response, user=None, *_, **__):  # pylint: disable=keyword-arg-before-vararg
     """
     Social auth pipeline function to update group memberships based
     on claims present in the id token.

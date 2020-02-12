@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 @six.add_metaclass(abc.ABCMeta)
-class AbstractCredentialIssuer(object):
+class AbstractCredentialIssuer:
     """
     Abstract credential issuer.
 
@@ -40,7 +40,7 @@ class AbstractCredentialIssuer(object):
             self, credential, username,
             status=UserCredentialStatus.AWARDED,
             attributes=None,
-            request=None    # pylint: disable=unused-argument
+            request=None
     ):
         """
         Issue a credential to the user.

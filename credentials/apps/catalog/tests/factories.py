@@ -19,7 +19,7 @@ def add_m2m_data(m2m_relation, data):
 
 
 class OrganizationFactory(factory.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = Organization
 
     site = factory.SubFactory(SiteFactory)
@@ -29,7 +29,7 @@ class OrganizationFactory(factory.DjangoModelFactory):
 
 
 class CourseFactory(factory.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = Course
 
     site = factory.SubFactory(SiteFactory)
@@ -44,7 +44,7 @@ class CourseFactory(factory.DjangoModelFactory):
 
 
 class CourseRunFactory(factory.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = CourseRun
 
     course = factory.SubFactory(CourseFactory)
@@ -56,7 +56,7 @@ class CourseRunFactory(factory.DjangoModelFactory):
 
 
 class ProgramFactory(factory.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = Program
 
     site = factory.SubFactory(SiteFactory)
@@ -77,7 +77,7 @@ class ProgramFactory(factory.DjangoModelFactory):
 
 
 class PathwayFactory(factory.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = Pathway
 
     uuid = factory.LazyFunction(uuid4)

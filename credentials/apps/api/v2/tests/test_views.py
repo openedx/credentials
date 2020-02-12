@@ -27,8 +27,6 @@ LOGGER_NAME = 'credentials.apps.credentials.issuers'
 LOGGER_NAME_SERIALIZER = 'credentials.apps.api.v2.serializers'
 
 
-# pylint: disable=no-member
-
 @ddt.ddt
 class CredentialViewSetTests(SiteMixin, APITestCase):
     list_path = reverse('api:v2:credentials-list')

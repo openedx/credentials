@@ -10,7 +10,7 @@ USER_PASSWORD = 'password'
 
 
 class UserFactory(django.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = User
 
     username = Sequence(lambda n: 'user_%d' % n)
@@ -25,7 +25,7 @@ class UserFactory(django.DjangoModelFactory):
 
 
 class SiteFactory(django.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = Site
 
     domain = Faker('domain_name')
@@ -33,7 +33,7 @@ class SiteFactory(django.DjangoModelFactory):
 
 
 class SiteConfigurationFactory(django.DjangoModelFactory):
-    class Meta(object):
+    class Meta:
         model = SiteConfiguration
 
     site = SubFactory(SiteFactory)
