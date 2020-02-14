@@ -31,7 +31,6 @@ django-statici18n==1.9.0
 django-storages==1.8
 django-waffle==0.19.0
 django-webpack-loader==0.6.0
-django==1.11.28
 djangorestframework-jwt==1.11.0
 djangorestframework==3.11.0
 edx-ace==0.1.13
@@ -55,7 +54,7 @@ itypes==1.1.0
 jinja2==2.11.1
 lazy-object-proxy==1.4.3  # via astroid
 lazy==1.4                 # via bok-choy
-markdown==3.2
+markdown==3.2.1
 markupsafe==1.1.1
 mccabe==0.6.1             # via pylint
 mock==3.0.5
