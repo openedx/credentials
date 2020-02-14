@@ -154,6 +154,5 @@ upgrade: piptools ## update the requirements/*.txt files with the latest package
 	pip-compile --rebuild --upgrade -o requirements/production.txt requirements/production.in
 	pip-compile --rebuild --upgrade -o requirements/all.txt requirements/all.in
 	# Let tox control the Django version for tests
-	sed '/^[dD]jango==/d' requirements/test.txt > requirements/test.tmp
-	mv requirements/test.tmp requirements/test.txt
+	sed '/^[dD]jango==/d' requirements/test.txt > requirements/tox.txt
 
