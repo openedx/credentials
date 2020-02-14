@@ -156,4 +156,4 @@ upgrade: piptools ## update the requirements/*.txt files with the latest package
 	# Let tox control the Django version for tests
 	sed -i.tmp '/^[d|D]jango==/d' requirements/test.txt
 	sed -i.tmp '/^djangorestframework==/d' requirements/test.txt
-	rm requirements/test.txt.tmp
+	mv requirements/test.tmp requirements/test.txt
