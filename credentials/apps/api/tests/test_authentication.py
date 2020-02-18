@@ -8,7 +8,7 @@ from django.test import TestCase
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.test import APIRequestFactory
 
-from credentials.apps.api.authentication import BearerAuthentication, JwtAuthentication, pipeline_set_user_roles
+from credentials.apps.api.authentication import JwtAuthentication, pipeline_set_user_roles
 from credentials.apps.api.tests.mixins import JwtMixin
 from credentials.apps.core.constants import Role
 from credentials.apps.core.tests.factories import UserFactory
@@ -119,33 +119,3 @@ class TestPipelineUserRoles(TestCase):
         """
         result = pipeline_set_user_roles({}, None)
         self.assertEqual(result, {})
-
-
-class BearerAuthenticationTests(TestCase):
-    """ Tests for the BearerAuthentication class. """
-
-    def setUp(self):
-        super(BearerAuthenticationTests, self).setUp()
-        self.auth = BearerAuthentication()
-        self.factory = APIRequestFactory()
-
-    def _create_request(self, token='12345', token_name='Bearer'):
-        """Create request with authorization header. """
-        auth_header = '{} {}'.format(token_name, token)
-        request = self.factory.get('/', HTTP_AUTHORIZATION=auth_header)
-        return request
-
-    def test_authenticate_header(self):
-        """The method should return the string Bearer."""
-        self.assertEqual(self.auth.authenticate_header(self._create_request()), 'Bearer')
-
-    def test_authenticate_invalid_token(self):
-        """If no token is supplied, or if the token contains spaces, the method should raise an exception."""
-
-        # Missing token
-        request = self._create_request('')
-        self.assertRaises(AuthenticationFailed, self.auth.authenticate, request)
-
-        # Token with spaces
-        request = self._create_request('abc 123 456')
-        self.assertRaises(AuthenticationFailed, self.auth.authenticate, request)
