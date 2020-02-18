@@ -4,7 +4,6 @@ Authentication logic for REST API.
 
 import logging
 
-from django.conf import settings
 from django.contrib.auth.models import Group
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
