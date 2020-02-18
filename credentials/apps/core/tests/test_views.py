@@ -6,11 +6,10 @@ import sys
 import mock
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core.urlresolvers import clear_url_caches
 from django.db import DatabaseError
 from django.test import TestCase
 from django.test.utils import override_settings
-from django.urls import reverse
+from django.urls import clear_url_caches, reverse
 
 from credentials.apps.core.constants import Status
 from credentials.apps.core.tests.mixins import SiteMixin

@@ -34,15 +34,17 @@ admin.site.site_header = _('Credentials Administration')
 admin.site.site_title = admin.site.site_header
 
 urlpatterns = oauth2_urlpatterns + [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/', include('credentials.apps.api.urls', namespace='api')),
-    url(r'^api-auth/', include(oauth2_urlpatterns, namespace='rest_framework')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^api/', include(('credentials.apps.api.urls', 'api'), namespace='api')),
+    url(r'^api-auth/', include((oauth2_urlpatterns, 'rest_framework'), namespace='rest_framework')),
     url(r'^api-docs/', get_swagger_view(title='Credentials API'), name='api_docs'),
     url(r'^auto_auth/$', core_views.AutoAuth.as_view(), name='auto_auth'),
-    url(r'^credentials/', include('credentials.apps.credentials.urls', namespace='credentials')),
+    url(r'^credentials/', include(('credentials.apps.credentials.urls', 'credentials'), namespace='credentials')),
     url(r'^health/$', core_views.health, name='health'),
-    url(r'^management/', include('credentials.apps.edx_django_extensions.urls', namespace='management')),
-    url(r'^records/', include('credentials.apps.records.urls', namespace='records')),
+    url(
+        r'^management/', include(('credentials.apps.edx_django_extensions.urls', 'management'), namespace='management')
+    ),
+    url(r'^records/', include(('credentials.apps.records.urls', 'records'), namespace='records')),
     url(r'^program-listing/', ProgramListingView.as_view(), name='program_listing'),
     url(r'^favicon\.ico$', FaviconView.as_view(permanent=True)),
     url(r'^hijack/', include('hijack.urls', namespace='hijack')),
