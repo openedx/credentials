@@ -325,7 +325,7 @@ class ProgramListingViewTests(SiteMixin, TestCase):
         """ Verify that the view rejects non-logged-in users. """
         self.client.logout()
         response = self._render_listing(status_code=302)
-        self.assertRegexpMatches(response.url, '^/login/.*')  # pylint: disable=deprecated-method
+        self.assertRegex(response.url, '^/login/.*')
 
     def test_only_superuser_access(self):
         """ Verify that the view rejects non-superusers. """
@@ -418,7 +418,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.pcr = ProgramCertRecordFactory(program=self.program, user=self.user)
 
         self.pathway = PathwayFactory(site=self.site)
-        self.pathway.programs = [self.program]
+        self.pathway.programs.set([self.program])  # pylint: disable=no-member
 
     def _render_program_record(self, record_data=None, status_code=200):
         """ Helper method to mock rendering a user certificate."""
@@ -565,7 +565,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
     def test_organization_order(self):
         """ Test that the organizations are returned in the order they were added """
-        self.course.owners = self.orgs
+        self.course.owners.set(self.orgs)  # pylint: disable=no-member
         response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         program_data = json.loads(response.context_data['record'])['program']
         grade = json.loads(response.context_data['record'])['grades'][0]
@@ -576,7 +576,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
     def test_course_run_order(self):
         """ Test that the course_runs are returned in the program order """
         new_course_run = CourseRunFactory()
-        self.program.course_runs.add(new_course_run)
+        self.program.course_runs.add(new_course_run)  # pylint: disable=no-member
         UserGradeFactory(username=self.MOCK_USER_DATA['username'],
                          course_run=new_course_run, letter_grade='C',
                          percent_grade=.70)
@@ -596,7 +596,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
     def test_course_run_no_credential(self):
         """ Adds a course run with no credential and tests that it does appear in the results """
         new_course_run = CourseRunFactory()
-        self.program.course_runs.add(new_course_run)
+        self.program.course_runs.add(new_course_run)  # pylint: disable=no-member
         UserGradeFactory(username=self.MOCK_USER_DATA['username'],
                          course_run=new_course_run, letter_grade='F',
                          percent_grade=.05)
@@ -621,7 +621,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
                               course_run=course_run,
                               letter_grade='F',
                               percent_grade=0.20) for course_run in new_course_runs]
-        self.program.course_runs = new_course_runs
+        self.program.course_runs.set(new_course_runs)  # pylint: disable=no-member
         response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         grades = json.loads(response.context_data['record'])['grades']
         self.assertEqual(len(grades), 1)
