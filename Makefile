@@ -20,7 +20,7 @@ production-requirements: piptools ## Install requirements for production
 	pip-sync requirements.txt
 
 js-requirements: ## Install frontend requirements
-	npm install --production --no-save
+	npm install
 
 all-requirements: piptools ## Install local and prod requirements
 	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
