@@ -51,8 +51,8 @@ matrix:
       install: true
 
       script:
-        - make exec-requirements
-        - make exec-static
+        - pip install tox
+        - tox -e py35-django111
         - make exec-tests
 
       after_success:
