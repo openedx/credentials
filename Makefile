@@ -49,6 +49,10 @@ tests: ## Run tests and generate coverage report
 	$(NODE_BIN)/gulp test
 	make test-react
 
+js-tests: ## Run tests and generate coverage report
+	$(NODE_BIN)/gulp test
+	make test-react
+
 static: ## Gather all static assets for production (minimized)
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --optimize-minimize
 	python manage.py compilejsi18n
