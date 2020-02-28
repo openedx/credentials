@@ -19,6 +19,9 @@ production-requirements: piptools ## Install requirements for production
 	npm install --production --no-save
 	pip-sync requirements.txt
 
+js-requirements: ## Install frontend requirements
+	npm install
+
 all-requirements: piptools ## Install local and prod requirements
 	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
 	npm install --production --no-save
@@ -43,6 +46,10 @@ test-react: ## Run Jest tests for React
 tests: ## Run tests and generate coverage report
 	coverage run -m pytest --ds credentials.settings.test --durations=25
 	coverage report
+	$(NODE_BIN)/gulp test
+	make test-react
+
+js-tests: ## Run tests and generate coverage report
 	$(NODE_BIN)/gulp test
 	make test-react
 
@@ -153,3 +160,7 @@ upgrade: piptools ## update the requirements/*.txt files with the latest package
 	pip-compile --rebuild --upgrade -o requirements/dev.txt requirements/dev.in
 	pip-compile --rebuild --upgrade -o requirements/production.txt requirements/production.in
 	pip-compile --rebuild --upgrade -o requirements/all.txt requirements/all.in
+	# Let tox control the Django version for tests
+	grep -e "^django==" requirements/production.txt > requirements/django.txt
+	sed '/^[dD]jango==/d' requirements/test.txt > requirements/test.tmp
+	mv requirements/test.tmp requirements/test.txt
