@@ -39,7 +39,7 @@ django-statici18n==1.9.0  # via -r requirements/dev.txt, -r requirements/product
 django-storages==1.8      # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt
 django-waffle==0.20.0     # via -r requirements/dev.txt, -r requirements/production.txt, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/dev.txt, -r requirements/production.txt
-django==1.11.28           # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, django-appconf, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
+django==1.11.29           # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, django-appconf, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
 djangorestframework-jwt==1.11.0  # via -r requirements/dev.txt, -r requirements/production.txt, edx-drf-extensions
 djangorestframework==3.11.0  # via -r requirements/dev.txt, -r requirements/production.txt, django-rest-swagger, edx-drf-extensions, rest-condition
 docker-compose==1.25.4    # via -c requirements/constraints.txt, -r requirements/dev.txt
@@ -85,7 +85,7 @@ nodeenv==1.3.5            # via -r requirements/production.txt
 oauthlib==3.1.0           # via -r requirements/dev.txt, -r requirements/production.txt, requests-oauthlib, social-auth-core
 olefile==0.46             # via -r requirements/dev.txt, -r requirements/production.txt, pillow
 openapi-codec==1.3.2      # via -r requirements/dev.txt, -r requirements/production.txt, django-rest-swagger
-packaging==20.1           # via -r requirements/dev.txt, pytest, tox
+packaging==20.3           # via -r requirements/dev.txt, pytest, tox
 paramiko==2.7.1           # via -r requirements/dev.txt, docker
 path.py==12.0.2           # via -c requirements/constraints.txt, -r requirements/dev.txt, edx-i18n-tools
 pathlib2==2.3.5           # via -r requirements/dev.txt, pytest
@@ -96,7 +96,7 @@ pluggy==0.13.1            # via -r requirements/dev.txt, pytest, tox
 polib==1.1.0              # via -r requirements/dev.txt, edx-i18n-tools
 psutil==1.2.1             # via -r requirements/dev.txt, -r requirements/production.txt, edx-django-utils, edx-drf-extensions
 py==1.8.1                 # via -r requirements/dev.txt, pytest, tox
-pycparser==2.19           # via -r requirements/dev.txt, cffi
+pycparser==2.20           # via -r requirements/dev.txt, cffi
 pycryptodomex==3.9.7      # via -r requirements/dev.txt, -r requirements/production.txt, pyjwkest
 pygments==2.5.2           # via -r requirements/dev.txt, -r requirements/production.txt
 pyinotify==0.9.6 ; "linux" in sys_platform  # via -r requirements/dev.txt
@@ -142,7 +142,7 @@ typed-ast==1.4.1          # via -r requirements/dev.txt, astroid
 unidecode==1.1.1          # via -r requirements/dev.txt, python-slugify
 uritemplate==3.0.1        # via -r requirements/dev.txt, -r requirements/production.txt, coreapi
 urllib3==1.24.3           # via -r requirements/dev.txt, -r requirements/production.txt, requests, selenium, transifex-client
-virtualenv==20.0.7        # via -r requirements/dev.txt, tox
+virtualenv==20.0.8        # via -r requirements/dev.txt, tox
 wcwidth==0.1.8            # via -r requirements/dev.txt, pytest
 websocket-client==0.57.0  # via -r requirements/dev.txt, docker, docker-compose
 wrapt==1.11.2             # via -r requirements/dev.txt, astroid

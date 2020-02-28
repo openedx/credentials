@@ -13,13 +13,16 @@ def create_view_permission(apps, schema_editor):
     the ADMIN role.
     """
     content_type = ContentType.objects.get(app_label="credentials", model="usercredential")
-    permission, created = Permission.objects.get_or_create(
-        content_type=content_type,
-        codename='view_usercredential',
-        name='Can view any user credential',
-    )
-    if created:
-        Group.objects.get(name=Role.ADMINS).permissions.add(permission)
+
+    # Django2.1 is creating view permission by default now. Adding check otherwise unique constraints triggers.
+    if not Permission.objects.filter(content_type=content_type, codename='view_usercredential').exists():
+        permission, created = Permission.objects.get_or_create(
+            content_type=content_type,
+            codename='view_usercredential',
+            name='Can view any user credential',
+        )
+        if created:
+            Group.objects.get(name=Role.ADMINS).permissions.add(permission)
 
 
 def destroy_view_permission(apps, schema_editor):
