@@ -4,114 +4,121 @@
 #
 #    make upgrade
 #
--e git+https://github.com/jsocol/django-ratelimit.git@72edbe8949fbf6699848e5847645a1998f121d46#egg=django-ratelimit
-analytics-python==1.2.9
-argparse==1.4.0
+-e git+https://github.com/jsocol/django-ratelimit.git@72edbe8949fbf6699848e5847645a1998f121d46#egg=django-ratelimit  # via -r requirements/base.txt
+analytics-python==1.2.9   # via -r requirements/base.txt
+appdirs==1.4.3            # via virtualenv
+argparse==1.4.0           # via -r requirements/base.txt, stevedore
 astroid==2.3.3            # via pylint, pylint-celery
-attrs==17.4.0
-bok-choy==1.0.1
-certifi==2019.11.28
-chardet==3.0.4
+attrs==17.4.0             # via -c requirements/constraints.txt, -r requirements/base.txt, edx-ace, pytest
+bok-choy==1.0.1           # via -r requirements/test.in
+certifi==2019.11.28       # via -r requirements/base.txt, requests
+chardet==3.0.4            # via -r requirements/base.txt, requests
 click-log==0.3.2          # via edx-lint
 click==7.0                # via click-log, edx-lint
-coreapi==2.3.3
-coreschema==0.0.4
-coverage==5.0.3
-ddt==1.2.2
-defusedxml==0.6.0
-django-appconf==1.0.3
-django-compat==1.0.15
-django-debug-toolbar==2.2
-django-extensions==2.2.8
-django-filter==2.2.0
-django-hijack==2.1.10
-django-rest-swagger==2.2.0
-django-sortedm2m==3.0.0
-django-statici18n==1.9.0
-django-storages==1.8
-django-waffle==0.19.0
-django-webpack-loader==0.6.0
-djangorestframework-jwt==1.11.0
-djangorestframework==3.11.0
-edx-ace==0.1.13
-edx-auth-backends==3.0.2
-edx-django-release-util==0.3.6
-edx-django-sites-extensions==2.4.3
-edx-django-utils==2.0.4
-edx-drf-extensions==2.4.6
-edx-lint==1.4.1
-edx-opaque-keys==2.0.1
-edx-rest-api-client==3.0.2
-git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30
-factory-boy==2.12.0
-faker==4.0.0              # via factory-boy
-future==0.18.2
-httpretty==0.9.7
-idna==2.7
-importlib-metadata==1.5.0  # via pluggy, pytest
-isort==4.2.5
-itypes==1.1.0
-jinja2==2.11.1
+coreapi==2.3.3            # via -r requirements/base.txt, django-rest-swagger, openapi-codec
+coreschema==0.0.4         # via -r requirements/base.txt, coreapi
+coverage==5.0.3           # via -r requirements/test.in
+ddt==1.2.2                # via -r requirements/test.in
+defusedxml==0.6.0         # via -r requirements/base.txt, python3-openid, social-auth-core
+distlib==0.3.0            # via virtualenv
+django-appconf==1.0.3     # via -r requirements/base.txt, django-statici18n
+django-compat==1.0.15     # via -r requirements/base.txt, django-hijack
+django-debug-toolbar==2.2  # via -r requirements/base.txt
+django-extensions==2.2.8  # via -r requirements/base.txt
+django-filter==2.2.0      # via -r requirements/base.txt
+django-hijack==2.1.10     # via -r requirements/base.txt
+django-rest-swagger==2.2.0  # via -r requirements/base.txt
+django-sortedm2m==3.0.0   # via -r requirements/base.txt
+django-statici18n==1.9.0  # via -r requirements/base.txt
+django-storages==1.8      # via -c requirements/constraints.txt, -r requirements/base.txt
+django-waffle==0.20.0     # via -r requirements/base.txt, edx-django-utils, edx-drf-extensions
+django-webpack-loader==0.7.0  # via -r requirements/base.txt
+djangorestframework-jwt==1.11.0  # via -r requirements/base.txt, edx-drf-extensions
+djangorestframework==3.11.0  # via -r requirements/base.txt, django-rest-swagger, edx-drf-extensions, rest-condition
+edx-ace==0.1.13           # via -r requirements/base.txt
+edx-auth-backends==3.0.2  # via -r requirements/base.txt
+edx-django-release-util==0.3.6  # via -r requirements/base.txt
+edx-django-sites-extensions==2.4.3  # via -r requirements/base.txt
+edx-django-utils==3.0     # via -r requirements/base.txt, edx-drf-extensions, edx-rest-api-client
+edx-drf-extensions==3.0.0  # via -r requirements/base.txt
+edx-lint==1.4.1           # via -r requirements/test.in
+edx-opaque-keys==2.0.1    # via -r requirements/base.txt, edx-drf-extensions
+edx-rest-api-client==4.0.1  # via -r requirements/base.txt
+git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30  # via -r requirements/base.txt
+factory-boy==2.12.0       # via -r requirements/test.in
+faker==4.0.1              # via factory-boy
+filelock==3.0.12          # via tox, virtualenv
+future==0.18.2            # via -r requirements/base.txt, pyjwkest
+httpretty==0.9.7          # via -r requirements/test.in
+idna==2.7                 # via -r requirements/base.txt, requests
+importlib-metadata==1.5.0  # via importlib-resources, pluggy, pytest, tox, virtualenv
+importlib-resources==1.2.0  # via virtualenv
+isort==4.2.5              # via -c requirements/constraints.txt, -r requirements/test.in, pylint
+itypes==1.1.0             # via -r requirements/base.txt, coreapi
+jinja2==2.11.1            # via -r requirements/base.txt, coreschema
 lazy-object-proxy==1.4.3  # via astroid
 lazy==1.4                 # via bok-choy
-markdown==3.2
-markupsafe==1.1.1
+markdown==3.2.1           # via -r requirements/base.txt
+markupsafe==1.1.1         # via -r requirements/base.txt, jinja2
 mccabe==0.6.1             # via pylint
-mock==3.0.5
+mock==3.0.5               # via -r requirements/test.in
 more-itertools==8.2.0     # via pytest
-mysqlclient==1.4.6
-newrelic==5.6.0.135
-oauthlib==3.1.0
-olefile==0.46
-openapi-codec==1.3.2
-packaging==20.1           # via pytest
+mysqlclient==1.4.6        # via -r requirements/base.txt
+newrelic==5.8.0.136       # via -r requirements/base.txt, edx-django-utils
+oauthlib==3.1.0           # via -r requirements/base.txt, requests-oauthlib, social-auth-core
+olefile==0.46             # via -r requirements/base.txt, pillow
+openapi-codec==1.3.2      # via -r requirements/base.txt, django-rest-swagger
+packaging==20.1           # via pytest, tox
 pathlib2==2.3.5           # via pytest
-pbr==5.4.4
-pep8==1.7.1
-pillow==4.0.0
-pluggy==0.13.1            # via pytest
-psutil==1.2.1
-py==1.8.1                 # via pytest
-pycryptodomex==3.9.6
-pygments==2.5.2
-pyjwkest==1.3.2
-pyjwt==1.7.1
+pbr==5.4.4                # via -r requirements/base.txt, stevedore
+pep8==1.7.1               # via -r requirements/test.in
+pillow==4.0.0             # via -c requirements/constraints.txt, -r requirements/base.txt
+pluggy==0.13.1            # via pytest, tox
+psutil==1.2.1             # via -r requirements/base.txt, edx-django-utils, edx-drf-extensions
+py==1.8.1                 # via pytest, tox
+pycryptodomex==3.9.7      # via -r requirements/base.txt, pyjwkest
+pygments==2.5.2           # via -r requirements/base.txt
+pyjwkest==1.3.2           # via -r requirements/base.txt, edx-drf-extensions
+pyjwt==1.7.1              # via -r requirements/base.txt, djangorestframework-jwt, edx-auth-backends, edx-rest-api-client, social-auth-core
 pylint-celery==0.3        # via edx-lint
 pylint-django==2.0.11     # via edx-lint
 pylint-plugin-utils==0.6  # via pylint-celery, pylint-django
 pylint==2.4.2             # via edx-lint, pylint-celery, pylint-django, pylint-plugin-utils
-pymongo==3.10.1
+pymongo==3.10.1           # via -r requirements/base.txt, edx-opaque-keys
 pyparsing==2.4.6          # via packaging
-pytest-django==3.8.0
-pytest==5.3.5
-python-dateutil==2.8.1
-python-memcached==1.59
-python3-openid==3.1.0
-pytz==2019.3
-pyyaml==3.12
-requests-oauthlib==1.3.0
-requests==2.20.1
-responses==0.10.9
-rest-condition==1.0.3
-sailthru-client==2.2.3
+pytest-django==3.8.0      # via -r requirements/test.in
+pytest==5.3.5             # via -r requirements/test.in, pytest-django
+python-dateutil==2.8.1    # via -r requirements/base.txt, analytics-python, edx-ace, edx-drf-extensions, faker
+python-memcached==1.59    # via -r requirements/base.txt
+python3-openid==3.1.0     # via -r requirements/base.txt, social-auth-core
+pytz==2019.3              # via -r requirements/base.txt, django
+pyyaml==3.12              # via -c requirements/constraints.txt, -r requirements/base.txt, edx-django-release-util
+requests-oauthlib==1.3.0  # via -r requirements/base.txt, social-auth-core
+requests==2.20.1          # via -c requirements/constraints.txt, -r requirements/base.txt, analytics-python, coreapi, edx-drf-extensions, edx-rest-api-client, pyjwkest, requests-oauthlib, responses, sailthru-client, slumber, social-auth-core
+responses==0.10.12        # via -r requirements/test.in
+rest-condition==1.0.3     # via -r requirements/base.txt, edx-drf-extensions
+sailthru-client==2.2.3    # via -r requirements/base.txt, edx-ace
 selenium==3.141.0         # via bok-choy
-semantic-version==2.8.4
-simplejson==3.17.0
-six==1.14.0
-slumber==0.7.1
-git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django
-social-auth-core==3.2.0
-sqlparse==0.3.0
-stevedore==1.10.0
-testfixtures==6.12.0
+semantic-version==2.8.4   # via -r requirements/base.txt, edx-drf-extensions
+simplejson==3.17.0        # via -r requirements/base.txt, django-rest-swagger, sailthru-client
+six==1.14.0               # via -r requirements/base.txt, analytics-python, astroid, bok-choy, django-appconf, django-compat, django-extensions, django-statici18n, django-waffle, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-lint, edx-opaque-keys, httpretty, mock, packaging, pathlib2, pyjwkest, python-dateutil, python-memcached, responses, social-auth-app-django, social-auth-core, stevedore, tox, virtualenv
+slumber==0.7.1            # via -r requirements/base.txt, edx-rest-api-client
+git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/base.txt, edx-auth-backends
+social-auth-core==3.2.0   # via -r requirements/base.txt, edx-auth-backends, social-auth-app-django
+sqlparse==0.3.1           # via -r requirements/base.txt, django-debug-toolbar
+stevedore==1.10.0         # via -c requirements/constraints.txt, -r requirements/base.txt, edx-ace, edx-opaque-keys
+testfixtures==6.14.0      # via -r requirements/test.in
 text-unidecode==1.3       # via faker
+toml==0.10.0              # via tox
+tox==3.14.5               # via -r requirements/test.in
 typed-ast==1.4.1          # via astroid
-uritemplate==3.0.1
-urllib3==1.24.3
+uritemplate==3.0.1        # via -r requirements/base.txt, coreapi
+urllib3==1.24.3           # via -r requirements/base.txt, requests, selenium
+virtualenv==20.0.7        # via tox
 wcwidth==0.1.8            # via pytest
 wrapt==1.11.2             # via astroid
-xss-utils==0.1.2
-zipp==1.1.0               # via importlib-metadata
+xss-utils==0.1.2          # via -r requirements/base.txt
+zipp==1.2.0               # via importlib-metadata, importlib-resources
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

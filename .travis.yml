@@ -26,10 +26,7 @@ before_install:
 matrix:
   include:
     - env: TESTNAME=quality-and-translations
-
-      # Doing so is a waste of time since they won't be used.
       install: true
-
       script:
         - make exec-requirements
         - make exec-check_translations_up_to_date
@@ -45,17 +42,39 @@ matrix:
       addons:
           firefox: latest
 
-    - env: TESTNAME=unit-tests
-
-      # Doing so is a waste of time since they won't be used.
+    - env: TOXENV=django111
       install: true
-
       script:
         - make exec-requirements
         - make exec-static
         - make exec-tests
 
-      after_success:
-        - pip install --upgrade codecov
-        - make exec-coverage
-        - codecov
+    - env: TOXENV=django20
+      install: true
+      script:
+        - make exec-requirements
+        - make exec-static
+        - make exec-tests
+
+    - env: TOXENV=django21
+      install: true
+      script:
+        - make exec-requirements
+        - make exec-static
+        - make exec-tests
+
+    - env: TOXENV=django22
+      install: true
+      script:
+        - make exec-requirements
+        - make exec-static
+        - make exec-tests
+
+  allow_failures:
+      - env: TOXENV=django21
+      - env: TOXENV=django22
+
+after_success:
+    - pip install --upgrade codecov
+    - make exec-coverage
+    - codecov

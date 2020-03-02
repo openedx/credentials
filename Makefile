@@ -1,7 +1,12 @@
 .DEFAULT_GOAL := tests
 NODE_BIN=./node_modules/.bin
+TOX = ''
 
 .PHONY: requirements upgrade piptools production-requirements all-requirements
+
+ifdef TOXENV
+TOX := tox -- #to isolate each tox environment if TOXENV is defined
+endif
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message
@@ -44,8 +49,8 @@ test-react: ## Run Jest tests for React
 	npm run test-react
 
 tests: ## Run tests and generate coverage report
-	coverage run -m pytest --ds credentials.settings.test --durations=25
-	coverage report
+	$(TOX)coverage run -m pytest --ds credentials.settings.test --durations=25
+	$(TOX)coverage report
 	$(NODE_BIN)/gulp test
 	make test-react
 
@@ -55,13 +60,13 @@ js-tests: ## Run tests and generate coverage report
 
 static: ## Gather all static assets for production (minimized)
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --optimize-minimize
-	python manage.py compilejsi18n
-	python manage.py collectstatic --noinput -i *.scss
+	$(TOX)python manage.py compilejsi18n
+	$(TOX)python manage.py collectstatic --noinput -i *.scss
 
 static.dev: ## Gather all static assets for development (not minimized)
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress
-	python manage.py compilejsi18n
-	python manage.py collectstatic --noinput -i *.scss
+	$(TOX)python manage.py compilejsi18n
+	$(TOX)python manage.py collectstatic --noinput -i *.scss
 
 static.watch: ## Gather static assets when they change (not minimized)
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --watch
@@ -92,13 +97,13 @@ exec-requirements:
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make all-requirements'
 
 exec-static: ## Gather static assets on a container
-	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make static'
+	docker exec -e TOXENV=$(TOXENV) -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make static'
 
 exec-quality: ## Run linters on a container
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make quality'
 
 exec-tests: ## Run tests on a container
-	docker exec -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && xvfb-run make tests'
+	docker exec -e TOXENV=$(TOXENV) -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && xvfb-run make tests'
 
 exec-accept: ## Run acceptance tests on a container
 	docker exec -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make accept'
