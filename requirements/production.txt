@@ -27,7 +27,7 @@ django-statici18n==1.9.0  # via -r requirements/base.txt
 django-storages==1.8      # via -c requirements/constraints.txt, -r requirements/base.txt
 django-waffle==0.20.0     # via -r requirements/base.txt, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/base.txt
-django==1.11.28           # via -c requirements/constraints.txt, -r requirements/base.txt, django-appconf, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, rest-condition, xss-utils
+django==1.11.29           # via -c requirements/constraints.txt, -r requirements/base.txt, django-appconf, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, rest-condition, xss-utils
 djangorestframework-jwt==1.11.0  # via -r requirements/base.txt, edx-drf-extensions
 djangorestframework==3.11.0  # via -r requirements/base.txt, django-rest-swagger, edx-drf-extensions, rest-condition
 edx-ace==0.1.13           # via -r requirements/base.txt

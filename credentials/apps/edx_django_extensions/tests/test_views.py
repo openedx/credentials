@@ -1,3 +1,4 @@
+import django
 import mock
 from django.contrib import messages
 from django.test import TestCase
@@ -40,14 +41,19 @@ class ManagementViewTests(SiteMixin, TestCase):
         user = UserFactory()
         self.client.login(username=user.username, password=USER_PASSWORD)
         response = self.client.get(self.path)
-        self.assertEqual(response.status_code, 302)
+
+        expected_code = 302
+        if django.VERSION >= (2, 1):  # Authenticated users are denied access with an HTTP 403 Forbidden response
+            expected_code = 403
+
+        self.assertEqual(response.status_code, expected_code)
 
     def test_invalid_action(self):
         """ Verify the view responds with an error message if an invalid action is posted. """
-        response = self.client.post(self.path, {'action': None})
+        response = self.client.post(self.path, {'action': ''})
         self.assertEqual(response.status_code, 200)
         self.assert_message_count(response, 1)
-        self.assert_first_message(response, messages.ERROR, 'None is not a valid action.')
+        self.assert_first_message(response, messages.ERROR, ' is not a valid action.')
 
     @mock.patch('logging.Logger.info')
     @mock.patch('django.core.cache.cache.clear')
