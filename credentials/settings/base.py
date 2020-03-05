@@ -55,7 +55,8 @@ THIRD_PARTY_APPS = [
     'rest_framework_swagger',
     'hijack',
     'compat',
-    'xss_utils'
+    'xss_utils',
+    'rest_framework_jwt',
 ]
 
 PROJECT_APPS = [
