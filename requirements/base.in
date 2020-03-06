@@ -49,4 +49,4 @@ git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_the
 
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django
 
--e git+https://github.com/edx/edx-drf-extensions.git@869ed6c406fe63494ba5f2102abd0ffde6ea720c#egg=edx-drf-extensions==4.0.0
+-e git+https://github.com/edx/edx-drf-extensions.git@408f5b6bb2ba3f3363f9d0eb8545454417ef4a66#egg=edx-drf-extensions==4.0.0
