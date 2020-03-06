@@ -17,6 +17,7 @@ defusedxml==0.6.0         # via python3-openid, social-auth-core
 django-appconf==1.0.3     # via django-statici18n
 django-compat==1.0.15     # via django-hijack
 django-debug-toolbar==2.2  # via -r requirements/base.in
+django-extensions==2.2.8  # via -r requirements/base.in
 django-filter==2.2.0      # via -r requirements/base.in
 django-hijack==2.1.10     # via -r requirements/base.in
 django-rest-swagger==2.2.0  # via -r requirements/base.in
@@ -67,7 +68,7 @@ rest-condition==1.0.3     # via edx-drf-extensions
 sailthru-client==2.2.3    # via edx-ace
 semantic-version==2.8.4   # via edx-drf-extensions
 simplejson==3.17.0        # via django-rest-swagger, sailthru-client
-six==1.14.0               # via -r requirements/base.in, analytics-python, django-appconf, django-compat, django-statici18n, django-waffle, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-opaque-keys, pyjwkest, python-dateutil, python-memcached, social-auth-app-django, social-auth-core, stevedore
+six==1.14.0               # via -r requirements/base.in, analytics-python, django-appconf, django-compat, django-extensions, django-statici18n, django-waffle, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-opaque-keys, pyjwkest, python-dateutil, python-memcached, social-auth-app-django, social-auth-core, stevedore
 slumber==0.7.1            # via edx-rest-api-client
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/base.in, edx-auth-backends
 social-auth-core==3.2.0   # via edx-auth-backends, social-auth-app-django

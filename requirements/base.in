@@ -14,6 +14,7 @@ coreapi
 django
 django-debug-toolbar
 django-hijack
+django-extensions
 django-filter
 django-rest-swagger
 django-sortedm2m
@@ -28,7 +29,6 @@ edx-auth-backends
 edx-django-release-util
 edx-django-sites-extensions
 edx-django-utils
-edx-drf-extensions
 edx-opaque-keys
 edx-rest-api-client
 markdown

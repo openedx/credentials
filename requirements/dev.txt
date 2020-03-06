@@ -29,6 +29,7 @@ distlib==0.3.0            # via -r requirements/test.txt, virtualenv
 django-appconf==1.0.3     # via -r requirements/test.txt, django-statici18n
 django-compat==1.0.15     # via -r requirements/test.txt, django-hijack
 django-debug-toolbar==2.2  # via -r requirements/test.txt
+django-extensions==2.2.8  # via -r requirements/test.txt
 django-filter==2.2.0      # via -r requirements/test.txt
 django-hijack==2.1.10     # via -r requirements/test.txt
 django-rest-swagger==2.2.0  # via -r requirements/test.txt
@@ -120,7 +121,7 @@ sailthru-client==2.2.3    # via -r requirements/test.txt, edx-ace
 selenium==3.141.0         # via -r requirements/test.txt, bok-choy
 semantic-version==2.8.4   # via -r requirements/test.txt, edx-drf-extensions
 simplejson==3.17.0        # via -r requirements/test.txt, django-rest-swagger, sailthru-client
-six==1.14.0               # via -r requirements/test.txt, analytics-python, astroid, bcrypt, bok-choy, cryptography, django-appconf, django-compat, django-statici18n, django-waffle, docker, docker-compose, dockerpty, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-i18n-tools, edx-lint, edx-opaque-keys, httpretty, jsonschema, mock, packaging, pathlib2, pyjwkest, pynacl, pyrsistent, python-dateutil, python-memcached, responses, social-auth-app-django, social-auth-core, stevedore, tox, transifex-client, virtualenv, websocket-client
+six==1.14.0               # via -r requirements/test.txt, analytics-python, astroid, bcrypt, bok-choy, cryptography, django-appconf, django-compat, django-extensions, django-statici18n, django-waffle, docker, docker-compose, dockerpty, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-i18n-tools, edx-lint, edx-opaque-keys, httpretty, jsonschema, mock, packaging, pathlib2, pyjwkest, pynacl, pyrsistent, python-dateutil, python-memcached, responses, social-auth-app-django, social-auth-core, stevedore, tox, transifex-client, virtualenv, websocket-client
 slumber==0.7.1            # via -r requirements/test.txt, edx-rest-api-client
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/test.txt, edx-auth-backends
 social-auth-core==3.2.0   # via -r requirements/test.txt, edx-auth-backends, social-auth-app-django
