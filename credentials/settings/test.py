@@ -1,6 +1,6 @@
 import os
 
-from path import Path as path
+from pathlib import Path as path
 
 from credentials.settings.base import *
 from credentials.settings.utils import get_logger_config
@@ -34,7 +34,7 @@ CACHES = {
 # Local Directories
 TEST_ROOT = path('test_root')
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-MEDIA_ROOT = TEST_ROOT / 'uploads'
+MEDIA_ROOT = str(TEST_ROOT / 'uploads')
 MEDIA_URL = '/static/uploads/'
 
 SOCIAL_AUTH_EDX_OAUTH2_URL_ROOT = 'https://test-provider'

@@ -1,7 +1,12 @@
 .DEFAULT_GOAL := tests
 NODE_BIN=./node_modules/.bin
+TOX = ''
 
 .PHONY: requirements upgrade piptools production-requirements all-requirements
+
+ifdef TOXENV
+TOX := tox -- #to isolate each tox environment if TOXENV is defined
+endif
 
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message
@@ -18,6 +23,9 @@ clean: ## Remove all generated files
 production-requirements: piptools ## Install requirements for production
 	npm install --production --no-save
 	pip-sync requirements.txt
+
+js-requirements: ## Install frontend requirements
+	npm install
 
 all-requirements: piptools ## Install local and prod requirements
 	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
@@ -41,20 +49,24 @@ test-react: ## Run Jest tests for React
 	npm run test-react
 
 tests: ## Run tests and generate coverage report
-	coverage run -m pytest --ds credentials.settings.test --durations=25
-	coverage report
+	$(TOX)coverage run -m pytest --ds credentials.settings.test --durations=25
+	$(TOX)coverage report
+	$(NODE_BIN)/gulp test
+	make test-react
+
+js-tests: ## Run tests and generate coverage report
 	$(NODE_BIN)/gulp test
 	make test-react
 
 static: ## Gather all static assets for production (minimized)
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --optimize-minimize
-	python manage.py compilejsi18n
-	python manage.py collectstatic --noinput -i *.scss
+	$(TOX)python manage.py compilejsi18n
+	$(TOX)python manage.py collectstatic --noinput -i *.scss
 
 static.dev: ## Gather all static assets for development (not minimized)
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress
-	python manage.py compilejsi18n
-	python manage.py collectstatic --noinput -i *.scss
+	$(TOX)python manage.py compilejsi18n
+	$(TOX)python manage.py collectstatic --noinput -i *.scss
 
 static.watch: ## Gather static assets when they change (not minimized)
 	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --watch
@@ -85,13 +97,13 @@ exec-requirements:
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make all-requirements'
 
 exec-static: ## Gather static assets on a container
-	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make static'
+	docker exec -e TOXENV=$(TOXENV) -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make static'
 
 exec-quality: ## Run linters on a container
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make quality'
 
 exec-tests: ## Run tests on a container
-	docker exec -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && xvfb-run make tests'
+	docker exec -e TOXENV=$(TOXENV) -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && xvfb-run make tests'
 
 exec-accept: ## Run acceptance tests on a container
 	docker exec -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make accept'
@@ -153,3 +165,7 @@ upgrade: piptools ## update the requirements/*.txt files with the latest package
 	pip-compile --rebuild --upgrade -o requirements/dev.txt requirements/dev.in
 	pip-compile --rebuild --upgrade -o requirements/production.txt requirements/production.in
 	pip-compile --rebuild --upgrade -o requirements/all.txt requirements/all.in
+	# Let tox control the Django version for tests
+	grep -e "^django==" requirements/production.txt > requirements/django.txt
+	sed '/^[dD]jango==/d' requirements/test.txt > requirements/test.tmp
+	mv requirements/test.tmp requirements/test.txt
