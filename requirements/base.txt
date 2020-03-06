@@ -10,6 +10,7 @@ argparse==1.4.0           # via stevedore
 attrs==17.4.0             # via edx-ace
 certifi==2019.11.28       # via requests
 chardet==3.0.4            # via requests
+click==7.0
 coreapi==2.3.3
 coreschema==0.0.4         # via coreapi
 defusedxml==0.6.0         # via python3-openid, social-auth-core
@@ -23,35 +24,35 @@ django-rest-swagger==2.2.0
 django-sortedm2m==3.0.0
 django-statici18n==1.9.0
 django-storages==1.8
-django-waffle==0.19.0
-django-webpack-loader==0.6.0
+django-waffle==0.20.0
+django-webpack-loader==0.7.0
 django==1.11.28
 djangorestframework-jwt==1.11.0
 djangorestframework==3.11.0
 edx-ace==0.1.13
 edx-auth-backends==3.0.2
-edx-django-release-util==0.3.6
 edx-django-sites-extensions==2.4.3
-edx-django-utils==2.0.4
-edx-drf-extensions==2.4.6
+edx-django-utils==3.0
+edx-drf-extensions==3.0.0
 edx-opaque-keys==2.0.1
-edx-rest-api-client==3.0.2
+edx-rest-api-client==4.0.1
 git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30
+git+https://github.com/edx/edx-django-release-util.git@7b31f9b76b600b1e92aa4916cb2a6b76ea6d7287#egg=edx_django_release_util
 future==0.18.2            # via pyjwkest
 idna==2.7                 # via requests
 itypes==1.1.0             # via coreapi
 jinja2==2.11.1            # via coreschema
-markdown==3.2
+markdown==3.2.1
 markupsafe==1.1.1         # via jinja2
 mysqlclient==1.4.6
-newrelic==5.6.0.135
+newrelic==5.8.0.136
 oauthlib==3.1.0           # via requests-oauthlib, social-auth-core
 olefile==0.46             # via pillow
 openapi-codec==1.3.2      # via django-rest-swagger
 pbr==5.4.4                # via stevedore
 pillow==4.0.0
 psutil==1.2.1             # via edx-django-utils, edx-drf-extensions
-pycryptodomex==3.9.6      # via pyjwkest
+pycryptodomex==3.9.7      # via pyjwkest
 pygments==2.5.2
 pyjwkest==1.3.2           # via edx-drf-extensions
 pyjwt==1.7.1              # via djangorestframework-jwt, edx-auth-backends, edx-rest-api-client, social-auth-core
@@ -60,7 +61,7 @@ python-dateutil==2.8.1    # via analytics-python, edx-ace, edx-drf-extensions
 python-memcached==1.59
 python3-openid==3.1.0     # via social-auth-core
 pytz==2019.3
-pyyaml==3.12              # via edx-django-release-util
+pyyaml==3.12
 requests-oauthlib==1.3.0  # via social-auth-core
 requests==2.20.1
 rest-condition==1.0.3     # via edx-drf-extensions
