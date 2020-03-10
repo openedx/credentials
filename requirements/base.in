@@ -23,7 +23,6 @@ django-storages
 django-waffle
 django-webpack-loader
 djangorestframework
-djangorestframework-jwt
 edx-ace
 edx-auth-backends
 edx-django-release-util

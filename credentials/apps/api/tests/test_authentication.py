@@ -47,6 +47,7 @@ class TestJWTAuthentication(JwtMixin, TestCase):
             }
         )
         self.assertEqual(user.username, self.USERNAME)
+        self.assertTrue(user.is_staff)
         self.assertEqual(len(user.groups.all()), 1)
         self.assertEqual(user.groups.all()[0].name, Role.ADMINS)
 

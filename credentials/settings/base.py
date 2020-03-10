@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 THIRD_PARTY_APPS = [
     'release_util',
     'rest_framework',
+    'rest_framework_jwt',
     'social_django',
     'sortedm2m',
     'statici18n',
@@ -55,7 +56,7 @@ THIRD_PARTY_APPS = [
     'rest_framework_swagger',
     'hijack',
     'compat',
-    'xss_utils'
+    'xss_utils',
 ]
 
 PROJECT_APPS = [
@@ -374,6 +375,7 @@ JWT_AUTH = {
     'JWT_PUBLIC_SIGNING_JWK_SET': None,
     'JWT_AUTH_COOKIE_HEADER_PAYLOAD': 'edx-jwt-cookie-header-payload',
     'JWT_AUTH_COOKIE_SIGNATURE': 'edx-jwt-cookie-signature',
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }
 
 # Email sending

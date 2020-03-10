@@ -27,7 +27,7 @@ class JwtMixin:
         """Generate a JWT token with the provided payload."""
         secret = secret or self.JWT_SECRET_KEY
         token = jwt.encode(payload, secret)
-        return token
+        return token.decode('utf-8')
 
     def generate_id_token(self, user, admin=False, ttl=1, **overrides):
         """Generate a JWT id_token that looks like the ones currently
