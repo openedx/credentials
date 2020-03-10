@@ -545,7 +545,7 @@ class UsernameReplacementViewTests(JwtMixin, APITestCase):
         """
         jwt_payload = self.default_payload(user)
         token = self.generate_token(jwt_payload)
-        headers = {'HTTP_AUTHORIZATION': 'JWT ' + token.decode()}
+        headers = {'HTTP_AUTHORIZATION': 'JWT ' + token}
         return headers
 
     def call_api(self, user, data):
