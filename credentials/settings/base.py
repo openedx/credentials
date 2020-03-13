@@ -43,6 +43,7 @@ THIRD_PARTY_APPS = [
     'release_util',
     'rest_framework',
     'rest_framework_jwt',
+    'rest_framework_jwt.blacklist',
     'social_django',
     'sortedm2m',
     'statici18n',
