@@ -9,7 +9,7 @@ analytics-python==1.2.9   # via -r requirements/dev.txt, -r requirements/product
 appdirs==1.4.3            # via -r requirements/dev.txt, virtualenv
 argparse==1.4.0           # via -r requirements/dev.txt, -r requirements/production.txt, stevedore
 astroid==2.3.3            # via -r requirements/dev.txt, pylint, pylint-celery
-attrs==17.4.0             # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, edx-ace, jsonschema, pytest
+attrs==19.3.0             # via -r requirements/dev.txt, -r requirements/production.txt, edx-ace, jsonschema, pytest
 bcrypt==3.1.7             # via -r requirements/dev.txt, paramiko
 bok-choy==1.0.1           # via -r requirements/dev.txt
 boto==2.49.0              # via -r requirements/production.txt, django-ses
@@ -46,7 +46,7 @@ docker[ssh]==4.2.0        # via -r requirements/dev.txt, docker-compose
 dockerpty==0.4.1          # via -r requirements/dev.txt, docker-compose
 docopt==0.6.2             # via -r requirements/dev.txt, docker-compose
 drf-jwt==1.15.1           # via -r requirements/dev.txt, -r requirements/production.txt, edx-drf-extensions
-edx-ace==0.1.13           # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt
+edx-ace==0.1.14           # via -r requirements/dev.txt, -r requirements/production.txt
 edx-auth-backends==3.0.2  # via -r requirements/dev.txt, -r requirements/production.txt
 edx-django-release-util==0.3.6  # via -r requirements/dev.txt, -r requirements/production.txt
 edx-django-sites-extensions==2.4.3  # via -r requirements/dev.txt, -r requirements/production.txt
