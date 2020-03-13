@@ -12,8 +12,7 @@
 # as a production requirement to avoid conflicts.
 pyyaml==3.12
 
-# Required to resolve requirements from base.in with inherited files 
-attrs==17.4.0
+# Required to resolve requirements from base.in with inherited files
 pillow==4.0.0
 requests==2.20.1
 stevedore==1.10.0
@@ -30,6 +29,3 @@ isort==4.2.5
 
 # django-storages version 1.9 drops support for boto storage backend.
 django-storages<1.9
-
-# the changes done as part of 0.1.14 seems to have broken credentials tests
-edx-ace==0.1.13
