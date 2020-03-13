@@ -35,7 +35,7 @@ django-waffle==0.20.0     # via -r requirements/base.txt, edx-django-utils, edx-
 django-webpack-loader==0.7.0  # via -r requirements/base.txt
 djangorestframework==3.11.0  # via -r requirements/base.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
 drf-jwt==1.15.1           # via -r requirements/base.txt, edx-drf-extensions
-edx-ace==0.1.14           # via -r requirements/base.txt
+edx-ace==0.1.13           # via -c requirements/constraints.txt, -r requirements/base.txt
 edx-auth-backends==3.0.2  # via -r requirements/base.txt
 edx-django-release-util==0.3.6  # via -r requirements/base.txt
 edx-django-sites-extensions==2.4.3  # via -r requirements/base.txt
@@ -46,7 +46,7 @@ edx-opaque-keys==2.0.1    # via -r requirements/base.txt, edx-drf-extensions
 edx-rest-api-client==5.0.1  # via -r requirements/base.txt
 git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30  # via -r requirements/base.txt
 factory-boy==2.12.0       # via -r requirements/test.in
-faker==4.0.1              # via factory-boy
+faker==4.0.2              # via factory-boy
 filelock==3.0.12          # via tox, virtualenv
 future==0.18.2            # via -r requirements/base.txt, pyjwkest
 httpretty==0.9.7          # via -r requirements/test.in
@@ -87,7 +87,7 @@ pylint==2.4.2             # via edx-lint, pylint-celery, pylint-django, pylint-p
 pymongo==3.10.1           # via -r requirements/base.txt, edx-opaque-keys
 pyparsing==2.4.6          # via packaging
 pytest-django==3.8.0      # via -r requirements/test.in
-pytest==5.4.0             # via -r requirements/test.in, pytest-django
+pytest==5.4.1             # via -r requirements/test.in, pytest-django
 python-dateutil==2.8.1    # via -r requirements/base.txt, analytics-python, edx-ace, edx-drf-extensions, faker
 python-memcached==1.59    # via -r requirements/base.txt
 python3-openid==3.1.0     # via -r requirements/base.txt, social-auth-core
