@@ -32,12 +32,12 @@ djangorestframework==3.11.0  # via -r requirements/base.in, django-rest-swagger,
 drf-jwt==1.14.0           # via -c requirements/constraints.txt, edx-drf-extensions
 edx-ace==0.1.14           # via -r requirements/base.in
 edx-auth-backends==3.0.2  # via -r requirements/base.in
-edx-django-release-util==0.3.6  # via -r requirements/base.in
+edx-django-release-util==0.4.1  # via -r requirements/base.in
 edx-django-sites-extensions==2.4.3  # via -r requirements/base.in
 edx-django-utils==3.0     # via -r requirements/base.in, edx-drf-extensions, edx-rest-api-client
 edx-drf-extensions==5.0.2  # via -r requirements/base.in
 edx-opaque-keys==2.0.1    # via -r requirements/base.in, edx-drf-extensions
-edx-rest-api-client==5.0.1  # via -r requirements/base.in
+edx-rest-api-client==5.0.2  # via -r requirements/base.in
 git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30  # via -r requirements/base.in
 future==0.18.2            # via pyjwkest
 idna==2.7                 # via requests

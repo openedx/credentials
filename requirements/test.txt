@@ -39,13 +39,13 @@ djangorestframework==3.11.0  # via -r requirements/base.txt, django-rest-swagger
 drf-jwt==1.14.0           # via -c requirements/constraints.txt, -r requirements/base.txt, edx-drf-extensions
 edx-ace==0.1.14           # via -r requirements/base.txt
 edx-auth-backends==3.0.2  # via -r requirements/base.txt
-edx-django-release-util==0.3.6  # via -r requirements/base.txt
+edx-django-release-util==0.4.1  # via -r requirements/base.txt
 edx-django-sites-extensions==2.4.3  # via -r requirements/base.txt
 edx-django-utils==3.0     # via -r requirements/base.txt, edx-drf-extensions, edx-rest-api-client
 edx-drf-extensions==5.0.2  # via -r requirements/base.txt
 edx-lint==1.4.1           # via -r requirements/test.in
 edx-opaque-keys==2.0.1    # via -r requirements/base.txt, edx-drf-extensions
-edx-rest-api-client==5.0.1  # via -r requirements/base.txt
+edx-rest-api-client==5.0.2  # via -r requirements/base.txt
 git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30  # via -r requirements/base.txt
 factory-boy==2.12.0       # via -r requirements/test.in
 faker==4.0.2              # via factory-boy
@@ -118,8 +118,8 @@ typed-ast==1.4.1          # via astroid
 unidecode==1.1.1          # via -r requirements/base.txt, social-auth-core
 uritemplate==3.0.1        # via -r requirements/base.txt, coreapi
 urllib3==1.24.3           # via -r requirements/base.txt, requests, selenium
-virtualenv==20.0.12       # via tox
-wcwidth==0.1.8            # via pytest
+virtualenv==20.0.13       # via tox
+wcwidth==0.1.9            # via pytest
 wrapt==1.11.2             # via astroid
 xss-utils==0.1.2          # via -r requirements/base.txt
 zipp==1.2.0               # via importlib-metadata, importlib-resources
