@@ -15,15 +15,15 @@ bok-choy==1.0.1           # via -r requirements/dev.txt
 boto==2.49.0              # via -r requirements/production.txt, django-ses
 cached-property==1.5.1    # via -r requirements/dev.txt, docker-compose
 certifi==2019.11.28       # via -r requirements/dev.txt, -r requirements/production.txt, requests
-cffi==1.14.0              # via -r requirements/dev.txt, bcrypt, cryptography, pynacl
+cffi==1.14.0              # via -r requirements/dev.txt, -r requirements/production.txt, bcrypt, cryptography, pynacl
 chardet==3.0.4            # via -r requirements/dev.txt, -r requirements/production.txt, requests
 click-log==0.3.2          # via -r requirements/dev.txt, edx-lint
 click==7.1.1              # via -r requirements/dev.txt, click-log, edx-lint
 coreapi==2.3.3            # via -r requirements/dev.txt, -r requirements/production.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/dev.txt, -r requirements/production.txt, coreapi
 coverage==5.0.4           # via -r requirements/dev.txt
-cryptography==2.8         # via -r requirements/dev.txt, paramiko
-ddt==1.3.0                # via -r requirements/dev.txt
+cryptography==2.8         # via -r requirements/dev.txt, -r requirements/production.txt, paramiko, social-auth-core
+ddt==1.3.1                # via -r requirements/dev.txt
 defusedxml==0.6.0         # via -r requirements/dev.txt, -r requirements/production.txt, python3-openid, social-auth-core
 distlib==0.3.0            # via -r requirements/dev.txt, virtualenv
 django-appconf==1.0.3     # via -r requirements/dev.txt, -r requirements/production.txt, django-statici18n
@@ -51,7 +51,7 @@ edx-auth-backends==3.0.2  # via -r requirements/dev.txt, -r requirements/product
 edx-django-release-util==0.3.6  # via -r requirements/dev.txt, -r requirements/production.txt
 edx-django-sites-extensions==2.4.3  # via -r requirements/dev.txt, -r requirements/production.txt
 edx-django-utils==3.0     # via -r requirements/dev.txt, -r requirements/production.txt, edx-drf-extensions, edx-rest-api-client
-edx-drf-extensions==5.0.0  # via -r requirements/dev.txt, -r requirements/production.txt
+edx-drf-extensions==5.0.2  # via -r requirements/dev.txt, -r requirements/production.txt
 edx-i18n-tools==0.5.0     # via -r requirements/dev.txt
 edx-lint==1.4.1           # via -r requirements/dev.txt
 edx-opaque-keys==2.0.1    # via -r requirements/dev.txt, -r requirements/production.txt, edx-drf-extensions
@@ -67,7 +67,7 @@ gunicorn==20.0.4          # via -r requirements/production.txt
 httpretty==0.9.7          # via -r requirements/dev.txt
 idna==2.7                 # via -r requirements/dev.txt, -r requirements/production.txt, requests
 importlib-metadata==1.5.0  # via -r requirements/dev.txt, importlib-resources, jsonschema, path.py, pluggy, pytest, tox, virtualenv
-importlib-resources==1.3.1  # via -r requirements/dev.txt, virtualenv
+importlib-resources==1.4.0  # via -r requirements/dev.txt, virtualenv
 isort==4.2.5              # via -c requirements/constraints.txt, -r requirements/dev.txt, pylint
 itypes==1.1.0             # via -r requirements/dev.txt, -r requirements/production.txt, coreapi
 jinja2==2.11.1            # via -r requirements/dev.txt, -r requirements/production.txt, coreschema
@@ -96,7 +96,7 @@ pluggy==0.13.1            # via -r requirements/dev.txt, pytest, tox
 polib==1.1.0              # via -r requirements/dev.txt, edx-i18n-tools
 psutil==1.2.1             # via -r requirements/dev.txt, -r requirements/production.txt, edx-django-utils
 py==1.8.1                 # via -r requirements/dev.txt, pytest, tox
-pycparser==2.20           # via -r requirements/dev.txt, cffi
+pycparser==2.20           # via -r requirements/dev.txt, -r requirements/production.txt, cffi
 pycryptodomex==3.9.7      # via -r requirements/dev.txt, -r requirements/production.txt, pyjwkest
 pygments==2.6.1           # via -r requirements/dev.txt, -r requirements/production.txt
 pyinotify==0.9.6 ; "linux" in sys_platform  # via -r requirements/dev.txt
@@ -129,7 +129,7 @@ simplejson==3.17.0        # via -r requirements/dev.txt, -r requirements/product
 six==1.14.0               # via -r requirements/dev.txt, -r requirements/production.txt, analytics-python, astroid, bcrypt, bok-choy, cryptography, django-appconf, django-compat, django-extensions, django-statici18n, django-waffle, docker, docker-compose, dockerpty, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-i18n-tools, edx-lint, edx-opaque-keys, httpretty, jsonschema, mock, packaging, pathlib2, pyjwkest, pynacl, pyrsistent, python-dateutil, python-memcached, responses, social-auth-app-django, social-auth-core, stevedore, tox, transifex-client, virtualenv, websocket-client
 slumber==0.7.1            # via -r requirements/dev.txt, -r requirements/production.txt, edx-rest-api-client
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/dev.txt, -r requirements/production.txt, edx-auth-backends
-social-auth-core==3.2.0   # via -r requirements/dev.txt, -r requirements/production.txt, edx-auth-backends, social-auth-app-django
+social-auth-core==3.3.0   # via -r requirements/dev.txt, -r requirements/production.txt, edx-auth-backends, social-auth-app-django
 sqlparse==0.3.1           # via -r requirements/dev.txt, -r requirements/production.txt, django, django-debug-toolbar
 stevedore==1.10.0         # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, edx-ace, edx-opaque-keys
 testfixtures==6.14.0      # via -r requirements/dev.txt
@@ -139,10 +139,10 @@ toml==0.10.0              # via -r requirements/dev.txt, tox
 tox==3.14.5               # via -r requirements/dev.txt
 transifex-client==0.13.8  # via -r requirements/dev.txt
 typed-ast==1.4.1          # via -r requirements/dev.txt, astroid
-unidecode==1.1.1          # via -r requirements/dev.txt, python-slugify
+unidecode==1.1.1          # via -r requirements/dev.txt, -r requirements/production.txt, python-slugify, social-auth-core
 uritemplate==3.0.1        # via -r requirements/dev.txt, -r requirements/production.txt, coreapi
 urllib3==1.24.3           # via -r requirements/dev.txt, -r requirements/production.txt, requests, selenium, transifex-client
-virtualenv==20.0.10       # via -r requirements/dev.txt, tox
+virtualenv==20.0.12       # via -r requirements/dev.txt, tox
 wcwidth==0.1.8            # via -r requirements/dev.txt, pytest
 websocket-client==0.57.0  # via -r requirements/dev.txt, docker, docker-compose
 wrapt==1.11.2             # via -r requirements/dev.txt, astroid
