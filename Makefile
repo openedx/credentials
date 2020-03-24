@@ -17,7 +17,7 @@ clean: ## Remove all generated files
 	coverage erase
 	find . -path '*/__pycache__/*' -delete
 	find . -name \*.pyc -o -name \*.pyo -o -name __pycache__ -delete
-	rm -rf credentials/assets/ credentials/static/bundles/ credentials/static/jsi18n/ coverage htmlcov test_root/uploads
+	rm -rf credentials/assets/ credentials/static/bundles/ credentials/static/jsi18n/ coverage htmlcov test_root/uploads reports
 	git clean -fd credentials/conf/locale
 
 production-requirements: piptools ## Install requirements for production
@@ -90,6 +90,9 @@ exec-validate-translations: ## Check translations on a container
 exec-check_translations_up_to_date: ## test translations on a container
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make check_translations_up_to_date'
 
+exec-check_keywords: ## Scan the Django models in all installed apps in this project for restricted field names
+	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make check_keywords'
+
 exec-clean: ## Remove all generated files from a container
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make clean'
 
@@ -108,7 +111,7 @@ exec-tests: ## Run tests on a container
 exec-accept: ## Run acceptance tests on a container
 	docker exec -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make accept'
 
-exec-validate: exec-validate-translations exec-clean exec-static exec-quality exec-tests exec-accept ## Run linters and tests after checking translations and gathering static assets
+exec-validate: exec-validate-translations exec-clean exec-static exec-quality exec-tests exec-accept exec-check_keywords ## Run linters and tests after checking translations and gathering static assets
 
 exec-coverage: ## Generate XML coverage report on a container
 	docker exec -t credentials bash -c 'coverage xml'
@@ -169,3 +172,7 @@ upgrade: piptools ## update the requirements/*.txt files with the latest package
 	grep -e "^django==" requirements/production.txt > requirements/django.txt
 	sed '/^[dD]jango==/d' requirements/test.txt > requirements/test.tmp
 	mv requirements/test.tmp requirements/test.txt
+
+check_keywords: ## Scan the Django models in all installed apps in this project for restricted field names
+	python manage.py check_reserved_keywords --override_file db_keyword_overrides.yml --report_file stich_keyword_report.csv --system STITCH
+	python manage.py check_reserved_keywords --override_file db_keyword_overrides.yml --report_file snowflake_keyword_report.csv --system SNOWFLAKE

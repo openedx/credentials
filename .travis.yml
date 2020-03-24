@@ -33,6 +33,7 @@ matrix:
         - make exec-check_translations_up_to_date
         - make exec-validate-translations
         - make exec-quality
+        - make exec-check_keywords
 
     - env: TESTNAME=acceptance-tests
       install:
