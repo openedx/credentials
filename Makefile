@@ -174,5 +174,4 @@ upgrade: piptools ## update the requirements/*.txt files with the latest package
 	mv requirements/test.tmp requirements/test.txt
 
 check_keywords: ## Scan the Django models in all installed apps in this project for restricted field names
-	python manage.py check_reserved_keywords --override_file db_keyword_overrides.yml --report_file stich_keyword_report.csv --system STITCH
-	python manage.py check_reserved_keywords --override_file db_keyword_overrides.yml --report_file snowflake_keyword_report.csv --system SNOWFLAKE
+	python manage.py check_reserved_keywords --override_file db_keyword_overrides.yml

@@ -6,5 +6,8 @@
 #   - ModelName.field_name
 ---
 MYSQL:
+   - CourseRun.key
+   - Organization.key
+   - Course.key
 SNOWFLAKE:
 STITCH:
