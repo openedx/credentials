@@ -14,7 +14,6 @@ cffi==1.14.0              # via -r requirements/base.txt, cryptography
 chardet==3.0.4            # via -r requirements/base.txt, requests
 coreapi==2.3.3            # via -r requirements/base.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/base.txt, coreapi
-cryptography==2.8         # via -r requirements/base.txt, social-auth-core
 defusedxml==0.6.0         # via -r requirements/base.txt, python3-openid, social-auth-core
 django-appconf==1.0.3     # via -r requirements/base.txt, django-statici18n
 django-compat==1.0.15     # via -r requirements/base.txt, django-hijack
@@ -79,10 +78,9 @@ simplejson==3.17.0        # via -r requirements/base.txt, django-rest-swagger, s
 six==1.14.0               # via -r requirements/base.txt, analytics-python, cryptography, django-appconf, django-compat, django-extensions, django-statici18n, django-waffle, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-opaque-keys, pyjwkest, python-dateutil, python-memcached, social-auth-app-django, social-auth-core, stevedore
 slumber==0.7.1            # via -r requirements/base.txt, edx-rest-api-client
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/base.txt, edx-auth-backends
-social-auth-core==3.3.0   # via -r requirements/base.txt, edx-auth-backends, social-auth-app-django
+social-auth-core==3.2.0   # via -c requirements/constraints.txt, -r requirements/base.txt, edx-auth-backends, social-auth-app-django
 sqlparse==0.3.1           # via -r requirements/base.txt, django, django-debug-toolbar
 stevedore==1.10.0         # via -c requirements/constraints.txt, -r requirements/base.txt, edx-ace, edx-opaque-keys
-unidecode==1.1.1          # via -r requirements/base.txt, social-auth-core
 uritemplate==3.0.1        # via -r requirements/base.txt, coreapi
 urllib3==1.24.3           # via -r requirements/base.txt, requests
 xss-utils==0.1.2          # via -r requirements/base.txt

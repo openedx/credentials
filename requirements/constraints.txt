@@ -33,3 +33,6 @@ django-storages<1.9
 
 # Not properly supporting latest version of drf-jwt
 drf-jwt<1.15.0
+
+# This package is pinned due to openedx.atlassian.net/browse/ARCHBOM-1078
+social-auth-core<3.3.0

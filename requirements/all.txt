@@ -129,7 +129,7 @@ simplejson==3.17.0        # via -r requirements/dev.txt, -r requirements/product
 six==1.14.0               # via -r requirements/dev.txt, -r requirements/production.txt, analytics-python, astroid, bcrypt, bok-choy, cryptography, django-appconf, django-compat, django-extensions, django-statici18n, django-waffle, docker, docker-compose, dockerpty, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-i18n-tools, edx-lint, edx-opaque-keys, httpretty, jsonschema, mock, packaging, pathlib2, pyjwkest, pynacl, pyrsistent, python-dateutil, python-memcached, responses, social-auth-app-django, social-auth-core, stevedore, tox, transifex-client, virtualenv, websocket-client
 slumber==0.7.1            # via -r requirements/dev.txt, -r requirements/production.txt, edx-rest-api-client
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/dev.txt, -r requirements/production.txt, edx-auth-backends
-social-auth-core==3.3.0   # via -r requirements/dev.txt, -r requirements/production.txt, edx-auth-backends, social-auth-app-django
+social-auth-core==3.2.0   # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, edx-auth-backends, social-auth-app-django
 sqlparse==0.3.1           # via -r requirements/dev.txt, -r requirements/production.txt, django, django-debug-toolbar
 stevedore==1.10.0         # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, edx-ace, edx-opaque-keys
 testfixtures==6.14.0      # via -r requirements/dev.txt
