@@ -13,7 +13,6 @@ cffi==1.14.0              # via cryptography
 chardet==3.0.4            # via requests
 coreapi==2.3.3            # via -r requirements/base.in, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via coreapi
-cryptography==2.8         # via social-auth-core
 defusedxml==0.6.0         # via python3-openid, social-auth-core
 django-appconf==1.0.3     # via django-statici18n
 django-compat==1.0.15     # via django-hijack
@@ -73,10 +72,9 @@ simplejson==3.17.0        # via django-rest-swagger, sailthru-client
 six==1.14.0               # via -r requirements/base.in, analytics-python, cryptography, django-appconf, django-compat, django-extensions, django-statici18n, django-waffle, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-opaque-keys, pyjwkest, python-dateutil, python-memcached, social-auth-app-django, social-auth-core, stevedore
 slumber==0.7.1            # via edx-rest-api-client
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/base.in, edx-auth-backends
-social-auth-core==3.3.0   # via edx-auth-backends, social-auth-app-django
+social-auth-core==3.2.0   # via -c requirements/constraints.txt, edx-auth-backends, social-auth-app-django
 sqlparse==0.3.1           # via django, django-debug-toolbar
 stevedore==1.10.0         # via -c requirements/constraints.txt, edx-ace, edx-opaque-keys
-unidecode==1.1.1          # via social-auth-core
 uritemplate==3.0.1        # via coreapi
 urllib3==1.24.3           # via requests
 xss-utils==0.1.2          # via -r requirements/base.in
