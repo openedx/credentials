@@ -19,7 +19,7 @@ stevedore==1.10.0
 path.py==12.0.2
 
 # Remaining version pins to maintain behavior in
-Django >= 1.11, <2.3
+Django<2.3
 
 # Functional pin for dev.in
 docker-compose >= 1.5.1

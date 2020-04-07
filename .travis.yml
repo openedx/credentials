@@ -44,27 +44,6 @@ matrix:
       addons:
           firefox: latest
 
-    - env: TOXENV=django111
-      install: true
-      script:
-        - make exec-requirements
-        - make exec-static
-        - make exec-tests
-
-    - env: TOXENV=django20
-      install: true
-      script:
-        - make exec-requirements
-        - make exec-static
-        - make exec-tests
-
-    - env: TOXENV=django21
-      install: true
-      script:
-        - make exec-requirements
-        - make exec-static
-        - make exec-tests
-
     - env: TOXENV=django22
       install: true
       script:
