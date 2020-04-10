@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@edx/paragon": "^3.4.0",
-    "axios": "0.18.0",
+    "axios": "0.18.1",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
