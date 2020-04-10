@@ -46,7 +46,7 @@
     "edx-custom-a11y-rules": "^1.0.4",
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
-    "eslint": "^3.18.0",
+    "eslint": "^4.18.2",
     "eslint-config-edx": "4.0.0",
     "geckodriver": "^1.12.2",
     "gulp": "^3.9.1",
