@@ -39,7 +39,7 @@ django-waffle==0.20.0     # via -r requirements/test.txt, edx-django-utils, edx-
 django-webpack-loader==0.7.0  # via -r requirements/test.txt
 django==2.2.12            # via -c requirements/constraints.txt, -r requirements/test.txt, django-appconf, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
 djangorestframework==3.11.0  # via -r requirements/test.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
-docker-compose==1.25.4    # via -c requirements/constraints.txt, -r requirements/dev.in
+docker-compose==1.25.5    # via -c requirements/constraints.txt, -r requirements/dev.in
 docker[ssh]==4.2.0        # via docker-compose
 dockerpty==0.4.1          # via docker-compose
 docopt==0.6.2             # via docker-compose
@@ -48,7 +48,7 @@ edx-ace==0.1.14           # via -r requirements/test.txt
 edx-auth-backends==3.0.2  # via -r requirements/test.txt
 edx-django-release-util==0.4.2  # via -r requirements/test.txt
 edx-django-sites-extensions==2.4.3  # via -r requirements/test.txt
-edx-django-utils==3.1     # via -r requirements/test.txt, edx-drf-extensions, edx-rest-api-client
+edx-django-utils==3.2.0   # via -r requirements/test.txt, edx-drf-extensions, edx-rest-api-client
 edx-drf-extensions==5.0.2  # via -r requirements/test.txt
 edx-i18n-tools==0.5.0     # via -r requirements/dev.in
 edx-lint==1.4.1           # via -r requirements/test.txt
@@ -77,7 +77,6 @@ more-itertools==8.2.0     # via -r requirements/test.txt, pytest
 mysqlclient==1.4.6        # via -r requirements/test.txt
 newrelic==5.10.0.138      # via -r requirements/test.txt, edx-django-utils
 oauthlib==3.1.0           # via -r requirements/test.txt, requests-oauthlib, social-auth-core
-olefile==0.46             # via -r requirements/test.txt, pillow
 openapi-codec==1.3.2      # via -r requirements/test.txt, django-rest-swagger
 packaging==20.3           # via -r requirements/test.txt, pytest, tox
 paramiko==2.7.1           # via docker
@@ -85,7 +84,7 @@ path.py==12.0.2           # via -c requirements/constraints.txt, edx-i18n-tools
 pathlib2==2.3.5           # via -r requirements/test.txt, pytest
 pbr==5.4.5                # via -r requirements/test.txt, stevedore
 pep8==1.7.1               # via -r requirements/test.txt
-pillow==4.0.0             # via -c requirements/constraints.txt, -r requirements/test.txt
+pillow==7.1.1             # via -r requirements/test.txt
 pluggy==0.13.1            # via -r requirements/test.txt, pytest, tox
 polib==1.1.0              # via edx-i18n-tools
 psutil==1.2.1             # via -r requirements/test.txt, edx-django-utils
@@ -111,7 +110,7 @@ python-memcached==1.59    # via -r requirements/test.txt
 python-slugify==1.2.6     # via transifex-client
 python3-openid==3.1.0     # via -r requirements/test.txt, social-auth-core
 pytz==2019.3              # via -r requirements/test.txt, django
-pyyaml==3.12              # via -c requirements/constraints.txt, -r requirements/test.txt, docker-compose, edx-django-release-util, edx-i18n-tools
+pyyaml==5.3.1             # via -r requirements/test.txt, docker-compose, edx-django-release-util, edx-i18n-tools
 requests-oauthlib==1.3.0  # via -r requirements/test.txt, social-auth-core
 requests==2.20.1          # via -c requirements/constraints.txt, -r requirements/test.txt, analytics-python, coreapi, docker, docker-compose, edx-drf-extensions, edx-rest-api-client, pyjwkest, requests-oauthlib, responses, sailthru-client, slumber, social-auth-core, transifex-client
 responses==0.10.12        # via -r requirements/test.txt
@@ -136,7 +135,7 @@ typed-ast==1.4.1          # via -r requirements/test.txt, astroid
 unidecode==1.1.1          # via python-slugify
 uritemplate==3.0.1        # via -r requirements/test.txt, coreapi
 urllib3==1.24.3           # via -r requirements/test.txt, requests, selenium, transifex-client
-virtualenv==20.0.16       # via -r requirements/test.txt, tox
+virtualenv==20.0.17       # via -r requirements/test.txt, tox
 wcwidth==0.1.9            # via -r requirements/test.txt, pytest
 websocket-client==0.57.0  # via docker, docker-compose
 wrapt==1.11.2             # via -r requirements/test.txt, astroid

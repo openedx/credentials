@@ -29,7 +29,7 @@ AWS_SES_REGION_ENDPOINT = environ.get('AWS_SES_REGION_ENDPOINT', 'email.us-east-
 
 CONFIG_FILE = get_env_setting('CREDENTIALS_CFG')
 with open(CONFIG_FILE, encoding='utf-8') as f:
-    config_from_yaml = yaml.load(f)
+    config_from_yaml = yaml.safe_load(f)
 
     # Remove the items that should be used to update dicts, and apply them separately rather
     # than pumping them into the local vars.
