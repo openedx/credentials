@@ -71,3 +71,10 @@ JWT_AUTH['JWT_ISSUERS'] = [
             'SECRET_KEY': 'lms-secret'
         }
     ]
+
+#####################################################################
+# Lastly, see if the developer has any local overrides.
+try:
+    from .private import *  # pylint: disable=import-error
+except ImportError:
+    pass
