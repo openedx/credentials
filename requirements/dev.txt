@@ -20,7 +20,7 @@ click-log==0.3.2          # via -r requirements/test.txt, edx-lint
 click==7.1.1              # via -r requirements/test.txt, click-log, edx-lint
 coreapi==2.3.3            # via -r requirements/test.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/test.txt, coreapi
-coverage==5.0.4           # via -r requirements/test.txt
+coverage==5.1             # via -r requirements/test.txt
 cryptography==2.9         # via paramiko
 ddt==1.3.1                # via -r requirements/test.txt
 defusedxml==0.6.0         # via -r requirements/test.txt, python3-openid, social-auth-core
@@ -56,7 +56,7 @@ edx-opaque-keys==2.0.2    # via -r requirements/test.txt, edx-drf-extensions
 edx-rest-api-client==5.1.0  # via -r requirements/test.txt
 git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30  # via -r requirements/test.txt
 factory-boy==2.12.0       # via -r requirements/test.txt
-faker==4.0.2              # via -r requirements/test.txt, factory-boy
+faker==4.0.3              # via -r requirements/test.txt, factory-boy
 filelock==3.0.12          # via -r requirements/test.txt, tox, virtualenv
 future==0.18.2            # via -r requirements/test.txt, pyjwkest
 httpretty==1.0.2          # via -r requirements/test.txt
@@ -65,7 +65,7 @@ importlib-metadata==1.6.0  # via -r requirements/test.txt, importlib-resources, 
 importlib-resources==1.4.0  # via -r requirements/test.txt, virtualenv
 isort==4.2.5              # via -c requirements/constraints.txt, -r requirements/test.txt, pylint
 itypes==1.1.0             # via -r requirements/test.txt, coreapi
-jinja2==2.11.1            # via -r requirements/test.txt, coreschema
+jinja2==2.11.2            # via -r requirements/test.txt, coreschema
 jsonschema==3.2.0         # via docker-compose
 lazy-object-proxy==1.4.3  # via -r requirements/test.txt, astroid
 lazy==1.4                 # via -r requirements/test.txt, bok-choy
@@ -75,7 +75,7 @@ mccabe==0.6.1             # via -r requirements/test.txt, pylint
 mock==3.0.5               # via -r requirements/test.txt
 more-itertools==8.2.0     # via -r requirements/test.txt, pytest
 mysqlclient==1.4.6        # via -r requirements/test.txt
-newrelic==5.10.0.138      # via -r requirements/test.txt, edx-django-utils
+newrelic==5.12.0.140      # via -r requirements/test.txt, edx-django-utils
 oauthlib==3.1.0           # via -r requirements/test.txt, requests-oauthlib, social-auth-core
 openapi-codec==1.3.2      # via -r requirements/test.txt, django-rest-swagger
 packaging==20.3           # via -r requirements/test.txt, pytest, tox
