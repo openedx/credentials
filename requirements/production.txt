@@ -45,11 +45,11 @@ greenlet==0.4.15          # via gevent
 gunicorn==20.0.4          # via -r requirements/production.in
 idna==2.7                 # via -r requirements/base.txt, requests
 itypes==1.1.0             # via -r requirements/base.txt, coreapi
-jinja2==2.11.1            # via -r requirements/base.txt, coreschema
+jinja2==2.11.2            # via -r requirements/base.txt, coreschema
 markdown==3.2.1           # via -r requirements/base.txt
 markupsafe==1.1.1         # via -r requirements/base.txt, jinja2
 mysqlclient==1.4.6        # via -r requirements/base.txt
-newrelic==5.10.0.138      # via -r requirements/base.txt, -r requirements/production.in, edx-django-utils
+newrelic==5.12.0.140      # via -r requirements/base.txt, -r requirements/production.in, edx-django-utils
 nodeenv==1.3.5            # via -r requirements/production.in
 oauthlib==3.1.0           # via -r requirements/base.txt, requests-oauthlib, social-auth-core
 openapi-codec==1.3.2      # via -r requirements/base.txt, django-rest-swagger
