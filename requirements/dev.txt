@@ -21,7 +21,7 @@ click==7.1.1              # via -r requirements/test.txt, click-log, edx-lint
 coreapi==2.3.3            # via -r requirements/test.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/test.txt, coreapi
 coverage==5.1             # via -r requirements/test.txt
-cryptography==2.9         # via paramiko
+cryptography==2.9.2       # via paramiko
 ddt==1.3.1                # via -r requirements/test.txt
 defusedxml==0.6.0         # via -r requirements/test.txt, python3-openid, social-auth-core
 distlib==0.3.0            # via -r requirements/test.txt, virtualenv
@@ -48,7 +48,7 @@ edx-ace==0.1.14           # via -r requirements/test.txt
 edx-auth-backends==3.0.2  # via -r requirements/test.txt
 edx-django-release-util==0.4.2  # via -r requirements/test.txt
 edx-django-sites-extensions==2.4.3  # via -r requirements/test.txt
-edx-django-utils==3.2.0   # via -r requirements/test.txt, edx-drf-extensions, edx-rest-api-client
+edx-django-utils==3.2.1   # via -r requirements/test.txt, edx-drf-extensions, edx-rest-api-client
 edx-drf-extensions==5.0.2  # via -r requirements/test.txt
 edx-i18n-tools==0.5.0     # via -r requirements/dev.in
 edx-lint==1.4.1           # via -r requirements/test.txt
@@ -64,7 +64,7 @@ idna==2.7                 # via -r requirements/test.txt, requests
 importlib-metadata==1.6.0  # via -r requirements/test.txt, importlib-resources, jsonschema, path.py, pluggy, pytest, tox, virtualenv
 importlib-resources==1.4.0  # via -r requirements/test.txt, virtualenv
 isort==4.2.5              # via -c requirements/constraints.txt, -r requirements/test.txt, pylint
-itypes==1.1.0             # via -r requirements/test.txt, coreapi
+itypes==1.2.0             # via -r requirements/test.txt, coreapi
 jinja2==2.11.2            # via -r requirements/test.txt, coreschema
 jsonschema==3.2.0         # via docker-compose
 lazy-object-proxy==1.4.3  # via -r requirements/test.txt, astroid
@@ -113,7 +113,7 @@ pytz==2019.3              # via -r requirements/test.txt, django
 pyyaml==5.3.1             # via -r requirements/test.txt, docker-compose, edx-django-release-util, edx-i18n-tools
 requests-oauthlib==1.3.0  # via -r requirements/test.txt, social-auth-core
 requests==2.20.1          # via -c requirements/constraints.txt, -r requirements/test.txt, analytics-python, coreapi, docker, docker-compose, edx-drf-extensions, edx-rest-api-client, pyjwkest, requests-oauthlib, responses, sailthru-client, slumber, social-auth-core, transifex-client
-responses==0.10.12        # via -r requirements/test.txt
+responses==0.10.14        # via -r requirements/test.txt
 rest-condition==1.0.3     # via -r requirements/test.txt, edx-drf-extensions
 sailthru-client==2.2.3    # via -r requirements/test.txt, edx-ace
 selenium==3.141.0         # via -r requirements/test.txt, bok-choy
@@ -125,7 +125,7 @@ git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317
 social-auth-core==3.2.0   # via -c requirements/constraints.txt, -r requirements/test.txt, edx-auth-backends, social-auth-app-django
 sqlparse==0.3.1           # via -r requirements/test.txt, django, django-debug-toolbar
 stevedore==1.10.0         # via -c requirements/constraints.txt, -r requirements/test.txt, edx-ace, edx-opaque-keys
-testfixtures==6.14.0      # via -r requirements/test.txt
+testfixtures==6.14.1      # via -r requirements/test.txt
 text-unidecode==1.3       # via -r requirements/test.txt, faker
 texttable==1.6.2          # via docker-compose
 toml==0.10.0              # via -r requirements/test.txt, tox
@@ -135,7 +135,7 @@ typed-ast==1.4.1          # via -r requirements/test.txt, astroid
 unidecode==1.1.1          # via python-slugify
 uritemplate==3.0.1        # via -r requirements/test.txt, coreapi
 urllib3==1.24.3           # via -r requirements/test.txt, requests, selenium, transifex-client
-virtualenv==20.0.17       # via -r requirements/test.txt, tox
+virtualenv==20.0.18       # via -r requirements/test.txt, tox
 wcwidth==0.1.9            # via -r requirements/test.txt, pytest
 websocket-client==0.57.0  # via docker, docker-compose
 wrapt==1.11.2             # via -r requirements/test.txt, astroid
