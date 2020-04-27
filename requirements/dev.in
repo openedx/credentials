@@ -16,4 +16,4 @@ edx-i18n-tools
 docker-compose
 
 # More efficient checking for runserver reload trigger events
-pyinotify; "linux" in sys_platform
+pywatchman; "linux" in sys_platform

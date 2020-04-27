@@ -48,7 +48,7 @@ newrelic==5.12.0.140      # via -r requirements/base.in, edx-django-utils
 oauthlib==3.1.0           # via requests-oauthlib, social-auth-core
 openapi-codec==1.3.2      # via django-rest-swagger
 pbr==5.4.5                # via stevedore
-pillow==7.1.1             # via -r requirements/base.in
+pillow==7.1.2             # via -r requirements/base.in
 psutil==1.2.1             # via edx-django-utils
 pycryptodomex==3.9.7      # via pyjwkest
 pygments==2.6.1           # via -r requirements/base.in
