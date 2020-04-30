@@ -17,7 +17,7 @@ certifi==2020.4.5.1       # via -r requirements/test.txt, requests
 cffi==1.14.0              # via bcrypt, cryptography, pynacl
 chardet==3.0.4            # via -r requirements/test.txt, requests
 click-log==0.3.2          # via -r requirements/test.txt, edx-lint
-click==7.1.1              # via -r requirements/test.txt, click-log, edx-lint
+click==7.1.2              # via -r requirements/test.txt, click-log, edx-lint
 coreapi==2.3.3            # via -r requirements/test.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/test.txt, coreapi
 coverage==5.1             # via -r requirements/test.txt
@@ -108,7 +108,7 @@ python-dateutil==2.8.1    # via -r requirements/test.txt, analytics-python, edx-
 python-memcached==1.59    # via -r requirements/test.txt
 python-slugify==1.2.6     # via transifex-client
 python3-openid==3.1.0     # via -r requirements/test.txt, social-auth-core
-pytz==2019.3              # via -r requirements/test.txt, django
+pytz==2020.1              # via -r requirements/test.txt, django
 pywatchman==1.4.1 ; "linux" in sys_platform  # via -r requirements/dev.in
 pyyaml==5.3.1             # via -r requirements/test.txt, docker-compose, edx-django-release-util, edx-i18n-tools
 requests-oauthlib==1.3.0  # via -r requirements/test.txt, social-auth-core
@@ -117,7 +117,7 @@ responses==0.10.14        # via -r requirements/test.txt
 rest-condition==1.0.3     # via -r requirements/test.txt, edx-drf-extensions
 sailthru-client==2.2.3    # via -r requirements/test.txt, edx-ace
 selenium==3.141.0         # via -r requirements/test.txt, bok-choy
-semantic-version==2.8.4   # via -r requirements/test.txt, edx-drf-extensions
+semantic-version==2.8.5   # via -r requirements/test.txt, edx-drf-extensions
 simplejson==3.17.0        # via -r requirements/test.txt, django-rest-swagger, sailthru-client
 six==1.14.0               # via -r requirements/test.txt, analytics-python, astroid, bcrypt, bok-choy, cryptography, django-compat, django-extensions, django-statici18n, django-waffle, docker, docker-compose, dockerpty, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-i18n-tools, edx-lint, edx-opaque-keys, jsonschema, mock, packaging, pathlib2, pyjwkest, pynacl, pyrsistent, python-dateutil, python-memcached, responses, social-auth-app-django, social-auth-core, stevedore, tox, transifex-client, virtualenv, websocket-client
 slumber==0.7.1            # via -r requirements/test.txt, edx-rest-api-client
