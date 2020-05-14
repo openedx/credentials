@@ -28,3 +28,4 @@ pytest-django
 responses
 testfixtures
 tox
+nose
