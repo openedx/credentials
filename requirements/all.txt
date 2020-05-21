@@ -55,7 +55,7 @@ edx-drf-extensions==6.0.0  # via -r requirements/dev.txt, -r requirements/produc
 edx-i18n-tools==0.5.3     # via -r requirements/dev.txt
 edx-lint==1.4.1           # via -r requirements/dev.txt
 edx-opaque-keys==2.1.0    # via -r requirements/dev.txt, -r requirements/production.txt, edx-drf-extensions
-edx-rest-api-client==5.2.0  # via -r requirements/dev.txt, -r requirements/production.txt
+edx-rest-api-client==5.2.1  # via -r requirements/dev.txt, -r requirements/production.txt
 git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30  # via -r requirements/dev.txt, -r requirements/production.txt
 factory-boy==2.12.0       # via -r requirements/dev.txt
 faker==4.1.0              # via -r requirements/dev.txt, factory-boy
@@ -85,7 +85,7 @@ nodeenv==1.3.5            # via -r requirements/production.txt
 nose==1.3.7               # via -r requirements/dev.txt
 oauthlib==3.1.0           # via -r requirements/dev.txt, -r requirements/production.txt, requests-oauthlib, social-auth-core
 openapi-codec==1.3.2      # via -r requirements/dev.txt, -r requirements/production.txt, django-rest-swagger
-packaging==20.3           # via -r requirements/dev.txt, pytest, tox
+packaging==20.4           # via -r requirements/dev.txt, pytest, tox
 paramiko==2.7.1           # via -r requirements/dev.txt, docker
 path.py==12.0.2           # via -c requirements/constraints.txt, -r requirements/dev.txt, edx-i18n-tools
 pathlib2==2.3.5           # via -r requirements/dev.txt, pytest
@@ -136,13 +136,13 @@ testfixtures==6.14.1      # via -r requirements/dev.txt
 text-unidecode==1.3       # via -r requirements/dev.txt, faker
 texttable==1.6.2          # via -r requirements/dev.txt, docker-compose
 toml==0.10.1              # via -r requirements/dev.txt, tox
-tox==3.15.0               # via -r requirements/dev.txt
+tox==3.15.1               # via -r requirements/dev.txt
 transifex-client==0.13.9  # via -r requirements/dev.txt
 typed-ast==1.4.1          # via -r requirements/dev.txt, astroid
 unidecode==1.1.1          # via -r requirements/dev.txt, python-slugify
 uritemplate==3.0.1        # via -r requirements/dev.txt, -r requirements/production.txt, coreapi
 urllib3==1.24.3           # via -r requirements/dev.txt, -r requirements/production.txt, requests, selenium, transifex-client
-virtualenv==20.0.20       # via -r requirements/dev.txt, tox
+virtualenv==20.0.21       # via -r requirements/dev.txt, tox
 wcwidth==0.1.9            # via -r requirements/dev.txt, pytest
 websocket-client==0.57.0  # via -r requirements/dev.txt, docker, docker-compose
 wrapt==1.11.2             # via -r requirements/dev.txt, astroid
