@@ -40,7 +40,7 @@ edx-opaque-keys==2.1.0    # via -r requirements/base.txt, edx-drf-extensions
 edx-rest-api-client==5.2.1  # via -r requirements/base.txt
 git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30  # via -r requirements/base.txt
 future==0.18.2            # via -r requirements/base.txt, django-ses, pyjwkest
-gevent==20.5.0            # via -r requirements/production.in
+gevent==20.5.1            # via -r requirements/production.in
 greenlet==0.4.15          # via gevent
 gunicorn==20.0.4          # via -r requirements/production.in
 idna==2.7                 # via -r requirements/base.txt, requests
@@ -73,7 +73,7 @@ rest-condition==1.0.3     # via -r requirements/base.txt, edx-drf-extensions
 sailthru-client==2.2.3    # via -r requirements/base.txt, edx-ace
 semantic-version==2.8.5   # via -r requirements/base.txt, edx-drf-extensions
 simplejson==3.17.0        # via -r requirements/base.txt, django-rest-swagger, sailthru-client
-six==1.14.0               # via -r requirements/base.txt, analytics-python, django-compat, django-extensions, django-statici18n, django-waffle, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-opaque-keys, pyjwkest, python-dateutil, python-memcached, social-auth-app-django, social-auth-core, stevedore
+six==1.15.0               # via -r requirements/base.txt, analytics-python, django-compat, django-extensions, django-statici18n, django-waffle, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-opaque-keys, pyjwkest, python-dateutil, python-memcached, social-auth-app-django, social-auth-core, stevedore
 slumber==0.7.1            # via -r requirements/base.txt, edx-rest-api-client
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/base.txt, edx-auth-backends
 social-auth-core==3.2.0   # via -c requirements/constraints.txt, -r requirements/base.txt, edx-auth-backends, social-auth-app-django
@@ -83,6 +83,8 @@ uritemplate==3.0.1        # via -r requirements/base.txt, coreapi
 urllib3==1.24.3           # via -r requirements/base.txt, requests
 xss-utils==0.1.3          # via -r requirements/base.txt
 zipp==1.2.0               # via -r requirements/base.txt, importlib-metadata
+zope.event==4.4           # via gevent
+zope.interface==5.1.0     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
