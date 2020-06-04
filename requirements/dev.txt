@@ -25,6 +25,7 @@ cryptography==2.9.2       # via paramiko
 ddt==1.4.1                # via -r requirements/test.txt
 defusedxml==0.6.0         # via -r requirements/test.txt, python3-openid, social-auth-core
 distlib==0.3.0            # via -r requirements/test.txt, virtualenv
+distro==1.5.0             # via docker-compose
 django-appconf==1.0.4     # via -r requirements/test.txt, django-statici18n
 django-compat==1.0.15     # via -r requirements/test.txt, django-hijack
 django-debug-toolbar==2.2  # via -r requirements/test.txt
@@ -37,10 +38,10 @@ django-statici18n==1.9.0  # via -r requirements/test.txt
 django-storages==1.8      # via -c requirements/constraints.txt, -r requirements/test.txt
 django-waffle==0.20.0     # via -r requirements/test.txt, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/test.txt
-django==2.2.12            # via -c requirements/constraints.txt, -r requirements/test.txt, django-appconf, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
+django==2.2.13            # via -c requirements/constraints.txt, -r requirements/test.txt, django-appconf, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
 djangorestframework==3.11.0  # via -r requirements/test.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
-docker-compose==1.25.5    # via -c requirements/constraints.txt, -r requirements/dev.in
-docker[ssh]==4.2.0        # via docker-compose
+docker-compose==1.26.0    # via -c requirements/constraints.txt, -r requirements/dev.in
+docker[ssh]==4.2.1        # via docker-compose
 dockerpty==0.4.1          # via docker-compose
 docopt==0.6.2             # via docker-compose
 drf-jwt==1.14.0           # via -c requirements/constraints.txt, -r requirements/test.txt, edx-drf-extensions
@@ -75,7 +76,7 @@ mccabe==0.6.1             # via -r requirements/test.txt, pylint
 mock==3.0.5               # via -r requirements/test.txt
 more-itertools==8.3.0     # via -r requirements/test.txt, pytest
 mysqlclient==1.4.6        # via -r requirements/test.txt
-newrelic==5.12.1.141      # via -r requirements/test.txt, edx-django-utils
+newrelic==5.14.0.142      # via -r requirements/test.txt, edx-django-utils
 nose==1.3.7               # via -r requirements/test.txt
 oauthlib==3.1.0           # via -r requirements/test.txt, requests-oauthlib, social-auth-core
 openapi-codec==1.3.2      # via -r requirements/test.txt, django-rest-swagger
@@ -104,8 +105,9 @@ pynacl==1.4.0             # via paramiko
 pyparsing==2.4.7          # via -r requirements/test.txt, packaging
 pyrsistent==0.16.0        # via jsonschema
 pytest-django==3.9.0      # via -r requirements/test.txt
-pytest==5.4.2             # via -r requirements/test.txt, pytest-django
+pytest==5.4.3             # via -r requirements/test.txt, pytest-django
 python-dateutil==2.8.1    # via -r requirements/test.txt, analytics-python, edx-ace, edx-drf-extensions, faker
+python-dotenv==0.13.0     # via docker-compose
 python-memcached==1.59    # via -r requirements/test.txt
 python-slugify==1.2.6     # via transifex-client
 python3-openid==3.1.0     # via -r requirements/test.txt, social-auth-core
@@ -137,7 +139,7 @@ unidecode==1.1.1          # via python-slugify
 uritemplate==3.0.1        # via -r requirements/test.txt, coreapi
 urllib3==1.24.3           # via -r requirements/test.txt, requests, selenium, transifex-client
 virtualenv==20.0.21       # via -r requirements/test.txt, tox
-wcwidth==0.1.9            # via -r requirements/test.txt, pytest
+wcwidth==0.2.3            # via -r requirements/test.txt, pytest
 websocket-client==0.57.0  # via docker, docker-compose
 wrapt==1.11.2             # via -r requirements/test.txt, astroid
 xss-utils==0.1.3          # via -r requirements/test.txt
