@@ -8,7 +8,7 @@
 analytics-python==1.2.9   # via -r requirements/base.in
 argparse==1.4.0           # via stevedore
 attrs==19.3.0             # via edx-ace
-certifi==2020.4.5.1       # via requests
+certifi==2020.4.5.2       # via requests
 chardet==3.0.4            # via requests
 coreapi==2.3.3            # via -r requirements/base.in, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via coreapi
@@ -17,7 +17,7 @@ django-appconf==1.0.4     # via django-statici18n
 django-compat==1.0.15     # via django-hijack
 django-debug-toolbar==2.2  # via -r requirements/base.in
 django-extensions==2.2.9  # via -r requirements/base.in
-django-filter==2.2.0      # via -r requirements/base.in
+django-filter==2.3.0      # via -r requirements/base.in
 django-hijack==2.1.10     # via -r requirements/base.in
 django-rest-swagger==2.2.0  # via -r requirements/base.in
 django-sortedm2m==3.0.0   # via -r requirements/base.in
@@ -32,14 +32,14 @@ edx-ace==0.1.15           # via -r requirements/base.in
 edx-auth-backends==3.1.0  # via -r requirements/base.in
 edx-django-release-util==0.4.4  # via -r requirements/base.in
 edx-django-sites-extensions==2.5.1  # via -r requirements/base.in
-edx-django-utils==3.2.2   # via -r requirements/base.in, edx-drf-extensions, edx-rest-api-client
+edx-django-utils==3.2.3   # via -r requirements/base.in, edx-drf-extensions, edx-rest-api-client
 edx-drf-extensions==6.0.0  # via -r requirements/base.in
 edx-opaque-keys==2.1.0    # via -r requirements/base.in, edx-drf-extensions
 edx-rest-api-client==5.2.1  # via -r requirements/base.in
 git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30  # via -r requirements/base.in
 future==0.18.2            # via pyjwkest
 idna==2.7                 # via requests
-importlib-metadata==1.6.0  # via markdown
+importlib-metadata==1.6.1  # via markdown
 itypes==1.2.0             # via coreapi
 jinja2==2.11.2            # via coreschema
 markdown==3.2.2           # via -r requirements/base.in
