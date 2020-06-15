@@ -40,4 +40,4 @@ gulp.task('watch', function () {
   gulp.watch(jsPath, ['lint', 'test',]);
 });
 
-gulp.task('default', ['test']);
+gulp.task('default', gulp.series('test'));
