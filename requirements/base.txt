@@ -8,7 +8,7 @@
 analytics-python==1.2.9   # via -r requirements/base.in
 argparse==1.4.0           # via stevedore
 attrs==19.3.0             # via edx-ace
-certifi==2020.4.5.2       # via requests
+certifi==2020.6.20        # via requests
 chardet==3.0.4            # via requests
 coreapi==2.3.3            # via -r requirements/base.in, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via coreapi
@@ -23,7 +23,7 @@ django-rest-swagger==2.2.0  # via -r requirements/base.in
 django-sortedm2m==3.0.0   # via -r requirements/base.in
 django-statici18n==1.9.0  # via -r requirements/base.in
 django-storages==1.8      # via -c requirements/constraints.txt, -r requirements/base.in
-django-waffle==0.20.0     # via -r requirements/base.in, edx-django-utils, edx-drf-extensions
+django-waffle==1.0.0      # via -r requirements/base.in, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/base.in
 django==2.2.13            # via -c requirements/constraints.txt, -r requirements/base.in, django-appconf, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, rest-condition, xss-utils
 djangorestframework==3.11.0  # via -r requirements/base.in, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
@@ -45,13 +45,13 @@ jinja2==2.11.2            # via coreschema
 markdown==3.2.2           # via -r requirements/base.in
 markupsafe==1.1.1         # via jinja2
 mysqlclient==1.4.6        # via -r requirements/base.in
-newrelic==5.14.0.142      # via -r requirements/base.in, edx-django-utils
+newrelic==5.14.1.144      # via -r requirements/base.in, edx-django-utils
 oauthlib==3.1.0           # via requests-oauthlib, social-auth-core
 openapi-codec==1.3.2      # via django-rest-swagger
 pbr==5.4.5                # via stevedore
 pillow==7.1.2             # via -r requirements/base.in
 psutil==1.2.1             # via edx-django-utils
-pycryptodomex==3.9.7      # via pyjwkest
+pycryptodomex==3.9.8      # via pyjwkest
 pygments==2.6.1           # via -r requirements/base.in
 pyjwkest==1.4.2           # via edx-drf-extensions
 pyjwt==1.7.1              # via drf-jwt, edx-auth-backends, edx-rest-api-client, social-auth-core
@@ -67,7 +67,7 @@ rest-condition==1.0.3     # via edx-drf-extensions
 sailthru-client==2.2.3    # via edx-ace
 semantic-version==2.8.5   # via edx-drf-extensions
 simplejson==3.17.0        # via django-rest-swagger, sailthru-client
-six==1.15.0               # via -r requirements/base.in, analytics-python, django-compat, django-extensions, django-statici18n, django-waffle, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-opaque-keys, pyjwkest, python-dateutil, python-memcached, social-auth-app-django, social-auth-core, stevedore
+six==1.15.0               # via -r requirements/base.in, analytics-python, django-compat, django-extensions, django-statici18n, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-opaque-keys, pyjwkest, python-dateutil, python-memcached, social-auth-app-django, social-auth-core, stevedore
 slumber==0.7.1            # via edx-rest-api-client
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/base.in, edx-auth-backends
 social-auth-core==3.2.0   # via -c requirements/constraints.txt, edx-auth-backends, social-auth-app-django
