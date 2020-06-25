@@ -102,7 +102,7 @@ pillow==7.1.2             # via -r requirements/dev.txt, -r requirements/product
 pluggy==0.13.1            # via -r requirements/dev.txt, pytest, tox
 polib==1.1.0              # via -r requirements/dev.txt, edx-i18n-tools
 psutil==1.2.1             # via -r requirements/dev.txt, -r requirements/production.txt, edx-django-utils
-py==1.8.2                 # via -r requirements/dev.txt, pytest, tox
+py==1.9.0                 # via -r requirements/dev.txt, pytest, tox
 pycparser==2.20           # via -r requirements/dev.txt, cffi
 pycryptodomex==3.9.8      # via -r requirements/dev.txt, -r requirements/production.txt, pyjwkest
 pygments==2.6.1           # via -r requirements/dev.txt, -r requirements/production.txt

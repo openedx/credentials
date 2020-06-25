@@ -1,6 +1,5 @@
 import abc
 
-import six
 from bok_choy.page_object import PageObject
 from bok_choy.promise import EmptyPromise
 
@@ -28,8 +27,7 @@ class CredentialsDRFPage(PageObject):
         self.q(xpath="//a[contains(text(), 'Log in')]").click()
 
 
-@six.add_metaclass(abc.ABCMeta)  # pylint: disable=abstract-method
-class LMSPage(PageObject):
+class LMSPage(PageObject, metaclass=abc.ABCMeta):
     def _build_url(self, path):
         url = '{}/{}'.format(LMS_ROOT_URL, path)
 
