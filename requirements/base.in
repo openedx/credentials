@@ -39,7 +39,6 @@ pygments
 python-memcached
 pytz
 requests
-six
 xss-utils
 
 # TODO Install in configuration

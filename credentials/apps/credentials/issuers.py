@@ -2,7 +2,6 @@
 import abc
 import logging
 
-import six
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 
@@ -16,8 +15,7 @@ from credentials.apps.records.utils import send_updated_emails_for_program
 logger = logging.getLogger(__name__)
 
 
-@six.add_metaclass(abc.ABCMeta)
-class AbstractCredentialIssuer:
+class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
     """
     Abstract credential issuer.
 
@@ -25,7 +23,8 @@ class AbstractCredentialIssuer:
     AbstractCredential) to a given user.
     """
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def issued_credential_type(self):
         """
         Type of credential type to be issued.

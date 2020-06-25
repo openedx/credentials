@@ -75,7 +75,7 @@ pep8==1.7.1               # via -r requirements/test.in
 pillow==7.1.2             # via -r requirements/base.txt
 pluggy==0.13.1            # via pytest, tox
 psutil==1.2.1             # via -r requirements/base.txt, edx-django-utils
-py==1.8.2                 # via pytest, tox
+py==1.9.0                 # via pytest, tox
 pycryptodomex==3.9.8      # via -r requirements/base.txt, pyjwkest
 pygments==2.6.1           # via -r requirements/base.txt
 pyjwkest==1.4.2           # via -r requirements/base.txt, edx-drf-extensions
