@@ -18,6 +18,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView, View
 from edx_ace import Recipient, ace
+from ratelimit.decorators import ratelimit  # pylint: disable=wrong-import-order
 
 from credentials.apps.catalog.models import CourseRun, Pathway, Program
 from credentials.apps.core.models import User
@@ -28,7 +29,6 @@ from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
 from credentials.shared.constants import PathwayType
-from ratelimit.decorators import ratelimit
 
 from .constants import RECORDS_RATE_LIMIT
 

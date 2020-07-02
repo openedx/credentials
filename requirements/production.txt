@@ -4,7 +4,6 @@
 #
 #    make upgrade
 #
--e git+https://github.com/jsocol/django-ratelimit.git@72edbe8949fbf6699848e5847645a1998f121d46#egg=django-ratelimit  # via -r requirements/base.txt
 analytics-python==1.2.9   # via -r requirements/base.txt
 argparse==1.4.0           # via -r requirements/base.txt, stevedore
 attrs==19.3.0             # via -r requirements/base.txt, edx-ace
@@ -22,6 +21,7 @@ django-debug-toolbar==2.2  # via -r requirements/base.txt
 django-extensions==3.0.2  # via -r requirements/base.txt
 django-filter==2.3.0      # via -r requirements/base.txt
 django-hijack==2.1.10     # via -r requirements/base.txt
+django-ratelimit==3.0.0   # via -r requirements/base.txt
 django-rest-swagger==2.2.0  # via -r requirements/base.txt
 django-ses==1.0.1         # via -r requirements/production.in
 django-sortedm2m==3.0.0   # via -r requirements/base.txt
@@ -53,7 +53,7 @@ jinja2==2.11.2            # via -r requirements/base.txt, coreschema
 jmespath==0.10.0          # via boto3, botocore
 markdown==3.2.2           # via -r requirements/base.txt
 markupsafe==1.1.1         # via -r requirements/base.txt, jinja2
-mysqlclient==1.4.6        # via -r requirements/base.txt
+mysqlclient==2.0.0        # via -r requirements/base.txt
 newrelic==5.14.1.144      # via -r requirements/base.txt, -r requirements/production.in, edx-django-utils
 nodeenv==1.4.0            # via -r requirements/production.in
 oauthlib==3.1.0           # via -r requirements/base.txt, requests-oauthlib, social-auth-core
