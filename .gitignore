@@ -35,7 +35,6 @@ assets/
 .coverage
 htmlcov
 .tox
-nosetests.xml
 unittests.xml
 
 ### Internationalization artifacts
