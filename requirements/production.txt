@@ -7,9 +7,9 @@
 analytics-python==1.2.9   # via -r requirements/base.txt
 argparse==1.4.0           # via -r requirements/base.txt, stevedore
 attrs==19.3.0             # via -r requirements/base.txt, edx-ace
-boto3==1.14.15            # via django-ses
+boto3==1.14.19            # via django-ses
 boto==2.49.0              # via -r requirements/production.in
-botocore==1.17.15         # via boto3, s3transfer
+botocore==1.17.19         # via boto3, s3transfer
 certifi==2020.6.20        # via -r requirements/base.txt, requests
 chardet==3.0.4            # via -r requirements/base.txt, requests
 coreapi==2.3.3            # via -r requirements/base.txt, django-rest-swagger, openapi-codec
@@ -53,7 +53,7 @@ jinja2==2.11.2            # via -r requirements/base.txt, coreschema
 jmespath==0.10.0          # via boto3, botocore
 markdown==3.2.2           # via -r requirements/base.txt
 markupsafe==1.1.1         # via -r requirements/base.txt, jinja2
-mysqlclient==2.0.0        # via -r requirements/base.txt
+mysqlclient==2.0.1        # via -r requirements/base.txt
 newrelic==5.14.1.144      # via -r requirements/base.txt, -r requirements/production.in, edx-django-utils
 nodeenv==1.4.0            # via -r requirements/production.in
 oauthlib==3.1.0           # via -r requirements/base.txt, requests-oauthlib, social-auth-core
