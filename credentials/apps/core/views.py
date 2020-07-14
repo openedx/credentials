@@ -6,12 +6,13 @@ from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, login
 from django.db import DatabaseError, connection, transaction
 from django.http import Http404, JsonResponse
-from django.shortcuts import redirect, render_to_response
+from django.shortcuts import redirect, render
 from django.template import TemplateDoesNotExist
 from django.template.loader import select_template
 from django.views.generic import View
 
 from credentials.apps.core.constants import Status
+
 try:
     import newrelic.agent
 except ImportError:  # pragma: no cover
@@ -121,5 +122,4 @@ def render_500(request, template_name='500.html'):
     Arguments:
         template_name (template): Template for rendering
     """
-    response = render_to_response(template_name, status=500)
-    return response
+    return render(request, template_name, status=500)
