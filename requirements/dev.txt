@@ -13,14 +13,14 @@ bcrypt==3.1.7             # via paramiko
 bok-choy==1.1.1           # via -r requirements/test.txt
 cached-property==1.5.1    # via docker-compose
 certifi==2020.6.20        # via -r requirements/test.txt, requests
-cffi==1.14.0              # via bcrypt, cryptography, pynacl
+cffi==1.14.0              # via -r requirements/test.txt, bcrypt, cryptography, pynacl
 chardet==3.0.4            # via -r requirements/test.txt, requests
 click-log==0.3.2          # via -r requirements/test.txt, edx-lint
 click==7.1.2              # via -r requirements/test.txt, click-log, edx-lint
 coreapi==2.3.3            # via -r requirements/test.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/test.txt, coreapi
 coverage==5.2             # via -r requirements/test.txt
-cryptography==2.9.2       # via paramiko
+cryptography==2.9.2       # via -r requirements/test.txt, paramiko, pyjwt
 ddt==1.4.1                # via -r requirements/test.txt
 defusedxml==0.6.0         # via -r requirements/test.txt, python3-openid, social-auth-core
 distlib==0.3.1            # via -r requirements/test.txt, virtualenv
@@ -44,13 +44,13 @@ docker-compose==1.26.2    # via -c requirements/constraints.txt, -r requirements
 docker[ssh]==4.2.2        # via docker-compose
 dockerpty==0.4.1          # via docker-compose
 docopt==0.6.2             # via docker-compose
-drf-jwt==1.14.0           # via -c requirements/constraints.txt, -r requirements/test.txt, edx-drf-extensions
+drf-jwt==1.16.2           # via -r requirements/test.txt, edx-drf-extensions
 edx-ace==0.1.15           # via -r requirements/test.txt
 edx-auth-backends==3.1.0  # via -r requirements/test.txt
 edx-django-release-util==0.4.4  # via -r requirements/test.txt
 edx-django-sites-extensions==2.5.1  # via -r requirements/test.txt
-edx-django-utils==3.2.3   # via -r requirements/test.txt, edx-drf-extensions, edx-rest-api-client
-edx-drf-extensions==6.1.0  # via -r requirements/test.txt
+edx-django-utils==3.3.0   # via -r requirements/test.txt, edx-drf-extensions, edx-rest-api-client
+edx-drf-extensions==6.1.1  # via -r requirements/test.txt
 edx-i18n-tools==0.5.3     # via -r requirements/dev.in
 edx-lint==1.5.0           # via -r requirements/test.txt
 edx-opaque-keys==2.1.1    # via -r requirements/test.txt, edx-drf-extensions
@@ -92,11 +92,11 @@ pluggy==0.13.1            # via -r requirements/test.txt, pytest, tox
 polib==1.1.0              # via edx-i18n-tools
 psutil==1.2.1             # via -r requirements/test.txt, edx-django-utils
 py==1.9.0                 # via -r requirements/test.txt, pytest, tox
-pycparser==2.20           # via cffi
+pycparser==2.20           # via -r requirements/test.txt, cffi
 pycryptodomex==3.9.8      # via -r requirements/test.txt, pyjwkest
 pygments==2.6.1           # via -r requirements/test.txt
 pyjwkest==1.4.2           # via -r requirements/test.txt, edx-drf-extensions
-pyjwt==1.7.1              # via -r requirements/test.txt, drf-jwt, edx-auth-backends, edx-rest-api-client, social-auth-core
+pyjwt[crypto]==1.7.1      # via -r requirements/test.txt, drf-jwt, edx-auth-backends, edx-rest-api-client, social-auth-core
 pylint-celery==0.3        # via -r requirements/test.txt, edx-lint
 pylint-django==2.0.11     # via -r requirements/test.txt, edx-lint
 pylint-plugin-utils==0.6  # via -r requirements/test.txt, pylint-celery, pylint-django
@@ -122,7 +122,7 @@ rest-condition==1.0.3     # via -r requirements/test.txt, edx-drf-extensions
 sailthru-client==2.2.3    # via -r requirements/test.txt, edx-ace
 selenium==3.141.0         # via -r requirements/test.txt, bok-choy
 semantic-version==2.8.5   # via -r requirements/test.txt, edx-drf-extensions
-simplejson==3.17.0        # via -r requirements/test.txt, django-rest-swagger, sailthru-client
+simplejson==3.17.2        # via -r requirements/test.txt, django-rest-swagger, sailthru-client
 six==1.15.0               # via -r requirements/test.txt, analytics-python, astroid, bcrypt, bok-choy, cryptography, django-compat, django-extensions, django-statici18n, docker, docker-compose, dockerpty, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-i18n-tools, edx-lint, edx-opaque-keys, jsonschema, mock, packaging, pathlib2, pyjwkest, pynacl, pyrsistent, python-dateutil, python-memcached, responses, social-auth-app-django, social-auth-core, stevedore, tox, transifex-client, virtualenv, websocket-client
 slumber==0.7.1            # via -r requirements/test.txt, edx-rest-api-client
 smmap==3.0.4              # via gitdb
