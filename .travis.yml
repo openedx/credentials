@@ -68,7 +68,7 @@ matrix:
         - make exec-static
         - make exec-tests
     - python: 3.8
-      env: TOXENV=django22
+      env: TOXENV=django30
       install: true
       script:
         - make exec-requirements
