@@ -7,15 +7,15 @@
 analytics-python==1.2.9   # via -r requirements/base.txt
 argparse==1.4.0           # via -r requirements/base.txt, stevedore
 attrs==19.3.0             # via -r requirements/base.txt, edx-ace
-boto3==1.14.23            # via django-ses
+boto3==1.14.26            # via django-ses
 boto==2.49.0              # via -r requirements/production.in
-botocore==1.17.23         # via boto3, s3transfer
+botocore==1.17.26         # via boto3, s3transfer
 certifi==2020.6.20        # via -r requirements/base.txt, requests
 cffi==1.14.0              # via -r requirements/base.txt, cryptography
 chardet==3.0.4            # via -r requirements/base.txt, requests
 coreapi==2.3.3            # via -r requirements/base.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/base.txt, coreapi
-cryptography==2.9.2       # via -r requirements/base.txt, pyjwt
+cryptography==3.0         # via -r requirements/base.txt, pyjwt
 defusedxml==0.6.0         # via -r requirements/base.txt, python3-openid, social-auth-core
 django-appconf==1.0.4     # via -r requirements/base.txt, django-statici18n
 django-compat==1.0.15     # via -r requirements/base.txt, django-hijack
@@ -26,7 +26,7 @@ django-hijack==2.1.10     # via -r requirements/base.txt
 django-ratelimit==3.0.0   # via -r requirements/base.txt
 django-rest-swagger==2.2.0  # via -r requirements/base.txt
 django-ses==1.0.1         # via -r requirements/production.in
-django-sortedm2m==3.0.0   # via -r requirements/base.txt
+django-sortedm2m==3.0.1   # via -r requirements/base.txt
 django-statici18n==1.9.0  # via -r requirements/base.txt
 django-storages==1.8      # via -c requirements/constraints.txt, -r requirements/base.txt
 django-waffle==1.0.0      # via -r requirements/base.txt, edx-django-utils, edx-drf-extensions
@@ -39,7 +39,7 @@ edx-ace==0.1.15           # via -r requirements/base.txt
 edx-auth-backends==3.1.0  # via -r requirements/base.txt
 edx-django-release-util==0.4.4  # via -r requirements/base.txt
 edx-django-sites-extensions==2.5.1  # via -r requirements/base.txt
-edx-django-utils==3.3.0   # via -r requirements/base.txt, edx-drf-extensions, edx-rest-api-client
+edx-django-utils==3.5.0   # via -r requirements/base.txt, edx-drf-extensions, edx-rest-api-client
 edx-drf-extensions==6.1.1  # via -r requirements/base.txt
 edx-opaque-keys==2.1.1    # via -r requirements/base.txt, edx-drf-extensions
 edx-rest-api-client==5.2.1  # via -r requirements/base.txt
