@@ -24,7 +24,7 @@ from credentials.apps.records.tests.factories import UserGradeFactory
 @ddt.ddt
 class CredentialFieldTests(SiteMixin, TestCase):
     def setUp(self):
-        super(CredentialFieldTests, self).setUp()
+        super().setUp()
         self.program_certificate = ProgramCertificateFactory(site=self.site)
         self.course_certificate = CourseCertificateFactory(site=self.site, certificate_type='verified')
         self.field_instance = CredentialField()
@@ -38,7 +38,7 @@ class CredentialFieldTests(SiteMixin, TestCase):
         try:
             self.field_instance.to_internal_value({'program_uuid': program_uuid})
         except ValidationError as ex:
-            expected = {'program_uuid': 'No active ProgramCertificate exists for program [{}]'.format(program_uuid)}
+            expected = {'program_uuid': f'No active ProgramCertificate exists for program [{program_uuid}]'}
             self.assertEqual(ex.detail, expected)
 
     def assert_course_run_key_validation_error_raised(self, course_run_key):
@@ -46,7 +46,7 @@ class CredentialFieldTests(SiteMixin, TestCase):
             self.field_instance.to_internal_value({'course_run_key': course_run_key, 'mode': 'verified'})
         except ValidationError as ex:
             expected = {
-                'course_run_key': 'No active CourseCertificate exists for course run [{}]'.format(course_run_key)
+                'course_run_key': f'No active CourseCertificate exists for course run [{course_run_key}]'
             }
             self.assertEqual(ex.detail, expected)
 

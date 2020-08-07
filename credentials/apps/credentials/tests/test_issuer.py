@@ -1,7 +1,7 @@
 """
 Tests for Issuer class.
 """
-import mock
+from unittest import mock
 from django.test import TestCase
 
 from credentials.apps.api.exceptions import DuplicateAttributeError
@@ -22,7 +22,7 @@ class CertificateIssuerBase:
     cert_type = None
 
     def setUp(self):
-        super(CertificateIssuerBase, self).setUp()
+        super().setUp()
         self.certificate = self.cert_factory.create()
         self.username = 'tester'
         self.user = UserFactory(username=self.username)

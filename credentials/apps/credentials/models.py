@@ -31,7 +31,7 @@ def signatory_assets_path(instance, filename):
     Returns:
         Path to asset.
     """
-    return 'signatories/{id}/{filename}'.format(id=instance.id, filename=filename)
+    return f'signatories/{instance.id}/{filename}'
 
 
 def validate_image(image):
@@ -85,7 +85,7 @@ class Signatory(TimeStampedModel):
         verbose_name_plural = 'Signatories'
 
     def __str__(self):
-        return '{name}, {title}'.format(name=self.name, title=self.title)
+        return f'{self.name}, {self.title}'
 
     def save(self, *args, **kwargs):  # pylint: disable=arguments-differ
         """
@@ -98,10 +98,10 @@ class Signatory(TimeStampedModel):
         if self.pk is None:
             temp_image = self.image
             self.image = None
-            super(Signatory, self).save(*args, **kwargs)
+            super().save(*args, **kwargs)
             self.image = temp_image
 
-        super(Signatory, self).save(force_update=True)
+        super().save(force_update=True)
 
 
 class AbstractCertificate(AbstractCredential):
@@ -229,11 +229,11 @@ class ProgramCertificate(AbstractCertificate):
     language = models.CharField(
         max_length=8,
         null=True,
-        help_text=u'Locale in which certificates for this program will be rendered'
+        help_text='Locale in which certificates for this program will be rendered'
     )
 
     def __str__(self):
-        return 'ProgramCertificate: {uuid}'.format(uuid=self.program_uuid)
+        return f'ProgramCertificate: {self.program_uuid}'
 
     class Meta:
         verbose_name = "Program certificate configuration"

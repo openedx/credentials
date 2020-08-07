@@ -57,7 +57,7 @@ class ConditionallyRequireLoginMixin(AccessMixin):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated and not kwargs['is_public']:
             return self.handle_no_permission()
-        return super(ConditionallyRequireLoginMixin, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 def get_record_data(user, program_uuid, site, platform_name=None):

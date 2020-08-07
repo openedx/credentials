@@ -160,11 +160,11 @@ class SiteConfiguration(models.Model):
         Returns:
             str: JWT access token
         """
-        key = 'siteconfiguration_access_token_{}'.format(self.id)
+        key = f'siteconfiguration_access_token_{self.id}'
         access_token = cache.get(key)
 
         if not access_token:
-            url = '{root}/access_token'.format(root=self.oauth2_provider_url)
+            url = f'{self.oauth2_provider_url}/access_token'
             access_token, expiration_datetime = EdxRestApiClient.get_oauth_access_token(
                 url,
                 self.oauth2_client_id,
@@ -211,7 +211,7 @@ class SiteConfiguration(models.Model):
              dict
         """
         program_uuid = str(program_uuid)
-        cache_key = 'programs.api.data.{uuid}'.format(uuid=program_uuid)
+        cache_key = f'programs.api.data.{program_uuid}'
 
         if not ignore_cache:
             program = cache.get(cache_key)
@@ -269,4 +269,4 @@ class User(AbstractUser):
         return self.username
 
     def get_full_name(self):
-        return self.full_name or super(User, self).get_full_name()
+        return self.full_name or super().get_full_name()

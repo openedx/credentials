@@ -45,7 +45,7 @@ class JwtAuthentication(edx_drf_auth.JwtAuthentication):
         """
         Return the user object with the admin group added or removed if the user is an admin.
         """
-        user = super(JwtAuthentication, self).authenticate_credentials(payload)
+        user = super().authenticate_credentials(payload)
         admin_group = Group.objects.get(name=Role.ADMINS)
         if payload.get('administrator'):
             user.groups.add(admin_group)

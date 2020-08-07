@@ -23,7 +23,7 @@ class SocialMediaMixin:
     """ Mixin with context for sharing certificates to social media networks. """
 
     def get_context_data(self, **kwargs):
-        context = super(SocialMediaMixin, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         request = self.request
         site_configuration = request.site.siteconfiguration
         context.update({
@@ -56,7 +56,7 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
         )
 
     def get_context_data(self, **kwargs):
-        context = super(RenderCredential, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         user_credential = self.user_credential
         organization_names = []
 
@@ -115,7 +115,7 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
 
         # NOTE: In the future we will need to account for other types of credentials besides programs.
         template_names += [
-            'credentials/programs/{uuid}/certificate.html'.format(uuid=credential_type.program_uuid),
+            f'credentials/programs/{credential_type.program_uuid}/certificate.html',
             'credentials/programs/{type}/certificate.html'.format(
                 type=slugify(credential_type.program_details.type)),
         ]
@@ -136,7 +136,7 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         program_type = self.request.GET.get('program_type', 'Professional Certificate')
-        context = super(ExampleCredential, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         program_details = ProgramDetails(
             uuid=uuid.uuid4(),
             title='Completely Example Program',

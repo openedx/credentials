@@ -13,7 +13,7 @@ class OAuth2FlowTests(LoginMixin, WebAppTest):
         """
         Instantiate the page objects.
         """
-        super(OAuth2FlowTests, self).setUp()
+        super().setUp()
         self.credentials_api_page = CredentialsDRFPage(self.browser)
 
     def test_login(self):

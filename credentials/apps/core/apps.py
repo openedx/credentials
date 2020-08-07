@@ -6,7 +6,7 @@ class CoreAppConfig(AppConfig):
     verbose_name = 'Core'
 
     def ready(self):
-        super(CoreAppConfig, self).ready()
+        super().ready()
 
         # noinspection PyUnresolvedReferences
         import credentials.apps.core.signals  # pylint: disable=unused-import, import-outside-toplevel

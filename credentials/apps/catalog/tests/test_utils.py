@@ -42,7 +42,7 @@ class ParseTests(TestCase):
                      'pathway_type': PathwayType.INDUSTRY.value}  # Check type is industry since type defaults to credit
 
     def setUp(self):
-        super(ParseTests, self).setUp()
+        super().setUp()
         self.site = SiteFactory()
 
     @ddt.unpack

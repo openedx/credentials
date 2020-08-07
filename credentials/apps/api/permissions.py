@@ -37,7 +37,7 @@ class UserCredentialViewSetPermissions(permissions.DjangoModelPermissions):
         This lets us delay deciding whether or not read permission should be
         implicitly granted, until after DRF has fetched the requested object.
         """
-        return super(UserCredentialViewSetPermissions, self).has_permission(request, view) or (
+        return super().has_permission(request, view) or (
             request.user.is_authenticated and request.method in permissions.SAFE_METHODS
         )
 
@@ -47,7 +47,7 @@ class UserCredentialViewSetPermissions(permissions.DjangoModelPermissions):
         permissions) or, if a read-only request, implicitly (via matching
         username).
         """
-        if super(UserCredentialViewSetPermissions, self).has_permission(request, view):
+        if super().has_permission(request, view):
             return True
         if request.user.username.lower() == obj.username.lower():
             return True

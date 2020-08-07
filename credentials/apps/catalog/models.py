@@ -41,7 +41,7 @@ class Course(TimeStampedModel):
         )
 
     def __str__(self):
-        return '{key}: {title}'.format(key=self.key, title=self.title)
+        return f'{self.key}: {self.title}'
 
 
 class CourseRun(TimeStampedModel):
@@ -65,7 +65,7 @@ class CourseRun(TimeStampedModel):
         )
 
     def __str__(self):
-        return '{key}: {title}'.format(key=self.key, title=self.title)
+        return f'{self.key}: {self.title}'
 
     @property
     def title(self):

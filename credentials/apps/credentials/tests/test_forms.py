@@ -1,5 +1,7 @@
+
+from unittest import mock
+
 import factory
-import mock
 from django.test import TestCase
 
 from credentials.apps.core.models import SiteConfiguration

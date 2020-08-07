@@ -1,9 +1,9 @@
 """Test models for credentials service app."""
 
 import uuid
+from unittest import mock
 
 import ddt
-import mock
 from django.core.exceptions import ValidationError
 from django.core.files.images import ImageFile
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -75,7 +75,7 @@ class CourseCertificateTests(SiteMixin, TestCase):
     """Test Course Certificate model."""
 
     def setUp(self):
-        super(CourseCertificateTests, self).setUp()
+        super().setUp()
         self.course_key = CourseLocator(org='test', course='test', run='test')
 
     def test_invalid_course_key(self):

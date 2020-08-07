@@ -2,6 +2,7 @@
 Tests for credentials rendering views.
 """
 import uuid
+from unittest.mock import patch
 
 import ddt
 import responses
@@ -11,7 +12,6 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.text import slugify
 from faker import Faker
-from mock import patch
 
 from credentials.apps.core.tests.factories import USER_PASSWORD, SiteConfigurationFactory, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin

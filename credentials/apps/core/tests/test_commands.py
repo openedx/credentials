@@ -14,7 +14,7 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
     faker = Faker()
 
     def setUp(self):
-        super(CreateOrUpdateSiteCommandTests, self).setUp()
+        super().setUp()
         self.site_configuration = SiteConfigurationFactory.build(segment_key=self.faker.word())
 
     def _call_command(self, site_domain, site_name, site_id=None, **kwargs):
@@ -29,24 +29,24 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
 
         # Required arguments
         command_args = [
-            '--site-domain={site_domain}'.format(site_domain=site_domain),
-            '--platform-name={platform_name}'.format(platform_name=self.site_configuration.platform_name),
-            '--lms-url-root={lms_url_root}'.format(lms_url_root=self.site_configuration.lms_url_root),
-            '--catalog-api-url={catalog_api_url}'.format(catalog_api_url=self.site_configuration.catalog_api_url),
-            '--site-name={site_name}'.format(site_name=site_name),
-            '--tos-url={tos_url}'.format(tos_url=self.site_configuration.tos_url),
+            f'--site-domain={site_domain}',
+            f'--platform-name={self.site_configuration.platform_name}',
+            f'--lms-url-root={self.site_configuration.lms_url_root}',
+            f'--catalog-api-url={self.site_configuration.catalog_api_url}',
+            f'--site-name={site_name}',
+            f'--tos-url={self.site_configuration.tos_url}',
             '--privacy-policy-url={privacy_policy_url}'.format(
                 privacy_policy_url=self.site_configuration.privacy_policy_url
             ),
-            '--homepage-url={homepage_url}'.format(homepage_url=self.site_configuration.homepage_url),
-            '--company-name={company_name}'.format(company_name=self.site_configuration.company_name),
-            '--certificate-help-url={}'.format(self.site_configuration.certificate_help_url),
-            '--records-help-url={}'.format(self.site_configuration.records_help_url),
-            '--theme-name={}'.format(self.site_configuration.theme_name),
+            f'--homepage-url={self.site_configuration.homepage_url}',
+            f'--company-name={self.site_configuration.company_name}',
+            f'--certificate-help-url={self.site_configuration.certificate_help_url}',
+            f'--records-help-url={self.site_configuration.records_help_url}',
+            f'--theme-name={self.site_configuration.theme_name}',
         ]
 
         if site_id:
-            command_args.append('--site-id={site_id}'.format(site_id=site_id))
+            command_args.append(f'--site-id={site_id}')
 
         call_command(self.COMMAND_NAME, *command_args, **default_kwargs)
 

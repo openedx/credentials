@@ -12,7 +12,7 @@ class CredentialsDRFPage(PageObject):
         return self.page_url
 
     def __init__(self, browser):
-        super(CredentialsDRFPage, self).__init__(browser)
+        super().__init__(browser)
         self.page_url = CREDENTIALS_API_URL
 
     def is_browser_on_page(self):
@@ -29,10 +29,10 @@ class CredentialsDRFPage(PageObject):
 
 class LMSPage(PageObject, metaclass=abc.ABCMeta):
     def _build_url(self, path):
-        url = '{}/{}'.format(LMS_ROOT_URL, path)
+        url = f'{LMS_ROOT_URL}/{path}'
 
         if BASIC_AUTH_USERNAME and BASIC_AUTH_PASSWORD:
-            url = url.replace('://', '://{}:{}@'.format(BASIC_AUTH_USERNAME, BASIC_AUTH_PASSWORD))
+            url = url.replace('://', f'://{BASIC_AUTH_USERNAME}:{BASIC_AUTH_PASSWORD}@')
 
         return url
 
@@ -70,7 +70,7 @@ class LMSLoginPage(LMSPage):
 
 class LMSDashboardPage(LMSPage):
     def __init__(self, browser):  # pylint: disable=useless-super-delegation
-        super(LMSDashboardPage, self).__init__(browser)
+        super().__init__(browser)
 
     @property
     def url(self):
@@ -85,7 +85,7 @@ class LMSDashboardPage(LMSPage):
 
 class LMSProgramListingPage(LMSPage):
     def __init__(self, browser):
-        super(LMSProgramListingPage, self).__init__(browser)
+        super().__init__(browser)
         self.credential_css_selector = '.certificate-container'
 
     @property

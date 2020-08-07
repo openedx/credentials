@@ -8,11 +8,11 @@ from acceptance_tests.pages import LMSLoginPage
 log = logging.getLogger(__name__)
 
 
-class LoginMixin(object):
+class LoginMixin:
     """ Mixin used for log in through LMS login page."""
 
     def setUp(self):
-        super(LoginMixin, self).setUp()
+        super().setUp()
         self.lms_login_page = LMSLoginPage(self.browser)
 
     def login_with_lms(self):
@@ -24,10 +24,10 @@ class LoginMixin(object):
         self.lms_login_page.login(email, password)
 
 
-class CredentialsApiMixin(object):
+class CredentialsApiMixin:
     """ Mixin used for login on credentials."""
     def setUp(self):
-        super(CredentialsApiMixin, self).setUp()
+        super().setUp()
         self.data = None
 
     @property

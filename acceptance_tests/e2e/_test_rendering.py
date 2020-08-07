@@ -10,7 +10,7 @@ from acceptance_tests.pages import LMSDashboardPage, LMSProgramListingPage
 class RenderCredentialTests(LoginMixin, WebAppTest, CredentialsApiMixin):
 
     def setUp(self):
-        super(RenderCredentialTests, self).setUp()
+        super().setUp()
         self.create_credential()
         self.change_credential_status('awarded')
 

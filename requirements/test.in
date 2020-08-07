@@ -21,7 +21,6 @@ edx-lint
 factory-boy
 httpretty
 isort
-mock
 pep8
 pytest
 pytest-django

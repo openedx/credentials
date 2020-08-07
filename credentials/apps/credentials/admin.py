@@ -44,7 +44,7 @@ class ProgramCertificateAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
 
     def get_search_results(self, request, queryset, search_term):
 
-        queryset, use_distinct = super(ProgramCertificateAdmin, self).get_search_results(
+        queryset, use_distinct = super().get_search_results(
             request, queryset, search_term.replace('-', ''))
 
         return queryset, use_distinct

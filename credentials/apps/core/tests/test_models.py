@@ -2,7 +2,7 @@
 import json
 import uuid
 
-import mock
+from unittest import mock
 import responses
 from django.contrib.sites.models import SiteManager
 from django.test import TestCase, override_settings
@@ -17,7 +17,7 @@ class UserTests(TestCase):
     """ User model tests. """
 
     def setUp(self):
-        super(UserTests, self).setUp()
+        super().setUp()
         self.user = UserFactory()
 
     def test_access_token_without_social_auth(self):
@@ -43,7 +43,7 @@ class UserTests(TestCase):
         first_name = "Jerry"
         last_name = "Seinfeld"
         user = UserFactory(full_name=None, first_name=first_name, last_name=last_name)
-        expected = "{first_name} {last_name}".format(first_name=first_name, last_name=last_name)
+        expected = f"{first_name} {last_name}"
         self.assertEqual(user.get_full_name(), expected)
 
         user = UserFactory(full_name=full_name, first_name=first_name, last_name=last_name)
@@ -74,7 +74,7 @@ class SiteConfigurationTests(SiteMixin, TestCase):
     def test_get_program(self):
         """ Verify the method retrieves program data from the Catalog API. """
         program_uuid = uuid.uuid4()
-        program_endpoint = 'programs/{uuid}/'.format(uuid=program_uuid)
+        program_endpoint = f'programs/{program_uuid}/'
         body = {
             'uuid': program_uuid.hex,
             'title': 'A Fake Program',
@@ -132,7 +132,7 @@ class SiteConfigurationTests(SiteMixin, TestCase):
         data = {
             'username': username,
         }
-        url = '{root}accounts/{username}'.format(root=self.site_configuration.user_api_url, username=username)
+        url = f'{self.site_configuration.user_api_url}accounts/{username}'
         responses.add(responses.GET, url, body=json.dumps(data), content_type=JSON, status=200)
         self.mock_access_token_response()
 

@@ -61,7 +61,7 @@ class TestJWTAuthentication(JwtMixin, TestCase):
         jwt_payload = self.default_payload(user)
         del jwt_payload[claim]
         jwt_value = self.generate_token(jwt_payload)
-        request = APIRequestFactory().get('dummy', HTTP_AUTHORIZATION='JWT {}'.format(jwt_value))
+        request = APIRequestFactory().get('dummy', HTTP_AUTHORIZATION=f'JWT {jwt_value}')
         with self.assertRaises(AuthenticationFailed):
             authentication.authenticate(request)
 
@@ -75,7 +75,7 @@ class TestPipelineUserRoles(TestCase):
 
     def setUp(self):
         self.user = UserFactory.create()
-        super(TestPipelineUserRoles, self).setUp()
+        super().setUp()
 
     def assert_has_admin_role(self, has_role=True):
         """

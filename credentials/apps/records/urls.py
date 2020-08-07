@@ -6,14 +6,14 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.RecordsView.as_view(), name='index'),
-    url(r'^programs/{uuid}/$'.format(uuid=UUID_PATTERN), views.ProgramRecordView.as_view(), {'is_public': False},
+    url(fr'^programs/{UUID_PATTERN}/$', views.ProgramRecordView.as_view(), {'is_public': False},
         name='private_programs'),
-    url(r'^programs/shared/{uuid}/$'.format(uuid=UUID_PATTERN), views.ProgramRecordView.as_view(), {'is_public': True},
+    url(fr'^programs/shared/{UUID_PATTERN}/$', views.ProgramRecordView.as_view(), {'is_public': True},
         name='public_programs'),
-    url(r'^programs/shared/{uuid}/csv$'.format(uuid=UUID_PATTERN),
+    url(fr'^programs/shared/{UUID_PATTERN}/csv$',
         views.ProgramRecordCsvView.as_view(),
         name='program_record_csv'),
-    url(r'^programs/{uuid}/send$'.format(uuid=UUID_PATTERN), views.ProgramSendView.as_view(), name='send_program'),
-    url(r'^programs/{uuid}/share$'.format(uuid=UUID_PATTERN), views.ProgramRecordCreationView.as_view(),
+    url(fr'^programs/{UUID_PATTERN}/send$', views.ProgramSendView.as_view(), name='send_program'),
+    url(fr'^programs/{UUID_PATTERN}/share$', views.ProgramRecordCreationView.as_view(),
         name='share_program'),
 ]

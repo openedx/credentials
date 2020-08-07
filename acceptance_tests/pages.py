@@ -41,7 +41,7 @@ class MyLearnerRecordsPage(BasePage):
             uuid = link.attrs('href')[0].rstrip('/').split('/')[-1]
             link.click()
         else:
-            self.q(css='a[href="/records/programs/{}/"'.format(uuid)).first.click()
+            self.q(css=f'a[href="/records/programs/{uuid}/"').first.click()
 
         next_page = ProgramRecordPage(self.browser, uuid)
         next_page.wait_for_page()
@@ -55,7 +55,7 @@ class ProgramRecordPage(BasePage):
 
     def __init__(self, browser, uuid, *args, **kwargs):
         super().__init__(browser, *args, **kwargs)
-        self.page_url = CREDENTIALS_ROOT_URL + '/records/programs/{}/'.format(uuid)
+        self.page_url = CREDENTIALS_ROOT_URL + f'/records/programs/{uuid}/'
 
     def is_browser_on_page(self):
         return self.on_url() and self.q(css='main.program-record-wrapper').is_present()
