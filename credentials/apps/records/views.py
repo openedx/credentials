@@ -536,15 +536,10 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
             'page': {
                 'path': request.path,
                 'referrer': request.META.get('HTTP_REFERER'),
+                'url': request.build_absolute_uri(),
             },
             'userAgent': request.META.get('HTTP_USER_AGENT'),
         }
-
-        # Get page information, in part to provide hostname info.
-        if request.method == 'GET':
-            context['page']['url'] = request.GET.get('page')
-        elif request.method == 'POST':
-            context['page']['url'] = request.POST.get('page')
 
         segment_client.track(
             request.COOKIES.get('ajs_anonymous_id'),
