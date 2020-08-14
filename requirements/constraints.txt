@@ -9,9 +9,12 @@
 # linking to it here is good.
 
 # Required to resolve requirements from base.in with inherited files
-requests==2.20.1
 stevedore==1.10.0
 path.py==12.0.2
+
+# Requires python 3.6
+mock<4.0.0
+zipp<2.0.0
 
 # Remaining version pins to maintain behavior in
 Django<2.3
