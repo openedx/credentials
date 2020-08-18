@@ -97,10 +97,17 @@ class ProgramCertificateTests(SiteMixin, TestCase):
         instance = ProgramCertificateFactory()
         self.assertEqual(str(instance), 'ProgramCertificate: ' + str(instance.program_uuid))
 
-    @ddt.data(True, False)
-    def test_program_details(self, use_org_name):
+    @ddt.data(
+        (True, None),
+        (True, 'Test custom credential title'),
+        (False, None),
+        (False, 'Other very special credential title'),
+    )
+    @ddt.unpack
+    def test_program_details(self, use_org_name, credential_title):
         """ Verify the method returns the details of program associated with the ProgramCertificate. """
-        program_certificate = ProgramCertificateFactory(site=self.site, use_org_name=use_org_name)
+        program_certificate = ProgramCertificateFactory(site=self.site, use_org_name=use_org_name,
+                                                        title=credential_title)
         program_uuid = program_certificate.program_uuid.hex
         courses = [
             {'key': 'ACMEx/101x'},
@@ -111,6 +118,7 @@ class ProgramCertificateTests(SiteMixin, TestCase):
             title='Test Program',
             subtitle='Test Subtitle',
             type='MicroFakers',
+            credential_title=credential_title,
             course_count=len(courses),
             organizations=[
                 OrganizationDetails(

@@ -198,7 +198,7 @@ class CourseCertificate(AbstractCertificate):
 
 OrganizationDetails = namedtuple('OrganizationDetails', ('uuid', 'key', 'name', 'display_name',
                                                          'certificate_logo_image_url'))
-ProgramDetails = namedtuple('ProgramDetails', ('uuid', 'title', 'subtitle', 'type', 'course_count',
+ProgramDetails = namedtuple('ProgramDetails', ('uuid', 'title', 'subtitle', 'type', 'credential_title', 'course_count',
                                                'organizations', 'hours_of_effort'))
 
 
@@ -269,6 +269,7 @@ class ProgramCertificate(AbstractCertificate):
             title=data['title'],
             subtitle=data['subtitle'],
             type=data['type'],
+            credential_title=self.title,
             course_count=len(data['courses']),
             organizations=organizations,
             hours_of_effort=hours_of_effort

@@ -101,6 +101,7 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
 
             # NOTE: In the future this can be set to the course_name
             'program_name': program_details.title,
+            'credential_title': program_details.credential_title,
             'org_name_string': org_name_string,
         })
         if program_details.hours_of_effort:
@@ -141,6 +142,7 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
             title='Completely Example Program',
             subtitle='Example Subtitle',
             type=program_type,
+            credential_title=None,
             course_count=3,
             organizations=[OrganizationDetails(
                 uuid=uuid.uuid4(),
@@ -186,6 +188,7 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
             },
             'page_title': program_details.type,
             'program_name': program_details.title,
+            'credential_title': program_details.credential_title,
             'render_language': settings.LANGUAGE_CODE,
             'org_name_string': 'Example University',
         })
