@@ -31,7 +31,7 @@ django-statici18n==1.9.0  # via -r requirements/base.txt
 django-storages==1.8      # via -c requirements/constraints.txt, -r requirements/base.txt
 django-waffle==1.0.0      # via -r requirements/base.txt, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/base.txt
-django==2.2.15            # via -c requirements/constraints.txt, -r requirements/base.txt, django-appconf, django-debug-toolbar, django-filter, django-ses, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, rest-condition, xss-utils
+django==2.2.15            # via -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt, -r requirements/base.txt, django-appconf, django-debug-toolbar, django-filter, django-ses, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, rest-condition, xss-utils
 djangorestframework==3.11.1  # via -r requirements/base.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
 docutils==0.15.2          # via botocore
 drf-jwt==1.17.0           # via -r requirements/base.txt, edx-drf-extensions

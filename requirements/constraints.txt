@@ -8,6 +8,9 @@
 # pin when possible.  Writing an issue against the offending project and
 # linking to it here is good.
 
+# This file contains all common constraints for edx-repos
+-c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+
 # Required to resolve requirements from base.in with inherited files
 stevedore==1.10.0
 path.py==12.0.2
@@ -15,9 +18,6 @@ path.py==12.0.2
 # Requires python 3.6
 mock<4.0.0
 zipp<2.0.0
-
-# Remaining version pins to maintain behavior in
-Django<2.3
 
 # Functional pin for dev.in
 docker-compose >= 1.5.1

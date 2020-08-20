@@ -38,7 +38,7 @@ django-statici18n==1.9.0  # via -r requirements/test.txt
 django-storages==1.8      # via -c requirements/constraints.txt, -r requirements/test.txt
 django-waffle==1.0.0      # via -r requirements/test.txt, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/test.txt
-django==2.2.15            # via -c requirements/constraints.txt, -r requirements/test.txt, django-appconf, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
+django==2.2.15            # via -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt, -r requirements/test.txt, django-appconf, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
 djangorestframework==3.11.1  # via -r requirements/test.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
 docker-compose==1.26.2    # via -c requirements/constraints.txt, -r requirements/dev.in
 docker[ssh]==4.3.0        # via docker-compose
@@ -52,7 +52,7 @@ edx-django-sites-extensions==2.5.1  # via -r requirements/test.txt
 edx-django-utils==3.7.3   # via -r requirements/test.txt, edx-drf-extensions, edx-rest-api-client
 edx-drf-extensions==6.1.1  # via -r requirements/test.txt
 edx-i18n-tools==0.5.3     # via -r requirements/dev.in
-edx-lint==1.5.0           # via -r requirements/test.txt
+edx-lint==1.5.2           # via -r requirements/test.txt
 edx-opaque-keys==2.1.1    # via -r requirements/test.txt, edx-drf-extensions
 edx-rest-api-client==5.2.1  # via -r requirements/test.txt
 git+https://github.com/edx/credentials-themes.git@0.1.30#egg=edx_credentials_themes==0.1.30  # via -r requirements/test.txt
