@@ -27,6 +27,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
     MOCK_USER_DATA = {'username': 'test-user', 'name': 'Test User', 'email': 'test@example.org', }
     PROGRAM_NAME = 'Fake PC'
     PROGRAM_TYPE = 'Professional Certificate'
+    CREDENTIAL_TITLE = 'Fake Custom Credential Title'
 
     def setUp(self):
         super().setUp()
@@ -122,6 +123,8 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         response_context_data = response.context_data
 
         self.assertContains(response, 'Print or share your certificate')
+        self.assertContains(response=response, text=self.PROGRAM_NAME, count=2)
+        self.assertNotContains(response=response, text=self.CREDENTIAL_TITLE)
 
         self.assertEqual(response_context_data['user_credential'], self.user_credential)
         self.assertEqual(response_context_data['user_data'], self.MOCK_USER_DATA)
@@ -134,6 +137,18 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         self.assert_matching_template_origin(actual_child_templates['credential'], expected_credential_template)
         self.assert_matching_template_origin(actual_child_templates['footer'], '_footer.html')
         self.assert_matching_template_origin(actual_child_templates['header'], '_header.html')
+
+    @responses.activate
+    def test_awarded_with_custom_title(self):
+        """ Verify that the view renders a custom credential title if one is provided. """
+        self.program_certificate.title = self.CREDENTIAL_TITLE
+        self.program_certificate.save()
+
+        response = self._render_user_credential()
+
+        self.assertContains(response, 'Print or share your certificate')
+        self.assertNotContains(response=response, text=self.PROGRAM_NAME)
+        self.assertContains(response=response, text=self.CREDENTIAL_TITLE, count=2)
 
     def test_revoked(self):
         """ Verify that the view returns 404 when the uuid is valid but certificate status
@@ -231,12 +246,12 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
     )
     @ddt.unpack
     @responses.activate
-    def test_render_language(self, langauge_set, expected_text):
+    def test_render_language(self, language_set, expected_text):
         """
         Verify that the view renders certificates in the configured language when it has been set,
         and in the default language (English) when content_language has not been set.
         """
-        if langauge_set:
+        if language_set:
             ProgramCertificate.objects.update_or_create(program_uuid=self.program_certificate.program_uuid, defaults={
                 'language': 'es_419'
             })
