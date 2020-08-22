@@ -2,11 +2,8 @@
 # http://open-edx-proposals.readthedocs.io/en/latest/oeps/oep-0002.html#specification
 
 nick: cred
-oeps: 
-  oep-7: true  # Python 3
-owner: schenedx
-supporting_teams:
-  - masters-devs
+oeps:
+    oep-7: true # Python 3
 openedx-release: {ref: master}
 tags:
-  - webservice
+    - webservice
