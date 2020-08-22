@@ -21,7 +21,7 @@ def seed_program_cert_records(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('records', '0005_auto_20180717_1953'),
+        ("records", "0005_auto_20180717_1953"),
     ]
 
     operations = [

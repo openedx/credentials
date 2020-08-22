@@ -9,13 +9,15 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('records', '0007_auto_20180723_1614'),
+        ("records", "0007_auto_20180723_1614"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='programcertrecord',
-            name='program',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='catalog.Program'),
+            model_name="programcertrecord",
+            name="program",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="catalog.Program"
+            ),
         ),
     ]

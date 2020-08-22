@@ -4,6 +4,7 @@ Template tags and helper functions for escaping script tag.
 from django import template
 from django.template.defaultfilters import date
 from django.utils.translation import get_language
+
 register = template.Library()
 
 
@@ -21,10 +22,10 @@ def month(value):
     Returns:
         string: A formatted version of the month
     """
-    formatted = date(value, 'E')
+    formatted = date(value, "E")
 
     language = get_language()
-    if language and language.split('-')[0].lower() == 'es':
+    if language and language.split("-")[0].lower() == "es":
         return formatted.lower()
 
     return formatted

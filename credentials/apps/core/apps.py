@@ -2,8 +2,8 @@ from django.apps import AppConfig
 
 
 class CoreAppConfig(AppConfig):
-    name = 'credentials.apps.core'
-    verbose_name = 'Core'
+    name = "credentials.apps.core"
+    verbose_name = "Core"
 
     def ready(self):
         super(CoreAppConfig, self).ready()

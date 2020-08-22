@@ -27,7 +27,12 @@ class UserCredentialViewSetPermissions(permissions.DjangoModelPermissions):
 
     # refer to the super() for more context on what this override is doing.
     perms_map = permissions.DjangoModelPermissions.perms_map
-    perms_map.update({method: ['%(app_label)s.view_%(model_name)s'] for method in permissions.SAFE_METHODS})
+    perms_map.update(
+        {
+            method: ["%(app_label)s.view_%(model_name)s"]
+            for method in permissions.SAFE_METHODS
+        }
+    )
 
     def has_permission(self, request, view):
         """
@@ -37,7 +42,9 @@ class UserCredentialViewSetPermissions(permissions.DjangoModelPermissions):
         This lets us delay deciding whether or not read permission should be
         implicitly granted, until after DRF has fetched the requested object.
         """
-        return super(UserCredentialViewSetPermissions, self).has_permission(request, view) or (
+        return super(UserCredentialViewSetPermissions, self).has_permission(
+            request, view
+        ) or (
             request.user.is_authenticated and request.method in permissions.SAFE_METHODS
         )
 

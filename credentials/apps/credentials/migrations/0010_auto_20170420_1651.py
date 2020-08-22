@@ -8,22 +8,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('credentials', '0009_remove_programcertificate_program_id'),
+        ("credentials", "0009_remove_programcertificate_program_id"),
     ]
 
     operations = [
-        migrations.DeleteModel(
-            name='CertificateTemplateAsset',
-        ),
-        migrations.RemoveField(
-            model_name='coursecertificate',
-            name='template',
-        ),
-        migrations.RemoveField(
-            model_name='programcertificate',
-            name='template',
-        ),
-        migrations.DeleteModel(
-            name='CertificateTemplate',
-        ),
+        migrations.DeleteModel(name="CertificateTemplateAsset",),
+        migrations.RemoveField(model_name="coursecertificate", name="template",),
+        migrations.RemoveField(model_name="programcertificate", name="template",),
+        migrations.DeleteModel(name="CertificateTemplate",),
     ]

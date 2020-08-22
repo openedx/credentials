@@ -8,18 +8,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sites', '0002_alter_domain_unique'),
-        ('credentials', '0014_auto_20180816_1813'),
+        ("sites", "0002_alter_domain_unique"),
+        ("credentials", "0014_auto_20180816_1813"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='programcertificate',
-            name='program_uuid',
-            field=models.UUIDField(db_index=True, verbose_name='Program UUID'),
+            model_name="programcertificate",
+            name="program_uuid",
+            field=models.UUIDField(db_index=True, verbose_name="Program UUID"),
         ),
         migrations.AlterUniqueTogether(
-            name='programcertificate',
-            unique_together=set([('site', 'program_uuid')]),
+            name="programcertificate", unique_together=set([("site", "program_uuid")]),
         ),
     ]

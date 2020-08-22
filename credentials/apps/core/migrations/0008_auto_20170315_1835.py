@@ -6,18 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0007_auto_20170315_1828'),
+        ("core", "0007_auto_20170315_1828"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='siteconfiguration',
-            name='enable_facebook_sharing',
-            field=models.BooleanField(default=False, help_text='Enable sharing via Facebook', verbose_name='Enable Facebook sharing'),
+            model_name="siteconfiguration",
+            name="enable_facebook_sharing",
+            field=models.BooleanField(
+                default=False,
+                help_text="Enable sharing via Facebook",
+                verbose_name="Enable Facebook sharing",
+            ),
         ),
         migrations.AddField(
-            model_name='siteconfiguration',
-            name='facebook_app_id',
-            field=models.CharField(blank=True, help_text='Facebook app ID used for sharing', max_length=32, null=True, verbose_name='Facebook App ID'),
+            model_name="siteconfiguration",
+            name="facebook_app_id",
+            field=models.CharField(
+                blank=True,
+                help_text="Facebook app ID used for sharing",
+                max_length=32,
+                null=True,
+                verbose_name="Facebook App ID",
+            ),
         ),
     ]

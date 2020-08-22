@@ -7,12 +7,27 @@ from django.core.management import BaseCommand
 from django.db import transaction
 from faker import Faker
 
-from credentials.apps.catalog.models import Course, CourseRun, Organization, Pathway, Program
+from credentials.apps.catalog.models import (
+    Course,
+    CourseRun,
+    Organization,
+    Pathway,
+    Program,
+)
 from credentials.apps.core.models import User
 from credentials.apps.credentials.constants import CertificateType
-from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, Signatory, UserCredential
+from credentials.apps.credentials.models import (
+    CourseCertificate,
+    ProgramCertificate,
+    Signatory,
+    UserCredential,
+)
 from credentials.apps.records.constants import UserCreditPathwayStatus
-from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
+from credentials.apps.records.models import (
+    ProgramCertRecord,
+    UserCreditPathway,
+    UserGrade,
+)
 from credentials.shared.constants import PathwayType
 
 logger = logging.getLogger(__name__)
@@ -20,30 +35,31 @@ logger = logging.getLogger(__name__)
 
 class Command(BaseCommand):
     """ Seed all the data needed to display fake student records """
-    help = 'Seed catalog with fake data'
+
+    help = "Seed catalog with fake data"
 
     def add_arguments(self, parser):
         """ Add arguments to the command parser """
         parser.add_argument(
-            '--site-name',
-            action='store',
-            default='Open edx',
+            "--site-name",
+            action="store",
+            default="Open edx",
             required=False,
-            help="The site to attach all records to"
+            help="The site to attach all records to",
         )
 
         parser.add_argument(
-            '--user-name',
-            action='store',
+            "--user-name",
+            action="store",
             type=str,
-            default='edx',
+            default="edx",
             required=False,
-            help="The user to attach all certs to"
+            help="The user to attach all certs to",
         )
 
     def handle(self, *args, **options):
-        site_name = options.get('site_name')
-        username = options.get('user_name')
+        site_name = options.get("site_name")
+        username = options.get("user_name")
 
         Command.seed_all(site_name, username)
 
@@ -69,9 +85,15 @@ class Command(BaseCommand):
         user = Command.get_user(username)
         Command.seed_user_grades(user, course_runs)
         signatories = Command.seed_signatories(organizations)
-        course_certificates = Command.seed_course_certificates(site, course_runs, signatories)
-        program_certificates = Command.seed_program_certificates(site, programs, signatories)
-        Command.seed_user_credentials(user, program_certificates, course_certificates, faker)
+        course_certificates = Command.seed_course_certificates(
+            site, course_runs, signatories
+        )
+        program_certificates = Command.seed_program_certificates(
+            site, programs, signatories
+        )
+        Command.seed_user_credentials(
+            user, program_certificates, course_certificates, faker
+        )
         Command.seed_program_cert_records(user, programs, faker)
         pathways = Command.seed_pathways(site, programs, faker)
         Command.seed_user_credit_pathways(user, pathways)
@@ -91,12 +113,14 @@ class Command(BaseCommand):
     def seed_organizations(site, faker):
         """ Seed two organizations """
         organization1, created = Organization.objects.get_or_create(
-            site=site, uuid=faker.uuid4(), name='Test-Org-1')
-        Command.log_action('Organization', 'Test-Org-1', created)
+            site=site, uuid=faker.uuid4(), name="Test-Org-1"
+        )
+        Command.log_action("Organization", "Test-Org-1", created)
 
         organization2, created = Organization.objects.get_or_create(
-            site=site, uuid=faker.uuid4(), name='Test-Org-2')
-        Command.log_action('Organization', 'Test-Org-2', created)
+            site=site, uuid=faker.uuid4(), name="Test-Org-2"
+        )
+        Command.log_action("Organization", "Test-Org-2", created)
 
         return [organization1, organization2]
 
@@ -112,7 +136,8 @@ class Command(BaseCommand):
                 site=site,
                 uuid=faker.uuid4(),
                 title="Course {}".format(course_id),
-                key="Course-{}".format(course_id))
+                key="Course-{}".format(course_id),
+            )
             course1.owners = [organization]
             courses.append(course1)
             Command.log_action("Course", course_id, created)
@@ -121,7 +146,8 @@ class Command(BaseCommand):
                 site=site,
                 uuid=faker.uuid4(),
                 title="Course {}".format(course_id + 1),
-                key="Course-{}".format(course_id + 1))
+                key="Course-{}".format(course_id + 1),
+            )
             course2.owners = [organization]
             courses.append(course2)
             Command.log_action("Course", course_id + 1, created)
@@ -138,7 +164,9 @@ class Command(BaseCommand):
 
         for course in courses:
             organization = course.owners.all()[0]
-            key = "course-v1:{}+{}+{}".format(organization.name, course.key, course_run_id)
+            key = "course-v1:{}+{}+{}".format(
+                organization.name, course.key, course_run_id
+            )
             course_run, created = CourseRun.objects.get_or_create(
                 course=course,
                 uuid=faker.uuid4(),
@@ -168,8 +196,8 @@ class Command(BaseCommand):
                 site=site,
                 uuid=faker.uuid4(),
                 defaults={
-                    'title': 'Program {}'.format(program_id),
-                    'status': 'active',
+                    "title": "Program {}".format(program_id),
+                    "status": "active",
                 },
             )
             program.course_runs = course_runs
@@ -194,9 +222,10 @@ class Command(BaseCommand):
             user_grade, created = UserGrade.objects.get_or_create(
                 username=user.username,
                 course_run=course_run,
-                letter_grade='B',
+                letter_grade="B",
                 percent_grade=0.82,
-                verified=True)
+                verified=True,
+            )
 
             Command.log_action("User Grade for", course_run.course.title, created)
             user_grades.append(user_grade)
@@ -211,8 +240,8 @@ class Command(BaseCommand):
 
         for organization in organizations:
             signatory, created = Signatory.objects.get_or_create(
-                name=organization.name,
-                title=organization.name)  # TODO: add image
+                name=organization.name, title=organization.name
+            )  # TODO: add image
 
             Command.log_action("Signatory for", organization.name, created)
             signatories.append(signatory)
@@ -228,10 +257,7 @@ class Command(BaseCommand):
             program_certificate, created = ProgramCertificate.objects.update_or_create(
                 site=site,
                 program_uuid=program.uuid,
-                defaults={
-                    'is_active': True,
-                    'language': 'en',
-                },
+                defaults={"is_active": True, "language": "en",},
             )
             program_certificate.signatories = signatories
             program_certificate.save()
@@ -251,9 +277,9 @@ class Command(BaseCommand):
                 site=site,
                 course_id=course_run.key,
                 defaults={
-                    'is_active': True,
-                    'certificate_type': CertificateType.VERIFIED,
-                }
+                    "is_active": True,
+                    "certificate_type": CertificateType.VERIFIED,
+                },
             )
             course_certificate.signatories = signatories
             course_certificate.save()
@@ -270,24 +296,32 @@ class Command(BaseCommand):
 
         for program_certificate in program_certificates:
             user_credential, created = UserCredential.objects.get_or_create(
-                credential_content_type=ContentType.objects.get_for_model(program_certificate),
+                credential_content_type=ContentType.objects.get_for_model(
+                    program_certificate
+                ),
                 credential_id=program_certificate.id,
                 username=user.username,
                 status=UserCredential.AWARDED,
-                download_url="http://localhost:18150/download")
+                download_url="http://localhost:18150/download",
+            )
 
             Command.log_action("User Credential for", program_certificate, created)
             user_program_credentials.append(user_credential)
 
         for course_certificate in course_certificates:
             user_credential, created = UserCredential.objects.get_or_create(
-                credential_content_type=ContentType.objects.get_for_model(course_certificate),
+                credential_content_type=ContentType.objects.get_for_model(
+                    course_certificate
+                ),
                 credential_id=course_certificate.id,
                 username=user.username,
                 status=UserCredential.AWARDED,
-                download_url="http://localhost:18150/download")
+                download_url="http://localhost:18150/download",
+            )
 
-            Command.log_action("User Credential for Course", course_certificate.course_id, created)
+            Command.log_action(
+                "User Credential for Course", course_certificate.course_id, created
+            )
             user_course_credentials.append(user_credential)
 
         return user_program_credentials, user_course_credentials
@@ -299,11 +333,12 @@ class Command(BaseCommand):
 
         for program in programs:
             program_cert_record, created = ProgramCertRecord.objects.get_or_create(
-                program=program,
-                user=user,
-                uuid=faker.uuid4())
+                program=program, user=user, uuid=faker.uuid4()
+            )
 
-            Command.log_action("Program Cert Record with ID", program_cert_record.id, created)
+            Command.log_action(
+                "Program Cert Record with ID", program_cert_record.id, created
+            )
             program_cert_records.append(program_cert_record)
 
         return program_cert_records
@@ -312,18 +347,14 @@ class Command(BaseCommand):
     def seed_pathways(site, programs, faker):
         """ Seed two pathways """
         all_program_pathway, created = Pathway.objects.get_or_create(
-            site=site,
-            name='All program pathway',
-            org_name="MIT",
-            uuid=faker.uuid4())
+            site=site, name="All program pathway", org_name="MIT", uuid=faker.uuid4()
+        )
         all_program_pathway.programs = programs
         Command.log_action("Pathway with name", all_program_pathway.name, created)
 
         one_program_pathway, created = Pathway.objects.get_or_create(
-            site=site,
-            name='One program pathway',
-            org_name="MIT",
-            uuid=faker.uuid4())
+            site=site, name="One program pathway", org_name="MIT", uuid=faker.uuid4()
+        )
         one_program_pathway.programs = [programs[0]]
         Command.log_action("Pathway with name", one_program_pathway.name, created)
 
@@ -334,9 +365,8 @@ class Command(BaseCommand):
         """ Seed one UserCreditPathway, this denotes that a user
         has sent an email to that pathway """
         user_credit_pathway, created = UserCreditPathway.objects.get_or_create(
-            user=user,
-            pathway=pathways[1],
-            status=UserCreditPathwayStatus.SENT)
+            user=user, pathway=pathways[1], status=UserCreditPathwayStatus.SENT
+        )
         Command.log_action("UserCreditPathway for user", user.username, created)
 
         return user_credit_pathway
@@ -348,9 +378,9 @@ class Command(BaseCommand):
             site=site,
             uuid=faker.uuid4(),
             defaults={
-                'name': 'Test industry pathway',
-                'org_name': 'Dunder Mifflin',
-                'pathway_type': PathwayType.INDUSTRY.value,
+                "name": "Test industry pathway",
+                "org_name": "Dunder Mifflin",
+                "pathway_type": PathwayType.INDUSTRY.value,
             },
         )
         industry_pathway.programs = programs

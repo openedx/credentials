@@ -2,7 +2,9 @@ import os
 
 from bok_choy.page_object import PageObject, unguarded
 
-CREDENTIALS_ROOT_URL = os.environ.get('CREDENTIALS_ROOT_URL', 'http://localhost:19150').strip('/')
+CREDENTIALS_ROOT_URL = os.environ.get(
+    "CREDENTIALS_ROOT_URL", "http://localhost:19150"
+).strip("/")
 
 
 class BasePage(PageObject):  # pylint: disable=abstract-method
@@ -15,7 +17,7 @@ class BasePage(PageObject):  # pylint: disable=abstract-method
         # And its xss checker is an internal function, so we shouldn't just manually call it.
         # Let's force an xss check by calling q() pointlessly here (I'm sure we will end up calling q() naturally
         # anyway, but I'd rather be explicit about this).
-        self.q(css='main')
+        self.q(css="main")
 
     @unguarded
     def on_url(self):
@@ -23,22 +25,22 @@ class BasePage(PageObject):  # pylint: disable=abstract-method
 
 
 class CredentialsExamplePage(BasePage):
-    url = CREDENTIALS_ROOT_URL + '/credentials/example/'
+    url = CREDENTIALS_ROOT_URL + "/credentials/example/"
 
     def is_browser_on_page(self):
-        return self.on_url() and self.q(css='main.accomplishment').is_present()
+        return self.on_url() and self.q(css="main.accomplishment").is_present()
 
 
 class MyLearnerRecordsPage(BasePage):
-    url = CREDENTIALS_ROOT_URL + '/records/'
+    url = CREDENTIALS_ROOT_URL + "/records/"
 
     def is_browser_on_page(self):
-        return self.on_url() and self.q(css='main.record').is_present()
+        return self.on_url() and self.q(css="main.record").is_present()
 
     def go_to_record_page(self, uuid=None):
         if uuid is None:
             link = self.q(css='a[href^="/records/programs/"').first
-            uuid = link.attrs('href')[0].rstrip('/').split('/')[-1]
+            uuid = link.attrs("href")[0].rstrip("/").split("/")[-1]
             link.click()
         else:
             self.q(css='a[href="/records/programs/{}/"'.format(uuid)).first.click()
@@ -55,14 +57,14 @@ class ProgramRecordPage(BasePage):
 
     def __init__(self, browser, uuid, *args, **kwargs):
         super().__init__(browser, *args, **kwargs)
-        self.page_url = CREDENTIALS_ROOT_URL + '/records/programs/{}/'.format(uuid)
+        self.page_url = CREDENTIALS_ROOT_URL + "/records/programs/{}/".format(uuid)
 
     def is_browser_on_page(self):
-        return self.on_url() and self.q(css='main.program-record-wrapper').is_present()
+        return self.on_url() and self.q(css="main.program-record-wrapper").is_present()
 
 
 class ProgramListingPage(BasePage):
-    url = CREDENTIALS_ROOT_URL + '/program-listing/'
+    url = CREDENTIALS_ROOT_URL + "/program-listing/"
 
     def is_browser_on_page(self):
-        return self.on_url() and self.q(css='main.record').is_present()
+        return self.on_url() and self.q(css="main.record").is_present()

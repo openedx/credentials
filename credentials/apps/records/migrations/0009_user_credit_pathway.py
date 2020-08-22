@@ -11,25 +11,61 @@ import django_extensions.db.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0003_auto_20180712_2016'),
+        ("catalog", "0003_auto_20180712_2016"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('records', '0008_auto_20180723_1647'),
+        ("records", "0008_auto_20180723_1647"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='UserCreditPathway',
+            name="UserCreditPathway",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created')),
-                ('modified', django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified')),
-                ('status', models.CharField(choices=[('sent', 'sent'), ('', 'other')], default='sent', max_length=15)),
-                ('credit_pathway', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='catalog.CreditPathway')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    django_extensions.db.fields.CreationDateTimeField(
+                        auto_now_add=True, verbose_name="created"
+                    ),
+                ),
+                (
+                    "modified",
+                    django_extensions.db.fields.ModificationDateTimeField(
+                        auto_now=True, verbose_name="modified"
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[("sent", "sent"), ("", "other")],
+                        default="sent",
+                        max_length=15,
+                    ),
+                ),
+                (
+                    "credit_pathway",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="catalog.CreditPathway",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.AlterUniqueTogether(
-            name='usercreditpathway',
-            unique_together=set([('user', 'credit_pathway')]),
+            name="usercreditpathway", unique_together=set([("user", "credit_pathway")]),
         ),
     ]

@@ -8,12 +8,11 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('records', '0010_auto_20180726_1334'),
+        ("records", "0010_auto_20180726_1334"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='programcertrecord',
-            options={'verbose_name': 'Shared program record'},
+            name="programcertrecord", options={"verbose_name": "Shared program record"},
         ),
     ]

@@ -12,14 +12,18 @@ def create_view_permission(apps, schema_editor):
     Add an explicit view permission for UserCredential, and associate it with
     the ADMIN role.
     """
-    content_type = ContentType.objects.get(app_label="credentials", model="usercredential")
+    content_type = ContentType.objects.get(
+        app_label="credentials", model="usercredential"
+    )
 
     # Django2.1 is creating view permission by default now. Adding check otherwise unique constraints triggers.
-    if not Permission.objects.filter(content_type=content_type, codename='view_usercredential').exists():
+    if not Permission.objects.filter(
+        content_type=content_type, codename="view_usercredential"
+    ).exists():
         permission, created = Permission.objects.get_or_create(
             content_type=content_type,
-            codename='view_usercredential',
-            name='Can view any user credential',
+            codename="view_usercredential",
+            name="Can view any user credential",
         )
         if created:
             Group.objects.get(name=Role.ADMINS).permissions.add(permission)
@@ -31,8 +35,12 @@ def destroy_view_permission(apps, schema_editor):
     automatically be removed from any roles to which it had been linked.
     """
     try:
-        content_type = ContentType.objects.get(app_label='credentials', model='usercredential')
-        permission = Permission.objects.get(content_type=content_type, codename='view_usercredential')
+        content_type = ContentType.objects.get(
+            app_label="credentials", model="usercredential"
+        )
+        permission = Permission.objects.get(
+            content_type=content_type, codename="view_usercredential"
+        )
         permission.delete()
     except ObjectDoesNotExist:
         pass
@@ -41,9 +49,11 @@ def destroy_view_permission(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0002_auto_20160111_1251'),
+        ("core", "0002_auto_20160111_1251"),
     ]
 
     operations = [
-        migrations.RunPython(code=create_view_permission, reverse_code=destroy_view_permission),
+        migrations.RunPython(
+            code=create_view_permission, reverse_code=destroy_view_permission
+        ),
     ]

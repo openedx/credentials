@@ -16,118 +16,115 @@ from edx_rest_api_client.client import EdxRestApiClient
 class SiteConfiguration(models.Model):
     site = models.OneToOneField(Site, null=False, blank=False, on_delete=models.CASCADE)
     platform_name = models.CharField(
-        verbose_name=_('Platform Name'),
-        help_text=_('Name of your Open edX platform'),
+        verbose_name=_("Platform Name"),
+        help_text=_("Name of your Open edX platform"),
         max_length=255,
         null=True,
         blank=False,
     )
     segment_key = models.CharField(
-        verbose_name=_('Segment Key'),
-        help_text=_('Segment write/API key.'),
+        verbose_name=_("Segment Key"),
+        help_text=_("Segment write/API key."),
         max_length=255,
         null=True,
-        blank=True
+        blank=True,
     )
     theme_name = models.CharField(
-        verbose_name=_('Theme Name'),
-        help_text=_('Name of of the theme to use for this site. This value should be lower-cased.'),
+        verbose_name=_("Theme Name"),
+        help_text=_(
+            "Name of of the theme to use for this site. This value should be lower-cased."
+        ),
         max_length=255,
         blank=False,
-        default='openedx'
+        default="openedx",
     )
     partner_from_address = models.EmailField(
-        verbose_name='Email address for partners',
-        help_text='An address to use for the "From" field of any automated emails sent out to partners. ' +
-                  'If not defined, no-reply@sitedomain will be used.',
+        verbose_name="Email address for partners",
+        help_text='An address to use for the "From" field of any automated emails sent out to partners. '
+        + "If not defined, no-reply@sitedomain will be used.",
         blank=True,
         null=True,
     )
     lms_url_root = models.URLField(
-        verbose_name=_('LMS base url for custom site'),
+        verbose_name=_("LMS base url for custom site"),
         help_text=_("Root URL of this site's LMS (e.g. https://courses.stage.edx.org)"),
         null=False,
-        blank=False
+        blank=False,
     )
     catalog_api_url = models.URLField(
-        verbose_name=_('Catalog API URL'),
-        help_text=_('Root URL of the Catalog API (e.g. https://api.edx.org/catalog/v1/)'),
+        verbose_name=_("Catalog API URL"),
+        help_text=_(
+            "Root URL of the Catalog API (e.g. https://api.edx.org/catalog/v1/)"
+        ),
         blank=False,
-        null=False
+        null=False,
     )
     tos_url = models.URLField(
-        verbose_name=_('Terms of Service URL'),
-        blank=False,
-        null=True,
+        verbose_name=_("Terms of Service URL"), blank=False, null=True,
     )
     privacy_policy_url = models.URLField(
-        verbose_name=_('Privacy Policy URL'),
-        blank=False,
-        null=True,
+        verbose_name=_("Privacy Policy URL"), blank=False, null=True,
     )
     homepage_url = models.URLField(
-        verbose_name=_('Homepage URL'),
-        blank=False,
-        null=True,
+        verbose_name=_("Homepage URL"), blank=False, null=True,
     )
     company_name = models.CharField(
-        verbose_name=_('Company Name'),
-        max_length=255,
-        blank=False,
-        null=True,
+        verbose_name=_("Company Name"), max_length=255, blank=False, null=True,
     )
     verified_certificate_url = models.URLField(
-        verbose_name=_('Verified Certificate URL'),
-        help_text='This field is deprecated, and will be removed.',
+        verbose_name=_("Verified Certificate URL"),
+        help_text="This field is deprecated, and will be removed.",
         blank=True,
         null=True,
     )
     certificate_help_url = models.URLField(
-        verbose_name=_('Certificate Help URL'),
-        help_text=_('URL of page for questions about certificates'),
+        verbose_name=_("Certificate Help URL"),
+        help_text=_("URL of page for questions about certificates"),
         blank=False,
         null=True,
     )
     records_enabled = models.BooleanField(
-        verbose_name=_('Enable Learner Records'),
-        help_text=_('Enable the Records feature. The LMS has a similar setting.'),
+        verbose_name=_("Enable Learner Records"),
+        help_text=_("Enable the Records feature. The LMS has a similar setting."),
         default=True,
     )
     records_help_url = models.URLField(
-        verbose_name=_('Learner Records Help URL'),
-        help_text=_('URL of page for questions about Learner Records'),
+        verbose_name=_("Learner Records Help URL"),
+        help_text=_("URL of page for questions about Learner Records"),
         blank=True,
         null=False,
-        default=''
+        default="",
     )
     facebook_app_id = models.CharField(
-        verbose_name=_('Facebook App ID'),
-        help_text=_('Facebook app ID used for sharing'),
+        verbose_name=_("Facebook App ID"),
+        help_text=_("Facebook app ID used for sharing"),
         max_length=32,
         blank=True,
-        null=True
+        null=True,
     )
     twitter_username = models.CharField(
-        verbose_name=_('Twitter Username'),
-        help_text=_('Twitter username included in tweeted credentials. Do NOT include @.'),
+        verbose_name=_("Twitter Username"),
+        help_text=_(
+            "Twitter username included in tweeted credentials. Do NOT include @."
+        ),
         max_length=15,
         blank=True,
-        null=True
+        null=True,
     )
     enable_facebook_sharing = models.BooleanField(
-        verbose_name=_('Enable Facebook sharing'),
-        help_text=_('Enable sharing via Facebook'),
-        default=False
+        verbose_name=_("Enable Facebook sharing"),
+        help_text=_("Enable sharing via Facebook"),
+        default=False,
     )
     enable_linkedin_sharing = models.BooleanField(
-        verbose_name=_('Enable LinkedIn sharing'),
-        help_text=_('Enable sharing via LinkedIn'),
-        default=True
+        verbose_name=_("Enable LinkedIn sharing"),
+        help_text=_("Enable sharing via LinkedIn"),
+        default=True,
     )
     enable_twitter_sharing = models.BooleanField(
-        verbose_name=_('Enable Twitter sharing'),
-        help_text=_('Enable sharing via Twitter'),
-        default=True
+        verbose_name=_("Enable Twitter sharing"),
+        help_text=_("Enable sharing via Twitter"),
+        default=True,
     )
 
     def __str__(self):
@@ -147,7 +144,7 @@ class SiteConfiguration(models.Model):
 
     @property
     def user_api_url(self):
-        return '{}/api/user/v1/'.format(self.lms_url_root.strip('/'))
+        return "{}/api/user/v1/".format(self.lms_url_root.strip("/"))
 
     @property
     def access_token(self):
@@ -160,16 +157,13 @@ class SiteConfiguration(models.Model):
         Returns:
             str: JWT access token
         """
-        key = 'siteconfiguration_access_token_{}'.format(self.id)
+        key = "siteconfiguration_access_token_{}".format(self.id)
         access_token = cache.get(key)
 
         if not access_token:
-            url = '{root}/access_token'.format(root=self.oauth2_provider_url)
+            url = "{root}/access_token".format(root=self.oauth2_provider_url)
             access_token, expiration_datetime = EdxRestApiClient.get_oauth_access_token(
-                url,
-                self.oauth2_client_id,
-                self.oauth2_client_secret,
-                token_type='jwt'
+                url, self.oauth2_client_id, self.oauth2_client_secret, token_type="jwt"
             )
 
             expires = (expiration_datetime - datetime.datetime.utcnow()).seconds
@@ -197,7 +191,9 @@ class SiteConfiguration(models.Model):
             EdxRestApiClient
         """
 
-        return EdxRestApiClient(self.user_api_url, jwt=self.access_token, append_slash=False)
+        return EdxRestApiClient(
+            self.user_api_url, jwt=self.access_token, append_slash=False
+        )
 
     def get_program(self, program_uuid, ignore_cache=False):
         """
@@ -211,7 +207,7 @@ class SiteConfiguration(models.Model):
              dict
         """
         program_uuid = str(program_uuid)
-        cache_key = 'programs.api.data.{uuid}'.format(uuid=program_uuid)
+        cache_key = "programs.api.data.{uuid}".format(uuid=program_uuid)
 
         if not ignore_cache:
             program = cache.get(cache_key)
@@ -237,7 +233,9 @@ class SiteConfiguration(models.Model):
         Returns:
             dict: Data returned from the User API
         """
-        cache_key = 'user.api.data.{}'.format(hashlib.md5(username.encode('utf8')).hexdigest())
+        cache_key = "user.api.data.{}".format(
+            hashlib.md5(username.encode("utf8")).hexdigest()
+        )
         user_data = cache.get(cache_key)
 
         if not user_data:
@@ -249,7 +247,8 @@ class SiteConfiguration(models.Model):
 
 class User(AbstractUser):
     """ Custom user model for use with python-social-auth via edx-auth-backends. """
-    full_name = models.CharField(_('Full Name'), max_length=255, blank=True, null=True)
+
+    full_name = models.CharField(_("Full Name"), max_length=255, blank=True, null=True)
 
     @property
     def access_token(self):
@@ -258,12 +257,14 @@ class User(AbstractUser):
         Assumes user has authenticated at least once with edX Open ID Connect.
         """
         try:
-            return self.social_auth.first().extra_data['access_token']  # pylint: disable=no-member
+            return self.social_auth.first().extra_data[
+                "access_token"
+            ]  # pylint: disable=no-member
         except Exception:  # pylint: disable=broad-except
             return None
 
     class Meta:
-        get_latest_by = 'date_joined'
+        get_latest_by = "date_joined"
 
     def __str__(self):
         return self.username

@@ -8,13 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0007_auto_20180823_1309'),
+        ("catalog", "0007_auto_20180823_1309"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='program',
-            name='status',
-            field=models.CharField(default='active', max_length=24),
+            model_name="program",
+            name="status",
+            field=models.CharField(default="active", max_length=24),
         ),
     ]

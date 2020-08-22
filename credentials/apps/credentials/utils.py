@@ -8,14 +8,14 @@ from credentials.apps.credentials.models import UserCredentialAttribute
 
 log = logging.getLogger(__name__)
 
-VISIBLE_DATE_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
+VISIBLE_DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 
 def to_language(locale):
     if locale is None:
         return None
     # Convert to bytes to get ascii-lowercasing, to avoid the Turkish I problem.
-    return locale.replace('_', '-').encode().lower().decode()
+    return locale.replace("_", "-").encode().lower().decode()
 
 
 def validate_duplicate_attributes(attributes):
@@ -31,7 +31,7 @@ def validate_duplicate_attributes(attributes):
     """
 
     def keyfunc(attribute):
-        return attribute['name']
+        return attribute["name"]
 
     sorted_data = sorted(attributes, key=keyfunc)
     for __, group in groupby(sorted_data, key=keyfunc):
@@ -49,7 +49,7 @@ def datetime_from_visible_date(date):
         # just use %z instead of replacing the tzinfo with a UTC value.
         return parsed.replace(tzinfo=datetime.timezone.utc)
     except ValueError as e:
-        log.exception('%s', e)
+        log.exception("%s", e)
         return None
 
 
@@ -59,7 +59,8 @@ def filter_visible(qs):
     # because the format is so strict - it will still lexically compare as less/greater-than.
     nowstr = datetime.datetime.now(datetime.timezone.utc).strftime(VISIBLE_DATE_FORMAT)
     return qs.filter(
-        Q(attributes__name='visible_date', attributes__value__lte=nowstr) | ~Q(attributes__name='visible_date')
+        Q(attributes__name="visible_date", attributes__value__lte=nowstr)
+        | ~Q(attributes__name="visible_date")
     )
 
 
@@ -70,8 +71,9 @@ def get_credential_visible_dates(user_credentials):
     Guaranteed to return a datetime object for each credential.
     """
 
-    visible_dates = UserCredentialAttribute.objects.prefetch_related('user_credential__credential').filter(
-        user_credential__in=user_credentials, name='visible_date')
+    visible_dates = UserCredentialAttribute.objects.prefetch_related(
+        "user_credential__credential"
+    ).filter(user_credential__in=user_credentials, name="visible_date")
 
     visible_date_dict = {
         visible_date.user_credential: datetime_from_visible_date(visible_date.value)

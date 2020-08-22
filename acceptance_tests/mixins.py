@@ -16,13 +16,15 @@ class LoginMixin:
 
         # First visit a guaranteed 404, just to get selenium in the right domain (it doesn't like us setting cookies
         # for places we aren't in, even if we specify a domain).
-        self.driver.get('http://localhost:19150/not-a-place')
+        self.driver.get("http://localhost:19150/not-a-place")
 
-        self.driver.add_cookie({
-            'name': settings.SESSION_COOKIE_NAME,
-            'value': auth.SESSION_SUPER_KEY if superuser else auth.SESSION_KEY,
-            'secure': False,
-            'path': '/',
-        })
+        self.driver.add_cookie(
+            {
+                "name": settings.SESSION_COOKIE_NAME,
+                "value": auth.SESSION_SUPER_KEY if superuser else auth.SESSION_KEY,
+                "secure": False,
+                "path": "/",
+            }
+        )
 
         self.driver.refresh()

@@ -8,13 +8,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0014_auto_20180608_1352'),
+        ("core", "0014_auto_20180608_1352"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='siteconfiguration',
-            name='records_help_url',
-            field=models.URLField(default='', blank=True, help_text='URL of page for questions about Student Records', null=True, verbose_name='Student Records Help URL'),
+            model_name="siteconfiguration",
+            name="records_help_url",
+            field=models.URLField(
+                default="",
+                blank=True,
+                help_text="URL of page for questions about Student Records",
+                null=True,
+                verbose_name="Student Records Help URL",
+            ),
         ),
     ]

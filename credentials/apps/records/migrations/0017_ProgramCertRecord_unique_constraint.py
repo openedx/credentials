@@ -10,13 +10,12 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('catalog', '0010_auto_20180828_1336'),
-        ('records', '0016_auto_20180822_1655'),
+        ("catalog", "0010_auto_20180828_1336"),
+        ("records", "0016_auto_20180822_1655"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='programcertrecord',
-            unique_together=set([('program', 'user')]),
+            name="programcertrecord", unique_together=set([("program", "user")]),
         ),
     ]

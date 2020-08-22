@@ -8,7 +8,13 @@ import factory
 from factory.fuzzy import FuzzyDateTime, FuzzyText
 from pytz import UTC
 
-from credentials.apps.catalog.models import Course, CourseRun, Organization, Pathway, Program
+from credentials.apps.catalog.models import (
+    Course,
+    CourseRun,
+    Organization,
+    Pathway,
+    Program,
+)
 from credentials.apps.core.tests.factories import SiteFactory
 
 
@@ -24,7 +30,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
 
     site = factory.SubFactory(SiteFactory)
     uuid = factory.LazyFunction(uuid4)
-    key = FuzzyText(prefix='course-id/')
+    key = FuzzyText(prefix="course-id/")
     name = FuzzyText(prefix="Test Org ")
 
 
@@ -34,7 +40,7 @@ class CourseFactory(factory.django.DjangoModelFactory):
 
     site = factory.SubFactory(SiteFactory)
     uuid = factory.LazyFunction(uuid4)
-    key = FuzzyText(prefix='course-id/')
+    key = FuzzyText(prefix="course-id/")
     title = FuzzyText(prefix="Test çօմɾʂҽ ")
 
     @factory.post_generation
@@ -49,7 +55,7 @@ class CourseRunFactory(factory.django.DjangoModelFactory):
 
     course = factory.SubFactory(CourseFactory)
     uuid = factory.LazyFunction(uuid4)
-    key = FuzzyText(prefix='course-run-id/', suffix='/fake')
+    key = FuzzyText(prefix="course-run-id/", suffix="/fake")
     title_override = None
     start_date = FuzzyDateTime(datetime.datetime(2014, 1, 1, tzinfo=UTC))
     end_date = FuzzyDateTime(datetime.datetime(2014, 1, 1, tzinfo=UTC)).end_dt
@@ -84,7 +90,7 @@ class PathwayFactory(factory.django.DjangoModelFactory):
     site = factory.SubFactory(SiteFactory)
     name = FuzzyText(prefix="Test Pathway ")
     org_name = FuzzyText()
-    email = factory.Faker('safe_email')
+    email = factory.Faker("safe_email")
 
     @factory.post_generation
     def programs(self, create, extracted):

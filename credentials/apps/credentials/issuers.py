@@ -7,8 +7,12 @@ from django.db import transaction
 
 from credentials.apps.api.exceptions import DuplicateAttributeError
 from credentials.apps.credentials.constants import UserCredentialStatus
-from credentials.apps.credentials.models import (CourseCertificate, ProgramCertificate, UserCredential,
-                                                 UserCredentialAttribute)
+from credentials.apps.credentials.models import (
+    CourseCertificate,
+    ProgramCertificate,
+    UserCredential,
+    UserCredentialAttribute,
+)
 from credentials.apps.credentials.utils import validate_duplicate_attributes
 from credentials.apps.records.utils import send_updated_emails_for_program
 
@@ -36,10 +40,12 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
 
     @transaction.atomic
     def issue_credential(
-            self, credential, username,
-            status=UserCredentialStatus.AWARDED,
-            attributes=None,
-            request=None
+        self,
+        credential,
+        username,
+        status=UserCredentialStatus.AWARDED,
+        attributes=None,
+        request=None,
     ):
         """
         Issue a credential to the user.
@@ -61,9 +67,7 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
             username=username,
             credential_content_type=ContentType.objects.get_for_model(credential),
             credential_id=credential.id,
-            defaults={
-                'status': status,
-            },
+            defaults={"status": status,},
         )
 
         self.set_credential_attributes(user_credential, attributes)
@@ -88,21 +92,24 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
         for attr in attributes:
             UserCredentialAttribute.objects.update_or_create(
                 user_credential=user_credential,
-                name=attr.get('name'),
-                defaults={'value': attr.get('value')}
+                name=attr.get("name"),
+                defaults={"value": attr.get("value")},
             )
 
 
 class ProgramCertificateIssuer(AbstractCredentialIssuer):
     """ Issues ProgramCertificates. """
+
     issued_credential_type = ProgramCertificate
 
     @transaction.atomic
     def issue_credential(
-            self, credential, username,
-            status=UserCredentialStatus.AWARDED,
-            attributes=None,
-            request=None
+        self,
+        credential,
+        username,
+        status=UserCredentialStatus.AWARDED,
+        attributes=None,
+        request=None,
     ):
         """
         Issue a Program Certificate to the user.
@@ -128,15 +135,13 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
             username=username,
             credential_content_type=ContentType.objects.get_for_model(credential),
             credential_id=credential.id,
-            defaults={
-                'status': status,
-            },
+            defaults={"status": status,},
         )
 
         # Send an updated email to a pathway org only if the user has previously sent one
         # This function call should be moved into some type of task queue
         # once credentials has that functionality
-        site_config = getattr(credential.site, 'siteconfiguration', None)
+        site_config = getattr(credential.site, "siteconfiguration", None)
         # Add a check to see if records_enabled is True for the site associated with
         # the credentials. If records is not enabled, we should not send this email
         if created and site_config and site_config.records_enabled:
@@ -149,4 +154,5 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
 
 class CourseCertificateIssuer(AbstractCredentialIssuer):
     """ Issues CourseCertificates. """
+
     issued_credential_type = CourseCertificate

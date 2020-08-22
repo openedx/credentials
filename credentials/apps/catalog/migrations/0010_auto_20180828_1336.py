@@ -8,13 +8,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0009_pathway_pathway_type'),
+        ("catalog", "0009_pathway_pathway_type"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='pathway',
-            name='pathway_type',
-            field=models.CharField(choices=[('credit', 'credit'), ('industry', 'industry')], default='credit', max_length=32),
+            model_name="pathway",
+            name="pathway_type",
+            field=models.CharField(
+                choices=[("credit", "credit"), ("industry", "industry")],
+                default="credit",
+                max_length=32,
+            ),
         ),
     ]

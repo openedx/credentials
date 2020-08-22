@@ -26,6 +26,7 @@ class LoginMixin(object):
 
 class CredentialsApiMixin(object):
     """ Mixin used for login on credentials."""
+
     def setUp(self):
         super(CredentialsApiMixin, self).setUp()
         self.data = None
@@ -33,21 +34,28 @@ class CredentialsApiMixin(object):
     @property
     def credential_api_client(self):
         try:
-            api_client = EdxRestApiClient(config.CREDENTIALS_API_URL, oauth_access_token=config.ACCESS_TOKEN)
+            api_client = EdxRestApiClient(
+                config.CREDENTIALS_API_URL, oauth_access_token=config.ACCESS_TOKEN
+            )
         except Exception:  # pylint: disable=broad-except
-            log.exception("Failed to initialize the API client with url '%s'.", config.CREDENTIALS_API_URL)
+            log.exception(
+                "Failed to initialize the API client with url '%s'.",
+                config.CREDENTIALS_API_URL,
+            )
             return
         return api_client
 
     def create_credential(self):
         """Create user credential for a program."""
-        self.data = self.credential_api_client.credentials.post({
-            'username': config.LMS_USERNAME,
-            'credential': {'program_uuid': config.PROGRAM_UUID},
-            'attributes': []
-        })
+        self.data = self.credential_api_client.credentials.post(
+            {
+                "username": config.LMS_USERNAME,
+                "credential": {"program_uuid": config.PROGRAM_UUID},
+                "attributes": [],
+            }
+        )
 
     def change_credential_status(self, status):
         """Update the credential status to awarded or revoked."""
-        self.data['status'] = status
-        self.credential_api_client.credentials(self.data['uuid']).patch(self.data)
+        self.data["status"] = status
+        self.credential_api_client.credentials(self.data["uuid"]).patch(self.data)

@@ -36,8 +36,8 @@ def get_course_runs(apps, excluded_run_id, included_run_id):
     """
     get excluded and included course runs based on the id
     """
-    CourseRun = apps.get_model('catalog', 'CourseRun')
-    courses = CourseRun.objects.filter(key='course-v1:TUMx+QPLS2x+2T2018')
+    CourseRun = apps.get_model("catalog", "CourseRun")
+    courses = CourseRun.objects.filter(key="course-v1:TUMx+QPLS2x+2T2018")
     excluded_run = None
     included_run = None
     if courses:
@@ -51,16 +51,20 @@ def update_course_run_id(apps, excluded_run, included_run):
     """
     update the learner course run id in grades
     """
-    UserGrade = apps.get_model('records', 'UserGrade')
-    UserGrade.objects.filter(course_run_id=excluded_run.id).update(course_run_id=included_run.id)
+    UserGrade = apps.get_model("records", "UserGrade")
+    UserGrade.objects.filter(course_run_id=excluded_run.id).update(
+        course_run_id=included_run.id
+    )
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('records', '0017_ProgramCertRecord_unique_constraint'),
+        ("records", "0017_ProgramCertRecord_unique_constraint"),
     ]
 
     operations = [
-        migrations.RunPython(change_learners_course_run, reverse_code=reverse_change_learners_course_run)
+        migrations.RunPython(
+            change_learners_course_run, reverse_code=reverse_change_learners_course_run
+        )
     ]

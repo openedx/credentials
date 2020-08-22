@@ -8,13 +8,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('credentials', '0013_auto_20180611_1809'),
+        ("credentials", "0013_auto_20180611_1809"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='coursecertificate',
-            name='certificate_type',
-            field=models.CharField(choices=[('honor', 'honor'), ('professional', 'professional'), ('verified', 'verified'), ('no-id-professional', 'no-id-professional')], max_length=255),
+            model_name="coursecertificate",
+            name="certificate_type",
+            field=models.CharField(
+                choices=[
+                    ("honor", "honor"),
+                    ("professional", "professional"),
+                    ("verified", "verified"),
+                    ("no-id-professional", "no-id-professional"),
+                ],
+                max_length=255,
+            ),
         ),
     ]

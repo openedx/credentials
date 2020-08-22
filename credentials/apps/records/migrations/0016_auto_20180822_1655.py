@@ -9,17 +9,16 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('records', '0015_auto_20180821_1636'),
+        ("records", "0015_auto_20180821_1636"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='usercreditpathway',
-            name='credit_pathway',
-        ),
+        migrations.RemoveField(model_name="usercreditpathway", name="credit_pathway",),
         migrations.AlterField(
-            model_name='usercreditpathway',
-            name='pathway',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='catalog.Pathway'),
+            model_name="usercreditpathway",
+            name="pathway",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="catalog.Pathway"
+            ),
         ),
     ]

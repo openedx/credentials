@@ -9,7 +9,7 @@ from credentials.apps.core.tests.mixins import SiteMixin
 
 
 class ManagementViewTests(SiteMixin, TestCase):
-    path = reverse('management:index')
+    path = reverse("management:index")
 
     def setUp(self):
         super(ManagementViewTests, self).setUp()
@@ -17,7 +17,7 @@ class ManagementViewTests(SiteMixin, TestCase):
         self.client.login(username=self.user.username, password=USER_PASSWORD)
 
     def get_response_messages(self, response):
-        return list(response.context['messages'])
+        return list(response.context["messages"])
 
     def assert_message_count(self, response, expected):
         """ Asserts the expected number of messages are set. """
@@ -43,25 +43,30 @@ class ManagementViewTests(SiteMixin, TestCase):
         response = self.client.get(self.path)
 
         expected_code = 302
-        if django.VERSION >= (2, 1):  # Authenticated users are denied access with an HTTP 403 Forbidden response
+        if django.VERSION >= (
+            2,
+            1,
+        ):  # Authenticated users are denied access with an HTTP 403 Forbidden response
             expected_code = 403
 
         self.assertEqual(response.status_code, expected_code)
 
     def test_invalid_action(self):
         """ Verify the view responds with an error message if an invalid action is posted. """
-        response = self.client.post(self.path, {'action': ''})
+        response = self.client.post(self.path, {"action": ""})
         self.assertEqual(response.status_code, 200)
         self.assert_message_count(response, 1)
-        self.assert_first_message(response, messages.ERROR, ' is not a valid action.')
+        self.assert_first_message(response, messages.ERROR, " is not a valid action.")
 
-    @mock.patch('logging.Logger.info')
-    @mock.patch('django.core.cache.cache.clear')
+    @mock.patch("logging.Logger.info")
+    @mock.patch("django.core.cache.cache.clear")
     def test_cache_clear(self, mock_cache_clear, mock_log_info):
         """ Verify the view clears the cache when the clear_cache action is posted. """
-        response = self.client.post(self.path, {'action': 'clear_cache'})
+        response = self.client.post(self.path, {"action": "clear_cache"})
         self.assertEqual(response.status_code, 200)
         self.assert_message_count(response, 1)
-        self.assert_first_message(response, messages.SUCCESS, 'Cache cleared.')
+        self.assert_first_message(response, messages.SUCCESS, "Cache cleared.")
         mock_cache_clear.assert_called_once()
-        mock_log_info.assert_called_once_with('Cache cleared by %s.', self.user.username)
+        mock_log_info.assert_called_once_with(
+            "Cache cleared by %s.", self.user.username
+        )

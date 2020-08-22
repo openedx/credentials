@@ -13,11 +13,12 @@ class CredentialsConfig(AppConfig):
     """
     Credentials app configuration.
     """
-    name = 'credentials.apps.credentials'
-    verbose_name = 'Credentials'
+
+    name = "credentials.apps.credentials"
+    verbose_name = "Credentials"
 
     def ready(self):
-        required_config_settings = ('CREDENTIALS_SERVICE_USER',)
+        required_config_settings = ("CREDENTIALS_SERVICE_USER",)
 
         missing_config_settings = []
         for setting in required_config_settings:
@@ -25,8 +26,8 @@ class CredentialsConfig(AppConfig):
                 missing_config_settings.append(setting)
 
         if missing_config_settings:
-            msg = 'The settings {} must be set in order to start the application!'.format(
-                ', '.join(missing_config_settings)
+            msg = "The settings {} must be set in order to start the application!".format(
+                ", ".join(missing_config_settings)
             )
             log.critical(msg)
             raise AttributeError(msg)

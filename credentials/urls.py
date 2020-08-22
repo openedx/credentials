@@ -30,37 +30,55 @@ from credentials.views import FaviconView
 
 
 admin.autodiscover()
-admin.site.site_header = _('Credentials Administration')
+admin.site.site_header = _("Credentials Administration")
 admin.site.site_title = admin.site.site_header
 
 urlpatterns = oauth2_urlpatterns + [
-    url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(('credentials.apps.api.urls', 'api'), namespace='api')),
-    url(r'^api-auth/', include((oauth2_urlpatterns, 'rest_framework'), namespace='rest_framework')),
-    url(r'^api-docs/', get_swagger_view(title='Credentials API'), name='api_docs'),
-    url(r'^auto_auth/$', core_views.AutoAuth.as_view(), name='auto_auth'),
-    url(r'^credentials/', include(('credentials.apps.credentials.urls', 'credentials'), namespace='credentials')),
-    url(r'^health/$', core_views.health, name='health'),
+    url(r"^admin/", admin.site.urls),
+    url(r"^api/", include(("credentials.apps.api.urls", "api"), namespace="api")),
     url(
-        r'^management/', include(('credentials.apps.edx_django_extensions.urls', 'management'), namespace='management')
+        r"^api-auth/",
+        include((oauth2_urlpatterns, "rest_framework"), namespace="rest_framework"),
     ),
-    url(r'^records/', include(('credentials.apps.records.urls', 'records'), namespace='records')),
-    url(r'^program-listing/', ProgramListingView.as_view(), name='program_listing'),
-    url(r'^favicon\.ico$', FaviconView.as_view(permanent=True)),
-    url(r'^hijack/', include('hijack.urls', namespace='hijack')),
+    url(r"^api-docs/", get_swagger_view(title="Credentials API"), name="api_docs"),
+    url(r"^auto_auth/$", core_views.AutoAuth.as_view(), name="auto_auth"),
+    url(
+        r"^credentials/",
+        include(
+            ("credentials.apps.credentials.urls", "credentials"),
+            namespace="credentials",
+        ),
+    ),
+    url(r"^health/$", core_views.health, name="health"),
+    url(
+        r"^management/",
+        include(
+            ("credentials.apps.edx_django_extensions.urls", "management"),
+            namespace="management",
+        ),
+    ),
+    url(
+        r"^records/",
+        include(("credentials.apps.records.urls", "records"), namespace="records"),
+    ),
+    url(r"^program-listing/", ProgramListingView.as_view(), name="program_listing"),
+    url(r"^favicon\.ico$", FaviconView.as_view(permanent=True)),
+    url(r"^hijack/", include("hijack.urls", namespace="hijack")),
 ]
 
-handler500 = 'credentials.apps.core.views.render_500'
+handler500 = "credentials.apps.core.views.render_500"
 
 # Add media and extra urls
 if settings.DEBUG:  # pragma: no cover
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += [
-        url(r'^404/$', page_not_found, name='404'),
-        url(r'^500/$', core_views.render_500, name='500'),
+        url(r"^404/$", page_not_found, name="404"),
+        url(r"^500/$", core_views.render_500, name="500"),
     ]
 
-if settings.DEBUG and os.environ.get('ENABLE_DJANGO_TOOLBAR', False):  # pragma: no cover
+if settings.DEBUG and os.environ.get(
+    "ENABLE_DJANGO_TOOLBAR", False
+):  # pragma: no cover
     import debug_toolbar
 
-    urlpatterns.append(url(r'^__debug__/', include(debug_toolbar.urls)))
+    urlpatterns.append(url(r"^__debug__/", include(debug_toolbar.urls)))

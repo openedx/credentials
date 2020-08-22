@@ -8,18 +8,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0010_auto_20180828_1336'),
+        ("catalog", "0010_auto_20180828_1336"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='courserun',
-            name='end_date',
+            model_name="courserun",
+            name="end_date",
             field=models.DateTimeField(blank=True, db_index=True, null=True),
         ),
         migrations.AddField(
-            model_name='courserun',
-            name='start_date',
+            model_name="courserun",
+            name="start_date",
             field=models.DateTimeField(blank=True, db_index=True, null=True),
         ),
     ]
