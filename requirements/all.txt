@@ -8,12 +8,12 @@ analytics-python==1.2.9   # via -r requirements/dev.txt, -r requirements/product
 appdirs==1.4.4            # via -r requirements/dev.txt, virtualenv
 argparse==1.4.0           # via -r requirements/dev.txt, -r requirements/production.txt, stevedore
 astroid==2.3.3            # via -r requirements/dev.txt, pylint, pylint-celery
-attrs==20.1.0             # via -r requirements/dev.txt, -r requirements/production.txt, edx-ace, jsonschema, pytest
+attrs==20.2.0             # via -r requirements/dev.txt, -r requirements/production.txt, edx-ace, jsonschema, pytest
 bcrypt==3.1.7             # via -r requirements/dev.txt, paramiko
 bok-choy==1.1.1           # via -r requirements/dev.txt
-boto3==1.14.49            # via -r requirements/production.txt, django-ses
+boto3==1.14.58            # via -r requirements/production.txt, django-ses
 boto==2.49.0              # via -r requirements/production.txt
-botocore==1.17.49         # via -r requirements/production.txt, boto3, s3transfer
+botocore==1.17.58         # via -r requirements/production.txt, boto3, s3transfer
 cached-property==1.5.1    # via -r requirements/dev.txt, docker-compose
 certifi==2020.6.20        # via -r requirements/dev.txt, -r requirements/production.txt, requests
 cffi==1.14.2              # via -r requirements/dev.txt, -r requirements/production.txt, bcrypt, cryptography, pynacl
@@ -31,20 +31,20 @@ distro==1.5.0             # via -r requirements/dev.txt, docker-compose
 django-appconf==1.0.4     # via -r requirements/dev.txt, -r requirements/production.txt, django-statici18n
 django-compat==1.0.15     # via -r requirements/dev.txt, -r requirements/production.txt, django-hijack
 django-debug-toolbar==2.2  # via -r requirements/dev.txt, -r requirements/production.txt
-django-extensions==3.0.5  # via -r requirements/dev.txt, -r requirements/production.txt
+django-extensions==3.0.8  # via -r requirements/dev.txt, -r requirements/production.txt
 django-filter==2.3.0      # via -r requirements/dev.txt, -r requirements/production.txt
 django-hijack==2.1.10     # via -r requirements/dev.txt, -r requirements/production.txt
 django-ratelimit==3.0.1   # via -r requirements/dev.txt, -r requirements/production.txt
 django-rest-swagger==2.2.0  # via -r requirements/dev.txt, -r requirements/production.txt
-django-ses==1.0.2         # via -r requirements/production.txt
+django-ses==1.0.3         # via -r requirements/production.txt
 django-sortedm2m==3.0.2   # via -r requirements/dev.txt, -r requirements/production.txt
 django-statici18n==1.9.0  # via -r requirements/dev.txt, -r requirements/production.txt
 django-storages==1.8      # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt
-django-waffle==1.0.0      # via -r requirements/dev.txt, -r requirements/production.txt, edx-django-utils, edx-drf-extensions
+django-waffle==2.0.0      # via -r requirements/dev.txt, -r requirements/production.txt, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/dev.txt, -r requirements/production.txt
-django==2.2.15            # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, django-appconf, django-debug-toolbar, django-filter, django-ses, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
+django==2.2.16            # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, django-appconf, django-debug-toolbar, django-filter, django-ses, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
 djangorestframework==3.11.1  # via -r requirements/dev.txt, -r requirements/production.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
-docker-compose==1.26.2    # via -c requirements/constraints.txt, -r requirements/dev.txt
+docker-compose==1.27.0    # via -c requirements/constraints.txt, -r requirements/dev.txt
 docker[ssh]==4.3.1        # via -r requirements/dev.txt, docker-compose
 dockerpty==0.4.1          # via -r requirements/dev.txt, docker-compose
 docopt==0.6.2             # via -r requirements/dev.txt, docker-compose
@@ -54,8 +54,8 @@ edx-ace==0.1.15           # via -r requirements/dev.txt, -r requirements/product
 edx-auth-backends==3.1.0  # via -r requirements/dev.txt, -r requirements/production.txt
 edx-django-release-util==0.4.4  # via -r requirements/dev.txt, -r requirements/production.txt
 edx-django-sites-extensions==2.5.1  # via -r requirements/dev.txt, -r requirements/production.txt
-edx-django-utils==3.7.3   # via -r requirements/dev.txt, -r requirements/production.txt, edx-drf-extensions, edx-rest-api-client
-edx-drf-extensions==6.1.1  # via -r requirements/dev.txt, -r requirements/production.txt
+edx-django-utils==3.8.0   # via -r requirements/dev.txt, -r requirements/production.txt, edx-drf-extensions, edx-rest-api-client
+edx-drf-extensions==6.1.2  # via -r requirements/dev.txt, -r requirements/production.txt
 edx-i18n-tools==0.5.3     # via -r requirements/dev.txt
 edx-lint==1.5.2           # via -r requirements/dev.txt
 edx-opaque-keys==2.1.1    # via -r requirements/dev.txt, -r requirements/production.txt, edx-drf-extensions
@@ -67,7 +67,7 @@ filelock==3.0.12          # via -r requirements/dev.txt, tox, virtualenv
 future==0.18.2            # via -r requirements/dev.txt, -r requirements/production.txt, django-ses, pyjwkest
 gevent==20.6.2            # via -r requirements/production.txt
 gitdb==4.0.5              # via -r requirements/dev.txt, gitpython
-gitpython==3.1.7          # via -r requirements/dev.txt, transifex-client
+gitpython==3.1.8          # via -r requirements/dev.txt, transifex-client
 greenlet==0.4.16          # via -r requirements/production.txt, gevent
 gunicorn==20.0.4          # via -r requirements/production.txt
 httpretty==1.0.2          # via -r requirements/dev.txt
@@ -86,17 +86,17 @@ markdown==3.2.2           # via -r requirements/dev.txt, -r requirements/product
 markupsafe==1.1.1         # via -r requirements/dev.txt, -r requirements/production.txt, jinja2
 mccabe==0.6.1             # via -r requirements/dev.txt, pylint
 mock==3.0.5               # via -c requirements/constraints.txt, -r requirements/dev.txt
-more-itertools==8.4.0     # via -r requirements/dev.txt, pytest
+more-itertools==8.5.0     # via -r requirements/dev.txt, pytest
 mysqlclient==2.0.1        # via -r requirements/dev.txt, -r requirements/production.txt
-newrelic==5.16.2.147      # via -r requirements/dev.txt, -r requirements/production.txt, edx-django-utils
+newrelic==5.18.0.148      # via -r requirements/dev.txt, -r requirements/production.txt, edx-django-utils
 nodeenv==1.5.0            # via -r requirements/production.txt
 oauthlib==3.1.0           # via -r requirements/dev.txt, -r requirements/production.txt, requests-oauthlib, social-auth-core
 openapi-codec==1.3.2      # via -r requirements/dev.txt, -r requirements/production.txt, django-rest-swagger
 packaging==20.4           # via -r requirements/dev.txt, pytest, tox
-paramiko==2.7.1           # via -r requirements/dev.txt, docker
+paramiko==2.7.2           # via -r requirements/dev.txt, docker
 path.py==12.0.2           # via -c requirements/constraints.txt, -r requirements/dev.txt, edx-i18n-tools
 pathlib2==2.3.5           # via -r requirements/dev.txt, pytest
-pbr==5.4.5                # via -r requirements/dev.txt, -r requirements/production.txt, stevedore
+pbr==5.5.0                # via -r requirements/dev.txt, -r requirements/production.txt, stevedore
 pep8==1.7.1               # via -r requirements/dev.txt
 pillow==7.2.0             # via -r requirements/dev.txt, -r requirements/production.txt
 pluggy==0.13.1            # via -r requirements/dev.txt, pytest, tox
@@ -128,25 +128,25 @@ pywatchman==1.4.1 ; "linux" in sys_platform  # via -r requirements/dev.txt
 pyyaml==5.3.1             # via -r requirements/dev.txt, -r requirements/production.txt, docker-compose, edx-django-release-util, edx-i18n-tools
 requests-oauthlib==1.3.0  # via -r requirements/dev.txt, -r requirements/production.txt, social-auth-core
 requests==2.24.0          # via -r requirements/dev.txt, -r requirements/production.txt, analytics-python, coreapi, docker, docker-compose, edx-drf-extensions, edx-rest-api-client, pyjwkest, requests-oauthlib, responses, sailthru-client, slumber, social-auth-core, transifex-client
-responses==0.11.0         # via -r requirements/dev.txt
+responses==0.12.0         # via -r requirements/dev.txt
 rest-condition==1.0.3     # via -r requirements/dev.txt, -r requirements/production.txt, edx-drf-extensions
 s3transfer==0.3.3         # via -r requirements/production.txt, boto3
 sailthru-client==2.2.3    # via -r requirements/dev.txt, -r requirements/production.txt, edx-ace
 selenium==3.141.0         # via -r requirements/dev.txt, bok-choy
 semantic-version==2.8.5   # via -r requirements/dev.txt, -r requirements/production.txt, edx-drf-extensions
 simplejson==3.17.2        # via -r requirements/dev.txt, -r requirements/production.txt, django-rest-swagger, sailthru-client
-six==1.15.0               # via -r requirements/dev.txt, -r requirements/production.txt, analytics-python, astroid, bcrypt, bok-choy, cryptography, django-compat, django-statici18n, docker, docker-compose, dockerpty, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-i18n-tools, edx-lint, edx-opaque-keys, jsonschema, mock, packaging, pathlib2, pyjwkest, pynacl, pyrsistent, python-dateutil, python-memcached, responses, social-auth-app-django, social-auth-core, stevedore, tox, transifex-client, virtualenv, websocket-client
+six==1.15.0               # via -r requirements/dev.txt, -r requirements/production.txt, analytics-python, astroid, bcrypt, bok-choy, cryptography, django-compat, django-statici18n, docker, dockerpty, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-i18n-tools, edx-lint, edx-opaque-keys, jsonschema, mock, packaging, pathlib2, pyjwkest, pynacl, pyrsistent, python-dateutil, python-memcached, responses, social-auth-app-django, social-auth-core, stevedore, tox, transifex-client, virtualenv, websocket-client
 slumber==0.7.1            # via -r requirements/dev.txt, -r requirements/production.txt, edx-rest-api-client
 smmap==3.0.4              # via -r requirements/dev.txt, gitdb
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/dev.txt, -r requirements/production.txt, edx-auth-backends
 social-auth-core==3.2.0   # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, edx-auth-backends, social-auth-app-django
 sqlparse==0.3.1           # via -r requirements/dev.txt, -r requirements/production.txt, django, django-debug-toolbar
 stevedore==1.10.0         # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, edx-ace, edx-django-utils, edx-opaque-keys
-testfixtures==6.14.1      # via -r requirements/dev.txt
+testfixtures==6.14.2      # via -r requirements/dev.txt
 text-unidecode==1.3       # via -r requirements/dev.txt, faker, python-slugify
-texttable==1.6.2          # via -r requirements/dev.txt, docker-compose
+texttable==1.6.3          # via -r requirements/dev.txt, docker-compose
 toml==0.10.1              # via -r requirements/dev.txt, pytest, tox
-tox==3.19.0               # via -r requirements/dev.txt
+tox==3.20.0               # via -r requirements/dev.txt
 transifex-client==0.13.11  # via -r requirements/dev.txt
 typed-ast==1.4.1          # via -r requirements/dev.txt, astroid
 uritemplate==3.0.1        # via -r requirements/dev.txt, -r requirements/production.txt, coreapi
