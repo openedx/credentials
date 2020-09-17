@@ -55,7 +55,7 @@ pillow==7.2.0             # via -r requirements/base.in
 psutil==5.7.2             # via edx-django-utils
 pycparser==2.20           # via cffi
 pycryptodomex==3.9.8      # via pyjwkest
-pygments==2.6.1           # via -r requirements/base.in
+pygments==2.7.0           # via -r requirements/base.in
 pyjwkest==1.4.2           # via edx-drf-extensions
 pyjwt[crypto]==1.7.1      # via drf-jwt, edx-auth-backends, edx-rest-api-client, social-auth-core
 pymongo==3.11.0           # via edx-opaque-keys
