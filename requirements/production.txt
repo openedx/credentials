@@ -7,9 +7,9 @@
 analytics-python==1.2.9   # via -r requirements/base.txt
 argparse==1.4.0           # via -r requirements/base.txt, stevedore
 attrs==20.2.0             # via -r requirements/base.txt, edx-ace
-boto3==1.14.58            # via django-ses
+boto3==1.14.63            # via django-ses
 boto==2.49.0              # via -r requirements/production.in
-botocore==1.17.58         # via boto3, s3transfer
+botocore==1.17.63         # via boto3, s3transfer
 certifi==2020.6.20        # via -r requirements/base.txt, requests
 cffi==1.14.2              # via -r requirements/base.txt, cryptography
 chardet==3.0.4            # via -r requirements/base.txt, requests
@@ -65,7 +65,7 @@ pillow==7.2.0             # via -r requirements/base.txt
 psutil==5.7.2             # via -r requirements/base.txt, edx-django-utils
 pycparser==2.20           # via -r requirements/base.txt, cffi
 pycryptodomex==3.9.8      # via -r requirements/base.txt, pyjwkest
-pygments==2.6.1           # via -r requirements/base.txt
+pygments==2.7.0           # via -r requirements/base.txt
 pyjwkest==1.4.2           # via -r requirements/base.txt, edx-drf-extensions
 pyjwt[crypto]==1.7.1      # via -r requirements/base.txt, drf-jwt, edx-auth-backends, edx-rest-api-client, social-auth-core
 pymongo==3.11.0           # via -r requirements/base.txt, edx-opaque-keys
