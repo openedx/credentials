@@ -316,8 +316,8 @@ class ProgramListingView(RecordsListBaseView):
         return context
 
     def dispatch(self, request, *args, **kwargs):
-        # Kick out non-superusers (skipping anonymous users, because they are redirected to a login screen instead)
-        if not request.user.is_anonymous and not request.user.is_superuser:
+        # Kick out non staff users (skipping anonymous users, because they are redirected to a login screen instead)
+        if not request.user.is_anonymous and not request.user.is_staff:
             raise http.Http404()
         return super().dispatch(request, *args, **kwargs)
 

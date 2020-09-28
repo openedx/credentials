@@ -255,7 +255,7 @@ class ProgramListingViewTests(SiteMixin, TestCase):
         super().setUp()
         dump_random_state()
 
-        self.user = UserFactory(username=self.MOCK_USER_DATA['username'], is_superuser=True)
+        self.user = UserFactory(username=self.MOCK_USER_DATA['username'], is_staff=True)
         self.orgs = [OrganizationFactory.create(name=name, site=self.site) for name in ['TestOrg1', 'TestOrg2']]
         self.course = CourseFactory.create(site=self.site)
         self.course_runs = CourseRunFactory.create_batch(2, course=self.course)
@@ -328,8 +328,8 @@ class ProgramListingViewTests(SiteMixin, TestCase):
         self.assertRegex(response.url, '^/login/.*')
 
     def test_only_superuser_access(self):
-        """ Verify that the view rejects non-superusers. """
-        self.user.is_superuser = False
+        """ Verify that the view rejects non-staff users. """
+        self.user.is_staff = False
         self.user.save()
         self._render_listing(status_code=404)
 
