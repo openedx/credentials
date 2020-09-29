@@ -359,8 +359,6 @@ class ProgramListingViewTests(SiteMixin, TestCase):
 
     def test_normal_access_as_staff(self):
         """ Verify that the view works in default case. Staff is set in the setup method."""
-        response = self._render_listing()
-        response_context_data = response.context_data
         self._verify_normal_access()
 
     @ddt.data(
