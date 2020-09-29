@@ -255,7 +255,7 @@ class ProgramListingViewTests(SiteMixin, TestCase):
         super().setUp()
         dump_random_state()
 
-        self.user = UserFactory(username=self.MOCK_USER_DATA['username'], is_superuser=True)
+        self.user = UserFactory(username=self.MOCK_USER_DATA['username'], is_staff=True)
         self.orgs = [OrganizationFactory.create(name=name, site=self.site) for name in ['TestOrg1', 'TestOrg2']]
         self.course = CourseFactory.create(site=self.site)
         self.course_runs = CourseRunFactory.create_batch(2, course=self.course)
@@ -317,6 +317,17 @@ class ProgramListingViewTests(SiteMixin, TestCase):
 
         return data
 
+    def _verify_normal_access(self):
+        response = self._render_listing()
+        response_context_data = response.context_data
+
+        self.assertContains(response, 'Program Listing View')
+
+        actual_child_templates = response_context_data['child_templates']
+        self.assert_matching_template_origin(actual_child_templates['footer'], '_footer.html')
+        self.assert_matching_template_origin(actual_child_templates['header'], '_header.html')
+        self.assertNotIn('masquerade', actual_child_templates)  # no masquerading on this view
+
     def assert_matching_template_origin(self, actual, expected_template_name):
         expected = select_template([expected_template_name])
         self.assertEqual(actual.origin, expected.origin)
@@ -327,23 +338,28 @@ class ProgramListingViewTests(SiteMixin, TestCase):
         response = self._render_listing(status_code=302)
         self.assertRegex(response.url, '^/login/.*')
 
-    def test_only_superuser_access(self):
-        """ Verify that the view rejects non-superusers. """
+    def test_non_superuser_access(self):
+        """ Verify that the view rejects non-superuser users. """
         self.user.is_superuser = False
+        self.user.is_staff = False
         self.user.save()
         self._render_listing(status_code=404)
 
-    def test_normal_access(self):
-        """ Verify that the view works in default case. """
-        response = self._render_listing()
-        response_context_data = response.context_data
+    def test_only_staff_access(self):
+        """ Verify that the view rejects non-staff users. """
+        self.user.is_staff = False
+        self.user.save()
+        self._render_listing(status_code=404)
 
-        self.assertContains(response, 'Program Listing View')
+    def test_normal_access_superuser(self):
+        """ Verify that the view works with only superuser, no staff. """
+        self.user.is_superuser = True
+        self.user.is_staff = False
+        self._verify_normal_access()
 
-        actual_child_templates = response_context_data['child_templates']
-        self.assert_matching_template_origin(actual_child_templates['footer'], '_footer.html')
-        self.assert_matching_template_origin(actual_child_templates['header'], '_header.html')
-        self.assertNotIn('masquerade', actual_child_templates)  # no masquerading on this view
+    def test_normal_access_as_staff(self):
+        """ Verify that the view works in default case. Staff is set in the setup method."""
+        self._verify_normal_access()
 
     @ddt.data(
         (Program.ACTIVE, True),
