@@ -482,7 +482,7 @@ class ProgramRecordCreationView(LoginRequiredMixin, RecordsEnabledMixin, View):
 
 class ProgramRecordCsvView(RecordsEnabledMixin, View):
     """
-    Returns a csv view of the Progam Record for a Learner from a username and program_uuid.
+    Returns a csv view of the Program Record for a Learner from a username and program_uuid.
 
     Note:  We are currently not rate limiting this endpoint due to the issues
     surrounding rate limiting unauthenticated users.  If this endpoint starts

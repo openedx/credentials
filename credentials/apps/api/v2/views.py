@@ -160,7 +160,7 @@ class UsernameReplacementView(APIView):
     called from the LMS endpoint which verifies uniqueness of the username
     first.
 
-    API will recieve a list of current usernames and their new username.
+    API will receive a list of current usernames and their new username.
     """
 
     authentication_classes = (JwtAuthentication, )

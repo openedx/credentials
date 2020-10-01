@@ -110,3 +110,4 @@ As discussed above, the acceptance tests rely on configuration which can be spec
 When running against a production-like staging environment, you might run::
 
     $ CREDENTIALS_ROOT_URL="https://credentials.stage.edx.org" LMS_URL_ROOT="https://courses.stage.edx.org" LMS_USERNAME="<username>" LMS_EMAIL="<email address>" LMS_PASSWORD="<password>" ACCESS_TOKEN="<access token>" PROGRAM_UUID=<program_uuid> xvfb-run make accept
+

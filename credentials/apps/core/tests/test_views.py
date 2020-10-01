@@ -68,7 +68,7 @@ class AutoAuthTests(SiteMixin, TestCase):
         original_user_count = User.objects.count()
         response = self.client.get(self.AUTO_AUTH_PATH)
 
-        # Verify that a redirect has occured and that a new user has been created
+        # Verify that a redirect has occurred and that a new user has been created
         self.assertEqual(response.status_code, 302)
         self.assertEqual(User.objects.count(), original_user_count + 1)
 
