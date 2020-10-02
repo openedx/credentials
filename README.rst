@@ -6,12 +6,15 @@ edX Credentials Service  |Travis|_ |Codecov|_
 .. |Codecov| image:: http://codecov.io/github/edx/credentials/coverage.svg?branch=master
 .. _Codecov: http://codecov.io/github/edx/credentials?branch=master
 
-This repository contains the edX Credentials Service, used as the backend to support course and program certificates. This service is a replacement for the ``certificates`` app in ``edx-platform``. A more detailed overview is included in the `docs <https://edx-credentials.readthedocs.io/en/latest/overview.html>`_.
+This repository contains the edX Credentials Service, which supports course and program certificates. This service is a replacement for the ``certificates`` app in ``edx-platform``.
 
 Documentation
 -------------
 
-`Documentation <https://edx-credentials.readthedocs.io/en/latest/>`_ is hosted on Read the Docs. The source is hosted in this repo's `docs <https://github.com/edx/credentials/tree/master/docs>`_ directory. To contribute, please open a PR against this repo.
+`Documentation`_ is hosted on Read the Docs. The source is hosted in this repo's `docs`_ directory. To contribute, please open a PR against this repo.
+
+.. _Documentation: https://edx-credentials.readthedocs.io/en/latest/
+.. _docs: https://github.com/edx/credentials/tree/master/docs
 
 License
 -------
@@ -23,7 +26,9 @@ The code in this repository is licensed under version 3 of the AGPL unless other
 How To Contribute
 -----------------
 
-Contributions are welcome. Please read `How To Contribute <https://github.com/edx/edx-platform/blob/master/CONTRIBUTING.rst>`_ for details. Even though it was written with ``edx-platform`` in mind, these guidelines should be followed for Open edX code in general.
+Contributions are welcome. Please read `How To Contribute`_ for details. Even though it was written with ``edx-platform`` in mind, these guidelines should be followed for Open edX code in general.
+
+.. _`How To Contribute`: https://github.com/edx/edx-platform/blob/master/CONTRIBUTING.rst
 
 Reporting Security Issues
 -------------------------
@@ -50,5 +55,9 @@ first, otherwise you'll run into ``webpack_loader.exceptions.WebpackBundleLookup
 Get Help
 --------
 
-Ask questions and discuss this project on `Slack <https://openedx.slack.com/messages/general/>`_ or in the `edx-code Google Group <https://groups.google.com/forum/#!forum/edx-code>`_.
+If you're having trouble, we have `discussion forums`_ where you can connect with others in the community.
 
+Our real-time conversations are on Slack_.
+
+.. _`discussion forums`: https://discuss.openedx.org
+.. _Slack: http://openedx.slack.com/
