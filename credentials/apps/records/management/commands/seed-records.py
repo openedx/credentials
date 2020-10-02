@@ -59,7 +59,7 @@ class Command(BaseCommand):
         """ Seed all catalog data """
         # Make predictable UUIDs using faker
         faker = Faker()
-        faker.seed(1234)
+        Faker.seed(1234)
 
         site = Command.get_site(site_name)
         organizations = Command.seed_organizations(site, faker)
