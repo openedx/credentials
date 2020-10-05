@@ -285,7 +285,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
         program = ProgramFactory(site=self.site,
                                  uuid='33f0dded-fee9-4dec-a333-c9d8c2c82bd5',
                                  title='Old Program')
-        program.authoring_organizations.add(org)  # pylint: disable=no-member
+        program.authoring_organizations.add(org)
 
         self.mock_access_token_response()
         self.mock_programs_response(self.wrap_programs(self.PROGRAMS))

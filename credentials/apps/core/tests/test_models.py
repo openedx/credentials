@@ -13,7 +13,6 @@ from credentials.apps.core.tests.factories import SiteConfigurationFactory, Site
 from credentials.apps.core.tests.mixins import JSON, SiteMixin
 
 
-# pylint: disable=no-member
 class UserTests(TestCase):
     """ User model tests. """
 
