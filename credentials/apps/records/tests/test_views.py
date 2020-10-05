@@ -167,7 +167,7 @@ class RecordsViewTests(SiteMixin, TestCase):
         self.assertEqual(program_data, expected_program_data if visible else [])
 
     def test_in_progress_from_db(self):
-        """ Verify that no program cert, but course certs reuslts in an In Progress program """
+        """ Verify that no program cert, but course certs results in an In Progress program """
         # Delete the program
         self.program_cert.delete()
         response = self.client.get(reverse('records:index'))
@@ -645,7 +645,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(new_course.title, grades[0]['name'])
 
     def test_learner_data(self):
-        """ Test that the learner data is returned succesfully """
+        """ Test that the learner data is returned successfully """
         response = self.client.get(reverse('records:private_programs', kwargs={'uuid': self.program.uuid.hex}))
         learner_data = json.loads(response.context_data['record'])['learner']
 
