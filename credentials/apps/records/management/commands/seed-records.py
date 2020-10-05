@@ -113,7 +113,7 @@ class Command(BaseCommand):
                 uuid=faker.uuid4(),
                 title="Course {}".format(course_id),
                 key="Course-{}".format(course_id))
-            course1.owners = [organization]
+            course1.owners.set([organization])
             courses.append(course1)
             Command.log_action("Course", course_id, created)
 
@@ -122,7 +122,7 @@ class Command(BaseCommand):
                 uuid=faker.uuid4(),
                 title="Course {}".format(course_id + 1),
                 key="Course-{}".format(course_id + 1))
-            course2.owners = [organization]
+            course2.owners.set([organization])
             courses.append(course2)
             Command.log_action("Course", course_id + 1, created)
 
@@ -172,8 +172,8 @@ class Command(BaseCommand):
                     'status': 'active',
                 },
             )
-            program.course_runs = course_runs
-            program.authoring_organizations = [organization]
+            program.course_runs.set(course_runs)
+            program.authoring_organizations.set([organization])
             Command.log_action("Program", program_id, created)
 
             programs.append(program)
@@ -233,7 +233,7 @@ class Command(BaseCommand):
                     'language': 'en',
                 },
             )
-            program_certificate.signatories = signatories
+            program_certificate.signatories.set(signatories)
             program_certificate.save()
 
             Command.log_action("Program certificate for", program.title, created)
@@ -255,7 +255,7 @@ class Command(BaseCommand):
                     'certificate_type': CertificateType.VERIFIED,
                 }
             )
-            course_certificate.signatories = signatories
+            course_certificate.signatories.set(signatories)
             course_certificate.save()
             Command.log_action("Course certificate for course run", course_run, created)
             course_certificates.append(course_certificate)
@@ -316,7 +316,7 @@ class Command(BaseCommand):
             name='All program pathway',
             org_name="MIT",
             uuid=faker.uuid4())
-        all_program_pathway.programs = programs
+        all_program_pathway.programs.set(programs)
         Command.log_action("Pathway with name", all_program_pathway.name, created)
 
         one_program_pathway, created = Pathway.objects.get_or_create(
@@ -324,7 +324,7 @@ class Command(BaseCommand):
             name='One program pathway',
             org_name="MIT",
             uuid=faker.uuid4())
-        one_program_pathway.programs = [programs[0]]
+        one_program_pathway.programs.set([programs[0]])
         Command.log_action("Pathway with name", one_program_pathway.name, created)
 
         return [all_program_pathway, one_program_pathway]
@@ -353,7 +353,7 @@ class Command(BaseCommand):
                 'pathway_type': PathwayType.INDUSTRY.value,
             },
         )
-        industry_pathway.programs = programs
+        industry_pathway.programs.set(programs)
         Command.log_action("Industry pathway with name", industry_pathway.name, created)
 
         return industry_pathway
