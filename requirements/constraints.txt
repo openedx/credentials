@@ -31,3 +31,6 @@ django-storages<1.9
 
 # This package is pinned due to openedx.atlassian.net/browse/ARCHBOM-1078
 social-auth-core<3.3.0
+
+# v 2.0 is giving incompatible versions errors on upgrade
+importlib-metadata==1.7.0
