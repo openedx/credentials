@@ -60,11 +60,10 @@ if settings.DEBUG:  # pragma: no cover
         url(r'^500/$', core_views.render_500, name='500'),
     ]
 
+"""
+Big new comment
+"""
 if settings.DEBUG and os.environ.get('ENABLE_DJANGO_TOOLBAR', False):  # pragma: no cover
     import debug_toolbar
 
     urlpatterns.append(url(r'^__debug__/', include(debug_toolbar.urls)))
-
-"""
-Big new comment
-"""
