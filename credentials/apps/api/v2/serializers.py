@@ -29,7 +29,7 @@ class CredentialField(serializers.Field):
             try:
                 return ProgramCertificate.objects.get(program_uuid=program_uuid, is_active=True)
             except ObjectDoesNotExist:
-                msg = 'No active ProgramCertificate exists for program [{}]'.format(program_uuid)
+                msg = f'No active ProgramCertificate exists for program [{program_uuid}]'
                 logger.exception(msg)
                 raise ValidationError({'program_uuid': msg})
 
@@ -52,7 +52,7 @@ class CredentialField(serializers.Field):
                 )
 
             if cert is None or not cert.is_active:
-                msg = 'No active CourseCertificate exists for course run [{}]'.format(course_run_key)
+                msg = f'No active CourseCertificate exists for course run [{course_run_key}]'
                 logger.exception(msg)
                 raise ValidationError({'course_run_key': msg})
 
@@ -100,7 +100,7 @@ class CourseRunField(serializers.Field):
         try:
             return CourseRun.objects.get(key=data, course__site=site)
         except ObjectDoesNotExist:
-            msg = 'No CourseRun exists for key [{}]'.format(data)
+            msg = f'No CourseRun exists for key [{data}]'
             logger.exception(msg)
             raise ValidationError(msg)
 
@@ -199,7 +199,7 @@ class UserGradeSerializer(serializers.ModelSerializer):
         if self.initial_data.get('letter_grade', '') is None:
             self.initial_data['letter_grade'] = ''
 
-        return super(UserGradeSerializer, self).is_valid(raise_exception)
+        return super().is_valid(raise_exception)
 
     def create(self, validated_data):
         # If these next two are missing, the serializer will have already caught the error

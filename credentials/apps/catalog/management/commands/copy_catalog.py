@@ -36,10 +36,10 @@ class Command(BaseCommand):
             # We skip the site if records_enabled is false - remember to remove that check once we start
             # using the catalog data for certificates too.
             if not site_config or not site_config.catalog_api_url or not site_config.records_enabled:
-                logger.info('Skipping site {}. No configuration.'.format(site.domain))
+                logger.info(f'Skipping site {site.domain}. No configuration.')
                 continue
 
-            logger.info('Copying catalog data for site {}'.format(site.domain))
+            logger.info(f'Copying catalog data for site {site.domain}')
             client = site_config.catalog_api_client
             Command.fetch_programs(site, client, page_size=page_size)
             logger.info('Finished copying programs.')

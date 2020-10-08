@@ -30,11 +30,11 @@ class UserCredentialPermissions(permissions.DjangoModelPermissions):
         permissions) or, if a read-only request, implicitly (via matching
         username).
         """
-        return super(UserCredentialPermissions, self).has_permission(request, view) or \
+        return super().has_permission(request, view) or \
             request.user.username.lower() == obj.username.lower()
 
     def has_permission(self, request, view):
-        default = super(UserCredentialPermissions, self).has_permission(request, view)
+        default = super().has_permission(request, view)
         filtered_username = request.query_params.get('username', '').lower()
 
         if request.method == 'GET' and view.action == 'list' and filtered_username:

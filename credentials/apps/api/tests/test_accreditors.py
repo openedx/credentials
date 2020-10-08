@@ -1,9 +1,9 @@
 """
 Tests for the accreditor module.
 """
+from unittest.mock import patch
 
 from django.test import TestCase
-from mock import patch
 from testfixtures import LogCapture
 
 from credentials.apps.api.accreditors import Accreditor

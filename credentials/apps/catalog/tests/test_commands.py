@@ -123,7 +123,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
     ]
 
     def setUp(self):
-        super(CopyCatalogCommandTests, self).setUp()
+        super().setUp()
         self.site_configuration = SiteConfigurationFactory.build(segment_key=self.faker.word())
 
     def call_command(self, **kwargs):

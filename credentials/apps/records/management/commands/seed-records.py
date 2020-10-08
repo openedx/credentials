@@ -111,8 +111,8 @@ class Command(BaseCommand):
             course1, created = Course.objects.get_or_create(
                 site=site,
                 uuid=faker.uuid4(),
-                title="Course {}".format(course_id),
-                key="Course-{}".format(course_id))
+                title=f"Course {course_id}",
+                key=f"Course-{course_id}")
             course1.owners.set([organization])
             courses.append(course1)
             Command.log_action("Course", course_id, created)
@@ -138,7 +138,7 @@ class Command(BaseCommand):
 
         for course in courses:
             organization = course.owners.all()[0]
-            key = "course-v1:{}+{}+{}".format(organization.name, course.key, course_run_id)
+            key = f"course-v1:{organization.name}+{course.key}+{course_run_id}"
             course_run, created = CourseRun.objects.get_or_create(
                 course=course,
                 uuid=faker.uuid4(),
@@ -168,7 +168,7 @@ class Command(BaseCommand):
                 site=site,
                 uuid=faker.uuid4(),
                 defaults={
-                    'title': 'Program {}'.format(program_id),
+                    'title': f'Program {program_id}',
                     'status': 'active',
                 },
             )

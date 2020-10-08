@@ -1,6 +1,6 @@
 """Test core.utils."""
 
-import mock
+from unittest import mock
 from django.test import TestCase
 
 from credentials.apps.core.tests.factories import UserFactory
@@ -11,7 +11,7 @@ class UtilsTests(TestCase):
     """ Tests for the utility functions."""
 
     def setUp(self):
-        super(UtilsTests, self).setUp()
+        super().setUp()
         self.user = UserFactory(full_name='Bart')
 
     def test_update_full_name_no_user(self):

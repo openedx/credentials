@@ -41,7 +41,7 @@ def construct_file_language_names(filepath, language, default=settings.LANGUAGE_
     root, ext = splitext(filepath)
     paths = []
     if language:
-        paths.append("{}-{}{}".format(root, replaced_language, ext))
+        paths.append(f"{root}-{replaced_language}{ext}")
 
         # If the requested language is longer than just the two character language code, add the 2 char substring
         if len(language) > 2:
@@ -49,7 +49,7 @@ def construct_file_language_names(filepath, language, default=settings.LANGUAGE_
 
     # If the requested language and the default are different, add the default language to the paths
     if language != default:
-        paths.append("{}-{}{}".format(root, replaced_default, ext))
+        paths.append(f"{root}-{replaced_default}{ext}")
 
         # If the default language is longer than just the two character language code, add the 2 char substring as well
         if len(default) > 2 and language[:2] != default[:2]:

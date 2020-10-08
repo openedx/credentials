@@ -2,8 +2,8 @@
 
 import imp
 import sys
+from unittest import mock
 
-import mock
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import DatabaseError

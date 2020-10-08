@@ -12,7 +12,7 @@ JSON = 'application/json'
 
 class SiteMixin:
     def setUp(self):
-        super(SiteMixin, self).setUp()
+        super().setUp()
         cache.clear()
 
         # Set the domain used for all test requests
@@ -29,7 +29,7 @@ class SiteMixin:
     def mock_access_token_response(self, status=200):
         """ Mock the response from the OAuth provider's access token endpoint. """
         oauth2_provider_url = self.site.siteconfiguration.oauth2_provider_url
-        url = '{root}/access_token'.format(root=oauth2_provider_url)
+        url = f'{oauth2_provider_url}/access_token'
         token = 'abc123'
         body = json.dumps({
             'access_token': token,
@@ -42,6 +42,6 @@ class SiteMixin:
     def mock_catalog_api_response(self, endpoint, body, status=200):
         """ Mock a response from a Catalog API endpoint. """
         root = self.site.siteconfiguration.catalog_api_url.strip('/')
-        url = '{root}/{endpoint}'.format(root=root, endpoint=endpoint)
+        url = f'{root}/{endpoint}'
         responses.add(responses.GET, url, body=json.dumps(body), content_type=JSON, status=status,
                       match_querystring=True)

@@ -66,7 +66,7 @@ class CredentialViewSetTestsMixin:
     user_credential = None
 
     def setUp(self):
-        super(CredentialViewSetTestsMixin, self).setUp()
+        super().setUp()
 
         self.user = UserFactory()
         self.user.groups.add(Group.objects.get(name=Role.ADMINS))

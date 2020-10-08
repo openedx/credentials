@@ -1,8 +1,8 @@
 import json
 from decimal import Decimal
+from unittest import mock
 
 import ddt
-import mock
 from django.contrib.auth.models import Permission
 from django.test import TestCase
 from django.urls import reverse
@@ -32,7 +32,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
     list_path = reverse('api:v2:credentials-list')
 
     def setUp(self):
-        super(CredentialViewSetTests, self).setUp()
+        super().setUp()
         self.user = UserFactory()
 
     def serialize_user_credential(self, user_credential, many=False):
@@ -226,13 +226,13 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.add_user_permission(self.user, 'view_usercredential')
 
         for status, expected in (('awarded', awarded), ('revoked', revoked)):
-            response = self.client.get(self.list_path + '?status={}'.format(status))
+            response = self.client.get(self.list_path + f'?status={status}')
             self.assertEqual(response.status_code, 200)
             self.assertEqual(response.data['results'], self.serialize_user_credential(expected, many=True))
 
     def assert_list_username_filter_request_succeeds(self, username, expected):
         """ Asserts the logged in user can list credentials for a specific user. """
-        response = self.client.get(self.list_path + '?username={}'.format(username))
+        response = self.client.get(self.list_path + f'?username={username}')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['results'], self.serialize_user_credential(expected, many=True))
 
@@ -287,7 +287,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.authenticate_user(self.user)
         self.add_user_permission(self.user, 'view_usercredential')
 
-        response = self.client.get(self.list_path + '?program_uuid={}'.format(program.uuid))
+        response = self.client.get(self.list_path + f'?program_uuid={program.uuid}')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['results'], self.serialize_user_credential(expected, many=True))
 
@@ -384,7 +384,7 @@ class GradeViewSetTests(SiteMixin, APITestCase):
     list_path = reverse('api:v2:grades-list')
 
     def setUp(self):
-        super(GradeViewSetTests, self).setUp()
+        super().setUp()
         self.user = UserFactory()
         self.course = CourseFactory(site=self.site)
         self.course_run = CourseRunFactory(course=self.course)
@@ -518,7 +518,7 @@ class ThrottlingTests(TestCase):
     """ Tests for CredentialRateThrottle. """
 
     def setUp(self):
-        super(ThrottlingTests, self).setUp()
+        super().setUp()
         self.throttle = CredentialRateThrottle()
 
     @ddt.data('credential_view', 'grade_view', 'staff_override')
@@ -535,7 +535,7 @@ class UsernameReplacementViewTests(JwtMixin, APITestCase):
     SERVICE_USERNAME = 'test_replace_username_service_worker'
 
     def setUp(self):
-        super(UsernameReplacementViewTests, self).setUp()
+        super().setUp()
         self.service_user = UserFactory(username=self.SERVICE_USERNAME)
         self.url = reverse("api:v2:replace_usernames")
 

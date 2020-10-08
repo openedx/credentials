@@ -3,7 +3,7 @@ from edx_ace import MessageType
 
 class ProgramCreditRequest(MessageType):
     def __init__(self, site, user_email=None, *args, **kwargs):  # pylint: disable=keyword-arg-before-vararg
-        super(ProgramCreditRequest, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         if site.siteconfiguration.partner_from_address:
             from_address = site.siteconfiguration.partner_from_address

@@ -21,7 +21,7 @@ class SignatoryModelForm(forms.ModelForm):
 
 class ProgramCertificateAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(ProgramCertificateAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         languages = settings.CERTIFICATE_LANGUAGES.items()
         lang_choices = sorted(languages, key=itemgetter(1))
         self.fields['language'] = forms.ChoiceField(
@@ -33,7 +33,7 @@ class ProgramCertificateAdminForm(forms.ModelForm):
         fields = '__all__'
 
     def clean(self):
-        cleaned_data = super(ProgramCertificateAdminForm, self).clean()
+        cleaned_data = super().clean()
 
         site = cleaned_data['site']
         program_uuid = cleaned_data['program_uuid']

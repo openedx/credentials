@@ -7,6 +7,7 @@ import io
 import json
 import urllib.parse
 import uuid
+from unittest.mock import patch
 
 import ddt
 from django.contrib.contenttypes.models import ContentType
@@ -16,7 +17,6 @@ from django.template.loader import select_template
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
-from mock import patch
 
 from credentials.apps.catalog.models import Program
 from credentials.apps.catalog.tests.factories import (CourseFactory, CourseRunFactory, OrganizationFactory,
@@ -991,7 +991,7 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
             program_name=self.program_cert_record.program.title
         )
         filename = filename.replace(' ', '_').lower().encode('utf-8')
-        expected = 'attachment; filename="{filename}.csv"'.format(filename=filename)
+        expected = f'attachment; filename="{filename}.csv"'
 
         response = self.client.get(
             reverse('records:program_record_csv', kwargs={'uuid': self.program_cert_record.uuid.hex})

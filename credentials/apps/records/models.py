@@ -45,7 +45,7 @@ class ProgramCertRecord(TimeStampedModel):
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     def __str__(self):
-        return 'ProgramCertificateRecord: {uuid}'.format(uuid=self.uuid)
+        return f'ProgramCertificateRecord: {self.uuid}'
 
     class Meta:
         verbose_name = "Shared program record"
@@ -79,7 +79,7 @@ class UserCreditPathway(TimeStampedModel):
 
     def save(self, *args, **kwargs):  # pylint: disable=arguments-differ
         self.full_clean()
-        return super(UserCreditPathway, self).save(*args, **kwargs)
+        return super().save(*args, **kwargs)
 
     class Meta:
         unique_together = ('user', 'pathway')

@@ -6,7 +6,7 @@ from credentials.apps.core.models import SiteConfiguration
 
 class SiteConfigurationAdminForm(forms.ModelForm):
     def clean(self):
-        cleaned_data = super(SiteConfigurationAdminForm, self).clean()
+        cleaned_data = super().clean()
 
         if cleaned_data['enable_facebook_sharing'] and not cleaned_data['facebook_app_id']:
             message = _('A Facebook app ID is required to enable Facebook sharing.')

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import uuid
 
 import django_extensions.db.fields
@@ -144,14 +143,14 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='usercredentialattribute',
-            unique_together=set([('user_credential', 'name')]),
+            unique_together={('user_credential', 'name')},
         ),
         migrations.AlterUniqueTogether(
             name='usercredential',
-            unique_together=set([('username', 'credential_content_type', 'credential_id')]),
+            unique_together={('username', 'credential_content_type', 'credential_id')},
         ),
         migrations.AlterUniqueTogether(
             name='coursecertificate',
-            unique_together=set([('course_id', 'certificate_type', 'site')]),
+            unique_together={('course_id', 'certificate_type', 'site')},
         ),
     ]
