@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
     help = 'Copy catalog data from Discovery'
 
+# little comment
     def add_arguments(self, parser):
         """
         Add arguments to the command parser.

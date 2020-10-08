@@ -8,6 +8,8 @@ edX Credentials Service  |Travis|_ |Codecov|_
 
 This repository contains the edX Credentials Service, which supports course and program certificates. This service is a replacement for the ``certificates`` app in ``edx-platform``.
 
+Hi there!
+
 Documentation
 -------------
 
