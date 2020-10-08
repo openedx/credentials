@@ -77,6 +77,7 @@ def parse_program(site, data):
             'title': data['title'],
             'type': data['type'],
             'status': data['status'],
+            'type_slug': data['type_attrs']['slug']
         },
     )
 

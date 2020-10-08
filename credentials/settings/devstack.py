@@ -82,6 +82,9 @@ JWT_AUTH.update({
     }],
 })
 
+SEND_EMAIL_ON_PROGRAM_COMPLETION = True
+CUSTOM_COMPLETION_EMAIL_TEMPLATE_EXTRA = {}
+
 #####################################################################
 # Lastly, see if the developer has any local overrides.
 try:

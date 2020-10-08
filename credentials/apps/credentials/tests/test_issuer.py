@@ -3,13 +3,18 @@ Tests for Issuer class.
 """
 from unittest import mock
 
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from credentials.apps.api.exceptions import DuplicateAttributeError
 from credentials.apps.catalog.tests.factories import ProgramFactory
 from credentials.apps.core.tests.factories import SiteConfigurationFactory, SiteFactory, UserFactory
 from credentials.apps.credentials.issuers import CourseCertificateIssuer, ProgramCertificateIssuer
-from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredentialAttribute
+from credentials.apps.credentials.models import (
+    CourseCertificate,
+    ProgramCertificate,
+    UserCredential,
+    UserCredentialAttribute,
+)
 from credentials.apps.credentials.tests.factories import CourseCertificateFactory, ProgramCertificateFactory
 
 
@@ -165,6 +170,49 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
         with mock.patch('credentials.apps.credentials.issuers.send_updated_emails_for_program') as mock_method:
             self.issuer.issue_credential(self.certificate, 'testuser4', attributes=self.attributes)
             self.assertEqual(mock_method.call_count, 1)
+
+    @override_settings(SEND_EMAIL_ON_PROGRAM_COMPLETION=True)
+    @mock.patch('credentials.apps.credentials.issuers.send_program_certificate_created_message')
+    def test_send_learner_email_when_issuing_program_cert(self, mock_send_learner_email):
+        self.site_config.records_enabled = False
+        self.site_config.save()
+
+        self.issuer.issue_credential(self.certificate, 'testuser5')
+        self.assertEqual(mock_send_learner_email.call_count, 1)
+
+    @override_settings(SEND_EMAIL_ON_PROGRAM_COMPLETION=True)
+    @mock.patch('credentials.apps.credentials.issuers.send_program_certificate_created_message')
+    def test_send_learner_email_only_once(self, mock_send_learner_email):
+        """
+        Verify that we call `send_program_certificate_created_message` only once if a
+        certificate already exists and is being awarded again after being revoked.
+        """
+        username = 'learner'
+        user = UserFactory(username=username)
+
+        self.site_config.records_enabled = False
+        self.site_config.save()
+
+        self.issuer.issue_credential(self.certificate, user.username)
+        # revoke the user credential
+        user_credential = UserCredential.objects.get(username=username)
+        user_credential.revoke()
+        # issue the credential again, make sure that we haven't tried to send the email again
+        self.issuer.issue_credential(self.certificate, user.username)
+        self.assertEqual(mock_send_learner_email.call_count, 1)
+
+    @override_settings(SEND_EMAIL_ON_PROGRAM_COMPLETION=False)
+    @mock.patch('credentials.apps.credentials.issuers.send_program_certificate_created_message')
+    def test_do_not_send_learner_email_when_feature_disabled(self, mock_send_learner_email):
+        """
+        Verify that we do NOT try to send an email to the learner when a Program Cert is issued
+        if the feature is disabled.
+        """
+        self.site_config.records_enabled = False
+        self.site_config.save()
+
+        self.issuer.issue_credential(self.certificate, 'testuser6')
+        self.assertEqual(mock_send_learner_email.call_count, 0)
 
 
 class CourseCertificateIssuerTests(CertificateIssuerBase, TestCase):

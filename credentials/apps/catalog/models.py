@@ -98,6 +98,7 @@ class Program(TimeStampedModel):
     course_runs = SortedManyToManyField(CourseRun, related_name='programs')
     authoring_organizations = SortedManyToManyField(Organization, blank=True, related_name='authored_programs')
     type = models.CharField(max_length=32, blank=False, default='')
+    type_slug = models.CharField(max_length=32, blank=False, default='')
 
     ACTIVE = 'active'
     RETIRED = 'retired'

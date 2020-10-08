@@ -2,6 +2,7 @@
 import abc
 import logging
 
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 
@@ -13,7 +14,7 @@ from credentials.apps.credentials.models import (
     UserCredential,
     UserCredentialAttribute,
 )
-from credentials.apps.credentials.utils import validate_duplicate_attributes
+from credentials.apps.credentials.utils import send_program_certificate_created_message, validate_duplicate_attributes
 from credentials.apps.records.utils import send_updated_emails_for_program
 
 
@@ -146,6 +147,11 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         # the credentials. If records is not enabled, we should not send this email
         if created and site_config and site_config.records_enabled:
             send_updated_emails_for_program(request, username, credential)
+
+        # If this is a new ProgramCertificate and the `SEND_EMAIL_ON_PROGRAM_COMPLETION`
+        # feature is enabled then let's send a congratulatory message to the learner
+        if created and getattr(settings, 'SEND_EMAIL_ON_PROGRAM_COMPLETION', False):
+            send_program_certificate_created_message(username, credential)
 
         self.set_credential_attributes(user_credential, attributes)
 
