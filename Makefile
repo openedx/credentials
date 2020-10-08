@@ -114,7 +114,7 @@ exec-accept: ## Run acceptance tests on a container
 exec-validate: exec-validate-translations exec-clean exec-static exec-quality exec-tests exec-accept exec-check_keywords ## Run linters and tests after checking translations and gathering static assets
 
 exec-coverage: ## Generate XML coverage report on a container
-	docker exec -t credentials bash -c 'coverage xml'
+	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && coverage xml'
 
 html_coverage: ## Generate and view HTML coverage report
 	coverage html && open htmlcov/index.html
