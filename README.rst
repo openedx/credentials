@@ -1,7 +1,7 @@
 edX Credentials Service  |Travis|_ |Codecov|_
 =============================================
-.. |Travis| image:: https://travis-ci.org/edx/credentials.svg?branch=master
-.. _Travis: https://travis-ci.org/edx/credentials
+.. |Travis| image:: https://travis-ci.com/edx/credentials.svg?branch=master
+.. _Travis: https://travis-ci.com/edx/credentials
 
 .. |Codecov| image:: http://codecov.io/github/edx/credentials/coverage.svg?branch=master
 .. _Codecov: http://codecov.io/github/edx/credentials?branch=master
