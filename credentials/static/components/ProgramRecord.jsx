@@ -277,14 +277,14 @@ class ProgramRecord extends React.Component {
               <span className="fa fa-caret-right" aria-hidden="true" /> {gettext('Back to My Records')}
             </a>
             {this.showSendRecordButton &&
-              <Button
+              <Button.Deprecated
                 label={gettext('Send Learner Record')}
                 className={['btn-primary']}
                 onClick={this.loadSendRecordModal}
                 disabled={this.state.buttonDisabled}
               />
             }
-            <Button
+            <Button.Deprecated
               label={gettext('Share')}
               className={['btn-outline-primary']}
               onClick={this.loadShareModel}
@@ -295,7 +295,7 @@ class ProgramRecord extends React.Component {
         }
         {isPublic &&
           <div className="program-record-actions program-record-row justify-content-end">
-            <Button
+            <Button.Deprecated
               label={gettext('Download Record')}
               className={['btn-primary']}
               onClick={() => this.downloadRecord(uuid)}

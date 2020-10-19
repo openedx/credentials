@@ -99,7 +99,7 @@ class MasqueradeBanner extends React.Component {
             {this.props.masquerading &&
               <span className="masquerade-info-text">{ StringUtils.interpolate(gettext('You are currently viewing as: {user}'), { user: this.props.user }) }</span>
             }
-            <Button
+            <Button.Deprecated
               className={['btn-masquerade', 'btn-primary']}
               label={this.getButtonText()}
               type="submit"

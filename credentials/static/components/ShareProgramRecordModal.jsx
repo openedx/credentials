@@ -167,7 +167,7 @@ class ShareProgramRecordModal extends React.Component {
                   text={programRecordUrl}
                   onCopy={this.setUrlAsCopied}
                 >
-                  <Button
+                  <Button.Deprecated
                     label={gettext('Copy Link')}
                     className={['btn-primary']}
                     onClick={trackEvent('edx.bi.credentials.program_record.share_url_copied', {

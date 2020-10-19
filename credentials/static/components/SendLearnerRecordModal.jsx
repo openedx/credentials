@@ -141,7 +141,7 @@ class SendLearnerRecordModal extends React.Component {
         )}
         open
         buttons={[
-          <Button
+          <Button.Deprecated
             label={gettext('Send')}
             buttonType="primary"
             onClick={this.callSendHandler}
