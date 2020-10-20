@@ -10,7 +10,6 @@
 -c constraints.txt
 -r base.txt
 
-boto
 django-ses
 gevent
 gunicorn
