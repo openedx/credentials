@@ -7,9 +7,8 @@
 analytics-python==1.2.9   # via -r requirements/base.txt
 argparse==1.4.0           # via -r requirements/base.txt, stevedore
 attrs==20.2.0             # via -r requirements/base.txt, edx-ace
-boto3==1.15.14            # via django-ses
-boto==2.49.0              # via -r requirements/production.in
-botocore==1.18.14         # via boto3, s3transfer
+boto3==1.16.0             # via django-ses
+botocore==1.19.0          # via boto3, s3transfer
 certifi==2020.6.20        # via -r requirements/base.txt, requests
 cffi==1.14.3              # via -r requirements/base.txt, cryptography
 chardet==3.0.4            # via -r requirements/base.txt, requests
@@ -27,14 +26,14 @@ django-ratelimit==3.0.1   # via -r requirements/base.txt
 django-rest-swagger==2.2.0  # via -r requirements/base.txt
 django-ses==1.0.3         # via -r requirements/production.in
 django-sortedm2m==3.0.2   # via -r requirements/base.txt
-django-statici18n==2.0.0  # via -r requirements/base.txt
-django-storages==1.8      # via -c requirements/constraints.txt, -r requirements/base.txt
+django-statici18n==2.0.1  # via -r requirements/base.txt
+django-storages==1.10.1   # via -r requirements/base.txt
 django-waffle==2.0.0      # via -r requirements/base.txt, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/base.txt
 django==2.2.16            # via -c requirements/constraints.txt, -r requirements/base.txt, django-appconf, django-debug-toolbar, django-filter, django-ses, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
 djangorestframework==3.12.1  # via -r requirements/base.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
 drf-jwt==1.17.2           # via -r requirements/base.txt, edx-drf-extensions
-edx-ace==0.1.15           # via -r requirements/base.txt
+edx-ace==0.1.17           # via -r requirements/base.txt
 edx-auth-backends==3.1.0  # via -r requirements/base.txt
 edx-django-release-util==0.4.4  # via -r requirements/base.txt
 edx-django-sites-extensions==2.5.1  # via -r requirements/base.txt
@@ -51,11 +50,11 @@ gitpython==3.1.9          # via -r requirements/base.txt, transifex-client
 greenlet==0.4.17          # via gevent
 gunicorn==20.0.4          # via -r requirements/production.in
 idna==2.10                # via -r requirements/base.txt, requests
-importlib-metadata==1.7.0  # via -c requirements/constraints.txt, -r requirements/base.txt, markdown, path.py
+importlib-metadata==2.0.0  # via -r requirements/base.txt, path.py
 itypes==1.2.0             # via -r requirements/base.txt, coreapi
 jinja2==2.11.2            # via -r requirements/base.txt, coreschema
 jmespath==0.10.0          # via boto3, botocore
-markdown==3.2.2           # via -r requirements/base.txt
+markdown==3.3.2           # via -r requirements/base.txt
 markupsafe==1.1.1         # via -r requirements/base.txt, jinja2
 mysqlclient==2.0.1        # via -r requirements/base.txt
 newrelic==5.20.1.150      # via -r requirements/base.txt, -r requirements/production.in, edx-django-utils
@@ -63,8 +62,8 @@ nodeenv==1.5.0            # via -r requirements/production.in
 oauthlib==3.1.0           # via -r requirements/base.txt, requests-oauthlib, social-auth-core
 openapi-codec==1.3.2      # via -r requirements/base.txt, django-rest-swagger
 path.py==12.0.2           # via -c requirements/constraints.txt, -r requirements/base.txt, edx-i18n-tools
-pbr==5.5.0                # via -r requirements/base.txt, stevedore
-pillow==7.2.0             # via -r requirements/base.txt
+pbr==5.5.1                # via -r requirements/base.txt, stevedore
+pillow==8.0.0             # via -r requirements/base.txt
 polib==1.1.0              # via -r requirements/base.txt, edx-i18n-tools
 psutil==5.7.2             # via -r requirements/base.txt, edx-django-utils
 pycparser==2.20           # via -r requirements/base.txt, cffi
@@ -86,7 +85,7 @@ s3transfer==0.3.3         # via boto3
 sailthru-client==2.2.3    # via -r requirements/base.txt, edx-ace
 semantic-version==2.8.5   # via -r requirements/base.txt, edx-drf-extensions
 simplejson==3.17.2        # via -r requirements/base.txt, django-rest-swagger, sailthru-client
-six==1.15.0               # via -r requirements/base.txt, analytics-python, cryptography, django-compat, django-statici18n, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-i18n-tools, edx-opaque-keys, pyjwkest, python-dateutil, python-memcached, social-auth-app-django, social-auth-core, stevedore, transifex-client
+six==1.15.0               # via -r requirements/base.txt, analytics-python, cryptography, django-compat, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-i18n-tools, edx-opaque-keys, pyjwkest, python-dateutil, python-memcached, social-auth-app-django, social-auth-core, stevedore, transifex-client
 slumber==0.7.1            # via -r requirements/base.txt, edx-rest-api-client
 smmap==3.0.4              # via -r requirements/base.txt, gitdb
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/base.txt, edx-auth-backends
@@ -96,9 +95,9 @@ stevedore==1.10.0         # via -c requirements/constraints.txt, -r requirements
 text-unidecode==1.3       # via -r requirements/base.txt, python-slugify
 transifex-client==0.13.12  # via -r requirements/base.txt, edx-credentials-themes
 uritemplate==3.0.1        # via -r requirements/base.txt, coreapi
-urllib3==1.25.10          # via -r requirements/base.txt, botocore, requests, transifex-client
+urllib3==1.25.11          # via -r requirements/base.txt, botocore, requests, transifex-client
 xss-utils==0.1.3          # via -r requirements/base.txt
-zipp==1.2.0               # via -r requirements/base.txt, importlib-metadata
+zipp==3.3.1               # via -r requirements/base.txt, importlib-metadata
 zope.event==4.5.0         # via gevent
 zope.interface==5.1.2     # via gevent
 
