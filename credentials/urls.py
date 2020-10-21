@@ -26,7 +26,7 @@ from rest_framework_swagger.views import get_swagger_view
 
 from credentials.apps.core import views as core_views
 from credentials.apps.records.views import ProgramListingView
-from credentials.views import FaviconView
+from credentials.views import FaviconView, MockToggleStateView
 
 
 admin.autodiscover()
@@ -47,6 +47,7 @@ urlpatterns = oauth2_urlpatterns + [
     url(r'^records/', include(('credentials.apps.records.urls', 'records'), namespace='records')),
     url(r'^program-listing/', ProgramListingView.as_view(), name='program_listing'),
     url(r'^favicon\.ico$', FaviconView.as_view(permanent=True)),
+    url(r'^mock-toggles$', MockToggleStateView.as_view()),
     url(r'^hijack/', include('hijack.urls', namespace='hijack')),
 ]
 
