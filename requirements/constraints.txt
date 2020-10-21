@@ -9,10 +9,9 @@
 # linking to it here is good.
 
 # Required to resolve requirements from base.in with inherited files
-stevedore==1.10.0
 path.py==12.0.2
 
-# Remaining version pins to maintain behavior in
+# code-annotations currently restricts to Django<2.3
 Django<2.3
 
 # Functional pin for dev.in

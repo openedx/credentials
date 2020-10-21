@@ -15,6 +15,7 @@
 -r base.txt
 
 bok-choy
+code-annotations          # provides commands used by the pii_check make target
 coverage
 ddt
 edx-lint
