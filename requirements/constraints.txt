@@ -3,7 +3,7 @@
 # This file doesn't install any packages. It specifies version constraints
 # that will be applied if a package is needed.
 #
-# When pinning something here, please provide an explanation of why.  Ideally,
+# When pinning something here, please provide an explanation of why. Ideally,
 # link to other information that will help people in the future to remove the
 # pin when possible.  Writing an issue against the offending project and
 # linking to it here is good.
@@ -21,12 +21,5 @@ docker-compose >= 1.5.1
 # Version pins required to retain quality-check behavior
 isort==4.2.5
 
-# django-storages version 1.9 drops support for boto storage backend.
-django-storages<1.9
-
-
 # This package is pinned due to openedx.atlassian.net/browse/ARCHBOM-1078
 social-auth-core<3.3.0
-
-# v 2.0 is giving incompatible versions errors on upgrade
-importlib-metadata==1.7.0
