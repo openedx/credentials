@@ -65,7 +65,7 @@ describe('<SendLearnerRecordModal />', () => {
 
   it('closes if the footer close button is clicked', () => {
     expect(wrapper.find('.modal-dialog').length).toBe(1);
-    wrapper.find('.modal-footer button.btn-secondary').simulate('click');
+    wrapper.find('.modal-footer button.btn.btn-link').simulate('click');
     expect(wrapper.find('.modal-dialog').length).toBe(0);
   });
 

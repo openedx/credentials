@@ -5,7 +5,8 @@ import MasqueradeBanner from '../MasqueradeBanner';
 
 let wrapper;
 jest.mock('axios');
-
+delete window.location;
+window.location = { reload: jest.fn() };
 const defaultProps = {
   masquerading: true,
   user: 'test-user',
@@ -25,8 +26,8 @@ describe('<MasqueradeBanner />', () => {
       expect(wrapper.find('.masquerade-input').length).toEqual(0);
       expect(wrapper.find('.masquerade-info-text').length).toEqual(1);
       expect(wrapper.find('.masquerade-info-text').text()).toBe('You are currently viewing as: test-user');
-      expect(wrapper.find('.btn-masquerade').length).toEqual(1);
-      expect(wrapper.find('.btn-masquerade').text()).toBe('Change user');
+      expect(wrapper.find('.btn-masquerade').length).toEqual(2);
+      expect(wrapper.find('button.btn-masquerade').text()).toBe('Change user');
     });
 
     it('shows the failure alert', () => {
@@ -70,8 +71,8 @@ describe('<MasqueradeBanner />', () => {
       expect(wrapper.find('.masquerade-select').props().value).toEqual('Staff');
       expect(wrapper.find('.masquerade-input').length).toEqual(0);
       expect(wrapper.find('.masquerade-info-text').length).toEqual(0);
-      expect(wrapper.find('.btn-masquerade').length).toEqual(1);
-      expect(wrapper.find('.btn-masquerade').text()).toBe('Submit');
+      expect(wrapper.find('.btn-masquerade').length).toEqual(2);
+      expect(wrapper.find('button.btn-masquerade').text()).toBe('Submit');
     });
 
     it('renders text input on selecting specific learner', () => {

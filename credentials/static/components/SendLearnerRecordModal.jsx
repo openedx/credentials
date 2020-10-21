@@ -1,4 +1,4 @@
-import 'babel-polyfill'; // Needed to support Promises on legacy browsers
+import '@babel/polyfill'; // Needed to support Promises on legacy browsers
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, CheckBoxGroup, CheckBox, Modal, StatusAlert } from '@edx/paragon';
@@ -141,7 +141,7 @@ class SendLearnerRecordModal extends React.Component {
         )}
         open
         buttons={[
-          <Button
+          <Button.Deprecated
             label={gettext('Send')}
             buttonType="primary"
             onClick={this.callSendHandler}
