@@ -2,7 +2,7 @@
 NODE_BIN=./node_modules/.bin
 TOX = ''
 
-.PHONY: requirements upgrade piptools production-requirements all-requirements
+.PHONY: requirements upgrade piptools production-requirements all-requirements pii_check exec-pii_check
 
 ifdef TOXENV
 TOX := tox -- #to isolate each tox environment if TOXENV is defined
@@ -93,6 +93,9 @@ exec-check_translations_up_to_date: ## test translations on a container
 exec-check_keywords: ## Scan the Django models in all installed apps in this project for restricted field names
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make check_keywords'
 
+exec-pii_check: ## Check for PII annotations on all Django models
+	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make pii_check'
+
 exec-clean: ## Remove all generated files from a container
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make clean'
 
@@ -111,7 +114,7 @@ exec-tests: ## Run tests on a container
 exec-accept: ## Run acceptance tests on a container
 	docker exec -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make accept'
 
-exec-validate: exec-validate-translations exec-clean exec-static exec-quality exec-tests exec-accept exec-check_keywords ## Run linters and tests after checking translations and gathering static assets
+exec-validate: exec-validate-translations exec-clean exec-static exec-quality exec-tests exec-accept exec-check_keywords exec-pii_check ## Run linters and tests after checking translations and gathering static assets
 
 exec-coverage: ## Generate XML coverage report on a container
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && coverage xml'
@@ -175,3 +178,7 @@ upgrade: piptools ## update the requirements/*.txt files with the latest package
 
 check_keywords: ## Scan the Django models in all installed apps in this project for restricted field names
 	python manage.py check_reserved_keywords --override_file db_keyword_overrides.yml
+
+pii_check: ## Check for PII annotations on all Django models
+	DJANGO_SETTINGS_MODULE=credentials.settings.test \
+	code_annotations django_find_annotations --config_file .pii_annotations.yml --lint --report --coverage

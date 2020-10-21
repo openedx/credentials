@@ -18,6 +18,11 @@ from credentials.shared.constants import PathwayType
 class UserGrade(TimeStampedModel):
     """
     A grade for a specific user and course run
+
+    .. pii: Stores username for a user.
+        pii values: username
+    .. pii_types: username
+    .. pii_retirement: retained
     """
     username = models.CharField(max_length=150, blank=False)
     course_run = models.ForeignKey(CourseRun, on_delete=models.CASCADE)
@@ -32,6 +37,8 @@ class UserGrade(TimeStampedModel):
 class ProgramCertRecord(TimeStampedModel):
     """
     Connects a User with a Program
+
+    .. no_pii: This model has no PII.
     """
     certificate = models.ForeignKey(
         ProgramCertificate,
@@ -57,6 +64,8 @@ class UserCreditPathway(TimeStampedModel):
     Connects a user to a credit pathway
     This is used to track when a user sends a record to that organization
     The timestamp is used for error tracking and support
+
+    .. no_pii: This model has no PII.
     """
     STATUS_CHOICES = [
         (constants.UserCreditPathwayStatus.SENT, _('sent')),

@@ -12,7 +12,11 @@ logger = logging.getLogger(__name__)
 
 
 class Organization(TimeStampedModel):
-    """ Organization model. """
+    """
+    Organization model.
+
+    .. no_pii: This model has no PII.
+    """
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     uuid = models.UUIDField(blank=False, null=False, verbose_name='UUID')
     key = models.CharField(max_length=255)
@@ -28,7 +32,11 @@ class Organization(TimeStampedModel):
 
 
 class Course(TimeStampedModel):
-    """ Course model. """
+    """
+    Course model.
+
+    .. no_pii: This model has no PII.
+    """
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     uuid = models.UUIDField(verbose_name='UUID')
     key = models.CharField(max_length=255)
@@ -45,7 +53,11 @@ class Course(TimeStampedModel):
 
 
 class CourseRun(TimeStampedModel):
-    """ CourseRun model. """
+    """
+    CourseRun model.
+
+    .. no_pii: This model has no PII.
+    """
     course = models.ForeignKey(Course, related_name='course_runs', on_delete=models.CASCADE)
     uuid = models.UUIDField(verbose_name='UUID')
     key = models.CharField(max_length=255)
@@ -73,6 +85,11 @@ class CourseRun(TimeStampedModel):
 
 
 class Program(TimeStampedModel):
+    """
+    Program model.
+
+    .. no_pii: This model has no PII.
+    """
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     uuid = models.UUIDField(verbose_name='UUID')
     title = models.CharField(max_length=255)
@@ -102,6 +119,9 @@ class Pathway(TimeStampedModel):
 
     Pathways can be credit pathways that represent channels where learners can
     send their records for credit, or professional pathways.
+
+    .. no_pii: This model has no learner PII. The email address used here is the email address associated with the
+    pathway itself (such as 'registrar@school.edu'), not with a learner.
     """
     pathway_type = models.CharField(
         max_length=32,

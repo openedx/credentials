@@ -98,3 +98,6 @@ credentials/static/jsi18n/
 docs/_build/
 node_modules/
 webpack-stats.json
+
+# PII annotation reports
+pii_report

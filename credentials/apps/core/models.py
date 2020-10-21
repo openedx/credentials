@@ -14,6 +14,11 @@ from edx_rest_api_client.client import EdxRestApiClient
 
 
 class SiteConfiguration(models.Model):
+    """
+    SiteConfiguration model.
+
+    .. no_pii: This model has no PII.
+    """
     site = models.OneToOneField(Site, null=False, blank=False, on_delete=models.CASCADE)
     platform_name = models.CharField(
         verbose_name=_('Platform Name'),
@@ -248,7 +253,14 @@ class SiteConfiguration(models.Model):
 
 
 class User(AbstractUser):
-    """ Custom user model for use with python-social-auth via edx-auth-backends. """
+    """
+    Custom user model for use with python-social-auth via edx-auth-backends.
+
+    .. pii: Stores email, first name, full name, last name, and username for a user.
+        pii values: email, first_name, full_name, last_name and username
+    .. pii_types: email_address, name, username
+    .. pii_retirement: retained
+    """
     full_name = models.CharField(_('Full Name'), max_length=255, blank=True, null=True)
 
     @property
