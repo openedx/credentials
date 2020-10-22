@@ -20,6 +20,7 @@ class FaviconView(RedirectView):
         return urljoin(site_configuration.homepage_url, '/favicon.ico')
 
 
+# pragma: no cover
 class MockToggleStateView(views.APIView):
     """
     A mock endpoint showing that we can require a staff JWT in this IDA,
