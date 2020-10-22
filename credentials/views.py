@@ -20,8 +20,7 @@ class FaviconView(RedirectView):
         return urljoin(site_configuration.homepage_url, '/favicon.ico')
 
 
-# pragma: no cover
-class MockToggleStateView(views.APIView):
+class MockToggleStateView(views.APIView):  # pragma: no cover
     """
     A mock endpoint showing that we can require a staff JWT in this IDA,
     and allowing us to test integration of multiple IDAs into toggle state
