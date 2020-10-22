@@ -16,6 +16,7 @@ django-debug-toolbar
 django-hijack
 django-extensions
 django-filter
+django-ratelimit
 django-rest-swagger
 django-sortedm2m
 django-statici18n
@@ -40,10 +41,10 @@ python-memcached
 pytz
 requests
 xss-utils
-django-ratelimit
 
 
 # TODO Install in configuration
 git+https://github.com/edx/credentials-themes.git@0.1.31#egg=edx_credentials_themes==0.1.31
 
+# Pin was added in BOM-1260. Ticket to unpin is BOM-1676
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django
