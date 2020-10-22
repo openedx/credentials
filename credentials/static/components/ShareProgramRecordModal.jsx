@@ -1,4 +1,4 @@
-import 'babel-polyfill'; // Needed to support Promises on legacy browsers
+import '@babel/polyfill'; // Needed to support Promises on legacy browsers
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -167,7 +167,7 @@ class ShareProgramRecordModal extends React.Component {
                   text={programRecordUrl}
                   onCopy={this.setUrlAsCopied}
                 >
-                  <Button
+                  <Button.Deprecated
                     label={gettext('Copy Link')}
                     className={['btn-primary']}
                     onClick={trackEvent('edx.bi.credentials.program_record.share_url_copied', {
