@@ -21,7 +21,7 @@ clean: ## Remove all generated files
 	git clean -fd credentials/conf/locale
 
 production-requirements: piptools ## Install requirements for production
-	npm install --production --no-save
+	npm install --no-save
 	pip-sync requirements.txt
 
 js-requirements: ## Install frontend requirements
@@ -34,6 +34,7 @@ all-requirements: piptools ## Install local and prod requirements
 
 requirements: piptools ## Install requirements for local development
 	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
+	
 	pip-sync requirements/dev.txt
 
 quality: ## Run linters
