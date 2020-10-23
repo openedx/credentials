@@ -21,7 +21,7 @@ clean: ## Remove all generated files
 	git clean -fd credentials/conf/locale
 
 production-requirements: piptools ## Install requirements for production
-	npm install --production --no-save
+	npm install --no-save
 	pip-sync requirements.txt
 
 js-requirements: ## Install frontend requirements
