@@ -5,7 +5,6 @@ source=credentials
 omit =
     credentials/settings*
     credentials/conf*
-    credentials/apps/core/s3utils.py
     *wsgi.py
     *migrations*
     *admin.py
