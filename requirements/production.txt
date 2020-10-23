@@ -5,10 +5,9 @@
 #    make upgrade
 #
 analytics-python==1.2.9   # via -r requirements/base.txt
-argparse==1.4.0           # via -r requirements/base.txt, stevedore
 attrs==20.2.0             # via -r requirements/base.txt, edx-ace
-boto3==1.16.1             # via django-ses
-botocore==1.19.1          # via boto3, s3transfer
+boto3==1.16.2             # via django-ses
+botocore==1.19.2          # via boto3, s3transfer
 certifi==2020.6.20        # via -r requirements/base.txt, requests
 cffi==1.14.3              # via -r requirements/base.txt, cryptography
 chardet==3.0.4            # via -r requirements/base.txt, requests
@@ -37,7 +36,7 @@ edx-ace==0.1.17           # via -r requirements/base.txt
 edx-auth-backends==3.1.0  # via -r requirements/base.txt
 edx-django-release-util==0.4.4  # via -r requirements/base.txt
 edx-django-sites-extensions==2.5.1  # via -r requirements/base.txt
-edx-django-utils==3.8.0   # via -r requirements/base.txt, edx-drf-extensions, edx-rest-api-client
+edx-django-utils==3.9.0   # via -r requirements/base.txt, edx-drf-extensions, edx-rest-api-client
 edx-drf-extensions==6.2.0  # via -r requirements/base.txt
 edx-i18n-tools==0.5.3     # via -r requirements/base.txt, edx-credentials-themes
 edx-opaque-keys==2.1.1    # via -r requirements/base.txt, edx-drf-extensions
@@ -91,9 +90,9 @@ smmap==3.0.4              # via -r requirements/base.txt, gitdb
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/base.txt, edx-auth-backends
 social-auth-core==3.2.0   # via -c requirements/constraints.txt, -r requirements/base.txt, edx-auth-backends, social-auth-app-django
 sqlparse==0.4.1           # via -r requirements/base.txt, django, django-debug-toolbar
-stevedore==1.10.0         # via -c requirements/constraints.txt, -r requirements/base.txt, edx-ace, edx-django-utils, edx-opaque-keys
+stevedore==1.32.0         # via -r requirements/base.txt, edx-ace, edx-django-utils, edx-opaque-keys
 text-unidecode==1.3       # via -r requirements/base.txt, python-slugify
-transifex-client==0.13.12  # via -r requirements/base.txt, edx-credentials-themes
+transifex-client==0.14.1  # via -r requirements/base.txt, edx-credentials-themes
 uritemplate==3.0.1        # via -r requirements/base.txt, coreapi
 urllib3==1.25.11          # via -r requirements/base.txt, botocore, requests, transifex-client
 xss-utils==0.1.3          # via -r requirements/base.txt
