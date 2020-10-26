@@ -31,6 +31,7 @@ jobs:
         - make exec-validate-translations
         - make exec-quality
         - make exec-check_keywords
+        - make exec-pii_check
 
     - python: 3.8
       env: TESTNAME=acceptance-tests

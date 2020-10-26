@@ -55,6 +55,8 @@ def validate_course_key(course_key):
 class AbstractCredential(TimeStampedModel):
     """
     Abstract Credentials configuration model.
+
+    .. no_pii: This model has no PII.
     """
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
@@ -66,6 +68,9 @@ class AbstractCredential(TimeStampedModel):
 class Signatory(TimeStampedModel):
     """
     Signatory model to add certificate signatories.
+
+    .. no_pii: This model has no learner PII. The name used here is the name of the professor who signed the
+    certificate.
     """
     name = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
@@ -108,6 +113,8 @@ class AbstractCertificate(AbstractCredential):
     """
     Abstract Certificate configuration to support multiple type of certificates
     i.e. Programs, Courses.
+
+    .. no_pii: This model has no PII.
     """
     signatories = models.ManyToManyField(Signatory)
     title = models.CharField(
@@ -122,6 +129,11 @@ class AbstractCertificate(AbstractCredential):
 class UserCredential(TimeStampedModel):
     """
     Credentials issued to a learner.
+
+    .. pii: Stores username for a user.
+        pii values: username
+    .. pii_types: username
+    .. pii_retirement: retained
     """
     AWARDED, REVOKED = (
         'awarded', 'revoked',
@@ -169,6 +181,8 @@ class UserCredential(TimeStampedModel):
 class CourseCertificate(AbstractCertificate):
     """
     Configuration for Course Certificates.
+
+    .. no_pii: This model has no PII.
     """
     course_id = models.CharField(max_length=255, validators=[validate_course_key])
     certificate_type = models.CharField(
@@ -205,6 +219,8 @@ ProgramDetails = namedtuple('ProgramDetails', ('uuid', 'title', 'subtitle', 'typ
 class ProgramCertificate(AbstractCertificate):
     """
     Configuration for Program Certificates.
+
+    .. no_pii: This model has no PII.
     """
 
     program_uuid = models.UUIDField(db_index=True, null=False, blank=False, verbose_name=_('Program UUID'))
@@ -279,6 +295,8 @@ class ProgramCertificate(AbstractCertificate):
 class UserCredentialAttribute(TimeStampedModel):
     """
     Different attributes of User's Credential such as white list, grade etc.
+
+    .. no_pii: This model has no PII.
     """
     user_credential = models.ForeignKey(UserCredential, related_name='attributes', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
