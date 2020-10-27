@@ -133,6 +133,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
             },
         )
 
+
         # Send an updated email to a pathway org only if the user has previously sent one
         # This function call should be moved into some type of task queue
         # once credentials has that functionality
