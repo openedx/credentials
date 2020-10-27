@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from credentials.apps.api.v2 import views
 
+
 urlpatterns = [
     url(r'^replace_usernames/$', views.UsernameReplacementView.as_view(), name="replace_usernames")
 ]

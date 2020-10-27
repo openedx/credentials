@@ -7,6 +7,7 @@ from django.core.cache import cache
 
 from credentials.apps.core.tests.factories import SiteConfigurationFactory
 
+
 JSON = 'application/json'
 
 

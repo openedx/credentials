@@ -8,6 +8,7 @@ from django.conf import settings
 from django.template.loader import select_template
 from django.utils.translation import get_language
 
+
 register = template.Library()
 
 

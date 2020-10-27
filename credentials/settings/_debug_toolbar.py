@@ -1,5 +1,6 @@
 # DJANGO DEBUG TOOLBAR CONFIGURATION
 import os
+
 from credentials.settings.utils import str2bool
 
 DEBUG_TOOLBAR = str2bool(os.environ.get('DEBUG_TOOLBAR', True))

@@ -2,6 +2,7 @@ import os
 
 from bok_choy.page_object import PageObject, unguarded
 
+
 CREDENTIALS_ROOT_URL = os.environ.get('CREDENTIALS_ROOT_URL', 'http://localhost:19150').strip('/')
 
 

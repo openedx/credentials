@@ -6,6 +6,7 @@ from django.db.models import Q
 
 from credentials.apps.credentials.models import UserCredentialAttribute
 
+
 log = logging.getLogger(__name__)
 
 VISIBLE_DATE_FORMAT = '%Y-%m-%dT%H:%M:%SZ'

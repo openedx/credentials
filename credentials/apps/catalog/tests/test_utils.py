@@ -8,7 +8,11 @@ from django.test import TestCase
 from credentials.apps.catalog.models import Course, CourseRun, Organization, Program
 from credentials.apps.catalog.tests.factories import CourseFactory
 from credentials.apps.catalog.utils import (
-    parse_course, parse_course_run, parse_organization, parse_pathway, parse_program
+    parse_course,
+    parse_course_run,
+    parse_organization,
+    parse_pathway,
+    parse_program,
 )
 from credentials.apps.core.tests.factories import SiteFactory
 from credentials.shared.constants import PathwayType

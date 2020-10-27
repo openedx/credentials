@@ -4,9 +4,10 @@ import logging
 from django.contrib.sites.models import Site
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
-
 from sortedm2m.fields import SortedManyToManyField
+
 from credentials.shared.constants import PathwayType
+
 
 logger = logging.getLogger(__name__)
 

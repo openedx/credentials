@@ -4,6 +4,7 @@ from credentials.apps.credentials.constants import UUID_PATTERN
 
 from . import views
 
+
 urlpatterns = [
     url(r'^$', views.RecordsView.as_view(), name='index'),
     url(fr'^programs/{UUID_PATTERN}/$', views.ProgramRecordView.as_view(), {'is_public': False},

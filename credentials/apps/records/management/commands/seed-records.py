@@ -15,6 +15,7 @@ from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
 from credentials.shared.constants import PathwayType
 
+
 logger = logging.getLogger(__name__)
 
 

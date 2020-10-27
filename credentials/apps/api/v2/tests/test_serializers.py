@@ -9,14 +9,20 @@ from rest_framework.settings import api_settings
 from rest_framework.test import APIRequestFactory
 
 from credentials.apps.api.v2.serializers import (
-    CredentialField, UserCredentialAttributeSerializer, UserCredentialCreationSerializer, UserCredentialSerializer,
-    UserGradeSerializer
+    CredentialField,
+    UserCredentialAttributeSerializer,
+    UserCredentialCreationSerializer,
+    UserCredentialSerializer,
+    UserGradeSerializer,
 )
 from credentials.apps.catalog.tests.factories import CourseFactory, CourseRunFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import CourseCertificate
 from credentials.apps.credentials.tests.factories import (
-    CourseCertificateFactory, ProgramCertificateFactory, UserCredentialAttributeFactory, UserCredentialFactory
+    CourseCertificateFactory,
+    ProgramCertificateFactory,
+    UserCredentialAttributeFactory,
+    UserCredentialFactory,
 )
 from credentials.apps.records.tests.factories import UserGradeFactory
 

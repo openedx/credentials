@@ -16,6 +16,7 @@ from credentials.apps.credentials.exceptions import MissingCertificateLogoError
 from credentials.apps.credentials.models import OrganizationDetails, ProgramCertificate, ProgramDetails, UserCredential
 from credentials.apps.credentials.utils import get_credential_visible_date, to_language
 
+
 logger = logging.getLogger(__name__)
 
 
