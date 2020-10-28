@@ -1,9 +1,11 @@
 import datetime
+
 import ddt
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from credentials.apps.credentials.utils import datetime_from_visible_date, validate_duplicate_attributes
+
 
 User = get_user_model()
 

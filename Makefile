@@ -2,7 +2,8 @@
 NODE_BIN=./node_modules/.bin
 TOX = ''
 
-.PHONY: requirements upgrade piptools production-requirements all-requirements pii_check exec-pii_check
+.PHONY: requirements upgrade piptools production-requirements all-requirements isort isort_check pycodestyle \
+        pii_check exec-pii_check
 
 ifdef TOXENV
 TOX := tox -- #to isolate each tox environment if TOXENV is defined
@@ -36,9 +37,18 @@ requirements: piptools ## Install requirements for local development
 	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
 	pip-sync requirements/dev.txt
 
+isort: ## Run isort to sort imports in all Python files
+	isort --recursive --atomic acceptance_tests/ credentials/
+
+isort_check: ## Check that isort has been run
+	isort --check-only -rc acceptance_tests/ credentials/
+
+pycodestyle: ## Run pycodestyle
+	pycodestyle acceptance_tests credentials *.py
+
 quality: ## Run linters
-	isort --check-only --recursive acceptance_tests/ credentials/
-	pep8 --config=.pep8 acceptance_tests credentials *.py
+	make isort_check
+	make pycodestyle
 	pylint --rcfile=pylintrc acceptance_tests credentials *.py
 	make quality-js
 

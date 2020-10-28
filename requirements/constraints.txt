@@ -17,8 +17,5 @@ Django<2.3
 # Functional pin for dev.in
 docker-compose >= 1.5.1
 
-# Version pins required to retain quality-check behavior
-isort==4.2.5
-
 # This package is pinned due to openedx.atlassian.net/browse/ARCHBOM-1078
 social-auth-core<3.3.0

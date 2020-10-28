@@ -14,13 +14,19 @@ from credentials.apps.core.models import SiteConfiguration
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.models import (
-    CourseCertificate, OrganizationDetails, ProgramDetails, Signatory,
-    UserCredential
+    CourseCertificate,
+    OrganizationDetails,
+    ProgramDetails,
+    Signatory,
+    UserCredential,
 )
 from credentials.apps.credentials.tests.factories import (
-    ProgramCertificateFactory, SignatoryFactory, UserCredentialFactory
+    ProgramCertificateFactory,
+    SignatoryFactory,
+    UserCredentialFactory,
 )
 from credentials.settings.base import MEDIA_ROOT
+
 
 TEST_DATA_ROOT = MEDIA_ROOT + '/test/data/'
 

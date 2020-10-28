@@ -2,7 +2,11 @@ from django.contrib import admin
 
 from credentials.apps.credentials.forms import ProgramCertificateAdminForm, SignatoryModelForm
 from credentials.apps.credentials.models import (
-    CourseCertificate, ProgramCertificate, Signatory, UserCredential, UserCredentialAttribute
+    CourseCertificate,
+    ProgramCertificate,
+    Signatory,
+    UserCredential,
+    UserCredentialAttribute,
 )
 
 

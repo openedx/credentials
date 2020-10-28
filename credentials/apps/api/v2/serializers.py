@@ -11,9 +11,14 @@ from rest_framework.reverse import reverse
 from credentials.apps.api.accreditors import Accreditor
 from credentials.apps.catalog.models import CourseRun
 from credentials.apps.credentials.constants import UserCredentialStatus
-from credentials.apps.credentials.models import (CourseCertificate, ProgramCertificate, UserCredential,
-                                                 UserCredentialAttribute)
+from credentials.apps.credentials.models import (
+    CourseCertificate,
+    ProgramCertificate,
+    UserCredential,
+    UserCredentialAttribute,
+)
 from credentials.apps.records.models import UserGrade
+
 
 logger = logging.getLogger(__name__)
 

@@ -4,6 +4,7 @@ from credentials.apps.api import exceptions
 from credentials.apps.credentials.constants import UserCredentialStatus
 from credentials.apps.credentials.issuers import CourseCertificateIssuer, ProgramCertificateIssuer
 
+
 logger = logging.getLogger(__name__)
 
 

@@ -1,5 +1,4 @@
 import os
-
 from pathlib import Path as path
 
 from credentials.settings.base import *

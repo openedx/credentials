@@ -10,17 +10,25 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.test import APIRequestFactory, APITestCase
 
 from credentials.apps.api.tests.mixins import JwtMixin
-from credentials.apps.api.v2.serializers import (UserCredentialAttributeSerializer, UserCredentialSerializer,
-                                                 UserGradeSerializer)
+from credentials.apps.api.v2.serializers import (
+    UserCredentialAttributeSerializer,
+    UserCredentialSerializer,
+    UserGradeSerializer,
+)
 from credentials.apps.api.v2.views import CredentialRateThrottle
 from credentials.apps.catalog.tests.factories import CourseFactory, CourseRunFactory, ProgramFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import UserCredential
-from credentials.apps.credentials.tests.factories import (CourseCertificateFactory, ProgramCertificateFactory,
-                                                          UserCredentialAttributeFactory, UserCredentialFactory)
+from credentials.apps.credentials.tests.factories import (
+    CourseCertificateFactory,
+    ProgramCertificateFactory,
+    UserCredentialAttributeFactory,
+    UserCredentialFactory,
+)
 from credentials.apps.records.models import UserGrade
 from credentials.apps.records.tests.factories import UserGradeFactory
+
 
 JSON_CONTENT_TYPE = 'application/json'
 LOGGER_NAME = 'credentials.apps.credentials.issuers'

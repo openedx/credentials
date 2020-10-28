@@ -1,8 +1,8 @@
 """ Tests for core models. """
 import json
 import uuid
-
 from unittest import mock
+
 import responses
 from django.contrib.sites.models import SiteManager
 from django.test import TestCase, override_settings

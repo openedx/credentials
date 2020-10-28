@@ -2,7 +2,6 @@
 !.babelrc
 !.eslintrc.json
 !.isort.cfg
-!.pep8
 !.tx
 !acceptance_tests
 !credentials
@@ -19,3 +18,4 @@
 !README.rst
 !requirements.txt
 !webpack.config.js
+!setup.cfg

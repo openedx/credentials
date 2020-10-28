@@ -22,7 +22,7 @@ edx-lint
 factory-boy
 httpretty
 isort
-pep8
+pycodestyle               # PEP 8 compliance validation
 pytest
 pytest-django
 responses

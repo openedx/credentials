@@ -6,6 +6,7 @@ from factory import Faker, PostGenerationMethodCall, Sequence, SubFactory, djang
 
 from credentials.apps.core.models import SiteConfiguration, User
 
+
 USER_PASSWORD = 'password'
 
 

@@ -13,6 +13,7 @@ from django.views.generic import View
 
 from credentials.apps.core.constants import Status
 
+
 try:
     import newrelic.agent
 except ImportError:  # pragma: no cover

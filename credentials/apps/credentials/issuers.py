@@ -7,10 +7,15 @@ from django.db import transaction
 
 from credentials.apps.api.exceptions import DuplicateAttributeError
 from credentials.apps.credentials.constants import UserCredentialStatus
-from credentials.apps.credentials.models import (CourseCertificate, ProgramCertificate, UserCredential,
-                                                 UserCredentialAttribute)
+from credentials.apps.credentials.models import (
+    CourseCertificate,
+    ProgramCertificate,
+    UserCredential,
+    UserCredentialAttribute,
+)
 from credentials.apps.credentials.utils import validate_duplicate_attributes
 from credentials.apps.records.utils import send_updated_emails_for_program
+
 
 logger = logging.getLogger(__name__)
 

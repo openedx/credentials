@@ -1,7 +1,6 @@
 from urllib.parse import urljoin
 
 from django.views.generic.base import RedirectView
-
 from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
 from edx_rest_framework_extensions.permissions import IsStaff
 from rest_framework import permissions, views

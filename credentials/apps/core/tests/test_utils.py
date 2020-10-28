@@ -1,6 +1,7 @@
 """Test core.utils."""
 
 from unittest import mock
+
 from django.test import TestCase
 
 from credentials.apps.core.tests.factories import UserFactory
