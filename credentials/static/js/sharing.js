@@ -18,7 +18,7 @@ function initializeFacebook() {
   FB.AppEvents.logPageView();
 
   // Activate the sharing button
-  if(shareButton !== null){
+  if (shareButton !== null) {
     shareButton.removeAttribute('disabled');
     shareButton.addEventListener('click', addFacebookClickHandler);
   }
