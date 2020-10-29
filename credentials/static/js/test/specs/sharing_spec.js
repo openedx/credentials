@@ -46,5 +46,10 @@ describe('sharing module', () => {
 
       expect(FB.ui).toHaveBeenCalledWith(expected);
     });
+
+    it('should handle the share button not existing', () => {
+      facebookShareButton.remove();
+      initializeFacebook(); // eslint-disable-line no-undef
+    });
   });
 });

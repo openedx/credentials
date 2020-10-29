@@ -18,8 +18,10 @@ function initializeFacebook() {
   FB.AppEvents.logPageView();
 
   // Activate the sharing button
-  shareButton.removeAttribute('disabled');
-  shareButton.addEventListener('click', addFacebookClickHandler);
+  if (shareButton !== null) {
+    shareButton.removeAttribute('disabled');
+    shareButton.addEventListener('click', addFacebookClickHandler);
+  }
 }
 
 window.fbAsyncInit = initializeFacebook;
