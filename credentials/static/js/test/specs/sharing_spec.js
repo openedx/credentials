@@ -48,7 +48,7 @@ describe('sharing module', () => {
     });
 
     it('should handle the share button not existing', () => {
-      facebookShareButton.remove()
+      facebookShareButton.remove();
       initializeFacebook(); // eslint-disable-line no-undef
     });
   });
