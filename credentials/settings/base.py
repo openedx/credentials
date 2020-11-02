@@ -464,3 +464,15 @@ MEDIA_STORAGE_BACKEND = {
     'MEDIA_URL': MEDIA_URL
 }
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
+
+# .. toggle_name: SEND_EMAIL_ON_PROGRAM_COMPLETION
+# .. toggle_implementation: DjangoSetting
+# .. toggle_default: False
+# .. toggle_description: Toggle to control if we send a congratulatory email to learners after being issued a Program Certificate
+# .. toggle_use_cases: permanent
+# .. toggle_creation_date: 2020-10-08
+# .. toggle_target_removal_date: NA
+# .. toggle_warnings: This is a toggle for the feature
+# .. toggle_tickets: MICROBA-521
+SEND_EMAIL_ON_PROGRAM_COMPLETION = False
+CUSTOM_COMPLETION_EMAIL_TEMPLATE_EXTRA = {}

@@ -7,6 +7,7 @@ from uuid import uuid4
 import factory
 from factory.fuzzy import FuzzyDateTime, FuzzyText
 from pytz import UTC
+from slugify import slugify
 
 from credentials.apps.catalog.models import Course, CourseRun, Organization, Pathway, Program
 from credentials.apps.core.tests.factories import SiteFactory
@@ -63,6 +64,7 @@ class ProgramFactory(factory.django.DjangoModelFactory):
     uuid = factory.LazyFunction(uuid4)
     title = FuzzyText(prefix="Test Program ")
     type = FuzzyText()
+    type_slug = slugify(str(type))
     status = Program.ACTIVE
 
     @factory.post_generation

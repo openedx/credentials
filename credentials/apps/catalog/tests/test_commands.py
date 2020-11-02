@@ -22,6 +22,9 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
             'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd5',
             'title': 'A Fake Program',
             'type': 'MicroMasters',
+            'type_attrs': {
+                'slug': 'micromasters'
+            },
             'status': 'active',
             'authoring_organizations': [
                 {
@@ -58,6 +61,9 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
             'uuid': '33f0dded-fee9-4dec-a333-c9d8c2c82bd5',
             'title': 'A Second Fake Program',
             'type': 'Professional Certificate',
+            'type_attrs': {
+                'slug': 'professional-certificate'
+            },
             'status': 'retired',
             'authoring_organizations': [
                 {
