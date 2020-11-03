@@ -71,7 +71,6 @@ greenlet==0.4.17          # via -r requirements/production.txt, gevent
 gunicorn==20.0.4          # via -r requirements/production.txt
 httpretty==1.0.2          # via -r requirements/dev.txt
 idna==2.10                # via -r requirements/dev.txt, -r requirements/production.txt, requests
-importlib-metadata==2.0.0  # via -r requirements/dev.txt, -r requirements/production.txt, path.py
 iniconfig==1.1.1          # via -r requirements/dev.txt, pytest
 isort==4.3.21             # via -r requirements/dev.txt, pylint
 itypes==1.2.0             # via -r requirements/dev.txt, -r requirements/production.txt, coreapi
@@ -90,7 +89,7 @@ oauthlib==3.1.0           # via -r requirements/dev.txt, -r requirements/product
 openapi-codec==1.3.2      # via -r requirements/dev.txt, -r requirements/production.txt, django-rest-swagger
 packaging==20.4           # via -r requirements/dev.txt, pytest, tox
 paramiko==2.7.2           # via -r requirements/dev.txt, docker
-path.py==12.0.2           # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, edx-i18n-tools
+path.py==12.1.0           # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, edx-i18n-tools
 pbr==5.5.1                # via -r requirements/dev.txt, -r requirements/production.txt, stevedore
 pillow==8.0.1             # via -r requirements/dev.txt, -r requirements/production.txt
 pluggy==0.13.1            # via -r requirements/dev.txt, pytest, tox
@@ -149,7 +148,6 @@ virtualenv==20.1.0        # via -r requirements/dev.txt, tox
 websocket-client==0.57.0  # via -r requirements/dev.txt, docker, docker-compose
 wrapt==1.11.2             # via -r requirements/dev.txt, astroid
 xss-utils==0.1.3          # via -r requirements/dev.txt, -r requirements/production.txt
-zipp==3.4.0               # via -r requirements/dev.txt, -r requirements/production.txt, importlib-metadata
 zope.event==4.5.0         # via -r requirements/production.txt, gevent
 zope.interface==5.1.2     # via -r requirements/production.txt, gevent
 
