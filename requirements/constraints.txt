@@ -8,9 +8,6 @@
 # pin when possible.  Writing an issue against the offending project and
 # linking to it here is good.
 
-# Required to resolve requirements from base.in with inherited files
-path.py<=12.3.0
-
 # code-annotations currently restricts to Django<2.3
 Django<2.3
 
