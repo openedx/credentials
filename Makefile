@@ -23,7 +23,7 @@ clean: ## Remove all generated files
 
 production-requirements: piptools ## Install requirements for production
 	npm install --no-save
-	pip-sync requirements.txt
+	pip-sync --pip-args '--force-reinstall' requirements.txt
 
 js-requirements: ## Install frontend requirements
 	npm install
@@ -31,11 +31,11 @@ js-requirements: ## Install frontend requirements
 all-requirements: piptools ## Install local and prod requirements
 	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
 	npm install --production --no-save
-	pip-sync requirements/all.txt
+	pip-sync --pip-args '--force-reinstall' requirements/all.txt
 
 requirements: piptools ## Install requirements for local development
 	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
-	pip-sync requirements/dev.txt
+	pip-sync --pip-args '--force-reinstall' requirements/dev.txt
 
 isort: ## Run isort to sort imports in all Python files
 	isort --recursive --atomic acceptance_tests/ credentials/
