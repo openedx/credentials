@@ -35,6 +35,7 @@ edx-rest-api-client
 markdown
 mysqlclient
 newrelic
+path.py
 pillow
 pygments
 python-memcached
