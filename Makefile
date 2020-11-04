@@ -189,6 +189,6 @@ upgrade: piptools ## update the requirements/*.txt files with the latest package
 check_keywords: ## Scan the Django models in all installed apps in this project for restricted field names
 	python manage.py check_reserved_keywords --override_file db_keyword_overrides.yml
 
-pii_check: ## Check for PII annotations on all Django models
+pii_check: ## Check for PII annotations on all of the Django models
 	DJANGO_SETTINGS_MODULE=credentials.settings.test \
 	code_annotations django_find_annotations --config_file .pii_annotations.yml --lint --report --coverage
