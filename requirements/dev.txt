@@ -27,7 +27,7 @@ distlib==0.3.1            # via -r requirements/test.txt, virtualenv
 distro==1.5.0             # via docker-compose
 django-appconf==1.0.4     # via -r requirements/test.txt, django-statici18n
 django-compat==1.0.15     # via -r requirements/test.txt, django-hijack
-django-crum==0.7.8        # via -r requirements/test.txt, edx-django-utils
+django-crum==0.7.7        # via -r requirements/test.txt, edx-django-utils
 django-debug-toolbar==3.1.1  # via -r requirements/test.txt
 django-extensions==3.0.9  # via -r requirements/test.txt
 django-filter==2.4.0      # via -r requirements/test.txt
