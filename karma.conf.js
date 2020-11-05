@@ -18,7 +18,6 @@ module.exports = function (config) {
     files: [
       'credentials/static/js/test/spec-runner.js',
       'credentials/static/js/**/*.js',
-      'credentials/static/components/**/*.js',
       {pattern: 'credentials/static/js/test/fixtures/**/*.html', included: false, served: true, watched: true},
 
     ],
