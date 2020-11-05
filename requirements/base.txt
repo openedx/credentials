@@ -5,7 +5,7 @@
 #    make upgrade
 #
 analytics-python==1.2.9   # via -r requirements/base.in
-attrs==20.2.0             # via edx-ace
+attrs==20.3.0             # via edx-ace
 certifi==2020.6.20        # via requests
 cffi==1.14.3              # via cryptography
 chardet==3.0.4            # via requests
@@ -28,7 +28,7 @@ django-storages==1.10.1   # via -r requirements/base.in
 django-waffle==2.0.0      # via -r requirements/base.in, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/base.in
 django==2.2.17            # via -c requirements/constraints.txt, -r requirements/base.in, django-appconf, django-crum, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
-djangorestframework==3.12.1  # via -r requirements/base.in, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
+djangorestframework==3.12.2  # via -r requirements/base.in, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
 drf-jwt==1.17.2           # via edx-drf-extensions
 edx-ace==0.1.17           # via -r requirements/base.in
 edx-auth-backends==3.1.0  # via -r requirements/base.in
@@ -39,7 +39,7 @@ edx-drf-extensions==6.2.0  # via -r requirements/base.in
 edx-i18n-tools==0.5.3     # via edx-credentials-themes
 edx-opaque-keys==2.1.1    # via -r requirements/base.in, edx-drf-extensions
 edx-rest-api-client==5.2.1  # via -r requirements/base.in
-git+https://github.com/edx/credentials-themes.git@0.1.31#egg=edx_credentials_themes==0.1.31  # via -r requirements/base.in
+git+https://github.com/edx/credentials-themes.git@0.1.32#egg=edx_credentials_themes==0.1.32  # via -r requirements/base.in
 future==0.18.2            # via pyjwkest
 gitdb==4.0.5              # via gitpython
 gitpython==3.1.11         # via transifex-client

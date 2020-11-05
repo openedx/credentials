@@ -7,7 +7,7 @@
 analytics-python==1.2.9   # via -r requirements/test.txt
 appdirs==1.4.4            # via -r requirements/test.txt, virtualenv
 astroid==2.3.3            # via -r requirements/test.txt, pylint, pylint-celery
-attrs==20.2.0             # via -r requirements/test.txt, edx-ace, jsonschema, pytest
+attrs==20.3.0             # via -r requirements/test.txt, edx-ace, jsonschema, pytest
 bcrypt==3.2.0             # via paramiko
 bok-choy==1.1.1           # via -r requirements/test.txt
 cached-property==1.5.2    # via docker-compose
@@ -40,7 +40,7 @@ django-storages==1.10.1   # via -r requirements/test.txt
 django-waffle==2.0.0      # via -r requirements/test.txt, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/test.txt
 django==2.2.17            # via -c requirements/constraints.txt, -r requirements/test.txt, code-annotations, django-appconf, django-crum, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
-djangorestframework==3.12.1  # via -r requirements/test.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
+djangorestframework==3.12.2  # via -r requirements/test.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
 docker-compose==1.27.4    # via -c requirements/constraints.txt, -r requirements/dev.in
 docker[ssh]==4.3.1        # via docker-compose
 dockerpty==0.4.1          # via docker-compose
@@ -56,9 +56,9 @@ edx-i18n-tools==0.5.3     # via -r requirements/dev.in, -r requirements/test.txt
 edx-lint==1.5.2           # via -r requirements/test.txt
 edx-opaque-keys==2.1.1    # via -r requirements/test.txt, edx-drf-extensions
 edx-rest-api-client==5.2.1  # via -r requirements/test.txt
-git+https://github.com/edx/credentials-themes.git@0.1.31#egg=edx_credentials_themes==0.1.31  # via -r requirements/test.txt
+git+https://github.com/edx/credentials-themes.git@0.1.32#egg=edx_credentials_themes==0.1.32  # via -r requirements/test.txt
 factory-boy==3.1.0        # via -r requirements/test.txt
-faker==4.14.1             # via -r requirements/test.txt, factory-boy
+faker==4.14.2             # via -r requirements/test.txt, factory-boy
 filelock==3.0.12          # via -r requirements/test.txt, tox, virtualenv
 future==0.18.2            # via -r requirements/test.txt, pyjwkest
 gitdb==4.0.5              # via -r requirements/test.txt, gitpython
