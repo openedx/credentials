@@ -10,8 +10,8 @@ astroid==2.3.3            # via -r requirements/dev.txt, pylint, pylint-celery
 attrs==20.2.0             # via -r requirements/dev.txt, -r requirements/production.txt, edx-ace, jsonschema, pytest
 bcrypt==3.2.0             # via -r requirements/dev.txt, paramiko
 bok-choy==1.1.1           # via -r requirements/dev.txt
-boto3==1.16.10            # via -r requirements/production.txt, django-ses
-botocore==1.19.10         # via -r requirements/production.txt, boto3, s3transfer
+boto3==1.16.11            # via -r requirements/production.txt, django-ses
+botocore==1.19.11         # via -r requirements/production.txt, boto3, s3transfer
 cached-property==1.5.2    # via -r requirements/dev.txt, docker-compose
 certifi==2020.6.20        # via -r requirements/dev.txt, -r requirements/production.txt, requests
 cffi==1.14.3              # via -r requirements/dev.txt, -r requirements/production.txt, bcrypt, cryptography, pynacl

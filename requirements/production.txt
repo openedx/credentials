@@ -6,8 +6,8 @@
 #
 analytics-python==1.2.9   # via -r requirements/base.txt
 attrs==20.2.0             # via -r requirements/base.txt, edx-ace
-boto3==1.16.10            # via django-ses
-botocore==1.19.10         # via boto3, s3transfer
+boto3==1.16.11            # via django-ses
+botocore==1.19.11         # via boto3, s3transfer
 certifi==2020.6.20        # via -r requirements/base.txt, requests
 cffi==1.14.3              # via -r requirements/base.txt, cryptography
 chardet==3.0.4            # via -r requirements/base.txt, requests
