@@ -7,7 +7,7 @@
 analytics-python==1.2.9   # via -r requirements/base.txt
 appdirs==1.4.4            # via virtualenv
 astroid==2.3.3            # via pylint, pylint-celery
-attrs==20.2.0             # via -r requirements/base.txt, edx-ace, pytest
+attrs==20.3.0             # via -r requirements/base.txt, edx-ace, pytest
 bok-choy==1.1.1           # via -r requirements/test.in
 certifi==2020.6.20        # via -r requirements/base.txt, requests
 cffi==1.14.3              # via -r requirements/base.txt, cryptography
@@ -36,7 +36,7 @@ django-statici18n==2.0.1  # via -r requirements/base.txt
 django-storages==1.10.1   # via -r requirements/base.txt
 django-waffle==2.0.0      # via -r requirements/base.txt, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/base.txt
-djangorestframework==3.12.1  # via -r requirements/base.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
+djangorestframework==3.12.2  # via -r requirements/base.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
 drf-jwt==1.17.2           # via -r requirements/base.txt, edx-drf-extensions
 edx-ace==0.1.17           # via -r requirements/base.txt
 edx-auth-backends==3.1.0  # via -r requirements/base.txt
@@ -48,9 +48,9 @@ edx-i18n-tools==0.5.3     # via -r requirements/base.txt, edx-credentials-themes
 edx-lint==1.5.2           # via -r requirements/test.in
 edx-opaque-keys==2.1.1    # via -r requirements/base.txt, edx-drf-extensions
 edx-rest-api-client==5.2.1  # via -r requirements/base.txt
-git+https://github.com/edx/credentials-themes.git@0.1.31#egg=edx_credentials_themes==0.1.31  # via -r requirements/base.txt
+git+https://github.com/edx/credentials-themes.git@0.1.32#egg=edx_credentials_themes==0.1.32  # via -r requirements/base.txt
 factory-boy==3.1.0        # via -r requirements/test.in
-faker==4.14.1             # via factory-boy
+faker==4.14.2             # via factory-boy
 filelock==3.0.12          # via tox, virtualenv
 future==0.18.2            # via -r requirements/base.txt, pyjwkest
 gitdb==4.0.5              # via -r requirements/base.txt, gitpython

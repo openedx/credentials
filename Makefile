@@ -1,9 +1,14 @@
-.DEFAULT_GOAL := tests
+.DEFAULT_GOAL := help
 NODE_BIN=./node_modules/.bin
 TOX = ''
 
-.PHONY: requirements upgrade piptools production-requirements all-requirements isort isort_check pycodestyle \
-        pii_check exec-pii_check
+.PHONY: help clean production-requirements js-requirements all-requirements requirements isort isort_check pycodestyle \
+        quality quality-js test-react tests js-tests static static.dev static.watch migrate up up-dev up-test \
+        exec-validate-translations exec-check_translations_up_to_date exec-check_keywords exec-pii_check exec-clean \
+        exec-requirements exec-static exec-quality exec-tests exec-accept exec-validate exec-coverage html_coverage \
+        shell tail stop down accept extract_translations dummy_translations compile_translations fake_translations \
+        pull_translations push_translations detect_changed_source_translations validate_translations \
+        check_translations_up_to_date piptools upgrade check_keywords pii_check
 
 ifdef TOXENV
 TOX := tox -- #to isolate each tox environment if TOXENV is defined
@@ -12,7 +17,7 @@ endif
 # Generates a help message. Borrowed from https://github.com/pydanny/cookiecutter-djangopackage.
 help: ## Display this help message
 	@echo "Please use \`make <target>\` where <target> is one of"
-	@perl -nle'print $& if m{^[\.a-zA-Z_-]+:.*?## .*$$}' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}'
+	@awk -F ':.*?## ' '/^[a-zA-Z]/ && NF==2 {printf "\033[36m  %-25s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
 
 clean: ## Remove all generated files
 	coverage erase
@@ -158,8 +163,13 @@ compile_translations: ## Compile translation files, outputting .mo files for eac
 
 fake_translations: extract_translations dummy_translations compile_translations ## Generate and compile dummy translation files
 
+# This Make target should not be removed since it is relied on by a Jenkins job (`edx-internal/tools-edx-jenkins/translation-jobs.yml`), using `ecommerce-scripts/transifex`.
 pull_translations: ## Pull translations from Transifex
-	cd credentials && i18n_tool transifex pull
+	tx pull -af --mode reviewed
+
+# This Make target should not be removed since it is relied on by a Jenkins job (`edx-internal/tools-edx-jenkins/translation-jobs.yml`), using `ecommerce-scripts/transifex`.
+push_translations: ## Push source translation files (.po) to Transifex
+	tx push -s
 
 detect_changed_source_translations: ## Check if translation files are up-to-date
 	cd credentials && i18n_tool changed
