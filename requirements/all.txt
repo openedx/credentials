@@ -10,10 +10,10 @@ astroid==2.3.3            # via -r requirements/dev.txt, pylint, pylint-celery
 attrs==20.3.0             # via -r requirements/dev.txt, -r requirements/production.txt, edx-ace, jsonschema, pytest
 bcrypt==3.2.0             # via -r requirements/dev.txt, paramiko
 bok-choy==1.1.1           # via -r requirements/dev.txt
-boto3==1.16.12            # via -r requirements/production.txt, django-ses
-botocore==1.19.12         # via -r requirements/production.txt, boto3, s3transfer
+boto3==1.16.13            # via -r requirements/production.txt, django-ses
+botocore==1.19.13         # via -r requirements/production.txt, boto3, s3transfer
 cached-property==1.5.2    # via -r requirements/dev.txt, docker-compose
-certifi==2020.6.20        # via -r requirements/dev.txt, -r requirements/production.txt, requests
+certifi==2020.11.8        # via -r requirements/dev.txt, -r requirements/production.txt, requests
 cffi==1.14.3              # via -r requirements/dev.txt, -r requirements/production.txt, bcrypt, cryptography, pynacl
 chardet==3.0.4            # via -r requirements/dev.txt, -r requirements/production.txt, requests
 click-log==0.3.2          # via -r requirements/dev.txt, edx-lint
@@ -59,7 +59,7 @@ edx-i18n-tools==0.5.3     # via -r requirements/dev.txt, -r requirements/product
 edx-lint==1.5.2           # via -r requirements/dev.txt
 edx-opaque-keys==2.1.1    # via -r requirements/dev.txt, -r requirements/production.txt, edx-drf-extensions
 edx-rest-api-client==5.2.1  # via -r requirements/dev.txt, -r requirements/production.txt
-git+https://github.com/edx/credentials-themes.git@0.1.32#egg=edx_credentials_themes==0.1.32  # via -r requirements/dev.txt, -r requirements/production.txt
+git+https://github.com/edx/credentials-themes.git@0.1.33#egg=edx_credentials_themes==0.1.33  # via -r requirements/dev.txt, -r requirements/production.txt
 factory-boy==3.1.0        # via -r requirements/dev.txt
 faker==4.14.2             # via -r requirements/dev.txt, factory-boy
 filelock==3.0.12          # via -r requirements/dev.txt, tox, virtualenv
