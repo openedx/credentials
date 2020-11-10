@@ -31,13 +31,16 @@ const defaultProps = {
   creditPathwaysList: [
     {
       name: 'testX',
+      id: 1,
       status: '',
     },
     {
       name: 'MITx',
+      id: 2,
       status: 'sent',
     },
     { name: 'HarvardX',
+      id: 3,
       status: '',
     },
   ],

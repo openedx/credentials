@@ -143,6 +143,7 @@ class SendLearnerRecordModal extends React.Component {
         buttons={[
           <Button.Deprecated
             label={gettext('Send')}
+            key="send"
             buttonType="primary"
             onClick={this.callSendHandler}
             disabled={this.state.numCheckedOrganizations <= 0}
