@@ -16,3 +16,6 @@ docker-compose >= 1.5.1
 
 # This package is pinned due to openedx.atlassian.net/browse/ARCHBOM-1078
 social-auth-core<3.3.0
+
+# Later versions of requests have a version of urllib3 that conflicts with botocore. See MICROBA-727
+requests<2.25.0
