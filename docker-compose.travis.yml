@@ -13,7 +13,7 @@ services:
       - DB_NAME=credentials
       - DB_PASSWORD=password
       - DB_PORT=3306
-      - DB_USER=credentials001
+      - DB_USER=root
       - DJANGO_SETTINGS_MODULE=credentials.settings.test
       - ENABLE_DJANGO_TOOLBAR=1
     volumes:

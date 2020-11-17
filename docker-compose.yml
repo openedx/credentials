@@ -7,8 +7,6 @@ services:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     environment:
       - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_USER=credentials001
-      - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=credentials
 
   memcached:

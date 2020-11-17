@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  acceptance_tests:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Start testing containers
+      run: docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
+    - name: Install Dependencies
+      run: make exec-requirements
+    - name: Run Tests
+      run: |
+        make exec-static
+        make exec-accept
+
+  quality_and_translations_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Start testing containers
+        run: docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
+      - name: Install Dependencies
+        run: make exec-requirements
+      - name: Run Tests
+        run: |
+          make exec-check_translations_up_to_date
+          make exec-validate-translations
+          make exec-quality
+          make exec-check_keywords
+          make exec-pii_check
+
+  unit_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Start testing containers
+        run: docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
+      - name: Install Dependencies
+        run: make exec-requirements
+      - name: Run Tests
+        run: |
+          make exec-static
+          make exec-tests

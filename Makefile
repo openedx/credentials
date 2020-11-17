@@ -124,10 +124,10 @@ exec-quality: ## Run linters on a container
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make quality'
 
 exec-tests: ## Run tests on a container
-	docker exec -e TOXENV=$(TOXENV) -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && xvfb-run make tests'
+	docker exec -e TOXENV=$(TOXENV) -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && xvfb-run make tests'
 
 exec-accept: ## Run acceptance tests on a container
-	docker exec -it credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make accept'
+	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make accept'
 
 exec-validate: exec-validate-translations exec-clean exec-static exec-quality exec-tests exec-accept exec-check_keywords exec-pii_check ## Run linters and tests after checking translations and gathering static assets
 
@@ -179,7 +179,7 @@ validate_translations: ## Test translations files
 
 check_translations_up_to_date: fake_translations detect_changed_source_translations ## Install fake translations and check if translation files are up-to-date
 
-piptools: 
+piptools:
 	pip install -q -r requirements/pip_tools.txt
 
 export CUSTOM_COMPILE_COMMAND = make upgrade
