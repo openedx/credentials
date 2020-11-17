@@ -66,8 +66,7 @@ test-react: ## Run Jest tests for React
 tests: ## Run tests and generate coverage report
 	$(TOX)coverage run -m pytest --ds credentials.settings.test --durations=25
 	$(TOX)coverage report
-	$(NODE_BIN)/gulp test
-	make test-react
+	make js-tests
 
 js-tests: ## Run tests and generate coverage report
 	$(NODE_BIN)/gulp test
