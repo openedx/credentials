@@ -64,7 +64,7 @@ class ProgramFactory(factory.django.DjangoModelFactory):
     uuid = factory.LazyFunction(uuid4)
     title = FuzzyText(prefix="Test Program ")
     type = FuzzyText()
-    type_slug = slugify(str(type))
+    type_slug = factory.LazyAttribute(lambda o: slugify(o.type))
     status = Program.ACTIVE
 
     @factory.post_generation
