@@ -1,6 +1,7 @@
 """Test models for credentials service app."""
 
 import uuid
+from dataclasses import dataclass
 from unittest import mock
 
 import ddt
@@ -16,6 +17,7 @@ from credentials.apps.credentials import constants
 from credentials.apps.credentials.models import (
     CourseCertificate,
     OrganizationDetails,
+    ProgramCompletionEmailConfiguration,
     ProgramDetails,
     Signatory,
     UserCredential,
@@ -185,3 +187,71 @@ class UserCredentialTests(TestCase):
 
         credential.revoke()
         self.assertEqual(credential.status, UserCredential.REVOKED)
+
+
+@ddt.ddt
+class ProgramCompletionEmailConfigurationTests(TestCase):
+    def setUp(self):
+        super().setUp()
+
+        # Making a Program -like data model so we don't need to cross import. It quacks.
+        @dataclass
+        class FakeProgram:
+            """Minimal fake Program -like data model for testing"""
+            uuid: uuid.UUID
+            type_slug: str
+
+        self.fake_program = FakeProgram(uuid=uuid.uuid4(), type_slug="example-program-type")
+
+        self.default_config = ProgramCompletionEmailConfiguration.objects.create(
+            identifier="default",
+            html_template="<h1>Default Template</h1>",
+            plaintext_template="Default Template",
+            enabled=False
+        )
+        self.program_type_config = ProgramCompletionEmailConfiguration.objects.create(
+            identifier=self.fake_program.type_slug,
+            html_template="<h1>Program Type Template</h1>",
+            plaintext_template="Program Type Template",
+            enabled=False
+        )
+        self.single_program_config = ProgramCompletionEmailConfiguration.objects.create(
+            identifier=self.fake_program.uuid,
+            html_template="<h1>Program Type Template</h1>",
+            plaintext_template="Program Type Template",
+            enabled=False
+        )
+
+    @ddt.data(
+        (True, True, True),
+        (True, True, False),
+        (True, False, True),
+        (True, False, False),
+        (False, True, True),
+        (False, True, False),
+        (False, False, True),
+        (False, False, False),
+    )
+    @ddt.unpack
+    def test_get_email_config_for_program(self, default_exists, program_type_exists, single_program_exists):
+
+        if not single_program_exists:
+            self.single_program_config.delete()
+
+        if not program_type_exists:
+            self.program_type_config.delete()
+
+        if not default_exists:
+            self.default_config.delete()
+
+        chosen_config = ProgramCompletionEmailConfiguration.get_email_config_for_program(self.fake_program)
+
+        # Because we're using elifs we guarantee the item we're checking the most specific true value
+        if single_program_exists:
+            self.assertEqual(chosen_config, self.single_program_config)
+        elif program_type_exists:
+            self.assertEqual(chosen_config, self.program_type_config)
+        elif default_exists:
+            self.assertEqual(chosen_config, self.default_config)
+        else:
+            self.assertEqual(chosen_config, None)
