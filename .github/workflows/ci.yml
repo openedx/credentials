@@ -9,10 +9,6 @@ on:
 jobs:
   acceptance_tests:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.8]
     steps:
     - uses: actions/checkout@v2
     - name: Start testing containers
@@ -42,6 +38,10 @@ jobs:
 
   unit_tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["py38"]
+        django-version: ["django22", "django30", "django31"]
     steps:
       - uses: actions/checkout@v2
       - name: Start testing containers
@@ -49,6 +49,33 @@ jobs:
       - name: Install Dependencies
         run: make exec-requirements
       - name: Run Tests
+        env:
+          TOXENV: ${{ matrix.django-version }}
         run: |
           make exec-static
           make exec-tests
+
+  code_coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Start testing containers
+        run: docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
+      - name: Install Dependencies
+        run: make exec-requirements
+      - name: Run Tests (required for code cov)
+        env:
+          TOXENV: django22
+        run: |
+          make exec-static
+          make exec-tests
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+          architecture: x64
+      - name: Run code coverage
+        run: |
+          make exec-coverage
+          pip install codecov
+          codecov
