@@ -4,6 +4,8 @@ Models for the credentials service.
 import uuid
 from collections import namedtuple
 
+import bleach
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
@@ -15,6 +17,7 @@ from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
+from simple_history.models import HistoricalRecords
 
 from credentials.apps.core.utils import _choices
 from credentials.apps.credentials import constants
@@ -304,3 +307,67 @@ class UserCredentialAttribute(TimeStampedModel):
 
     class Meta:
         unique_together = (('user_credential', 'name'),)
+
+
+class ProgramCompletionEmailConfiguration(TimeStampedModel):
+    """
+    Template to add additional content into the program completion emails.
+
+    identifier should either be a:
+    - UUID <string> (for a specific program)
+    - program type <string> (for a program type)
+    - or "default" (the DEFAULT_TEMPLATE_IDENTIFIER) to be the global template used for all programs
+
+    html_template should be the HTML version of the email
+
+    plaintext_template should be the plaintext version of the email
+
+    enabled is what determines if we send the emails at all
+
+    .. no_pii: This model has no PII.
+    """
+
+    DEFAULT_TEMPLATE_IDENTIFIER = "default"
+
+    # identifier will either be a:
+    # - UUID <string> (for a specific program)
+    # - program type <string> (for a program type)
+    # - or "default" (the DEFAULT_TEMPLATE_IDENTIFIER) to be the global template used for all programs
+    identifier = models.CharField(
+        max_length=50,
+        unique=True,
+        help_text=(
+            """Should be either "default" to affect all programs, the program type slug, or the UUID of the program. """
+            """Values are unique."""
+        )
+    )
+    html_template = models.TextField(
+        help_text=(
+            "For HTML emails."
+            "Allows tags include (a, b, blockquote, div, em, i, li, ol, span, strong, ul)"
+        )
+    )
+    plaintext_template = models.TextField(help_text="For plaintext emails. No formatting tags. Text will send as is.")
+    enabled = models.BooleanField(default=False)
+    history = HistoricalRecords()
+
+    def save(self, **kwargs):
+        self.html_template = bleach.clean(self.html_template, tags=settings.ALLOWED_EMAIL_HTML_TAGS)
+        super().save(**kwargs)
+
+    @classmethod
+    def get_email_config_for_program(cls, program):
+        """
+        Gets the email config for the program, with the most specific match being returned,
+        or None of there are no matches
+
+        Because the UUID of the program will have hyphens, but we want to make it easy on PCs copying values,
+        we will check both the hyphenated version, and an unhyphenated version (.hex)
+        """
+        return (
+            # Check if identifier matches program UUID (w/ hyph)
+            cls.objects.filter(identifier=program.uuid).first()
+            or cls.objects.filter(identifier=program.uuid.hex).first()
+            or cls.objects.filter(identifier=program.type_slug).first()
+            or cls.objects.filter(identifier=cls.DEFAULT_TEMPLATE_IDENTIFIER).first()
+        )

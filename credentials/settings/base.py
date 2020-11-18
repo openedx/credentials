@@ -475,4 +475,16 @@ SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 # .. toggle_warnings: This is a toggle for the feature
 # .. toggle_tickets: MICROBA-521
 SEND_EMAIL_ON_PROGRAM_COMPLETION = False
-CUSTOM_COMPLETION_EMAIL_TEMPLATE_EXTRA = {}
+ALLOWED_EMAIL_HTML_TAGS = [
+    'a',
+    'b',
+    'blockquote',
+    'div',
+    'em',
+    'i',
+    'li',
+    'ol',
+    'span',
+    'strong',
+    'ul'
+]

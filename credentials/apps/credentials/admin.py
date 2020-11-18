@@ -4,6 +4,7 @@ from credentials.apps.credentials.forms import ProgramCertificateAdminForm, Sign
 from credentials.apps.credentials.models import (
     CourseCertificate,
     ProgramCertificate,
+    ProgramCompletionEmailConfiguration,
     Signatory,
     UserCredential,
     UserCredentialAttribute,
@@ -59,3 +60,9 @@ class SignatoryAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
     form = SignatoryModelForm
     list_display = ('name', 'title', 'image')
     search_fields = ('name',)
+
+
+@admin.register(ProgramCompletionEmailConfiguration)
+class ProgramCompletionEmailConfigurationAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
+    list_display = ('identifier', 'enabled')
+    search_fields = ('identifier',)
