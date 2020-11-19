@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Start testing containers
-      run: docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
+      run: docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d
     - name: Install Dependencies
       run: make exec-requirements
     - name: Run Tests
@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Start testing containers
-        run: docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
+        run: docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d
       - name: Install Dependencies
         run: make exec-requirements
       - name: Run Tests
@@ -45,7 +45,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Start testing containers
-        run: docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
+        run: docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d
       - name: Install Dependencies
         run: make exec-requirements
       - name: Run Tests
@@ -60,7 +60,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Start testing containers
-        run: docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
+        run: docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d
       - name: Install Dependencies
         run: make exec-requirements
       - name: Run Tests (required for code cov)

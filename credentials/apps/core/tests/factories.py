@@ -2,7 +2,7 @@
 Factories for tests of Credentials.
 """
 from django.contrib.sites.models import Site
-from factory import Faker, PostGenerationMethodCall, Sequence, SubFactory, django
+from factory import Faker, PostGenerationMethodCall, Sequence, SubFactory, django, sequence
 
 from credentials.apps.core.models import SiteConfiguration, User
 
@@ -29,7 +29,10 @@ class SiteFactory(django.DjangoModelFactory):
     class Meta:
         model = Site
 
-    domain = Faker('domain_name')
+    # `sequence` added to guarantee domain names would be unique. Tests were flaky prior.
+    @sequence
+    def domain(n):  # pylint: disable=no-self-argument
+        return f"{n}{Faker('domain_name')}"
     name = Faker('word')
 
 
