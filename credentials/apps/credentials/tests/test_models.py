@@ -255,3 +255,25 @@ class ProgramCompletionEmailConfigurationTests(TestCase):
             self.assertEqual(chosen_config, self.default_config)
         else:
             self.assertEqual(chosen_config, None)
+
+    @ddt.data(
+        ("This is a safe example", "This is a safe example"),
+        (
+            """This is an example with a <a href="http://example.com">link</a>""",
+            """This is an example with a <a href="http://example.com">link</a>"""
+        ),
+        (
+            """This is an example with a <script>alert("boo")</script>""",
+            """This is an example with a &lt;script&gt;alert("boo")&lt;/script&gt;"""
+        ),
+        (
+            """This has both <a href="http://example.com">links</a> and a <script>alert("boo")</script>""",
+            """This has both <a href="http://example.com">links</a> and a &lt;script&gt;alert("boo")&lt;/script&gt;"""
+        )
+    )
+    @ddt.unpack
+    def test_html_character_removal(self, input_value, expected_save_value):
+        """Verifies that safe tags are kept and unsafe tags are cleaned"""
+        self.default_config.html_template = input_value
+        self.default_config.save()
+        self.assertEqual(self.default_config.html_template, expected_save_value)
