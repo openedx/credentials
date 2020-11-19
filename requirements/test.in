@@ -1,6 +1,5 @@
 # This requirements file is only for python packages that need to be installed
 # for the credentials IDA in testing environments. This includes:
-#   * travis
 #   * devstack
 # Please do not use this file for packages that are needed in production
 #

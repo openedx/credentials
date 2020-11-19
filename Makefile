@@ -96,7 +96,7 @@ up-dev: ## Bring up services for development
 	docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 up-test: ## Bring up services for testing
-	docker-compose -f docker-compose.yml -f docker-compose.travis.yml up -d
+	docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d
 
 exec-validate-translations: ## Check translations on a container
 	docker exec -t credentials bash -c 'source /edx/app/credentials/credentials_env && cd /edx/app/credentials/credentials/ && make validate_translations'
