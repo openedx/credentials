@@ -353,7 +353,7 @@ class ProgramRecord extends React.Component {
             <div className="program-overview">
               <div className="program-headings">
                 <h1 className="program-title h2">{ StringUtils.interpolate(gettext('{name} Record'), { name: program.name }) }</h1>
-                <div className="text-muted program-type">
+                <div className="text-secondary program-type">
                   <ProgramIcon type={program.type} iconDict={icons} className="program-icon" />
                   { StringUtils.interpolate(gettext('{type} Program Record'), { type: program.type_name }) }
                 </div>
