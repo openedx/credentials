@@ -21,7 +21,12 @@ from credentials.shared.constants import PathwayType
 @ddt.ddt
 class ParseTests(TestCase):
     """ Course run tests. """
-    ORG1_DATA = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd2', 'key': 'orgkey', 'name': 'Org Name'}
+    ORG1_DATA = {
+        'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd2',
+        'key': 'orgkey',
+        'name': 'Org Name',
+        'certificate_logo_image_url': 'http://www.example.com/image.jpg'
+    }
     ORG1_VALUES = ORG1_DATA
 
     COURSERUN1_DATA = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd3', 'key': 'runkey',
@@ -37,9 +42,10 @@ class ParseTests(TestCase):
 
     PROGRAM1_DATA = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd5', 'title': 'Program Title',
                      'authoring_organizations': [ORG1_DATA], 'courses': [COURSE1_DATA], 'type': 'MicroMasters',
-                     'status': 'active', 'type_attrs': {'slug': 'micromasters'}}
+                     'status': 'active', 'type_attrs': {'slug': 'micromasters'}, 'total_hours_of_effort': 4}
     PROGRAM1_VALUES = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd5', 'title': 'Program Title',
-                       'type': 'MicroMasters', 'status': 'active', 'type_slug': 'micromasters'}
+                       'type': 'MicroMasters', 'status': 'active', 'type_slug': 'micromasters',
+                       'total_hours_of_effort': 4}
 
     PATHWAY1_DATA = {'uuid': 'b13739e3-a966-4591-930e-a338e6083c63', 'name': 'Test Pathway', 'org_name': 'Pathway Org',
                      'email': 'test@example.com', 'programs': [PROGRAM1_DATA],

@@ -31,6 +31,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
                     'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd2',
                     'key': 'FakeX',
                     'name': 'Fake University',
+                    'certificate_logo_image_url': 'http://example.com/image.jpg',
                 },
             ],
             'courses': [
@@ -43,6 +44,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
                             'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd2',
                             'key': 'FakeX',
                             'name': 'Fake University',
+                            'certificate_logo_image_url': 'http://example.com/image.jpg',
                         },
                     ],
                     'course_runs': [
@@ -56,6 +58,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
                     ],
                 },
             ],
+            'total_hours_of_effort': 4,
         },
         {
             'uuid': '33f0dded-fee9-4dec-a333-c9d8c2c82bd5',
@@ -70,6 +73,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
                     'uuid': '33f0dded-fee9-4dec-a333-c9d8c2c82bd2',
                     'key': 'BakeX',
                     'name': 'Bake University',
+                    'certificate_logo_image_url': 'http://example.com/image.jpg'
                 },
             ],
             'courses': [
@@ -82,6 +86,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
                             'uuid': '33f0dded-fee9-4dec-a333-c9d8c2c82bd1',
                             'key': 'CakeX',
                             'name': 'Cake University',
+                            'certificate_logo_image_url': 'http://example.com/image.jpg'
                         },
                     ],
                     'course_runs': [
@@ -102,6 +107,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
                     ],
                 },
             ],
+            'total_hours_of_effort': 10,
         },
     ]
 

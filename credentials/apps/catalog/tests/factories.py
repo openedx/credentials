@@ -5,7 +5,7 @@ import datetime
 from uuid import uuid4
 
 import factory
-from factory.fuzzy import FuzzyDateTime, FuzzyText
+from factory.fuzzy import FuzzyDateTime, FuzzyInteger, FuzzyText
 from pytz import UTC
 from slugify import slugify
 
@@ -27,6 +27,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     uuid = factory.LazyFunction(uuid4)
     key = FuzzyText(prefix='course-id/')
     name = FuzzyText(prefix="Test Org ")
+    certificate_logo_image_url = FuzzyText(prefix="http://", suffix=".com/image.jpg")
 
 
 class CourseFactory(factory.django.DjangoModelFactory):
@@ -66,6 +67,7 @@ class ProgramFactory(factory.django.DjangoModelFactory):
     type = FuzzyText()
     type_slug = factory.LazyAttribute(lambda o: slugify(o.type))
     status = Program.ACTIVE
+    total_hours_of_effort = FuzzyInteger(0)
 
     @factory.post_generation
     def course_runs(self, create, extracted):

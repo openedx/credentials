@@ -22,6 +22,7 @@ class Organization(TimeStampedModel):
     uuid = models.UUIDField(blank=False, null=False, verbose_name='UUID')
     key = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
+    certificate_logo_image_url = models.CharField(max_length=512, null=True)
 
     class Meta:
         unique_together = (
@@ -99,6 +100,7 @@ class Program(TimeStampedModel):
     authoring_organizations = SortedManyToManyField(Organization, blank=True, related_name='authored_programs')
     type = models.CharField(max_length=32, blank=False, default='')
     type_slug = models.CharField(max_length=32, blank=False, default='')
+    total_hours_of_effort = models.PositiveSmallIntegerField(null=True, blank=True)
 
     ACTIVE = 'active'
     RETIRED = 'retired'
