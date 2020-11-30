@@ -17,6 +17,7 @@ def parse_organization(site, data):
         defaults={
             'key': data['key'],
             'name': data['name'],
+            'certificate_logo_image_url': data['certificate_logo_image_url'],
         },
     )
     return org
@@ -77,7 +78,8 @@ def parse_program(site, data):
             'title': data['title'],
             'type': data['type'],
             'status': data['status'],
-            'type_slug': data['type_attrs']['slug']
+            'type_slug': data['type_attrs']['slug'],
+            'total_hours_of_effort': data['total_hours_of_effort']
         },
     )
 
