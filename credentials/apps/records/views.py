@@ -265,7 +265,7 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        base_template = self.try_select_theme_template(['_base_style.html'])
         context.update({
             'child_templates': {
                 'footer': self.select_theme_template(['_footer.html']),
@@ -275,6 +275,7 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
             'render_language': self.request.LANGUAGE_CODE,
             'request': self.request,
             'icons_template': self.try_select_theme_template(['credentials/records.html']),
+            'base_style_template': base_template,
         })
 
         return context
@@ -359,6 +360,7 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
 
         site_configuration = self.request.site.siteconfiguration
         records_help_url = site_configuration.records_help_url if site_configuration else ''
+        base_template = self.try_select_theme_template(['_base_style.html'])
 
         context.update({
             'child_templates': {
@@ -374,6 +376,7 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
             'uuid': uuid,
             'records_help_url': records_help_url,
             'request': self.request,
+            'base_style_template': base_template,
         })
         return context
 
