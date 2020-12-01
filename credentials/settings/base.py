@@ -466,7 +466,7 @@ MEDIA_STORAGE_BACKEND = {
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 
 # .. toggle_name: SEND_EMAIL_ON_PROGRAM_COMPLETION
-# .. toggle_implementation: DjangoSetting
+# .. toggle_implementation: SettingToggle
 # .. toggle_default: False
 # .. toggle_description: Toggle to control if we send a congratulatory email to learners after being issued a Program Certificate
 # .. toggle_use_cases: open_edx
