@@ -13,7 +13,7 @@ bleach==3.2.1             # via -r requirements/test.txt
 bok-choy==1.1.1           # via -r requirements/test.txt
 cached-property==1.5.2    # via docker-compose
 certifi==2020.11.8        # via -r requirements/test.txt, requests
-cffi==1.14.3              # via -r requirements/test.txt, bcrypt, cryptography, pynacl
+cffi==1.14.4              # via -r requirements/test.txt, bcrypt, cryptography, pynacl
 chardet==3.0.4            # via -r requirements/test.txt, requests
 click-log==0.3.2          # via -r requirements/test.txt, edx-lint
 click==7.1.2              # via -r requirements/test.txt, click-log, code-annotations, edx-lint
@@ -30,7 +30,7 @@ django-appconf==1.0.4     # via -r requirements/test.txt, django-statici18n
 django-compat==1.0.15     # via -r requirements/test.txt, django-hijack
 django-crum==0.7.9        # via -r requirements/test.txt, edx-django-utils
 django-debug-toolbar==3.1.1  # via -r requirements/test.txt
-django-extensions==3.0.9  # via -r requirements/test.txt
+django-extensions==3.1.0  # via -r requirements/test.txt
 django-filter==2.4.0      # via -r requirements/test.txt
 django-hijack==2.1.10     # via -r requirements/test.txt
 django-ratelimit==3.0.1   # via -r requirements/test.txt
@@ -44,7 +44,7 @@ django-webpack-loader==0.7.0  # via -r requirements/test.txt
 django==2.2.17            # via -c requirements/constraints.txt, -r requirements/test.txt, code-annotations, django-appconf, django-crum, django-debug-toolbar, django-filter, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
 djangorestframework==3.12.2  # via -r requirements/test.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
 docker-compose==1.27.4    # via -c requirements/constraints.txt, -r requirements/dev.in
-docker[ssh]==4.3.1        # via docker-compose
+docker[ssh]==4.4.0        # via docker-compose
 dockerpty==0.4.1          # via docker-compose
 docopt==0.6.2             # via docker-compose
 drf-jwt==1.17.2           # via -r requirements/test.txt, edx-drf-extensions
@@ -65,7 +65,7 @@ filelock==3.0.12          # via -r requirements/test.txt, tox, virtualenv
 future==0.18.2            # via -r requirements/test.txt, pyjwkest
 gitdb==4.0.5              # via -r requirements/test.txt, gitpython
 gitpython==3.1.11         # via -r requirements/test.txt, transifex-client
-httpretty==1.0.2          # via -r requirements/test.txt
+httpretty==1.0.3          # via -r requirements/test.txt
 idna==2.10                # via -r requirements/test.txt, requests
 iniconfig==1.1.1          # via -r requirements/test.txt, pytest
 isort==4.3.21             # via -r requirements/test.txt, pylint
@@ -138,7 +138,7 @@ tox==3.20.1               # via -r requirements/test.txt
 transifex-client==0.14.2  # via -r requirements/dev.in, -r requirements/test.txt, edx-credentials-themes
 uritemplate==3.0.1        # via -r requirements/test.txt, coreapi
 urllib3==1.25.11          # via -r requirements/test.txt, requests, responses, selenium, transifex-client
-virtualenv==20.1.0        # via -r requirements/test.txt, tox
+virtualenv==20.2.1        # via -r requirements/test.txt, tox
 webencodings==0.5.1       # via -r requirements/test.txt, bleach
 websocket-client==0.57.0  # via docker, docker-compose
 wrapt==1.11.2             # via -r requirements/test.txt, astroid

@@ -7,10 +7,10 @@
 analytics-python==1.2.9   # via -r requirements/base.txt
 attrs==20.3.0             # via -r requirements/base.txt, edx-ace
 bleach==3.2.1             # via -r requirements/base.txt
-boto3==1.16.22            # via django-ses
-botocore==1.19.22         # via boto3, s3transfer
+boto3==1.16.25            # via django-ses
+botocore==1.19.25         # via boto3, s3transfer
 certifi==2020.11.8        # via -r requirements/base.txt, requests
-cffi==1.14.3              # via -r requirements/base.txt, cryptography
+cffi==1.14.4              # via -r requirements/base.txt, cryptography
 chardet==3.0.4            # via -r requirements/base.txt, requests
 coreapi==2.3.3            # via -r requirements/base.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/base.txt, coreapi
@@ -20,7 +20,7 @@ django-appconf==1.0.4     # via -r requirements/base.txt, django-statici18n
 django-compat==1.0.15     # via -r requirements/base.txt, django-hijack
 django-crum==0.7.9        # via -r requirements/base.txt, edx-django-utils
 django-debug-toolbar==3.1.1  # via -r requirements/base.txt
-django-extensions==3.0.9  # via -r requirements/base.txt
+django-extensions==3.1.0  # via -r requirements/base.txt
 django-filter==2.4.0      # via -r requirements/base.txt
 django-hijack==2.1.10     # via -r requirements/base.txt
 django-ratelimit==3.0.1   # via -r requirements/base.txt

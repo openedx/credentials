@@ -11,11 +11,11 @@ attrs==20.3.0             # via -r requirements/dev.txt, -r requirements/product
 bcrypt==3.2.0             # via -r requirements/dev.txt, paramiko
 bleach==3.2.1             # via -r requirements/dev.txt, -r requirements/production.txt
 bok-choy==1.1.1           # via -r requirements/dev.txt
-boto3==1.16.22            # via -r requirements/production.txt, django-ses
-botocore==1.19.22         # via -r requirements/production.txt, boto3, s3transfer
+boto3==1.16.25            # via -r requirements/production.txt, django-ses
+botocore==1.19.25         # via -r requirements/production.txt, boto3, s3transfer
 cached-property==1.5.2    # via -r requirements/dev.txt, docker-compose
 certifi==2020.11.8        # via -r requirements/dev.txt, -r requirements/production.txt, requests
-cffi==1.14.3              # via -r requirements/dev.txt, -r requirements/production.txt, bcrypt, cryptography, pynacl
+cffi==1.14.4              # via -r requirements/dev.txt, -r requirements/production.txt, bcrypt, cryptography, pynacl
 chardet==3.0.4            # via -r requirements/dev.txt, -r requirements/production.txt, requests
 click-log==0.3.2          # via -r requirements/dev.txt, edx-lint
 click==7.1.2              # via -r requirements/dev.txt, click-log, code-annotations, edx-lint
@@ -32,7 +32,7 @@ django-appconf==1.0.4     # via -r requirements/dev.txt, -r requirements/product
 django-compat==1.0.15     # via -r requirements/dev.txt, -r requirements/production.txt, django-hijack
 django-crum==0.7.9        # via -r requirements/dev.txt, -r requirements/production.txt, edx-django-utils
 django-debug-toolbar==3.1.1  # via -r requirements/dev.txt, -r requirements/production.txt
-django-extensions==3.0.9  # via -r requirements/dev.txt, -r requirements/production.txt
+django-extensions==3.1.0  # via -r requirements/dev.txt, -r requirements/production.txt
 django-filter==2.4.0      # via -r requirements/dev.txt, -r requirements/production.txt
 django-hijack==2.1.10     # via -r requirements/dev.txt, -r requirements/production.txt
 django-ratelimit==3.0.1   # via -r requirements/dev.txt, -r requirements/production.txt
@@ -47,7 +47,7 @@ django-webpack-loader==0.7.0  # via -r requirements/dev.txt, -r requirements/pro
 django==2.2.17            # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, code-annotations, django-appconf, django-crum, django-debug-toolbar, django-filter, django-ses, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
 djangorestframework==3.12.2  # via -r requirements/dev.txt, -r requirements/production.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
 docker-compose==1.27.4    # via -c requirements/constraints.txt, -r requirements/dev.txt
-docker[ssh]==4.3.1        # via -r requirements/dev.txt, docker-compose
+docker[ssh]==4.4.0        # via -r requirements/dev.txt, docker-compose
 dockerpty==0.4.1          # via -r requirements/dev.txt, docker-compose
 docopt==0.6.2             # via -r requirements/dev.txt, docker-compose
 drf-jwt==1.17.2           # via -r requirements/dev.txt, -r requirements/production.txt, edx-drf-extensions
@@ -71,7 +71,7 @@ gitdb==4.0.5              # via -r requirements/dev.txt, -r requirements/product
 gitpython==3.1.11         # via -r requirements/dev.txt, -r requirements/production.txt, transifex-client
 greenlet==0.4.17          # via -r requirements/production.txt, gevent
 gunicorn==20.0.4          # via -r requirements/production.txt
-httpretty==1.0.2          # via -r requirements/dev.txt
+httpretty==1.0.3          # via -r requirements/dev.txt
 idna==2.10                # via -r requirements/dev.txt, -r requirements/production.txt, requests
 iniconfig==1.1.1          # via -r requirements/dev.txt, pytest
 isort==4.3.21             # via -r requirements/dev.txt, pylint
@@ -147,7 +147,7 @@ tox==3.20.1               # via -r requirements/dev.txt
 transifex-client==0.14.2  # via -r requirements/dev.txt, -r requirements/production.txt, edx-credentials-themes
 uritemplate==3.0.1        # via -r requirements/dev.txt, -r requirements/production.txt, coreapi
 urllib3==1.25.11          # via -r requirements/dev.txt, -r requirements/production.txt, botocore, requests, responses, selenium, transifex-client
-virtualenv==20.1.0        # via -r requirements/dev.txt, tox
+virtualenv==20.2.1        # via -r requirements/dev.txt, tox
 webencodings==0.5.1       # via -r requirements/dev.txt, -r requirements/production.txt, bleach
 websocket-client==0.57.0  # via -r requirements/dev.txt, docker, docker-compose
 wrapt==1.11.2             # via -r requirements/dev.txt, astroid

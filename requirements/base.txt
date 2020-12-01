@@ -8,7 +8,7 @@ analytics-python==1.2.9   # via -r requirements/base.in
 attrs==20.3.0             # via edx-ace
 bleach==3.2.1             # via -r requirements/base.in
 certifi==2020.11.8        # via requests
-cffi==1.14.3              # via cryptography
+cffi==1.14.4              # via cryptography
 chardet==3.0.4            # via requests
 coreapi==2.3.3            # via -r requirements/base.in, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via coreapi
@@ -18,7 +18,7 @@ django-appconf==1.0.4     # via django-statici18n
 django-compat==1.0.15     # via django-hijack
 django-crum==0.7.9        # via edx-django-utils
 django-debug-toolbar==3.1.1  # via -r requirements/base.in
-django-extensions==3.0.9  # via -r requirements/base.in
+django-extensions==3.1.0  # via -r requirements/base.in
 django-filter==2.4.0      # via -r requirements/base.in
 django-hijack==2.1.10     # via -r requirements/base.in
 django-ratelimit==3.0.1   # via -r requirements/base.in
