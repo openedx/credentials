@@ -469,7 +469,7 @@ SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 # .. toggle_implementation: DjangoSetting
 # .. toggle_default: False
 # .. toggle_description: Toggle to control if we send a congratulatory email to learners after being issued a Program Certificate
-# .. toggle_use_cases: permanent
+# .. toggle_use_cases: open_edx
 # .. toggle_creation_date: 2020-10-08
 # .. toggle_target_removal_date: NA
 # .. toggle_warnings: This is a toggle for the feature
