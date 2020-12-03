@@ -11,8 +11,8 @@ attrs==20.3.0             # via -r requirements/dev.txt, -r requirements/product
 bcrypt==3.2.0             # via -r requirements/dev.txt, paramiko
 bleach==3.2.1             # via -r requirements/dev.txt, -r requirements/production.txt
 bok-choy==1.1.1           # via -r requirements/dev.txt
-boto3==1.16.26            # via -r requirements/production.txt, django-ses
-botocore==1.19.26         # via -r requirements/production.txt, boto3, s3transfer
+boto3==1.16.28            # via -r requirements/production.txt, django-ses
+botocore==1.19.28         # via -r requirements/production.txt, boto3, s3transfer
 cached-property==1.5.2    # via -r requirements/dev.txt, docker-compose
 certifi==2020.11.8        # via -r requirements/dev.txt, -r requirements/production.txt, requests
 cffi==1.14.4              # via -r requirements/dev.txt, -r requirements/production.txt, bcrypt, cryptography, pynacl
@@ -109,7 +109,7 @@ pylint-celery==0.3        # via -r requirements/dev.txt, edx-lint
 pylint-django==2.0.11     # via -r requirements/dev.txt, edx-lint
 pylint-plugin-utils==0.6  # via -r requirements/dev.txt, pylint-celery, pylint-django
 pylint==2.4.4             # via -r requirements/dev.txt, edx-lint, pylint-celery, pylint-django, pylint-plugin-utils
-pymongo==3.11.1           # via -r requirements/dev.txt, -r requirements/production.txt, edx-opaque-keys
+pymongo==3.11.2           # via -r requirements/dev.txt, -r requirements/production.txt, edx-opaque-keys
 pynacl==1.4.0             # via -r requirements/dev.txt, paramiko
 pyparsing==2.4.7          # via -r requirements/dev.txt, -r requirements/production.txt, packaging
 pyrsistent==0.17.3        # via -r requirements/dev.txt, jsonschema
