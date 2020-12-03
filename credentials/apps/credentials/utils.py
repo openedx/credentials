@@ -3,6 +3,7 @@ import logging
 import textwrap
 from itertools import groupby
 
+from django.conf import settings
 from django.db.models import Q
 from edx_ace import Recipient, ace
 
@@ -132,6 +133,7 @@ def send_program_certificate_created_message(username, program_certificate):
                 'custom_email_html_template_extra': email_configuration.html_template,
                 # remove any leading spaces of the plaintext content so that the email doesn't look horrendous
                 'custom_email_plaintext_template_extra': textwrap.dedent(email_configuration.plaintext_template),
+                'logo_url': getattr(settings, 'LOGO_URL_PNG', '')
             },
         )
         log.info("Sending Program completion email to learner with id [{}] in Program [{}]".format(
