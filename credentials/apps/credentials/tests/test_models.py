@@ -11,14 +11,14 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from opaque_keys.edx.locator import CourseLocator
 
+from credentials.apps.catalog.data import OrganizationDetails, ProgramDetails
 from credentials.apps.core.models import SiteConfiguration
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials import constants
+from credentials.apps.credentials.exceptions import NoMatchingProgramException
 from credentials.apps.credentials.models import (
     CourseCertificate,
-    OrganizationDetails,
     ProgramCompletionEmailConfiguration,
-    ProgramDetails,
     Signatory,
     UserCredential,
 )
@@ -124,7 +124,6 @@ class ProgramCertificateTests(SiteMixin, TestCase):
         expected = ProgramDetails(
             uuid=program_uuid,
             title='Test Program',
-            subtitle='Test Subtitle',
             type='MicroFakers',
             credential_title=credential_title,
             course_count=len(courses),
@@ -147,26 +146,20 @@ class ProgramCertificateTests(SiteMixin, TestCase):
             hours_of_effort=None
         )
 
-        body = {
-            'uuid': expected.uuid,
-            'title': expected.title,
-            'subtitle': expected.subtitle,
-            'type': expected.type,
-            'authoring_organizations': [
-                {
-                    'uuid': organization.uuid,
-                    'key': organization.key,
-                    'name': organization.name,
-                    'certificate_logo_image_url': organization.certificate_logo_image_url,
+        # Mocked at apps.credentials instead of apps.catalog because that's where it's being referenced
+        with mock.patch('credentials.apps.credentials.models.get_program_details_by_uuid') as mock_program_get:
+            mock_program_get.return_value = expected
 
-                } for organization in expected.organizations
-            ],
-            'courses': courses
-        }
-
-        with mock.patch.object(SiteConfiguration, 'get_program', return_value=body) as mock_method:
             self.assertEqual(program_certificate.program_details, expected)
-            mock_method.assert_called_with(program_certificate.program_uuid)
+            mock_program_get.assert_called_with(uuid=program_certificate.program_uuid, site=program_certificate.site)
+
+    def test_program_details_missing_program(self):
+        """Test program details when there is no matching program"""
+        program_certificate = ProgramCertificateFactory(site=self.site)
+        # replace good UUID with new one
+        program_certificate.program_uuid = uuid.uuid4()
+        with self.assertRaises(NoMatchingProgramException):
+            program_certificate.program_details
 
     def test_get_program_api_data(self):
         """ Verify the method returns data from the Catalog API. """
