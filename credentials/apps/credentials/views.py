@@ -11,9 +11,10 @@ from django.utils.functional import cached_property
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
 
+from credentials.apps.catalog.data import OrganizationDetails, ProgramDetails
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
-from credentials.apps.credentials.models import OrganizationDetails, ProgramCertificate, ProgramDetails, UserCredential
+from credentials.apps.credentials.models import ProgramCertificate, UserCredential
 from credentials.apps.credentials.utils import get_credential_visible_date, to_language
 
 
@@ -141,7 +142,6 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
         program_details = ProgramDetails(
             uuid=uuid.uuid4(),
             title='Completely Example Program',
-            subtitle='Example Subtitle',
             type=program_type,
             credential_title=None,
             course_count=3,

@@ -1,8 +1,8 @@
 """
 Models for the credentials service.
 """
+import logging
 import uuid
-from collections import namedtuple
 
 import bleach
 from django.conf import settings
@@ -19,8 +19,13 @@ from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 from simple_history.models import HistoricalRecords
 
+from credentials.apps.catalog.api import get_program_details_by_uuid
 from credentials.apps.core.utils import _choices
 from credentials.apps.credentials import constants
+from credentials.apps.credentials.exceptions import NoMatchingProgramException
+
+
+log = logging.getLogger(__name__)
 
 
 def signatory_assets_path(instance, filename):
@@ -213,12 +218,6 @@ class CourseCertificate(AbstractCertificate):
         return CourseKey.from_string(self.course_id)
 
 
-OrganizationDetails = namedtuple('OrganizationDetails', ('uuid', 'key', 'name', 'display_name',
-                                                         'certificate_logo_image_url'))
-ProgramDetails = namedtuple('ProgramDetails', ('uuid', 'title', 'subtitle', 'type', 'credential_title', 'course_count',
-                                               'organizations', 'hours_of_effort'))
-
-
 class ProgramCertificate(AbstractCertificate):
     """
     Configuration for Program Certificates.
@@ -262,37 +261,25 @@ class ProgramCertificate(AbstractCertificate):
         """ Returns program data from the Catalog API. """
         return self.site.siteconfiguration.get_program(self.program_uuid)  # pylint: disable=no-member
 
-    # TODO: drop this query in favor of our local copy of
-    #       catalog data (and start copying all data we need)
     @cached_property
     def program_details(self):
         """ Returns details about the program associated with this certificate. """
-        data = self.get_program_api_data()
+        program_details = get_program_details_by_uuid(uuid=self.program_uuid, site=self.site)
 
-        organizations = []
-        for organization in data['authoring_organizations']:
-            organizations.append(OrganizationDetails(
-                uuid=organization['uuid'],
-                key=organization['key'],
-                name=organization['name'],
-                display_name=organization['name'] if self.use_org_name else organization['key'],
-                certificate_logo_image_url=organization['certificate_logo_image_url']
-            ))
+        if not program_details:
+            msg = f"No matching program with UUID [{self.program_uuid}] in credentials catalog for program certificate"
+            raise NoMatchingProgramException(msg)
 
-        hours_of_effort = None
-        if self.include_hours_of_effort:
-            hours_of_effort = data.get('total_hours_of_effort')
+        if self.use_org_name:
+            for org in program_details.organizations:
+                org.display_name = org.name
 
-        return ProgramDetails(
-            uuid=data['uuid'],
-            title=data['title'],
-            subtitle=data['subtitle'],
-            type=data['type'],
-            credential_title=self.title,
-            course_count=len(data['courses']),
-            organizations=organizations,
-            hours_of_effort=hours_of_effort
-        )
+        if not self.include_hours_of_effort:
+            program_details.hours_of_effort = None
+
+        program_details.credential_title = self.title
+
+        return program_details
 
 
 class UserCredentialAttribute(TimeStampedModel):

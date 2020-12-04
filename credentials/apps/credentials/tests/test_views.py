@@ -2,7 +2,7 @@
 Tests for credentials rendering views.
 """
 import uuid
-from unittest.mock import patch
+from unittest.mock import PropertyMock, patch
 
 import ddt
 import responses
@@ -13,6 +13,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from faker import Faker
 
+from credentials.apps.catalog.data import OrganizationDetails, ProgramDetails
 from credentials.apps.core.tests.factories import USER_PASSWORD, SiteConfigurationFactory, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
@@ -56,39 +57,41 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         else:
             certificate_logo_image_url = None
         program_uuid = program_certificate.program_uuid
-        program_endpoint = 'programs/{uuid}/'.format(uuid=str(program_uuid))
-        body = {
-            'uuid': str(program_uuid),
-            'title': self.PROGRAM_NAME,
-            'subtitle': self.faker.word(),
-            'type': self.PROGRAM_TYPE,
-            'authoring_organizations': [
-                {
-                    'uuid': str(uuid.uuid4()),
-                    'key': self.faker.word(),
-                    'name': self.faker.word(),
-                    'logo_image_url': self.faker.url(),
-                    'certificate_logo_image_url': certificate_logo_image_url
+        credential_title = program_certificate.title or self.PROGRAM_NAME
 
-                },
-                {
-                    'uuid': str(uuid.uuid4()),
-                    'key': self.faker.word(),
-                    'name': self.faker.word(),
-                    'logo_image_url': self.faker.url(),
-                    'certificate_logo_image_url': self.faker.url(),
-                }
+        mocked_program_data = ProgramDetails(
+            uuid=str(program_uuid),
+            title=self.PROGRAM_NAME,
+            type=self.PROGRAM_TYPE,
+            credential_title=credential_title,
+            course_count=2,
+            organizations=[
+                OrganizationDetails(
+                    uuid=str(uuid.uuid4()),
+                    key=self.faker.word(),
+                    name=self.faker.word(),
+                    display_name=self.faker.word(),
+                    certificate_logo_image_url=certificate_logo_image_url
+                ),
+                OrganizationDetails(
+                    uuid=str(uuid.uuid4()),
+                    key=self.faker.word(),
+                    name=self.faker.word(),
+                    display_name=self.faker.word(),
+                    certificate_logo_image_url=certificate_logo_image_url
+                )
             ],
-            'courses': [
-                {'key': 'ACMEx/101x'},
-                {'key': 'FakeX/101x'},
-            ]
-        }
-        self.mock_access_token_response()
-        self.mock_catalog_api_response(program_endpoint, body)
+            hours_of_effort=self.faker.pyint()
+        )
 
-        with patch('credentials.apps.core.models.SiteConfiguration.get_user_api_data') as user_data:
+        with patch(
+            "credentials.apps.core.models.SiteConfiguration.get_user_api_data"
+        ) as user_data, patch(
+            "credentials.apps.credentials.models.ProgramCertificate.program_details",
+            new_callable=PropertyMock
+        ) as mock_program_details:
             user_data.return_value = self.MOCK_USER_DATA
+            mock_program_details.return_value = mocked_program_data
             response = self.client.get(user_credential.get_absolute_url())
             self.assertEqual(response.status_code, 200)
 
