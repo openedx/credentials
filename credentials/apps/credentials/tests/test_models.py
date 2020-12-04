@@ -159,7 +159,8 @@ class ProgramCertificateTests(SiteMixin, TestCase):
         # replace good UUID with new one
         program_certificate.program_uuid = uuid.uuid4()
         with self.assertRaises(NoMatchingProgramException):
-            program_certificate.program_details
+            # attempt to access the program_details property
+            program_certificate.program_details   # pylint: disable=pointless-statement
 
     def test_get_program_api_data(self):
         """ Verify the method returns data from the Catalog API. """
