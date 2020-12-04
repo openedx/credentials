@@ -26,7 +26,7 @@ distlib==0.3.1            # via virtualenv
 django-appconf==1.0.4     # via -r requirements/base.txt, django-statici18n
 django-compat==1.0.15     # via -r requirements/base.txt, django-hijack
 django-crum==0.7.9        # via -r requirements/base.txt, edx-django-utils
-django-debug-toolbar==3.1.1  # via -r requirements/base.txt
+django-debug-toolbar==3.2  # via -r requirements/base.txt
 django-extensions==3.1.0  # via -r requirements/base.txt
 django-filter==2.4.0      # via -r requirements/base.txt
 django-hijack==2.1.10     # via -r requirements/base.txt
@@ -52,7 +52,7 @@ edx-opaque-keys==2.1.1    # via -r requirements/base.txt, edx-drf-extensions
 edx-rest-api-client==5.2.1  # via -r requirements/base.txt
 git+https://github.com/edx/credentials-themes.git@0.1.37#egg=edx_credentials_themes==0.1.37  # via -r requirements/base.txt
 factory-boy==3.1.0        # via -r requirements/test.in
-faker==4.18.0             # via factory-boy
+faker==5.0.0              # via factory-boy
 filelock==3.0.12          # via tox, virtualenv
 future==0.18.2            # via -r requirements/base.txt, pyjwkest
 gitdb==4.0.5              # via -r requirements/base.txt, gitpython

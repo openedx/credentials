@@ -17,7 +17,7 @@ defusedxml==0.6.0         # via python3-openid, social-auth-core
 django-appconf==1.0.4     # via django-statici18n
 django-compat==1.0.15     # via django-hijack
 django-crum==0.7.9        # via edx-django-utils
-django-debug-toolbar==3.1.1  # via -r requirements/base.in
+django-debug-toolbar==3.2  # via -r requirements/base.in
 django-extensions==3.1.0  # via -r requirements/base.in
 django-filter==2.4.0      # via -r requirements/base.in
 django-hijack==2.1.10     # via -r requirements/base.in
