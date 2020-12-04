@@ -143,6 +143,7 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
             uuid=uuid.uuid4(),
             title='Completely Example Program',
             type=program_type,
+            type_slug=slugify(program_type),
             credential_title=None,
             course_count=3,
             organizations=[OrganizationDetails(
@@ -152,7 +153,8 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
                 display_name='Absolutely Fake University',
                 certificate_logo_image_url='https://placehold.it/204x204'
             )],
-            hours_of_effort=None
+            hours_of_effort=None,
+            status="active"
         )
 
         context.update({

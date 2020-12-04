@@ -8,6 +8,7 @@ import ddt
 from django.core.exceptions import ValidationError
 from django.core.files.images import ImageFile
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.template.defaultfilters import slugify
 from django.test import TestCase
 from opaque_keys.edx.locator import CourseLocator
 
@@ -125,6 +126,7 @@ class ProgramCertificateTests(SiteMixin, TestCase):
             uuid=program_uuid,
             title='Test Program',
             type='MicroFakers',
+            type_slug=slugify('MicroFakers'),
             credential_title=credential_title,
             course_count=len(courses),
             organizations=[
@@ -143,7 +145,8 @@ class ProgramCertificateTests(SiteMixin, TestCase):
                     certificate_logo_image_url='http://example.com/fakex.jpg'
                 )
             ],
-            hours_of_effort=None
+            hours_of_effort=None,
+            status="active"
         )
 
         # Mocked at apps.credentials instead of apps.catalog because that's where it's being referenced
@@ -238,7 +241,10 @@ class ProgramCompletionEmailConfigurationTests(TestCase):
         if not default_exists:
             self.default_config.delete()
 
-        chosen_config = ProgramCompletionEmailConfiguration.get_email_config_for_program(self.fake_program)
+        chosen_config = ProgramCompletionEmailConfiguration.get_email_config_for_program(
+            self.fake_program.uuid,
+            self.fake_program.type_slug
+        )
 
         # Because we're using elifs we guarantee the item we're checking the most specific true value
         if single_program_exists:

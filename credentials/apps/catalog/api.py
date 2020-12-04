@@ -43,9 +43,11 @@ def _convert_program_to_program_details(
     return ProgramDetails(
         uuid=program.uuid,
         title=program.title,
-        type=program.type_slug,
+        type=program.type,
+        type_slug=program.type_slug,
         credential_title=None,
         course_count=len(program_course_runs),
         organizations=organizations,
-        hours_of_effort=program.total_hours_of_effort
+        hours_of_effort=program.total_hours_of_effort,
+        status=program.status
     )

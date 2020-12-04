@@ -343,7 +343,7 @@ class ProgramCompletionEmailConfiguration(TimeStampedModel):
         super().save(**kwargs)
 
     @classmethod
-    def get_email_config_for_program(cls, program):
+    def get_email_config_for_program(cls, program_uuid, program_type_slug):
         """
         Gets the email config for the program, with the most specific match being returned,
         or None of there are no matches
@@ -351,10 +351,12 @@ class ProgramCompletionEmailConfiguration(TimeStampedModel):
         Because the UUID of the program will have hyphens, but we want to make it easy on PCs copying values,
         we will check both the hyphenated version, and an unhyphenated version (.hex)
         """
+        # By converting the uuid parameter to a string then back to a UUID we can guarantee it will be a UUID later on
+        converted_program_uuid = uuid.UUID(str(program_uuid))
+
         return (
-            # Check if identifier matches program UUID (w/ hyph)
-            cls.objects.filter(identifier=program.uuid).first()
-            or cls.objects.filter(identifier=program.uuid.hex).first()
-            or cls.objects.filter(identifier=program.type_slug).first()
+            cls.objects.filter(identifier=converted_program_uuid).first()
+            or cls.objects.filter(identifier=converted_program_uuid.hex).first()
+            or cls.objects.filter(identifier=program_type_slug).first()
             or cls.objects.filter(identifier=cls.DEFAULT_TEMPLATE_IDENTIFIER).first()
         )

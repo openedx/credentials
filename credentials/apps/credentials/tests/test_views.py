@@ -63,6 +63,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
             uuid=str(program_uuid),
             title=self.PROGRAM_NAME,
             type=self.PROGRAM_TYPE,
+            type_slug=slugify(self.PROGRAM_TYPE),
             credential_title=credential_title,
             course_count=2,
             organizations=[
@@ -81,7 +82,8 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
                     certificate_logo_image_url=certificate_logo_image_url
                 )
             ],
-            hours_of_effort=self.faker.pyint()
+            hours_of_effort=self.faker.pyint(),
+            status="active"
         )
 
         with patch(

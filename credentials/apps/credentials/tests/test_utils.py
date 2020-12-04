@@ -9,6 +9,7 @@ from django.test import TestCase, override_settings
 from slugify import slugify
 from testfixtures import LogCapture
 
+from credentials.apps.catalog.data import ProgramStatus
 from credentials.apps.catalog.tests.factories import ProgramFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
@@ -159,12 +160,20 @@ class ProgramCertificateIssuedEmailTests(SiteMixin, TestCase):
     def test_no_config(self):
         """With the config deleted, it shouldn't send an email"""
         self.default_config.delete()
+        send_program_certificate_created_message(self.user.username, self.program_cert)
         self.assertEqual(0, len(mail.outbox))
 
     def test_disabled_config(self):
         """With the config disabled, it shouldn't send an email"""
         self.default_config.enabled = False
         self.default_config.save()
+        send_program_certificate_created_message(self.user.username, self.program_cert)
+        self.assertEqual(0, len(mail.outbox))
+
+    def test_retired_program(self):
+        self.program.status = ProgramStatus.RETIRED.value
+        self.program.save()
+        send_program_certificate_created_message(self.user.username, self.program_cert)
         self.assertEqual(0, len(mail.outbox))
 
     def test_send_email_exception_occurs(self):
