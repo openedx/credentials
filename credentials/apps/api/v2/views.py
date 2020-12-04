@@ -54,7 +54,7 @@ class CredentialRateThrottle(ScopedRateThrottle):
     def allow_request(self, request, view):
         user = request.user
         if user.is_authenticated and (user.is_staff or user.is_superuser):
-            view.throttle_scope = 'staff_override'
+            view.throttle_scope = None
 
         return super().allow_request(request, view)
 
