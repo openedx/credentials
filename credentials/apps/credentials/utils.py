@@ -6,7 +6,7 @@ from itertools import groupby
 from django.db.models import Q
 from edx_ace import Recipient, ace
 
-from credentials.apps.catalog.models import Program
+from credentials.apps.catalog.data import ProgramStatus
 from credentials.apps.core.models import User
 from credentials.apps.credentials.messages import ProgramCertificateIssuedMessage
 from credentials.apps.credentials.models import ProgramCompletionEmailConfiguration, UserCredentialAttribute
@@ -104,9 +104,12 @@ def send_program_certificate_created_message(username, program_certificate):
     """
     user = User.objects.get(username=username)
     program_uuid = program_certificate.program_uuid
-    program = Program.objects.get(site=program_certificate.site, uuid=program_uuid)
+    program_details = program_certificate.program_details
 
-    email_configuration = ProgramCompletionEmailConfiguration.get_email_config_for_program(program)
+    email_configuration = ProgramCompletionEmailConfiguration.get_email_config_for_program(
+        program_uuid,
+        program_details.type_slug
+    )
     # If a config doesn't exist or isn't enabled, we don't want to send emails for this program.
     if not getattr(email_configuration, "enabled", None):
         log.info(
@@ -115,13 +118,17 @@ def send_program_certificate_created_message(username, program_certificate):
         )
         return
 
+    # Don't send out emails for retired programs
+    if program_details.status == ProgramStatus.RETIRED.value:
+        return
+
     try:
         msg = ProgramCertificateIssuedMessage(program_certificate.site, user.email).personalize(
             recipient=Recipient(username=user.username, email_address=user.email),
             language=program_certificate.language,
             user_context={
-                'program_title': program.title,
-                'program_type': program.type,
+                'program_title': program_details.title,
+                'program_type': program_details.type,
                 'custom_email_html_template_extra': email_configuration.html_template,
                 # remove any leading spaces of the plaintext content so that the email doesn't look horrendous
                 'custom_email_plaintext_template_extra': textwrap.dedent(email_configuration.plaintext_template),

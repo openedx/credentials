@@ -6,6 +6,7 @@ stdlib modules, so that it may be consumed everywhere.
 """
 
 from dataclasses import dataclass
+from enum import Enum
 
 
 # Currently using a dataclass version of the legacy namedtuples so the consuming
@@ -28,7 +29,16 @@ class ProgramDetails:
     uuid: str
     title: str
     type: str
+    type_slug: str
     credential_title: str
     course_count: int
     organizations: list
     hours_of_effort: int
+    status: str
+
+
+class ProgramStatus(Enum):
+    ACTIVE = "active"
+    RETIRED = "retired"
+    DELETED = "deleted"
+    UNPUBLISHED = "unpublished"

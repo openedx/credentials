@@ -8,6 +8,8 @@ from sortedm2m.fields import SortedManyToManyField
 
 from credentials.shared.constants import PathwayType
 
+from .data import ProgramStatus
+
 
 logger = logging.getLogger(__name__)
 
@@ -102,10 +104,10 @@ class Program(TimeStampedModel):
     type_slug = models.CharField(max_length=32, blank=False, default='')
     total_hours_of_effort = models.PositiveSmallIntegerField(null=True, blank=True)
 
-    ACTIVE = 'active'
-    RETIRED = 'retired'
-    DELETED = 'deleted'
-    UNPUBLISHED = 'unpublished'  # Discovery does give us unpublished programs...
+    ACTIVE = ProgramStatus.ACTIVE.value
+    RETIRED = ProgramStatus.RETIRED.value
+    DELETED = ProgramStatus.DELETED.value
+    UNPUBLISHED = ProgramStatus.UNPUBLISHED.value  # Discovery does give us unpublished programs...
     status = models.CharField(max_length=24, blank=False, default='active')
 
     class Meta:
