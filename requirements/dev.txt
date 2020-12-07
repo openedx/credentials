@@ -17,7 +17,7 @@ cffi==1.14.4              # via -r requirements/test.txt, bcrypt, cryptography, 
 chardet==3.0.4            # via -r requirements/test.txt, requests
 click-log==0.3.2          # via -r requirements/test.txt, edx-lint
 click==7.1.2              # via -r requirements/test.txt, click-log, code-annotations, edx-lint
-code-annotations==0.10.1  # via -r requirements/test.txt
+code-annotations==0.10.2  # via -r requirements/test.txt
 coreapi==2.3.3            # via -r requirements/test.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/test.txt, coreapi
 coverage==5.3             # via -r requirements/test.txt
@@ -58,7 +58,7 @@ edx-i18n-tools==0.5.3     # via -r requirements/dev.in, -r requirements/test.txt
 edx-lint==1.5.2           # via -r requirements/test.txt
 edx-opaque-keys==2.1.1    # via -r requirements/test.txt, edx-drf-extensions
 edx-rest-api-client==5.2.1  # via -r requirements/test.txt
-git+https://github.com/edx/credentials-themes.git@0.1.37#egg=edx_credentials_themes==0.1.37  # via -r requirements/test.txt
+git+https://github.com/edx/credentials-themes.git@0.1.39#egg=edx_credentials_themes==0.1.39  # via -r requirements/test.txt
 factory-boy==3.1.0        # via -r requirements/test.txt
 faker==5.0.0              # via -r requirements/test.txt, factory-boy
 filelock==3.0.12          # via -r requirements/test.txt, tox, virtualenv
