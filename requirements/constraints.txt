@@ -19,3 +19,7 @@ social-auth-core<3.3.0
 
 # Later versions of requests have a version of urllib3 that conflicts with botocore. See MICROBA-727
 requests<2.25.0
+
+# This upgrade causes a failure in tests currently. We need to constrain it until we
+# can determine the cause of the failure. https://openedx.atlassian.net/browse/MICROBA-794
+virtualenv<20.2.2

@@ -495,3 +495,15 @@ ALLOWED_EMAIL_HTML_TAGS = [
     'strong',
     'ul'
 ]
+
+LOGO_TRADEMARK_URL = 'https://edx-cdn.org/v3/default/logo-trademark.svg'
+LOGO_TRADEMARK_URL_PNG = 'https://edx-cdn.org/v3/default/logo-trademark.png'
+LOGO_TRADEMARK_URL_SVG = 'https://edx-cdn.org/v3/default/logo-trademark.svg'
+LOGO_URL = 'https://edx-cdn.org/v3/default/logo.svg'
+LOGO_URL_PNG = 'https://edx-cdn.org/v3/default/logo.png'
+LOGO_URL_SVG = 'https://edx-cdn.org/v3/default/logo.svg'
+LOGO_WHITE_URL = 'https://edx-cdn.org/v3/default/logo-white.svg'
+LOGO_WHITE_URL_PNG = 'https://edx-cdn.org/v3/default/logo-white.png'
+LOGO_WHITE_URL_SVG = 'https://edx-cdn.org/v3/default/logo-white.svg'
+FAVICON_URL = 'https://edx-cdn.org/v3/default/favicon.ico'
+LOGO_OPEN_EDX_URL = 'https://files.edx.org/openedx-logos/edx-openedx-logo-tag.png'
