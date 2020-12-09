@@ -19,7 +19,7 @@ code-annotations==0.10.2  # via -r requirements/test.in
 coreapi==2.3.3            # via -r requirements/base.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/base.txt, coreapi
 coverage==5.3             # via -r requirements/test.in
-cryptography==3.2.1       # via -r requirements/base.txt, pyjwt
+cryptography==3.3         # via -r requirements/base.txt, pyjwt
 ddt==1.4.1                # via -r requirements/test.in
 defusedxml==0.6.0         # via -r requirements/base.txt, python3-openid, social-auth-core
 distlib==0.3.1            # via virtualenv
@@ -50,7 +50,7 @@ edx-i18n-tools==0.5.3     # via -r requirements/base.txt, edx-credentials-themes
 edx-lint==1.5.2           # via -r requirements/test.in
 edx-opaque-keys==2.1.1    # via -r requirements/base.txt, edx-drf-extensions
 edx-rest-api-client==5.2.1  # via -r requirements/base.txt
-git+https://github.com/edx/credentials-themes.git@0.1.40#egg=edx_credentials_themes==0.1.40  # via -r requirements/base.txt
+git+https://github.com/edx/credentials-themes.git@0.1.41#egg=edx_credentials_themes==0.1.41  # via -r requirements/base.txt
 factory-boy==3.1.0        # via -r requirements/test.in
 faker==5.0.1              # via factory-boy
 filelock==3.0.12          # via tox, virtualenv
