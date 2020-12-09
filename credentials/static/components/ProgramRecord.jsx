@@ -352,8 +352,8 @@ class ProgramRecord extends React.Component {
           <header className="d-flex justify-content-between program-record-header">
             <div className="program-overview">
               <div className="program-headings">
-                <h1 className="program-title h2">{ StringUtils.interpolate(gettext('{name} Record'), { name: program.name }) }</h1>
-                <div className="text-secondary program-type">
+                <h2 className="program-title h3">{ StringUtils.interpolate(gettext('{name} Record'), { name: program.name }) }</h2>
+                <div className="program-type">
                   <ProgramIcon type={program.type} iconDict={icons} className="program-icon" />
                   { StringUtils.interpolate(gettext('{type} Program Record'), { type: program.type_name }) }
                 </div>
