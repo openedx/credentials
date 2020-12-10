@@ -23,7 +23,7 @@ code-annotations==0.10.2  # via -r requirements/dev.txt
 coreapi==2.3.3            # via -r requirements/dev.txt, -r requirements/production.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/dev.txt, -r requirements/production.txt, coreapi
 coverage==5.3             # via -r requirements/dev.txt
-cryptography==3.3         # via -r requirements/dev.txt, -r requirements/production.txt, paramiko, pyjwt
+cryptography==3.3.1       # via -r requirements/dev.txt, -r requirements/production.txt, paramiko, pyjwt
 ddt==1.4.1                # via -r requirements/dev.txt
 defusedxml==0.6.0         # via -r requirements/dev.txt, -r requirements/production.txt, python3-openid, social-auth-core
 distlib==0.3.1            # via -r requirements/dev.txt, virtualenv
@@ -84,7 +84,7 @@ lazy==1.4                 # via -r requirements/dev.txt, bok-choy
 markdown==3.3.3           # via -r requirements/dev.txt, -r requirements/production.txt
 markupsafe==1.1.1         # via -r requirements/dev.txt, -r requirements/production.txt, jinja2
 mccabe==0.6.1             # via -r requirements/dev.txt, pylint
-mysqlclient==2.0.1        # via -r requirements/dev.txt, -r requirements/production.txt
+mysqlclient==2.0.2        # via -r requirements/dev.txt, -r requirements/production.txt
 newrelic==5.22.1.152      # via -r requirements/dev.txt, -r requirements/production.txt, edx-django-utils
 nodeenv==1.5.0            # via -r requirements/production.txt
 oauthlib==3.1.0           # via -r requirements/dev.txt, -r requirements/production.txt, requests-oauthlib, social-auth-core
@@ -139,7 +139,7 @@ git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317
 social-auth-core==3.2.0   # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, edx-auth-backends, social-auth-app-django
 sqlparse==0.4.1           # via -r requirements/dev.txt, -r requirements/production.txt, django, django-debug-toolbar
 stevedore==3.3.0          # via -r requirements/dev.txt, -r requirements/production.txt, code-annotations, edx-ace, edx-django-utils, edx-opaque-keys
-testfixtures==6.15.0      # via -r requirements/dev.txt
+testfixtures==6.16.0      # via -r requirements/dev.txt
 text-unidecode==1.3       # via -r requirements/dev.txt, -r requirements/production.txt, faker, python-slugify
 texttable==1.6.3          # via -r requirements/dev.txt, docker-compose
 toml==0.10.2              # via -r requirements/dev.txt, pytest, tox
