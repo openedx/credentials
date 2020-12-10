@@ -14,7 +14,7 @@ cffi==1.14.4              # via -r requirements/base.txt, cryptography
 chardet==3.0.4            # via -r requirements/base.txt, requests
 coreapi==2.3.3            # via -r requirements/base.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/base.txt, coreapi
-cryptography==3.3         # via -r requirements/base.txt, pyjwt
+cryptography==3.3.1       # via -r requirements/base.txt, pyjwt
 defusedxml==0.6.0         # via -r requirements/base.txt, python3-openid, social-auth-core
 django-appconf==1.0.4     # via -r requirements/base.txt, django-statici18n
 django-compat==1.0.15     # via -r requirements/base.txt, django-hijack
@@ -57,7 +57,7 @@ jinja2==2.11.2            # via -r requirements/base.txt, coreschema
 jmespath==0.10.0          # via boto3, botocore
 markdown==3.3.3           # via -r requirements/base.txt
 markupsafe==1.1.1         # via -r requirements/base.txt, jinja2
-mysqlclient==2.0.1        # via -r requirements/base.txt
+mysqlclient==2.0.2        # via -r requirements/base.txt
 newrelic==5.22.1.152      # via -r requirements/base.txt, -r requirements/production.in, edx-django-utils
 nodeenv==1.5.0            # via -r requirements/production.in
 oauthlib==3.1.0           # via -r requirements/base.txt, requests-oauthlib, social-auth-core
