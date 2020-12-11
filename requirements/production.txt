@@ -7,8 +7,8 @@
 analytics-python==1.2.9   # via -r requirements/base.txt
 attrs==20.3.0             # via -r requirements/base.txt, edx-ace
 bleach==3.2.1             # via -r requirements/base.txt
-boto3==1.16.33            # via django-ses
-botocore==1.19.33         # via boto3, s3transfer
+boto3==1.16.34            # via django-ses
+botocore==1.19.34         # via boto3, s3transfer
 certifi==2020.12.5        # via -r requirements/base.txt, requests
 cffi==1.14.4              # via -r requirements/base.txt, cryptography
 chardet==3.0.4            # via -r requirements/base.txt, requests
@@ -44,7 +44,7 @@ edx-drf-extensions==6.2.0  # via -r requirements/base.txt
 edx-i18n-tools==0.5.3     # via -r requirements/base.txt, edx-credentials-themes
 edx-opaque-keys==2.1.1    # via -r requirements/base.txt, edx-drf-extensions
 edx-rest-api-client==5.2.1  # via -r requirements/base.txt
-git+https://github.com/edx/credentials-themes.git@0.1.45#egg=edx_credentials_themes==0.1.45  # via -r requirements/base.txt
+git+https://github.com/edx/credentials-themes.git@0.1.46#egg=edx_credentials_themes==0.1.46  # via -r requirements/base.txt
 future==0.18.2            # via -r requirements/base.txt, django-ses, pyjwkest
 gevent==20.9.0            # via -r requirements/production.in
 gitdb==4.0.5              # via -r requirements/base.txt, gitpython
