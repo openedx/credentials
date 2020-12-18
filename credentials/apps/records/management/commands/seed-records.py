@@ -13,6 +13,7 @@ from credentials.apps.credentials.constants import CertificateType
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, Signatory, UserCredential
 from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
+from credentials.settings.base import TIME_ZONE_CLASS
 from credentials.shared.constants import PathwayType
 
 
@@ -143,8 +144,8 @@ class Command(BaseCommand):
             course_run, created = CourseRun.objects.get_or_create(
                 course=course,
                 uuid=faker.uuid4(),
-                start_date=datetime(2018, 1, 1),
-                end_date=datetime(2018, 6, 1),
+                start_date=datetime(2018, 1, 1, tzinfo=TIME_ZONE_CLASS),
+                end_date=datetime(2018, 6, 1, tzinfo=TIME_ZONE_CLASS),
                 key=key,
             )
 
