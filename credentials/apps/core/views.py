@@ -10,14 +10,11 @@ from django.shortcuts import redirect, render
 from django.template import TemplateDoesNotExist
 from django.template.loader import select_template
 from django.views.generic import View
+from edx_django_utils.monitoring import ignore_transaction
 
 from credentials.apps.core.constants import Status
 
 
-try:
-    import newrelic.agent
-except ImportError:  # pragma: no cover
-    newrelic = None  # pylint: disable=invalid-name
 logger = logging.getLogger(__name__)
 User = get_user_model()
 
@@ -39,8 +36,9 @@ def health(_):
         >>> response.content
         '{"overall_status": "OK", "detailed_status": {"database_status": "OK", "lms_status": "OK"}}'
     """
-    if newrelic:  # pragma: no cover
-        newrelic.agent.ignore_transaction()
+    # Ignores health check in performance monitoring so as to not artifically inflate our response time metrics
+    ignore_transaction()
+
     try:
         cursor = connection.cursor()
         cursor.execute("SELECT 1")
