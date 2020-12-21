@@ -150,7 +150,7 @@ class ShareProgramRecordModal extends React.Component {
                 dialog={gettext('Successfully copied program record link.')}
               />
             }
-            <p>{ gettext('Copy this link to share your record with a university, employer, or anyone else of you choosing. Anyone you share this link with will have access to your record forever.') }</p>
+            <p>{ gettext('Copy this link to share your record with a university, employer, or anyone else of your choosing. Anyone you share this link with will have access to your record forever.') }</p>
             {this.renderSwitchToSendParagraph()}
             {urlReturned &&
               <div className="url-group">
