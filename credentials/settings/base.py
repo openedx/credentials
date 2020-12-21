@@ -439,6 +439,7 @@ if os.environ.get('ENABLE_DJANGO_TOOLBAR', False):
         'debug_toolbar.panels.signals.SignalsPanel',
         'debug_toolbar.panels.logging.LoggingPanel',
         'debug_toolbar.panels.redirects.RedirectsPanel',
+        'debug_toolbar.panels.history.HistoryPanel',
     ]
 # END DJANGO DEBUG TOOLBAR CONFIGURATION
 
