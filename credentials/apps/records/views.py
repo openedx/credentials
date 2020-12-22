@@ -36,7 +36,7 @@ from .constants import RECORDS_RATE_LIMIT
 log = logging.getLogger(__name__)
 
 
-def rate_limited(request, exception):
+def rate_limited(request, exception):  # pylint: disable=unused-argument
     log.warning("Credentials records endpoint is being throttled.")
     return JsonResponse({'error': 'Too Many Requests'}, status=429)
 
@@ -220,7 +220,7 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
         # Using the course credentials, get the programs associated with them via course runs
         course_credential_ids = [x.credential_id for x in course_credentials if x.status == UserCredential.AWARDED]
         course_certificates = CourseCertificate.objects.filter(id__in=course_credential_ids, site=self.request.site)
-        course_run_keys = map(lambda course_certificate: course_certificate.course_id, course_certificates)
+        course_run_keys = [course_cert.course_id for course_cert in course_certificates]
         return CourseRun.objects.filter(key__in=course_run_keys)
 
     def _programs_context(self, include_empty_programs=False, include_retired_programs=False):
@@ -244,7 +244,7 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
         ).order_by('title')
 
         # Get the completed programs and a UUID set using the program_credentials
-        program_credential_ids = map(lambda program_credential: program_credential.credential_id, program_credentials)
+        program_credential_ids = [program_credential.credential_id for program_credential in program_credentials]
         program_certificates = ProgramCertificate.objects.filter(id__in=program_credential_ids, site=self.request.site)
         completed_program_uuids = frozenset(
             program_certificate.program_uuid for program_certificate in program_certificates)
@@ -513,7 +513,7 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
             )
             super(ProgramRecordCsvView.SegmentHttpResponse, self).close()
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):  # pylint: disable=unused-argument
         site_configuration = request.site.siteconfiguration
         segment_client = SegmentClient(write_key=site_configuration.segment_key)
 

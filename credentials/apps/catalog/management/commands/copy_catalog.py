@@ -53,7 +53,7 @@ class Command(BaseCommand):
         while next_page:
             programs = client.programs.get(exclude_utm=1, page=next_page, page_size=page_size)
             for program in programs['results']:
-                logger.info('Copying program "{}"'.format(program['title']))
+                logger.info(f'Copying program "{program["title"]}"')
                 parse_program(site, program)
             next_page = next_page + 1 if programs['next'] else None
 
@@ -63,6 +63,6 @@ class Command(BaseCommand):
         while next_page:
             pathways = client.pathways.get(exclude_utm=1, page=next_page, page_size=page_size)
             for pathway in pathways['results']:
-                logger.info('Copying pathway "{}"'.format(pathway['name']))
+                logger.info(f'Copying pathway "{pathway["name"]}"')
                 parse_pathway(site, pathway)
             next_page = next_page + 1 if pathways['next'] else None

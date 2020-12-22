@@ -11,12 +11,12 @@ log = logging.getLogger(__name__)
 # utilize.
 class ProgramCertificateIssuedMessage(MessageType):
     def __init__(self, site, user_email=None, *args, **kwargs):  # pylint: disable=unused-argument, keyword-arg-before-vararg
-        super(ProgramCertificateIssuedMessage, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         if site.siteconfiguration.partner_from_address:
             from_address = site.siteconfiguration.partner_from_address
         else:
-            log.info("No partner from address found. Using default no-reply@{}".format(site.domain))
+            log.info(f"No partner from address found. Using default no-reply@{site.domain}")
             from_address = 'no-reply@' + site.domain
 
         self.options.update({

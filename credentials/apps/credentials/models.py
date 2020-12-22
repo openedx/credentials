@@ -100,7 +100,7 @@ class Signatory(TimeStampedModel):
     def __str__(self):
         return f'{self.name}, {self.title}'
 
-    def save(self, *args, **kwargs):  # pylint: disable=arguments-differ
+    def save(self, *args, **kwargs):
         """
         A primary key/ID will not be assigned until the model is written to
         the database. Given that our file path relies on this ID, save the

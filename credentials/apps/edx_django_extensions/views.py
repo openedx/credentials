@@ -16,7 +16,7 @@ class ManagementView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
     def test_func(self):
         return self.request.user.is_superuser
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):   # pylint: disable=unused-argument
         action = request.POST.get('action')
         if action == 'clear_cache':
             cache.clear()

@@ -6,7 +6,7 @@ const-rgx = (([A-Z_][A-Z0-9_]*)|(__.*__)|log|urlpatterns|logger|User)$
 
 [MESSAGES CONTROL]
 # TODO (CCB): Re-enable not-callable once we fix the false-positives
-DISABLE+= ,invalid-name,missing-docstring,not-callable
+DISABLE+= ,invalid-name,missing-docstring,not-callable,raise-missing-from,logging-fstring-interpolation
 
 [TYPECHECK]
 ignored-classes+= ,responses,UUIDField,WSGIRequest
