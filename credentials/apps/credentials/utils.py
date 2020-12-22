@@ -136,12 +136,12 @@ def send_program_certificate_created_message(username, program_certificate):
                 'logo_url': getattr(settings, 'LOGO_URL_PNG', '')
             },
         )
-        log.info("Sending Program completion email to learner with id [{}] in Program [{}]".format(
-            user.id, program_uuid)
-        )
+        log.info(f"Sending Program completion email to learner with id [{user.id}] in Program [{program_uuid}]")
         ace.send(msg)
     # We wouldn't want any issues that arise from formatting or sending this email message to interrupt the process
     # of issuing a learner their Program Certificate. We cast a wide net for exceptions here for this reason.
     except Exception as ex:  # pylint: disable=broad-except
-        log.exception("Unable to send email to learner with id: [{}] for Program [{}]. Error occurred while "
-                      "attempting to format or send message: {}".format(user.id, program_uuid, ex))
+        log.exception(
+            f"Unable to send email to learner with id: [{user.id}] for Program [{program_uuid}]. "
+            f"Error occurred while attempting to format or send message: {ex}"
+        )

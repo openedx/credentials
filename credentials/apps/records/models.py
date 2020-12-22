@@ -86,7 +86,7 @@ class UserCreditPathway(TimeStampedModel):
         if self.pathway.pathway_type != PathwayType.CREDIT.value:
             raise ValidationError({'pathway': _('User credit pathways can only be connected to credit pathways.')})
 
-    def save(self, *args, **kwargs):  # pylint: disable=arguments-differ
+    def save(self, *args, **kwargs):
         self.full_clean()
         return super().save(*args, **kwargs)
 

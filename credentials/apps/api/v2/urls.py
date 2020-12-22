@@ -8,7 +8,7 @@ urlpatterns = [
     re_path(r'^replace_usernames/$', views.UsernameReplacementView.as_view(), name="replace_usernames")
 ]
 
-router = DefaultRouter()  # pylint: disable=invalid-name
+router = DefaultRouter()
 # URLs can not have hyphen as it is not currently supported by slumber
 # as mentioned https://github.com/samgiles/slumber/issues/44
 router.register(r'credentials', views.CredentialViewSet, basename='credentials')

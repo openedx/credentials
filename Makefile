@@ -2,13 +2,13 @@
 NODE_BIN=./node_modules/.bin
 TOX = ''
 
-.PHONY: help clean production-requirements js-requirements all-requirements requirements isort isort_check pycodestyle \
-        quality quality-js test-react tests js-tests static static.dev static.watch migrate up up-dev up-test \
-        exec-validate-translations exec-check_translations_up_to_date exec-check_keywords exec-pii_check exec-clean \
-        exec-requirements exec-static exec-quality exec-tests exec-accept exec-validate exec-coverage html_coverage \
-        shell tail stop down accept extract_translations dummy_translations compile_translations fake_translations \
-        pull_translations push_translations detect_changed_source_translations validate_translations \
-        check_translations_up_to_date piptools upgrade check_keywords pii_check
+.PHONY: help clean production-requirements js-requirements all-requirements requirements format_check format isort \
+	isort_check quality quality-js test-react tests js-tests static static.dev static.watch migrate \
+	up up-dev up-test exec-validate-translations exec-check_translations_up_to_date exec-check_keywords \
+	exec-pii_check exec-clean exec-requirements exec-static exec-quality exec-tests exec-accept exec-validate \
+	exec-coverage html_coverage shell tail stop down accept extract_translations dummy_translations \
+	compile_translations fake_translations pull_translations push_translations detect_changed_source_translations \
+	validate_translations check_translations_up_to_date piptools upgrade check_keywords pii_check quality_fix
 
 ifdef TOXENV
 TOX := tox -- #to isolate each tox environment if TOXENV is defined
@@ -42,20 +42,22 @@ requirements: piptools ## Install requirements for local development
 	npm install --unsafe-perm ## This flag exists to force node-sass to build correctly on docker. Remove as soon as possible.
 	pip-sync requirements/dev.txt
 
+format_check: ## check that code is formatted correctly
+	black --check .
+
+format: ## format code
+	black .
+
 isort: ## Run isort to sort imports in all Python files
 	isort --recursive --atomic acceptance_tests/ credentials/
 
 isort_check: ## Check that isort has been run
 	isort --check-only -rc acceptance_tests/ credentials/
 
-pycodestyle: ## Run pycodestyle
-	pycodestyle acceptance_tests credentials *.py
-
-quality: ## Run linters
-	make isort_check
-	make pycodestyle
+quality: isort_check quality-js ## Run linters
 	pylint --rcfile=pylintrc acceptance_tests credentials *.py
-	make quality-js
+
+quality_fix: isort format
 
 quality-js: ## Run JavaScript linter
 	$(NODE_BIN)/gulp lint
