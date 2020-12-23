@@ -1,8 +1,8 @@
-from django.conf.urls import url
+from django.urls import re_path
 
 from credentials.apps.edx_django_extensions import views
 
 
 urlpatterns = [
-    url(r'^$', views.ManagementView.as_view(), name='index'),
+    re_path(r'^$', views.ManagementView.as_view(), name='index'),
 ]
