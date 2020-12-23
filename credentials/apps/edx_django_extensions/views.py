@@ -3,7 +3,7 @@ import logging
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.cache import cache
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic import TemplateView
 
 
