@@ -21,7 +21,7 @@ from django.conf.urls import include
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import re_path
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views.defaults import page_not_found
 from rest_framework_swagger.views import get_swagger_view
 

@@ -5,7 +5,7 @@ import uuid
 
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 
 from credentials.apps.catalog.models import CourseRun, Pathway, Program
