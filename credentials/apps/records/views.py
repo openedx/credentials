@@ -15,7 +15,7 @@ from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, View
 from edx_ace import Recipient, ace
 from ratelimit.decorators import ratelimit
