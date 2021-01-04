@@ -1,9 +1,43 @@
 edX Credentials Service   |Codecov|_
-=============================================
+====================================
 .. |Codecov| image:: http://codecov.io/github/edx/credentials/coverage.svg?branch=master
 .. _Codecov: http://codecov.io/github/edx/credentials?branch=master
 
 This repository contains the edX Credentials Service, which supports course and program certificates. This service is a replacement for the ``certificates`` app in ``edx-platform``.
+Credentials can be run as part of devstack_.
+
+.. _devstack: https://github.com/edx/devstack
+
+Testing
+-------
+
+The command below runs all of the Python and JS tests::
+
+  $ make tests
+
+The Python tests can be run independently with::
+
+  $ pytest --ds=credentials.settings.test
+
+If this is the first time you've run tests, you'll have to run::
+
+  $ make static
+
+first, otherwise you'll run into ``webpack_loader.exceptions.WebpackBundleLookupErrors``.
+
+Exec commands
+-------------
+To run any of the make commands that begin with "exec", for example *exec-tests*:
+
+First, stop your devstack credentials container (if it's running) as the following command will spin up a separate container on the same port.
+
+Then run::
+
+  $ make up-test
+
+Followed by the "exec" command of your choice, such as::
+
+  $ make exec-tests
 
 Documentation
 -------------
@@ -31,23 +65,6 @@ Reporting Security Issues
 -------------------------
 
 Please do not report security issues in public. Please email security@edx.org.
-
-Testing
--------
-
-The command below runs all of the Python and JS tests::
-
-  $ make tests
-
-The Python tests can be run independently with::
-
-  $ pytest --ds credentials.settings.test
-
-If this is the first time you've run tests, you'll have to run::
-
-  $ make static
-
-first, otherwise you'll run into ``webpack_loader.exceptions.WebpackBundleLookupErrors``.
 
 Get Help
 --------
