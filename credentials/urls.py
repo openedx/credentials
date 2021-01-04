@@ -4,22 +4,23 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 Examples:
 Function views
     1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
+    2. Add a URL to urlpatterns:  re_path(r'^$', views.home, name='home')
 Class-based views
     1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
+    2. Add a URL to urlpatterns:  re_path(r'^$', Home.as_view(), name='home')
+Including another URL
     1. Add an import:  from blog import urls as blog_urls
-    2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
+    2. Add a URL to urlpatterns:  re_path(r'^blog/', include(blog_urls))
 """
 
 import os
 
 from auth_backends.urls import oauth2_urlpatterns
 from django.conf import settings
-from django.conf.urls import include, url
+from django.conf.urls import include
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.urls import re_path
 from django.utils.translation import ugettext_lazy as _
 from django.views.defaults import page_not_found
 from rest_framework_swagger.views import get_swagger_view
@@ -34,21 +35,21 @@ admin.site.site_header = _('Credentials Administration')
 admin.site.site_title = admin.site.site_header
 
 urlpatterns = oauth2_urlpatterns + [
-    url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(('credentials.apps.api.urls', 'api'), namespace='api')),
-    url(r'^api-auth/', include((oauth2_urlpatterns, 'rest_framework'), namespace='rest_framework')),
-    url(r'^api-docs/', get_swagger_view(title='Credentials API'), name='api_docs'),
-    url(r'^auto_auth/$', core_views.AutoAuth.as_view(), name='auto_auth'),
-    url(r'^credentials/', include(('credentials.apps.credentials.urls', 'credentials'), namespace='credentials')),
-    url(r'^health/$', core_views.health, name='health'),
-    url(
+    re_path(r'^admin/', admin.site.urls),
+    re_path(r'^api/', include(('credentials.apps.api.urls', 'api'), namespace='api')),
+    re_path(r'^api-auth/', include((oauth2_urlpatterns, 'rest_framework'), namespace='rest_framework')),
+    re_path(r'^api-docs/', get_swagger_view(title='Credentials API'), name='api_docs'),
+    re_path(r'^auto_auth/$', core_views.AutoAuth.as_view(), name='auto_auth'),
+    re_path(r'^credentials/', include(('credentials.apps.credentials.urls', 'credentials'), namespace='credentials')),
+    re_path(r'^health/$', core_views.health, name='health'),
+    re_path(
         r'^management/', include(('credentials.apps.edx_django_extensions.urls', 'management'), namespace='management')
     ),
-    url(r'^records/', include(('credentials.apps.records.urls', 'records'), namespace='records')),
-    url(r'^program-listing/', ProgramListingView.as_view(), name='program_listing'),
-    url(r'^favicon\.ico$', FaviconView.as_view(permanent=True)),
-    url(r'^mock-toggles$', MockToggleStateView.as_view()),
-    url(r'^hijack/', include('hijack.urls', namespace='hijack')),
+    re_path(r'^records/', include(('credentials.apps.records.urls', 'records'), namespace='records')),
+    re_path(r'^program-listing/', ProgramListingView.as_view(), name='program_listing'),
+    re_path(r'^favicon\.ico$', FaviconView.as_view(permanent=True)),
+    re_path(r'^mock-toggles$', MockToggleStateView.as_view()),
+    re_path(r'^hijack/', include('hijack.urls', namespace='hijack')),
 ]
 
 handler500 = 'credentials.apps.core.views.render_500'
@@ -57,11 +58,11 @@ handler500 = 'credentials.apps.core.views.render_500'
 if settings.DEBUG:  # pragma: no cover
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += [
-        url(r'^404/$', page_not_found, name='404'),
-        url(r'^500/$', core_views.render_500, name='500'),
+        re_path(r'^404/$', page_not_found, name='404'),
+        re_path(r'^500/$', core_views.render_500, name='500'),
     ]
 
 if settings.DEBUG and os.environ.get('ENABLE_DJANGO_TOOLBAR', False):  # pragma: no cover
     import debug_toolbar
 
-    urlpatterns.append(url(r'^__debug__/', include(debug_toolbar.urls)))
+    urlpatterns.append(re_path(r'^__debug__/', include(debug_toolbar.urls)))

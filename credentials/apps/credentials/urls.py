@@ -1,13 +1,13 @@
 """
 URLs for the credentials views.
 """
-from django.conf.urls import url
+from django.urls import re_path
 
 from credentials.apps.credentials import views
 from credentials.apps.credentials.constants import UUID_PATTERN
 
 
 urlpatterns = [
-    url(r'^example/$', views.ExampleCredential.as_view(), name='example'),
-    url(fr'^{UUID_PATTERN}/$', views.RenderCredential.as_view(), name='render'),
+    re_path(r'^example/$', views.ExampleCredential.as_view(), name='example'),
+    re_path(fr'^{UUID_PATTERN}/$', views.RenderCredential.as_view(), name='render'),
 ]
