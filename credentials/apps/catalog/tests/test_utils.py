@@ -15,6 +15,7 @@ from credentials.apps.catalog.utils import (
     parse_program,
 )
 from credentials.apps.core.tests.factories import SiteFactory
+from credentials.settings.base import TIME_ZONE_CLASS
 from credentials.shared.constants import PathwayType
 
 
@@ -34,7 +35,8 @@ class ParseTests(TestCase):
                        'start_date': '2018-01-01T00:00:00Z', 'end_date': '2018-06-01T00:00:00Z'}
     COURSERUN1_VALUES = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd3', 'key': 'runkey',
                          'title_override': 'Course Run Title',
-                         'start_date': datetime(2018, 1, 1), 'end_date': datetime(2018, 6, 1)}
+                         'start_date': datetime(2018, 1, 1, tzinfo=TIME_ZONE_CLASS),
+                         'end_date': datetime(2018, 6, 1, tzinfo=TIME_ZONE_CLASS)}
 
     COURSE1_DATA = {'uuid': '33f0dded-fee9-4dec-a333-b9d8c2c82bd4', 'key': 'coursekey', 'title': 'Course Title',
                     'owners': [ORG1_DATA], 'course_runs': [COURSERUN1_DATA]}

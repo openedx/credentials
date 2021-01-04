@@ -4,7 +4,7 @@
   ],
   "transform": {
     "^.+\\.jsx?$": "babel-jest",
-    "^.+\\.svg$": "<rootDir>/svgTransform.js" 
+    "^.+\\.svg$": "<rootDir>/svgTransform.js"
   },
   "setupFiles": [
     "./jest_setup/shim.js",
@@ -23,5 +23,6 @@
   ],
   "transformIgnorePatterns": [
     "/node_modules/(?!(@edx/paragon)/).*/"
-  ]
+  ],
+  "watchman": false
 }
