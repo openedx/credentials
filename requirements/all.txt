@@ -23,7 +23,7 @@ code-annotations==0.10.2  # via -r requirements/dev.txt
 coreapi==2.3.3            # via -r requirements/dev.txt, -r requirements/production.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/dev.txt, -r requirements/production.txt, coreapi
 coverage==5.3             # via -r requirements/dev.txt
-cryptography==3.3.1       # via -r requirements/dev.txt, -r requirements/production.txt, paramiko, pyjwt
+cryptography==3.3.1       # via -r requirements/dev.txt, -r requirements/production.txt, paramiko, pyjwt, social-auth-core
 ddt==1.4.1                # via -r requirements/dev.txt
 defusedxml==0.6.0         # via -r requirements/dev.txt, -r requirements/production.txt, python3-openid, social-auth-core
 distlib==0.3.1            # via -r requirements/dev.txt, virtualenv
@@ -136,7 +136,7 @@ six==1.15.0               # via -r requirements/dev.txt, -r requirements/product
 slumber==0.7.1            # via -r requirements/dev.txt, -r requirements/production.txt, edx-rest-api-client
 smmap==3.0.4              # via -r requirements/dev.txt, -r requirements/production.txt, gitdb
 git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/dev.txt, -r requirements/production.txt, edx-auth-backends
-social-auth-core==3.2.0   # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, edx-auth-backends, social-auth-app-django
+social-auth-core==3.3.3   # via -r requirements/dev.txt, -r requirements/production.txt, edx-auth-backends, social-auth-app-django
 sqlparse==0.4.1           # via -r requirements/dev.txt, -r requirements/production.txt, django, django-debug-toolbar
 stevedore==3.3.0          # via -r requirements/dev.txt, -r requirements/production.txt, code-annotations, edx-ace, edx-django-utils, edx-opaque-keys
 testfixtures==6.17.0      # via -r requirements/dev.txt
