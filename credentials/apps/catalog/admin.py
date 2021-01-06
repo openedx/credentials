@@ -5,7 +5,7 @@ from credentials.apps.catalog.models import Course, CourseRun, Organization, Pat
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('key', 'uuid', 'title')
+    list_display = ('id', 'key', 'uuid', 'title')
     list_filter = ('site',)
     readonly_fields = ('uuid',)
     search_fields = ('key', 'title', 'uuid')
@@ -13,9 +13,9 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(CourseRun)
 class CourseRunAdmin(admin.ModelAdmin):
-    list_display = ('key', 'uuid', 'title_override', 'start_date', 'end_date')
+    list_display = ('id', 'key', 'uuid', 'title_override', 'start_date', 'end_date')
     readonly_fields = ('uuid',)
-    search_fields = ('key', 'title_override', 'uuid')
+    search_fields = ('id', 'key', 'title_override', 'uuid')
 
 
 @admin.register(Program)
