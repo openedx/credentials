@@ -81,7 +81,7 @@ class CourseRun(TimeStampedModel):
         )
 
     def __str__(self):
-        return f'{self.key}: {self.title}'
+        return f'{self.id}: {self.key}: {self.title}'
 
     @property
     def title(self):
