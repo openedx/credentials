@@ -28,31 +28,27 @@ class HealthTests(TestCase):
         """Test that the endpoint reports when all services are healthy."""
         self._assert_health(200, Status.OK, Status.OK)
 
-    @mock.patch('django.contrib.sites.middleware.get_current_site', mock.Mock(return_value=None))
-    @mock.patch('django.db.backends.base.base.BaseDatabaseWrapper.cursor', mock.Mock(side_effect=DatabaseError))
+    @mock.patch("django.contrib.sites.middleware.get_current_site", mock.Mock(return_value=None))
+    @mock.patch("django.db.backends.base.base.BaseDatabaseWrapper.cursor", mock.Mock(side_effect=DatabaseError))
     def test_database_outage(self):
         """Test that the endpoint reports when the database is unavailable."""
         self._assert_health(503, Status.UNAVAILABLE, Status.UNAVAILABLE)
 
     def _assert_health(self, status_code, overall_status, database_status):
         """Verify that the response matches expectations."""
-        response = self.client.get(reverse('health'))
+        response = self.client.get(reverse("health"))
         self.assertEqual(response.status_code, status_code)
-        self.assertEqual(response['content-type'], 'application/json')
+        self.assertEqual(response["content-type"], "application/json")
 
-        expected_data = {
-            'overall_status': overall_status,
-            'detailed_status': {
-                'database_status': database_status
-            }
-        }
+        expected_data = {"overall_status": overall_status, "detailed_status": {"database_status": database_status}}
 
-        self.assertJSONEqual(response.content.decode('utf8'), expected_data)
+        self.assertJSONEqual(response.content.decode("utf8"), expected_data)
 
 
 class AutoAuthTests(SiteMixin, TestCase):
     """ Auto Auth view tests. """
-    AUTO_AUTH_PATH = reverse('auto_auth')
+
+    AUTO_AUTH_PATH = reverse("auto_auth")
 
     @override_settings(ENABLE_AUTO_AUTH=False)
     def test_setting_disabled(self):
@@ -77,7 +73,7 @@ class AutoAuthTests(SiteMixin, TestCase):
         user = User.objects.latest()
 
         # Verify that the user is logged in and that their username has the expected prefix
-        self.assertEqual(int(self.client.session['_auth_user_id']), user.pk)
+        self.assertEqual(int(self.client.session["_auth_user_id"]), user.pk)
         self.assertTrue(user.username.startswith(settings.AUTO_AUTH_USERNAME_PREFIX))
 
         # Verify that the user has superuser permissions
@@ -99,5 +95,5 @@ class SiteViewTests(SiteMixin, TestCase):
         # config for adding the 500 view url
         self._reload_urlconf()
 
-        response = self.client.get(reverse('500'))
+        response = self.client.get(reverse("500"))
         self.assertEqual(response.status_code, 500)

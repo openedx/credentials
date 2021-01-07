@@ -51,9 +51,9 @@ def health(_):
     overall_status = Status.OK if (database_status == Status.OK) else Status.UNAVAILABLE
 
     data = {
-        'overall_status': overall_status,
-        'detailed_status': {
-            'database_status': database_status,
+        "overall_status": overall_status,
+        "detailed_status": {
+            "database_status": database_status,
         },
     }
 
@@ -74,10 +74,10 @@ class AutoAuth(View):
 
         Raises Http404 if auto auth is not enabled.
         """
-        if not getattr(settings, 'ENABLE_AUTO_AUTH', None):
+        if not getattr(settings, "ENABLE_AUTO_AUTH", None):
             raise Http404
 
-        username_prefix = getattr(settings, 'AUTO_AUTH_USERNAME_PREFIX', 'auto_auth_')
+        username_prefix = getattr(settings, "AUTO_AUTH_USERNAME_PREFIX", "auto_auth_")
 
         # Create a new user with staff permissions
         username = password = username_prefix + uuid.uuid4().hex[0:20]
@@ -87,7 +87,7 @@ class AutoAuth(View):
         user = authenticate(username=username, password=password)
         login(request, user)
 
-        return redirect('/')
+        return redirect("/")
 
 
 class ThemeViewMixin:
@@ -95,9 +95,10 @@ class ThemeViewMixin:
         """ Prepend the the list of template names with the path of the current theme. """
         theme_template_path = self.request.site.siteconfiguration.theme_name
         themed_template_names = [
-            '{theme_path}/{template_name}'.format(theme_path=theme_template_path,
-                                                  template_name=template_name.strip('/')) for
-            template_name in template_names
+            "{theme_path}/{template_name}".format(
+                theme_path=theme_template_path, template_name=template_name.strip("/")
+            )
+            for template_name in template_names
         ]
         template_names = themed_template_names + template_names
         return template_names
@@ -106,17 +107,17 @@ class ThemeViewMixin:
         return select_template(self.add_theme_to_template_names(templates))
 
     def try_select_theme_template(self, templates):
-        """ Select a template or return an empty string if the template doesn't exist.
+        """Select a template or return an empty string if the template doesn't exist.
         Provides ability to check if a template exists before including it.
         """
         try:
             return select_template(self.add_theme_to_template_names(templates))
         except TemplateDoesNotExist:
-            return ''
+            return ""
 
 
-def render_500(request, template_name='500.html'):
-    """ Custom 500 error handler.
+def render_500(request, template_name="500.html"):
+    """Custom 500 error handler.
 
     Arguments:
         template_name (template): Template for rendering

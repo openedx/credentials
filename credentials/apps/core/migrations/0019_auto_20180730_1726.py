@@ -7,18 +7,27 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0018_siteconfiguration_partner_from_address'),
+        ("core", "0018_siteconfiguration_partner_from_address"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='siteconfiguration',
-            name='records_enabled',
-            field=models.BooleanField(default=True, help_text='Enable the Records feature. The LMS has a similar setting.', verbose_name='Enable Learner Records'),
+            model_name="siteconfiguration",
+            name="records_enabled",
+            field=models.BooleanField(
+                default=True,
+                help_text="Enable the Records feature. The LMS has a similar setting.",
+                verbose_name="Enable Learner Records",
+            ),
         ),
         migrations.AlterField(
-            model_name='siteconfiguration',
-            name='records_help_url',
-            field=models.URLField(blank=True, default='', help_text='URL of page for questions about Learner Records', verbose_name='Learner Records Help URL'),
+            model_name="siteconfiguration",
+            name="records_help_url",
+            field=models.URLField(
+                blank=True,
+                default="",
+                help_text="URL of page for questions about Learner Records",
+                verbose_name="Learner Records Help URL",
+            ),
         ),
     ]

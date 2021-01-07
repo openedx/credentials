@@ -8,13 +8,19 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('records', '0006_auto_20180718_1256'),
+        ("records", "0006_auto_20180718_1256"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='programcertrecord',
-            name='certificate',
-            field=models.ForeignKey(default=None, help_text='Note: certificate is deprecated, and is kept around because it is used in an old data migration.', null=True, on_delete=django.db.models.deletion.CASCADE, to='credentials.ProgramCertificate'),
+            model_name="programcertrecord",
+            name="certificate",
+            field=models.ForeignKey(
+                default=None,
+                help_text="Note: certificate is deprecated, and is kept around because it is used in an old data migration.",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="credentials.ProgramCertificate",
+            ),
         ),
     ]

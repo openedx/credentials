@@ -31,13 +31,13 @@ def credentials_throttle_handler(exc, context):
     response = exception_handler(exc, context)
 
     if isinstance(exc, Throttled):
-        view = context['view']
+        view = context["view"]
         if isinstance(view, CredentialViewSet):
-            view = 'CredentialViewSet'
+            view = "CredentialViewSet"
         elif isinstance(view, GradeViewSet):
-            view = 'GradeViewSet'
+            view = "GradeViewSet"
 
-        log.warning(f'Credentials API endpoint {view} is being throttled.')
+        log.warning(f"Credentials API endpoint {view} is being throttled.")
 
     return response
 
@@ -46,9 +46,9 @@ class CredentialRateThrottle(ScopedRateThrottle):
     """ Rate limits requests to the credentials endpoints. """
 
     THROTTLE_RATES = {
-        'credential_view': '15/minute',
-        'grade_view': '90/minute',
-        'staff_override': '1500/minute',
+        "credential_view": "15/minute",
+        "grade_view": "90/minute",
+        "staff_override": "1500/minute",
     }
 
     def allow_request(self, request, view):
@@ -61,11 +61,11 @@ class CredentialRateThrottle(ScopedRateThrottle):
 
 class CredentialViewSet(viewsets.ModelViewSet):
     filterset_class = UserCredentialFilter
-    lookup_field = 'uuid'
+    lookup_field = "uuid"
     permission_classes = (UserCredentialPermissions,)
     serializer_class = UserCredentialSerializer
     throttle_classes = (CredentialRateThrottle,)
-    throttle_scope = 'credential_view'
+    throttle_scope = "credential_view"
 
     def get_queryset(self):
         queryset = UserCredential.objects.all()
@@ -78,7 +78,7 @@ class CredentialViewSet(viewsets.ModelViewSet):
         return queryset
 
     def create(self, request, *args, **kwargs):
-        """ Create or update a credential.
+        """Create or update a credential.
 
         This endpoint does not work in the swagger docs because it is not configured to accept dicts.
         Use OPTIONS api/vX/credentials/ to understand the schema.
@@ -94,7 +94,7 @@ class CredentialViewSet(viewsets.ModelViewSet):
         instance.revoke()
 
     def destroy(self, request, *args, **kwargs):
-        """ Revoke, but do NOT delete, a credential.
+        """Revoke, but do NOT delete, a credential.
         ---
         omit_parameters:
             - query
@@ -109,7 +109,7 @@ class CredentialViewSet(viewsets.ModelViewSet):
         return super().list(request, *args, **kwargs)
 
     def partial_update(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
-        """ Update a credential.
+        """Update a credential.
         ---
         omit_parameters:
             - query
@@ -117,7 +117,7 @@ class CredentialViewSet(viewsets.ModelViewSet):
         return super().partial_update(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
-        """ Retrieve the details of a single credential.
+        """Retrieve the details of a single credential.
         ---
         omit_parameters:
             - query
@@ -125,7 +125,7 @@ class CredentialViewSet(viewsets.ModelViewSet):
         return super().retrieve(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
-        """ Update a credential.
+        """Update a credential.
         ---
         omit_parameters:
             - query
@@ -134,13 +134,11 @@ class CredentialViewSet(viewsets.ModelViewSet):
 
 
 # A write-only endpoint for now
-class GradeViewSet(mixins.CreateModelMixin,
-                   mixins.UpdateModelMixin,
-                   viewsets.GenericViewSet):
+class GradeViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     permission_classes = (UserCredentialPermissions,)
     serializer_class = UserGradeSerializer
     throttle_classes = (CredentialRateThrottle,)
-    throttle_scope = 'grade_view'
+    throttle_scope = "grade_view"
     queryset = UserGrade.objects.all()
 
     def create(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
@@ -167,7 +165,7 @@ class UsernameReplacementView(APIView):
     API will receive a list of current usernames and their new username.
     """
 
-    authentication_classes = (JwtAuthentication, )
+    authentication_classes = (JwtAuthentication,)
     permission_classes = (permissions.IsAuthenticated, CanReplaceUsername)
 
     def post(self, request):
@@ -201,9 +199,9 @@ class UsernameReplacementView(APIView):
         """
         # (model_name, column_name)
         MODELS_WITH_USERNAME = (
-            ('core.user', 'username'),
-            ('credentials.usercredential', 'username'),
-            ('records.usergrade', 'username'),
+            ("core.user", "username"),
+            ("credentials.usercredential", "username"),
+            ("records.usergrade", "username"),
         )
         username_mappings = request.data.get("username_mappings")
 
@@ -218,9 +216,7 @@ class UsernameReplacementView(APIView):
             current_username = list(username_pair.keys())[0]
             new_username = list(username_pair.values())[0]
             successfully_replaced = self._replace_username_for_all_models(
-                current_username,
-                new_username,
-                replacement_locations
+                current_username, new_username, replacement_locations
             )
             if successfully_replaced:
                 successful_replacements.append({current_username: new_username})
@@ -228,10 +224,7 @@ class UsernameReplacementView(APIView):
                 failed_replacements.append({current_username: new_username})
         return Response(
             status=status.HTTP_200_OK,
-            data={
-                "successful_replacements": successful_replacements,
-                "failed_replacements": failed_replacements
-            }
+            data={"successful_replacements": successful_replacements, "failed_replacements": failed_replacements},
         )
 
     def _load_models(self, models_with_fields):
@@ -262,9 +255,7 @@ class UsernameReplacementView(APIView):
             with transaction.atomic():
                 num_rows_changed = 0
                 for (model, column) in replacement_locations:
-                    num_rows_changed += model.objects.filter(
-                        **{column: current_username}
-                    ).update(
+                    num_rows_changed += model.objects.filter(**{column: current_username}).update(
                         **{column: new_username}
                     )
         except Exception as exc:  # pylint: disable=broad-except
@@ -273,7 +264,7 @@ class UsernameReplacementView(APIView):
                 current_username,
                 new_username,
                 model.__class__.__name__,
-                exc
+                exc,
             )
             return False
         if num_rows_changed == 0:

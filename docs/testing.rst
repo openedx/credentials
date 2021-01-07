@@ -50,3 +50,8 @@ Tests should be written for all new features. The `Django docs`_ are a good reso
 Writing JS tests
 ----------------
 All new front-end features should be made with React, subsequently, all tests written for those features should use the Jest testing framework.
+
+
+Autoformatting
+--------------
+All code must be autoformatted or it will fail quality checks. All you need to do to autoformat your PR is run `make format`.

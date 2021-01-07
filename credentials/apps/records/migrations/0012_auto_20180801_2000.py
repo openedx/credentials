@@ -7,13 +7,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('records', '0011_auto_20180726_1916'),
+        ("records", "0011_auto_20180726_1916"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='usercreditpathway',
-            name='status',
-            field=models.CharField(blank=True, choices=[('sent', 'sent'), ('', 'other')], default='sent', max_length=15),
+            model_name="usercreditpathway",
+            name="status",
+            field=models.CharField(
+                blank=True, choices=[("sent", "sent"), ("", "other")], default="sent", max_length=15
+            ),
         ),
     ]

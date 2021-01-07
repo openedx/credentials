@@ -7,18 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sites', '0002_alter_domain_unique'),
-        ('catalog', '0004_auto_20180810_2007'),
+        ("sites", "0002_alter_domain_unique"),
+        ("catalog", "0004_auto_20180810_2007"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='creditpathway',
-            name='uuid',
-            field=models.UUIDField(verbose_name='UUID'),
+            model_name="creditpathway",
+            name="uuid",
+            field=models.UUIDField(verbose_name="UUID"),
         ),
         migrations.AlterUniqueTogether(
-            name='creditpathway',
-            unique_together={('site', 'uuid')},
+            name="creditpathway",
+            unique_together={("site", "uuid")},
         ),
     ]

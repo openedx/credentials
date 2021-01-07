@@ -9,9 +9,10 @@ logger = logging.getLogger(__name__)
 
 
 class Accreditor:
-    """ Accreditor class identifies credential type and calls corresponding issuer
+    """Accreditor class identifies credential type and calls corresponding issuer
     class for generating credential.
     """
+
     def __init__(self, issuers=None):
         self.issuers = issuers or [CourseCertificateIssuer(), ProgramCertificateIssuer()]
         self._create_credential_type_issuer_map()
@@ -25,16 +26,16 @@ class Accreditor:
 
             if registered_issuer:
                 logger.warning(
-                    'The issuer [%s] is already registered to issue credentials of type [%s]. [%s] will NOT be used.',
-                    registered_issuer.__class__, credential_type, issuer.__class__)
+                    "The issuer [%s] is already registered to issue credentials of type [%s]. [%s] will NOT be used.",
+                    registered_issuer.__class__,
+                    credential_type,
+                    issuer.__class__,
+                )
             else:
                 self.credential_type_issuer_map[credential_type] = issuer
 
     def issue_credential(
-            self, credential, username,
-            status=UserCredentialStatus.AWARDED,
-            attributes=None,
-            request=None
+        self, credential, username, status=UserCredentialStatus.AWARDED, attributes=None, request=None
     ):
         """Issues a credential.
 
@@ -55,9 +56,7 @@ class Accreditor:
             credential_issuer = self.credential_type_issuer_map[credential.__class__]
         except KeyError:
             raise exceptions.UnsupportedCredentialTypeError(
-                "Unable to issue credential. No issuer is registered for credential type [{}]".format(
-                    credential
-                )
+                "Unable to issue credential. No issuer is registered for credential type [{}]".format(credential)
             )
 
         return credential_issuer.issue_credential(credential, username, status, attributes, request)

@@ -30,14 +30,14 @@ from credentials.apps.records.models import UserGrade
 from credentials.apps.records.tests.factories import UserGradeFactory
 
 
-JSON_CONTENT_TYPE = 'application/json'
-LOGGER_NAME = 'credentials.apps.credentials.issuers'
-LOGGER_NAME_SERIALIZER = 'credentials.apps.api.v2.serializers'
+JSON_CONTENT_TYPE = "application/json"
+LOGGER_NAME = "credentials.apps.credentials.issuers"
+LOGGER_NAME_SERIALIZER = "credentials.apps.api.v2.serializers"
 
 
 @ddt.ddt
 class CredentialViewSetTests(SiteMixin, APITestCase):
-    list_path = reverse('api:v2:credentials-list')
+    list_path = reverse("api:v2:credentials-list")
 
     def setUp(self):
         super().setUp()
@@ -45,8 +45,8 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
 
     def serialize_user_credential(self, user_credential, many=False):
         """ Serialize the given UserCredential object(s). """
-        request = APIRequestFactory(SERVER_NAME=self.site.domain).get('/')
-        return UserCredentialSerializer(user_credential, context={'request': request}, many=many).data
+        request = APIRequestFactory(SERVER_NAME=self.site.domain).get("/")
+        return UserCredentialSerializer(user_credential, context={"request": request}, many=many).data
 
     def authenticate_user(self, user):
         """ Login as the given user. """
@@ -80,27 +80,25 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         program = ProgramFactory(site=self.site)
         program_certificate = ProgramCertificateFactory(site=self.site, program_uuid=program.uuid)
         expected_username = self.user.username
-        expected_attribute_name = 'fake-name'
-        expected_attribute_value = 'fake-value'
+        expected_attribute_name = "fake-name"
+        expected_attribute_value = "fake-value"
         data = {
-            'username': expected_username,
-            'credential': {
-                'program_uuid': str(program_certificate.program_uuid)
-            },
-            'status': 'awarded',
-            'attributes': [
+            "username": expected_username,
+            "credential": {"program_uuid": str(program_certificate.program_uuid)},
+            "status": "awarded",
+            "attributes": [
                 {
-                    'name': expected_attribute_name,
-                    'value': expected_attribute_value,
+                    "name": expected_attribute_name,
+                    "value": expected_attribute_value,
                 }
             ],
         }
 
         # Verify users without the add permission are denied access
-        self.assert_access_denied(self.user, 'post', self.list_path, data=data)
+        self.assert_access_denied(self.user, "post", self.list_path, data=data)
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'add_usercredential')
+        self.add_user_permission(self.user, "add_usercredential")
         response = self.client.post(self.list_path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
         user_credential = UserCredential.objects.last()
 
@@ -116,39 +114,37 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(attribute.value, expected_attribute_value)
 
     def test_create_with_duplicate_attributes(self):
-        """ Verify an error is returned if an attempt is made to create a UserCredential with multiple attributes
-        of the same name. """
+        """Verify an error is returned if an attempt is made to create a UserCredential with multiple attributes
+        of the same name."""
         program_certificate = ProgramCertificateFactory(site=self.site)
         data = {
-            'username': 'test-user',
-            'credential': {
-                'program_uuid': str(program_certificate.program_uuid)
-            },
-            'attributes': [
+            "username": "test-user",
+            "credential": {"program_uuid": str(program_certificate.program_uuid)},
+            "attributes": [
                 {
-                    'name': 'attr-name',
-                    'value': 'attr-value',
+                    "name": "attr-name",
+                    "value": "attr-value",
                 },
                 {
-                    'name': 'attr-name',
-                    'value': 'another-attr-value',
-                }
+                    "name": "attr-name",
+                    "value": "another-attr-value",
+                },
             ],
         }
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'add_usercredential')
+        self.add_user_permission(self.user, "add_usercredential")
         response = self.client.post(self.list_path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data, {'attributes': ['Attribute names cannot be duplicated.']})
+        self.assertEqual(response.data, {"attributes": ["Attribute names cannot be duplicated."]})
 
     def test_create_with_existing_user_credential(self):
-        """ Verify that, if a user has already been issued a credential, further attempts to issue the same credential
+        """Verify that, if a user has already been issued a credential, further attempts to issue the same credential
         will NOT create a new credential, but update the attributes of the existing credential.
         """
         user_credential = UserCredentialFactory(credential__site=self.site)
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'add_usercredential')
+        self.add_user_permission(self.user, "add_usercredential")
 
         # POSTing the exact data that exists in the database should not change the UserCredential
         data = self.serialize_user_credential(user_credential)
@@ -158,10 +154,8 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         # POSTing with modified status/attributes should update the existing UserCredential
         data = self.serialize_user_credential(user_credential)
         expected_attribute = UserCredentialAttributeFactory.build()
-        data['status'] = 'revoked'
-        data['attributes'] = [
-            UserCredentialAttributeSerializer(expected_attribute).data
-        ]
+        data["status"] = "revoked"
+        data["attributes"] = [UserCredentialAttributeSerializer(expected_attribute).data]
         response = self.client.post(self.list_path, data=JSONRenderer().render(data), content_type=JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, 201)
 
@@ -176,17 +170,15 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
     def test_destroy(self):
         """ Verify the endpoint does NOT support the DELETE operation. """
         credential = UserCredentialFactory(
-            credential__site=self.site,
-            status=UserCredential.AWARDED,
-            username=self.user.username
+            credential__site=self.site, status=UserCredential.AWARDED, username=self.user.username
         )
-        path = reverse('api:v2:credentials-detail', kwargs={'uuid': credential.uuid})
+        path = reverse("api:v2:credentials-detail", kwargs={"uuid": credential.uuid})
 
         # Verify users without the view permission are denied access
-        self.assert_access_denied(self.user, 'delete', path)
+        self.assert_access_denied(self.user, "delete", path)
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'delete_usercredential')
+        self.add_user_permission(self.user, "delete_usercredential")
         response = self.client.delete(path)
         credential.refresh_from_db()
 
@@ -196,17 +188,14 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
 
     def test_retrieve(self):
         """ Verify the endpoint returns data for a single UserCredential. """
-        credential = UserCredentialFactory(
-            credential__site=self.site,
-            username=self.user.username
-        )
-        path = reverse('api:v2:credentials-detail', kwargs={'uuid': credential.uuid})
+        credential = UserCredentialFactory(credential__site=self.site, username=self.user.username)
+        path = reverse("api:v2:credentials-detail", kwargs={"uuid": credential.uuid})
 
         # Verify users without the view permission are denied access
-        self.assert_access_denied(self.user, 'get', path)
+        self.assert_access_denied(self.user, "get", path)
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'view_usercredential')
+        self.add_user_permission(self.user, "view_usercredential")
         response = self.client.get(path)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, self.serialize_user_credential(credential))
@@ -214,15 +203,14 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
     def test_list(self):
         """ Verify the endpoint returns data for multiple UserCredentials. """
         # Verify users without the view permission are denied access
-        self.assert_access_denied(self.user, 'get', self.list_path)
+        self.assert_access_denied(self.user, "get", self.list_path)
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'view_usercredential')
+        self.add_user_permission(self.user, "view_usercredential")
         response = self.client.get(self.list_path)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            response.data['results'],
-            self.serialize_user_credential(UserCredential.objects.all(), many=True)
+            response.data["results"], self.serialize_user_credential(UserCredential.objects.all(), many=True)
         )
 
     def test_list_status_filtering(self):
@@ -231,18 +219,18 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         revoked = UserCredentialFactory.create_batch(3, credential__site=self.site, status=UserCredential.REVOKED)
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'view_usercredential')
+        self.add_user_permission(self.user, "view_usercredential")
 
-        for status, expected in (('awarded', awarded), ('revoked', revoked)):
-            response = self.client.get(self.list_path + f'?status={status}')
+        for status, expected in (("awarded", awarded), ("revoked", revoked)):
+            response = self.client.get(self.list_path + f"?status={status}")
             self.assertEqual(response.status_code, 200)
-            self.assertEqual(response.data['results'], self.serialize_user_credential(expected, many=True))
+            self.assertEqual(response.data["results"], self.serialize_user_credential(expected, many=True))
 
     def assert_list_username_filter_request_succeeds(self, username, expected):
         """ Asserts the logged in user can list credentials for a specific user. """
-        response = self.client.get(self.list_path + f'?username={username}')
+        response = self.client.get(self.list_path + f"?username={username}")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['results'], self.serialize_user_credential(expected, many=True))
+        self.assertEqual(response.data["results"], self.serialize_user_credential(expected, many=True))
 
     def test_list_username_filtering(self):
         """ Verify the endpoint returns data for all UserCredentials awarded to the user matching the username. """
@@ -256,20 +244,20 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.assert_list_username_filter_request_succeeds(username, expected)
 
         # Privileged users should be able to view all credentials
-        username = 'test_user'
+        username = "test_user"
         expected = UserCredentialFactory.create_batch(3, credential__site=self.site, username=username)
-        self.add_user_permission(self.user, 'view_usercredential')
+        self.add_user_permission(self.user, "view_usercredential")
 
         self.assert_list_username_filter_request_succeeds(username, expected)
 
     def test_invalid_program_uuid_filtering(self):
-        """ Verify that endpoint returns no results for invalid program uuid
-        instead of raising ValidationError. """
+        """Verify that endpoint returns no results for invalid program uuid
+        instead of raising ValidationError."""
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'view_usercredential')
+        self.add_user_permission(self.user, "view_usercredential")
 
-        response = self.client.get(self.list_path + '?program_uuid=1234fewef')
-        self.assertListEqual(response.data['results'], [])
+        response = self.client.get(self.list_path + "?program_uuid=1234fewef")
+        self.assertListEqual(response.data["results"], [])
 
     def test_list_program_uuid_filtering(self):
         """ Verify the endpoint returns data for all UserCredentials in the given program. """
@@ -293,11 +281,11 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         UserCredentialFactory(credential=course2_certificate)
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'view_usercredential')
+        self.add_user_permission(self.user, "view_usercredential")
 
-        response = self.client.get(self.list_path + f'?program_uuid={program.uuid}')
+        response = self.client.get(self.list_path + f"?program_uuid={program.uuid}")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['results'], self.serialize_user_credential(expected, many=True))
+        self.assertEqual(response.data["results"], self.serialize_user_credential(expected, many=True))
 
     def test_list_type_filtering(self):
         """ Verify the endpoint returns data for all UserCredentials for the given type. """
@@ -308,15 +296,15 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         program_cred = UserCredentialFactory(credential=program_certificate)
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'view_usercredential')
+        self.add_user_permission(self.user, "view_usercredential")
 
-        response = self.client.get(self.list_path + '?type=course-run')
+        response = self.client.get(self.list_path + "?type=course-run")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['results'], self.serialize_user_credential([course_cred], many=True))
+        self.assertEqual(response.data["results"], self.serialize_user_credential([course_cred], many=True))
 
-        response = self.client.get(self.list_path + '?type=program')
+        response = self.client.get(self.list_path + "?type=program")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['results'], self.serialize_user_credential([program_cred], many=True))
+        self.assertEqual(response.data["results"], self.serialize_user_credential([program_cred], many=True))
 
     def test_list_visible_filtering(self):
         """ Verify the endpoint can filter by visible date. """
@@ -328,43 +316,40 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
 
         UserCredentialAttributeFactory(
             user_credential=program_cred,
-            name='visible_date',
-            value='9999-01-01T01:01:01Z',
+            name="visible_date",
+            value="9999-01-01T01:01:01Z",
         )
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'view_usercredential')
+        self.add_user_permission(self.user, "view_usercredential")
 
         both = [course_cred, program_cred]
 
         response = self.client.get(self.list_path)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['results'], self.serialize_user_credential(both, many=True))
+        self.assertEqual(response.data["results"], self.serialize_user_credential(both, many=True))
 
-        response = self.client.get(self.list_path + '?only_visible=True')
+        response = self.client.get(self.list_path + "?only_visible=True")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['results'], self.serialize_user_credential([course_cred], many=True))
+        self.assertEqual(response.data["results"], self.serialize_user_credential([course_cred], many=True))
 
-        response = self.client.get(self.list_path + '?only_visible=False')
+        response = self.client.get(self.list_path + "?only_visible=False")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['results'], self.serialize_user_credential(both, many=True))
+        self.assertEqual(response.data["results"], self.serialize_user_credential(both, many=True))
 
-    @ddt.data('put', 'patch')
+    @ddt.data("put", "patch")
     def test_update(self, method):
         """ Verify the endpoint supports updating the status of a UserCredential, but no other fields. """
-        credential = UserCredentialFactory(
-            credential__site=self.site,
-            username=self.user.username
-        )
-        path = reverse('api:v2:credentials-detail', kwargs={'uuid': credential.uuid})
+        credential = UserCredentialFactory(credential__site=self.site, username=self.user.username)
+        path = reverse("api:v2:credentials-detail", kwargs={"uuid": credential.uuid})
         expected_status = UserCredential.REVOKED
-        data = {'status': expected_status}
+        data = {"status": expected_status}
 
         # Verify users without the change permission are denied access
         self.assert_access_denied(self.user, method, path, data=data)
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'change_usercredential')
+        self.add_user_permission(self.user, "change_usercredential")
         response = getattr(self.client, method)(path, data=data)
         credential.refresh_from_db()
 
@@ -378,18 +363,18 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         UserCredentialFactory()
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'view_usercredential')
+        self.add_user_permission(self.user, "view_usercredential")
 
         self.assertEqual(UserCredential.objects.count(), 2)
 
         response = self.client.get(self.list_path)
-        self.assertEqual(response.data['count'], 1)
-        self.assertEqual(response.data['results'][0], self.serialize_user_credential(credential))
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0], self.serialize_user_credential(credential))
 
 
 @ddt.ddt
 class GradeViewSetTests(SiteMixin, APITestCase):
-    list_path = reverse('api:v2:grades-list')
+    list_path = reverse("api:v2:grades-list")
 
     def setUp(self):
         super().setUp()
@@ -397,17 +382,17 @@ class GradeViewSetTests(SiteMixin, APITestCase):
         self.course = CourseFactory(site=self.site)
         self.course_run = CourseRunFactory(course=self.course)
         self.data = {
-            'username': 'test_user',
-            'course_run': self.course_run.key,
-            'letter_grade': 'A',
-            'percent_grade': 0.9,
-            'verified': True,
+            "username": "test_user",
+            "course_run": self.course_run.key,
+            "letter_grade": "A",
+            "percent_grade": 0.9,
+            "verified": True,
         }
 
     def serialize_user_grade(self, user_grade, many=False):
         """ Serialize the given UserGrade object(s). """
-        request = APIRequestFactory(SERVER_NAME=self.site.domain).get('/')
-        return UserGradeSerializer(user_grade, context={'request': request}, many=many).data
+        request = APIRequestFactory(SERVER_NAME=self.site.domain).get("/")
+        return UserGradeSerializer(user_grade, context={"request": request}, many=many).data
 
     def authenticate_user(self, user):
         """ Login as the given user. """
@@ -439,85 +424,85 @@ class GradeViewSetTests(SiteMixin, APITestCase):
 
     def test_create(self):
         # Verify users without the add permission are denied access
-        self.assert_access_denied(self.user, 'post', self.list_path, data=self.data)
+        self.assert_access_denied(self.user, "post", self.list_path, data=self.data)
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'add_usergrade')
+        self.add_user_permission(self.user, "add_usergrade")
         response = self.client.post(self.list_path, data=json.dumps(self.data), content_type=JSON_CONTENT_TYPE)
         grade = UserGrade.objects.last()
 
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data, self.serialize_user_grade(grade))
 
-        self.assertEqual(grade.username, self.data['username'])
+        self.assertEqual(grade.username, self.data["username"])
         self.assertTrue(grade.verified)
-        self.assertEqual(grade.letter_grade, self.data['letter_grade'])
-        self.assertEqual(grade.percent_grade, Decimal('0.9'))
+        self.assertEqual(grade.letter_grade, self.data["letter_grade"])
+        self.assertEqual(grade.percent_grade, Decimal("0.9"))
         self.assertEqual(grade.course_run, self.course_run)
 
     def test_create_with_empty_letter_grade(self):
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'add_usergrade')
+        self.add_user_permission(self.user, "add_usergrade")
 
         # Empty value
-        self.data['username'] = 'empty'
-        self.data['letter_grade'] = ''
+        self.data["username"] = "empty"
+        self.data["letter_grade"] = ""
         response = self.client.post(self.list_path, data=json.dumps(self.data), content_type=JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data, self.serialize_user_grade(UserGrade.objects.last()))
 
         # No value
-        self.data['username'] = 'noexist'
-        del self.data['letter_grade']
+        self.data["username"] = "noexist"
+        del self.data["letter_grade"]
         response = self.client.post(self.list_path, data=json.dumps(self.data), content_type=JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data, self.serialize_user_grade(UserGrade.objects.last()))
 
         # Null value
-        self.data['username'] = 'null'
-        self.data['letter_grade'] = None
+        self.data["username"] = "null"
+        self.data["letter_grade"] = None
         response = self.client.post(self.list_path, data=json.dumps(self.data), content_type=JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data, self.serialize_user_grade(UserGrade.objects.last()))
 
     def test_create_with_existing_user_grade(self):
-        """ Verify that, if a user has already been issued a grade, further attempts to issue the same grade
+        """Verify that, if a user has already been issued a grade, further attempts to issue the same grade
         will NOT create a new grade, but update the fields of the existing grade.
         """
         grade = UserGradeFactory(course_run=self.course_run)
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'add_usergrade')
+        self.add_user_permission(self.user, "add_usergrade")
 
         # POSTing with modified data should update the existing UserGrade
         data = self.serialize_user_grade(grade)
-        data['letter_grade'] = 'B'
+        data["letter_grade"] = "B"
         response = self.client.post(self.list_path, data=JSONRenderer().render(data), content_type=JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, 201)
 
         grade.refresh_from_db()
-        self.assertEqual(grade.letter_grade, 'B')
+        self.assertEqual(grade.letter_grade, "B")
         self.assertDictEqual(response.data, self.serialize_user_grade(grade))
 
-    @ddt.data('put', 'patch')
+    @ddt.data("put", "patch")
     def test_update(self, method):
         """ Verify the endpoint supports updating the status of a UserGrade, but no other fields. """
         grade = UserGradeFactory(
             course_run=self.course_run,
             username=self.user.username,
-            letter_grade='C',
+            letter_grade="C",
         )
-        path = reverse('api:v2:grades-detail', kwargs={'pk': grade.id})
+        path = reverse("api:v2:grades-detail", kwargs={"pk": grade.id})
 
         # Verify users without the change permission are denied access
         self.assert_access_denied(self.user, method, path, data=self.data)
 
         self.authenticate_user(self.user)
-        self.add_user_permission(self.user, 'change_usergrade')
+        self.add_user_permission(self.user, "change_usergrade")
         response = getattr(self.client, method)(path, data=self.data)
 
         grade.refresh_from_db()
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(grade.letter_grade, self.data['letter_grade'])
+        self.assertEqual(grade.letter_grade, self.data["letter_grade"])
         self.assertDictEqual(response.data, self.serialize_user_grade(grade))
 
 
@@ -529,7 +514,7 @@ class ThrottlingTests(TestCase):
         super().setUp()
         self.throttle = CredentialRateThrottle()
 
-    @ddt.data('credential_view', 'grade_view', 'staff_override')
+    @ddt.data("credential_view", "grade_view", "staff_override")
     def test_throttle_configuration(self, scope):
         """ Verify that throttling is configured for each scope. """
         self.throttle.scope = scope
@@ -537,10 +522,11 @@ class ThrottlingTests(TestCase):
 
 
 @ddt.ddt
-@mock.patch('django.conf.settings.USERNAME_REPLACEMENT_WORKER', 'test_replace_username_service_worker')
+@mock.patch("django.conf.settings.USERNAME_REPLACEMENT_WORKER", "test_replace_username_service_worker")
 class UsernameReplacementViewTests(JwtMixin, APITestCase):
     """ Tests UsernameReplacementView """
-    SERVICE_USERNAME = 'test_replace_username_service_worker'
+
+    SERVICE_USERNAME = "test_replace_username_service_worker"
 
     def setUp(self):
         super().setUp()
@@ -553,7 +539,7 @@ class UsernameReplacementViewTests(JwtMixin, APITestCase):
         """
         jwt_payload = self.default_payload(user)
         token = self.generate_token(jwt_payload)
-        headers = {'HTTP_AUTHORIZATION': 'JWT ' + token}
+        headers = {"HTTP_AUTHORIZATION": "JWT " + token}
         return headers
 
     def call_api(self, user, data):
@@ -567,7 +553,7 @@ class UsernameReplacementViewTests(JwtMixin, APITestCase):
         data = {
             "username_mappings": [
                 {"test_username_1": "test_new_username_1"},
-                {"test_username_2": "test_new_username_2"}
+                {"test_username_2": "test_new_username_2"},
             ]
         }
 
@@ -584,16 +570,10 @@ class UsernameReplacementViewTests(JwtMixin, APITestCase):
         response = self.call_api(self.service_user, data)
         self.assertEqual(response.status_code, 200)
 
-    @ddt.data(
-        [{}, {}],
-        {},
-        [{"test_key": "test_value", "test_key_2": "test_value_2"}]
-    )
+    @ddt.data([{}, {}], {}, [{"test_key": "test_value", "test_key_2": "test_value_2"}])
     def test_bad_schema(self, mapping_data):
         """ Verify the endpoint rejects bad data schema """
-        data = {
-            "username_mappings": mapping_data
-        }
+        data = {"username_mappings": mapping_data}
         response = self.call_api(self.service_user, data)
         self.assertEqual(response.status_code, 400)
 
@@ -605,15 +585,10 @@ class UsernameReplacementViewTests(JwtMixin, APITestCase):
         """
         random_users = [UserFactory() for _ in range(5)]
         fake_usernames = ["myname_" + str(x) for x in range(5)]
-        existing_users = [{user.username: user.username + '_new'} for user in random_users]
-        non_existing_users = [{username: username + '_new'} for username in fake_usernames]
-        data = {
-            "username_mappings": existing_users + non_existing_users
-        }
-        expected_response = {
-            'failed_replacements': [],
-            'successful_replacements': existing_users + non_existing_users
-        }
+        existing_users = [{user.username: user.username + "_new"} for user in random_users]
+        non_existing_users = [{username: username + "_new"} for username in fake_usernames]
+        data = {"username_mappings": existing_users + non_existing_users}
+        expected_response = {"failed_replacements": [], "successful_replacements": existing_users + non_existing_users}
         response = self.call_api(self.service_user, data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, expected_response)

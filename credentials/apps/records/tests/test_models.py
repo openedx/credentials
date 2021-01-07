@@ -19,7 +19,7 @@ class UserCreditPathwayTests(TestCase):
                 try:
                     UserCreditPathwayFactory(pathway=pathway)
                 except ValidationError:
-                    self.fail('UserCreditPathway did not accept a credit pathway unexpectedly.')
+                    self.fail("UserCreditPathway did not accept a credit pathway unexpectedly.")
             else:
                 with self.assertRaises(ValidationError):
                     UserCreditPathwayFactory(pathway=pathway)

@@ -7,12 +7,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('credentials', '0008_auto_20170217_1423'),
+        ("credentials", "0008_auto_20170217_1423"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='programcertificate',
-            name='program_id',
+            model_name="programcertificate",
+            name="program_id",
         ),
     ]

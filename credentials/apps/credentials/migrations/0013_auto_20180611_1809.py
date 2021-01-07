@@ -7,13 +7,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('credentials', '0012_programcertificate_language'),
+        ("credentials", "0012_programcertificate_language"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='programcertificate',
-            name='language',
-            field=models.CharField(help_text='Locale in which certificates for this program will be rendered', max_length=8, null=True),
+            model_name="programcertificate",
+            name="language",
+            field=models.CharField(
+                help_text="Locale in which certificates for this program will be rendered", max_length=8, null=True
+            ),
         ),
     ]

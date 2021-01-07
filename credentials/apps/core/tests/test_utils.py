@@ -13,7 +13,7 @@ class UtilsTests(TestCase):
 
     def setUp(self):
         super().setUp()
-        self.user = UserFactory(full_name='Bart')
+        self.user = UserFactory(full_name="Bart")
 
     def test_update_full_name_no_user(self):
         # Just test that we don't blow up
@@ -25,6 +25,6 @@ class UtilsTests(TestCase):
 
     def test_update_full_name_happy_path(self):
         strategy = mock.MagicMock()
-        update_full_name(strategy, {'full_name': 'Bort'}, self.user)
-        self.assertEqual(self.user.full_name, 'Bort')
+        update_full_name(strategy, {"full_name": "Bort"}, self.user)
+        self.assertEqual(self.user.full_name, "Bort")
         self.assertTrue(strategy.storage.user.changed.called)

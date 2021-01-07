@@ -25,6 +25,10 @@ If this is the first time you've run tests, you'll have to run::
 
 first, otherwise you'll run into ``webpack_loader.exceptions.WebpackBundleLookupErrors``.
 
+If your code is failing the `black` autoformatting check, run the following command on your PR::
+
+  $ make format
+
 Exec commands
 -------------
 To run any of the make commands that begin with "exec", for example *exec-tests*:

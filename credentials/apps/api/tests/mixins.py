@@ -14,21 +14,21 @@ from credentials.apps.core.constants import Role
 from credentials.apps.core.tests.factories import UserFactory
 
 
-JWT_AUTH = 'JWT_AUTH'
+JWT_AUTH = "JWT_AUTH"
 
 
 class JwtMixin:
     """ Mixin with JWT-related helper functions. """
 
-    JWT_SECRET_KEY = getattr(settings, JWT_AUTH)['JWT_SECRET_KEY']
-    JWT_ISSUER = getattr(settings, JWT_AUTH)['JWT_ISSUER']
-    JWT_AUDIENCE = getattr(settings, JWT_AUTH)['JWT_AUDIENCE']
+    JWT_SECRET_KEY = getattr(settings, JWT_AUTH)["JWT_SECRET_KEY"]
+    JWT_ISSUER = getattr(settings, JWT_AUTH)["JWT_ISSUER"]
+    JWT_AUDIENCE = getattr(settings, JWT_AUTH)["JWT_AUDIENCE"]
 
     def generate_token(self, payload, secret=None):
         """Generate a JWT token with the provided payload."""
         secret = secret or self.JWT_SECRET_KEY
         token = jwt.encode(payload, secret)
-        return token.decode('utf-8')
+        return token.decode("utf-8")
 
     def generate_id_token(self, user, admin=False, ttl=1, **overrides):
         """Generate a JWT id_token that looks like the ones currently
@@ -72,7 +72,7 @@ class CredentialViewSetTestsMixin:
         self.user = UserFactory()
         self.user.groups.add(Group.objects.get(name=Role.ADMINS))
         self.client.force_authenticate(self.user)
-        self.request = APIRequestFactory().get('/')
+        self.request = APIRequestFactory().get("/")
 
     def assert_permission_required(self, data):
         """
@@ -106,7 +106,11 @@ class CredentialViewSetTestsMixin:
 
     def _generate_results(self, exists=True):
         if exists:
-            return {'count': 1, 'next': None, 'previous': None,
-                    'results': [UserCredentialSerializer(self.user_credential, context={'request': self.request}).data]}
+            return {
+                "count": 1,
+                "next": None,
+                "previous": None,
+                "results": [UserCredentialSerializer(self.user_credential, context={"request": self.request}).data],
+            }
 
-        return {'count': 0, 'next': None, 'previous': None, 'results': []}
+        return {"count": 0, "next": None, "previous": None, "results": []}

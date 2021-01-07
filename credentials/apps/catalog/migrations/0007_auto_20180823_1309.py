@@ -8,29 +8,29 @@ import sortedm2m.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('records', '0016_auto_20180822_1655'),
-        ('catalog', '0006_auto_20180817_1929'),
+        ("records", "0016_auto_20180822_1655"),
+        ("catalog", "0006_auto_20180817_1929"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='creditpathway',
+            name="creditpathway",
             unique_together=set(),
         ),
         migrations.RemoveField(
-            model_name='creditpathway',
-            name='programs',
+            model_name="creditpathway",
+            name="programs",
         ),
         migrations.RemoveField(
-            model_name='creditpathway',
-            name='site',
+            model_name="creditpathway",
+            name="site",
         ),
         migrations.AlterField(
-            model_name='pathway',
-            name='programs',
-            field=sortedm2m.fields.SortedManyToManyField(help_text=None, related_name='pathways', to='catalog.Program'),
+            model_name="pathway",
+            name="programs",
+            field=sortedm2m.fields.SortedManyToManyField(help_text=None, related_name="pathways", to="catalog.Program"),
         ),
         migrations.DeleteModel(
-            name='CreditPathway',
+            name="CreditPathway",
         ),
     ]

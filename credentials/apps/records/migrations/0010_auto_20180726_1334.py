@@ -7,12 +7,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('records', '0009_user_credit_pathway'),
+        ("records", "0009_user_credit_pathway"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='programcertrecord',
-            options={'verbose_name': 'Shared Program Records'},
+            name="programcertrecord",
+            options={"verbose_name": "Shared Program Records"},
         ),
     ]

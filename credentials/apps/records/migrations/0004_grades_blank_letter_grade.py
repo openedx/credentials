@@ -7,13 +7,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('records', '0003_grades_username_mode_changes'),
+        ("records", "0003_grades_username_mode_changes"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='usergrade',
-            name='letter_grade',
+            model_name="usergrade",
+            name="letter_grade",
             field=models.CharField(blank=True, max_length=255),
         ),
     ]

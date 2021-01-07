@@ -27,6 +27,7 @@ class LoginMixin:
 
 class CredentialsApiMixin:
     """ Mixin used for login on credentials."""
+
     def setUp(self):
         super().setUp()
         self.data = None
@@ -42,13 +43,11 @@ class CredentialsApiMixin:
 
     def create_credential(self):
         """Create user credential for a program."""
-        self.data = self.credential_api_client.credentials.post({
-            'username': config.LMS_USERNAME,
-            'credential': {'program_uuid': config.PROGRAM_UUID},
-            'attributes': []
-        })
+        self.data = self.credential_api_client.credentials.post(
+            {"username": config.LMS_USERNAME, "credential": {"program_uuid": config.PROGRAM_UUID}, "attributes": []}
+        )
 
     def change_credential_status(self, status):
         """Update the credential status to awarded or revoked."""
-        self.data['status'] = status
-        self.credential_api_client.credentials(self.data['uuid']).patch(self.data)
+        self.data["status"] = status
+        self.credential_api_client.credentials(self.data["uuid"]).patch(self.data)

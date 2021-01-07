@@ -52,9 +52,9 @@ isort: ## Run isort to sort imports in all Python files
 	isort --recursive --atomic acceptance_tests/ credentials/
 
 isort_check: ## Check that isort has been run
-	isort --check-only -rc acceptance_tests/ credentials/
+	isort --check-only acceptance_tests/ credentials/
 
-quality: isort_check quality-js ## Run linters
+quality: isort_check quality-js format_check ## Run linters
 	pylint --rcfile=pylintrc acceptance_tests credentials *.py
 
 quality_fix: isort format

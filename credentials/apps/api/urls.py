@@ -9,5 +9,5 @@ from django.urls import re_path
 
 
 urlpatterns = [
-    re_path(r'^v2/', include(('credentials.apps.api.v2.urls', 'v2'), namespace='v2')),
+    re_path(r"^v2/", include(("credentials.apps.api.v2.urls", "v2"), namespace="v2")),
 ]

@@ -7,13 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0011_auto_20170410_1646'),
+        ("core", "0011_auto_20170410_1646"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='siteconfiguration',
-            name='verified_certificate_url',
-            field=models.URLField(blank=True, help_text='This field is deprecated, and will be removed.', null=True, verbose_name='Verified Certificate URL'),
+            model_name="siteconfiguration",
+            name="verified_certificate_url",
+            field=models.URLField(
+                blank=True,
+                help_text="This field is deprecated, and will be removed.",
+                null=True,
+                verbose_name="Verified Certificate URL",
+            ),
         ),
     ]

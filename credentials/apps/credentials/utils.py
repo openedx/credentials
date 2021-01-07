@@ -15,14 +15,14 @@ from credentials.apps.credentials.models import ProgramCompletionEmailConfigurat
 
 log = logging.getLogger(__name__)
 
-VISIBLE_DATE_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
+VISIBLE_DATE_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 
 def to_language(locale):
     if locale is None:
         return None
     # Convert to bytes to get ascii-lowercasing, to avoid the Turkish I problem.
-    return locale.replace('_', '-').encode().lower().decode()
+    return locale.replace("_", "-").encode().lower().decode()
 
 
 def validate_duplicate_attributes(attributes):
@@ -38,7 +38,7 @@ def validate_duplicate_attributes(attributes):
     """
 
     def keyfunc(attribute):
-        return attribute['name']
+        return attribute["name"]
 
     sorted_data = sorted(attributes, key=keyfunc)
     for __, group in groupby(sorted_data, key=keyfunc):
@@ -48,15 +48,15 @@ def validate_duplicate_attributes(attributes):
 
 
 def datetime_from_visible_date(date):
-    """ Turn a string version of a datetime, provided to us by the LMS in a particular format it uses for
-        visible_date attributes, and turn it into a datetime object. """
+    """Turn a string version of a datetime, provided to us by the LMS in a particular format it uses for
+    visible_date attributes, and turn it into a datetime object."""
     try:
         parsed = datetime.datetime.strptime(date, VISIBLE_DATE_FORMAT)
         # The timezone is always UTC (as indicated by the Z). It looks like in python3.7, we could
         # just use %z instead of replacing the tzinfo with a UTC value.
         return parsed.replace(tzinfo=datetime.timezone.utc)
     except ValueError as e:
-        log.exception('%s', e)
+        log.exception("%s", e)
         return None
 
 
@@ -66,7 +66,7 @@ def filter_visible(qs):
     # because the format is so strict - it will still lexically compare as less/greater-than.
     nowstr = datetime.datetime.now(datetime.timezone.utc).strftime(VISIBLE_DATE_FORMAT)
     return qs.filter(
-        Q(attributes__name='visible_date', attributes__value__lte=nowstr) | ~Q(attributes__name='visible_date')
+        Q(attributes__name="visible_date", attributes__value__lte=nowstr) | ~Q(attributes__name="visible_date")
     )
 
 
@@ -77,12 +77,12 @@ def get_credential_visible_dates(user_credentials):
     Guaranteed to return a datetime object for each credential.
     """
 
-    visible_dates = UserCredentialAttribute.objects.prefetch_related('user_credential__credential').filter(
-        user_credential__in=user_credentials, name='visible_date')
+    visible_dates = UserCredentialAttribute.objects.prefetch_related("user_credential__credential").filter(
+        user_credential__in=user_credentials, name="visible_date"
+    )
 
     visible_date_dict = {
-        visible_date.user_credential: datetime_from_visible_date(visible_date.value)
-        for visible_date in visible_dates
+        visible_date.user_credential: datetime_from_visible_date(visible_date.value) for visible_date in visible_dates
     }
 
     for user_credential in user_credentials:
@@ -108,8 +108,7 @@ def send_program_certificate_created_message(username, program_certificate):
     program_details = program_certificate.program_details
 
     email_configuration = ProgramCompletionEmailConfiguration.get_email_config_for_program(
-        program_uuid,
-        program_details.type_slug
+        program_uuid, program_details.type_slug
     )
     # If a config doesn't exist or isn't enabled, we don't want to send emails for this program.
     if not getattr(email_configuration, "enabled", None):
@@ -128,12 +127,12 @@ def send_program_certificate_created_message(username, program_certificate):
             recipient=Recipient(username=user.username, email_address=user.email),
             language=program_certificate.language,
             user_context={
-                'program_title': program_details.title,
-                'program_type': program_details.type,
-                'custom_email_html_template_extra': email_configuration.html_template,
+                "program_title": program_details.title,
+                "program_type": program_details.type,
+                "custom_email_html_template_extra": email_configuration.html_template,
                 # remove any leading spaces of the plaintext content so that the email doesn't look horrendous
-                'custom_email_plaintext_template_extra': textwrap.dedent(email_configuration.plaintext_template),
-                'logo_url': getattr(settings, 'LOGO_URL_PNG', '')
+                "custom_email_plaintext_template_extra": textwrap.dedent(email_configuration.plaintext_template),
+                "logo_url": getattr(settings, "LOGO_URL_PNG", ""),
             },
         )
         log.info(f"Sending Program completion email to learner with id [{user.id}] in Program [{program_uuid}]")

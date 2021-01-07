@@ -3,11 +3,13 @@
 
 class Status:
     """Health statuses."""
-    OK = 'OK'
-    UNAVAILABLE = 'UNAVAILABLE'
+
+    OK = "OK"
+    UNAVAILABLE = "UNAVAILABLE"
 
 
 class Role:
     """Named roles (django Groups)."""
-    LEARNERS = 'Learners'
-    ADMINS = 'Admins'
+
+    LEARNERS = "Learners"
+    ADMINS = "Admins"

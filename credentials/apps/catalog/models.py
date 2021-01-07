@@ -20,16 +20,15 @@ class Organization(TimeStampedModel):
 
     .. no_pii: This model has no PII.
     """
+
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
-    uuid = models.UUIDField(blank=False, null=False, verbose_name='UUID')
+    uuid = models.UUIDField(blank=False, null=False, verbose_name="UUID")
     key = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     certificate_logo_image_url = models.CharField(max_length=512, null=True)
 
     class Meta:
-        unique_together = (
-            ('site', 'uuid'),
-        )
+        unique_together = (("site", "uuid"),)
 
     def __str__(self):
         return self.name
@@ -41,19 +40,18 @@ class Course(TimeStampedModel):
 
     .. no_pii: This model has no PII.
     """
+
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
-    uuid = models.UUIDField(verbose_name='UUID')
+    uuid = models.UUIDField(verbose_name="UUID")
     key = models.CharField(max_length=255)
     title = models.CharField(max_length=255, default=None, null=True, blank=True)
-    owners = SortedManyToManyField(Organization, blank=True, related_name='owned_courses')
+    owners = SortedManyToManyField(Organization, blank=True, related_name="owned_courses")
 
     class Meta:
-        unique_together = (
-            ('site', 'uuid'),
-        )
+        unique_together = (("site", "uuid"),)
 
     def __str__(self):
-        return f'{self.id}: {self.key}: {self.title}'
+        return f"{self.id}: {self.key}: {self.title}"
 
 
 class CourseRun(TimeStampedModel):
@@ -62,13 +60,18 @@ class CourseRun(TimeStampedModel):
 
     .. no_pii: This model has no PII.
     """
-    course = models.ForeignKey(Course, related_name='course_runs', on_delete=models.CASCADE)
-    uuid = models.UUIDField(verbose_name='UUID')
+
+    course = models.ForeignKey(Course, related_name="course_runs", on_delete=models.CASCADE)
+    uuid = models.UUIDField(verbose_name="UUID")
     key = models.CharField(max_length=255)
     title_override = models.CharField(
-        max_length=255, default=None, null=True, blank=True,
+        max_length=255,
+        default=None,
+        null=True,
+        blank=True,
         help_text="Title specific for this run of a course. "
-                  "Leave this value blank to default to the parent course's title.")
+        "Leave this value blank to default to the parent course's title.",
+    )
     start_date = models.DateTimeField(null=True, blank=True, db_index=True)
     end_date = models.DateTimeField(null=True, blank=True, db_index=True)
 
@@ -76,12 +79,10 @@ class CourseRun(TimeStampedModel):
     # unpublished. But unpublished is really used as a 'retired' flag. So in both cases, we want the run.
 
     class Meta:
-        unique_together = (
-            ('course', 'uuid'),
-        )
+        unique_together = (("course", "uuid"),)
 
     def __str__(self):
-        return f'{self.id}: {self.key}: {self.title}'
+        return f"{self.id}: {self.key}: {self.title}"
 
     @property
     def title(self):
@@ -94,26 +95,25 @@ class Program(TimeStampedModel):
 
     .. no_pii: This model has no PII.
     """
+
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
-    uuid = models.UUIDField(verbose_name='UUID')
+    uuid = models.UUIDField(verbose_name="UUID")
     title = models.CharField(max_length=255)
     # We store runs not courses, since not all runs of a course are in a program
-    course_runs = SortedManyToManyField(CourseRun, related_name='programs')
-    authoring_organizations = SortedManyToManyField(Organization, blank=True, related_name='authored_programs')
-    type = models.CharField(max_length=32, blank=False, default='')
-    type_slug = models.CharField(max_length=32, blank=False, default='')
+    course_runs = SortedManyToManyField(CourseRun, related_name="programs")
+    authoring_organizations = SortedManyToManyField(Organization, blank=True, related_name="authored_programs")
+    type = models.CharField(max_length=32, blank=False, default="")
+    type_slug = models.CharField(max_length=32, blank=False, default="")
     total_hours_of_effort = models.PositiveSmallIntegerField(null=True, blank=True)
 
     ACTIVE = ProgramStatus.ACTIVE.value
     RETIRED = ProgramStatus.RETIRED.value
     DELETED = ProgramStatus.DELETED.value
     UNPUBLISHED = ProgramStatus.UNPUBLISHED.value  # Discovery does give us unpublished programs...
-    status = models.CharField(max_length=24, blank=False, default='active')
+    status = models.CharField(max_length=24, blank=False, default="active")
 
     class Meta:
-        unique_together = (
-            ('site', 'uuid'),
-        )
+        unique_together = (("site", "uuid"),)
 
     def __str__(self):
         return self.title
@@ -129,22 +129,21 @@ class Pathway(TimeStampedModel):
     .. no_pii: This model has no learner PII. The email address used here is the email address associated with the
     pathway itself (such as 'registrar@school.edu'), not with a learner.
     """
+
     pathway_type = models.CharField(
         max_length=32,
         choices=[(tag.value, tag.value) for tag in PathwayType],
         default=PathwayType.CREDIT.value,
     )
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
-    uuid = models.UUIDField(verbose_name='UUID')
+    uuid = models.UUIDField(verbose_name="UUID")
     name = models.CharField(max_length=255)
     org_name = models.CharField(max_length=255)
     email = models.EmailField()
-    programs = SortedManyToManyField(Program, related_name='pathways')
+    programs = SortedManyToManyField(Program, related_name="pathways")
 
     class Meta:
-        unique_together = (
-            ('site', 'uuid'),
-        )
+        unique_together = (("site", "uuid"),)
 
     def __str__(self):
         return self.name

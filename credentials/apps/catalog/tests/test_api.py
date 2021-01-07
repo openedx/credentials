@@ -9,6 +9,7 @@ from credentials.apps.catalog.tests.factories import ProgramFactory, SiteFactory
 
 class APITests(TestCase):
     """ Tests internal API calls """
+
     def setUp(self):
         super().setUp()
         self.site = SiteFactory()
