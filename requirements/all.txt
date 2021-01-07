@@ -285,7 +285,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.46#egg=edx_credentials_the
     #   -r requirements/production.txt
 factory-boy==3.2.0
     # via -r requirements/dev.txt
-faker==5.3.0
+faker==5.4.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
