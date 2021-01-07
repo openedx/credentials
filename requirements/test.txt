@@ -18,8 +18,8 @@ click==7.1.2              # via click-log, code-annotations, edx-lint
 code-annotations==0.10.2  # via -r requirements/test.in
 coreapi==2.3.3            # via -r requirements/base.txt, django-rest-swagger, openapi-codec
 coreschema==0.0.4         # via -r requirements/base.txt, coreapi
-coverage==5.3             # via -r requirements/test.in
-cryptography==3.3.1       # via -r requirements/base.txt, pyjwt
+coverage==5.3.1           # via -r requirements/test.in
+cryptography==3.3.1       # via -r requirements/base.txt, pyjwt, social-auth-core
 ddt==1.4.1                # via -r requirements/test.in
 defusedxml==0.6.0         # via -r requirements/base.txt, python3-openid, social-auth-core
 distlib==0.3.1            # via virtualenv
@@ -35,7 +35,7 @@ django-rest-swagger==2.2.0  # via -r requirements/base.txt
 django-simple-history==2.12.0  # via -r requirements/base.txt
 django-sortedm2m==3.0.2   # via -r requirements/base.txt
 django-statici18n==2.0.1  # via -r requirements/base.txt
-django-storages==1.11     # via -r requirements/base.txt
+django-storages==1.11.1   # via -r requirements/base.txt
 django-waffle==2.0.0      # via -r requirements/base.txt, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/base.txt
 djangorestframework==3.12.2  # via -r requirements/base.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
@@ -47,17 +47,17 @@ edx-django-sites-extensions==2.5.1  # via -r requirements/base.txt
 edx-django-utils==3.13.0  # via -r requirements/base.txt, edx-drf-extensions, edx-rest-api-client
 edx-drf-extensions==6.2.0  # via -r requirements/base.txt
 edx-i18n-tools==0.5.3     # via -r requirements/base.txt, edx-credentials-themes
-edx-lint==1.5.2           # via -r requirements/test.in
+edx-lint==1.5.2           # via -c requirements/constraints.txt, -r requirements/test.in
 edx-opaque-keys==2.1.1    # via -r requirements/base.txt, edx-drf-extensions
 edx-rest-api-client==5.2.2  # via -r requirements/base.txt
 git+https://github.com/edx/credentials-themes.git@0.1.46#egg=edx_credentials_themes==0.1.46  # via -r requirements/base.txt
-factory-boy==3.1.0        # via -r requirements/test.in
-faker==5.0.2              # via factory-boy
+factory-boy==3.2.0        # via -r requirements/test.in
+faker==5.3.0              # via factory-boy
 filelock==3.0.12          # via tox, virtualenv
 future==0.18.2            # via -r requirements/base.txt, pyjwkest
 gitdb==4.0.5              # via -r requirements/base.txt, gitpython
-gitpython==3.1.11         # via -r requirements/base.txt, transifex-client
-httpretty==1.0.3          # via -r requirements/test.in
+gitpython==3.1.12         # via -r requirements/base.txt, transifex-client
+httpretty==1.0.5          # via -r requirements/test.in
 idna==2.10                # via -r requirements/base.txt, requests
 iniconfig==1.1.1          # via pytest
 isort==4.3.21             # via -r requirements/test.in, pylint
@@ -68,18 +68,18 @@ lazy==1.4                 # via bok-choy
 markdown==3.3.3           # via -r requirements/base.txt
 markupsafe==1.1.1         # via -r requirements/base.txt, jinja2
 mccabe==0.6.1             # via pylint
-mysqlclient==2.0.2        # via -r requirements/base.txt
-newrelic==5.22.1.152      # via -r requirements/base.txt, edx-django-utils
+mysqlclient==2.0.3        # via -r requirements/base.txt
+newrelic==5.24.0.153      # via -r requirements/base.txt, edx-django-utils
 oauthlib==3.1.0           # via -r requirements/base.txt, requests-oauthlib, social-auth-core
 openapi-codec==1.3.2      # via -r requirements/base.txt, django-rest-swagger
 packaging==20.8           # via -r requirements/base.txt, bleach, pytest, tox
 path.py==12.5.0           # via -r requirements/base.txt, edx-i18n-tools
 path==15.0.1              # via -r requirements/base.txt, path.py
 pbr==5.5.1                # via -r requirements/base.txt, stevedore
-pillow==8.0.1             # via -r requirements/base.txt
+pillow==8.1.0             # via -r requirements/base.txt
 pluggy==0.13.1            # via pytest, tox
 polib==1.1.0              # via -r requirements/base.txt, edx-i18n-tools
-psutil==5.7.3             # via -r requirements/base.txt, edx-django-utils
+psutil==5.8.0             # via -r requirements/base.txt, edx-django-utils
 py==1.10.0                # via pytest, tox
 pycodestyle==2.6.0        # via -r requirements/test.in
 pycparser==2.20           # via -r requirements/base.txt, cffi
@@ -90,7 +90,7 @@ pyjwt[crypto]==1.7.1      # via -r requirements/base.txt, drf-jwt, edx-auth-back
 pylint-celery==0.3        # via edx-lint
 pylint-django==2.0.11     # via edx-lint
 pylint-plugin-utils==0.6  # via pylint-celery, pylint-django
-pylint==2.4.4             # via edx-lint, pylint-celery, pylint-django, pylint-plugin-utils
+pylint==2.4.4             # via -c requirements/constraints.txt, edx-lint, pylint-celery, pylint-django, pylint-plugin-utils
 pymongo==3.11.2           # via -r requirements/base.txt, edx-opaque-keys
 pyparsing==2.4.7          # via -r requirements/base.txt, packaging
 pytest-django==4.1.0      # via -r requirements/test.in
@@ -99,7 +99,7 @@ python-dateutil==2.8.1    # via -r requirements/base.txt, analytics-python, edx-
 python-memcached==1.59    # via -r requirements/base.txt
 python-slugify==4.0.1     # via -r requirements/base.txt, code-annotations, transifex-client
 python3-openid==3.2.0     # via -r requirements/base.txt, social-auth-core
-pytz==2020.4              # via -r requirements/base.txt, django
+pytz==2020.5              # via -r requirements/base.txt, django
 pyyaml==5.3.1             # via -r requirements/base.txt, code-annotations, edx-django-release-util, edx-i18n-tools
 requests-oauthlib==1.3.0  # via -r requirements/base.txt, social-auth-core
 requests==2.24.0          # via -c requirements/constraints.txt, -r requirements/base.txt, analytics-python, coreapi, edx-drf-extensions, edx-rest-api-client, pyjwkest, requests-oauthlib, responses, sailthru-client, slumber, social-auth-core, transifex-client
@@ -112,8 +112,8 @@ simplejson==3.17.2        # via -r requirements/base.txt, django-rest-swagger, s
 six==1.15.0               # via -r requirements/base.txt, analytics-python, astroid, bleach, bok-choy, cryptography, django-compat, django-simple-history, edx-ace, edx-auth-backends, edx-django-release-util, edx-drf-extensions, edx-i18n-tools, edx-lint, edx-opaque-keys, pyjwkest, python-dateutil, python-memcached, responses, social-auth-app-django, social-auth-core, tox, transifex-client, virtualenv
 slumber==0.7.1            # via -r requirements/base.txt, edx-rest-api-client
 smmap==3.0.4              # via -r requirements/base.txt, gitdb
-git+https://github.com/python-social-auth/social-app-django.git@c00d23c2b45c3317bd35b15ad1b959338689cef8#egg=social-auth-app-django  # via -r requirements/base.txt, edx-auth-backends
-social-auth-core==3.2.0   # via -c requirements/constraints.txt, -r requirements/base.txt, edx-auth-backends, social-auth-app-django
+social-auth-app-django==4.0.0  # via -r requirements/base.txt, edx-auth-backends
+social-auth-core==3.3.3   # via -r requirements/base.txt, edx-auth-backends, social-auth-app-django
 sqlparse==0.4.1           # via -r requirements/base.txt, django, django-debug-toolbar
 stevedore==3.3.0          # via -r requirements/base.txt, code-annotations, edx-ace, edx-django-utils, edx-opaque-keys
 testfixtures==6.17.0      # via -r requirements/test.in
