@@ -11,6 +11,7 @@ class FaviconView(RedirectView):
     """
     Redirects to the favicon from the LMS
     """
+
     def get_redirect_url(self, *_args, **_kwargs):
         if not settings.FAVICON_URL:
             return None
@@ -24,29 +25,32 @@ class MockToggleStateView(views.APIView):  # pragma: no cover
     reports (ARCHBOM-1569). This can go away once edx-toggles is ready and
     integrated.
     """
-    authentication_classes = (JwtAuthentication, SessionAuthentication,)
-    permission_classes = (permissions.IsAuthenticated, IsStaff,)
+
+    authentication_classes = (
+        JwtAuthentication,
+        SessionAuthentication,
+    )
+    permission_classes = (
+        permissions.IsAuthenticated,
+        IsStaff,
+    )
 
     def get(self, request):
-        return Response({
-            "waffle_flags": [
-                {
-                    "name": "mock.flag",
-                    "class": "WaffleFlag",
-                    "module": "mock.core.djangoapps.fake",
-                    "code_owner": "platform-arch",
-                    "computed_status": "off"
-                }
-            ],
-            "waffle_switches": [],
-            "django_settings": [
-                {
-                    "name": "MOCK_DEBUG",
-                    "is_active": False
-                },
-                {
-                    "name": "OTHER_MOCK['stuff']",
-                    "is_active": True
-                }
-            ]
-        })
+        return Response(
+            {
+                "waffle_flags": [
+                    {
+                        "name": "mock.flag",
+                        "class": "WaffleFlag",
+                        "module": "mock.core.djangoapps.fake",
+                        "code_owner": "platform-arch",
+                        "computed_status": "off",
+                    }
+                ],
+                "waffle_switches": [],
+                "django_settings": [
+                    {"name": "MOCK_DEBUG", "is_active": False},
+                    {"name": "OTHER_MOCK['stuff']", "is_active": True},
+                ],
+            }
+        )

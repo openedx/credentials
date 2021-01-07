@@ -27,7 +27,7 @@ class UserCredentialViewSetPermissions(permissions.DjangoModelPermissions):
 
     # refer to the super() for more context on what this override is doing.
     perms_map = permissions.DjangoModelPermissions.perms_map
-    perms_map.update({method: ['%(app_label)s.view_%(model_name)s'] for method in permissions.SAFE_METHODS})
+    perms_map.update({method: ["%(app_label)s.view_%(model_name)s"] for method in permissions.SAFE_METHODS})
 
     def has_permission(self, request, view):
         """

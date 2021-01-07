@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0013_drop_old_start_end_fields'),
+        ("catalog", "0013_drop_old_start_end_fields"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='program',
-            name='type_slug',
-            field=models.CharField(default='', max_length=32),
+            model_name="program",
+            name="type_slug",
+            field=models.CharField(default="", max_length=32),
         ),
     ]

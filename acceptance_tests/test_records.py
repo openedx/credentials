@@ -8,7 +8,6 @@ from acceptance_tests.pages import MyLearnerRecordsPage, ProgramListingPage
 # Confirm that the flow across pages is good.
 # Make sure we visit each page at least once to get a11y and xss tests going.
 class RecordsViewTests(LoginMixin, WebAppTest):
-
     def test_click_to_program_record(self):
         self.login()
         page = MyLearnerRecordsPage(self.browser)

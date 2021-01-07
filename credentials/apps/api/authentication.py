@@ -19,7 +19,7 @@ def _set_user_roles(user, payload):
     or social auth signin (for use with session auth in the browseable API).
     """
     admin_group = Group.objects.get(name=Role.ADMINS)
-    if payload.get('administrator'):
+    if payload.get("administrator"):
         user.groups.add(admin_group)
     else:
         user.groups.remove(admin_group)
@@ -32,7 +32,7 @@ def pipeline_set_user_roles(response, user=None, *_, **__):  # pylint: disable=k
     """
     if user:
         _set_user_roles(user, response)
-        return {'user': user}
+        return {"user": user}
     return {}
 
 
@@ -47,7 +47,7 @@ class JwtAuthentication(edx_drf_auth.JwtAuthentication):
         """
         user = super().authenticate_credentials(payload)
         admin_group = Group.objects.get(name=Role.ADMINS)
-        if payload.get('administrator'):
+        if payload.get("administrator"):
             user.groups.add(admin_group)
         else:
             user.groups.remove(admin_group)

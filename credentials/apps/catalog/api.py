@@ -34,10 +34,9 @@ def _convert_program_to_program_details(
             key=organization.key,
             name=organization.name,
             display_name=organization.key,
-            certificate_logo_image_url=organization.certificate_logo_image_url
+            certificate_logo_image_url=organization.certificate_logo_image_url,
         )
-        for organization
-        in program_authoring_organizations
+        for organization in program_authoring_organizations
     ]
 
     return ProgramDetails(
@@ -49,5 +48,5 @@ def _convert_program_to_program_details(
         course_count=len(program_course_runs),
         organizations=organizations,
         hours_of_effort=program.total_hours_of_effort,
-        status=program.status
+        status=program.status,
     )

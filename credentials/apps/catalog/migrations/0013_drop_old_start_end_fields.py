@@ -7,16 +7,16 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0012_courserun_copy_column_values'),
+        ("catalog", "0012_courserun_copy_column_values"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='courserun',
-            name='end',
+            model_name="courserun",
+            name="end",
         ),
         migrations.RemoveField(
-            model_name='courserun',
-            name='start',
+            model_name="courserun",
+            name="start",
         ),
     ]

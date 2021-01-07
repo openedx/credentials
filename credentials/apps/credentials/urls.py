@@ -8,6 +8,6 @@ from credentials.apps.credentials.constants import UUID_PATTERN
 
 
 urlpatterns = [
-    re_path(r'^example/$', views.ExampleCredential.as_view(), name='example'),
-    re_path(fr'^{UUID_PATTERN}/$', views.RenderCredential.as_view(), name='render'),
+    re_path(r"^example/$", views.ExampleCredential.as_view(), name="example"),
+    re_path(fr"^{UUID_PATTERN}/$", views.RenderCredential.as_view(), name="render"),
 ]

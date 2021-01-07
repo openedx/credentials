@@ -11,7 +11,7 @@ def copy_column_values_forwards(apps, schema_editor):
     This table should have a few thousand rows at most, so I'm not so concerned about long-term
     database locking.
     """
-    CourseRun = apps.get_model('catalog', 'CourseRun')
+    CourseRun = apps.get_model("catalog", "CourseRun")
     for course_run in CourseRun.objects.all():
         course_run.start_date = course_run.start
         course_run.end_date = course_run.end
@@ -29,7 +29,7 @@ def copy_column_values_backwards(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('catalog', '0011_add_new_start_date_end_date_fields'),
+        ("catalog", "0011_add_new_start_date_end_date_fields"),
     ]
 
     operations = [

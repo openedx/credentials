@@ -32,8 +32,8 @@ class CredentialsUtilsTests(TestCase):
     def test_with_non_duplicate_attributes(self):
         """ Verify that the function will return True if no duplicated attributes found."""
         attributes = [
-            {'name': 'whitelist_reason', 'value': 'Reason for whitelisting.'},
-            {'name': 'grade', 'value': '0.85'}
+            {"name": "whitelist_reason", "value": "Reason for whitelisting."},
+            {"name": "grade", "value": "0.85"},
         ]
         self.assertTrue(validate_duplicate_attributes(attributes))
 
@@ -41,22 +41,24 @@ class CredentialsUtilsTests(TestCase):
         """ Verify that the function will return False if duplicated attributes found."""
 
         attributes = [
-            {'name': 'whitelist_reason', 'value': 'Reason for whitelisting.'},
-            {'name': 'whitelist_reason', 'value': 'Reason for whitelisting.'},
+            {"name": "whitelist_reason", "value": "Reason for whitelisting."},
+            {"name": "whitelist_reason", "value": "Reason for whitelisting."},
         ]
 
         self.assertFalse(validate_duplicate_attributes(attributes))
 
     def test_datetime_from_visible_date(self):
         """ Verify that we convert LMS dates correctly. """
-        self.assertIsNone(datetime_from_visible_date(''))
-        self.assertIsNone(datetime_from_visible_date('2018-07-31'))
-        self.assertIsNone(datetime_from_visible_date('2018-07-31T09:32:46+00:00'))  # should be Z for timezone
-        self.assertEqual(datetime_from_visible_date('2018-07-31T09:32:46Z'),
-                         datetime.datetime(2018, 7, 31, 9, 32, 46, tzinfo=datetime.timezone.utc))
+        self.assertIsNone(datetime_from_visible_date(""))
+        self.assertIsNone(datetime_from_visible_date("2018-07-31"))
+        self.assertIsNone(datetime_from_visible_date("2018-07-31T09:32:46+00:00"))  # should be Z for timezone
+        self.assertEqual(
+            datetime_from_visible_date("2018-07-31T09:32:46Z"),
+            datetime.datetime(2018, 7, 31, 9, 32, 46, tzinfo=datetime.timezone.utc),
+        )
 
 
-@override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
+@override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
 class ProgramCertificateIssuedEmailTests(SiteMixin, TestCase):
     """
     Tests for the automated email sent to learners after completing an edX Program.
@@ -64,8 +66,9 @@ class ProgramCertificateIssuedEmailTests(SiteMixin, TestCase):
     Testing that the right configuration is used is done in `test_models.py` so this code
     will only verify that an email matching the configuration is sent.
     """
+
     USERNAME = "test-user"
-    FAKE_PROGRAM_UUID = 'f6551af4-aa5a-4089-801b-53485d0d1726'
+    FAKE_PROGRAM_UUID = "f6551af4-aa5a-4089-801b-53485d0d1726"
 
     def setUp(self):
         super().setUp()
@@ -77,12 +80,12 @@ class ProgramCertificateIssuedEmailTests(SiteMixin, TestCase):
         mail.outbox = []
 
         # Setup program and default email config
-        self._setup_program_and_program_cert('Example Program')
+        self._setup_program_and_program_cert("Example Program")
         self.default_config = ProgramCompletionEmailConfiguration.objects.create(
             identifier="default",
             html_template="<h1>Default Template</h1>",
             plaintext_template="Default Template",
-            enabled=True
+            enabled=True,
         )
 
     def _setup_program_and_program_cert(self, program_type):
@@ -94,27 +97,20 @@ class ProgramCertificateIssuedEmailTests(SiteMixin, TestCase):
 
     def _build_expected_plaintext_email_body(self):
         return [
-            'Congratulations on completing the {} {} Program!'.format(
+            "Congratulations on completing the {} {} Program!".format(
                 self.program.title,
                 self.program.type,
             ),
-            'Sincerely,',
-            'The {} Team'.format(
-                self.site.siteconfiguration.platform_name
-            ),
-            textwrap.dedent(self.default_config.plaintext_template)
+            "Sincerely,",
+            "The {} Team".format(self.site.siteconfiguration.platform_name),
+            textwrap.dedent(self.default_config.plaintext_template),
         ]
 
     def _build_expected_html_email_body(self):
         return [
-            "Congratulations on completing the {} {} Program!".format(
-                self.program.title,
-                self.program.type
-            ),
-            'Sincerely,<br/>The {} Team'.format(
-                self.site.siteconfiguration.platform_name
-            ),
-            self.default_config.html_template
+            "Congratulations on completing the {} {} Program!".format(self.program.title, self.program.type),
+            "Sincerely,<br/>The {} Team".format(self.site.siteconfiguration.platform_name),
+            self.default_config.html_template,
         ]
 
     def _assert_email_contents(self):
@@ -140,9 +136,8 @@ class ProgramCertificateIssuedEmailTests(SiteMixin, TestCase):
         Utility method that verifies the subject text of the automated emails being sent to
         learners.
         """
-        expected_subject = 'Congratulations for finishing your {} {} Program!'.format(
-            self.program.title,
-            self.program.type
+        expected_subject = "Congratulations for finishing your {} {} Program!".format(
+            self.program.title, self.program.type
         )
         self.assertEqual(email_subject, expected_subject)
 
@@ -180,19 +175,15 @@ class ProgramCertificateIssuedEmailTests(SiteMixin, TestCase):
         self._setup_program_and_program_cert("Radical Program")
 
         expected_messages = [
-            'Sending Program completion email to learner with id [{}] in Program [{}]'.format(
-                self.user.id,
-                self.program.uuid
+            "Sending Program completion email to learner with id [{}] in Program [{}]".format(
+                self.user.id, self.program.uuid
             ),
-            'Unable to send email to learner with id: [{}] for Program [{}]. Error occurred while attempting to '
-            'format or send message: Error!'.format(
-                self.user.id,
-                self.program.uuid
-            )
+            "Unable to send email to learner with id: [{}] for Program [{}]. Error occurred while attempting to "
+            "format or send message: Error!".format(self.user.id, self.program.uuid),
         ]
 
         with LogCapture() as log:
-            with mock.patch('edx_ace.ace.send', side_effect=Exception("Error!")):
+            with mock.patch("edx_ace.ace.send", side_effect=Exception("Error!")):
                 send_program_certificate_created_message(self.user.username, self.program_cert)
 
         for index, message in enumerate(expected_messages):

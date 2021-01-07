@@ -12,7 +12,7 @@ from django.utils.translation import get_language
 register = template.Library()
 
 
-@register.filter(name='translate_file_path')
+@register.filter(name="translate_file_path")
 def translate_file_path(filepath):
     """
     Uses the filepath parameter to construct a set of potential language suffixed file names, and return
@@ -36,8 +36,8 @@ def construct_file_language_names(filepath, language, default=settings.LANGUAGE_
         5. The unmodified requested filepath (e.g. filepath.svg)
     """
     # Replace out underscores so languages are always consistently named with hyphens
-    replaced_language = language.replace('_', '-')
-    replaced_default = default.replace('_', '-')
+    replaced_language = language.replace("_", "-")
+    replaced_default = default.replace("_", "-")
 
     root, ext = splitext(filepath)
     paths = []

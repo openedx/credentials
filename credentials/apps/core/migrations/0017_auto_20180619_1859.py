@@ -7,13 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0016_admins_can_add_grades'),
+        ("core", "0016_admins_can_add_grades"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='siteconfiguration',
-            name='records_help_url',
-            field=models.URLField(blank=True, default='', help_text='URL of page for questions about Student Records', verbose_name='Student Records Help URL'),
+            model_name="siteconfiguration",
+            name="records_help_url",
+            field=models.URLField(
+                blank=True,
+                default="",
+                help_text="URL of page for questions about Student Records",
+                verbose_name="Student Records Help URL",
+            ),
         ),
     ]

@@ -10,9 +10,9 @@ class CourseRunTests(TestCase):
 
     def test_title(self):
         """ Test that we gracefully provide a title override. """
-        course = CourseFactory(title='Course Title')
+        course = CourseFactory(title="Course Title")
         run_none = CourseRunFactory(title_override=None, course=course)
-        run_overridden = CourseRunFactory(title_override='Run Title', course=course)
+        run_overridden = CourseRunFactory(title_override="Run Title", course=course)
 
-        self.assertEqual(run_none.title, 'Course Title')
-        self.assertEqual(run_overridden.title, 'Run Title')
+        self.assertEqual(run_none.title, "Course Title")
+        self.assertEqual(run_overridden.title, "Run Title")

@@ -5,16 +5,18 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('core', '0010_auto_20170330_1856'),
+        ("core", "0010_auto_20170330_1856"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='siteconfiguration',
-            name='theme_name',
+            model_name="siteconfiguration",
+            name="theme_name",
             field=models.CharField(
-                default='openedx',
-                help_text='Name of of the theme to use for this site. This value should be lower-cased.',
-                max_length=255, verbose_name='Theme Name'),
+                default="openedx",
+                help_text="Name of of the theme to use for this site. This value should be lower-cased.",
+                max_length=255,
+                verbose_name="Theme Name",
+            ),
         ),
     ]

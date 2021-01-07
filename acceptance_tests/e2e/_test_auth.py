@@ -7,7 +7,7 @@ from acceptance_tests.mixins import LoginMixin
 from acceptance_tests.pages import CredentialsDRFPage
 
 
-@skipUnless(ENABLE_OAUTH2_TESTS, 'OAuth2 tests are not enabled.')
+@skipUnless(ENABLE_OAUTH2_TESTS, "OAuth2 tests are not enabled.")
 class OAuth2FlowTests(LoginMixin, WebAppTest):
     def setUp(self):
         """

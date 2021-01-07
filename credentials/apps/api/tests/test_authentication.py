@@ -19,7 +19,8 @@ class TestJWTAuthentication(JwtMixin, TestCase):
     """
     Test id_token authentication used with the browseable API.
     """
-    USERNAME = 'test-username'
+
+    USERNAME = "test-username"
 
     def test_no_preferred_username(self):
         """
@@ -27,7 +28,7 @@ class TestJWTAuthentication(JwtMixin, TestCase):
         """
         # with preferred_username: all good
         authentication = JwtAuthentication()
-        user = authentication.authenticate_credentials({'preferred_username': self.USERNAME})
+        user = authentication.authenticate_credentials({"preferred_username": self.USERNAME})
         self.assertEqual(user.username, self.USERNAME)
 
         # missing preferred_username: exception
@@ -40,18 +41,13 @@ class TestJWTAuthentication(JwtMixin, TestCase):
         Ensure the service gracefully handles an admin role from the id token.
         """
         authentication = JwtAuthentication()
-        user = authentication.authenticate_credentials(
-            {
-                'preferred_username': self.USERNAME,
-                'administrator': True
-            }
-        )
+        user = authentication.authenticate_credentials({"preferred_username": self.USERNAME, "administrator": True})
         self.assertEqual(user.username, self.USERNAME)
         self.assertTrue(user.is_staff)
         self.assertEqual(len(user.groups.all()), 1)
         self.assertEqual(user.groups.all()[0].name, Role.ADMINS)
 
-    @ddt.data('exp', 'iat')
+    @ddt.data("exp", "iat")
     def test_required_claims(self, claim):
         """
         Verify that tokens that do not carry 'exp' or 'iat' claims are rejected
@@ -61,7 +57,7 @@ class TestJWTAuthentication(JwtMixin, TestCase):
         jwt_payload = self.default_payload(user)
         del jwt_payload[claim]
         jwt_value = self.generate_token(jwt_payload)
-        request = APIRequestFactory().get('dummy', HTTP_AUTHORIZATION=f'JWT {jwt_value}')
+        request = APIRequestFactory().get("dummy", HTTP_AUTHORIZATION=f"JWT {jwt_value}")
         with self.assertRaises(AuthenticationFailed):
             authentication.authenticate(request)
 
@@ -89,7 +85,7 @@ class TestPipelineUserRoles(TestCase):
         Shorthand convenience.  Ensures that the output of the pipeline function
         adheres to the social auth pipeline interface and won't break the auth flow.
         """
-        self.assertEqual(result, {'user': self.user})
+        self.assertEqual(result, {"user": self.user})
 
     def test_admin_role_is_assigned(self):
         """

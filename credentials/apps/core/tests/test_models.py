@@ -26,11 +26,11 @@ class UserTests(TestCase):
 
     def test_access_token(self):
         """ Verify the property returns the value of the access_token stored with the UserSocialAuth. """
-        social_auth = UserSocialAuth.objects.create(user=self.user, provider='test', uid=self.user.username)
+        social_auth = UserSocialAuth.objects.create(user=self.user, provider="test", uid=self.user.username)
         self.assertIsNone(self.user.access_token)
 
-        access_token = 'My voice is my passport. Verify me.'
-        social_auth.extra_data.update({'access_token': access_token})
+        access_token = "My voice is my passport. Verify me."
+        social_auth.extra_data.update({"access_token": access_token})
         social_auth.save()
         self.assertEqual(self.user.access_token, access_token)
 
@@ -55,7 +55,7 @@ class SiteConfigurationTests(SiteMixin, TestCase):
 
     def test_str(self):
         """ Test the site value for site configuration model. """
-        site = SiteFactory(domain='test.org', name='test')
+        site = SiteFactory(domain="test.org", name="test")
         site_configuration = SiteConfigurationFactory(site=site)
         self.assertEqual(str(site_configuration), site.name)
 
@@ -74,21 +74,20 @@ class SiteConfigurationTests(SiteMixin, TestCase):
     def test_get_program(self):
         """ Verify the method retrieves program data from the Catalog API. """
         program_uuid = uuid.uuid4()
-        program_endpoint = f'programs/{program_uuid}/'
+        program_endpoint = f"programs/{program_uuid}/"
         body = {
-            'uuid': program_uuid.hex,
-            'title': 'A Fake Program',
-            'type': 'fake',
-            'authoring_organizations': [
+            "uuid": program_uuid.hex,
+            "title": "A Fake Program",
+            "type": "fake",
+            "authoring_organizations": [
                 {
-                    'uuid': uuid.uuid4().hex,
-                    'key': 'FakeX',
-                    'name': 'Fake University',
-                    'logo_image_url': 'https://static.fake.edu/logo.png',
-
+                    "uuid": uuid.uuid4().hex,
+                    "key": "FakeX",
+                    "name": "Fake University",
+                    "logo_image_url": "https://static.fake.edu/logo.png",
                 }
             ],
-            'courses': []
+            "courses": [],
         }
 
         self.mock_access_token_response()
@@ -109,9 +108,9 @@ class SiteConfigurationTests(SiteMixin, TestCase):
         self.assertEqual(len(responses.calls), 1)
 
     def test_clear_site_cache_on_db_write(self):
-        """ Verify the site cache is cleared whenever a SiteConfiguration instance is
-        saved or deleted from the database. """
-        with mock.patch.object(SiteManager, 'clear_cache') as mock_clear_site_cache:
+        """Verify the site cache is cleared whenever a SiteConfiguration instance is
+        saved or deleted from the database."""
+        with mock.patch.object(SiteManager, "clear_cache") as mock_clear_site_cache:
             sc = SiteConfigurationFactory()
             mock_clear_site_cache.assert_called_once()
 
@@ -121,7 +120,7 @@ class SiteConfigurationTests(SiteMixin, TestCase):
 
     def test_user_api_url(self):
         """ Verify the User API URL is composed correctly. """
-        expected = '{}/api/user/v1/'.format(self.site_configuration.lms_url_root.strip('/'))
+        expected = "{}/api/user/v1/".format(self.site_configuration.lms_url_root.strip("/"))
         self.assertEqual(self.site_configuration.user_api_url, expected)
 
     @responses.activate
@@ -130,9 +129,9 @@ class SiteConfigurationTests(SiteMixin, TestCase):
         """ Verify the method retrieves data from the User API and caches it. """
         username = Faker().user_name()
         data = {
-            'username': username,
+            "username": username,
         }
-        url = f'{self.site_configuration.user_api_url}accounts/{username}'
+        url = f"{self.site_configuration.user_api_url}accounts/{username}"
         responses.add(responses.GET, url, body=json.dumps(data), content_type=JSON, status=200)
         self.mock_access_token_response()
 

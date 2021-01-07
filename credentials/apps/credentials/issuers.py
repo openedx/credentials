@@ -42,10 +42,7 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
 
     @transaction.atomic
     def issue_credential(
-            self, credential, username,
-            status=UserCredentialStatus.AWARDED,
-            attributes=None,
-            request=None
+        self, credential, username, status=UserCredentialStatus.AWARDED, attributes=None, request=None
     ):
         """
         Issue a credential to the user.
@@ -68,7 +65,7 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
             credential_content_type=ContentType.objects.get_for_model(credential),
             credential_id=credential.id,
             defaults={
-                'status': status,
+                "status": status,
             },
         )
 
@@ -93,22 +90,18 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
 
         for attr in attributes:
             UserCredentialAttribute.objects.update_or_create(
-                user_credential=user_credential,
-                name=attr.get('name'),
-                defaults={'value': attr.get('value')}
+                user_credential=user_credential, name=attr.get("name"), defaults={"value": attr.get("value")}
             )
 
 
 class ProgramCertificateIssuer(AbstractCredentialIssuer):
     """ Issues ProgramCertificates. """
+
     issued_credential_type = ProgramCertificate
 
     @transaction.atomic
     def issue_credential(
-            self, credential, username,
-            status=UserCredentialStatus.AWARDED,
-            attributes=None,
-            request=None
+        self, credential, username, status=UserCredentialStatus.AWARDED, attributes=None, request=None
     ):
         """
         Issue a Program Certificate to the user.
@@ -135,14 +128,14 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
             credential_content_type=ContentType.objects.get_for_model(credential),
             credential_id=credential.id,
             defaults={
-                'status': status,
+                "status": status,
             },
         )
 
         # Send an updated email to a pathway org only if the user has previously sent one
         # This function call should be moved into some type of task queue
         # once credentials has that functionality
-        site_config = getattr(credential.site, 'siteconfiguration', None)
+        site_config = getattr(credential.site, "siteconfiguration", None)
         # Add a check to see if records_enabled is True for the site associated with
         # the credentials. If records is not enabled, we should not send this email
         if created and site_config and site_config.records_enabled:
@@ -150,7 +143,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
 
         # If this is a new ProgramCertificate and the `SEND_EMAIL_ON_PROGRAM_COMPLETION`
         # feature is enabled then let's send a congratulatory message to the learner
-        if created and getattr(settings, 'SEND_EMAIL_ON_PROGRAM_COMPLETION', False):
+        if created and getattr(settings, "SEND_EMAIL_ON_PROGRAM_COMPLETION", False):
             send_program_certificate_created_message(username, credential)
 
         self.set_credential_attributes(user_credential, attributes)
@@ -160,4 +153,5 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
 
 class CourseCertificateIssuer(AbstractCredentialIssuer):
     """ Issues CourseCertificates. """
+
     issued_credential_type = CourseCertificate

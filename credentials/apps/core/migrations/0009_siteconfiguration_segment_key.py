@@ -7,13 +7,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0008_auto_20170315_1835'),
+        ("core", "0008_auto_20170315_1835"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='siteconfiguration',
-            name='segment_key',
-            field=models.CharField(blank=True, help_text='Segment write/API key.', max_length=255, null=True, verbose_name='Segment Key'),
+            model_name="siteconfiguration",
+            name="segment_key",
+            field=models.CharField(
+                blank=True, help_text="Segment write/API key.", max_length=255, null=True, verbose_name="Segment Key"
+            ),
         ),
     ]

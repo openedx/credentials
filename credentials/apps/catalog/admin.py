@@ -5,31 +5,31 @@ from credentials.apps.catalog.models import Course, CourseRun, Organization, Pat
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'key', 'uuid', 'title')
-    list_filter = ('site',)
-    readonly_fields = ('uuid',)
-    search_fields = ('id', 'key', 'title', 'uuid')
+    list_display = ("id", "key", "uuid", "title")
+    list_filter = ("site",)
+    readonly_fields = ("uuid",)
+    search_fields = ("id", "key", "title", "uuid")
 
 
 @admin.register(CourseRun)
 class CourseRunAdmin(admin.ModelAdmin):
-    list_display = ('id', 'key', 'uuid', 'title_override', 'start_date', 'end_date')
-    readonly_fields = ('uuid',)
-    search_fields = ('id', 'key', 'title_override', 'uuid')
+    list_display = ("id", "key", "uuid", "title_override", "start_date", "end_date")
+    readonly_fields = ("uuid",)
+    search_fields = ("id", "key", "title_override", "uuid")
 
 
 @admin.register(Program)
 class ProgramAdmin(admin.ModelAdmin):
-    list_display = ('title', 'uuid', 'type')
-    readonly_fields = ('uuid',)
-    search_fields = ('title', 'uuid')
+    list_display = ("title", "uuid", "type")
+    readonly_fields = ("uuid",)
+    search_fields = ("title", "uuid")
 
 
 @admin.register(Pathway)
 class PathwayAdmin(admin.ModelAdmin):
-    list_display = ('name', 'org_name', 'pathway_type', 'email', 'uuid')
-    readonly_fields = ('uuid',)
-    search_fields = ('name', 'uuid')
+    list_display = ("name", "org_name", "pathway_type", "email", "uuid")
+    readonly_fields = ("uuid",)
+    search_fields = ("name", "uuid")
 
 
 admin.site.register(Organization)
