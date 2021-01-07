@@ -8,7 +8,7 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ('id', 'key', 'uuid', 'title')
     list_filter = ('site',)
     readonly_fields = ('uuid',)
-    search_fields = ('key', 'title', 'uuid')
+    search_fields = ('id', 'key', 'title', 'uuid')
 
 
 @admin.register(CourseRun)

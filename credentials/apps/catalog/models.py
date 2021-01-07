@@ -53,7 +53,7 @@ class Course(TimeStampedModel):
         )
 
     def __str__(self):
-        return f'{self.key}: {self.title}'
+        return f'{self.id}: {self.key}: {self.title}'
 
 
 class CourseRun(TimeStampedModel):
