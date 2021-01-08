@@ -11,7 +11,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "@edx/paragon": "^12.4.1",
-    "axios": "0.18.1",
+    "axios": "^0.21.1",
     "bi-app-sass": "1.1.0",
     "bootstrap": "^4.2.1",
     "css-loader": "^0.27.3",
