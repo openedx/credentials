@@ -1,43 +1,20 @@
 Testing
 =======
 
-All the below commands should be run from inside the credentials container.
+In order for developers to have a consistent experience between CI and local testing, we are using a locally built
+container image that mimics the ones that Github Actions uses.
 
-The command below runs all of the Python and JS tests:
+NOTE: The first time you run any of the test suites below, it
+will build the image which will take a few minutes. Following test runs will be quicker.
 
-.. code-block:: bash
-
-    $ make tests
-
-Acceptance tests can be run like so:
+To make testing easier, there are a few commands that mirror our suites in CI:
 
 .. code-block:: bash
+    $ make acceptance_tests_suite
+    $ make unit_tests_suite
+    $ make quality_and_translations_tests_suite
 
-    $ make accept
-
-Code quality validation (e.g. linters) can be run independently with:
-
-.. code-block:: bash
-
-    $ make quality
-
-The Python tests can be run independently with:
-
-.. code-block:: bash
-
-    $ pytest --ds credentials.settings.test
-
-The react js tests can be run independently with:
-
-.. code-block:: bash
-
-    $ make test-react
-
-The js quality tests can be run independently with:
-
-.. code-block:: bash
-
-    $ make quality-js
+This will run acceptance tests, the Python and Javascript tests, and our quality and translation suite, respectively.
 
 
 Writing Python Tests

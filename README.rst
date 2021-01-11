@@ -8,40 +8,45 @@ Credentials can be run as part of devstack_.
 
 .. _devstack: https://github.com/edx/devstack
 
+Where to run `make` commands
+--------------------------
+Due to the nature of developing in containers, some commands must be ran inside the container, and some locally.
+Currently most commands can be ran either inside the container or inside a local virtual environement, once developer
+requirements have been installed (`make requirements`)
+
+The exception to this, is commands that run inside their own containers, which currently is only the testing suites ::
+
+  $ make acceptance_tests_suite
+  $ make quality_and_translations_tests_suite
+  $ make unit_tests_suite
+
+`make accept` requires certain local OS-level packages to be installed (firefox / xbfb), so it's best to run it with the `acceptance_tests_suite` command noted above.
+
 Testing
 -------
 
-The command below runs all of the Python and JS tests::
+In order for developers to have a consistent experience between CI and local testing, we are using a locally built
+container image that mimics the ones that Github Actions uses.
 
-  $ make tests
+NOTE: The first time you run any of the test suites below, it
+will build the image which will take a few minutes. Following test runs will be quicker.
 
-The Python tests can be run independently with::
+To run acceptance tests locally ("acceptance_tests" in CI) ::
 
-  $ pytest --ds=credentials.settings.test
+  $ make acceptance_tests_suite
 
-If this is the first time you've run tests, you'll have to run::
+To run python and javascript tests locally ("unit_tests" in CI)::
 
-  $ make static
+  $ make unit_tests_suite
 
-first, otherwise you'll run into ``webpack_loader.exceptions.WebpackBundleLookupErrors``.
+To run quality and translation tests locally ("quality_and_translations_tests" in CI)::
 
-If your code is failing the `black` autoformatting check, run the following command on your PR::
+  $ make quality_and_translations_tests_suite
 
+isort and formatting (`black`) quality issues can be fixed automatically by running either::
+  $ make isort
+  or
   $ make format
-
-Exec commands
--------------
-To run any of the make commands that begin with "exec", for example *exec-tests*:
-
-First, stop your devstack credentials container (if it's running) as the following command will spin up a separate container on the same port.
-
-Then run::
-
-  $ make up-test
-
-Followed by the "exec" command of your choice, such as::
-
-  $ make exec-tests
 
 Documentation
 -------------
