@@ -11,30 +11,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Start testing containers
-      run: docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d
+    - uses: actions/setup-python@v2
+      with:
+        python-version: "3.8"
+        architecture: x64
     - name: Install Dependencies
-      run: make exec-requirements
+      run: make requirements
     - name: Run Tests
       run: |
-        make exec-static
-        make exec-accept
+        make static
+        make accept
 
   quality_and_translations_tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Start testing containers
-        run: docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+          architecture: x64
       - name: Install Dependencies
-        run: make exec-requirements
+        run: make requirements
+      - name: Install gettext
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y gettext
       - name: Run Tests
         run: |
-          make exec-check_translations_up_to_date
-          make exec-validate-translations
-          make exec-quality
-          make exec-check_keywords
-          make exec-pii_check
+          make check_translations_up_to_date
+          make validate_translations
+          make quality
+          make check_keywords
+          make pii_check
 
   unit_tests:
     runs-on: ubuntu-latest
@@ -44,38 +52,41 @@ jobs:
         django-version: ["django22", "django30", "django31"]
     steps:
       - uses: actions/checkout@v2
-      - name: Start testing containers
-        run: docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+          architecture: x64
       - name: Install Dependencies
-        run: make exec-requirements
+        run: make requirements
+      - name: Install Firefox
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y firefox xvfb
       - name: Run Tests
         env:
           TOXENV: ${{ matrix.django-version }}
         run: |
-          make exec-static
-          make exec-tests
+          make static
+          make tests
 
   code_coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Start testing containers
-        run: docker-compose -f docker-compose.yml -f docker-compose.testing.yml up -d
-      - name: Install Dependencies
-        run: make exec-requirements
-      - name: Run Tests (required for code cov)
-        env:
-          TOXENV: django22
-        run: |
-          make exec-static
-          make exec-tests
-
       - uses: actions/setup-python@v2
         with:
           python-version: "3.8"
           architecture: x64
+      - name: Install Dependencies
+        run: make requirements
+      - name: Run Tests (required for code cov)
+        env:
+          TOXENV: django22
+        run: |
+          make static
+          make tests
       - name: Run code coverage
         run: |
-          make exec-coverage
+          make coverage
           pip install codecov
           codecov

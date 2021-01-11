@@ -16,9 +16,5 @@ There are a few `make` targets to aid asset compilation:
 | static.watch | Same as `static.dev`, but assets are compiled whenever a source file changes. |
 +--------------+-------------------------------------------------------------------------------+
 
-.. note::
-
-    If you need to remove all *compiled and collected* static assets, run ``make clean_static``.
-
 When adding new modules/pages that require custom CSS or JavaScript, remember to add a new entrypoint to
 ``webpack.config.js``.
