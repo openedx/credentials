@@ -113,6 +113,10 @@ static.watch: ## Gather static assets when they change (not minimized)
 	python manage.py compilejsi18n
 	python manage.py collectstatic --noinput -i *.scss
 
+## Apply database migrations
+migrate:
+	python manage.py migrate --noinput
+
 ### Translation commands
 
 extract_translations: ## Extract strings to be translated, outputting .po files
