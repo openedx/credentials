@@ -30,7 +30,7 @@
     "sass-loader": "^6.0.3",
     "style-loader": "^0.13.2",
     "url-loader": "^4.1.1",
-    "webpack": "^3.0.0",
+    "webpack": "^4.0.0",
     "webpack-bundle-tracker": "^0.4.3"
   },
   "devDependencies": {
