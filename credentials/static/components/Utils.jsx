@@ -1,7 +1,6 @@
 import React from 'react';
 
 class StringUtils {
-
   static interpolate(formatString, parameters) {
     return formatString.replace(/{\w+}/g, (parameter) => {
       const parameterName = parameter.slice(1, -1);
@@ -46,8 +45,6 @@ class StringUtils {
       }
     }
   }
-
 }
-
 
 export default StringUtils;

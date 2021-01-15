@@ -116,7 +116,7 @@ class MasqueradeBanner extends React.Component {
                 <span className="h6">{ gettext('Masquerading failed') }</span>
                 <span className="alert-body">{ gettext('You either do not have permission to masquerade as this user, or the user could not be found.') }</span>
               </div>
-             }
+            }
           />
         }
       </nav>
