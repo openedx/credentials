@@ -171,7 +171,7 @@ edx-opaque-keys==2.1.1
     #   edx-drf-extensions
 edx-rest-api-client==5.3.0
     # via -r requirements/base.txt
-git+https://github.com/edx/credentials-themes.git@0.1.46#egg=edx_credentials_themes==0.1.46
+git+https://github.com/edx/credentials-themes.git@0.1.48#egg=edx_credentials_themes==0.1.48
     # via -r requirements/base.txt
 factory-boy==3.2.0
     # via -r requirements/test.in
