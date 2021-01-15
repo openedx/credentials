@@ -37,11 +37,11 @@ bleach==3.2.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.16.55
+boto3==1.16.56
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.19.55
+botocore==1.19.56
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -279,7 +279,7 @@ edx-rest-api-client==5.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-git+https://github.com/edx/credentials-themes.git@0.1.48#egg=edx_credentials_themes==0.1.48
+git+https://github.com/edx/credentials-themes.git@0.1.49#egg=edx_credentials_themes==0.1.49
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
