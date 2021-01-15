@@ -223,18 +223,18 @@ class ProgramRecord extends React.Component {
         failureOrgs.push(org);
       })),
     ))
-    .then(() => {
-      if (successOrgs.length > 0) { showSuccess = true; }
-      if (failureOrgs.length > 0) { showFailure = true; }
-      this.setState({
-        sendRecordSuccessOrgs: successOrgs,
-        sendRecordFailureOrgs: failureOrgs,
-        sendRecordSuccessAlertOpen: showSuccess,
-        sendRecordFailureAlertOpen: showFailure,
-        sendRecordLoadingAlertOpen: false,
+      .then(() => {
+        if (successOrgs.length > 0) { showSuccess = true; }
+        if (failureOrgs.length > 0) { showFailure = true; }
+        this.setState({
+          sendRecordSuccessOrgs: successOrgs,
+          sendRecordFailureOrgs: failureOrgs,
+          sendRecordSuccessAlertOpen: showSuccess,
+          sendRecordFailureAlertOpen: showFailure,
+          sendRecordLoadingAlertOpen: false,
+        });
+        this.updateCreditPathwaysSent(successOrgs);
       });
-      this.updateCreditPathwaysSent(successOrgs);
-    });
   }
 
   closeSendRecordFailureAlert() {
@@ -313,7 +313,7 @@ class ProgramRecord extends React.Component {
                 <span className="h6">{ gettext('We are sending your program record.') }</span>
                 <Icon id="StatusAlertIcon" className={['fa', 'fa-spinner', 'fa-spin']} />
               </div>
-             }
+            }
           />
         }
         {
@@ -326,10 +326,10 @@ class ProgramRecord extends React.Component {
                 <span className="h6">{ gettext('We were unable to send your program record.') }</span>
                 <span className="alert-body">
                   {StringUtils.interpolate(gettext('We were unable to send your record to {orgs}.  You can attempt to send this record again.  Contact support if this issue persists.'),
-                      { orgs: StringUtils.formatStringList(this.state.sendRecordFailureOrgs) })}
+                    { orgs: StringUtils.formatStringList(this.state.sendRecordFailureOrgs) })}
                 </span>
               </div>
-             }
+            }
           />
         }
         {
@@ -342,10 +342,10 @@ class ProgramRecord extends React.Component {
                 <span className="h6">{ gettext('You have successfully shared your Learner Record') }</span>
                 <span className="alert-body">
                   {StringUtils.interpolate(gettext('You have sent your record to {orgs}.  Next, ensure you understand their application process.'),
-                      { orgs: StringUtils.formatStringList(this.state.sendRecordSuccessOrgs) })}
+                    { orgs: StringUtils.formatStringList(this.state.sendRecordSuccessOrgs) })}
                 </span>
               </div>
-             }
+            }
           />
         }
         <article className="program-record">
@@ -368,10 +368,10 @@ class ProgramRecord extends React.Component {
                 }
                 <span className="updated">
                   { StringUtils.interpolate(
-                      gettext('Last Updated {date}'), {
-                        date: this.formatDate(program.last_updated),
-                      },
-                    )
+                    gettext('Last Updated {date}'), {
+                      date: this.formatDate(program.last_updated),
+                    },
+                  )
                   }
                 </span>
               </div>

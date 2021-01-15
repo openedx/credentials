@@ -48,7 +48,7 @@ class RecordsList extends React.Component {
           </div>
         </div>
       </li>
-        ),
+    ),
     );
   }
 
