@@ -20,3 +20,7 @@ requests<2.25.0
 # This upgrade causes a failure in tests currently. We need to constrain it until we
 # can determine the cause of the failure. https://openedx.atlassian.net/browse/MICROBA-794
 virtualenv<20.2.2
+
+# This is pinned due to a constrain in a third party dependency drf-jwt. We won’t be able to unpin social-auth until this dependency gets on pyJWT 2.0.0 
+# https://openedx.atlassian.net/browse/MICROBA-929
+social-auth-core<4.0.3
