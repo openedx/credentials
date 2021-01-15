@@ -40,7 +40,7 @@ all-requirements: piptools ## Install local and prod requirements
 	pip-sync requirements/all.txt
 
 requirements: piptools ## Install requirements for local development
-	npm install
+	npm install --also=dev
 	pip-sync requirements/dev.txt
 
 piptools:
@@ -165,12 +165,12 @@ build_test_image: # Builds Docker image used for testing so devs don't need to i
 
 # This should be ran locally, not inside of the devstack container
 acceptance_tests_suite: build_test_image
-	docker run -e "TERM=xterm-256color" credentials:local bash -c 'cd /edx/app/credentials/ && make static && make accept'
+	docker run -e "TERM=xterm-256color" -v `pwd`:/edx/app/credentials/ --read-only credentials:local bash -c 'cd /edx/app/credentials/ && make static && make accept'
 
 # This should be ran locally, not inside of the devstack container
 quality_and_translations_tests_suite: build_test_image
-	docker run -e "TERM=xterm-256color" credentials:local bash -c 'cd /edx/app/credentials/ && make check_translations_up_to_date && make validate_translations && make quality && make check_keywords && make pii_check'
+	docker run -e "TERM=xterm-256color" -v `pwd`:/edx/app/credentials/ credentials:local bash -c 'cd /edx/app/credentials/ && make check_translations_up_to_date && make validate_translations && make quality && make check_keywords && make pii_check'
 
 # This should be ran locally, not inside of the devstack container
 unit_tests_suite: build_test_image
-	docker run -e "TERM=xterm-256color" credentials:local bash -c 'cd /edx/app/credentials/ && make static && make tests && make coverage'
+	docker run -e "TERM=xterm-256color" -v `pwd`:/edx/app/credentials/ credentials:local bash -c 'cd /edx/app/credentials/ && make static && make tests && make coverage'

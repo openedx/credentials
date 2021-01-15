@@ -25,4 +25,3 @@ COPY ./package.json /edx/app/credentials/package.json
 COPY ./package-lock.json /edx/app/credentials/package-lock.json
 COPY ./Makefile /edx/app/credentials/Makefile
 RUN make requirements
-COPY . /edx/app/credentials

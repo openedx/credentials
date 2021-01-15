@@ -1,9 +1,12 @@
 .cache
 .coverage
+.git
 .pytest_cache
 .tox
 coverage
 coverage.xml
 geckodriver.log
 htmlcov
+node_modules
+venv
 webpack-stats.json
