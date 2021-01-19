@@ -245,7 +245,7 @@ edx-auth-backends==3.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-release-util==0.4.4
+edx-django-release-util==1.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -259,7 +259,7 @@ edx-django-utils==3.13.0
     #   -r requirements/production.txt
     #   edx-drf-extensions
     #   edx-rest-api-client
-edx-drf-extensions==6.3.0
+edx-drf-extensions==6.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -279,7 +279,7 @@ edx-rest-api-client==5.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-git+https://github.com/edx/credentials-themes.git@0.1.49#egg=edx_credentials_themes==0.1.49
+git+https://github.com/edx/credentials-themes.git@0.1.50#egg=edx_credentials_themes==0.1.50
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -300,7 +300,7 @@ future==0.18.2
     #   -r requirements/production.txt
     #   django-ses
     #   pyjwkest
-gevent==20.12.1
+gevent==21.1.1
     # via -r requirements/production.txt
 gitdb==4.0.5
     # via
@@ -715,7 +715,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tox==3.21.1
+tox==3.21.2
     # via -r requirements/dev.txt
 transifex-client==0.14.2
     # via

@@ -148,7 +148,7 @@ edx-ace==0.1.17
     # via -r requirements/base.txt
 edx-auth-backends==3.3.0
     # via -r requirements/base.txt
-edx-django-release-util==0.4.4
+edx-django-release-util==1.0.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==2.5.1
     # via -r requirements/base.txt
@@ -157,7 +157,7 @@ edx-django-utils==3.13.0
     #   -r requirements/base.txt
     #   edx-drf-extensions
     #   edx-rest-api-client
-edx-drf-extensions==6.3.0
+edx-drf-extensions==6.4.0
     # via -r requirements/base.txt
 edx-i18n-tools==0.5.3
     # via
@@ -171,7 +171,7 @@ edx-opaque-keys==2.1.1
     #   edx-drf-extensions
 edx-rest-api-client==5.3.0
     # via -r requirements/base.txt
-git+https://github.com/edx/credentials-themes.git@0.1.49#egg=edx_credentials_themes==0.1.49
+git+https://github.com/edx/credentials-themes.git@0.1.50#egg=edx_credentials_themes==0.1.50
     # via -r requirements/base.txt
 factory-boy==3.2.0
     # via -r requirements/test.in
@@ -469,7 +469,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tox==3.21.1
+tox==3.21.2
     # via -r requirements/test.in
 transifex-client==0.14.2
     # via
