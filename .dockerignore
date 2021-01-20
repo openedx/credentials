@@ -9,4 +9,3 @@ geckodriver.log
 htmlcov
 node_modules
 venv
-webpack-stats.json
