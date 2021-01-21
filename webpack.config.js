@@ -2,6 +2,8 @@ const BundleTracker = require('webpack-bundle-tracker');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
 const isDevstack = (process.env.DJANGO_SETTINGS_MODULE === 'credentials.settings.devstack');
 // Conditionally add all of the plugins
 function getPlugins() {
@@ -11,60 +13,66 @@ function getPlugins() {
   return plugins;
 }
 module.exports = {
-    cache: true,
-    context: __dirname,
-    entry: {
-        'base.style-ltr': './credentials/static/sass/main-ltr.scss',
-        'base.style-rtl': './credentials/static/sass/main-rtl.scss',
-        'openedx.certificate.style-ltr': './credentials/apps/credentials_theme_openedx/static/sass/certificate-ltr.scss',
-        'openedx.certificate.style-rtl': './credentials/apps/credentials_theme_openedx/static/sass/certificate-rtl.scss',
-        'sharing': './credentials/static/js/sharing.js',
-        'analytics': './credentials/static/js/analytics.js',
-        'records': './credentials/static/components/RecordsFactory.jsx',
-        'programs': './credentials/static/components/ProgramRecordFactory.jsx',
-        'masquerading': './credentials/static/components/MasqueradeBannerFactory.jsx',
-    },
-    output: {
-        path: path.resolve('./credentials/static/bundles/'),
-        filename: '[name]-[hash].js',
-        libraryTarget: 'window',
-    },
-    plugins: getPlugins(),
-    externals: {
-      gettext: 'gettext',
-    },
-    module: {
-        rules: [
-            {
-                test: /\.s?css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-            },
-            {
-                test: /\.woff2?$/,
-                // Inline small woff files and output them below font
-                loader: 'url-loader',
-                query: {
-                    name: 'font/[name]-[hash].[ext]',
-                    limit: 5000,
-                    mimetype: 'application/font-woff'
-                }
-            },
-            {
-                test: /\.(ttf|eot|svg)$/,
-                loader: 'file-loader',
-                query: {
-                    name: 'font/[name]-[hash].[ext]'
-                }
-            },
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader',
-            },
-        ]
-    },
-    resolve: {
-        modules: ['./node_modules'],
-        extensions: ['.css', '.js', '.jsx', '.scss'],
-    }
+  mode: 'production',
+  cache: true,
+  context: __dirname,
+  entry: {
+    'base.style-ltr': './credentials/static/sass/main-ltr.scss',
+    'base.style-rtl': './credentials/static/sass/main-rtl.scss',
+    'openedx.certificate.style-ltr': './credentials/apps/credentials_theme_openedx/static/sass/certificate-ltr.scss',
+    'openedx.certificate.style-rtl': './credentials/apps/credentials_theme_openedx/static/sass/certificate-rtl.scss',
+    sharing: './credentials/static/js/sharing.js',
+    analytics: './credentials/static/js/analytics.js',
+    records: './credentials/static/components/RecordsFactory.jsx',
+    programs: './credentials/static/components/ProgramRecordFactory.jsx',
+    masquerading: './credentials/static/components/MasqueradeBannerFactory.jsx',
+  },
+  output: {
+    path: path.resolve('./credentials/static/bundles/'),
+    filename: '[name]-[hash].js',
+    libraryTarget: 'window',
+  },
+  plugins: getPlugins(),
+  externals: {
+    gettext: 'gettext',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.s?css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.woff2?$/,
+        // Inline small woff files and output them below font
+        loader: 'url-loader',
+        query: {
+          name: 'font/[name]-[hash].[ext]',
+          limit: 5000,
+          mimetype: 'application/font-woff',
+        },
+      },
+      {
+        test: /\.(ttf|eot|svg)$/,
+        loader: 'file-loader',
+        query: {
+          name: 'font/[name]-[hash].[ext]',
+        },
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+    ],
+  },
+  optimization: {
+    minimizer: [
+      new CssMinimizerPlugin(),
+    ],
+  },
+  resolve: {
+    modules: ['./node_modules'],
+    extensions: ['.css', '.js', '.jsx', '.scss'],
+  },
 };
