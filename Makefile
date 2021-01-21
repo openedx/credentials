@@ -104,12 +104,12 @@ static: ## Gather all static assets for production (minimized)
 	$(TOX)python manage.py collectstatic --noinput -i *.scss
 
 static.dev: ## Gather all static assets for development (not minimized)
-	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress
+	$(NODE_BIN)/webpack --config webpack.config.js
 	$(TOX)python manage.py compilejsi18n
 	$(TOX)python manage.py collectstatic --noinput -i *.scss
 
 static.watch: ## Gather static assets when they change (not minimized)
-	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --watch
+	$(NODE_BIN)/webpack --config webpack.config.js --watch
 	python manage.py compilejsi18n
 	python manage.py collectstatic --noinput -i *.scss
 
