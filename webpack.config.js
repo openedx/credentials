@@ -1,34 +1,18 @@
 const BundleTracker = require('webpack-bundle-tracker');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-
 const isDevstack = (process.env.DJANGO_SETTINGS_MODULE === 'credentials.settings.devstack');
-
-
 // Conditionally add all of the plugins
 function getPlugins() {
   const plugins = [];
-
   plugins.push(new BundleTracker({ filename: './webpack-stats.json' }));
-  plugins.push(new ExtractTextPlugin('[name]-[hash].css'));
-  
-  // Only load this plugin in devstack since we are not sure if
-  // caching could cause issues in production builds later on
-  if (isDevstack) {
-    plugins.push(new HardSourceWebpackPlugin());
-  }
-
+  plugins.push(new MiniCssExtractPlugin({ filename: '[name]-[hash].css' }));
   return plugins;
 }
-
-
 module.exports = {
     cache: true,
-
     context: __dirname,
-
     entry: {
         'base.style-ltr': './credentials/static/sass/main-ltr.scss',
         'base.style-rtl': './credentials/static/sass/main-rtl.scss',
@@ -40,36 +24,20 @@ module.exports = {
         'programs': './credentials/static/components/ProgramRecordFactory.jsx',
         'masquerading': './credentials/static/components/MasqueradeBannerFactory.jsx',
     },
-
     output: {
         path: path.resolve('./credentials/static/bundles/'),
         filename: '[name]-[hash].js',
         libraryTarget: 'window',
     },
-
     plugins: getPlugins(),
-
     externals: {
       gettext: 'gettext',
     },
-
     module: {
         rules: [
             {
                 test: /\.s?css$/,
-                use: ExtractTextPlugin.extract({
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                minimize: true
-                            }
-                        },
-                        {
-                            loader: 'sass-loader'
-                        }
-                    ]
-                })
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
             },
             {
                 test: /\.woff2?$/,
@@ -93,7 +61,6 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'babel-loader',
             },
-
         ]
     },
     resolve: {

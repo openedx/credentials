@@ -99,7 +99,7 @@ accept: ## Run acceptance tests
 
 ### Frontend commands ###
 static: ## Gather all static assets for production (minimized)
-	$(NODE_BIN)/webpack --config webpack.config.js --display-error-details --progress --optimize-minimize
+	$(NODE_BIN)/webpack --config webpack.config.js
 	$(TOX)python manage.py compilejsi18n
 	$(TOX)python manage.py collectstatic --noinput -i *.scss
 
