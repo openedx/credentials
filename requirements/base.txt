@@ -8,7 +8,7 @@ analytics-python==1.2.9
     # via -r requirements/base.in
 attrs==20.3.0
     # via edx-ace
-bleach==3.2.1
+bleach==3.2.2
     # via -r requirements/base.in
 certifi==2020.12.5
     # via requests
@@ -101,7 +101,7 @@ edx-auth-backends==3.3.0
     # via -r requirements/base.in
 edx-django-release-util==1.0.0
     # via -r requirements/base.in
-edx-django-sites-extensions==2.5.1
+edx-django-sites-extensions==3.0.0
     # via -r requirements/base.in
 edx-django-utils==3.13.0
     # via
@@ -138,7 +138,7 @@ markupsafe==1.1.1
     # via jinja2
 mysqlclient==2.0.3
     # via -r requirements/base.in
-newrelic==5.24.0.153
+newrelic==6.0.0.154
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -195,7 +195,7 @@ pytz==2020.5
     # via
     #   -r requirements/base.in
     #   django
-pyyaml==5.3.1
+pyyaml==5.4.1
     # via
     #   edx-django-release-util
     #   edx-i18n-tools
