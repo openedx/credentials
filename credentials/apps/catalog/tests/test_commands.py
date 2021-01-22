@@ -1,6 +1,6 @@
 import ddt
+import requests
 import responses
-import slumber
 from django.core.management import call_command
 from django.test import TestCase
 from faker import Faker
@@ -245,7 +245,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
         self.mock_pathways_response(self.wrap_pathways(self.PATHWAYS))
         self.mock_programs_response({}, 2, 1, status=500)
 
-        with self.assertRaises(slumber.exceptions.HttpServerError):
+        with self.assertRaises(requests.exceptions.HTTPError):
             self.call_command(page_size=1)
 
         self.assertFirstSaved()

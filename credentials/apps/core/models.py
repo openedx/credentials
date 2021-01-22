@@ -1,16 +1,15 @@
 """ Core models. """
 
-import datetime
 import hashlib
+from urllib.parse import urljoin
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.contrib.sites.models import Site
 from django.core.cache import cache
 from django.db import models
-from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
-from edx_rest_api_client.client import EdxRestApiClient
+from edx_rest_api_client.client import OAuthAPIClient
 
 
 class SiteConfiguration(models.Model):
@@ -130,67 +129,24 @@ class SiteConfiguration(models.Model):
         return self.site.name
 
     @property
-    def oauth2_provider_url(self):
-        return settings.BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL
-
-    @property
-    def oauth2_client_id(self):
-        return settings.BACKEND_SERVICE_EDX_OAUTH2_KEY
-
-    @property
-    def oauth2_client_secret(self):
-        return settings.BACKEND_SERVICE_EDX_OAUTH2_SECRET
-
-    @property
     def user_api_url(self):
         return "{}/api/user/v1/".format(self.lms_url_root.strip("/"))
 
     @property
-    def access_token(self):
-        """Returns an access token for this site's service user.
+    def api_client(self):
+        """
+        Returns a requests client for this site's service user.
 
-        The access token is retrieved using the current site's OAuth credentials and the client credentials grant.
-        The token is cached for the lifetime of the token, as specified by the OAuth provider's response. The token
-        type is JWT.
+        This client is authenticated with the configured oauth settings and automatically cached.
 
         Returns:
-            str: JWT access token
+            requests.Session: API client
         """
-        key = f"siteconfiguration_access_token_{self.id}"
-        access_token = cache.get(key)
-
-        if not access_token:
-            url = f"{self.oauth2_provider_url}/access_token"
-            access_token, expiration_datetime = EdxRestApiClient.get_oauth_access_token(
-                url, self.oauth2_client_id, self.oauth2_client_secret, token_type="jwt"
-            )
-
-            expires = (expiration_datetime - datetime.datetime.utcnow()).seconds
-            cache.set(key, access_token, expires)
-
-        return access_token
-
-    @cached_property
-    def catalog_api_client(self):
-        """
-        Returns an API client for the Catalog API.
-
-        Returns:
-            EdxRestApiClient
-        """
-
-        return EdxRestApiClient(self.catalog_api_url, jwt=self.access_token)
-
-    @cached_property
-    def user_api_client(self):
-        """
-        Returns an authenticated User API client.
-
-        Returns:
-            EdxRestApiClient
-        """
-
-        return EdxRestApiClient(self.user_api_url, jwt=self.access_token, append_slash=False)
+        return OAuthAPIClient(
+            settings.BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL,
+            settings.BACKEND_SERVICE_EDX_OAUTH2_KEY,
+            settings.BACKEND_SERVICE_EDX_OAUTH2_SECRET,
+        )
 
     def get_program(self, program_uuid, ignore_cache=False):
         """
@@ -212,7 +168,10 @@ class SiteConfiguration(models.Model):
             if program:
                 return program
 
-        program = self.catalog_api_client.programs(program_uuid).get()
+        program_url = urljoin(self.catalog_api_url, f"programs/{program_uuid}/")
+        response = self.api_client.get(program_url)
+        response.raise_for_status()
+        program = response.json()
         cache.set(cache_key, program, settings.PROGRAMS_CACHE_TTL)
 
         return program
@@ -234,7 +193,10 @@ class SiteConfiguration(models.Model):
         user_data = cache.get(cache_key)
 
         if not user_data:
-            user_data = self.user_api_client.accounts(username).get()
+            user_url = urljoin(self.user_api_url, f"accounts/{username}")
+            response = self.api_client.get(user_url)
+            response.raise_for_status()
+            user_data = response.json()
             cache.set(cache_key, user_data, settings.USER_CACHE_TTL)
 
         return user_data
@@ -251,17 +213,6 @@ class User(AbstractUser):
     """
 
     full_name = models.CharField(_("Full Name"), max_length=255, blank=True, null=True)
-
-    @property
-    def access_token(self):
-        """Returns an OAuth2 access token for this user, if one exists; otherwise None.
-
-        Assumes user has authenticated at least once with edX Open ID Connect.
-        """
-        try:
-            return self.social_auth.first().extra_data["access_token"]  # pylint: disable=no-member
-        except Exception:  # pylint: disable=broad-except
-            return None
 
     class Meta:
         get_latest_by = "date_joined"

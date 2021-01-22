@@ -1,6 +1,7 @@
 """ Copy catalog data from Discovery. """
 
 import logging
+from urllib.parse import urljoin
 
 from django.contrib.sites.models import Site
 from django.core.management import BaseCommand
@@ -41,27 +42,38 @@ class Command(BaseCommand):
                 continue
 
             logger.info(f"Copying catalog data for site {site.domain}")
-            client = site_config.catalog_api_client
-            Command.fetch_programs(site, client, page_size=page_size)
+            Command.fetch_programs(site, site_config, page_size=page_size)
             logger.info("Finished copying programs.")
-            Command.fetch_pathways(site, client, page_size=page_size)
+            Command.fetch_pathways(site, site_config, page_size=page_size)
             logger.info("Finished copying pathways.")
 
     @staticmethod
-    def fetch_programs(site, client, page_size=None):
+    def fetch_programs(site, site_config, page_size=None):
+        api_client = site_config.api_client
+        programs_url = urljoin(site_config.catalog_api_url, "programs/")
         next_page = 1
         while next_page:
-            programs = client.programs.get(exclude_utm=1, page=next_page, page_size=page_size)
+            response = api_client.get(
+                programs_url, params={"exclude_utm": 1, "page": next_page, "page_size": page_size}
+            )
+            response.raise_for_status()
+            programs = response.json()
             for program in programs["results"]:
                 logger.info(f'Copying program "{program["title"]}"')
                 parse_program(site, program)
             next_page = next_page + 1 if programs["next"] else None
 
     @staticmethod
-    def fetch_pathways(site, client, page_size=None):
+    def fetch_pathways(site, site_config, page_size=None):
+        api_client = site_config.api_client
+        pathways_url = urljoin(site_config.catalog_api_url, "pathways/")
         next_page = 1
         while next_page:
-            pathways = client.pathways.get(exclude_utm=1, page=next_page, page_size=page_size)
+            response = api_client.get(
+                pathways_url, params={"exclude_utm": 1, "page": next_page, "page_size": page_size}
+            )
+            response.raise_for_status()
+            pathways = response.json()
             for pathway in pathways["results"]:
                 logger.info(f'Copying pathway "{pathway["name"]}"')
                 parse_pathway(site, pathway)
