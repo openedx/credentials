@@ -4,6 +4,7 @@ import responses
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.cache import cache
+from edx_django_utils.cache import TieredCache
 
 from credentials.apps.core.tests.factories import SiteConfigurationFactory
 
@@ -24,9 +25,12 @@ class SiteMixin:
         self.site_configuration = SiteConfigurationFactory(site__domain=domain, site__id=settings.SITE_ID)
         self.site = self.site_configuration.site
 
+        # Clear edx rest api client cache
+        TieredCache.dangerous_clear_all_tiers()
+
     def mock_access_token_response(self, status=200):
         """ Mock the response from the OAuth provider's access token endpoint. """
-        oauth2_provider_url = self.site.siteconfiguration.oauth2_provider_url
+        oauth2_provider_url = settings.BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL
         url = f"{oauth2_provider_url}/access_token"
         token = "abc123"
         body = json.dumps(
