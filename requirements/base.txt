@@ -57,7 +57,7 @@ django-statici18n==2.0.1
     # via -r requirements/base.in
 django-storages==1.11.1
     # via -r requirements/base.in
-django-waffle==2.0.0
+django-waffle==2.1.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -66,7 +66,7 @@ django-webpack-loader==0.7.0
     # via -r requirements/base.in
 django==2.2.17
     # via
-    #   -c requirements/constraints.txt
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.in
     #   django-appconf
     #   django-crum
@@ -138,7 +138,7 @@ markupsafe==1.1.1
     # via jinja2
 mysqlclient==2.0.3
     # via -r requirements/base.in
-newrelic==6.0.0.154
+newrelic==6.0.1.155
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -246,7 +246,7 @@ six==1.15.0
     #   transifex-client
 slumber==0.7.1
     # via edx-rest-api-client
-smmap==3.0.4
+smmap==3.0.5
     # via gitdb
 social-auth-app-django==4.0.0
     # via
