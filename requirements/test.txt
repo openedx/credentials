@@ -21,7 +21,7 @@ attrs==20.3.0
     #   pytest
 black==20.8b1
     # via -r requirements/test.in
-bleach==3.2.2
+bleach==3.2.3
     # via -r requirements/base.txt
 bok-choy==1.1.1
     # via -r requirements/test.in
@@ -58,7 +58,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage==5.3.1
+coverage==5.4
     # via -r requirements/test.in
 cryptography==3.3.1
     # via
@@ -149,7 +149,7 @@ drf-jwt==1.17.3
     #   edx-drf-extensions
 edx-ace==0.1.17
     # via -r requirements/base.txt
-edx-auth-backends==3.3.0
+edx-auth-backends==3.3.1
     # via -r requirements/base.txt
 edx-django-release-util==1.0.0
     # via -r requirements/base.txt
@@ -166,7 +166,7 @@ edx-i18n-tools==0.5.3
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
-edx-lint==3.0
+edx-lint==3.0.2
     # via -r requirements/test.in
 edx-opaque-keys==2.1.1
     # via
@@ -178,7 +178,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.51#egg=edx_credentials_the
     # via -r requirements/base.txt
 factory-boy==3.2.0
     # via -r requirements/test.in
-faker==5.6.5
+faker==5.8.0
     # via factory-boy
 filelock==3.0.12
     # via
@@ -307,7 +307,7 @@ pyjwt[crypto]==1.7.1
     #   social-auth-core
 pylint-celery==0.3
     # via edx-lint
-pylint-django==2.3.0
+pylint-django==2.4.2
     # via edx-lint
 pylint-plugin-utils==0.6
     # via
@@ -329,7 +329,7 @@ pyparsing==2.4.7
     #   packaging
 pytest-django==4.1.0
     # via -r requirements/test.in
-pytest==6.2.1
+pytest==6.2.2
     # via
     #   -r requirements/test.in
     #   pytest-django
