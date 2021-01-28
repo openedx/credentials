@@ -8,7 +8,7 @@ analytics-python==1.2.9
     # via -r requirements/base.in
 attrs==20.3.0
     # via edx-ace
-bleach==3.2.2
+bleach==3.2.3
     # via -r requirements/base.in
 certifi==2020.12.5
     # via requests
@@ -97,7 +97,7 @@ drf-jwt==1.17.3
     # via edx-drf-extensions
 edx-ace==0.1.17
     # via -r requirements/base.in
-edx-auth-backends==3.3.0
+edx-auth-backends==3.3.1
     # via -r requirements/base.in
 edx-django-release-util==1.0.0
     # via -r requirements/base.in
