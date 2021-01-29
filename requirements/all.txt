@@ -31,17 +31,17 @@ bcrypt==3.2.0
     #   paramiko
 black==20.8b1
     # via -r requirements/dev.txt
-bleach==3.2.3
+bleach==3.2.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.16.61
+boto3==1.16.59
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.19.61
+botocore==1.19.59
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -93,7 +93,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==5.4
+coverage==5.3.1
     # via -r requirements/dev.txt
 cryptography==3.3.1
     # via
@@ -219,7 +219,7 @@ djangorestframework==3.12.2
     #   drf-jwt
     #   edx-drf-extensions
     #   rest-condition
-docker-compose==1.28.2
+docker-compose==1.28.0
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
@@ -244,7 +244,7 @@ edx-ace==0.1.17
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-auth-backends==3.3.1
+edx-auth-backends==3.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -271,7 +271,7 @@ edx-i18n-tools==0.5.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-credentials-themes
-edx-lint==3.0.2
+edx-lint==3.0
     # via -r requirements/dev.txt
 edx-opaque-keys==2.1.1
     # via
@@ -288,7 +288,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.51#egg=edx_credentials_the
     #   -r requirements/production.txt
 factory-boy==3.2.0
     # via -r requirements/dev.txt
-faker==5.8.0
+faker==5.6.5
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -488,7 +488,7 @@ pylint-celery==0.3
     # via
     #   -r requirements/dev.txt
     #   edx-lint
-pylint-django==2.4.2
+pylint-django==2.3.0
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -524,7 +524,7 @@ pyrsistent==0.17.3
     #   jsonschema
 pytest-django==4.1.0
     # via -r requirements/dev.txt
-pytest==6.2.2
+pytest==6.2.1
     # via
     #   -r requirements/dev.txt
     #   pytest-django
