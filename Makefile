@@ -63,7 +63,7 @@ upgrade: piptools ## update the requirements/*.txt files with the latest package
 ### Quality commands ###
 
 quality: isort_check quality-js format_check ## Run linters
-	pylint --rcfile=pylintrc acceptance_tests credentials *.py
+	pylint --django-settings-module=credentials.settings.test --rcfile=pylintrc acceptance_tests credentials *.py
 
 quality_fix: isort format
 

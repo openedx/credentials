@@ -21,6 +21,10 @@ requests<2.25.0
 # can determine the cause of the failure. https://openedx.atlassian.net/browse/MICROBA-794
 virtualenv<20.2.2
 
-# This is pinned due to a constrain in a third party dependency drf-jwt. We won’t be able to unpin social-auth until this dependency gets on pyJWT 2.0.0 
+# This is pinned due to a constrain in a third party dependency drf-jwt. We won’t be able to unpin social-auth until this dependency gets on pyJWT 2.0.0
 # https://openedx.atlassian.net/browse/MICROBA-929
 social-auth-core<4.0.3
+
+# New versions of this package are breaking authentication in this service.
+# this is a temporary constraint until we can isolate and resolve the issue.
+edx-auth-backends<=3.3.0

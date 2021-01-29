@@ -8,7 +8,7 @@ analytics-python==1.2.9
     # via -r requirements/base.in
 attrs==20.3.0
     # via edx-ace
-bleach==3.2.2
+bleach==3.2.3
     # via -r requirements/base.in
 certifi==2020.12.5
     # via requests
@@ -98,7 +98,9 @@ drf-jwt==1.17.3
 edx-ace==0.1.17
     # via -r requirements/base.in
 edx-auth-backends==3.3.0
-    # via -r requirements/base.in
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.in
 edx-django-release-util==1.0.0
     # via -r requirements/base.in
 edx-django-sites-extensions==3.0.0
@@ -112,7 +114,7 @@ edx-drf-extensions==6.4.0
     # via -r requirements/base.in
 edx-i18n-tools==0.5.3
     # via edx-credentials-themes
-edx-opaque-keys==2.1.1
+edx-opaque-keys==2.2.0
     # via
     #   -r requirements/base.in
     #   edx-drf-extensions
@@ -148,11 +150,11 @@ oauthlib==3.1.0
     #   social-auth-core
 openapi-codec==1.3.2
     # via django-rest-swagger
-packaging==20.8
+packaging==20.9
     # via bleach
 path.py==12.5.0
     # via edx-i18n-tools
-path==15.0.1
+path==15.1.0
     # via path.py
 pbr==5.5.1
     # via stevedore
@@ -237,7 +239,6 @@ six==1.15.0
     #   edx-django-release-util
     #   edx-drf-extensions
     #   edx-i18n-tools
-    #   edx-opaque-keys
     #   pyjwkest
     #   python-dateutil
     #   python-memcached
@@ -254,6 +255,7 @@ social-auth-app-django==4.0.0
     #   edx-auth-backends
 social-auth-core==4.0.2
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -c requirements/constraints.txt
     #   edx-auth-backends
     #   social-auth-app-django
