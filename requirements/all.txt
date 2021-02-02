@@ -42,7 +42,7 @@ django-statici18n==2.0.1  # via -r requirements/dev.txt, -r requirements/product
 django-storages==1.10.1   # via -r requirements/dev.txt, -r requirements/production.txt
 django-waffle==2.0.0      # via -r requirements/dev.txt, -r requirements/production.txt, edx-django-utils, edx-drf-extensions
 django-webpack-loader==0.7.0  # via -r requirements/dev.txt, -r requirements/production.txt
-django==2.2.17            # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, code-annotations, django-appconf, django-crum, django-debug-toolbar, django-filter, django-ses, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
+django==2.2.18            # via -c requirements/constraints.txt, -r requirements/dev.txt, -r requirements/production.txt, code-annotations, django-appconf, django-crum, django-debug-toolbar, django-filter, django-ses, django-statici18n, django-storages, djangorestframework, drf-jwt, edx-ace, edx-auth-backends, edx-credentials-themes, edx-django-release-util, edx-django-sites-extensions, edx-django-utils, edx-drf-extensions, edx-i18n-tools, rest-condition, xss-utils
 djangorestframework==3.12.2  # via -r requirements/dev.txt, -r requirements/production.txt, django-rest-swagger, drf-jwt, edx-drf-extensions, rest-condition
 docker-compose==1.27.4    # via -c requirements/constraints.txt, -r requirements/dev.txt
 docker[ssh]==4.3.1        # via -r requirements/dev.txt, docker-compose
