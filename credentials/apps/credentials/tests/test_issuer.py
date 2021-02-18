@@ -32,34 +32,8 @@ class CertificateIssuerBase:
     def setUp(self):
         super().setUp()
         self.certificate = self.cert_factory.create()
-        self.username = "tester"
-        self.user = UserFactory(username=self.username)
-        self.user_cred = self.issuer.issue_credential(self.certificate, self.username)
+        self.user = UserFactory(username="tester")
         self.attributes = [{"name": "whitelist_reason", "value": "Reason for whitelisting."}]
-
-    def test_issued_credential_type(self):
-        """ Verify issued_credential_type returns the correct credential type."""
-        self.assertEqual(self.issuer.issued_credential_type, self.cert_type)
-
-    def test_issue_existing_credential(self):
-        """ Verify credentials can be updated when re-issued."""
-
-        user_credential = self.issuer.issue_credential(self.certificate, self.username, "revoked")
-        self.user_cred.refresh_from_db()
-        self._assert_usercredential_fields(self.user_cred, self.certificate, self.username, "revoked", [])
-        self.assertEqual(user_credential, self.user_cred)
-
-    def test_issue_credential_without_attributes(self):
-        """ Verify credentials can be issued without attributes."""
-
-        user_credential = self.issuer.issue_credential(self.certificate, self.username)
-        self._assert_usercredential_fields(user_credential, self.certificate, self.username, "awarded", [])
-
-    def test_issue_credential_with_attributes(self):
-        """ Verify credentials can be issued with attributes."""
-        UserFactory(username="testuser2")
-        user_credential = self.issuer.issue_credential(self.certificate, "testuser2", attributes=self.attributes)
-        self._assert_usercredential_fields(user_credential, self.certificate, "testuser2", "awarded", self.attributes)
 
     def _assert_usercredential_fields(
         self, user_credential, expected_credential, expected_username, expected_status, expected_attrs
@@ -71,60 +45,90 @@ class CertificateIssuerBase:
         actual_attributes = [{"name": attr.name, "value": attr.value} for attr in user_credential.attributes.all()]
         self.assertEqual(actual_attributes, expected_attrs)
 
+    def test_issued_credential_type(self):
+        """ Verify issued_credential_type returns the correct credential type."""
+        self.assertEqual(self.issuer.issued_credential_type, self.cert_type)
+
+    def test_issue_existing_credential(self):
+        """ Verify credentials can be updated when re-issued."""
+        user_credential = self.issuer.issue_credential(self.certificate, self.user.username, "awarded")
+        self._assert_usercredential_fields(user_credential, self.certificate, self.user.username, "awarded", [])
+
+        updated_user_credential = self.issuer.issue_credential(self.certificate, self.user.username, "revoked")
+        self._assert_usercredential_fields(updated_user_credential, self.certificate, self.user.username, "revoked", [])
+
+        user_credential.refresh_from_db()
+        self.assertEqual(user_credential, updated_user_credential)
+
+    def test_issue_credential_without_attributes(self):
+        """ Verify credentials can be issued without attributes."""
+        user_credential = self.issuer.issue_credential(self.certificate, self.user.username)
+        self._assert_usercredential_fields(user_credential, self.certificate, self.user.username, "awarded", [])
+
+    def test_issue_credential_with_attributes(self):
+        """ Verify credentials can be issued with attributes."""
+        user_credential = self.issuer.issue_credential(self.certificate, self.user.username, attributes=self.attributes)
+        self._assert_usercredential_fields(
+            user_credential, self.certificate, self.user.username, "awarded", self.attributes
+        )
+
     def test_set_credential_without_attributes(self):
         """ Verify that if no attributes given then None will return."""
-        self.assertEqual(self.issuer.set_credential_attributes(self.user_cred, None), None)
+        user_credential = self.issuer.issue_credential(self.certificate, self.user.username)
+        self.assertEqual(self.issuer.set_credential_attributes(user_credential, None), None)
 
     def test_set_credential_with_attributes(self):
         """ Verify that it adds the given attributes against user credential."""
-
-        self.issuer.set_credential_attributes(self.user_cred, self.attributes)
+        user_credential = self.issuer.issue_credential(self.certificate, self.user.username)
+        self.issuer.set_credential_attributes(user_credential, self.attributes)
         self._assert_usercredential_fields(
-            self.user_cred, self.certificate, self.user_cred.username, "awarded", self.attributes
+            user_credential, self.certificate, self.user.username, "awarded", self.attributes
         )
 
     def test_set_credential_with_duplicate_attributes_by_util(self):
         """Verify in case of duplicate attributes utils method will return False and
         exception will be raised.
         """
+        user_credential = self.issuer.issue_credential(self.certificate, self.user.username)
 
         self.attributes.append({"name": "whitelist_reason", "value": "Reason for whitelisting."})
 
         with self.assertRaises(DuplicateAttributeError):
-            self.issuer.set_credential_attributes(self.user_cred, self.attributes)
+            self.issuer.set_credential_attributes(user_credential, self.attributes)
 
     def test_existing_credential_with_duplicate_attributes(self):
         """Verify if user credential attributes already exists in db then method will
         update existing attributes values."""
+        user_credential = self.issuer.issue_credential(self.certificate, self.user.username)
 
         # add the attribute in db and then try to create the credential
         # with same data "names but value is different"
-
         attribute_db = {"name": "whitelist_reason", "value": "Reason for whitelisting."}
-
         UserCredentialAttribute.objects.create(
-            user_credential=self.user_cred, name=attribute_db.get("name"), value=attribute_db.get("value")
+            user_credential=user_credential, name=attribute_db.get("name"), value=attribute_db.get("value")
         )
-        self.issuer.set_credential_attributes(self.user_cred, self.attributes)
+
+        self.issuer.set_credential_attributes(user_credential, self.attributes)
 
         # first attribute value will be changed to 0.5
         self._assert_usercredential_fields(
-            self.user_cred, self.certificate, self.user_cred.username, "awarded", self.attributes
+            user_credential, self.certificate, self.user.username, "awarded", self.attributes
         )
 
     def test_existing_attributes_with_empty_attributes_list(self):
         """Verify if user credential attributes already exists in db then in case of empty
         attributes list it will return without changing any data."""
+        user_credential = self.issuer.issue_credential(self.certificate, self.user.username)
 
-        self.issuer.set_credential_attributes(self.user_cred, self.attributes)
+        self.issuer.set_credential_attributes(user_credential, self.attributes)
         self._assert_usercredential_fields(
-            self.user_cred, self.certificate, self.user_cred.username, "awarded", self.attributes
+            user_credential, self.certificate, self.user.username, "awarded", self.attributes
         )
 
         # create same credential without attributes.
-        self.assertIsNone(self.issuer.set_credential_attributes(self.user_cred, []))
+        self.assertIsNone(self.issuer.set_credential_attributes(user_credential, []))
         self._assert_usercredential_fields(
-            self.user_cred, self.certificate, self.user_cred.username, "awarded", self.attributes
+            user_credential, self.certificate, self.user.username, "awarded", self.attributes
         )
 
 
@@ -141,9 +145,7 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
         self.site_config = SiteConfigurationFactory(site=self.site)
         self.program = ProgramFactory(site=self.site)
         self.certificate = self.cert_factory.create(program_uuid=self.program.uuid, site=self.site)
-        self.username = "tester2"
-        self.user = UserFactory(username=self.username)
-        self.user_cred = self.issuer.issue_credential(self.certificate, self.username)
+        self.user = UserFactory(username="tester2")
         self.attributes = [{"name": "whitelist_reason", "value": "Reason for whitelisting."}]
 
     def test_records_enabled_is_unchecked(self):
@@ -154,7 +156,7 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
         self.site_config.save()
 
         with mock.patch("credentials.apps.credentials.issuers.send_updated_emails_for_program") as mock_method:
-            self.issuer.issue_credential(self.certificate, "testuser3", attributes=self.attributes)
+            self.issuer.issue_credential(self.certificate, self.user.username, attributes=self.attributes)
             self.assertEqual(mock_method.call_count, 0)
 
     def test_records_enabled_is_checked(self):
@@ -162,7 +164,7 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
         then updated email is sent to a pathway org.
         """
         with mock.patch("credentials.apps.credentials.issuers.send_updated_emails_for_program") as mock_method:
-            self.issuer.issue_credential(self.certificate, "testuser4", attributes=self.attributes)
+            self.issuer.issue_credential(self.certificate, self.user.username, attributes=self.attributes)
             self.assertEqual(mock_method.call_count, 1)
 
     @override_settings(SEND_EMAIL_ON_PROGRAM_COMPLETION=True)
@@ -171,7 +173,7 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
         self.site_config.records_enabled = False
         self.site_config.save()
 
-        self.issuer.issue_credential(self.certificate, "testuser5")
+        self.issuer.issue_credential(self.certificate, self.user.username)
         self.assertEqual(mock_send_learner_email.call_count, 1)
 
     @override_settings(SEND_EMAIL_ON_PROGRAM_COMPLETION=True)
@@ -181,18 +183,15 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
         Verify that we call `send_program_certificate_created_message` only once if a
         certificate already exists and is being awarded again after being revoked.
         """
-        username = "learner"
-        user = UserFactory(username=username)
-
         self.site_config.records_enabled = False
         self.site_config.save()
 
-        self.issuer.issue_credential(self.certificate, user.username)
+        self.issuer.issue_credential(self.certificate, self.user.username)
         # revoke the user credential
-        user_credential = UserCredential.objects.get(username=username)
+        user_credential = UserCredential.objects.get(username=self.user.username)
         user_credential.revoke()
         # issue the credential again, make sure that we haven't tried to send the email again
-        self.issuer.issue_credential(self.certificate, user.username)
+        self.issuer.issue_credential(self.certificate, self.user.username)
         self.assertEqual(mock_send_learner_email.call_count, 1)
 
     @override_settings(SEND_EMAIL_ON_PROGRAM_COMPLETION=False)
@@ -205,7 +204,7 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
         self.site_config.records_enabled = False
         self.site_config.save()
 
-        self.issuer.issue_credential(self.certificate, "testuser6")
+        self.issuer.issue_credential(self.certificate, self.user.username)
         self.assertEqual(mock_send_learner_email.call_count, 0)
 
 
