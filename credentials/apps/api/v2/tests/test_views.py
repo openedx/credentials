@@ -142,7 +142,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         """Verify that, if a user has already been issued a credential, further attempts to issue the same credential
         will NOT create a new credential, but update the attributes of the existing credential.
         """
-        user_credential = UserCredentialFactory(credential__site=self.site, username=self.user.username)
+        user_credential = UserCredentialFactory(credential__site=self.site)
         self.authenticate_user(self.user)
         self.add_user_permission(self.user, "add_usercredential")
 
