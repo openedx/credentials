@@ -12,7 +12,7 @@ bleach==3.3.0
     # via -r requirements/base.in
 certifi==2020.12.5
     # via requests
-cffi==1.14.4
+cffi==1.14.5
     # via cryptography
 chardet==3.0.4
     # via requests
@@ -23,7 +23,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==3.4.4
+cryptography==3.4.6
     # via
     #   pyjwt
     #   social-auth-core
@@ -111,7 +111,7 @@ edx-django-utils==3.13.0
     #   -r requirements/base.in
     #   edx-drf-extensions
     #   edx-rest-api-client
-edx-drf-extensions==6.4.0
+edx-drf-extensions==6.5.0
     # via -r requirements/base.in
 edx-i18n-tools==0.5.3
     # via edx-credentials-themes
@@ -169,7 +169,7 @@ pycparser==2.20
     # via cffi
 pycryptodomex==3.10.1
     # via pyjwkest
-pygments==2.7.4
+pygments==2.8.0
     # via -r requirements/base.in
 pyjwkest==1.4.2
     # via edx-drf-extensions

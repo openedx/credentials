@@ -36,7 +36,7 @@ certifi==2020.12.5
     # via
     #   -r requirements/test.txt
     #   requests
-cffi==1.14.4
+cffi==1.14.5
     # via
     #   -r requirements/test.txt
     #   bcrypt
@@ -72,7 +72,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==5.4
     # via -r requirements/test.txt
-cryptography==3.4.4
+cryptography==3.4.6
     # via
     #   -r requirements/test.txt
     #   paramiko
@@ -162,11 +162,11 @@ djangorestframework==3.12.2
     #   drf-jwt
     #   edx-drf-extensions
     #   rest-condition
-docker-compose==1.28.2
+docker-compose==1.28.3
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/dev.in
-docker[ssh]==4.4.1
+docker[ssh]==4.4.2
     # via docker-compose
 dockerpty==0.4.1
     # via docker-compose
@@ -191,7 +191,7 @@ edx-django-utils==3.13.0
     #   -r requirements/test.txt
     #   edx-drf-extensions
     #   edx-rest-api-client
-edx-drf-extensions==6.4.0
+edx-drf-extensions==6.5.0
     # via -r requirements/test.txt
 edx-i18n-tools==0.5.3
     # via
@@ -210,7 +210,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.53#egg=edx_credentials_the
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==6.1.1
+faker==6.3.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -345,7 +345,7 @@ pycryptodomex==3.10.1
     # via
     #   -r requirements/test.txt
     #   pyjwkest
-pygments==2.7.4
+pygments==2.8.0
     # via -r requirements/test.txt
 pyjwkest==1.4.2
     # via
@@ -371,7 +371,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/test.txt
     #   pylint-celery
     #   pylint-django
-pylint==2.6.0
+pylint==2.6.2
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -554,7 +554,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tox==3.21.4
+tox==3.22.0
     # via -r requirements/test.txt
 transifex-client==0.14.2
     # via

@@ -29,7 +29,7 @@ certifi==2020.12.5
     # via
     #   -r requirements/base.txt
     #   requests
-cffi==1.14.4
+cffi==1.14.5
     # via
     #   -r requirements/base.txt
     #   cryptography
@@ -60,7 +60,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==5.4
     # via -r requirements/test.in
-cryptography==3.4.4
+cryptography==3.4.6
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -163,7 +163,7 @@ edx-django-utils==3.13.0
     #   -r requirements/base.txt
     #   edx-drf-extensions
     #   edx-rest-api-client
-edx-drf-extensions==6.4.0
+edx-drf-extensions==6.5.0
     # via -r requirements/base.txt
 edx-i18n-tools==0.5.3
     # via
@@ -181,7 +181,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.53#egg=edx_credentials_the
     # via -r requirements/base.txt
 factory-boy==3.2.0
     # via -r requirements/test.in
-faker==6.1.1
+faker==6.3.0
     # via factory-boy
 filelock==3.0.12
     # via
@@ -295,7 +295,7 @@ pycryptodomex==3.10.1
     # via
     #   -r requirements/base.txt
     #   pyjwkest
-pygments==2.7.4
+pygments==2.8.0
     # via -r requirements/base.txt
 pyjwkest==1.4.2
     # via
@@ -316,7 +316,7 @@ pylint-plugin-utils==0.6
     # via
     #   pylint-celery
     #   pylint-django
-pylint==2.6.0
+pylint==2.6.2
     # via
     #   edx-lint
     #   pylint-celery
@@ -474,7 +474,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tox==3.21.4
+tox==3.22.0
     # via -r requirements/test.in
 transifex-client==0.14.2
     # via
