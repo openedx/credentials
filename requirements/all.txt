@@ -37,11 +37,11 @@ bleach==3.3.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.17.5
+boto3==1.17.10
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.20.5
+botocore==1.20.10
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -55,7 +55,7 @@ certifi==2020.12.5
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-cffi==1.14.4
+cffi==1.14.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -95,7 +95,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==5.4
     # via -r requirements/dev.txt
-cryptography==3.4.4
+cryptography==3.4.6
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -220,11 +220,11 @@ djangorestframework==3.12.2
     #   drf-jwt
     #   edx-drf-extensions
     #   rest-condition
-docker-compose==1.28.2
+docker-compose==1.28.3
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
-docker[ssh]==4.4.1
+docker[ssh]==4.4.2
     # via
     #   -r requirements/dev.txt
     #   docker-compose
@@ -264,7 +264,7 @@ edx-django-utils==3.13.0
     #   -r requirements/production.txt
     #   edx-drf-extensions
     #   edx-rest-api-client
-edx-drf-extensions==6.4.0
+edx-drf-extensions==6.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -290,7 +290,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.53#egg=edx_credentials_the
     #   -r requirements/production.txt
 factory-boy==3.2.0
     # via -r requirements/dev.txt
-faker==6.1.1
+faker==6.3.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -469,7 +469,7 @@ pycryptodomex==3.10.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   pyjwkest
-pygments==2.7.4
+pygments==2.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -499,7 +499,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/dev.txt
     #   pylint-celery
     #   pylint-django
-pylint==2.6.0
+pylint==2.6.2
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -719,7 +719,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tox==3.21.4
+tox==3.22.0
     # via -r requirements/dev.txt
 transifex-client==0.14.2
     # via
