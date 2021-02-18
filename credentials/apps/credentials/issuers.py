@@ -3,6 +3,7 @@ import abc
 import logging
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 
@@ -18,7 +19,8 @@ from credentials.apps.credentials.utils import send_program_certificate_created_
 from credentials.apps.records.utils import send_updated_emails_for_program
 
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
+User = get_user_model()
 
 
 class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
@@ -60,6 +62,10 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
         Returns:
             UserCredential
         """
+        user = User.objects.get(username=username)
+
+        log.info(f"Attempting to issue or update a credential for learner '{user.id}' with status '{status}'")
+
         user_credential, __ = UserCredential.objects.update_or_create(
             username=username,
             credential_content_type=ContentType.objects.get_for_model(credential),
@@ -106,7 +112,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         """
         Issue a Program Certificate to the user.
 
-        This function is being overriden to provide functionality for sending
+        This function is being overridden to provide functionality for sending
         an updated email to pathway partners
 
         This action is idempotent. If the user has already earned the
@@ -123,6 +129,10 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         Returns:
             UserCredential
         """
+        user = User.objects.get(username=username)
+
+        log.info(f"Attempting to issue or update a program credential for learner '{user.id}' with status '{status}'")
+
         user_credential, created = UserCredential.objects.update_or_create(
             username=username,
             credential_content_type=ContentType.objects.get_for_model(credential),
