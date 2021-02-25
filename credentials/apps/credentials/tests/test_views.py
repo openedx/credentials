@@ -52,16 +52,22 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         user = UserFactory(username=self.MOCK_USER_DATA["username"])
         self.client.login(username=user.username, password=USER_PASSWORD)
 
-    def _render_user_credential(self, use_proper_logo_url=True, user_credential=None, program_certificate=None):
+    def _render_user_credential(
+        self, use_proper_logo_url=True, user_credential=None, program_certificate=None, custom_orgs=None
+    ):
         """ Helper method to render a user certificate."""
         user_credential = user_credential or self.user_credential
         program_certificate = program_certificate or self.program_certificate
-        if use_proper_logo_url:
-            certificate_logo_image_url = self.faker.url()
-        else:
-            certificate_logo_image_url = None
         program_uuid = program_certificate.program_uuid
         credential_title = program_certificate.title or self.PROGRAM_NAME
+
+        if custom_orgs:
+            organizations = custom_orgs
+        else:
+            organizations = [
+                self._create_organization_details(use_proper_logo_url),
+                self._create_organization_details(use_proper_logo_url),
+            ]
 
         mocked_program_data = ProgramDetails(
             uuid=str(program_uuid),
@@ -70,22 +76,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
             type_slug=slugify(self.PROGRAM_TYPE),
             credential_title=credential_title,
             course_count=2,
-            organizations=[
-                OrganizationDetails(
-                    uuid=str(uuid.uuid4()),
-                    key=self.faker.word(),
-                    name=self.faker.word(),
-                    display_name=self.faker.word(),
-                    certificate_logo_image_url=certificate_logo_image_url,
-                ),
-                OrganizationDetails(
-                    uuid=str(uuid.uuid4()),
-                    key=self.faker.word(),
-                    name=self.faker.word(),
-                    display_name=self.faker.word(),
-                    certificate_logo_image_url=certificate_logo_image_url,
-                ),
-            ],
+            organizations=organizations,
             hours_of_effort=self.faker.pyint(),
             status="active",
         )
@@ -99,6 +90,16 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
             self.assertEqual(response.status_code, 200)
 
         return response
+
+    def _create_organization_details(self, use_proper_logo_url=True):
+        """ Helper method to create organization details. """
+        return OrganizationDetails(
+            uuid=str(uuid.uuid4()),
+            key=self.faker.word(),
+            name=self.faker.word(),
+            display_name=self.faker.word(),
+            certificate_logo_image_url=self.faker.url() if use_proper_logo_url else None,
+        )
 
     def assert_matching_template_origin(self, actual, expected_template_name):
         expected = select_template([expected_template_name])
@@ -262,6 +263,28 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
             )
         response = self._render_user_credential()
         self.assertContains(response, expected_text)
+
+    @ddt.data(1, 2, 3)
+    @responses.activate
+    def test_render_multiple_orgs(self, number_of_orgs):
+        """
+        Verify that the view renders certificates correctly with one, two, or
+        three organizations.
+        """
+        orgs = [self._create_organization_details() for n in range(number_of_orgs)]
+        response = self._render_user_credential(custom_orgs=orgs)
+
+        if number_of_orgs == 1:
+            self.assertEqual(response.context_data["org_name_string"], orgs[0].display_name)
+        elif number_of_orgs == 2:
+            self.assertEqual(
+                response.context_data["org_name_string"], "{} and {}".format(orgs[0].display_name, orgs[1].display_name)
+            )
+        elif number_of_orgs == 3:
+            self.assertEqual(
+                response.context_data["org_name_string"],
+                "{}, {}, and {}".format(orgs[0].display_name, orgs[1].display_name, orgs[2].display_name),
+            )
 
 
 @ddt.ddt
