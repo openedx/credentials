@@ -12,9 +12,9 @@ attrs==20.3.0
     #   edx-ace
 bleach==3.3.0
     # via -r requirements/base.txt
-boto3==1.17.10
+boto3==1.17.15
     # via django-ses
-botocore==1.20.10
+botocore==1.20.15
     # via
     #   boto3
     #   s3transfer
@@ -53,10 +53,6 @@ django-appconf==1.0.4
     # via
     #   -r requirements/base.txt
     #   django-statici18n
-django-compat==1.0.15
-    # via
-    #   -r requirements/base.txt
-    #   django-hijack
 django-crum==0.7.9
     # via
     #   -r requirements/base.txt
@@ -67,7 +63,7 @@ django-extensions==3.1.1
     # via -r requirements/base.txt
 django-filter==2.4.0
     # via -r requirements/base.txt
-django-hijack==2.2.1
+django-hijack==2.3.0
     # via -r requirements/base.txt
 django-ratelimit==3.0.1
     # via -r requirements/base.txt
@@ -90,7 +86,7 @@ django-waffle==2.1.0
     #   edx-drf-extensions
 django-webpack-loader==0.7.0
     # via -r requirements/base.txt
-django==2.2.18
+django==2.2.19
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
@@ -189,7 +185,7 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-markdown==3.3.3
+markdown==3.3.4
     # via -r requirements/base.txt
 markupsafe==1.1.1
     # via
@@ -221,7 +217,7 @@ path.py==12.5.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-path==15.1.0
+path==15.1.2
     # via
     #   -r requirements/base.txt
     #   path.py
@@ -338,7 +334,6 @@ six==1.15.0
     #   -r requirements/base.txt
     #   analytics-python
     #   bleach
-    #   django-compat
     #   django-simple-history
     #   edx-ace
     #   edx-auth-backends
