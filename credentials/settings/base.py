@@ -56,7 +56,6 @@ THIRD_PARTY_APPS = [
     "edx_credentials_themes",
     "rest_framework_swagger",
     "hijack",
-    "compat",
     "xss_utils",
 ]
 
