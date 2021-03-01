@@ -10,7 +10,7 @@ babel==2.9.0
     # via sphinx
 certifi==2020.12.5
     # via requests
-chardet==3.0.4
+chardet==4.0.0
     # via requests
 docutils==0.16
     # via sphinx
@@ -32,10 +32,8 @@ pyparsing==2.4.7
     # via packaging
 pytz==2021.1
     # via babel
-requests==2.24.0
-    # via
-    #   -c requirements/constraints.txt
-    #   sphinx
+requests==2.25.1
+    # via sphinx
 six==1.15.0
     # via edx-sphinx-theme
 snowballstemmer==2.1.0
@@ -56,7 +54,7 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.4
     # via sphinx
-urllib3==1.25.11
+urllib3==1.26.3
     # via requests
 
 # The following packages are considered to be unsafe in a requirements file:
