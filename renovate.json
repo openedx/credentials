@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "packageRules": [
+    {
+      "updateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "automerge": true
+    }
+  ],
+  "prConcurrentLimit": 5,
+  "dependencyDashboard": true,
+  "rebaseWhen": "behind-base-branch",
+  "schedule": [
+    "before 6am every weekday"
+  ]
+}
