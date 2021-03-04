@@ -157,7 +157,7 @@ path==15.1.2
     # via path.py
 pbr==5.5.1
     # via stevedore
-pillow==8.1.0
+pillow==8.1.1
     # via -r requirements/base.in
 polib==1.1.0
     # via edx-i18n-tools
