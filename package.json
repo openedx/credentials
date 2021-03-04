@@ -13,7 +13,7 @@
     "@edx/paragon": "12.8.0",
     "axios": "0.21.1",
     "bi-app-sass": "1.1.0",
-    "bootstrap": "4.5.3",
+    "bootstrap": "4.6.0",
     "css-loader": "5.0.1",
     "css-minimizer-webpack-plugin": "1.2.0",
     "file-loader": "6.2.0",
