@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext as _, override
 from django.views.generic import TemplateView
 
 from credentials.apps.catalog.data import OrganizationDetails, ProgramDetails
@@ -85,27 +85,30 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
                     )
                 )
 
+        content_language = to_language(user_credential.credential.language)
+        render_language = content_language if content_language else settings.LANGUAGE_CODE
+
         org_name_string = ""
-        if len(organization_names) == 1:
-            org_name_string = organization_names[0]
-        elif len(organization_names) == 2:
-            org_name_string = _("{first_org} and {second_org}").format(
-                first_org=organization_names[0], second_org=organization_names[1]
-            )
-        elif organization_names:
-            org_name_string = _("{series_of_orgs}, and {last_org}").format(
-                series_of_orgs=", ".join(organization_names[:-1]), last_org=organization_names[-1]
-            )
+        with override(render_language):
+            if len(organization_names) == 1:
+                org_name_string = organization_names[0]
+            elif len(organization_names) == 2:
+                org_name_string = _("{first_org} and {second_org}").format(
+                    first_org=organization_names[0], second_org=organization_names[1]
+                )
+            elif organization_names:
+                org_name_string = _("{series_of_orgs}, and {last_org}").format(
+                    series_of_orgs=", ".join(organization_names[:-1]), last_org=organization_names[-1]
+                )
 
         user_data = user_credential.credential.site.siteconfiguration.get_user_api_data(user_credential.username)
-        content_language = to_language(user_credential.credential.language)
 
         context.update(
             {
                 "user_credential": user_credential,
                 "user_data": user_data,
                 "child_templates": self.get_child_templates(),
-                "render_language": content_language if content_language else settings.LANGUAGE_CODE,
+                "render_language": render_language,
                 "issue_date": visible_date,
                 # NOTE: In the future this can be set to the course_name and/or seat type
                 "page_title": program_details.type,
