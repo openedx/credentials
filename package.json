@@ -48,7 +48,7 @@
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.6",
     "eslint": "4.19.1",
-    "eslint-config-edx": "4.0.0",
+    "eslint-config-edx": "4.0.4",
     "geckodriver": "1.22.1",
     "gulp": "4.0.2",
     "gulp-eslint": "6.0.0",
