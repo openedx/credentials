@@ -12,7 +12,6 @@ const defaultProps = {
   user: 'test-user',
 };
 
-
 describe('<MasqueradeBanner />', () => {
   describe('Masquerader viewing masquerade banner', () => {
     beforeEach(() => {

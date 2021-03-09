@@ -20,14 +20,6 @@ class MasqueradeBanner extends React.Component {
     };
   }
 
-  getButtonText() {
-    return this.props.masquerading ? gettext('Change user') : gettext('Submit');
-  }
-
-  closeMasqueradeFailureAlert() {
-    this.setState({ masqueradeFailureAlertOpen: false });
-  }
-
   handleInputChange(event) {
     this.setState({ identifier: event.target.value });
   }
@@ -39,22 +31,6 @@ class MasqueradeBanner extends React.Component {
   handleSubmit(event) {
     this.handleMasquerade();
     event.preventDefault();
-  }
-
-  targetingLearner() {
-    return this.state.masqueradeTarget.startsWith('Specific Learner');
-  }
-
-  constructMasqueradeUrl() {
-    let url = '/hijack/';
-    if (!this.props.masquerading && this.targetingLearner()) {
-      const user = this.state.identifier;
-      url += this.state.identifier.includes('@') ? 'email/' : 'username/';
-      url += user + '/';
-    } else {
-      url += 'release-hijack/';
-    }
-    return url;
   }
 
   handleMasquerade() {
@@ -79,6 +55,30 @@ class MasqueradeBanner extends React.Component {
       });
   }
 
+  getButtonText() {
+    return this.props.masquerading ? gettext('Change user') : gettext('Submit');
+  }
+
+  closeMasqueradeFailureAlert() {
+    this.setState({ masqueradeFailureAlertOpen: false });
+  }
+
+  targetingLearner() {
+    return this.state.masqueradeTarget.startsWith('Specific Learner');
+  }
+
+  constructMasqueradeUrl() {
+    let url = '/hijack/';
+    if (!this.props.masquerading && this.targetingLearner()) {
+      const user = this.state.identifier;
+      url += this.state.identifier.includes('@') ? 'email/' : 'username/';
+      url += user + '/';
+    } else {
+      url += 'release-hijack/';
+    }
+    return url;
+  }
+
   render() {
     const masqueradeBannerWrapperClass = 'masquerade-banner-wrapper';
     return (
@@ -86,19 +86,19 @@ class MasqueradeBanner extends React.Component {
         <div className="masquerade-banner-actions">
           <form onSubmit={this.handleSubmit} className="masquerade-form form-group">
             <label htmlFor="masquerade-select" className="masquerade-label"> { gettext('View as: ') }
-              <select className="masquerade-select" id="masquerade-select" onChange={this.handleSelectChange} value={this.state.masqueradeTarget} >
+              <select className="masquerade-select" id="masquerade-select" onChange={this.handleSelectChange} value={this.state.masqueradeTarget}>
                 <option value="Staff">{gettext('Staff')}</option>
                 <option value="Specific Learner">{gettext('Specific Learner')}</option>
               </select>
             </label>
-            {(this.targetingLearner() && !this.props.masquerading) &&
+            {(this.targetingLearner() && !this.props.masquerading)
+              && (
               <label htmlFor="masquerade-input" className="masquerade-label"> { gettext('Username or email: ') }
                 <input type="text" className="masquerade-input" id="masquerade-input" onChange={this.handleInputChange} value={this.state.identifier} />
               </label>
-            }
-            {this.props.masquerading &&
-              <span className="masquerade-info-text">{ StringUtils.interpolate(gettext('You are currently viewing as: {user}'), { user: this.props.user }) }</span>
-            }
+              )}
+            {this.props.masquerading
+              && <span className="masquerade-info-text">{ StringUtils.interpolate(gettext('You are currently viewing as: {user}'), { user: this.props.user }) }</span>}
             <Button.Deprecated
               className={['btn-masquerade', 'btn-primary']}
               label={this.getButtonText()}
@@ -106,19 +106,17 @@ class MasqueradeBanner extends React.Component {
             />
           </form>
         </div>
-        {
-          <StatusAlert
-            alertType="danger"
-            open={this.state.masqueradeFailureAlertOpen}
-            onClose={this.closeMasqueradeFailureAlert}
-            dialog={
-              <div>
-                <span className="h6">{ gettext('Masquerading failed') }</span>
-                <span className="alert-body">{ gettext('You either do not have permission to masquerade as this user, or the user could not be found.') }</span>
-              </div>
-            }
-          />
-        }
+        <StatusAlert
+          alertType="danger"
+          open={this.state.masqueradeFailureAlertOpen}
+          onClose={this.closeMasqueradeFailureAlert}
+          dialog={(
+            <div>
+              <span className="h6">{ gettext('Masquerading failed') }</span>
+              <span className="alert-body">{ gettext('You either do not have permission to masquerade as this user, or the user could not be found.') }</span>
+            </div>
+            )}
+        />
       </nav>
     );
   }

@@ -30,7 +30,7 @@ class StringUtils {
   // Make a human readable string of string items concatenated with ','s and 'and'
   // e.g. 'first, second, third, and last' or 'first and second'
   static formatStringList(items) {
-    const length = items.length;
+    const { length } = items;
 
     switch (length) {
       case 0:

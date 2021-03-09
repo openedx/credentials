@@ -1,6 +1,5 @@
 import StringUtils from '../Utils';
 
-
 describe('String Utils formatStringList()', () => {
   it('correctly processes 0 items', () => {
     const items = [];

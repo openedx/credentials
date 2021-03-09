@@ -127,7 +127,6 @@ describe('<ShareProgramRecordModal />', () => {
       wrapper = mount(<ShareProgramRecordModal {...defaultProps} />);
     });
 
-
     it('shows error message if API call to get url fails', () => {
       expect(wrapper.find('.modal-body .alert-danger').length).toBe(0);
       expect(wrapper.find('.modal-body .loading-wrapper').length).toBe(1);

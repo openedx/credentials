@@ -3,7 +3,9 @@ import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
-import { Button, Icon, InputText, Modal, StatusAlert } from '@edx/paragon';
+import {
+  Button, Icon, InputText, Modal, StatusAlert,
+} from '@edx/paragon';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import trackEvent from './Analytics';
 import StringUtils from './Utils';
@@ -80,6 +82,7 @@ class ShareProgramRecordModal extends React.Component {
     }
   }
 
+  /* eslint-disable jsx-a11y/anchor-is-valid */
   // This logic is a bit complicated, so we separate it out
   renderSwitchToSendParagraph() {
     let text = gettext('Instead of sharing a link, you can also {start_anchor}directly send your program record to {platform} partners{end_anchor} for credit or application purposes.');
@@ -112,6 +115,7 @@ class ShareProgramRecordModal extends React.Component {
 
     return (<p>{text}</p>);
   }
+  /* eslint-enable jsx-a11y/anchor-is-valid */
 
   render() {
     const {
@@ -129,7 +133,8 @@ class ShareProgramRecordModal extends React.Component {
         onClose={onClose}
         body={(
           <div>
-            {urlError &&
+            {urlError
+              && (
               <StatusAlert
                 alertType="danger"
                 open
@@ -141,18 +146,20 @@ class ShareProgramRecordModal extends React.Component {
                   </div>
                 )}
               />
-            }
-            {urlCopied &&
+              )}
+            {urlCopied
+              && (
               <StatusAlert
                 alertType="success"
                 open
                 dismissible={false}
                 dialog={gettext('Successfully copied program record link.')}
               />
-            }
+              )}
             <p>{ gettext('Copy this link to share your record with a university, employer, or anyone else of your choosing. Anyone you share this link with will have access to your record forever.') }</p>
             {this.renderSwitchToSendParagraph()}
-            {urlReturned &&
+            {urlReturned
+              && (
               <div className="url-group">
                 <div onCopy={this.checkUrlCopied}>
                   <InputText
@@ -177,13 +184,14 @@ class ShareProgramRecordModal extends React.Component {
                   />
                 </CopyToClipboard>
               </div>
-            }
-            {!urlReturned && !urlError &&
+              )}
+            {!urlReturned && !urlError
+              && (
               <div className="loading-wrapper d-inline-flex">
                 <Icon id="ShareModalIcon" className={['fa', 'fa-spinner', 'fa-spin']} />
                 <p>{ gettext('Loading record link...') }</p>
               </div>
-            }
+              )}
           </div>
         )}
         open

@@ -67,8 +67,8 @@ const testRowData = (row, index) => {
   if (defaultProps.programs[index].empty) {
     expect(row.find('span').length).toEqual(1); // nothing after partner
   } else {
-    expect(row.find('span').at(3).text()).toEqual(defaultProps.programs[index].completed ?
-      'Completed' : 'Partially Complete');
+    expect(row.find('span').at(3).text()).toEqual(defaultProps.programs[index].completed
+      ? 'Completed' : 'Partially Complete');
   }
 };
 
