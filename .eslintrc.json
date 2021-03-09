@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "eslint-config-edx"
-  ],
+  "extends": "@edx/eslint-config",
   "parser": "babel-eslint",
   "rules": {
     "import/no-extraneous-dependencies": [
@@ -27,7 +25,8 @@
     ]
   },
   "env": {
-    "jest": true
+    "jest": true,
+    "jasmine": true
   },
   "parserOptions": {
     "sourceType": "module",
@@ -37,12 +36,5 @@
     "FB": true,
     "gettext": true,
     "loadFixtures": true
-  },
-  "settings": {
-    "import/resolver": {
-      "webpack": {
-        "config": "webpack.config.js"
-      }
-    }
   }
 }

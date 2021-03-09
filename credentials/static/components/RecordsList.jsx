@@ -31,11 +31,13 @@ class RecordsList extends React.Component {
                 <ProgramIcon type={row.type} iconDict={icons} className="inline-data certificate-icon" />
                 <span className="record-partner inline-data">{row.partner}</span>
                 { row.empty || <span className="inline-data"> {' | '} </span>}
-                { row.empty ||
+                { row.empty
+                  || (
                   <span className="font-weight-bold inline-data">{
                     row.completed ? gettext('Completed') : gettext('Partially Completed')
-                  }</span>
-                }
+                  }
+                  </span>
+                  )}
               </div>
             </div>
             <div className="col-md-3 record-btn-col">
@@ -48,8 +50,7 @@ class RecordsList extends React.Component {
           </div>
         </div>
       </li>
-    ),
-    );
+    ));
   }
 
   static renderResponsiveList(id, title, help, data, icons) {
@@ -67,7 +68,9 @@ class RecordsList extends React.Component {
   }
 
   render() {
-    const { programs, helpUrl, profileUrl, icons } = this.props;
+    const {
+      programs, helpUrl, profileUrl, icons,
+    } = this.props;
     const hasPrograms = programs.length > 0;
     const hasHelpUrl = helpUrl !== '';
     const hasProfileUrl = profileUrl !== '';
@@ -78,15 +81,14 @@ class RecordsList extends React.Component {
         <header className="pad-text-block">
           <h2 className="h3 mb-4 text-black">{this.props.title}</h2>
         </header>
-        {hasPrograms &&
-          RecordsList.renderResponsiveList(
+        {hasPrograms
+          && RecordsList.renderResponsiveList(
             'program-records-list',
             gettext('Program Records'),
             this.props.programHelp,
             programs,
             icons,
-          )
-        }
+          )}
         {hasContent || RecordsList.renderEmpty()}
         {hasHelpUrl && <RecordsHelp helpUrl={helpUrl} />}
       </main>
@@ -103,7 +105,7 @@ RecordsList.propTypes = {
     type: PropTypes.string.isRequired,
     completed: PropTypes.bool.isRequired,
     empty: PropTypes.bool.isRequired,
-  })).isRequired,
+  })),
   programHelp: PropTypes.string,
   helpUrl: PropTypes.string,
   profileUrl: PropTypes.string,
@@ -111,8 +113,8 @@ RecordsList.propTypes = {
 };
 
 RecordsList.defaultProps = {
-  title: '',
   programs: [],
+  title: '',
   programHelp: '',
   helpUrl: '',
   profileUrl: '',

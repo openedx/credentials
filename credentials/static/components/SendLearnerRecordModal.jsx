@@ -1,7 +1,9 @@
 import '@babel/polyfill'; // Needed to support Promises on legacy browsers
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, CheckBoxGroup, CheckBox, Modal, StatusAlert } from '@edx/paragon';
+import {
+  Button, CheckBoxGroup, CheckBox, Modal, StatusAlert,
+} from '@edx/paragon';
 import StringUtils from './Utils';
 
 class SendLearnerRecordModal extends React.Component {
@@ -19,13 +21,12 @@ class SendLearnerRecordModal extends React.Component {
     this.anyInactivePathways = this.checkAnyInactivePathways();
   }
 
-
   // Get the organizations that are currently checked off
   getCheckedOrganizations() {
     const organizations = [];
 
     for (let i = 0; i < this.props.creditPathwaysList.length; i += 1) {
-      const name = this.props.creditPathwaysList[i].name;
+      const { name } = this.props.creditPathwaysList[i];
       const pathway = this.state.creditPathways[name];
 
       if (pathway.checked && !pathway.sent) {
@@ -36,19 +37,18 @@ class SendLearnerRecordModal extends React.Component {
     return organizations;
   }
 
-
   getPathwayDisplayName(name) {
     const pathway = this.state.creditPathways[name];
 
     if (pathway.sent) {
       return StringUtils.interpolate(gettext('{name} - Sent'), { name });
-    } else if (!pathway.isActive) {
+    }
+    if (!pathway.isActive) {
       return StringUtils.interpolate(gettext('{name} - Not Yet Available'), { name });
     }
 
     return name;
   }
-
 
   // Check if there are any organizations that are inactive
   checkAnyInactivePathways() {
@@ -62,7 +62,6 @@ class SendLearnerRecordModal extends React.Component {
     return false;
   }
 
-
   callSendHandler() {
     this.props.sendHandler(this.getCheckedOrganizations());
 
@@ -70,27 +69,22 @@ class SendLearnerRecordModal extends React.Component {
     this.props.onClose();
   }
 
-
   // Update a credit pathway's state when the checkbox is updated
   checkCreditPathway(checked, name) {
-    let count = this.state.numCheckedOrganizations;
-    if (checked) {
-      count += 1;
-    } else {
-      count -= 1;
-    }
-
-    const creditPathways = { ...this.state.creditPathways };
-    creditPathways[name].checked = checked;
-    this.setState({
-      numCheckedOrganizations: count,
-      creditPathways,
+    this.setState((prevState) => {
+      const updatedCreditPathways = { ...prevState.creditPathways };
+      updatedCreditPathways[name].checked = checked;
+      return {
+        creditPathways: updatedCreditPathways,
+        numCheckedOrganizations: prevState.numCheckedOrganizations + (checked ? 1 : -1),
+      };
     });
   }
 
-
   render() {
-    const { onClose, parentSelector, typeName, platformName } = this.props;
+    const {
+      onClose, parentSelector, typeName, platformName,
+    } = this.props;
 
     return (
       <Modal
@@ -108,8 +102,10 @@ class SendLearnerRecordModal extends React.Component {
                 platform: platformName,
                 type: typeName,
               },
-            )}</p>
-            {this.anyInactivePathways && <div>
+            )}
+            </p>
+            {this.anyInactivePathways && (
+            <div>
               <StatusAlert
                 alertType="danger"
                 open
@@ -118,10 +114,11 @@ class SendLearnerRecordModal extends React.Component {
                   <div>
                     <span className="h6">{gettext('Not all credit partners are ready to receive records yet')}</span>
                     <p className="alert-body">{gettext('You can check back in the future or share your record link directly if you need to do so immediately.')}</p>
-                  </div>)}
+                  </div>
+)}
               />
             </div>
-            }
+            )}
             <p>{ gettext('Select organization(s) you wish to send this record to:') }</p>
             <CheckBoxGroup>
               {this.props.creditPathwaysList.map(pathway => (
@@ -130,8 +127,8 @@ class SendLearnerRecordModal extends React.Component {
                   name={pathway.name}
                   label={this.getPathwayDisplayName(pathway.name)}
                   key={pathway.id}
-                  disabled={this.state.creditPathways[pathway.name].sent ||
-                      !this.state.creditPathways[pathway.name].isActive}
+                  disabled={this.state.creditPathways[pathway.name].sent
+                      || !this.state.creditPathways[pathway.name].isActive}
                   onChange={this.checkCreditPathway}
                   checked={this.state.creditPathways[pathway.name].checked}
                 />

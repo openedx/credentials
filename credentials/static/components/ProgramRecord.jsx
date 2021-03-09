@@ -40,8 +40,6 @@ class ProgramRecord extends React.Component {
       buttonDisabled: false,
       shareModelOpen: false,
       sendRecordModalOpen: false,
-      isPublic: true,
-      recordDownloaded: false,
       sendRecordSuccessOrgs: [],
       sendRecordFailureOrgs: [],
       sendRecordSuccessAlertOpen: false,
@@ -104,10 +102,8 @@ class ProgramRecord extends React.Component {
   }
 
   downloadRecord(uuid) {
-    this.setState({ recordDownloaded: true });
     window.location = '/records/programs/shared/' + uuid + '/csv';
   }
-
 
   formatDate(isoDate) {
     if (!isoDate) {
@@ -143,9 +139,9 @@ class ProgramRecord extends React.Component {
       ...(!course.issue_date && { attempts: null }),
       percent_grade: course.issue_date ? this.formatPercentage(course.percent_grade) : '',
       issue_date: this.formatDate(course.issue_date),
-      status: course.issue_date ?
-        <span className="badge badge-success">{gettext('Earned')}</span> :
-        <span className="badge badge-secondary">{gettext('Not Earned')}</span>,
+      status: course.issue_date
+        ? <span className="badge badge-success">{gettext('Earned')}</span>
+        : <span className="badge badge-secondary">{gettext('Not Earned')}</span>,
     }));
   }
 
@@ -190,7 +186,7 @@ class ProgramRecord extends React.Component {
       },
     };
 
-    const uuid = this.props.uuid;
+    const { uuid } = this.props;
 
     trackEvent('edx.bi.credentials.program_record.send_finished', {
       category: 'records',
@@ -221,8 +217,7 @@ class ProgramRecord extends React.Component {
       })
       .catch((() => {
         failureOrgs.push(org);
-      })),
-    ))
+      }))))
       .then(() => {
         if (successOrgs.length > 0) { showSuccess = true; }
         if (failureOrgs.length > 0) { showFailure = true; }
@@ -249,7 +244,6 @@ class ProgramRecord extends React.Component {
     this.setState({ sendRecordLoadingAlertOpen: false });
   }
 
-
   render() {
     const {
       learner,
@@ -270,20 +264,22 @@ class ProgramRecord extends React.Component {
 
     return (
       <main id="main-content" className={recordWrapperClass} tabIndex="-1">
-        {!isPublic &&
+        {!isPublic
+          && (
           <div className="program-record-actions program-record-row">
             <a href="/records/" className="top-bar-link">
               <span className="fa fa-caret-left" aria-hidden="true" />
               <span className="fa fa-caret-right" aria-hidden="true" /> {gettext('Back to My Records')}
             </a>
-            {this.showSendRecordButton &&
+            {this.showSendRecordButton
+              && (
               <Button.Deprecated
                 label={gettext('Send Learner Record')}
                 className={['btn-primary']}
                 onClick={this.loadSendRecordModal}
                 disabled={this.state.buttonDisabled}
               />
-            }
+              )}
             <Button.Deprecated
               label={gettext('Share')}
               className={['btn-outline-primary']}
@@ -292,8 +288,9 @@ class ProgramRecord extends React.Component {
               disabled={this.state.buttonDisabled}
             />
           </div>
-        }
-        {isPublic &&
+          )}
+        {isPublic
+          && (
           <div className="program-record-actions program-record-row justify-content-end">
             <Button.Deprecated
               label={gettext('Download Record')}
@@ -302,18 +299,18 @@ class ProgramRecord extends React.Component {
               uuid={uuid}
             />
           </div>
-        }
+          )}
         {
           <StatusAlert
             alertType="info"
             open={this.state.sendRecordLoadingAlertOpen}
             onClose={this.closeSendRecordLoadingAlert}
-            dialog={
+            dialog={(
               <div>
                 <span className="h6">{ gettext('We are sending your program record.') }</span>
                 <Icon id="StatusAlertIcon" className={['fa', 'fa-spinner', 'fa-spin']} />
               </div>
-            }
+            )}
           />
         }
         {
@@ -321,7 +318,7 @@ class ProgramRecord extends React.Component {
             alertType="danger"
             open={this.state.sendRecordFailureAlertOpen}
             onClose={this.closeSendRecordFailureAlert}
-            dialog={
+            dialog={(
               <div>
                 <span className="h6">{ gettext('We were unable to send your program record.') }</span>
                 <span className="alert-body">
@@ -329,7 +326,7 @@ class ProgramRecord extends React.Component {
                     { orgs: StringUtils.formatStringList(this.state.sendRecordFailureOrgs) })}
                 </span>
               </div>
-            }
+            )}
           />
         }
         {
@@ -337,7 +334,7 @@ class ProgramRecord extends React.Component {
             alertType="success"
             open={this.state.sendRecordSuccessAlertOpen}
             onClose={this.closeSendRecordSuccessAlert}
-            dialog={
+            dialog={(
               <div>
                 <span className="h6">{ gettext('You have successfully shared your Learner Record') }</span>
                 <span className="alert-body">
@@ -345,7 +342,7 @@ class ProgramRecord extends React.Component {
                     { orgs: StringUtils.formatStringList(this.state.sendRecordSuccessOrgs) })}
                 </span>
               </div>
-            }
+            )}
           />
         }
         <article className="program-record">
@@ -360,19 +357,18 @@ class ProgramRecord extends React.Component {
               </div>
               <div className="d-flex program-status">
                 {
-                  (program.completed &&
-                    <span className="badge badge-success">{gettext('Completed')}</span>) ||
-                  (program.empty &&
-                    <span className="badge badge-secondary">{gettext('Not Earned')}</span>) ||
-                  (<span className="badge badge-warning">{gettext('Partially Completed')}</span>)
+                  (program.completed
+                    && <span className="badge badge-success">{gettext('Completed')}</span>)
+                  || (program.empty
+                    && <span className="badge badge-secondary">{gettext('Not Earned')}</span>)
+                  || (<span className="badge badge-warning">{gettext('Partially Completed')}</span>)
                 }
                 <span className="updated">
                   { StringUtils.interpolate(
                     gettext('Last Updated {date}'), {
                       date: this.formatDate(program.last_updated),
                     },
-                  )
-                  }
+                  )}
                 </span>
               </div>
             </div>
@@ -423,7 +419,8 @@ class ProgramRecord extends React.Component {
 
         {hasHelpUrl && <RecordsHelp helpUrl={helpUrl} />}
 
-        {sendRecordModalOpen &&
+        {sendRecordModalOpen
+          && (
           <SendLearnerRecordModal
             {...defaultModalProps}
             onClose={this.closeSendRecordModal}
@@ -437,8 +434,9 @@ class ProgramRecord extends React.Component {
             // Passing both a list and an object so that we can maintain pathway ordering
             creditPathwaysList={this.props.pathways.filter(pathway => pathway.pathway_type === 'credit')}
           />
-        }
-        {shareModelOpen &&
+          )}
+        {shareModelOpen
+          && (
           <ShareProgramRecordModal
             {...defaultModalProps}
             onClose={this.closeShareModel}
@@ -447,7 +445,7 @@ class ProgramRecord extends React.Component {
             uuid={uuid}
             platformName={platformName}
           />
-        }
+          )}
       </main>
     );
   }

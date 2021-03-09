@@ -1,6 +1,5 @@
 import trackEvent from '../Analytics';
 
-
 let mockAnalytics;
 
 describe('Track Event', () => {

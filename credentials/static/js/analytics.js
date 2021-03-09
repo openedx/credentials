@@ -4,9 +4,9 @@
  * Emits a tracking event via window.analytics.track().
  */
 function handleClick(event) {
-  const target = event.target;
+  const { target } = event;
 
-  const attributes = target.attributes;
+  const { attributes } = target;
   const eventName = target.getAttribute('data-track-event');
   const eventProperties = {};
   const eventPropertyPrefix = 'data-track-event-property-';

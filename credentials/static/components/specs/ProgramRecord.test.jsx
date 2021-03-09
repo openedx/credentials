@@ -81,7 +81,6 @@ const defaultProps = {
   loadModalsAsChildren: false,
 };
 
-
 describe('<ProgramRecord />', () => {
   describe('User viewing own record', () => {
     beforeEach(() => {
@@ -307,13 +306,6 @@ describe('<ProgramRecord />', () => {
       expect(wrapper.find('.program-record-grades').length).toEqual(1);
       expect(wrapper.find('.program-record-actions button').length).toEqual(1);
       expect(wrapper.find('.program-record-actions button.btn-primary').text()).toBe('Download Record');
-    });
-
-    it('downloads record', () => {
-      expect(wrapper.state('recordDownloaded')).toBe(false);
-      wrapper.find('.program-record-actions button.btn-primary').simulate('click');
-      wrapper.update();
-      expect(wrapper.state('recordDownloaded')).toBe(true);
     });
   });
 });

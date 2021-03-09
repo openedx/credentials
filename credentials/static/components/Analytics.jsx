@@ -7,5 +7,4 @@ function trackEvent(name, properties) {
   }
 }
 
-
 export default trackEvent;

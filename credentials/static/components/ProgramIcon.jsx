@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ProgramIcon = (props) => {
-  const { className, element, type, iconDict } = props;
+  const {
+    className, element, type, iconDict,
+  } = props;
   const icon = iconDict[type.replace('-', '_')];
 
   if (!icon) {

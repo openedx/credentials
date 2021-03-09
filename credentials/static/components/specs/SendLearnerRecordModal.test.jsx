@@ -39,7 +39,8 @@ const defaultProps = {
       id: 2,
       status: 'sent',
     },
-    { name: 'HarvardX',
+    {
+      name: 'HarvardX',
       id: 3,
       status: '',
     },
