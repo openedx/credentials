@@ -80,7 +80,7 @@ cryptography==3.4.6
     #   social-auth-core
 ddt==1.4.1
     # via -r requirements/test.txt
-defusedxml==0.6.0
+defusedxml==0.7.1
     # via
     #   -r requirements/test.txt
     #   python3-openid
@@ -182,7 +182,7 @@ edx-django-release-util==1.0.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==3.0.0
     # via -r requirements/test.txt
-edx-django-utils==3.13.0
+edx-django-utils==3.15.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
@@ -206,7 +206,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.53#egg=edx_credentials_the
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==6.5.0
+faker==6.6.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -313,7 +313,7 @@ pbr==5.5.1
     # via
     #   -r requirements/test.txt
     #   stevedore
-pillow==8.1.1
+pillow==8.1.2
     # via -r requirements/test.txt
 pluggy==0.13.1
     # via
@@ -341,7 +341,7 @@ pycryptodomex==3.10.1
     # via
     #   -r requirements/test.txt
     #   pyjwkest
-pygments==2.8.0
+pygments==2.8.1
     # via -r requirements/test.txt
 pyjwkest==1.4.2
     # via

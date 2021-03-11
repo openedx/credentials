@@ -27,7 +27,7 @@ cryptography==3.4.6
     # via
     #   pyjwt
     #   social-auth-core
-defusedxml==0.6.0
+defusedxml==0.7.1
     # via
     #   python3-openid
     #   social-auth-core
@@ -104,7 +104,7 @@ edx-django-release-util==1.0.0
     # via -r requirements/base.in
 edx-django-sites-extensions==3.0.0
     # via -r requirements/base.in
-edx-django-utils==3.13.0
+edx-django-utils==3.15.0
     # via
     #   -r requirements/base.in
     #   edx-drf-extensions
@@ -157,7 +157,7 @@ path==15.1.2
     # via path.py
 pbr==5.5.1
     # via stevedore
-pillow==8.1.1
+pillow==8.1.2
     # via -r requirements/base.in
 polib==1.1.0
     # via edx-i18n-tools
@@ -167,7 +167,7 @@ pycparser==2.20
     # via cffi
 pycryptodomex==3.10.1
     # via pyjwkest
-pygments==2.8.0
+pygments==2.8.1
     # via -r requirements/base.in
 pyjwkest==1.4.2
     # via edx-drf-extensions
