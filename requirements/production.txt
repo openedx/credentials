@@ -12,9 +12,9 @@ attrs==20.3.0
     #   edx-ace
 bleach==3.3.0
     # via -r requirements/base.txt
-boto3==1.17.20
+boto3==1.17.25
     # via django-ses
-botocore==1.20.20
+botocore==1.20.25
     # via
     #   boto3
     #   s3transfer
@@ -44,7 +44,7 @@ cryptography==3.4.6
     #   -r requirements/base.txt
     #   pyjwt
     #   social-auth-core
-defusedxml==0.6.0
+defusedxml==0.7.1
     # via
     #   -r requirements/base.txt
     #   python3-openid
@@ -131,7 +131,7 @@ edx-django-release-util==1.0.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==3.0.0
     # via -r requirements/base.txt
-edx-django-utils==3.13.0
+edx-django-utils==3.15.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -225,7 +225,7 @@ pbr==5.5.1
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==8.1.1
+pillow==8.1.2
     # via -r requirements/base.txt
 polib==1.1.0
     # via
@@ -243,7 +243,7 @@ pycryptodomex==3.10.1
     # via
     #   -r requirements/base.txt
     #   pyjwkest
-pygments==2.8.0
+pygments==2.8.1
     # via -r requirements/base.txt
 pyjwkest==1.4.2
     # via
