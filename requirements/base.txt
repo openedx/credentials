@@ -95,7 +95,9 @@ djangorestframework==3.12.2
 drf-jwt==1.17.3
     # via edx-drf-extensions
 edx-ace==0.1.17
-    # via -r requirements/base.in
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.in
 edx-auth-backends==3.3.0
     # via
     #   -c requirements/constraints.txt
@@ -119,7 +121,7 @@ edx-opaque-keys==2.2.0
     #   edx-drf-extensions
 edx-rest-api-client==5.3.0
     # via -r requirements/base.in
-git+https://github.com/edx/credentials-themes.git@0.1.53#egg=edx_credentials_themes==0.1.53
+git+https://github.com/edx/credentials-themes.git@0.1.54#egg=edx_credentials_themes==0.1.54
     # via -r requirements/base.in
 future==0.18.2
     # via pyjwkest
@@ -270,7 +272,7 @@ transifex-client==0.14.2
     # via edx-credentials-themes
 uritemplate==3.0.1
     # via coreapi
-urllib3==1.26.3
+urllib3==1.26.4
     # via
     #   requests
     #   transifex-client
