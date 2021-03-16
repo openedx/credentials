@@ -196,7 +196,7 @@ edx-i18n-tools==0.5.3
     #   -r requirements/dev.in
     #   -r requirements/test.txt
     #   edx-credentials-themes
-edx-lint==4.1.0
+edx-lint==4.1.1
     # via -r requirements/test.txt
 edx-opaque-keys==2.2.0
     # via
@@ -204,7 +204,7 @@ edx-opaque-keys==2.2.0
     #   edx-drf-extensions
 edx-rest-api-client==5.3.0
     # via -r requirements/test.txt
-git+https://github.com/edx/credentials-themes.git@0.1.54#egg=edx_credentials_themes==0.1.54
+git+https://github.com/edx/credentials-themes.git@0.1.55#egg=edx_credentials_themes==0.1.55
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
