@@ -427,7 +427,7 @@ pyyaml==5.4.1
     #   docker-compose
     #   edx-django-release-util
     #   edx-i18n-tools
-regex==2020.11.13
+regex==2021.3.17
     # via
     #   -r requirements/test.txt
     #   black
@@ -451,7 +451,7 @@ requests==2.25.1
     #   slumber
     #   social-auth-core
     #   transifex-client
-responses==0.13.0
+responses==0.13.1
     # via -r requirements/test.txt
 rest-condition==1.0.3
     # via
