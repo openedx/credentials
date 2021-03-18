@@ -8,7 +8,7 @@ CREDENTIALS_ROOT_URL = os.environ.get("CREDENTIALS_ROOT_URL", "http://localhost:
 
 class BasePage(PageObject):  # pylint: disable=abstract-method
     @unguarded
-    def wait_for_page(self, *args, **kwargs):  # pylint: disable=signature-differs
+    def wait_for_page(self, *args, **kwargs):
         super().wait_for_page(*args, **kwargs)
 
         # Bokchoy's wait_for_page call does an accessibility check automatically (if VERIFY_ACCESSIBILITY is on).

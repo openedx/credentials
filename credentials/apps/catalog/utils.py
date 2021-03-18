@@ -53,7 +53,7 @@ class CatalogDataSynchronizer:
 
     def remove_externally_deleted_data(self):
         """Removes data that was deleted out of the Discovery service"""
-        for model_type in self.existing_data.keys():
+        for model_type in self.existing_data:
             removed = self.existing_data_sets[model_type] - self.updated_data_sets[model_type]
             if removed:
                 logger.info(f"Removing the following {model_type} UUIDs: {removed}")
@@ -75,7 +75,6 @@ class CatalogDataSynchronizer:
             next_page = next_page + 1 if programs["next"] else None
 
     def _fetch_pathways(self):
-        api_client = self.api_client
         pathways_url = urljoin(self.catalog_api_url, "pathways/")
         next_page = 1
         while next_page:
@@ -92,7 +91,7 @@ class CatalogDataSynchronizer:
     def _log_changes(self):
         """Prints out the what data will be added and what will be deleted"""
         logger.info("The copy_catalog command caused the following changes:")
-        for model_type in self.existing_data.keys():
+        for model_type in self.existing_data:
             added = [str(_uuid) for _uuid in self.updated_data_sets[model_type] - self.existing_data_sets[model_type]]
             to_be_removed = [
                 str(_uuid) for _uuid in self.existing_data_sets[model_type] - self.updated_data_sets[model_type]

@@ -23,8 +23,6 @@ from credentials.apps.records.models import UserGrade
 
 log = logging.getLogger(__name__)
 
-# pylint: disable= no-member
-
 
 def credentials_throttle_handler(exc, context):
     """ Exception handler for logging messages when an endpoint is throttled. """
