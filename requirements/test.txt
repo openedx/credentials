@@ -140,7 +140,7 @@ djangorestframework==3.12.2
     #   drf-jwt
     #   edx-drf-extensions
     #   rest-condition
-drf-jwt==1.17.3
+drf-jwt==1.18.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -175,11 +175,11 @@ edx-opaque-keys==2.2.0
     #   edx-drf-extensions
 edx-rest-api-client==5.3.0
     # via -r requirements/base.txt
-git+https://github.com/edx/credentials-themes.git@0.1.56#egg=edx_credentials_themes==0.1.56
+git+https://github.com/edx/credentials-themes.git@0.1.57#egg=edx_credentials_themes==0.1.57
     # via -r requirements/base.txt
 factory-boy==3.2.0
     # via -r requirements/test.in
-faker==6.6.1
+faker==6.6.2
     # via factory-boy
 filelock==3.0.12
     # via
