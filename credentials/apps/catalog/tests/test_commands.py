@@ -272,7 +272,7 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
 
     @responses.activate
     def test_keep_old_data(self):
-        """ Verify that we don't destroy existing but obsolete data. """
+        """ Verify that we don't destroy existing but obsolete data by default """
         # org with a uuid that won't be in data we get back
         org = OrganizationFactory(site=self.site, uuid="44f0dded-fee9-4dec-a333-b9d8c2c82bd2", key="OldX")
         program = ProgramFactory(site=self.site, uuid="33f0dded-fee9-4dec-a333-c9d8c2c82bd5", title="Old Program")
@@ -286,5 +286,30 @@ class CopyCatalogCommandTests(SiteMixin, TestCase):
         org = Organization.objects.get(uuid="44f0dded-fee9-4dec-a333-b9d8c2c82bd2", key="OldX")
 
         # But note that it will no longer be connected to our program
+        program = Program.objects.get(uuid="33f0dded-fee9-4dec-a333-c9d8c2c82bd5")
+        self.assertNotIn(org, program.authoring_organizations.all())
+
+    @responses.activate
+    def test_delete_old_data_with_flag(self):
+        """ Verify that we destroy existing but obsolete data if the --delete flag is used"""
+        # org with a uuid that won't be in data we get back
+        org = OrganizationFactory(site=self.site, uuid="44f0dded-fee9-4dec-a333-b9d8c2c82bd2", key="OldX")
+        program = ProgramFactory(site=self.site, uuid="33f0dded-fee9-4dec-a333-c9d8c2c82bd5", title="Old Program")
+        program.authoring_organizations.add(org)
+
+        # program with uuid that won't be in data we get back
+        ProgramFactory(site=self.site, uuid="aabbccdd-aabb-aabb-aabb-aabbccddeeff", title="Obsolete Program")
+
+        self.mock_access_token_response()
+        self.mock_programs_response(self.wrap_programs(self.PROGRAMS))
+        self.mock_pathways_response(self.wrap_pathways(self.PATHWAYS))
+        self.call_command(delete=True)
+
+        with self.assertRaises(Organization.DoesNotExist):
+            Organization.objects.get(uuid="44f0dded-fee9-4dec-a333-b9d8c2c82bd2", key="OldX")
+
+        with self.assertRaises(Program.DoesNotExist):
+            Program.objects.get(uuid="aabbccdd-aabb-aabb-aabb-aabbccddeeff", title="Obsolete Program")
+
         program = Program.objects.get(uuid="33f0dded-fee9-4dec-a333-c9d8c2c82bd5")
         self.assertNotIn(org, program.authoring_organizations.all())
