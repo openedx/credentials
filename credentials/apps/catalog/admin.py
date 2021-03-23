@@ -21,6 +21,7 @@ class CourseRunAdmin(admin.ModelAdmin):
 @admin.register(Program)
 class ProgramAdmin(admin.ModelAdmin):
     list_display = ("title", "uuid", "type")
+    list_filter = ("site",)
     readonly_fields = ("uuid",)
     search_fields = ("title", "uuid")
 
@@ -28,8 +29,14 @@ class ProgramAdmin(admin.ModelAdmin):
 @admin.register(Pathway)
 class PathwayAdmin(admin.ModelAdmin):
     list_display = ("name", "org_name", "pathway_type", "email", "uuid")
+    list_filter = ("site",)
     readonly_fields = ("uuid",)
     search_fields = ("name", "uuid")
 
 
-admin.site.register(Organization)
+@admin.register(Organization)
+class OrganizationAdmin(admin.ModelAdmin):
+    list_display = ("name", "key", "uuid")
+    list_filter = ("site",)
+    readonly_fields = ("uuid",)
+    search_fields = ("name", "key", "uuid")
