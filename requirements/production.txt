@@ -12,9 +12,9 @@ attrs==20.3.0
     #   edx-ace
 bleach==3.3.0
     # via -r requirements/base.txt
-boto3==1.17.32
+boto3==1.17.36
     # via django-ses
-botocore==1.20.32
+botocore==1.20.36
     # via
     #   boto3
     #   s3transfer
@@ -403,7 +403,7 @@ xss-utils==0.2.0
     # via -r requirements/base.txt
 zope.event==4.5.0
     # via gevent
-zope.interface==5.2.0
+zope.interface==5.3.0
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
