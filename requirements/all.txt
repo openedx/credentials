@@ -37,19 +37,15 @@ bleach==3.3.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.17.32
+boto3==1.17.36
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.20.32
+botocore==1.20.36
     # via
     #   -r requirements/production.txt
     #   boto3
     #   s3transfer
-cached-property==1.5.2
-    # via
-    #   -r requirements/dev.txt
-    #   docker-compose
 certifi==2020.12.5
     # via
     #   -r requirements/dev.txt
@@ -215,7 +211,7 @@ djangorestframework==3.12.2
     #   drf-jwt
     #   edx-drf-extensions
     #   rest-condition
-docker-compose==1.28.5
+docker-compose==1.28.6
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
@@ -269,7 +265,7 @@ edx-i18n-tools==0.5.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-credentials-themes
-edx-lint==4.1.1
+edx-lint==5.0.0
     # via -r requirements/dev.txt
 edx-opaque-keys==2.2.0
     # via
@@ -330,7 +326,7 @@ iniconfig==1.1.1
     # via
     #   -r requirements/dev.txt
     #   pytest
-isort==5.7.0
+isort==5.8.0
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -354,7 +350,7 @@ jsonschema==3.2.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-lazy-object-proxy==1.5.2
+lazy-object-proxy==1.6.0
     # via
     #   -r requirements/dev.txt
     #   astroid
@@ -768,7 +764,7 @@ zope.event==4.5.0
     # via
     #   -r requirements/production.txt
     #   gevent
-zope.interface==5.2.0
+zope.interface==5.3.0
     # via
     #   -r requirements/production.txt
     #   gevent
