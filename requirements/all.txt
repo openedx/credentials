@@ -13,7 +13,7 @@ appdirs==1.4.4
     #   -r requirements/dev.txt
     #   black
     #   virtualenv
-astroid==2.5.1
+astroid==2.5.2
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -37,11 +37,11 @@ bleach==3.3.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.17.36
+boto3==1.17.39
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.20.36
+botocore==1.20.39
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -91,7 +91,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==5.5
     # via -r requirements/dev.txt
-cryptography==3.4.6
+cryptography==3.4.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -203,7 +203,7 @@ django==2.2.19
     #   edx-lint
     #   rest-condition
     #   xss-utils
-djangorestframework==3.12.2
+djangorestframework==3.12.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -227,7 +227,7 @@ docopt==0.6.2
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-drf-jwt==1.18.0
+drf-jwt==1.19.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -276,13 +276,13 @@ edx-rest-api-client==5.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-git+https://github.com/edx/credentials-themes.git@0.1.57#egg=edx_credentials_themes==0.1.57
+git+https://github.com/edx/credentials-themes.git@0.1.58#egg=edx_credentials_themes==0.1.58
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 factory-boy==3.2.0
     # via -r requirements/dev.txt
-faker==6.6.2
+faker==7.0.1
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -299,7 +299,7 @@ future==0.18.2
     #   pyjwkest
 gevent==21.1.2
     # via -r requirements/production.txt
-gitdb==4.0.5
+gitdb==4.0.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -313,7 +313,7 @@ greenlet==1.0.0
     # via
     #   -r requirements/production.txt
     #   gevent
-gunicorn==20.0.4
+gunicorn==20.1.0
     # via -r requirements/production.txt
 httpretty==1.0.5
     # via -r requirements/dev.txt
@@ -436,7 +436,7 @@ pluggy==0.13.1
     #   -r requirements/dev.txt
     #   pytest
     #   tox
-polib==1.1.0
+polib==1.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -531,7 +531,7 @@ python-dateutil==2.8.1
     #   edx-ace
     #   edx-drf-extensions
     #   faker
-python-dotenv==0.15.0
+python-dotenv==0.16.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
@@ -592,7 +592,7 @@ requests==2.25.1
     #   slumber
     #   social-auth-core
     #   transifex-client
-responses==0.13.1
+responses==0.13.2
     # via -r requirements/dev.txt
 rest-condition==1.0.3
     # via
@@ -657,7 +657,7 @@ slumber==0.7.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-rest-api-client
-smmap==3.0.5
+smmap==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt

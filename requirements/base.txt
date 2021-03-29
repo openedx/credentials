@@ -23,7 +23,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==3.4.6
+cryptography==3.4.7
     # via
     #   pyjwt
     #   social-auth-core
@@ -85,14 +85,14 @@ django==2.2.19
     #   edx-i18n-tools
     #   rest-condition
     #   xss-utils
-djangorestframework==3.12.2
+djangorestframework==3.12.4
     # via
     #   -r requirements/base.in
     #   django-rest-swagger
     #   drf-jwt
     #   edx-drf-extensions
     #   rest-condition
-drf-jwt==1.18.0
+drf-jwt==1.19.0
     # via edx-drf-extensions
 edx-ace==0.1.17
     # via
@@ -121,11 +121,11 @@ edx-opaque-keys==2.2.0
     #   edx-drf-extensions
 edx-rest-api-client==5.3.0
     # via -r requirements/base.in
-git+https://github.com/edx/credentials-themes.git@0.1.57#egg=edx_credentials_themes==0.1.57
+git+https://github.com/edx/credentials-themes.git@0.1.58#egg=edx_credentials_themes==0.1.58
     # via -r requirements/base.in
 future==0.18.2
     # via pyjwkest
-gitdb==4.0.5
+gitdb==4.0.7
     # via gitpython
 gitpython==3.1.14
     # via transifex-client
@@ -161,7 +161,7 @@ pbr==5.5.1
     # via stevedore
 pillow==8.1.2
     # via -r requirements/base.in
-polib==1.1.0
+polib==1.1.1
     # via edx-i18n-tools
 psutil==5.8.0
     # via edx-django-utils
@@ -245,7 +245,7 @@ six==1.15.0
     #   transifex-client
 slumber==0.7.1
     # via edx-rest-api-client
-smmap==3.0.5
+smmap==4.0.0
     # via gitdb
 social-auth-app-django==4.0.0
     # via

@@ -11,7 +11,7 @@ appdirs==1.4.4
     #   -r requirements/test.txt
     #   black
     #   virtualenv
-astroid==2.5.1
+astroid==2.5.2
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -70,7 +70,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==5.5
     # via -r requirements/test.txt
-cryptography==3.4.6
+cryptography==3.4.7
     # via
     #   -r requirements/test.txt
     #   paramiko
@@ -149,7 +149,7 @@ django==2.2.19
     #   edx-lint
     #   rest-condition
     #   xss-utils
-djangorestframework==3.12.2
+djangorestframework==3.12.4
     # via
     #   -r requirements/test.txt
     #   django-rest-swagger
@@ -166,7 +166,7 @@ dockerpty==0.4.1
     # via docker-compose
 docopt==0.6.2
     # via docker-compose
-drf-jwt==1.18.0
+drf-jwt==1.19.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
@@ -202,11 +202,11 @@ edx-opaque-keys==2.2.0
     #   edx-drf-extensions
 edx-rest-api-client==5.3.0
     # via -r requirements/test.txt
-git+https://github.com/edx/credentials-themes.git@0.1.57#egg=edx_credentials_themes==0.1.57
+git+https://github.com/edx/credentials-themes.git@0.1.58#egg=edx_credentials_themes==0.1.58
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==6.6.2
+faker==7.0.1
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -219,7 +219,7 @@ future==0.18.2
     # via
     #   -r requirements/test.txt
     #   pyjwkest
-gitdb==4.0.5
+gitdb==4.0.7
     # via
     #   -r requirements/test.txt
     #   gitpython
@@ -320,7 +320,7 @@ pluggy==0.13.1
     #   -r requirements/test.txt
     #   pytest
     #   tox
-polib==1.1.0
+polib==1.1.1
     # via
     #   -r requirements/test.txt
     #   edx-i18n-tools
@@ -399,7 +399,7 @@ python-dateutil==2.8.1
     #   edx-ace
     #   edx-drf-extensions
     #   faker
-python-dotenv==0.15.0
+python-dotenv==0.16.0
     # via docker-compose
 python-memcached==1.59
     # via -r requirements/test.txt
@@ -449,7 +449,7 @@ requests==2.25.1
     #   slumber
     #   social-auth-core
     #   transifex-client
-responses==0.13.1
+responses==0.13.2
     # via -r requirements/test.txt
 rest-condition==1.0.3
     # via
@@ -504,7 +504,7 @@ slumber==0.7.1
     # via
     #   -r requirements/test.txt
     #   edx-rest-api-client
-smmap==3.0.5
+smmap==4.0.0
     # via
     #   -r requirements/test.txt
     #   gitdb
