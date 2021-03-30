@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class Command(BaseCommand):
     """
     Management command to create a program certificate configuration for the demo program.
-    This is meant to be ran from a provisioning script for devstack and not by hand.
+    This is meant to be run from a provisioning script for devstack and not by hand.
     """
 
     def add_arguments(self, parser):
