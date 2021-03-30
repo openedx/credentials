@@ -55,7 +55,7 @@ click==7.1.2
     #   click-log
     #   code-annotations
     #   edx-lint
-code-annotations==1.1.0
+code-annotations==1.1.1
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -202,7 +202,7 @@ edx-opaque-keys==2.2.0
     #   edx-drf-extensions
 edx-rest-api-client==5.3.0
     # via -r requirements/test.txt
-git+https://github.com/edx/credentials-themes.git@0.1.58#egg=edx_credentials_themes==0.1.58
+git+https://github.com/edx/credentials-themes.git@0.1.59#egg=edx_credentials_themes==0.1.59
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
@@ -367,7 +367,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/test.txt
     #   pylint-celery
     #   pylint-django
-pylint==2.7.2
+pylint==2.7.4
     # via
     #   -r requirements/test.txt
     #   edx-lint
