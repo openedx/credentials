@@ -54,6 +54,7 @@ class Command(BaseCommand):
                 catalog_api_url=site_config.catalog_api_url,
                 page_size=page_size,
             )
-            synchronizer.fetch_data()
+            log_results = synchronizer.fetch_data()
+            self.stdout.write(log_results)
             if delete_data:
-                synchronizer.remove_externally_deleted_data()
+                synchronizer.remove_obsolete_data()
