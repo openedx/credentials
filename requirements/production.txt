@@ -12,9 +12,9 @@ attrs==20.3.0
     #   edx-ace
 bleach==3.3.0
     # via -r requirements/base.txt
-boto3==1.17.40
+boto3==1.17.42
     # via django-ses
-botocore==1.20.40
+botocore==1.20.42
     # via
     #   boto3
     #   s3transfer
@@ -69,7 +69,7 @@ django-ratelimit==3.0.1
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==1.0.3
+django-ses==2.0.0
     # via -r requirements/production.in
 django-simple-history==2.12.0
     # via -r requirements/base.txt
