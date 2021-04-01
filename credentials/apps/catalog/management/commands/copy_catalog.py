@@ -55,6 +55,8 @@ class Command(BaseCommand):
                 page_size=page_size,
             )
             log_results = synchronizer.fetch_data()
-            self.stdout.write(log_results)
+            # We have to log them one at a time because we can run into "Message too long" errors
+            for line in log_results:
+                self.stdout.write(line)
             if delete_data:
                 synchronizer.remove_obsolete_data()
