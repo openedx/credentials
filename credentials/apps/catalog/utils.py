@@ -11,13 +11,36 @@ logger = logging.getLogger(__name__)
 
 
 class CatalogDataSynchronizer:
-    COURSE = "course"
-    COURSE_RUN = "course_run"
-    ORGANIZATION = "organization"
-    PATHWAY = "pathway"
-    PROGRAM = "program"
+    """
+    Utility class which can fetch new data from the catalog service, update existing data, create new data, and
+    optionally delete out-of-date data.
 
-    def __init__(self, site, api_client, catalog_api_url, page_size):
+    Example use:
+        synchronizer = CatalogDataSynchronizer(*args)
+        synchronizer.fetch_data()
+        if delete_data:
+            synchronizer.remove_obsolete_data()
+    """
+
+    COURSE = "courses"
+    COURSE_RUN = "course_runs"
+    ORGANIZATION = "organizations"
+    PATHWAY = "pathways"
+    PROGRAM = "programs"
+
+    def __init__(self, site, api_client, catalog_api_url, page_size=None):
+        """
+        Constructor
+
+        Arguments:
+            site (Site): The site that all fetch models should connect to
+            api_client (EdxRestApiClient): The client through which all API calls will be made
+            catalog_api_url (str): The full URL root of the catalog API to hit (ex. "https://example.com/api/v1/")
+            page_size (int): An optional field to denote the number of results per page to retrieve from the API
+
+        Returns:
+            CatalogDataSynchronizer: An instance of the class
+        """
         self.site = site
         self.api_client = api_client
         self.catalog_api_url = catalog_api_url
@@ -36,188 +59,282 @@ class CatalogDataSynchronizer:
             self.PATHWAY: set(),
             self.PROGRAM: set(),
         }
+        # This creates a dictionary where the keys are model types (as above) and the values
+        # are a set() which contains the stringified UUIDs of every instance of that model
+        # type in the database.
         self.existing_data_sets = {
-            model: set(queryset.values_list("uuid", flat=True)) for (model, queryset) in self.existing_data.items()
+            model: {str(_uuid) for _uuid in queryset.values_list("uuid", flat=True)}
+            for (model, queryset) in self.existing_data.items()
         }
 
     def add_item(self, model_type, value):
+        """
+        Add an item to the updated data tracker
+
+        Arguments:
+            model_type (str): Name of model type we're adding
+            value (str): Unique identifier (often UUID) of instance
+
+        Returns:
+            None
+        """
         self.updated_data_sets[model_type].add(value)
 
     def fetch_data(self):
-        logger.info(f"Copying catalog data for site {self.site.domain}")
-        self._fetch_programs()
-        logger.info("Finished copying programs.")
-        self._fetch_pathways()
-        logger.info("Finished copying pathways.")
-        self._log_changes()
+        """
+        Fetch data from all catalog endpoints and use it to either create or update data in the DB
 
-    def remove_externally_deleted_data(self):
-        """Removes data that was deleted out of the Discovery service"""
+        Arguments:
+            None
+
+        Returns:
+            str: A log of the changes to the data. Useful when the caller needs to print (not log) the data to the
+                console
+        """
+        logger.info(f"Copying catalog data for site {self.site.domain}")
+        # fetch organizations
+        self.fetch_resource(self.ORGANIZATION, self._parse_organization)
+        # fetch courses_and_course_runs
+        self.fetch_resource(self.COURSE, self._parse_course)
+        # fetch programs
+        self.fetch_resource(self.PROGRAM, self._parse_program)
+        # fetch pathways
+        self.fetch_resource(self.PATHWAY, self._parse_pathway)
+        logger.info("Finished copying pathways.")
+        return self._log_and_return_changes()
+
+    def remove_obsolete_data(self):
+        """
+        Remove data that was deleted out of the Discovery service
+
+        Arguments:
+            None
+
+        Returns:
+            None
+        """
         for model_type in self.existing_data:
             removed = self.existing_data_sets[model_type] - self.updated_data_sets[model_type]
             if removed:
                 logger.info(f"Removing the following {model_type} UUIDs: {removed}")
                 self.existing_data[model_type].filter(uuid__in=removed).delete()
 
-    def _fetch_programs(self):
-        programs_url = urljoin(self.catalog_api_url, "programs/")
+    def fetch_resource(self, resource_name, parse_method):
+        """
+        Generic method to page through the API response and parse each item returned
+
+        Arguments:
+            resource_name (str): The resource name on the API e.g. /api/v1/programs/ would be "programs"
+            parse_method (func): The method to parse the individual responses with
+
+        Returns:
+            None
+        """
+
+        resource_url = urljoin(self.catalog_api_url, f"{resource_name}/")
         next_page = 1
         while next_page:
             response = self.api_client.get(
-                programs_url, params={"exclude_utm": 1, "page": next_page, "page_size": self.page_size}
+                resource_url, params={"exclude_utm": 1, "page": next_page, "page_size": self.page_size}
             )
             response.raise_for_status()
-            programs = response.json()
-            for program in programs["results"]:
-                logger.info(f'Copying program "{program["title"]}"')
-                parse_program(self.site, program, self)
+            data = response.json()
+            for resource in data["results"]:
+                logger.info(f'Copying {resource_name} "{resource["uuid"]}"')
+                parse_method(resource)
 
-            next_page = next_page + 1 if programs["next"] else None
+            next_page = next_page + 1 if data["next"] else None
 
-    def _fetch_pathways(self):
-        pathways_url = urljoin(self.catalog_api_url, "pathways/")
-        next_page = 1
-        while next_page:
-            response = self.api_client.get(
-                pathways_url, params={"exclude_utm": 1, "page": next_page, "page_size": self.page_size}
-            )
-            response.raise_for_status()
-            pathways = response.json()
-            for pathway in pathways["results"]:
-                logger.info(f'Copying pathway "{pathway["name"]}"')
-                parse_pathway(self.site, pathway, self)
-            next_page = next_page + 1 if pathways["next"] else None
+    def _log_and_return_changes(self):
+        """
+        Log the data that will be added or deleted. Returns the logs as a string for callers that need to print
+        (not log) the changes to the console.
 
-    def _log_changes(self):
-        """Prints out the what data will be added and what will be deleted"""
-        logger.info("The copy_catalog command caused the following changes:")
+        Note: The removed data won't be removed unless remove_obsolete_data() is called.
+
+        Arguments:
+            None
+
+        Returns:
+            None
+        """
+        response_text = "The copy_catalog command caused the following changes:\n"
         for model_type in self.existing_data:
             added = [str(_uuid) for _uuid in self.updated_data_sets[model_type] - self.existing_data_sets[model_type]]
             to_be_removed = [
                 str(_uuid) for _uuid in self.existing_data_sets[model_type] - self.updated_data_sets[model_type]
             ]
             if added:
-                logger.info(f"{model_type} UUIDs added: {added}")
+                response_text += f"{model_type} UUIDs added: {added}\n"
             if to_be_removed:
-                logger.info(f"{model_type} UUIDs to be removed: {to_be_removed if to_be_removed else None}")
+                response_text += f"{model_type} UUIDs to be removed: {to_be_removed}\n"
+        logger.info(response_text)
+        return response_text
 
+    @transaction.atomic
+    def _parse_organization(self, data):
+        """
+        Creates or updates an organization. Does not create any relationships or trigger any further parsing.
 
-@transaction.atomic
-def parse_program(site, data, synchronizer=None):
-    program, _ = Program.objects.update_or_create(
-        site=site,
-        uuid=data["uuid"],
-        defaults={
-            "title": data["title"],
-            "type": data["type"],
-            "status": data["status"],
-            "type_slug": data["type_attrs"]["slug"],
-            "total_hours_of_effort": data["total_hours_of_effort"],
-        },
-    )
-    if synchronizer:
-        synchronizer.add_item(synchronizer.PROGRAM, program.uuid)
+        Assumes no data has previously been parsed
 
-    program.authoring_organizations.clear()
-    for org_data in data["authoring_organizations"]:
-        org = parse_organization(site, org_data, synchronizer)
-        program.authoring_organizations.add(org)
+            Arguments:
+                data (dict): The organization data pulled from the API
 
-    program.course_runs.clear()
-    for course_data in data["courses"]:
-        _, course_runs = parse_course(site, course_data, synchronizer)
-        program.course_runs.add(*course_runs)
+            Returns:
+                Organization: The organization that was created
+        """
+        org, _ = Organization.objects.update_or_create(
+            site=self.site,
+            uuid=data["uuid"],
+            defaults={
+                "key": data["key"],
+                "name": data["name"],
+                "certificate_logo_image_url": data["certificate_logo_image_url"],
+            },
+        )
+        self.add_item(self.ORGANIZATION, str(org.uuid))
 
-    return program
+        return org
 
+    @transaction.atomic
+    def _parse_program(self, data):
+        """
+        Creates or updates a program. Does not trigger any further parsing but does link existing organizations and
+        course runs based on the program data.
 
-@transaction.atomic
-def parse_course(site, data, synchronizer=None):
-    course, _ = Course.objects.update_or_create(
-        site=site,
-        uuid=data["uuid"],
-        defaults={
-            "key": data["key"],
-            "title": data["title"],
-        },
-    )
+        Assumes the associated organizations and course runs have already been created
 
-    if synchronizer:
-        synchronizer.add_item(synchronizer.COURSE, course.uuid)
+        Arguments:
+            data (dict): The program data pulled from the API
 
-    course.owners.clear()
-    for org_data in data["owners"]:
-        org = parse_organization(site, org_data, synchronizer)
-        course.owners.add(org)
+        Returns:
+            Program: The program that was created
+        """
+        program, _ = Program.objects.update_or_create(
+            site=self.site,
+            uuid=data["uuid"],
+            defaults={
+                "title": data["title"],
+                "type": data["type"],
+                "status": data["status"],
+                "type_slug": data["type_attrs"]["slug"],
+                "total_hours_of_effort": data["total_hours_of_effort"],
+            },
+        )
+        self.add_item(self.PROGRAM, str(program.uuid))
 
-    course_runs = []
-    for run_data in data["course_runs"]:
-        course_run = parse_course_run(course, run_data, synchronizer)
-        course.course_runs.add(course_run)
-        course_runs.append(course_run)
+        program.authoring_organizations.clear()
+        for org_data in data["authoring_organizations"]:
+            org = Organization.objects.get(site=self.site, uuid=org_data["uuid"])
+            program.authoring_organizations.add(org)
 
-    # We count course_runs separately, since some programs may not have all runs that a course does
-    return course, course_runs
+        program.course_runs.clear()
+        for course_data in data["courses"]:
+            for course_run_data in course_data["course_runs"]:
+                course_run = CourseRun.objects.get(course__uuid=course_data["uuid"], uuid=course_run_data["uuid"])
+                program.course_runs.add(course_run)
 
+        return program
 
-def parse_course_run(course, data, synchronizer=None):
-    course_run, _ = CourseRun.objects.update_or_create(
-        course=course,
-        uuid=data["uuid"],
-        defaults={
-            "key": data["key"],
-            "title_override": data["title"] if data["title"] != course.title else None,
-            # We are migrating all 'start' and 'end' model fields to include
-            # the _date suffix.  During this transition, support both variants
-            # provided by the Discovery service. DE-1708.
-            # TODO: After updating the Discovery service to send 'start_date'
-            # and 'end_date', simplify this logic.
-            "start_date": data["start_date"] if "start_date" in data else data["start"],
-            "end_date": data["end_date"] if "end_date" in data else data["end"],
-        },
-    )
-    if synchronizer:
-        synchronizer.add_item(synchronizer.COURSE_RUN, course_run.uuid)
-    return course_run
+    @transaction.atomic
+    def _parse_course(self, data):
+        """
+        Creates or updates a course and triggers parsing of the course runs
 
+        Assumes the related organizations have already been created
 
-def parse_organization(site, data, synchronizer=None):
-    org, _ = Organization.objects.update_or_create(
-        site=site,
-        uuid=data["uuid"],
-        defaults={
-            "key": data["key"],
-            "name": data["name"],
-            "certificate_logo_image_url": data["certificate_logo_image_url"],
-        },
-    )
-    if synchronizer:
-        synchronizer.add_item(synchronizer.ORGANIZATION, org.uuid)
-    return org
+        Arguments:
+            data (dict): The course data pulled from the API
 
+        Returns:
+            tuple(Course, list(CourseRun)): The Course that was created and a list of all child CourseRuns created
+        """
+        course, _ = Course.objects.update_or_create(
+            site=self.site,
+            uuid=data["uuid"],
+            defaults={
+                "key": data["key"],
+                "title": data["title"],
+            },
+        )
 
-@transaction.atomic
-def parse_pathway(site, data, synchronizer=None):
-    """
-    Assumes that the associated programs were parsed before this is run.
-    """
-    pathway, _ = Pathway.objects.update_or_create(
-        uuid=data["uuid"],
-        site=site,
-        defaults={
-            "name": data["name"],
-            "email": data["email"],
-            "org_name": data["org_name"],
-            "pathway_type": data["pathway_type"],
-        },
-    )
+        self.add_item(self.COURSE, str(course.uuid))
 
-    if synchronizer:
-        synchronizer.add_item(synchronizer.PATHWAY, pathway.uuid)
+        course.owners.clear()
+        for org_data in data["owners"]:
+            org = Organization.objects.get(site=self.site, uuid=org_data["uuid"])
+            course.owners.add(org)
 
-    pathway.programs.clear()
-    for program_data in data["programs"]:
-        program = Program.objects.get(site=site, uuid=program_data["uuid"])
-        pathway.programs.add(program)
+        course_runs = []
+        for run_data in data["course_runs"]:
+            course_run = self._parse_course_run(course, run_data)
+            course.course_runs.add(course_run)
+            course_runs.append(course_run)
 
-    return pathway
+        # We count course_runs separately, since some programs may not have all runs that a course does
+        return course, course_runs
+
+    def _parse_course_run(self, course, data):
+        """
+        Creates or updates a course run and links it to the course.
+
+        Assumes that the associated programs were created before this is run.
+
+        Arguments:
+            course (Course): The course the course run should be linked to
+            data (dict): The course run data pulled from the API
+
+        Returns:
+            CourseRun: The CourseRun that was created
+        """
+        course_run, _ = CourseRun.objects.update_or_create(
+            course=course,
+            uuid=data["uuid"],
+            defaults={
+                "key": data["key"],
+                "title_override": data["title"] if data["title"] != course.title else None,
+                # We are migrating all 'start' and 'end' model fields to include
+                # the _date suffix.  During this transition, support both variants
+                # provided by the Discovery service. DE-1708.
+                # TODO: After updating the Discovery service to send 'start_date'
+                # and 'end_date', simplify this logic.
+                "start_date": data["start_date"] if "start_date" in data else data["start"],
+                "end_date": data["end_date"] if "end_date" in data else data["end"],
+            },
+        )
+        self.add_item(self.COURSE_RUN, str(course_run.uuid))
+        return course_run
+
+    @transaction.atomic
+    def _parse_pathway(self, data):
+        """
+        Creates or updates a pathway and links it to connected programs
+
+        Assumes that the associated programs were parsed before this is run.
+
+        Arguments:
+            data (dict): The pathway data pulled from the API
+
+        Returns:
+            Pathway: The Pathway that was created
+        """
+        pathway, _ = Pathway.objects.update_or_create(
+            uuid=data["uuid"],
+            site=self.site,
+            defaults={
+                "name": data["name"],
+                "email": data["email"],
+                "org_name": data["org_name"],
+                "pathway_type": data["pathway_type"],
+            },
+        )
+
+        self.add_item(self.PATHWAY, str(pathway.uuid))
+
+        pathway.programs.clear()
+        for program_data in data["programs"]:
+            program = Program.objects.get(site=self.site, uuid=program_data["uuid"])
+            pathway.programs.add(program)
+
+        return pathway
