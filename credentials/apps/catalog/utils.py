@@ -95,7 +95,7 @@ class CatalogDataSynchronizer:
         # fetch organizations
         self.fetch_resource(self.ORGANIZATION, self._parse_organization)
         # fetch courses_and_course_runs
-        self.fetch_resource(self.COURSE, self._parse_course)
+        self.fetch_resource(self.COURSE, self._parse_course, extra_request_params={"include_hidden_course_runs": 1})
         # fetch programs
         self.fetch_resource(self.PROGRAM, self._parse_program)
         # fetch pathways
@@ -119,7 +119,7 @@ class CatalogDataSynchronizer:
                 logger.info(f"Removing the following {model_type} UUIDs: {removed}")
                 self.existing_data[model_type].filter(uuid__in=removed).delete()
 
-    def fetch_resource(self, resource_name, parse_method):
+    def fetch_resource(self, resource_name, parse_method, extra_request_params=None):
         """
         Generic method to page through the API response and parse each item returned
 
@@ -131,11 +131,15 @@ class CatalogDataSynchronizer:
             None
         """
 
+        if extra_request_params is None:
+            extra_request_params = {}
+
         resource_url = urljoin(self.catalog_api_url, f"{resource_name}/")
         next_page = 1
         while next_page:
             response = self.api_client.get(
-                resource_url, params={"exclude_utm": 1, "page": next_page, "page_size": self.page_size}
+                resource_url,
+                params=dict({"exclude_utm": 1, "page": next_page, "page_size": self.page_size}, **extra_request_params),
             )
             response.raise_for_status()
             data = response.json()

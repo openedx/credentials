@@ -98,7 +98,9 @@ class SynchronizerTests(TestCase):
         # Indexes into API_RESPONSES
         self.api_call_count = 0
 
-    def _mock_fetch_resource(self, resource_name, parse_method):
+    def _mock_fetch_resource(
+        self, resource_name, parse_method, extra_request_params=None
+    ):  # pylint: disable=unused-argument
         data = self.API_RESPONSES[self.api_call_count].get(resource_name)
         if data:
             parse_method(data)
