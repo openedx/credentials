@@ -26,7 +26,7 @@ class UserGrade(TimeStampedModel):
     """
 
     username = models.CharField(max_length=150, blank=False)
-    course_run = models.ForeignKey(CourseRun, on_delete=models.CASCADE)
+    course_run = models.ForeignKey(CourseRun, on_delete=models.PROTECT)
     letter_grade = models.CharField(max_length=255, blank=True)
     percent_grade = models.DecimalField(max_digits=5, decimal_places=4, null=False)
     verified = models.BooleanField(verbose_name="Verified Learner ID", default=True)
@@ -49,7 +49,7 @@ class ProgramCertRecord(TimeStampedModel):
         help_text="Note: certificate is deprecated, and is kept around because it is used in an old data migration.",
         on_delete=models.CASCADE,
     )
-    program = models.ForeignKey(Program, on_delete=models.CASCADE)
+    program = models.ForeignKey(Program, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
@@ -76,7 +76,7 @@ class UserCreditPathway(TimeStampedModel):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    pathway = models.ForeignKey(Pathway, on_delete=models.CASCADE)
+    pathway = models.ForeignKey(Pathway, on_delete=models.PROTECT)
     status = models.CharField(
         max_length=15,
         choices=STATUS_CHOICES,
