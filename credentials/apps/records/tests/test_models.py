@@ -1,11 +1,35 @@
 """ Tests for records models """
-
 from django.core.exceptions import ValidationError
+from django.db.models.deletion import ProtectedError
 from django.test import TestCase
 
-from credentials.apps.catalog.tests.factories import PathwayFactory
-from credentials.apps.records.tests.factories import UserCreditPathwayFactory
+from credentials.apps.catalog.tests.factories import CourseRunFactory, PathwayFactory, ProgramFactory
+from credentials.apps.records.tests.factories import (
+    ProgramCertRecordFactory,
+    UserCreditPathwayFactory,
+    UserGradeFactory,
+)
 from credentials.shared.constants import PathwayType
+
+
+class UserGradeTests(TestCase):
+    """ Tests for UserGrade model """
+
+    def test_protected_deletion(self):
+        course_run = CourseRunFactory()
+        UserGradeFactory(course_run=course_run)
+        with self.assertRaises(ProtectedError):
+            course_run.delete()
+
+
+class ProgramCertRecordTests(TestCase):
+    """ Tests for ProgramCertRecord model """
+
+    def test_protected_deletion(self):
+        program = ProgramFactory()
+        ProgramCertRecordFactory(program=program)
+        with self.assertRaises(ProtectedError):
+            program.delete()
 
 
 class UserCreditPathwayTests(TestCase):
@@ -23,3 +47,9 @@ class UserCreditPathwayTests(TestCase):
             else:
                 with self.assertRaises(ValidationError):
                     UserCreditPathwayFactory(pathway=pathway)
+
+    def test_protected_deletion(self):
+        pathway = PathwayFactory()
+        UserCreditPathwayFactory(pathway=pathway)
+        with self.assertRaises(ProtectedError):
+            pathway.delete()
