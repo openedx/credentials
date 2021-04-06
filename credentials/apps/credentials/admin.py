@@ -25,7 +25,7 @@ class UserCredentialAttributeInline(admin.TabularInline):
 
 @admin.register(UserCredential)
 class UserCredentialAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
-    list_display = ("username", "certificate_uuid", "status", "credential_content_type")
+    list_display = ("username", "certificate_uuid", "status", "credential_content_type", "title")
     list_filter = ("status", "credential_content_type")
     readonly_fields = TimeStampedModelAdminMixin.readonly_fields + ("uuid",)
     search_fields = ("username",)
@@ -34,6 +34,25 @@ class UserCredentialAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
     def certificate_uuid(self, obj):
         """Certificate UUID value displayed on admin panel."""
         return obj.uuid.hex
+
+    def title(self, obj):
+        """Retrieves the title of either the course or program that the certificate was awarded for"""
+        if obj.credential_content_type.model_class() == ProgramCertificate:
+            program = obj.credential.program
+            if program:
+                return program.title
+            return ""
+        # TODO: return Course title once courses are linked to model
+        return ""
+
+    def get_search_results(self, request, queryset, search_term):
+        queryset, use_distinct = super().get_search_results(request, queryset, search_term)
+        # TODO: add course queryset like program below to match course titles
+        matching_program_title_qs = UserCredential.objects.all().filter(
+            program_credentials__program__title__icontains=search_term
+        )
+        queryset |= matching_program_title_qs
+        return queryset, use_distinct
 
 
 @admin.register(CourseCertificate)
@@ -51,7 +70,8 @@ class ProgramCertificateAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
         "is_active",
         "site",
     )
-    search_fields = ("program_uuid",)
+    autocomplete_fields = ("program",)
+    search_fields = ("program_uuid", "program__title")
 
     def get_search_results(self, request, queryset, search_term):
 
