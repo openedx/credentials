@@ -266,10 +266,6 @@ class ProgramCertificate(AbstractCertificate):
         verbose_name = "Program certificate configuration"
         unique_together = (("site", "program_uuid"),)
 
-    def get_program_api_data(self):
-        """ Returns program data from the Catalog API. """
-        return self.site.siteconfiguration.get_program(self.program_uuid)  # pylint: disable=no-member
-
     @cached_property
     def program_details(self):
         """ Returns details about the program associated with this certificate. """
