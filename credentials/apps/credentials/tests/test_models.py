@@ -13,7 +13,6 @@ from django.test import TestCase
 from opaque_keys.edx.locator import CourseLocator
 
 from credentials.apps.catalog.data import OrganizationDetails, ProgramDetails
-from credentials.apps.core.models import SiteConfiguration
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.exceptions import NoMatchingProgramException
@@ -167,15 +166,6 @@ class ProgramCertificateTests(SiteMixin, TestCase):
         with self.assertRaises(NoMatchingProgramException):
             # attempt to access the program_details property
             program_certificate.program_details  # pylint: disable=pointless-statement
-
-    def test_get_program_api_data(self):
-        """ Verify the method returns data from the Catalog API. """
-        program_certificate = ProgramCertificateFactory(site=self.site)
-        expected = {"uuid": program_certificate.program_uuid.hex}
-
-        with mock.patch.object(SiteConfiguration, "get_program", return_value=expected) as mock_method:
-            self.assertEqual(program_certificate.get_program_api_data(), expected)
-            mock_method.assert_called_with(program_certificate.program_uuid)
 
 
 class UserCredentialTests(TestCase):

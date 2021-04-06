@@ -148,34 +148,6 @@ class SiteConfiguration(models.Model):
             settings.BACKEND_SERVICE_EDX_OAUTH2_SECRET,
         )
 
-    def get_program(self, program_uuid, ignore_cache=False):
-        """
-        Retrieves the details for the specified program.
-
-         Args:
-             program_uuid (UUID): Program identifier
-             ignore_cache (bool): Indicates if previously-cached data should be ignored.
-
-         Returns:
-             dict
-        """
-        program_uuid = str(program_uuid)
-        cache_key = f"programs.api.data.{program_uuid}"
-
-        if not ignore_cache:
-            program = cache.get(cache_key)
-
-            if program:
-                return program
-
-        program_url = urljoin(self.catalog_api_url, f"programs/{program_uuid}/")
-        response = self.api_client.get(program_url)
-        response.raise_for_status()
-        program = response.json()
-        cache.set(cache_key, program, settings.PROGRAMS_CACHE_TTL)
-
-        return program
-
     def get_user_api_data(self, username):
         """Retrieve details for the specified user from the User API.
 

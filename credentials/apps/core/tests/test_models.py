@@ -1,6 +1,5 @@
 """ Tests for core models. """
 import json
-import uuid
 from unittest import mock
 
 import responses
@@ -43,43 +42,6 @@ class SiteConfigurationTests(SiteMixin, TestCase):
         site = SiteFactory(domain="test.org", name="test")
         site_configuration = SiteConfigurationFactory(site=site)
         self.assertEqual(str(site_configuration), site.name)
-
-    @responses.activate
-    def test_get_program(self):
-        """ Verify the method retrieves program data from the Catalog API. """
-        program_uuid = uuid.uuid4()
-        program_endpoint = f"programs/{program_uuid}/"
-        body = {
-            "uuid": program_uuid.hex,
-            "title": "A Fake Program",
-            "type": "fake",
-            "authoring_organizations": [
-                {
-                    "uuid": uuid.uuid4().hex,
-                    "key": "FakeX",
-                    "name": "Fake University",
-                    "logo_image_url": "https://static.fake.edu/logo.png",
-                }
-            ],
-            "courses": [],
-        }
-
-        self.mock_access_token_response()
-        self.mock_catalog_api_response(program_endpoint, body)
-        self.assertEqual(self.site_configuration.get_program(program_uuid), body)
-        self.assertEqual(len(responses.calls), 2)
-
-        # Verify the data is cached
-        responses.reset()
-        self.assertEqual(self.site_configuration.get_program(program_uuid), body)
-        self.assertEqual(self.site_configuration.get_program(program_uuid), body)
-        self.assertEqual(len(responses.calls), 0)
-
-        # Verify the cache can be bypassed
-        self.mock_access_token_response()
-        self.mock_catalog_api_response(program_endpoint, body)
-        self.assertEqual(self.site_configuration.get_program(program_uuid, ignore_cache=True), body)
-        self.assertEqual(len(responses.calls), 1)
 
     def test_clear_site_cache_on_db_write(self):
         """Verify the site cache is cleared whenever a SiteConfiguration instance is

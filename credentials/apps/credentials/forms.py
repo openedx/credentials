@@ -7,6 +7,7 @@ from django import forms
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
+from credentials.apps.catalog.api import get_program_details_by_uuid
 from credentials.apps.credentials.models import ProgramCertificate, Signatory
 
 
@@ -36,11 +37,11 @@ class ProgramCertificateAdminForm(forms.ModelForm):
 
         site = cleaned_data["site"]
         program_uuid = cleaned_data["program_uuid"]
-        program = site.siteconfiguration.get_program(program_uuid, ignore_cache=True)
+        program = get_program_details_by_uuid(program_uuid, site)
 
         # Ensure the program's authoring organizations all have certificate logos
-        for organization in program.get("authoring_organizations", []):
-            if not organization.get("certificate_logo_image_url"):
+        for organization in program.organizations:
+            if not organization.certificate_logo_image_url:
                 self.add_error(
                     "program_uuid",
                     _("All authoring organizations of the program MUST have a certificate image defined!"),
