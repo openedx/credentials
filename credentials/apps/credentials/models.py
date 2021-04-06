@@ -20,7 +20,6 @@ from opaque_keys.edx.keys import CourseKey
 from simple_history.models import HistoricalRecords
 
 from credentials.apps.catalog.api import get_program_details_by_uuid
-from credentials.apps.catalog.models import Program
 from credentials.apps.core.utils import _choices
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.exceptions import NoMatchingProgramException
@@ -232,9 +231,6 @@ class ProgramCertificate(AbstractCertificate):
     """
 
     program_uuid = models.UUIDField(db_index=True, null=False, blank=False, verbose_name=_("Program UUID"))
-    # PROTECT prevents the Program from being delete if it's being used for a program cert. This allows copy_catalog
-    # to be safer when deleting
-    program = models.OneToOneField(Program, null=True, on_delete=models.PROTECT)
     user_credentials = GenericRelation(
         UserCredential,
         content_type_field="credential_content_type",
