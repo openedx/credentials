@@ -20,7 +20,7 @@ from opaque_keys.edx.keys import CourseKey
 from simple_history.models import HistoricalRecords
 
 from credentials.apps.catalog.api import get_program_details_by_uuid
-from credentials.apps.catalog.models import Program
+from credentials.apps.catalog.models import CourseRun, Program
 from credentials.apps.core.utils import _choices
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.exceptions import NoMatchingProgramException
@@ -199,6 +199,7 @@ class CourseCertificate(AbstractCertificate):
     """
 
     course_id = models.CharField(max_length=255, validators=[validate_course_key])
+    course_run = models.OneToOneField(CourseRun, null=True, on_delete=models.PROTECT)
     certificate_type = models.CharField(
         max_length=255,
         choices=_choices(
