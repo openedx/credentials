@@ -162,20 +162,19 @@ class CatalogDataSynchronizer:
         Returns:
             None
         """
-        response_text = ["The copy_catalog command caused the following changes:\n"]
+        data_diffs = {}
+        logger.info("The CatalogDataSynchronizer caused the following changes:")
         for model_type in self.existing_data:
             added = [str(_uuid) for _uuid in self.updated_data_sets[model_type] - self.existing_data_sets[model_type]]
             to_be_removed = [
                 str(_uuid) for _uuid in self.existing_data_sets[model_type] - self.updated_data_sets[model_type]
             ]
             if added:
-                response_text.append(f"{model_type} UUIDs added: {added}\n")
+                logger.info(f"{model_type} UUIDs added: {added}")
             if to_be_removed:
-                response_text.append(f"{model_type} UUIDs to be removed: {to_be_removed}\n")
-        # We have to log them one at a time because we can run into "Message too long" errors
-        for line in response_text:
-            logger.info(line)
-        return response_text
+                logger.info(f"{model_type} UUIDs to be removed: {to_be_removed}")
+            data_diffs[model_type] = {"added": added, "removed": to_be_removed}
+        return data_diffs
 
     @transaction.atomic
     def _parse_organization(self, data):

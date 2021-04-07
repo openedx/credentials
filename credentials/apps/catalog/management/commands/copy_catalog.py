@@ -1,6 +1,7 @@
 """ Copy catalog data from Discovery. """
 
 import logging
+import sys
 
 from django.contrib.sites.models import Site
 from django.core.management import BaseCommand
@@ -54,9 +55,25 @@ class Command(BaseCommand):
                 catalog_api_url=site_config.catalog_api_url,
                 page_size=page_size,
             )
-            log_results = synchronizer.fetch_data()
-            # We have to log them one at a time because we can run into "Message too long" errors
-            for line in log_results:
-                self.stdout.write(line)
+            result_data = synchronizer.fetch_data()
+
+            self.stdout.write("The copy_catalog command caused the following changes:")
+            for model, model_changes in result_data.items():
+                if model_changes["added"]:
+                    self.stdout.write(f"{model} UUIDs added: {model_changes['added']}")
+                if model_changes["removed"]:
+                    self.stdout.write(f"{model} UUIDs to be removed: {model_changes['removed']}")
+
             if delete_data:
+                self.stdout.write("Deleting obsolete data")
                 synchronizer.remove_obsolete_data()
+                self.stdout.write("Obsolete data deleted")
+            else:
+                # If we're not deleting and there is data to be deleted, fail so we can notice, review the deletions,
+                # and run again with --delete
+                if any((value["removed"] for value in result_data.values())):
+                    self.stdout.write(
+                        "FAILURE: There is data that needs to be deleted. Please review UUIDs above and re-run with"
+                        + " --delete parameter"
+                    )
+                    sys.exit(1)
