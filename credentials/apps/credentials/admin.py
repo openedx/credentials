@@ -63,6 +63,7 @@ class UserCredentialAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
 class CourseCertificateAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
     list_display = ("course_id", "certificate_type", "site", "is_active")
     list_filter = ("certificate_type", "is_active")
+    autocomplete_fields = ("course_run",)
     search_fields = ("course_id",)
 
 

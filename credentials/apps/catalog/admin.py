@@ -15,7 +15,7 @@ class CourseAdmin(admin.ModelAdmin):
 class CourseRunAdmin(admin.ModelAdmin):
     list_display = ("id", "key", "uuid", "title_override", "start_date", "end_date")
     readonly_fields = ("uuid",)
-    search_fields = ("id", "key", "title_override", "uuid")
+    search_fields = ("id", "key", "title_override", "uuid", "course__title")
 
 
 @admin.register(Program)
