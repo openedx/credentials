@@ -41,17 +41,25 @@ class UserCredentialAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
             program = obj.credential.program
             if program:
                 return program.title
-            return ""
-        # TODO: return Course title once courses are linked to model
+        elif obj.credential_content_type.model_class() == CourseCertificate:
+            course_run = obj.credential.course_run
+            if course_run:
+                return course_run.title
         return ""
 
     def get_search_results(self, request, queryset, search_term):
         queryset, use_distinct = super().get_search_results(request, queryset, search_term)
         # TODO: add course queryset like program below to match course titles
-        matching_program_title_qs = UserCredential.objects.all().filter(
+        matching_program_title_qs = UserCredential.objects.filter(
             program_credentials__program__title__icontains=search_term
         )
-        queryset |= matching_program_title_qs
+        matching_course_run_title_qs = UserCredential.objects.filter(
+            course_credentials__course_run__title_override__icontains=search_term
+        )
+        matching_course_title_qs = UserCredential.objects.filter(
+            course_credentials__course_run__course__title__icontains=search_term
+        )
+        queryset = queryset | matching_program_title_qs | matching_course_run_title_qs | matching_course_title_qs
         return queryset, use_distinct
 
 
