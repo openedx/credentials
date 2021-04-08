@@ -70,7 +70,7 @@ class CourseCertificateAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
 @admin.register(ProgramCertificate)
 class ProgramCertificateAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
     form = ProgramCertificateAdminForm
-    list_display = ("program_uuid", "site", "is_active")
+    list_display = ("program_uuid", "site", "is_active", "program")
     list_filter = (
         "is_active",
         "site",
