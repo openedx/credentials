@@ -37,7 +37,7 @@ django-crum==0.7.9
     # via edx-django-utils
 django-debug-toolbar==3.2
     # via -r requirements/base.in
-django-extensions==3.1.1
+django-extensions==3.1.2
     # via -r requirements/base.in
 django-filter==2.4.0
     # via -r requirements/base.in
@@ -62,13 +62,14 @@ django-waffle==2.1.0
     #   edx-drf-extensions
 django-webpack-loader==0.7.0
     # via -r requirements/base.in
-django==2.2.19
+django==2.2.20
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.in
     #   django-appconf
     #   django-crum
     #   django-debug-toolbar
+    #   django-extensions
     #   django-filter
     #   django-hijack
     #   django-statici18n
@@ -106,7 +107,7 @@ edx-django-release-util==1.0.0
     # via -r requirements/base.in
 edx-django-sites-extensions==3.0.0
     # via -r requirements/base.in
-edx-django-utils==3.15.0
+edx-django-utils==3.16.0
     # via
     #   -r requirements/base.in
     #   edx-drf-extensions
@@ -159,7 +160,7 @@ path==15.1.2
     # via path.py
 pbr==5.5.1
     # via stevedore
-pillow==8.1.2
+pillow==8.2.0
     # via -r requirements/base.in
 polib==1.1.1
     # via edx-i18n-tools
