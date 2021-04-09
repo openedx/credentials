@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Q
 
 from credentials.apps.credentials.forms import ProgramCertificateAdminForm, SignatoryModelForm
 from credentials.apps.credentials.models import (
@@ -41,17 +42,20 @@ class UserCredentialAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
             program = obj.credential.program
             if program:
                 return program.title
-            return ""
-        # TODO: return Course title once courses are linked to model
+        elif obj.credential_content_type.model_class() == CourseCertificate:
+            course_run = obj.credential.course_run
+            if course_run:
+                return course_run.title
         return ""
 
     def get_search_results(self, request, queryset, search_term):
         queryset, use_distinct = super().get_search_results(request, queryset, search_term)
-        # TODO: add course queryset like program below to match course titles
-        matching_program_title_qs = UserCredential.objects.all().filter(
-            program_credentials__program__title__icontains=search_term
+        matching_titles_qs = UserCredential.objects.filter(
+            Q(program_credentials__program__title__icontains=search_term)
+            | Q(course_credentials__course_run__title_override__icontains=search_term)
+            | Q(course_credentials__course_run__course__title__icontains=search_term)
         )
-        queryset |= matching_program_title_qs
+        queryset |= matching_titles_qs
         return queryset, use_distinct
 
 
@@ -59,13 +63,14 @@ class UserCredentialAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
 class CourseCertificateAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
     list_display = ("course_id", "certificate_type", "site", "is_active")
     list_filter = ("certificate_type", "is_active")
+    autocomplete_fields = ("course_run",)
     search_fields = ("course_id",)
 
 
 @admin.register(ProgramCertificate)
 class ProgramCertificateAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
     form = ProgramCertificateAdminForm
-    list_display = ("program_uuid", "site", "is_active")
+    list_display = ("program_uuid", "site", "is_active", "program")
     list_filter = (
         "is_active",
         "site",

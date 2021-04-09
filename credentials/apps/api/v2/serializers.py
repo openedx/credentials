@@ -46,9 +46,20 @@ class CredentialField(serializers.Field):
                 except ObjectDoesNotExist:
                     cert = None
             else:
+                try:
+                    course_run = CourseRun.objects.get(key=course_run_key)
+                except ObjectDoesNotExist:
+                    logger.exception(
+                        "Course run certificate failed to create "
+                        f"because the course run [{course_run_key}] doesn't exist in the catalog"
+                    )
+                    # TODO: course_run is still nullable while we validate the data. Re raise the exception once the
+                    # field is no longer nullable
+                    course_run = None
                 # Create course cert on the fly, but don't upgrade it to active if it's manually been turned off
                 cert, _ = CourseCertificate.objects.get_or_create(
                     course_id=course_run_key,
+                    course_run=course_run,
                     site=site,
                     defaults={
                         "is_active": True,

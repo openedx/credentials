@@ -13,6 +13,7 @@ from django.test import TestCase
 from opaque_keys.edx.locator import CourseLocator
 
 from credentials.apps.catalog.data import OrganizationDetails, ProgramDetails
+from credentials.apps.catalog.tests.factories import CourseRunFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.exceptions import NoMatchingProgramException
@@ -88,12 +89,15 @@ class CourseCertificateTests(SiteMixin, TestCase):
 
     def test_invalid_course_key(self):
         """Test Validation Error occurs for invalid course key."""
+        course_run = CourseRunFactory()
+
         with self.assertRaises(ValidationError) as context:
             CourseCertificate(
                 site=self.site,
                 is_active=True,
                 course_id="test_invalid",
                 certificate_type=constants.CertificateType.HONOR,
+                course_run=course_run,
             ).full_clean()
 
         self.assertEqual(context.exception.message_dict, {"course_id": ["Invalid course key."]})

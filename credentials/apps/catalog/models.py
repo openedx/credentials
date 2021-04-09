@@ -116,7 +116,7 @@ class Program(TimeStampedModel):
         unique_together = (("site", "uuid"),)
 
     def __str__(self):
-        return self.title
+        return f"{self.title} ({self.uuid.hex})"
 
 
 class Pathway(TimeStampedModel):

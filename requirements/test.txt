@@ -176,7 +176,7 @@ edx-opaque-keys==2.2.0
     #   edx-drf-extensions
 edx-rest-api-client==5.3.0
     # via -r requirements/base.txt
-git+https://github.com/edx/credentials-themes.git@0.1.59#egg=edx_credentials_themes==0.1.59
+git+https://github.com/edx/credentials-themes.git@0.1.60#egg=edx_credentials_themes==0.1.60
     # via -r requirements/base.txt
 factory-boy==3.2.0
     # via -r requirements/test.in
@@ -309,7 +309,7 @@ pyjwt[crypto]==1.7.1
     #   social-auth-core
 pylint-celery==0.3
     # via edx-lint
-pylint-django==2.4.2
+pylint-django==2.4.3
     # via edx-lint
 pylint-plugin-utils==0.6
     # via
