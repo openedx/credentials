@@ -32,6 +32,9 @@ class UserCredentialAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
     search_fields = ("username",)
     inlines = (UserCredentialAttributeInline,)
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related("credential")
+
     def certificate_uuid(self, obj):
         """Certificate UUID value displayed on admin panel."""
         return obj.uuid.hex
