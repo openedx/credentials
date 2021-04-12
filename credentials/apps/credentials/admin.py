@@ -53,11 +53,18 @@ class UserCredentialAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
 
     def get_search_results(self, request, queryset, search_term):
         queryset, use_distinct = super().get_search_results(request, queryset, search_term)
-        matching_titles_qs = UserCredential.objects.filter(
-            Q(program_credentials__program__title__icontains=search_term)
-            | Q(course_credentials__course_run__title_override__icontains=search_term)
-            | Q(course_credentials__course_run__course__title__icontains=search_term)
+
+        matching_program_certs = ProgramCertificate.objects.filter(program__title__icontains=search_term).values_list(
+            "id", flat=True
         )
+        matching_course_run_certs = CourseCertificate.objects.filter(
+            Q(course_run__title_override__icontains=search_term) | Q(course_run__course__title__icontains=search_term)
+        ).values_list("id", flat=True)
+
+        matching_titles_qs = UserCredential.objects.filter(
+            Q(program_credentials__in=matching_program_certs) | Q(course_credentials__in=matching_course_run_certs)
+        )
+
         queryset |= matching_titles_qs
         return queryset, use_distinct
 
