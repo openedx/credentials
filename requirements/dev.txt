@@ -11,7 +11,7 @@ appdirs==1.4.4
     #   -r requirements/test.txt
     #   black
     #   virtualenv
-astroid==2.5.2
+astroid==2.5.3
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -97,7 +97,7 @@ django-crum==0.7.9
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
-django-debug-toolbar==3.2
+django-debug-toolbar==3.2.1
     # via -r requirements/test.txt
 django-extensions==3.1.2
     # via -r requirements/test.txt
@@ -157,7 +157,7 @@ djangorestframework==3.12.4
     #   drf-jwt
     #   edx-drf-extensions
     #   rest-condition
-docker-compose==1.29.0
+docker-compose==1.29.1
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/dev.in
@@ -207,7 +207,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.60#egg=edx_credentials_the
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==8.0.0
+faker==8.1.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -387,7 +387,7 @@ pyparsing==2.4.7
     #   packaging
 pyrsistent==0.17.3
     # via jsonschema
-pytest-django==4.1.0
+pytest-django==4.2.0
     # via -r requirements/test.txt
 pytest==6.2.3
     # via
@@ -554,7 +554,7 @@ transifex-client==0.14.2
     #   -r requirements/dev.in
     #   -r requirements/test.txt
     #   edx-credentials-themes
-typed-ast==1.4.2
+typed-ast==1.4.3
     # via
     #   -r requirements/test.txt
     #   black
