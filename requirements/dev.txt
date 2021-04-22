@@ -99,7 +99,7 @@ django-crum==0.7.9
     #   edx-django-utils
 django-debug-toolbar==3.2.1
     # via -r requirements/test.txt
-django-extensions==3.1.2
+django-extensions==3.1.3
     # via -r requirements/test.txt
 django-filter==2.4.0
     # via -r requirements/test.txt
@@ -109,7 +109,7 @@ django-ratelimit==3.0.1
     # via -r requirements/test.txt
 django-rest-swagger==2.2.0
     # via -r requirements/test.txt
-django-simple-history==2.12.0
+django-simple-history==3.0.0
     # via -r requirements/test.txt
 django-sortedm2m==3.0.2
     # via -r requirements/test.txt
@@ -480,7 +480,6 @@ six==1.15.0
     #   bcrypt
     #   bleach
     #   bok-choy
-    #   django-simple-history
     #   dockerpty
     #   edx-ace
     #   edx-auth-backends
@@ -514,7 +513,6 @@ social-auth-app-django==4.0.0
     #   edx-auth-backends
 social-auth-core==4.0.2
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   edx-auth-backends
