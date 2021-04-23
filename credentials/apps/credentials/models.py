@@ -203,7 +203,8 @@ class CourseCertificate(AbstractCertificate):
     certificate_available_date = models.DateTimeField(
         null=True,
         blank=True,
-        help_text="The certificate available date and time that is set in Studio and copied to Credentials. This should be edited in Studio.",
+        help_text=_("The certificate available date and time that is set in Studio and copied to Credentials. "
+                    "This should be edited in Studio."),
     )
     certificate_type = models.CharField(
         max_length=255,
