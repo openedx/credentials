@@ -172,7 +172,7 @@ pygments==2.8.1
     # via -r requirements/base.in
 pyjwkest==1.4.2
     # via edx-drf-extensions
-pyjwt[crypto]==1.7.1
+pyjwt[crypto]==2.0.1
     # via
     #   drf-jwt
     #   edx-auth-backends
@@ -239,7 +239,6 @@ six==1.15.0
     #   python-dateutil
     #   python-memcached
     #   social-auth-app-django
-    #   social-auth-core
     #   transifex-client
 slumber==0.7.1
     # via edx-rest-api-client
@@ -249,9 +248,8 @@ social-auth-app-django==4.0.0
     # via
     #   -r requirements/base.in
     #   edx-auth-backends
-social-auth-core==4.0.2
+social-auth-core==4.1.0
     # via
-    #   -c requirements/constraints.txt
     #   edx-auth-backends
     #   social-auth-app-django
 sqlparse==0.4.1

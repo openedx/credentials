@@ -158,9 +158,7 @@ djangorestframework==3.12.4
     #   edx-drf-extensions
     #   rest-condition
 docker-compose==1.29.1
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/dev.in
+    # via -r requirements/dev.in
 docker[ssh]==5.0.0
     # via docker-compose
 dockerpty==0.4.1
@@ -346,7 +344,7 @@ pyjwkest==1.4.2
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-pyjwt[crypto]==1.7.1
+pyjwt[crypto]==2.0.1
     # via
     #   -r requirements/test.txt
     #   drf-jwt
@@ -492,7 +490,6 @@ six==1.15.0
     #   python-memcached
     #   responses
     #   social-auth-app-django
-    #   social-auth-core
     #   tox
     #   transifex-client
     #   virtualenv
@@ -509,9 +506,8 @@ social-auth-app-django==4.0.0
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
-social-auth-core==4.0.2
+social-auth-core==4.1.0
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   edx-auth-backends
     #   social-auth-app-django
