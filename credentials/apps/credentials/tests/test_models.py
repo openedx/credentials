@@ -97,7 +97,6 @@ class CourseCertificateTests(SiteMixin, TestCase):
                 is_active=True,
                 course_id="test_invalid",
                 certificate_type=constants.CertificateType.HONOR,
-                certificate_available_date=None,
                 course_run=course_run,
             ).full_clean()
 
