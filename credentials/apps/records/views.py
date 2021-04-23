@@ -538,7 +538,7 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
             )
             super(ProgramRecordCsvView.SegmentHttpResponse, self).close()
 
-    def get(self, request, *args, **kwargs):  # pylint: disable=unused-argument
+    def get(self, request, *args, **kwargs):
         site_configuration = request.site.siteconfiguration
         segment_client = SegmentClient(write_key=site_configuration.segment_key)
 

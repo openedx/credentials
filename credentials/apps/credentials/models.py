@@ -200,6 +200,14 @@ class CourseCertificate(AbstractCertificate):
 
     course_id = models.CharField(max_length=255, validators=[validate_course_key])
     course_run = models.OneToOneField(CourseRun, null=True, on_delete=models.PROTECT)
+    certificate_available_date = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text=_(
+            "The certificate available date and time that is set in Studio and copied to Credentials. "
+            "This should be edited in Studio."
+        ),
+    )
     certificate_type = models.CharField(
         max_length=255,
         choices=_choices(
