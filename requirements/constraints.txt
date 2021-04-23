@@ -22,10 +22,6 @@ virtualenv<20.2.2
 # https://openedx.atlassian.net/browse/MICROBA-929
 social-auth-core<4.0.3
 
-# New versions of this package are breaking authentication in this service.
-# this is a temporary constraint until we can isolate and resolve the issue.
-edx-auth-backends<=3.3.0
-
 # Newer versions require passing in lms_user_id rather than a username.
 # Ticket for adding LMS user IDs to Credentials: https://openedx.atlassian.net/browse/MICROBA-649
 edx-ace<1.0.0

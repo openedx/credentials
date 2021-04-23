@@ -238,9 +238,8 @@ edx-ace==0.1.17
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-auth-backends==3.3.0
+edx-auth-backends==3.3.3
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 edx-django-release-util==1.0.0
