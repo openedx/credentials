@@ -213,9 +213,7 @@ djangorestframework==3.12.4
     #   edx-drf-extensions
     #   rest-condition
 docker-compose==1.29.1
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/dev.txt
+    # via -r requirements/dev.txt
 docker[ssh]==5.0.0
     # via
     #   -r requirements/dev.txt

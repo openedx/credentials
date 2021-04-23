@@ -11,9 +11,6 @@
 # Common constraints for edx repos
 -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
 
-# Functional pin for dev.in
-docker-compose >= 1.5.1
-
 # This upgrade causes a failure in tests currently. We need to constrain it until we
 # can determine the cause of the failure. https://openedx.atlassian.net/browse/MICROBA-794
 virtualenv<20.2.2
