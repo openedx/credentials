@@ -37,11 +37,11 @@ bleach==3.3.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.17.55
+boto3==1.17.56
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.20.55
+botocore==1.20.56
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -283,7 +283,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.61#egg=edx_credentials_the
     #   -r requirements/production.txt
 factory-boy==3.2.0
     # via -r requirements/dev.txt
-faker==8.1.0
+faker==8.1.1
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -600,7 +600,7 @@ rest-condition==1.0.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-s3transfer==0.4.1
+s3transfer==0.4.2
     # via
     #   -r requirements/production.txt
     #   boto3

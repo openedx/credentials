@@ -180,7 +180,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.61#egg=edx_credentials_the
     # via -r requirements/base.txt
 factory-boy==3.2.0
     # via -r requirements/test.in
-faker==8.1.0
+faker==8.1.1
     # via factory-boy
 filelock==3.0.12
     # via
