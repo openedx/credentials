@@ -158,9 +158,7 @@ djangorestframework==3.12.4
     #   edx-drf-extensions
     #   rest-condition
 docker-compose==1.29.1
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/dev.in
+    # via -r requirements/dev.in
 docker[ssh]==5.0.0
     # via docker-compose
 dockerpty==0.4.1
@@ -175,10 +173,8 @@ edx-ace==0.1.17
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
-edx-auth-backends==3.3.0
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/test.txt
+edx-auth-backends==3.3.3
+    # via -r requirements/test.txt
 edx-django-release-util==1.0.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==3.0.0
@@ -207,7 +203,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.61#egg=edx_credentials_the
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==8.1.0
+faker==8.1.1
     # via
     #   -r requirements/test.txt
     #   factory-boy

@@ -12,9 +12,9 @@ attrs==20.3.0
     #   edx-ace
 bleach==3.3.0
     # via -r requirements/base.txt
-boto3==1.17.55
+boto3==1.17.56
     # via django-ses
-botocore==1.20.55
+botocore==1.20.56
     # via
     #   boto3
     #   s3transfer
@@ -126,10 +126,8 @@ edx-ace==0.1.17
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
-edx-auth-backends==3.3.0
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/base.txt
+edx-auth-backends==3.3.3
+    # via -r requirements/base.txt
 edx-django-release-util==1.0.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==3.0.0
@@ -316,7 +314,7 @@ rest-condition==1.0.3
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-s3transfer==0.4.1
+s3transfer==0.4.2
     # via boto3
 sailthru-client==2.2.3
     # via
