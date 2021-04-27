@@ -7,7 +7,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 def get_env_setting(setting):
-    """ Get the environment setting or raise exception """
+    """Get the environment setting or raise exception"""
     try:
         return environ[setting]
     except KeyError:
@@ -110,6 +110,6 @@ def get_logger_config(
 
 
 def str2bool(s):
-    """ Helper method cast str into bool."""
+    """Helper method cast str into bool."""
     s = str(s)
     return s.lower() in ("yes", "true", "t", "1")

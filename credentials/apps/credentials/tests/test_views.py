@@ -55,7 +55,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
     def _render_user_credential(
         self, use_proper_logo_url=True, user_credential=None, program_certificate=None, custom_orgs=None
     ):
-        """ Helper method to render a user certificate."""
+        """Helper method to render a user certificate."""
         user_credential = user_credential or self.user_credential
         program_certificate = program_certificate or self.program_certificate
         program_uuid = program_certificate.program_uuid
@@ -92,7 +92,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         return response
 
     def _create_organization_details(self, use_proper_logo_url=True):
-        """ Helper method to create organization details. """
+        """Helper method to create organization details."""
         return OrganizationDetails(
             uuid=str(uuid.uuid4()),
             key=self.faker.word(),
@@ -107,7 +107,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
 
     @responses.activate
     def test_sharing_bar_with_anonymous_user(self):
-        """ Verify that the view renders certificate without sharing bar. """
+        """Verify that the view renders certificate without sharing bar."""
         self.client.logout()
         response = self._render_user_credential()
 
@@ -115,7 +115,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
 
     @responses.activate
     def test_sharing_bar_with_staff_user(self):
-        """ Verify that the view renders certificate with sharing bar. """
+        """Verify that the view renders certificate with sharing bar."""
         self.client.logout()
         staff_user = UserFactory(is_staff=True)
         self.client.login(username=staff_user.username, password=USER_PASSWORD)
@@ -125,7 +125,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
 
     @responses.activate
     def test_awarded_with_logged_in_user(self):
-        """ Verify that the view renders awarded certificates with sharing bar. """
+        """Verify that the view renders awarded certificates with sharing bar."""
         response = self._render_user_credential()
         response_context_data = response.context_data
 
@@ -148,7 +148,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
 
     @responses.activate
     def test_awarded_with_custom_title(self):
-        """ Verify that the view renders a custom credential title if one is provided. """
+        """Verify that the view renders a custom credential title if one is provided."""
         self.program_certificate.title = self.CREDENTIAL_TITLE
         self.program_certificate.save()
 
@@ -168,7 +168,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_invalid_uuid(self):
-        """ Verify that view returns 404 with invalid uuid."""
+        """Verify that view returns 404 with invalid uuid."""
         path = reverse("credentials:render", kwargs={"uuid": uuid.uuid4().hex})
         response = self.client.get(path)
         self.assertEqual(response.status_code, 404)
@@ -202,13 +202,13 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_invalid_credential(self):
-        """ Verify the view returns 404 for attempts to render unsupported credentials. """
+        """Verify the view returns 404 for attempts to render unsupported credentials."""
         self.user_credential = factories.UserCredentialFactory(credential=factories.CourseCertificateFactory())
         response = self.client.get(self.user_credential.get_absolute_url())
         self.assertEqual(response.status_code, 404)
 
     def test_future_visible_date(self):
-        """ Verify that the view returns 404 when the uuid is valid but certificate is not yet visible. """
+        """Verify that the view returns 404 when the uuid is valid but certificate is not yet visible."""
         self.visible_date_attr.value = "9999-01-01T01:01:01Z"
         self.visible_date_attr.save()
         response = self.client.get(self.user_credential.get_absolute_url())
@@ -216,26 +216,26 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
 
     @responses.activate
     def test_invalid_visible_date(self):
-        """ Verify that the view just returns normally when the valid_date attribute can't be understood. """
+        """Verify that the view just returns normally when the valid_date attribute can't be understood."""
         self.visible_date_attr.value = "hello"
         self.visible_date_attr.save()
         self._render_user_credential()  # Will raise exception if not 200 status
 
     @responses.activate
     def test_no_visible_date(self):
-        """ Verify that the view just returns normally when there isn't a valid_date attribute. """
+        """Verify that the view just returns normally when there isn't a valid_date attribute."""
         self.visible_date_attr.delete()
         self._render_user_credential()  # Will raise exception if not 200 status
 
     @responses.activate
     def test_visible_date_as_issue_date(self):
-        """ Verify that the view renders the visible_date as the issue date. """
+        """Verify that the view renders the visible_date as the issue date."""
         response = self._render_user_credential()
         self.assertContains(response, "Issued January 1970")
 
     @responses.activate
     def test_signatory_organization_name_override(self):
-        """ Verify that the view response contain signatory organization name if signatory have organization."""
+        """Verify that the view response contain signatory organization name if signatory have organization."""
         self.signatory_1.organization_name_override = self.faker.word()
         self.signatory_1.save()
         response = self._render_user_credential()
@@ -290,7 +290,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
 @ddt.ddt
 class ExampleCredentialTests(SiteMixin, TestCase):
     def test_get(self):
-        """ Verify the view renders a credential. """
+        """Verify the view renders a credential."""
         response = self.client.get(reverse("credentials:example"))
         self.assertEqual(response.status_code, 200)
 
@@ -300,7 +300,7 @@ class ExampleCredentialTests(SiteMixin, TestCase):
 
 class I18nAssetsTemplateTagTest(TestCase):
     def test_construct_file_language_names(self):
-        """ Verify that the method for constructing file paths properly creates the set"""
+        """Verify that the method for constructing file paths properly creates the set"""
         filepath = "some/test/path.svg"
 
         # Verify that for two different, full language codes all paths are generated, including the 2 characters ones

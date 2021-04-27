@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 
 class CredentialField(serializers.Field):
-    """ Field identifying the credential type and identifiers."""
+    """Field identifying the credential type and identifiers."""
 
     def to_internal_value(self, data):
         site = self.context["request"].site
@@ -77,7 +77,7 @@ class CredentialField(serializers.Field):
         raise ValidationError("Credential identifier is missing.")
 
     def to_representation(self, value):
-        """ Serialize objects to a according to model content-type. """
+        """Serialize objects to a according to model content-type."""
         if hasattr(value, "program_uuid"):
             credential = {
                 "type": "program",
@@ -95,10 +95,10 @@ class CredentialField(serializers.Field):
 
 
 class UserCertificateURLField(serializers.ReadOnlyField):  # pylint: disable=abstract-method
-    """ Field for UserCredential URL pointing html view """
+    """Field for UserCredential URL pointing html view"""
 
     def to_representation(self, value):
-        """ Build the UserCredential URL for html view. Get the current domain from request. """
+        """Build the UserCredential URL for html view. Get the current domain from request."""
         return reverse(
             "credentials:render",
             kwargs={
@@ -109,7 +109,7 @@ class UserCertificateURLField(serializers.ReadOnlyField):  # pylint: disable=abs
 
 
 class CourseRunField(serializers.Field):
-    """ Field for CourseRun foreign keys """
+    """Field for CourseRun foreign keys"""
 
     def to_internal_value(self, data):
         site = self.context["request"].site
@@ -121,12 +121,12 @@ class CourseRunField(serializers.Field):
             raise ValidationError(msg)
 
     def to_representation(self, value):
-        """ Build the CourseRun for html view. """
+        """Build the CourseRun for html view."""
         return value.key
 
 
 class UserCredentialAttributeSerializer(serializers.ModelSerializer):
-    """ Serializer for CredentialAttribute objects """
+    """Serializer for CredentialAttribute objects"""
 
     class Meta:
         model = UserCredentialAttribute
@@ -134,7 +134,7 @@ class UserCredentialAttributeSerializer(serializers.ModelSerializer):
 
 
 class UserCredentialSerializer(serializers.ModelSerializer):
-    """ Serializer for UserCredential objects. """
+    """Serializer for UserCredential objects."""
 
     credential = CredentialField(read_only=True)
     attributes = UserCredentialAttributeSerializer(many=True, read_only=True)
@@ -163,14 +163,14 @@ class UserCredentialSerializer(serializers.ModelSerializer):
 
 
 class UserCredentialCreationSerializer(serializers.ModelSerializer):
-    """ Serializer used to create UserCredential objects. """
+    """Serializer used to create UserCredential objects."""
 
     credential = CredentialField()
     attributes = UserCredentialAttributeSerializer(many=True, required=False)
     certificate_url = UserCertificateURLField(source="uuid")
 
     def validate_attributes(self, value):
-        """ Check that the name attributes cannot be duplicated."""
+        """Check that the name attributes cannot be duplicated."""
         names = [attribute["name"] for attribute in value]
 
         if len(names) != len(set(names)):
@@ -212,7 +212,7 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
 
 
 class UserGradeSerializer(serializers.ModelSerializer):
-    """ Serializer for UserGrade objects. """
+    """Serializer for UserGrade objects."""
 
     course_run = CourseRunField()
 

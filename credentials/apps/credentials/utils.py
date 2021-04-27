@@ -61,7 +61,7 @@ def datetime_from_visible_date(date):
 
 
 def filter_visible(qs):
-    """ Filters a UserCredentials queryset by excluding credentials that aren't supposed to be visible yet. """
+    """Filters a UserCredentials queryset by excluding credentials that aren't supposed to be visible yet."""
     # The visible_date attribute holds a string value, not a datetime one. But we can compare as a string
     # because the format is so strict - it will still lexically compare as less/greater-than.
     nowstr = datetime.datetime.now(datetime.timezone.utc).strftime(VISIBLE_DATE_FORMAT)
@@ -94,7 +94,7 @@ def get_credential_visible_dates(user_credentials):
 
 
 def get_credential_visible_date(user_credential):
-    """ Simpler, one-credential version of get_credential_visible_dates. """
+    """Simpler, one-credential version of get_credential_visible_dates."""
     return get_credential_visible_dates([user_credential])[user_credential]
 
 

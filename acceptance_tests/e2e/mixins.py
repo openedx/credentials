@@ -10,14 +10,14 @@ log = logging.getLogger(__name__)
 
 
 class LoginMixin:
-    """ Mixin used for log in through LMS login page."""
+    """Mixin used for log in through LMS login page."""
 
     def setUp(self):
         super().setUp()
         self.lms_login_page = LMSLoginPage(self.browser)
 
     def login_with_lms(self):
-        """ Visit LMS and login."""
+        """Visit LMS and login."""
         email = config.LMS_EMAIL
         password = config.LMS_PASSWORD
 
@@ -26,7 +26,7 @@ class LoginMixin:
 
 
 class CredentialsApiMixin:
-    """ Mixin used for login on credentials."""
+    """Mixin used for login on credentials."""
 
     def setUp(self):
         super().setUp()

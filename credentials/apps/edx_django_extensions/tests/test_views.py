@@ -21,7 +21,7 @@ class ManagementViewTests(SiteMixin, TestCase):
         return list(response.context["messages"])
 
     def assert_message_count(self, response, expected):
-        """ Asserts the expected number of messages are set. """
+        """Asserts the expected number of messages are set."""
         _messages = self.get_response_messages(response)
         self.assertEqual(len(_messages), expected)
 
@@ -31,13 +31,13 @@ class ManagementViewTests(SiteMixin, TestCase):
         self.assertEqual(message.level, expected_level)
 
     def test_login_required(self):
-        """ Verify the view requires login. """
+        """Verify the view requires login."""
         self.client.logout()
         response = self.client.get(self.path)
         self.assertEqual(response.status_code, 302)
 
     def test_superuser_required(self):
-        """ Verify the view is not accessible to non-superusers. """
+        """Verify the view is not accessible to non-superusers."""
         self.client.logout()
         user = UserFactory()
         self.client.login(username=user.username, password=USER_PASSWORD)
@@ -50,7 +50,7 @@ class ManagementViewTests(SiteMixin, TestCase):
         self.assertEqual(response.status_code, expected_code)
 
     def test_invalid_action(self):
-        """ Verify the view responds with an error message if an invalid action is posted. """
+        """Verify the view responds with an error message if an invalid action is posted."""
         response = self.client.post(self.path, {"action": ""})
         self.assertEqual(response.status_code, 200)
         self.assert_message_count(response, 1)
@@ -59,7 +59,7 @@ class ManagementViewTests(SiteMixin, TestCase):
     @mock.patch("logging.Logger.info")
     @mock.patch("django.core.cache.cache.clear")
     def test_cache_clear(self, mock_cache_clear, mock_log_info):
-        """ Verify the view clears the cache when the clear_cache action is posted. """
+        """Verify the view clears the cache when the clear_cache action is posted."""
         response = self.client.post(self.path, {"action": "clear_cache"})
         self.assertEqual(response.status_code, 200)
         self.assert_message_count(response, 1)

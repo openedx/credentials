@@ -18,7 +18,7 @@ class Command(BaseCommand):
     """
 
     def add_arguments(self, parser):
-        """ Arguments for the command. defaults are the demo program for devstack """
+        """Arguments for the command. defaults are the demo program for devstack"""
         parser.add_argument("--domain-name", default="example.com")
         parser.add_argument("--program-name", default="edX Demonstration Program")
 

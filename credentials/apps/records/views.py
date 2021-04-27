@@ -55,7 +55,7 @@ class RecordsEnabledMixin:
 
 
 class ConditionallyRequireLoginMixin(AccessMixin):
-    """ Variant of LoginRequiredMixin that allows a user not to be logged in if is_public argument is true"""
+    """Variant of LoginRequiredMixin that allows a user not to be logged in if is_public argument is true"""
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated and not kwargs["is_public"]:
@@ -208,7 +208,7 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
     template_name = "records.html"
 
     def _get_credentials(self):
-        """ Returns two lists of credentials: a course list and a program list """
+        """Returns two lists of credentials: a course list and a program list"""
         # Get the content types for course and program certs, query for both in single query
         course_cert_content_types = ContentType.objects.filter(
             app_label="credentials", model__in=["coursecertificate", "programcertificate"]
@@ -240,7 +240,7 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
         return course_credentials, program_credentials
 
     def _course_credentials_to_course_runs(self, course_credentials):
-        """ Convert a list of course UserCredentials into a list of CourseRun objects """
+        """Convert a list of course UserCredentials into a list of CourseRun objects"""
         # Using the course credentials, get the programs associated with them via course runs
         course_credential_ids = [x.credential_id for x in course_credentials if x.status == UserCredential.AWARDED]
         course_certificates = CourseCertificate.objects.filter(id__in=course_credential_ids, site=self.request.site)
@@ -248,7 +248,7 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
         return CourseRun.objects.filter(key__in=course_run_keys)
 
     def _programs_context(self, include_empty_programs=False, include_retired_programs=False):
-        """ Translates a list of Program and UserCredentials (for programs) into context data. """
+        """Translates a list of Program and UserCredentials (for programs) into context data."""
         # Get all user credentials
         course_credentials, program_credentials = self._get_credentials()
 
@@ -291,7 +291,7 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
         ]
 
     def _get_programs(self):
-        """ Returns a list of relevant program data (in _programs_context format) """
+        """Returns a list of relevant program data (in _programs_context format)"""
         return []
 
     def get_context_data(self, **kwargs):

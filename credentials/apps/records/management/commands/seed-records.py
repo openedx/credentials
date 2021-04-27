@@ -21,12 +21,12 @@ logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
-    """ Seed all the data needed to display fake student records """
+    """Seed all the data needed to display fake student records"""
 
     help = "Seed catalog with fake data"
 
     def add_arguments(self, parser):
-        """ Add arguments to the command parser """
+        """Add arguments to the command parser"""
         parser.add_argument(
             "--site-name", action="store", default="Open edx", required=False, help="The site to attach all records to"
         )
@@ -48,14 +48,14 @@ class Command(BaseCommand):
 
     @staticmethod
     def log_action(object_type, object_id, created):
-        """ Log a get_or_create action using a simple template """
+        """Log a get_or_create action using a simple template"""
         action = "Created" if created else "Already exists"
         logger.info("%s %s %s", object_type, object_id, action)
 
     @staticmethod
     @transaction.atomic
     def seed_all(site_name, username):
-        """ Seed all catalog data """
+        """Seed all catalog data"""
         # Make predictable UUIDs using faker
         faker = Faker()
         Faker.seed(1234)
@@ -78,7 +78,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def get_site(site_name):
-        """ Get a specific site by its name """
+        """Get a specific site by its name"""
         site = Site.objects.get(name=site_name)
         if site:
             logger.info("Retrieved site: %s", site_name)
@@ -88,7 +88,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_organizations(site, faker):
-        """ Seed two organizations """
+        """Seed two organizations"""
         organization1, created = Organization.objects.get_or_create(site=site, uuid=faker.uuid4(), name="Test-Org-1")
         Command.log_action("Organization", "Test-Org-1", created)
 
@@ -99,7 +99,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_courses(site, organizations, faker):
-        """ Seed two courses per organization """
+        """Seed two courses per organization"""
         courses = []
         course_id = 1
 
@@ -128,7 +128,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_course_runs(courses, faker):
-        """ Seed one course run per course """
+        """Seed one course run per course"""
         course_runs = []
         course_run_id = 1
 
@@ -152,7 +152,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_programs(site, organizations, course_runs, faker):
-        """ Seed one program per org of all course runs for that org """
+        """Seed one program per org of all course runs for that org"""
         programs = []
         program_id = 1
 
@@ -179,12 +179,12 @@ class Command(BaseCommand):
 
     @staticmethod
     def get_user(username):
-        """ Get the test user """
+        """Get the test user"""
         return User.objects.get(username=username)
 
     @staticmethod
     def seed_user_grades(user, course_runs):
-        """ Seed user grades for the test users """
+        """Seed user grades for the test users"""
         user_grades = []
         for course_run in course_runs:
             user_grade, created = UserGrade.objects.get_or_create(
@@ -198,7 +198,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_signatories(organizations):
-        """ Seed one signatory per org """
+        """Seed one signatory per org"""
 
         signatories = []
 
@@ -214,7 +214,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_program_certificates(site, programs, signatories):
-        """ Seed program certs for two programs """
+        """Seed program certs for two programs"""
         program_certificates = []
 
         for program in programs:
@@ -236,7 +236,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_course_certificates(site, course_runs, signatories):
-        """ Seed course certificates for all courses for user edx"""
+        """Seed course certificates for all courses for user edx"""
         course_certificates = []
 
         for course_run in course_runs:
@@ -257,7 +257,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_user_credentials(user, program_certificates, course_certificates, faker):
-        """ Seed user credentials for user """
+        """Seed user credentials for user"""
         user_program_credentials = []
         user_course_credentials = []
 
@@ -289,7 +289,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_program_cert_records(user, programs, faker):
-        """ Seed  program cert records for user"""
+        """Seed  program cert records for user"""
         program_cert_records = []
 
         for program in programs:
@@ -304,7 +304,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_pathways(site, programs, faker):
-        """ Seed two pathways """
+        """Seed two pathways"""
         all_program_pathway, created = Pathway.objects.get_or_create(
             site=site, name="All program pathway", org_name="MIT", uuid=faker.uuid4()
         )
@@ -332,7 +332,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_industry_pathway(site, programs, faker):
-        """ Seed one industry pathway """
+        """Seed one industry pathway"""
         industry_pathway, created = Pathway.objects.get_or_create(
             site=site,
             uuid=faker.uuid4(),

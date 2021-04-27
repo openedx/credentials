@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 class SocialMediaMixin:
-    """ Mixin with context for sharing certificates to social media networks. """
+    """Mixin with context for sharing certificates to social media networks."""
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -45,7 +45,7 @@ class SocialMediaMixin:
 
 
 class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
-    """ Certificate rendering view."""
+    """Certificate rendering view."""
 
     # This base template will include a separate template housing the requested credential body.
     # This allows us to use this one view to render credentials for any number of content types
@@ -144,7 +144,7 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
 
 
 class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
-    """ Example certificate. """
+    """Example certificate."""
 
     template_name = "credentials/base.html"
 

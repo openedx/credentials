@@ -26,21 +26,21 @@ class AccreditorTests(TestCase):
         self.program_cert = ProgramCertificateFactory()
 
     def test_create_credential_type_issuer_map(self):
-        """ Verify the Accreditor supports only one issuer per credential type. """
+        """Verify the Accreditor supports only one issuer per credential type."""
         accreditor = Accreditor(issuers=[ProgramCertificateIssuer(), ProgramCertificateIssuer()])
 
         expected = {self.program_credential: accreditor.issuers[0]}
         self.assertEqual(accreditor.credential_type_issuer_map, expected)
 
     def test_issue_credential_with_invalid_type(self):
-        """ Verify the method raises an error for attempts to issue an unsupported credential type. """
+        """Verify the method raises an error for attempts to issue an unsupported credential type."""
         accreditor = Accreditor(issuers=[ProgramCertificateIssuer()])
         course_cert = CourseCertificateFactory()
         with self.assertRaises(UnsupportedCredentialTypeError):
             accreditor.issue_credential(course_cert, "tester", attributes=self.attributes)
 
     def test_issue_credential(self):
-        """ Verify the method calls the Issuer's issue_credential method. """
+        """Verify the method calls the Issuer's issue_credential method."""
         accreditor = Accreditor(issuers=[ProgramCertificateIssuer()])
         with patch.object(ProgramCertificateIssuer, "issue_credential") as mock_method:
             accreditor.issue_credential(self.program_cert, "tester", attributes=self.attributes)
@@ -64,7 +64,7 @@ class AccreditorTests(TestCase):
         self.assertEqual(accreditor.credential_type_issuer_map, expected)
 
     def test_constructor_with_multiple_issuers(self):
-        """ Verify the Accreditor supports multiple Issuers """
+        """Verify the Accreditor supports multiple Issuers"""
         accreditor = Accreditor(issuers=[CourseCertificateIssuer(), ProgramCertificateIssuer()])
 
         expected = {
