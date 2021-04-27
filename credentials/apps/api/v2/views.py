@@ -13,11 +13,12 @@ from rest_framework.views import APIView, exception_handler
 from credentials.apps.api.v2.filters import UserCredentialFilter
 from credentials.apps.api.v2.permissions import CanReplaceUsername, UserCredentialPermissions
 from credentials.apps.api.v2.serializers import (
+    CourseCertificateSerializer,
     UserCredentialCreationSerializer,
     UserCredentialSerializer,
     UserGradeSerializer,
 )
-from credentials.apps.credentials.models import UserCredential
+from credentials.apps.credentials.models import CourseCertificate, UserCredential
 from credentials.apps.records.models import UserGrade
 
 
@@ -279,3 +280,11 @@ class UsernameReplacementView(APIView):
                 new_username,
             )
         return True
+
+
+class CourseCertificateViewSet(
+    mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet
+):
+    queryset = CourseCertificate.objects.all()
+    serializer_class = CourseCertificateSerializer
+    lookup_field = "course_id"

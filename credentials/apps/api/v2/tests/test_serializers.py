@@ -9,6 +9,7 @@ from rest_framework.settings import api_settings
 from rest_framework.test import APIRequestFactory
 
 from credentials.apps.api.v2.serializers import (
+    CourseCertificateSerializer,
     CredentialField,
     UserCredentialAttributeSerializer,
     UserCredentialCreationSerializer,
@@ -281,4 +282,34 @@ class UserCredentialSerializerTests(TestCase):
         }
 
         actual = UserCredentialSerializer(user_credential, context={"request": request}).data
+        self.assertEqual(actual, expected)
+
+
+class CourseCertificateSerializerTests(TestCase):
+    def test_create_course_certificate(self):
+        course_run = CourseRunFactory()
+        course_certificate = CourseCertificateFactory(course_run=course_run)
+        actual = CourseCertificateSerializer(course_certificate).data
+        expected = {
+            "id": course_certificate.id,
+            "course_id": course_certificate.course_id,
+            "course_run": course_certificate.course_run.key,
+            "certificate_type": course_certificate.certificate_type,
+            "certificate_available_date": course_certificate.certificate_available_date,
+            "is_active": course_certificate.is_active,
+        }
+        self.assertEqual(actual, expected)
+
+    def test_missing_course_run(self):
+        # We should be able to create an entry without a course run
+        course_certificate = CourseCertificateFactory(course_run=None)
+        actual = CourseCertificateSerializer(course_certificate).data
+        expected = {
+            "id": course_certificate.id,
+            "course_id": course_certificate.course_id,
+            "course_run": None,
+            "certificate_type": course_certificate.certificate_type,
+            "certificate_available_date": course_certificate.certificate_available_date,
+            "is_active": course_certificate.is_active,
+        }
         self.assertEqual(actual, expected)

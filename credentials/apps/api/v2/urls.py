@@ -11,4 +11,5 @@ router = DefaultRouter()
 # as mentioned https://github.com/samgiles/slumber/issues/44
 router.register(r"credentials", views.CredentialViewSet, basename="credentials")
 router.register(r"grades", views.GradeViewSet, basename="grades")
+router.register(r"course_certificates", views.CourseCertificateViewSet, basename="course_certificates")
 urlpatterns += router.urls
