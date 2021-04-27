@@ -25,7 +25,7 @@ log = logging.getLogger(__name__)
 
 
 def credentials_throttle_handler(exc, context):
-    """ Exception handler for logging messages when an endpoint is throttled. """
+    """Exception handler for logging messages when an endpoint is throttled."""
     response = exception_handler(exc, context)
 
     if isinstance(exc, Throttled):
@@ -41,7 +41,7 @@ def credentials_throttle_handler(exc, context):
 
 
 class CredentialRateThrottle(ScopedRateThrottle):
-    """ Rate limits requests to the credentials endpoints. """
+    """Rate limits requests to the credentials endpoints."""
 
     THROTTLE_RATES = {
         "credential_view": "15/minute",
@@ -103,7 +103,7 @@ class CredentialViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def list(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
-        """ List all credentials. """
+        """List all credentials."""
         return super().list(request, *args, **kwargs)
 
     def partial_update(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
@@ -140,15 +140,15 @@ class GradeViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.Ge
     queryset = UserGrade.objects.all()
 
     def create(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
-        """ Create a new grade. """
+        """Create a new grade."""
         return super().create(request, *args, **kwargs)
 
     def partial_update(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
-        """ Update a grade. """
+        """Update a grade."""
         return super().partial_update(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
-        """ Update a grade. """
+        """Update a grade."""
         return super().update(request, *args, **kwargs)
 
 
@@ -226,7 +226,7 @@ class UsernameReplacementView(APIView):
         )
 
     def _load_models(self, models_with_fields):
-        """ Takes tuples that contain a model path and returns the list with a loaded version of the model """
+        """Takes tuples that contain a model path and returns the list with a loaded version of the model"""
         try:
             replacement_locations = [(apps.get_model(model), column) for (model, column) in models_with_fields]
         except LookupError:
@@ -235,7 +235,7 @@ class UsernameReplacementView(APIView):
         return replacement_locations
 
     def _has_valid_schema(self, post_data):
-        """ Verifies the data is a list of objects with a single key:value pair """
+        """Verifies the data is a list of objects with a single key:value pair"""
         if not isinstance(post_data, list):
             return False
         for obj in post_data:

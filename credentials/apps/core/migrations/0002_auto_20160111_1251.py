@@ -7,7 +7,7 @@ from credentials.apps.core.constants import Role
 
 
 def create_groups(apps, schema_editor):
-    """ Create groups and assign the permissions."""
+    """Create groups and assign the permissions."""
     Group = apps.get_model("auth", "Group")
     Permission = apps.get_model("auth", "Permission")
 
@@ -23,13 +23,13 @@ def create_groups(apps, schema_editor):
 
 
 def destroy_groups(apps, schema_editor):
-    """ First remove the permissions and then delete the groups."""
+    """First remove the permissions and then delete the groups."""
     Group = apps.get_model("auth", "Group")
     Group.objects.get(name=Role.ADMINS).delete()
 
 
 def add_service_user(apps, schema_editor):
-    """ Add service user."""
+    """Add service user."""
     User = apps.get_model("core", "User")
     Group = apps.get_model("auth", "Group")
     user = User.objects.create(username=settings.CREDENTIALS_SERVICE_USER, is_staff=True)
@@ -40,7 +40,7 @@ def add_service_user(apps, schema_editor):
 
 
 def remove_service_user(apps, schema_editor):
-    """ Remove service user."""
+    """Remove service user."""
     User = apps.get_model("core", "User")
     try:
         User.objects.get(username=settings.CREDENTIALS_SERVICE_USER).delete()

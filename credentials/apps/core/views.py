@@ -92,7 +92,7 @@ class AutoAuth(View):
 
 class ThemeViewMixin:
     def add_theme_to_template_names(self, template_names):
-        """ Prepend the the list of template names with the path of the current theme. """
+        """Prepend the the list of template names with the path of the current theme."""
         theme_template_path = self.request.site.siteconfiguration.theme_name
         themed_template_names = [
             "{theme_path}/{template_name}".format(

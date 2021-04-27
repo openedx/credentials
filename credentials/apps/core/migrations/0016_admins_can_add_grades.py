@@ -4,7 +4,7 @@ from credentials.apps.core.constants import Role
 
 
 def add_perm(apps, schema_editor):
-    """ Assign the permission."""
+    """Assign the permission."""
     Group = apps.get_model("auth", "Group")
     Permission = apps.get_model("auth", "Permission")
 
@@ -14,7 +14,7 @@ def add_perm(apps, schema_editor):
 
 
 def remove_perm(apps, schema_editor):
-    """ Remove the permission."""
+    """Remove the permission."""
     Group = apps.get_model("auth", "Group")
     Permission = apps.get_model("auth", "Permission")
 

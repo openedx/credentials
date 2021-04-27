@@ -18,7 +18,7 @@ from credentials.apps.records.utils import masquerading_authorized, send_updated
 
 @override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
 class UpdatedProgramEmailTests(SiteMixin, TestCase):
-    """ Tests for sending an update """
+    """Tests for sending an update"""
 
     USERNAME = "test-records-user"
 
@@ -70,7 +70,7 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
 
 
 class MasqueradingAuthorizedTests(TestCase):
-    """ Tests for masquerading authorization. """
+    """Tests for masquerading authorization."""
 
     def setUp(self):
         super().setUp()
@@ -97,7 +97,7 @@ class MasqueradingAuthorizedTests(TestCase):
 
     @override_settings(HIJACK_AUTHORIZE_STAFF=False, HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF=False)
     def test_no_staff_authorization(self):
-        """ Tests correct authorization when staff can not masquerade. """
+        """Tests correct authorization when staff can not masquerade."""
         self.assertEqual(masquerading_authorized(self.user, self.user), False)
         self.assertEqual(masquerading_authorized(self.user, self.staff_user), False)
         self.assertEqual(masquerading_authorized(self.user, self.superuser), False)
@@ -110,7 +110,7 @@ class MasqueradingAuthorizedTests(TestCase):
 
     @override_settings(HIJACK_AUTHORIZE_STAFF=True, HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF=True)
     def test_full_staff_authorization(self):
-        """ Tests correct authorization when staff can masquerade as staff. """
+        """Tests correct authorization when staff can masquerade as staff."""
         self.assertEqual(masquerading_authorized(self.user, self.user), False)
         self.assertEqual(masquerading_authorized(self.user, self.staff_user), False)
         self.assertEqual(masquerading_authorized(self.user, self.superuser), False)

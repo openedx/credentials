@@ -29,7 +29,7 @@ class SiteMixin:
         TieredCache.dangerous_clear_all_tiers()
 
     def mock_access_token_response(self, status=200):
-        """ Mock the response from the OAuth provider's access token endpoint. """
+        """Mock the response from the OAuth provider's access token endpoint."""
         oauth2_provider_url = settings.BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL
         url = f"{oauth2_provider_url}/access_token"
         token = "abc123"
@@ -44,7 +44,7 @@ class SiteMixin:
         return token
 
     def mock_catalog_api_response(self, endpoint, body, status=200):
-        """ Mock a response from a Catalog API endpoint. """
+        """Mock a response from a Catalog API endpoint."""
         root = self.site.siteconfiguration.catalog_api_url.strip("/")
         url = f"{root}/{endpoint}"
         responses.add(

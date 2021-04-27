@@ -7,7 +7,7 @@ from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 
 @admin.register(ProgramCertRecord)
 class ProgramCertRecordAdmin(admin.ModelAdmin):
-    """ Admin for the ProgramCertRecord model."""
+    """Admin for the ProgramCertRecord model."""
 
     list_display = (
         "uuid",
@@ -28,7 +28,7 @@ class ProgramCertRecordAdmin(admin.ModelAdmin):
 
 @admin.register(UserGrade)
 class UserGradeAdmin(admin.ModelAdmin):
-    """ Admin for the UserGrade model. """
+    """Admin for the UserGrade model."""
 
     list_display = (
         "username",
@@ -45,7 +45,7 @@ class UserGradeAdmin(admin.ModelAdmin):
 
 @admin.register(UserCreditPathway)
 class UserCreditPathwayAdmin(admin.ModelAdmin):
-    """ Admin for UserCreditPathway """
+    """Admin for UserCreditPathway"""
 
     list_display = (
         "user",

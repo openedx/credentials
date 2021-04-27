@@ -9,10 +9,10 @@ except ImportError:
 
 
 class LoginMixin:
-    """ Mixin used for log in through a cookie."""
+    """Mixin used for log in through a cookie."""
 
     def login(self, superuser=False):
-        """ Craft cookie to fake a login. """
+        """Craft cookie to fake a login."""
         assert auth, "auth.py could not be imported from acceptance_tests"
 
         # First visit a guaranteed 404, just to get selenium in the right domain (it doesn't like us setting cookies

@@ -8,7 +8,7 @@ from credentials.apps.core.forms import SiteConfigurationAdminForm
 class SiteConfigurationAdminFormTests(TestCase):
     @ddt.data("", None)
     def test_clean_with_invalid_facebook_config(self, app_id):
-        """ Verify a Facebook app ID is required if Facebook sharing is enabled. """
+        """Verify a Facebook app ID is required if Facebook sharing is enabled."""
         data = {
             "facebook_app_id": app_id,
             "enable_facebook_sharing": True,

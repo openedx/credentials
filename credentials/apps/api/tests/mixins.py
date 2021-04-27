@@ -18,7 +18,7 @@ JWT_AUTH = "JWT_AUTH"
 
 
 class JwtMixin:
-    """ Mixin with JWT-related helper functions. """
+    """Mixin with JWT-related helper functions."""
 
     JWT_SECRET_KEY = getattr(settings, JWT_AUTH)["JWT_SECRET_KEY"]
     JWT_ISSUER = getattr(settings, JWT_AUTH)["JWT_ISSUER"]
@@ -61,7 +61,7 @@ class JwtMixin:
 
 
 class CredentialViewSetTestsMixin:
-    """ Base Class for ProgramCredentialViewSetTests and CourseCredentialViewSetTests. """
+    """Base Class for ProgramCredentialViewSetTests and CourseCredentialViewSetTests."""
 
     list_path = None
     user_credential = None
@@ -84,14 +84,14 @@ class CredentialViewSetTestsMixin:
         self.assertEqual(response.status_code, 403)
 
     def assert_list_without_id_filter(self, path, expected, data=None):
-        """Helper method used for making request and assertions. """
+        """Helper method used for making request and assertions."""
         response = self.client.get(path, data)
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.data, expected)
 
     def assert_list_with_id_filter(self, data=None, should_exist=True):
-        """Helper method used for making request and assertions. """
+        """Helper method used for making request and assertions."""
         expected = self._generate_results(should_exist)
         response = self.client.get(self.list_path, data)
 
@@ -99,7 +99,7 @@ class CredentialViewSetTestsMixin:
         self.assertEqual(response.data, expected)
 
     def assert_list_with_status_filter(self, data, should_exist=True):
-        """Helper method for making request and assertions. """
+        """Helper method for making request and assertions."""
         expected = self._generate_results(should_exist)
         response = self.client.get(self.list_path, data, expected)
         self.assertEqual(json.loads(response.content), expected)

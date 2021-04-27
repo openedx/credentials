@@ -6,7 +6,7 @@ import os
 
 
 def str2bool(s):
-    """ Helper method cast str into bool."""
+    """Helper method cast str into bool."""
     s = str(s)
     return s.lower() in ("yes", "true", "t", "1")
 

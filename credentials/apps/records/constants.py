@@ -2,6 +2,6 @@ RECORDS_RATE_LIMIT = "15/m"  # This rate was arbitrarily chosen due to a lack of
 
 
 class UserCreditPathwayStatus:
-    """ Allowed values for UserCreditPathway.status """
+    """Allowed values for UserCreditPathway.status"""
 
     SENT = "sent"

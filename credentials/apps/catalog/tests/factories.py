@@ -14,7 +14,7 @@ from credentials.apps.core.tests.factories import SiteFactory
 
 
 def add_m2m_data(m2m_relation, data):
-    """ Helper function to enable factories to easily associate many-to-many data with created objects. """
+    """Helper function to enable factories to easily associate many-to-many data with created objects."""
     if data:
         m2m_relation.add(*data)
 

@@ -9,7 +9,7 @@ from credentials.apps.core.utils import update_full_name
 
 
 class UtilsTests(TestCase):
-    """ Tests for the utility functions."""
+    """Tests for the utility functions."""
 
     def setUp(self):
         super().setUp()

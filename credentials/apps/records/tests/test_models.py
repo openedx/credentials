@@ -13,7 +13,7 @@ from credentials.shared.constants import PathwayType
 
 
 class UserGradeTests(TestCase):
-    """ Tests for UserGrade model """
+    """Tests for UserGrade model"""
 
     def test_protected_deletion(self):
         course_run = CourseRunFactory()
@@ -23,7 +23,7 @@ class UserGradeTests(TestCase):
 
 
 class ProgramCertRecordTests(TestCase):
-    """ Tests for ProgramCertRecord model """
+    """Tests for ProgramCertRecord model"""
 
     def test_protected_deletion(self):
         program = ProgramFactory()
@@ -33,10 +33,10 @@ class ProgramCertRecordTests(TestCase):
 
 
 class UserCreditPathwayTests(TestCase):
-    """ Tests for UserCreditPathway model """
+    """Tests for UserCreditPathway model"""
 
     def test_non_credit_pathway_validation(self):
-        """ Test that UserCreditPathway does not allow non-credit pathways. """
+        """Test that UserCreditPathway does not allow non-credit pathways."""
         for pathway_type in PathwayType:
             pathway = PathwayFactory(pathway_type=pathway_type.value)
             if pathway.pathway_type == PathwayType.CREDIT.value:

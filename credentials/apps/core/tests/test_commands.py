@@ -77,7 +77,7 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
         self.assertFalse(site_configuration.enable_facebook_sharing)
 
     def test_create_site(self):
-        """ Verify the command creates Site and SiteConfiguration. """
+        """Verify the command creates Site and SiteConfiguration."""
         site_domain = self.faker.domain_name()
 
         self._call_command(site_domain=site_domain, site_name=self.site_configuration.site.name)
@@ -86,7 +86,7 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
         self._check_site_configuration(site.siteconfiguration)
 
     def test_update_site(self):
-        """ Verify the command updates Site and SiteConfiguration. """
+        """Verify the command updates Site and SiteConfiguration."""
         expected_site_domain = self.faker.domain_name()
         expected_site_name = "Fake Credentials Server"
         site = SiteFactory()
@@ -176,13 +176,13 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
         ],
     )
     def test_missing_arguments(self, command_args):
-        """ Verify CommandError is raised when required arguments are missing """
+        """Verify CommandError is raised when required arguments are missing"""
         with self.assertRaises(CommandError):
             call_command(self.COMMAND_NAME, *command_args)
 
     @ddt.data("enable_linkedin_sharing", "enable_twitter_sharing")
     def test_enable_social_sharing(self, flag_name):
-        """ Verify the command supports activating social sharing functionality. """
+        """Verify the command supports activating social sharing functionality."""
 
         self._call_command(site_domain=self.site.domain, site_name=self.site.name, **{flag_name: True})
 
@@ -190,7 +190,7 @@ class CreateOrUpdateSiteCommandTests(SiteMixin, TestCase):
         self.assertTrue(getattr(self.site.siteconfiguration, flag_name))
 
     def test_invalid_facebook_configuration(self):
-        """ Verify the Facebook app ID is required to enable Facebook sharing. """
+        """Verify the Facebook app ID is required to enable Facebook sharing."""
         kwargs = {"enable_facebook_sharing": True}
 
         with self.assertRaisesMessage(CommandError, "A Facebook app ID must be supplied to enable Facebook sharing"):

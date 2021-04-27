@@ -12,14 +12,14 @@ from credentials.apps.core.tests.mixins import JSON, SiteMixin
 
 
 class UserTests(TestCase):
-    """ User model tests. """
+    """User model tests."""
 
     def setUp(self):
         super().setUp()
         self.user = UserFactory()
 
     def test_get_full_name(self):
-        """ Test that the user model concatenates first and last name if the full name is not set. """
+        """Test that the user model concatenates first and last name if the full name is not set."""
         full_name = "George Costanza"
         user = UserFactory(full_name=full_name)
         self.assertEqual(user.get_full_name(), full_name)
@@ -35,10 +35,10 @@ class UserTests(TestCase):
 
 
 class SiteConfigurationTests(SiteMixin, TestCase):
-    """ Site configuration model tests. """
+    """Site configuration model tests."""
 
     def test_str(self):
-        """ Test the site value for site configuration model. """
+        """Test the site value for site configuration model."""
         site = SiteFactory(domain="test.org", name="test")
         site_configuration = SiteConfigurationFactory(site=site)
         self.assertEqual(str(site_configuration), site.name)
@@ -55,14 +55,14 @@ class SiteConfigurationTests(SiteMixin, TestCase):
             mock_clear_site_cache.assert_called_once()
 
     def test_user_api_url(self):
-        """ Verify the User API URL is composed correctly. """
+        """Verify the User API URL is composed correctly."""
         expected = "{}/api/user/v1/".format(self.site_configuration.lms_url_root.strip("/"))
         self.assertEqual(self.site_configuration.user_api_url, expected)
 
     @responses.activate
     @override_settings(USER_CACHE_TTL=60)
     def test_get_user_api_data(self):
-        """ Verify the method retrieves data from the User API and caches it. """
+        """Verify the method retrieves data from the User API and caches it."""
         username = Faker().user_name()
         data = {
             "username": username,

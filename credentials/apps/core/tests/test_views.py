@@ -46,7 +46,7 @@ class HealthTests(TestCase):
 
 
 class AutoAuthTests(SiteMixin, TestCase):
-    """ Auto Auth view tests. """
+    """Auto Auth view tests."""
 
     AUTO_AUTH_PATH = reverse("auto_auth")
 
@@ -81,10 +81,10 @@ class AutoAuthTests(SiteMixin, TestCase):
 
 
 class SiteViewTests(SiteMixin, TestCase):
-    """ Tests for the base site views."""
+    """Tests for the base site views."""
 
     def _reload_urlconf(self):
-        """ Helper method to reload url config."""
+        """Helper method to reload url config."""
         imp.reload(sys.modules[settings.ROOT_URLCONF])
         clear_url_caches()
 

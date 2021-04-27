@@ -100,7 +100,7 @@ class RecordsViewTests(SiteMixin, TestCase):
         self.client.login(username=self.user.username, password=USER_PASSWORD)
 
     def _render_records(self, program_data=None, status_code=200):
-        """ Helper method to mock and render a user certificate."""
+        """Helper method to mock and render a user certificate."""
         if program_data is None:
             program_data = []
 
@@ -116,13 +116,13 @@ class RecordsViewTests(SiteMixin, TestCase):
         self.assertEqual(actual.origin, expected.origin)
 
     def test_no_anonymous_access(self):
-        """ Verify that the view rejects non-logged-in users. """
+        """Verify that the view rejects non-logged-in users."""
         self.client.logout()
         response = self._render_records(status_code=302)
         self.assertRegex(response.url, "^/login/.*")
 
     def test_normal_access(self):
-        """ Verify that the view works in default case. """
+        """Verify that the view works in default case."""
         response = self._render_records()
         response_context_data = response.context_data
 
@@ -134,7 +134,7 @@ class RecordsViewTests(SiteMixin, TestCase):
         self.assert_matching_template_origin(actual_child_templates["masquerade"], "_masquerade.html")
 
     def test_xss(self):
-        """ Verify that the view protects against xss in translations. """
+        """Verify that the view protects against xss in translations."""
         response = self._render_records(
             [
                 {
@@ -157,7 +157,7 @@ class RecordsViewTests(SiteMixin, TestCase):
         self.assertNotContains(response, "<xss>")
 
     def test_help_url(self):
-        """ Verify that the records help url gets loaded into the context """
+        """Verify that the records help url gets loaded into the context"""
         response = self._render_records()
         response_context_data = response.context_data
         self.assertIn("records_help_url", response_context_data)
@@ -171,7 +171,7 @@ class RecordsViewTests(SiteMixin, TestCase):
     )
     @ddt.unpack
     def test_completed_render_from_db(self, status, visible):
-        """ Verify that a program cert that is completed is returned correctly, with different statuses """
+        """Verify that a program cert that is completed is returned correctly, with different statuses"""
         self.program.status = status
         self.program.save()
 
@@ -192,7 +192,7 @@ class RecordsViewTests(SiteMixin, TestCase):
         self.assertEqual(program_data, expected_program_data if visible else [])
 
     def test_in_progress_from_db(self):
-        """ Verify that no program cert, but course certs results in an In Progress program """
+        """Verify that no program cert, but course certs results in an In Progress program"""
         # Delete the program
         self.program_cert.delete()
         response = self.client.get(reverse("records:index"))
@@ -211,7 +211,7 @@ class RecordsViewTests(SiteMixin, TestCase):
         self.assertEqual(program_data, expected_program_data)
 
     def test_not_visible_from_db(self):
-        """ Test that the program's visible_date is considered """
+        """Test that the program's visible_date is considered"""
         UserCredentialAttributeFactory(
             user_credential=self.program_user_credential,
             name="visible_date",
@@ -221,7 +221,7 @@ class RecordsViewTests(SiteMixin, TestCase):
         self.assertFalse(json.loads(response.context_data["programs"])[0]["completed"])
 
     def test_multiple_programs(self):
-        """ Test that multiple programs can appear, in progress and completed """
+        """Test that multiple programs can appear, in progress and completed"""
         # Create a second program, and delete the first one's certificate
         new_course = CourseFactory.create(site=self.site)
         new_course_run = CourseRunFactory.create(course=new_course)
@@ -321,7 +321,7 @@ class ProgramListingViewTests(SiteMixin, TestCase):
         self.client.login(username=self.user.username, password=USER_PASSWORD)
 
     def _render_listing(self, expected_program_data=None, status_code=200):
-        """ Helper method to mock and render a user certificate."""
+        """Helper method to mock and render a user certificate."""
         response = self.client.get(reverse("program_listing"))
         self.assertEqual(response.status_code, status_code)
 
@@ -365,32 +365,32 @@ class ProgramListingViewTests(SiteMixin, TestCase):
         self.assertEqual(actual.origin, expected.origin)
 
     def test_no_anonymous_access(self):
-        """ Verify that the view rejects non-logged-in users. """
+        """Verify that the view rejects non-logged-in users."""
         self.client.logout()
         response = self._render_listing(status_code=302)
         self.assertRegex(response.url, "^/login/.*")
 
     def test_non_superuser_access(self):
-        """ Verify that the view rejects non-superuser users. """
+        """Verify that the view rejects non-superuser users."""
         self.user.is_superuser = False
         self.user.is_staff = False
         self.user.save()
         self._render_listing(status_code=404)
 
     def test_only_staff_access(self):
-        """ Verify that the view rejects non-staff users. """
+        """Verify that the view rejects non-staff users."""
         self.user.is_staff = False
         self.user.save()
         self._render_listing(status_code=404)
 
     def test_normal_access_superuser(self):
-        """ Verify that the view works with only superuser, no staff. """
+        """Verify that the view works with only superuser, no staff."""
         self.user.is_superuser = True
         self.user.is_staff = False
         self._verify_normal_access()
 
     def test_normal_access_as_staff(self):
-        """ Verify that the view works in default case. Staff is set in the setup method."""
+        """Verify that the view works in default case. Staff is set in the setup method."""
         self._verify_normal_access()
 
     @ddt.data(
@@ -401,7 +401,7 @@ class ProgramListingViewTests(SiteMixin, TestCase):
     )
     @ddt.unpack
     def test_completed_render_from_db(self, status, visible):
-        """ Verify that a program cert that is completed is returned correctly, with different statuses """
+        """Verify that a program cert that is completed is returned correctly, with different statuses"""
         self.program.status = status
         self.program.save()
 
@@ -409,7 +409,7 @@ class ProgramListingViewTests(SiteMixin, TestCase):
         self._render_listing(expected_program_data=data)
 
     def test_in_progress_from_db(self):
-        """ Verify that no program cert, but course certs results in an In Progress program """
+        """Verify that no program cert, but course certs results in an In Progress program"""
         # Delete the program cert
         self.program_cert.delete()
 
@@ -417,7 +417,7 @@ class ProgramListingViewTests(SiteMixin, TestCase):
         self._render_listing(expected_program_data=data)
 
     def test_empty_programs(self):
-        """ Test that a program with no certs shows as empty """
+        """Test that a program with no certs shows as empty"""
         # Delete all certs
         for cert in self.course_certs:
             cert.delete()
@@ -494,7 +494,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.pathway.programs.set([self.program])
 
     def _render_program_record(self, record_data=None, status_code=200):
-        """ Helper method to mock rendering a user certificate."""
+        """Helper method to mock rendering a user certificate."""
         if record_data is None:
             record_data = {}
 
@@ -510,20 +510,20 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(actual.origin, expected.origin)
 
     def test_no_anonymous_access_private(self):
-        """ Verify that the private view rejects non-logged-in users. """
+        """Verify that the private view rejects non-logged-in users."""
         self.client.logout()
         response = self._render_program_record(status_code=302)
         self.assertRegex(response.url, "^/login/.*")
 
     def test_anonymous_access_public(self):
-        """ Verify that the public view does not reject non-logged-in users"""
+        """Verify that the public view does not reject non-logged-in users"""
         self.client.logout()
         response = self.client.get(reverse("records:public_programs", kwargs={"uuid": self.pcr.uuid.hex}))
         self.assertContains(response, "Record")
 
     @ddt.data(True, False)
     def test_access_to_empty_record(self, is_superuser):
-        """ Verify that the an empty record rejects non-superusers. """
+        """Verify that the an empty record rejects non-superusers."""
         # Make sure no credentials exist
         self.user.is_superuser = is_superuser
         self.user.save()
@@ -544,7 +544,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
             self.assertTrue(program_data["empty"])
 
     def test_normal_access(self):
-        """ Verify that the view works in default case. """
+        """Verify that the view works in default case."""
         response = self._render_program_record()
         response_context_data = response.context_data
 
@@ -556,19 +556,19 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assert_matching_template_origin(actual_child_templates["masquerade"], "_masquerade.html")
 
     def test_public_access(self):
-        """ Verify that the public view instructs front end to be public """
+        """Verify that the public view instructs front end to be public"""
         response = self.client.get(reverse("records:public_programs", kwargs={"uuid": self.pcr.uuid.hex}))
         is_public = response.context_data["is_public"]
         self.assertTrue(is_public)
 
     def test_private_access(self):
-        """ Verify that the private view instructs front end to be private """
+        """Verify that the private view instructs front end to be private"""
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         is_public = response.context_data["is_public"]
         self.assertFalse(is_public)
 
     def test_public_private_data(self):
-        """ Verify that the public and private views return the same record data """
+        """Verify that the public and private views return the same record data"""
         response = self.client.get(reverse("records:public_programs", kwargs={"uuid": self.pcr.uuid.hex}))
         public_data = json.loads(response.context_data["record"])
 
@@ -600,7 +600,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(grade, expected_grade)
 
     def test_visible_date_as_issue_date(self):
-        """ Verify that we show visible_date when available """
+        """Verify that we show visible_date when available"""
         UserCredentialAttributeFactory(
             user_credential=self.user_credentials[1], name="visible_date", value="2017-07-31T09:32:46Z"
         )
@@ -610,7 +610,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(grades[0]["issue_date"], "2017-07-31T09:32:46+00:00")
 
     def test_future_visible_date_not_shown(self):
-        """ Verify that we don't show certificates with a visible_date in the future """
+        """Verify that we don't show certificates with a visible_date in the future"""
         UserCredentialAttributeFactory(
             user_credential=self.user_credentials[1],
             name="visible_date",
@@ -629,7 +629,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
     )
     @ddt.unpack
     def test_program_visible_date(self, date, completed):
-        """ Test that the program's visible_date is considered """
+        """Test that the program's visible_date is considered"""
         program_credential = UserCredentialFactory(
             username=self.MOCK_USER_DATA["username"],
             credential_content_type=self.program_content_type,
@@ -645,7 +645,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(json.loads(response.context_data["record"])["program"]["completed"], completed)
 
     def test_organization_order(self):
-        """ Test that the organizations are returned in the order they were added """
+        """Test that the organizations are returned in the order they were added"""
         self.course.owners.set(self.orgs)
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         program_data = json.loads(response.context_data["record"])["program"]
@@ -655,7 +655,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(grade["school"], ", ".join(self.org_names))
 
     def test_course_run_order(self):
-        """ Test that the course_runs are returned in the program order """
+        """Test that the course_runs are returned in the program order"""
         new_course_run = CourseRunFactory()
         self.program.course_runs.add(new_course_run)
         UserGradeFactory(
@@ -677,7 +677,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(expected_course_run_keys, actual_course_run_keys)
 
     def test_course_run_no_credential(self):
-        """ Adds a course run with no credential and tests that it does appear in the results """
+        """Adds a course run with no credential and tests that it does appear in the results"""
         new_course_run = CourseRunFactory()
         self.program.course_runs.add(new_course_run)
         UserGradeFactory(
@@ -714,7 +714,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(new_course.title, grades[0]["name"])
 
     def test_learner_data(self):
-        """ Test that the learner data is returned successfully """
+        """Test that the learner data is returned successfully"""
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         learner_data = json.loads(response.context_data["record"])["learner"]
 
@@ -723,7 +723,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(learner_data, expected)
 
     def test_program_data(self):
-        """ Test that the program data is returned successfully """
+        """Test that the program data is returned successfully"""
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         program_data = json.loads(response.context_data["record"])["program"]
 
@@ -740,7 +740,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(program_data, expected)
 
     def test_pathway_data(self):
-        """ Test that the pathway data is returned successfully """
+        """Test that the pathway data is returned successfully"""
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         pathway_data = json.loads(response.context_data["record"])["pathways"]
 
@@ -757,7 +757,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(pathway_data, expected)
 
     def test_pathway_no_email(self):
-        """ Test that a pathway without an email is inactive """
+        """Test that a pathway without an email is inactive"""
         self.pathway.email = ""
         self.pathway.save()
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
@@ -776,7 +776,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(pathway_data, expected)
 
     def test_sent_pathway_status(self):
-        """ Test that a user credit pathway pathway that has already been sent includes a pathway """
+        """Test that a user credit pathway pathway that has already been sent includes a pathway"""
         UserCreditPathwayFactory(pathway=self.pathway, user=self.user)
 
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
@@ -795,7 +795,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertEqual(pathway_data, expected)
 
     def test_xss(self):
-        """ Verify that the view protects against xss in translations. """
+        """Verify that the view protects against xss in translations."""
         response = self._render_program_record(
             {
                 "name": "<xss>",
@@ -850,7 +850,7 @@ class ProgramRecordTests(SiteMixin, TestCase):
         self.assertRegex(json_data["url"], UUID_PATTERN)
 
     def test_different_user_creation(self):
-        """ Verify that the view rejects a User attempting to create a ProgramCertRecord for another """
+        """Verify that the view rejects a User attempting to create a ProgramCertRecord for another"""
         diff_username = "diff-user"
         rev = reverse("records:share_program", kwargs={"uuid": self.program.uuid.hex})
         UserFactory(username=diff_username)
@@ -907,7 +907,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertTrue(response.url.startswith("/login/?next="))
 
     def test_creates_cert_record(self):
-        """ Verify that the view creates a ProgramCertRecord as needed. """
+        """Verify that the view creates a ProgramCertRecord as needed."""
         with self.assertRaises(ProgramCertRecord.DoesNotExist):
             ProgramCertRecord.objects.get(user=self.user, program=self.program)
 
@@ -917,7 +917,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         ProgramCertRecord.objects.get(user=self.user, program=self.program)
 
     def test_different_user(self):
-        """ Verify that the view rejects a User attempting to send a program """
+        """Verify that the view rejects a User attempting to send a program"""
         diff_username = "diff-user"
         UserFactory(username=diff_username)
         self.data["username"] = diff_username
@@ -927,7 +927,7 @@ class ProgramSendTests(SiteMixin, TestCase):
 
     @patch("credentials.apps.records.views.ace")
     def test_from_address_set(self, mock_ace):
-        """ Verify that the email uses the proper from address """
+        """Verify that the email uses the proper from address"""
         response = self.post()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
@@ -936,7 +936,7 @@ class ProgramSendTests(SiteMixin, TestCase):
 
     @patch("credentials.apps.records.views.ace")
     def test_no_full_name(self, mock_ace):
-        """ Verify that the email uses the username as a backup for the full name. """
+        """Verify that the email uses the username as a backup for the full name."""
         self.user.full_name = ""
         self.user.first_name = ""
         self.user.last_name = ""
@@ -948,7 +948,7 @@ class ProgramSendTests(SiteMixin, TestCase):
 
     @patch("credentials.apps.records.views.ace")
     def test_from_address_unset(self, mock_ace):
-        """ Verify that the email uses the proper default from address """
+        """Verify that the email uses the proper default from address"""
         self.site_configuration.partner_from_address = None
         self.site_configuration.save()
 
@@ -992,13 +992,13 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertIn("has sent their partially completed program record for", str(email.message()))
 
     def prevent_sending_second_email(self):
-        """ Verify that an email can't be sent twice """
+        """Verify that an email can't be sent twice"""
         UserCreditPathwayFactory(pathway=self.pathway, user=self.user)
         response = self.post()
         self.assertEqual(response.status_code, 400)
 
     def test_resend_email(self):
-        """ Verify that a manually updated email status can be resent """
+        """Verify that a manually updated email status can be resent"""
         UserCreditPathwayFactory(pathway=self.pathway, user=self.user, status="")
         response = self.post()
         self.assertEqual(response.status_code, 200)
@@ -1057,7 +1057,7 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
 
     @patch("credentials.apps.records.views.SegmentClient", autospec=True)
     def test_404s_with_no_program_cert_record(self, segment_client):  # pylint: disable=unused-argument
-        """ Verify that the view 404s if a program cert record isn't found"""
+        """Verify that the view 404s if a program cert record isn't found"""
         self.program_cert_record.delete()
         response = self.client.get(
             reverse("records:program_record_csv", kwargs={"uuid": self.program_cert_record.uuid.hex})
@@ -1067,7 +1067,7 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
     @patch("credentials.apps.records.views.SegmentClient", autospec=True)
     @patch("credentials.apps.records.views.SegmentClient.track", autospec=True)
     def tests_creates_csv(self, segment_client, track):  # pylint: disable=unused-argument
-        """ Verify that the csv parses and contains all of the necessary titles/headers"""
+        """Verify that the csv parses and contains all of the necessary titles/headers"""
         response = self.client.get(
             reverse("records:program_record_csv", kwargs={"uuid": self.program_cert_record.uuid.hex})
         )
@@ -1116,7 +1116,7 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
 
 @ddt.ddt
 class MasqueradeBannerFactoryTests(SiteMixin, TestCase):
-    """ Tests for verifying proper loading of the Masquerade Banner Factory. """
+    """Tests for verifying proper loading of the Masquerade Banner Factory."""
 
     MOCK_USER_DATA = {
         "username": "test-user",
@@ -1130,7 +1130,7 @@ class MasqueradeBannerFactoryTests(SiteMixin, TestCase):
         self.client.login(username=self.user.username, password=USER_PASSWORD)
 
     def _render_page(self, page):
-        """ Helper method to render the given page with no record/program data. """
+        """Helper method to render the given page with no record/program data."""
         if page == "records":
             response = self.client.get(reverse("records:index"))
         elif page == "programs":
@@ -1145,7 +1145,7 @@ class MasqueradeBannerFactoryTests(SiteMixin, TestCase):
         "programs",
     )
     def test_masquerade_banner_will_appear_for_staff(self, page):
-        """ Verify that staff will see the masquerade bar. """
+        """Verify that staff will see the masquerade bar."""
         staff = UserFactory(username="test-staff", is_staff=True)
         self.client.login(username=staff.username, password=USER_PASSWORD)
         response = self._render_page(page)
@@ -1156,7 +1156,7 @@ class MasqueradeBannerFactoryTests(SiteMixin, TestCase):
         "programs",
     )
     def test_masquerade_banner_will_appear_for_masqueraders(self, page):
-        """ Verify that masqueraders will see the masquerade bar. """
+        """Verify that masqueraders will see the masquerade bar."""
         session = self.client.session
         session["is_hijacked_user"] = True
         session.save()
@@ -1168,7 +1168,7 @@ class MasqueradeBannerFactoryTests(SiteMixin, TestCase):
         "programs",
     )
     def test_masquerade_banner_will_not_appear(self, page):
-        """ Verify that the masquerade banner will not appear for other users. """
+        """Verify that the masquerade banner will not appear for other users."""
         response = self._render_page(page)
 
         self.assertNotContains(response, "MasqueradeBannerFactory")

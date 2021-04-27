@@ -10,7 +10,7 @@ LANGUAGE_CODE = "en"
 
 
 class CoreContextProcessorTests(TestCase):
-    """ Tests for core.context_processors.core """
+    """Tests for core.context_processors.core"""
 
     def test_core(self):
         site_configuration = factories.SiteConfigurationFactory()

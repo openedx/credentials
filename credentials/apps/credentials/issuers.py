@@ -95,7 +95,7 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
 
 
 class ProgramCertificateIssuer(AbstractCredentialIssuer):
-    """ Issues ProgramCertificates. """
+    """Issues ProgramCertificates."""
 
     issued_credential_type = ProgramCertificate
 
@@ -152,6 +152,6 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
 
 
 class CourseCertificateIssuer(AbstractCredentialIssuer):
-    """ Issues CourseCertificates. """
+    """Issues CourseCertificates."""
 
     issued_credential_type = CourseCertificate

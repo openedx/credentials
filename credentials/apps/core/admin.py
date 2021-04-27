@@ -9,7 +9,7 @@ from credentials.apps.core.models import SiteConfiguration, User
 
 
 class CustomUserAdmin(UserAdmin):
-    """ Admin configuration for the custom User model. """
+    """Admin configuration for the custom User model."""
 
     list_display = ("username", "email", "full_name", "first_name", "last_name", "is_staff")
     fieldsets = (
@@ -21,7 +21,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 class SiteConfigurationAdmin(admin.ModelAdmin):
-    """ Admin for the SiteConfiguration model."""
+    """Admin for the SiteConfiguration model."""
 
     list_display = ("site", "lms_url_root")
     search_fields = ("site__name",)

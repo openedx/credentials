@@ -23,7 +23,7 @@ LOGGER_NAME = "credentials.apps.credentials.issuers"
 
 # pylint: disable=no-member
 class CertificateIssuerBase:
-    """ Tests an Issuer class and its methods."""
+    """Tests an Issuer class and its methods."""
 
     issuer = None
     cert_factory = None
@@ -38,11 +38,11 @@ class CertificateIssuerBase:
         self.attributes = [{"name": "whitelist_reason", "value": "Reason for whitelisting."}]
 
     def test_issued_credential_type(self):
-        """ Verify issued_credential_type returns the correct credential type."""
+        """Verify issued_credential_type returns the correct credential type."""
         self.assertEqual(self.issuer.issued_credential_type, self.cert_type)
 
     def test_issue_existing_credential(self):
-        """ Verify credentials can be updated when re-issued."""
+        """Verify credentials can be updated when re-issued."""
 
         user_credential = self.issuer.issue_credential(self.certificate, self.username, "revoked")
         self.user_cred.refresh_from_db()
@@ -50,13 +50,13 @@ class CertificateIssuerBase:
         self.assertEqual(user_credential, self.user_cred)
 
     def test_issue_credential_without_attributes(self):
-        """ Verify credentials can be issued without attributes."""
+        """Verify credentials can be issued without attributes."""
 
         user_credential = self.issuer.issue_credential(self.certificate, self.username)
         self._assert_usercredential_fields(user_credential, self.certificate, self.username, "awarded", [])
 
     def test_issue_credential_with_attributes(self):
-        """ Verify credentials can be issued with attributes."""
+        """Verify credentials can be issued with attributes."""
         UserFactory(username="testuser2")
         user_credential = self.issuer.issue_credential(self.certificate, "testuser2", attributes=self.attributes)
         self._assert_usercredential_fields(user_credential, self.certificate, "testuser2", "awarded", self.attributes)
@@ -64,7 +64,7 @@ class CertificateIssuerBase:
     def _assert_usercredential_fields(
         self, user_credential, expected_credential, expected_username, expected_status, expected_attrs
     ):
-        """ Verify the fields on a UserCredential object match expectations. """
+        """Verify the fields on a UserCredential object match expectations."""
         self.assertEqual(user_credential.username, expected_username)
         self.assertEqual(user_credential.credential, expected_credential)
         self.assertEqual(user_credential.status, expected_status)
@@ -72,11 +72,11 @@ class CertificateIssuerBase:
         self.assertEqual(actual_attributes, expected_attrs)
 
     def test_set_credential_without_attributes(self):
-        """ Verify that if no attributes given then None will return."""
+        """Verify that if no attributes given then None will return."""
         self.assertEqual(self.issuer.set_credential_attributes(self.user_cred, None), None)
 
     def test_set_credential_with_attributes(self):
-        """ Verify that it adds the given attributes against user credential."""
+        """Verify that it adds the given attributes against user credential."""
 
         self.issuer.set_credential_attributes(self.user_cred, self.attributes)
         self._assert_usercredential_fields(
@@ -129,7 +129,7 @@ class CertificateIssuerBase:
 
 
 class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
-    """ Tests for program Issuer class and its methods."""
+    """Tests for program Issuer class and its methods."""
 
     issuer = ProgramCertificateIssuer()
     cert_factory = ProgramCertificateFactory
@@ -210,7 +210,7 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
 
 
 class CourseCertificateIssuerTests(CertificateIssuerBase, TestCase):
-    """ Tests for course Issuer class and its methods."""
+    """Tests for course Issuer class and its methods."""
 
     issuer = CourseCertificateIssuer()
     cert_factory = CourseCertificateFactory

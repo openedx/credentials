@@ -186,7 +186,7 @@ class UserCredential(TimeStampedModel):
         return reverse("credentials:render", kwargs={"uuid": self.uuid.hex})
 
     def revoke(self):
-        """ Sets the status to revoked, and saves this instance. """
+        """Sets the status to revoked, and saves this instance."""
         self.status = UserCredential.REVOKED
         self.save()
 
@@ -277,7 +277,7 @@ class ProgramCertificate(AbstractCertificate):
 
     @cached_property
     def program_details(self):
-        """ Returns details about the program associated with this certificate. """
+        """Returns details about the program associated with this certificate."""
         program_details = get_program_details_by_uuid(uuid=self.program_uuid, site=self.site)
 
         if not program_details:

@@ -75,7 +75,7 @@ class SignatoryTests(TestCase):
         assert signatory.image.name.endswith(".jpg")
 
     def test_str(self):
-        """ Verify the method serializes the Signatory's name and title. """
+        """Verify the method serializes the Signatory's name and title."""
         signatory = SignatoryFactory()
         self.assertEqual(str(signatory), signatory.name + ", " + signatory.title)
 
@@ -105,7 +105,7 @@ class CourseCertificateTests(SiteMixin, TestCase):
 
 @ddt.ddt
 class ProgramCertificateTests(SiteMixin, TestCase):
-    """ Tests for the ProgramCertificate model. """
+    """Tests for the ProgramCertificate model."""
 
     def test_str(self):
         instance = ProgramCertificateFactory()
@@ -119,7 +119,7 @@ class ProgramCertificateTests(SiteMixin, TestCase):
     )
     @ddt.unpack
     def test_program_details(self, use_org_name, credential_title):
-        """ Verify the method returns the details of program associated with the ProgramCertificate. """
+        """Verify the method returns the details of program associated with the ProgramCertificate."""
         program_certificate = ProgramCertificateFactory(
             site=self.site, use_org_name=use_org_name, title=credential_title
         )
