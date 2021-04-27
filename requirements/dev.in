@@ -17,3 +17,6 @@ docker-compose
 
 # More efficient checking for runserver reload trigger events
 pywatchman; "linux" in sys_platform
+
+# For local debugging
+django-debug-toolbar

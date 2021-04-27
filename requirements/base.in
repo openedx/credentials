@@ -13,7 +13,6 @@ analytics-python
 bleach
 coreapi
 django
-django-debug-toolbar
 django-hijack
 django-extensions
 django-filter
