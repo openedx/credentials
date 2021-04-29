@@ -272,7 +272,7 @@ edx-rest-api-client==5.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-git+https://github.com/edx/credentials-themes.git@0.1.61#egg=edx_credentials_themes==0.1.61
+git+https://github.com/edx/credentials-themes.git@0.1.62#egg=edx_credentials_themes==0.1.62
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -487,9 +487,8 @@ pylint-plugin-utils==0.6
     #   -r requirements/dev.txt
     #   pylint-celery
     #   pylint-django
-pylint==2.7.4
+pylint==2.8.2
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/dev.txt
     #   edx-lint
     #   pylint-celery
