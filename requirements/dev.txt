@@ -24,7 +24,7 @@ attrs==20.3.0
     #   pytest
 bcrypt==3.2.0
     # via paramiko
-black==21.4b1
+black==21.4b2
     # via -r requirements/test.txt
 bleach==3.3.0
     # via -r requirements/test.txt
@@ -447,7 +447,7 @@ requests==2.25.1
     #   slumber
     #   social-auth-core
     #   transifex-client
-responses==0.13.2
+responses==0.13.3
     # via -r requirements/test.txt
 rest-condition==1.0.3
     # via

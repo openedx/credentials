@@ -19,7 +19,7 @@ attrs==20.3.0
     #   -r requirements/base.txt
     #   edx-ace
     #   pytest
-black==21.4b1
+black==21.4b2
     # via -r requirements/test.in
 bleach==3.3.0
     # via -r requirements/base.txt
@@ -379,7 +379,7 @@ requests==2.25.1
     #   slumber
     #   social-auth-core
     #   transifex-client
-responses==0.13.2
+responses==0.13.3
     # via -r requirements/test.in
 rest-condition==1.0.3
     # via
