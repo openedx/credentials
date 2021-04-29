@@ -34,6 +34,10 @@ production-requirements: piptools ## Install requirements for production
 	npm install --no-save
 	pip-sync requirements/production.txt
 
+dev-requirements: piptools
+	npm install --also=dev
+	pip-sync requirements/all.txt
+
 all-requirements: piptools ## Install local and prod requirements
 	npm install
 	npm install --production --no-save
