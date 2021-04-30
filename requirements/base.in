@@ -33,6 +33,7 @@ edx-django-utils
 edx-drf-extensions
 edx-opaque-keys
 edx-rest-api-client
+edx-toggles
 markdown
 mysqlclient
 newrelic
