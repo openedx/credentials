@@ -316,10 +316,11 @@ class CourseCertificateSerializerTests(SiteMixin, TestCase):
         self.assertEqual(actual, expected)
 
     def test_create_without_course_run_raises_warning(self):
-        # even though you can create an entry without a course run, we want to make sure we are logging a warning when it is missing
+        # even though you can create an entry without a course run,
+        # we want to make sure we are logging a warning when it is missing
         with self.assertLogs(level=WARNING):
             Request = namedtuple("Request", ["site"])
-            serializer = CourseCertificateSerializer(context={"request": Request(site=self.site)}).create(
+            CourseCertificateSerializer(context={"request": Request(site=self.site)}).create(
                 validated_data={
                     "course_id": "DemoCourse0",
                     "certificate_type": "verified",
@@ -327,4 +328,3 @@ class CourseCertificateSerializerTests(SiteMixin, TestCase):
                     "certificate_available_date": None,
                 }
             )
-            print(dir(serializer))
