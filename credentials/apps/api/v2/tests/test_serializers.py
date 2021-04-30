@@ -1,12 +1,15 @@
 from collections import namedtuple
+from logging import WARNING
 from uuid import uuid4
 
 import ddt
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.exceptions import ValidationError
 from rest_framework.settings import api_settings
 from rest_framework.test import APIRequestFactory
+from credentials.apps.api.v2 import serializers
 
 from credentials.apps.api.v2.serializers import (
     CourseCertificateSerializer,
@@ -285,7 +288,7 @@ class UserCredentialSerializerTests(TestCase):
         self.assertEqual(actual, expected)
 
 
-class CourseCertificateSerializerTests(TestCase):
+class CourseCertificateSerializerTests(SiteMixin, TestCase):
     def test_create_course_certificate(self):
         course_run = CourseRunFactory()
         course_certificate = CourseCertificateFactory(course_run=course_run)
@@ -313,3 +316,17 @@ class CourseCertificateSerializerTests(TestCase):
             "is_active": course_certificate.is_active,
         }
         self.assertEqual(actual, expected)
+
+    def test_create_without_course_run_raises_warning(self):
+        # even though you can create an entry without a course run, we want to make sure we are logging a warning when it is missing
+        with self.assertLogs(level=WARNING):
+            Request = namedtuple("Request", ["site"])
+            serializer = CourseCertificateSerializer(context={"request": Request(site=self.site)}).create(
+                validated_data={
+                    "course_id": "DemoCourse0",
+                    "certificate_type": "verified",
+                    "is_active": True,
+                    "certificate_available_date": None,
+                }
+            )
+            print(dir(serializer))
