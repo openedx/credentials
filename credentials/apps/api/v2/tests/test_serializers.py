@@ -1,4 +1,5 @@
 from collections import namedtuple
+from logging import WARNING
 from uuid import uuid4
 
 import ddt
@@ -9,6 +10,7 @@ from rest_framework.settings import api_settings
 from rest_framework.test import APIRequestFactory
 
 from credentials.apps.api.v2.serializers import (
+    CourseCertificateSerializer,
     CredentialField,
     UserCredentialAttributeSerializer,
     UserCredentialCreationSerializer,
@@ -282,3 +284,47 @@ class UserCredentialSerializerTests(TestCase):
 
         actual = UserCredentialSerializer(user_credential, context={"request": request}).data
         self.assertEqual(actual, expected)
+
+
+class CourseCertificateSerializerTests(SiteMixin, TestCase):
+    def test_create_course_certificate(self):
+        course_run = CourseRunFactory()
+        course_certificate = CourseCertificateFactory(course_run=course_run)
+        actual = CourseCertificateSerializer(course_certificate).data
+        expected = {
+            "id": course_certificate.id,
+            "course_id": course_certificate.course_id,
+            "course_run": course_certificate.course_run.key,
+            "certificate_type": course_certificate.certificate_type,
+            "certificate_available_date": course_certificate.certificate_available_date,
+            "is_active": course_certificate.is_active,
+        }
+        self.assertEqual(actual, expected)
+
+    def test_missing_course_run(self):
+        # We should be able to create an entry without a course run
+        course_certificate = CourseCertificateFactory(course_run=None)
+        actual = CourseCertificateSerializer(course_certificate).data
+        expected = {
+            "id": course_certificate.id,
+            "course_id": course_certificate.course_id,
+            "course_run": None,
+            "certificate_type": course_certificate.certificate_type,
+            "certificate_available_date": course_certificate.certificate_available_date,
+            "is_active": course_certificate.is_active,
+        }
+        self.assertEqual(actual, expected)
+
+    def test_create_without_course_run_raises_warning(self):
+        # even though you can create an entry without a course run,
+        # we want to make sure we are logging a warning when it is missing
+        with self.assertLogs(level=WARNING):
+            Request = namedtuple("Request", ["site"])
+            CourseCertificateSerializer(context={"request": Request(site=self.site)}).create(
+                validated_data={
+                    "course_id": "DemoCourse0",
+                    "certificate_type": "verified",
+                    "is_active": True,
+                    "certificate_available_date": None,
+                }
+            )

@@ -257,3 +257,46 @@ class UserGradeSerializer(serializers.ModelSerializer):
             defaults=validated_data,
         )
         return grade
+
+
+class CourseCertificateSerializer(serializers.ModelSerializer):
+    course_run = CourseRunField(read_only=True)
+
+    class Meta:
+        model = CourseCertificate
+        fields = (
+            "id",
+            "course_id",
+            "course_run",
+            "certificate_type",
+            "certificate_available_date",
+            "is_active",
+        )
+        read_only_fields = ("id", "course_run")
+
+    def create(self, validated_data):
+        site = self.context["request"].site
+        # A course run may not exist, but if it does, we want to find it. There may be times where course
+        # staff will change the date on a newly created course before credentials has pulled it from the catalog.
+        course_id = validated_data["course_id"]
+        course_run = None
+        try:
+            course_run = CourseRun.objects.get(key=course_id)
+        except ObjectDoesNotExist:
+            logger.warning(
+                "Course run certificate failed to create "
+                f"because the course run [{course_id}] doesn't exist in the catalog"
+            )
+
+        cert, _ = CourseCertificate.objects.get_or_create(
+            course_id=course_id,
+            site=site,
+            course_run=course_run,
+            certificate_type=validated_data["certificate_type"],
+            certificate_available_date=validated_data["certificate_available_date"],
+            is_active=validated_data["is_active"],
+            defaults={
+                "is_active": True,
+            },
+        )
+        return cert
