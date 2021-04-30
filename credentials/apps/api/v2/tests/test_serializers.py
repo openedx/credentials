@@ -9,8 +9,8 @@ from django.urls import reverse
 from rest_framework.exceptions import ValidationError
 from rest_framework.settings import api_settings
 from rest_framework.test import APIRequestFactory
-from credentials.apps.api.v2 import serializers
 
+from credentials.apps.api.v2 import serializers
 from credentials.apps.api.v2.serializers import (
     CourseCertificateSerializer,
     CredentialField,
