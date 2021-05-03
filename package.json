@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "7.12.1",
-    "@edx/paragon": "14.8.0",
+    "@edx/paragon": "14.10.0",
     "axios": "0.21.1",
     "bi-app-sass": "1.1.0",
     "bootstrap": "4.6.0",
