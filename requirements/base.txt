@@ -35,7 +35,7 @@ django-appconf==1.0.4
     # via django-statici18n
 django-crum==0.7.9
     # via edx-django-utils
-django-debug-toolbar==3.2
+django-debug-toolbar==3.2.1
     # via -r requirements/base.in
 django-extensions==3.1.2
     # via -r requirements/base.in

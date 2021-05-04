@@ -124,7 +124,7 @@ django-crum==0.7.9
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-django-utils
-django-debug-toolbar==3.2
+django-debug-toolbar==3.2.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
