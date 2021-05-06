@@ -16,7 +16,7 @@ astroid==2.5.6
     #   -r requirements/test.txt
     #   pylint
     #   pylint-celery
-attrs==20.3.0
+attrs==21.1.0
     # via
     #   -r requirements/test.txt
     #   edx-ace
@@ -24,7 +24,7 @@ attrs==20.3.0
     #   pytest
 bcrypt==3.2.0
     # via paramiko
-black==21.4b2
+black==21.5b0
     # via -r requirements/test.txt
 bleach==3.3.0
     # via -r requirements/test.txt
@@ -127,7 +127,7 @@ django-waffle==2.1.0
     #   edx-toggles
 django-webpack-loader==0.7.0
     # via -r requirements/test.txt
-django==2.2.20
+django==2.2.22
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
@@ -183,7 +183,7 @@ edx-django-release-util==1.0.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==3.0.0
     # via -r requirements/test.txt
-edx-django-utils==3.16.0
+edx-django-utils==4.0.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
@@ -206,7 +206,7 @@ edx-rest-api-client==5.3.0
     # via -r requirements/test.txt
 edx-toggles==4.1.0
     # via -r requirements/test.txt
-git+https://github.com/edx/credentials-themes.git@0.1.62#egg=edx_credentials_themes==0.1.62
+git+https://github.com/edx/credentials-themes.git@0.1.63#egg=edx_credentials_themes==0.1.63
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
@@ -345,7 +345,7 @@ pycryptodomex==3.10.1
     # via
     #   -r requirements/test.txt
     #   pyjwkest
-pygments==2.8.1
+pygments==2.9.0
     # via -r requirements/test.txt
 pyjwkest==1.4.2
     # via
@@ -378,7 +378,7 @@ pylint==2.8.2
     #   pylint-celery
     #   pylint-django
     #   pylint-plugin-utils
-pymongo==3.11.3
+pymongo==3.11.4
     # via
     #   -r requirements/test.txt
     #   edx-opaque-keys
@@ -392,7 +392,7 @@ pyrsistent==0.17.3
     # via jsonschema
 pytest-django==4.2.0
     # via -r requirements/test.txt
-pytest==6.2.3
+pytest==6.2.4
     # via
     #   -r requirements/test.txt
     #   pytest-django
@@ -476,7 +476,7 @@ simplejson==3.17.2
     #   -r requirements/test.txt
     #   django-rest-swagger
     #   sailthru-client
-six==1.15.0
+six==1.16.0
     # via
     #   -r requirements/test.txt
     #   analytics-python
@@ -548,7 +548,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tox==3.23.0
+tox==3.23.1
     # via -r requirements/test.txt
 transifex-client==0.14.2
     # via
@@ -575,7 +575,7 @@ webencodings==0.5.1
     # via
     #   -r requirements/test.txt
     #   bleach
-websocket-client==0.58.0
+websocket-client==0.59.0
     # via
     #   docker
     #   docker-compose
