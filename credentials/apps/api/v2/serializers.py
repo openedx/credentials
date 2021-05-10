@@ -288,7 +288,7 @@ class CourseCertificateSerializer(serializers.ModelSerializer):
                 "Course run certificate failed to create "
                 f"because the course run [{course_id}] doesn't exist in the catalog"
             )
-        #Check if the cert already exists, attempt to update the course_run and cert date
+        # Check if the cert already exists, attempt to update the course_run and cert date
         cert, _ = CourseCertificate.objects.update_or_create(
             course_id=course_id,
             site=site,

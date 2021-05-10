@@ -287,5 +287,5 @@ class CourseCertificateViewSet(
 ):
     queryset = CourseCertificate.objects.all()
     serializer_class = CourseCertificateSerializer
-    permission_classes = (permissions.IsAdminUser, )
+    permission_classes = (permissions.IsAdminUser,)
     lookup_field = "course_id"
