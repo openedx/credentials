@@ -4,6 +4,7 @@ from django.apps import apps
 from django.db import transaction
 from django.db.models import Q
 from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
+from edx_rest_framework_extensions.permissions import JwtRestrictedApplication
 from rest_framework import mixins, permissions, status, viewsets
 from rest_framework.exceptions import Throttled
 from rest_framework.response import Response
@@ -287,4 +288,5 @@ class CourseCertificateViewSet(
 ):
     queryset = CourseCertificate.objects.all()
     serializer_class = CourseCertificateSerializer
+    permission_classes = (permissions.IsAdminUser, )
     lookup_field = "course_id"

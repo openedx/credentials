@@ -289,10 +289,12 @@ class UserCredentialSerializerTests(TestCase):
 class CourseCertificateSerializerTests(SiteMixin, TestCase):
     def test_create_course_certificate(self):
         course_run = CourseRunFactory()
-        course_certificate = CourseCertificateFactory(course_run=course_run)
-        actual = CourseCertificateSerializer(course_certificate).data
+        course_certificate = CourseCertificateFactory(site=self.site, course_run=course_run)
+        Request = namedtuple("Request", ["site"])
+        actual = CourseCertificateSerializer(course_certificate, context={"request": Request(site=self.site)}).data
         expected = {
             "id": course_certificate.id,
+            "site": self.site.id,
             "course_id": course_certificate.course_id,
             "course_run": course_certificate.course_run.key,
             "certificate_type": course_certificate.certificate_type,
@@ -303,12 +305,14 @@ class CourseCertificateSerializerTests(SiteMixin, TestCase):
 
     def test_missing_course_run(self):
         # We should be able to create an entry without a course run
-        course_certificate = CourseCertificateFactory(course_run=None)
-        actual = CourseCertificateSerializer(course_certificate).data
+        course_certificate = CourseCertificateFactory(site=self.site, course_run=None)
+        Request = namedtuple("Request", ["site"])
+        actual = CourseCertificateSerializer(course_certificate, context={"request": Request(site=self.site)}).data
         expected = {
             "id": course_certificate.id,
-            "course_id": course_certificate.course_id,
+            "site": self.site.id,
             "course_run": None,
+            "course_id": course_certificate.course_id,
             "certificate_type": course_certificate.certificate_type,
             "certificate_available_date": course_certificate.certificate_available_date,
             "is_active": course_certificate.is_active,
