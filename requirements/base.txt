@@ -67,7 +67,7 @@ django-waffle==2.1.0
     #   edx-toggles
 django-webpack-loader==0.7.0
     # via -r requirements/base.in
-django==2.2.22
+django==2.2.20
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.in
@@ -129,7 +129,7 @@ edx-rest-api-client==5.3.0
     # via -r requirements/base.in
 edx-toggles==4.1.0
     # via -r requirements/base.in
-git+https://github.com/edx/credentials-themes.git@0.1.64#egg=edx_credentials_themes==0.1.64
+git+https://github.com/edx/credentials-themes.git@0.1.65#egg=edx_credentials_themes==0.1.65
     # via -r requirements/base.in
 future==0.18.2
     # via pyjwkest
