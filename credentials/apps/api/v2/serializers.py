@@ -266,13 +266,14 @@ class CourseCertificateSerializer(serializers.ModelSerializer):
         model = CourseCertificate
         fields = (
             "id",
+            "site",
             "course_id",
             "course_run",
             "certificate_type",
             "certificate_available_date",
             "is_active",
         )
-        read_only_fields = ("id", "course_run")
+        read_only_fields = ("id", "course_run", "site")
 
     def create(self, validated_data):
         site = self.context["request"].site
@@ -287,16 +288,15 @@ class CourseCertificateSerializer(serializers.ModelSerializer):
                 "Course run certificate failed to create "
                 f"because the course run [{course_id}] doesn't exist in the catalog"
             )
-
-        cert, _ = CourseCertificate.objects.get_or_create(
+        # Check if the cert already exists, attempt to update the course_run and cert date
+        cert, _ = CourseCertificate.objects.update_or_create(
             course_id=course_id,
             site=site,
-            course_run=course_run,
             certificate_type=validated_data["certificate_type"],
-            certificate_available_date=validated_data["certificate_available_date"],
-            is_active=validated_data["is_active"],
             defaults={
-                "is_active": True,
+                "is_active": validated_data["is_active"],
+                "course_run": course_run,
+                "certificate_available_date": validated_data["certificate_available_date"],
             },
         )
         return cert
