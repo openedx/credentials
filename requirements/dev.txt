@@ -212,7 +212,7 @@ edx-rest-api-client==5.3.0
     # via -r requirements/test.txt
 edx-toggles==4.1.0
     # via -r requirements/test.txt
-git+https://github.com/edx/credentials-themes.git@0.1.65#egg=edx_credentials_themes==0.1.65
+git+https://github.com/edx/credentials-themes.git@0.1.66#egg=edx_credentials_themes==0.1.66
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
@@ -431,6 +431,8 @@ pytz==2021.1
     # via
     #   -r requirements/test.txt
     #   django
+pywatchman==1.4.1 ; "linux" in sys_platform
+    # via -r requirements/dev.in
 pyyaml==5.4.1
     # via
     #   -r requirements/test.txt
