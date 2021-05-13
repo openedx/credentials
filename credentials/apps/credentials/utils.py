@@ -10,7 +10,13 @@ from edx_ace import Recipient, ace
 from credentials.apps.catalog.data import ProgramStatus
 from credentials.apps.core.models import User
 from credentials.apps.credentials.messages import ProgramCertificateIssuedMessage
-from credentials.apps.credentials.models import ProgramCompletionEmailConfiguration, UserCredentialAttribute
+from credentials.apps.credentials.models import (
+    CourseCertificate,
+    ProgramCertificate,
+    ProgramCompletionEmailConfiguration,
+    UserCredential,
+    UserCredentialAttribute,
+)
 
 
 log = logging.getLogger(__name__)
@@ -70,12 +76,54 @@ def filter_visible(qs):
     )
 
 
+def get_program_certificate_visible_date(user_program_credential):
+    """
+    Finds the program certificate visible date by finding the latest associated
+    course certificate available date.
+
+    Arguments:
+        user_program_credential (UserCredential): A single UserCredential object; this
+        must be of the ProgramCertificate ContentType.
+
+    Returns:
+        (DateTime or None): The date on which the program certificate should be
+        visible, or else None.
+    """
+    last_date = None
+    for course_run in user_program_credential.credential.program.course_runs.all():
+        # Does the user have a course cert for this course run?
+        course_run_cert = UserCredential.objects.filter(
+            username=user_program_credential.username,
+            course_credentials__course_id=course_run.key,
+        ).first()
+
+        if course_run_cert:
+            date = course_run_cert.credential.certificate_available_date
+            if date:
+                last_date = max(last_date, date) if last_date else date
+
+    return last_date
+
+
 def get_credential_visible_dates(user_credentials):
     """
     Calculates visible date for a collection of UserCredentials.
     Returns a dictionary of {UserCredential: datetime}.
     Guaranteed to return a datetime object for each credential.
     """
+
+    if settings.USE_CERTIFICATE_AVAILABLE_DATE.is_enabled():
+        visible_date_dict = {}
+        for user_credential in user_credentials:
+            if user_credential.credential_content_type.model_class() == CourseCertificate:
+                date = user_credential.credential.certificate_available_date
+
+            if user_credential.credential_content_type.model_class() == ProgramCertificate:
+                date = get_program_certificate_visible_date(user_credential)
+
+            visible_date_dict[user_credential] = date or user_credential.created
+
+        return visible_date_dict
 
     visible_dates = UserCredentialAttribute.objects.prefetch_related("user_credential__credential").filter(
         user_credential__in=user_credentials, name="visible_date"
