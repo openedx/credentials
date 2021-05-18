@@ -8,6 +8,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.test import APIRequestFactory, APITestCase
+from waffle.testutils import override_switch
 
 from credentials.apps.api.tests.mixins import JwtMixin
 from credentials.apps.api.v2.serializers import (
@@ -306,6 +307,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["results"], self.serialize_user_credential([program_cred], many=True))
 
+    # This test should be removed in MICROBA-1198 in favor of the next test.
     def test_list_visible_filtering(self):
         """Verify the endpoint can filter by visible date."""
         program_certificate = ProgramCertificateFactory(site=self.site)
@@ -332,6 +334,44 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         response = self.client.get(self.list_path + "?only_visible=True")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["results"], self.serialize_user_credential([course_cred], many=True))
+
+        response = self.client.get(self.list_path + "?only_visible=False")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["results"], self.serialize_user_credential(both, many=True))
+
+    # The following test is the same as the previous test, but with the
+    # USE_CERTIFICATE_AVAILABLE_DATE waffle switch enabled. Clean up previous
+    # tests in MICROBA-1198.
+    @override_switch("credentials.use_certificate_available_date", active=True)
+    def test_list_visible_filtering_with_certificate_available_date(self):
+        """Verify the endpoint can filter by visible date."""
+        course = CourseFactory.create(site=self.site)
+        course_run = CourseRunFactory.create(course=course)
+        course_certificate = CourseCertificateFactory.create(
+            course_id=course_run.key, site=self.site, certificate_available_date="9999-05-11T03:14:01Z"
+        )
+        program = ProgramFactory(title="TestProgram1", course_runs=[course_run], site=self.site)
+        program_certificate = ProgramCertificateFactory(site=self.site, program_uuid=program.uuid)
+        program_certificate.program = program
+        program_certificate.save()
+        program_credential = UserCredentialFactory(username=self.user.username, credential=program_certificate)
+        course_credential = UserCredentialFactory.create(
+            username=self.user.username,
+            credential=course_certificate,
+        )
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, "view_usercredential")
+
+        both = [program_credential, course_credential]
+
+        response = self.client.get(self.list_path)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["results"], self.serialize_user_credential(both, many=True))
+
+        response = self.client.get(self.list_path + "?only_visible=True")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data["results"], self.serialize_user_credential([], many=True))
 
         response = self.client.get(self.list_path + "?only_visible=False")
         self.assertEqual(response.status_code, 200)

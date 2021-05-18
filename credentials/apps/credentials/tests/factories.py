@@ -20,6 +20,7 @@ class CourseCertificateFactory(AbstractCertificateFactory):
     course_id = factory.Sequence(lambda o: "course-%d" % o)
     certificate_type = constants.CertificateType.HONOR
     is_active = True
+    certificate_available_date = None
 
 
 class ProgramCertificateFactory(AbstractCertificateFactory):
