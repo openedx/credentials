@@ -54,6 +54,7 @@ click-log==0.3.2
     #   edx-lint
 click==7.1.2
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
     #   black
     #   click-log
@@ -175,7 +176,7 @@ dockerpty==0.4.1
     # via docker-compose
 docopt==0.6.2
     # via docker-compose
-drf-jwt==1.19.0
+drf-jwt==1.19.1
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
@@ -216,7 +217,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.66#egg=edx_credentials_the
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==8.1.4
+faker==8.2.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -233,11 +234,11 @@ gitdb==4.0.7
     # via
     #   -r requirements/test.txt
     #   gitpython
-gitpython==3.1.16
+gitpython==3.1.17
     # via
     #   -r requirements/test.txt
     #   transifex-client
-httpretty==1.1.0
+httpretty==1.1.1
     # via -r requirements/test.txt
 idna==2.10
     # via
@@ -255,8 +256,9 @@ itypes==1.2.0
     # via
     #   -r requirements/test.txt
     #   coreapi
-jinja2==3.0.0
+jinja2==2.11.3
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
     #   code-annotations
     #   coreschema
@@ -272,8 +274,9 @@ lazy==1.4
     #   bok-choy
 markdown==3.3.4
     # via -r requirements/test.txt
-markupsafe==2.0.0
+markupsafe==1.1.1
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
     #   jinja2
 mccabe==0.6.1
@@ -401,7 +404,7 @@ pyparsing==2.4.7
     #   packaging
 pyrsistent==0.17.3
     # via jsonschema
-pytest-django==4.2.0
+pytest-django==4.3.0
     # via -r requirements/test.txt
 pytest==6.2.4
     # via
