@@ -13,6 +13,7 @@ Including another URL
     2. Add a URL to urlpatterns:  re_path(r'^blog/', include(blog_urls))
 """
 
+
 import os
 
 from auth_backends.urls import oauth2_urlpatterns
