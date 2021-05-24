@@ -52,14 +52,14 @@ click-log==0.3.2
     # via
     #   -r requirements/test.txt
     #   edx-lint
-click==7.1.2
+click==8.0.1
     # via
     #   -r requirements/test.txt
     #   black
     #   click-log
     #   code-annotations
     #   edx-lint
-code-annotations==1.1.1
+code-annotations==1.1.2
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -123,7 +123,7 @@ django-statici18n==2.0.1
     # via -r requirements/test.txt
 django-storages==1.11.1
     # via -r requirements/test.txt
-django-waffle==2.1.0
+django-waffle==2.2.0
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -137,7 +137,6 @@ django==2.2.23
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
-    #   code-annotations
     #   django-appconf
     #   django-crum
     #   django-debug-toolbar
@@ -177,6 +176,7 @@ docopt==0.6.2
     # via docker-compose
 drf-jwt==1.19.0
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
     #   edx-drf-extensions
 edx-ace==0.1.17
@@ -204,7 +204,7 @@ edx-i18n-tools==0.5.3
     #   edx-credentials-themes
 edx-lint==5.0.0
     # via -r requirements/test.txt
-edx-opaque-keys==2.2.0
+edx-opaque-keys==2.2.1
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
@@ -212,11 +212,11 @@ edx-rest-api-client==5.3.0
     # via -r requirements/test.txt
 edx-toggles==4.1.0
     # via -r requirements/test.txt
-git+https://github.com/edx/credentials-themes.git@0.1.66#egg=edx_credentials_themes==0.1.66
+git+https://github.com/edx/credentials-themes.git@0.1.67#egg=edx_credentials_themes==0.1.67
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==8.1.4
+faker==8.2.1
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -233,11 +233,11 @@ gitdb==4.0.7
     # via
     #   -r requirements/test.txt
     #   gitpython
-gitpython==3.1.16
+gitpython==3.1.17
     # via
     #   -r requirements/test.txt
     #   transifex-client
-httpretty==1.1.0
+httpretty==1.1.2
     # via -r requirements/test.txt
 idna==2.10
     # via
@@ -255,7 +255,7 @@ itypes==1.2.0
     # via
     #   -r requirements/test.txt
     #   coreapi
-jinja2==3.0.0
+jinja2==3.0.1
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -272,7 +272,7 @@ lazy==1.4
     #   bok-choy
 markdown==3.3.4
     # via -r requirements/test.txt
-markupsafe==2.0.0
+markupsafe==2.0.1
     # via
     #   -r requirements/test.txt
     #   jinja2
@@ -401,7 +401,7 @@ pyparsing==2.4.7
     #   packaging
 pyrsistent==0.17.3
     # via jsonschema
-pytest-django==4.2.0
+pytest-django==4.3.0
     # via -r requirements/test.txt
 pytest==6.2.4
     # via
