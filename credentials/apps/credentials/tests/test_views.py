@@ -12,8 +12,10 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.text import slugify
 from faker import Faker
+from waffle.testutils import override_switch
 
 from credentials.apps.catalog.data import OrganizationDetails, ProgramDetails
+from credentials.apps.catalog.tests.factories import CourseFactory, CourseRunFactory, ProgramFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, SiteConfigurationFactory, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.exceptions import MissingCertificateLogoError
@@ -36,13 +38,31 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
 
     def setUp(self):
         super().setUp()
-        self.program_certificate = factories.ProgramCertificateFactory(site=self.site)
+        self.course = CourseFactory.create(site=self.site)
+        self.course_runs = CourseRunFactory.create_batch(2, course=self.course)
+        self.course_certificates = [
+            factories.CourseCertificateFactory.create(
+                course_id=course_run.key, site=self.site, certificate_available_date="1994-05-11T03:14:01Z"
+            )
+            for course_run in self.course_runs
+        ]
+        self.program = ProgramFactory(title="TestProgram1", course_runs=self.course_runs, site=self.site)
+        self.program_certificate = factories.ProgramCertificateFactory(site=self.site, program_uuid=self.program.uuid)
+        self.program_certificate.program = self.program
+        self.program_certificate.save()
         self.signatory_1 = factories.SignatoryFactory()
         self.signatory_2 = factories.SignatoryFactory()
         self.program_certificate.signatories.add(self.signatory_1, self.signatory_2)
         self.user_credential = factories.UserCredentialFactory(
             username=self.MOCK_USER_DATA["username"], credential=self.program_certificate
         )
+        self.course_user_credentials = [
+            factories.UserCredentialFactory.create(
+                username=self.MOCK_USER_DATA["username"],
+                credential=course_cert,
+            )
+            for course_cert in self.course_certificates
+        ]
         self.visible_date_attr = factories.UserCredentialAttributeFactory(
             user_credential=self.user_credential,
             name="visible_date",
@@ -207,6 +227,8 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         response = self.client.get(self.user_credential.get_absolute_url())
         self.assertEqual(response.status_code, 404)
 
+    # These four tests should be removed in MICROBA-1198 in favor of the next
+    # three tests.
     def test_future_visible_date(self):
         """Verify that the view returns 404 when the uuid is valid but certificate is not yet visible."""
         self.visible_date_attr.value = "9999-01-01T01:01:01Z"
@@ -214,6 +236,8 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         response = self.client.get(self.user_credential.get_absolute_url())
         self.assertEqual(response.status_code, 404)
 
+    # (This test is not replicated below because the certificate_available_date
+    # field has validation that will prevent non-valid date data.)
     @responses.activate
     def test_invalid_visible_date(self):
         """Verify that the view just returns normally when the valid_date attribute can't be understood."""
@@ -232,6 +256,32 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         """Verify that the view renders the visible_date as the issue date."""
         response = self._render_user_credential()
         self.assertContains(response, "Issued January 1970")
+
+    # The following three tests are the same as the previous four, but with the
+    # USE_CERTIFICATE_AVAILABLE_DATE waffle switch enabled. Clean up previous
+    # tests in MICROBA-1198.
+    @override_switch("credentials.use_certificate_available_date", True)
+    def test_future_certificate_available_date(self):
+        """Verify that the view returns 404 when the uuid is valid but certificate is not yet visible."""
+        self.course_certificates[0].certificate_available_date = "9999-05-11T03:14:01Z"
+        self.course_certificates[0].save()
+        response = self.client.get(self.user_credential.get_absolute_url())
+        self.assertEqual(response.status_code, 404)
+
+    @override_switch("credentials.use_certificate_available_date", active=True)
+    @responses.activate
+    def test_no_certificate_available_date(self):
+        """Verify that the view just returns normally when there isn't a valid_date attribute."""
+        self.course_certificates[0].certificate_available_date = None
+        self.course_certificates[0].save()
+        self._render_user_credential()  # Will raise exception if not 200 status
+
+    @override_switch("credentials.use_certificate_available_date", active=True)
+    @responses.activate
+    def test_visible_certificate_available_date(self):
+        """Verify that the view renders the visible_date as the issue date."""
+        response = self._render_user_credential()
+        self.assertContains(response, "Issued May 1994")
 
     @responses.activate
     def test_signatory_organization_name_override(self):
