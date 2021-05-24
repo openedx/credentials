@@ -17,6 +17,7 @@ from django.template.loader import select_template
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
+from waffle.testutils import override_switch
 
 from credentials.apps.catalog.models import Program
 from credentials.apps.catalog.tests.factories import (
@@ -210,6 +211,7 @@ class RecordsViewTests(SiteMixin, TestCase):
         ]
         self.assertEqual(program_data, expected_program_data)
 
+    # Clean up in MICROBA-1198 in favor of the next test.
     def test_not_visible_from_db(self):
         """Test that the program's visible_date is considered"""
         UserCredentialAttributeFactory(
@@ -217,6 +219,20 @@ class RecordsViewTests(SiteMixin, TestCase):
             name="visible_date",
             value="9999-01-01T01:01:01Z",
         )
+        response = self.client.get(reverse("records:index"))
+        self.assertFalse(json.loads(response.context_data["programs"])[0]["completed"])
+
+    # This tests the same thing as the previous test, but with the
+    # USE_CERTIFICATE_AVAILABLE_DATE waffle switch enabled. Clean up previous
+    # test in MICROBA-1198.
+    @override_switch("credentials.use_certificate_available_date", active=True)
+    def test_not_visible_from_db_with_certificate_available_date(self):
+        """Test that the program's certificate_available_date is considered"""
+        self.program_user_credential.credential.program = self.program
+        self.program_user_credential.credential.save()
+        self.course_certs[0].certificate_available_date = "9999-01-01T01:01:01Z"
+        self.course_certs[0].save()
+
         response = self.client.get(reverse("records:index"))
         self.assertFalse(json.loads(response.context_data["programs"])[0]["completed"])
 
@@ -599,6 +615,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         self.assertEqual(grade, expected_grade)
 
+    # These three tests should be removed in MICROBA-1198 in favor of the next
+    # three tests.
     def test_visible_date_as_issue_date(self):
         """Verify that we show visible_date when available"""
         UserCredentialAttributeFactory(
@@ -641,6 +659,58 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
                 name="visible_date",
                 value=date,
             )
+        response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
+        self.assertEqual(json.loads(response.context_data["record"])["program"]["completed"], completed)
+
+    # The following three tests are the same as the previous three, but with the
+    # USE_CERTIFICATE_AVAILABLE_DATE waffle switch enabled. Clean up previous
+    # tests in MICROBA-1198.
+    @override_switch("credentials.use_certificate_available_date", active=True)
+    def test_visible_date_as_issue_date_with_certificate_available_date(self):
+        """Verify that we show certificate_available_date when available"""
+        self.user_credentials[1].credential.certificate_available_date = "2017-05-11T03:14:00+00:00"
+        self.user_credentials[1].credential.save()
+
+        response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
+        grades = json.loads(response.context_data["record"])["grades"]
+        self.assertEqual(len(grades), 1)
+        self.assertEqual(grades[0]["issue_date"], "2017-05-11T03:14:00+00:00")
+
+    @override_switch("credentials.use_certificate_available_date", active=True)
+    def test_future_visible_date_not_shown_with_certificate_available_date(self):
+        """Verify that we don't show certificates with a certificate_available_date in the future"""
+        self.user_credentials[1].credential.certificate_available_date = datetime.datetime.max.strftime(
+            "%Y-%m-%dT%H:%M:%SZ"
+        )
+        self.user_credentials[1].credential.save()
+
+        response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
+        grades = json.loads(response.context_data["record"])["grades"]
+        self.assertEqual(len(grades), 1)
+        self.assertEqual(grades[0]["course_id"], self.course_runs[0].key)  # 0 instead of 1 now that 1 is in future
+        self.assertEqual(grades[0]["issue_date"], self.user_credentials[0].created.isoformat())
+
+    @ddt.data(
+        ("9999-01-01T01:01:01Z", False),
+        ("1970-01-01T01:01:01Z", True),
+        (None, True),
+    )
+    @ddt.unpack
+    @override_switch("credentials.use_certificate_available_date", active=True)
+    def test_program_visible_date_with_certificate_available_date(self, date, completed):
+        """Test that the program's certificate_available_date is considered"""
+        program_credential = UserCredentialFactory(
+            username=self.MOCK_USER_DATA["username"],
+            credential_content_type=self.program_content_type,
+            credential=self.program_cert,
+        )
+        program_credential.credential.program = self.program
+        program_credential.credential.save()
+
+        if date:
+            self.course_certs[0].certificate_available_date = date
+            self.course_certs[0].save()
+
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         self.assertEqual(json.loads(response.context_data["record"])["program"]["completed"], completed)
 

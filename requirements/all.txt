@@ -42,11 +42,11 @@ bleach==3.3.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.17.76
+boto3==1.17.79
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.20.76
+botocore==1.20.79
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -72,7 +72,7 @@ click-log==0.3.2
     # via
     #   -r requirements/dev.txt
     #   edx-lint
-click==7.1.2
+click==8.0.1
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/dev.txt
@@ -81,7 +81,7 @@ click==7.1.2
     #   click-log
     #   code-annotations
     #   edx-lint
-code-annotations==1.1.1
+code-annotations==1.1.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -174,7 +174,7 @@ django-storages==1.11.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-waffle==2.1.0
+django-waffle==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -191,7 +191,6 @@ django==2.2.23
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-    #   code-annotations
     #   django-appconf
     #   django-crum
     #   django-debug-toolbar
@@ -239,6 +238,7 @@ docopt==0.6.2
     #   docker-compose
 drf-jwt==1.19.1
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
@@ -277,7 +277,7 @@ edx-i18n-tools==0.5.3
     #   edx-credentials-themes
 edx-lint==5.0.0
     # via -r requirements/dev.txt
-edx-opaque-keys==2.2.0
+edx-opaque-keys==2.2.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -290,13 +290,13 @@ edx-toggles==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-git+https://github.com/edx/credentials-themes.git@0.1.66#egg=edx_credentials_themes==0.1.66
+git+https://github.com/edx/credentials-themes.git@0.1.67#egg=edx_credentials_themes==0.1.67
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 factory-boy==3.2.0
     # via -r requirements/dev.txt
-faker==8.2.0
+faker==8.2.1
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -329,7 +329,7 @@ greenlet==1.1.0
     #   gevent
 gunicorn==20.1.0
     # via -r requirements/production.txt
-httpretty==1.1.1
+httpretty==1.1.2
     # via -r requirements/dev.txt
 idna==2.10
     # via
@@ -349,7 +349,7 @@ itypes==1.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-jinja2==2.11.3
+jinja2==3.0.1
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/dev.txt
@@ -377,7 +377,7 @@ markdown==3.3.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-markupsafe==1.1.1
+markupsafe==2.0.1
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/dev.txt

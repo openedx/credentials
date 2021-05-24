@@ -16,9 +16,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==3.3.0
     # via -r requirements/base.txt
-boto3==1.17.76
+boto3==1.17.79
     # via django-ses
-botocore==1.20.76
+botocore==1.20.79
     # via
     #   boto3
     #   s3transfer
@@ -34,12 +34,12 @@ chardet==4.0.0
     # via
     #   -r requirements/base.txt
     #   requests
-click==7.1.2
+click==8.0.1
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
     #   code-annotations
-code-annotations==1.1.1
+code-annotations==1.1.2
     # via
     #   -r requirements/base.txt
     #   edx-toggles
@@ -91,7 +91,7 @@ django-statici18n==2.0.1
     # via -r requirements/base.txt
 django-storages==1.11.1
     # via -r requirements/base.txt
-django-waffle==2.1.0
+django-waffle==2.2.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -105,7 +105,6 @@ django==2.2.23
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
-    #   code-annotations
     #   django-appconf
     #   django-crum
     #   django-extensions
@@ -136,6 +135,7 @@ djangorestframework==3.12.4
     #   rest-condition
 drf-jwt==1.19.1
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
     #   edx-drf-extensions
 edx-ace==0.1.17
@@ -160,7 +160,7 @@ edx-i18n-tools==0.5.3
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
-edx-opaque-keys==2.2.0
+edx-opaque-keys==2.2.1
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -168,7 +168,7 @@ edx-rest-api-client==5.3.0
     # via -r requirements/base.txt
 edx-toggles==4.1.0
     # via -r requirements/base.txt
-git+https://github.com/edx/credentials-themes.git@0.1.66#egg=edx_credentials_themes==0.1.66
+git+https://github.com/edx/credentials-themes.git@0.1.67#egg=edx_credentials_themes==0.1.67
     # via -r requirements/base.txt
 future==0.18.2
     # via
@@ -197,7 +197,7 @@ itypes==1.2.0
     # via
     #   -r requirements/base.txt
     #   coreapi
-jinja2==2.11.3
+jinja2==3.0.1
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
@@ -209,7 +209,7 @@ jmespath==0.10.0
     #   botocore
 markdown==3.3.4
     # via -r requirements/base.txt
-markupsafe==1.1.1
+markupsafe==2.0.1
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
