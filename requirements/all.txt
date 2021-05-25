@@ -328,7 +328,7 @@ greenlet==1.1.0
     #   gevent
 gunicorn==20.1.0
     # via -r requirements/production.txt
-httpretty==1.1.2
+httpretty==1.1.3
     # via -r requirements/dev.txt
 idna==2.10
     # via
