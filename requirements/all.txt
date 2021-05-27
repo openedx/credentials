@@ -42,11 +42,11 @@ bleach==3.3.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.17.79
+boto3==1.17.82
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.20.79
+botocore==1.20.82
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -295,7 +295,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.67#egg=edx_credentials_the
     #   -r requirements/production.txt
 factory-boy==3.2.0
     # via -r requirements/dev.txt
-faker==8.2.1
+faker==8.3.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -397,7 +397,7 @@ mysqlclient==2.0.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==6.2.0.156
+newrelic==6.4.0.157
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -736,7 +736,7 @@ uritemplate==3.0.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-urllib3==1.26.4
+urllib3==1.26.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
