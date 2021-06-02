@@ -215,6 +215,7 @@ class CourseCertificate(AbstractCertificate):
             constants.CertificateType.PROFESSIONAL,
             constants.CertificateType.VERIFIED,
             constants.CertificateType.NO_ID_PROFESSIONAL,
+            constants.CertificateType.MASTERS
         ),
     )
     user_credentials = GenericRelation(
