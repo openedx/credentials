@@ -21,3 +21,4 @@ class CertificateType:
     VERIFIED = "verified"
     PROFESSIONAL = "professional"
     NO_ID_PROFESSIONAL = "no-id-professional"
+    MASTERS = "masters"
