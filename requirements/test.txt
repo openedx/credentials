@@ -23,13 +23,13 @@ backoff==1.10.0
     # via
     #   -r requirements/base.txt
     #   analytics-python
-black==21.5b1
+black==21.5b2
     # via -r requirements/test.in
 bleach==3.3.0
     # via -r requirements/base.txt
 bok-choy==1.1.1
     # via -r requirements/test.in
-certifi==2020.12.5
+certifi==2021.5.30
     # via
     #   -r requirements/base.txt
     #   requests
@@ -79,7 +79,7 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-distlib==0.3.1
+distlib==0.3.2
     # via virtualenv
 django-appconf==1.0.4
     # via
@@ -164,7 +164,7 @@ edx-django-release-util==1.0.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==3.0.0
     # via -r requirements/base.txt
-edx-django-utils==4.0.0
+edx-django-utils==4.1.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -190,7 +190,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.68#egg=edx_credentials_the
     # via -r requirements/base.txt
 factory-boy==3.2.0
     # via -r requirements/test.in
-faker==8.4.0
+faker==8.5.0
     # via factory-boy
 filelock==3.0.12
     # via
@@ -253,7 +253,7 @@ newrelic==6.4.0.157
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-oauthlib==3.1.0
+oauthlib==3.1.1
     # via
     #   -r requirements/base.txt
     #   requests-oauthlib
@@ -330,7 +330,7 @@ pylint-plugin-utils==0.6
     # via
     #   pylint-celery
     #   pylint-django
-pylint==2.8.2
+pylint==2.8.3
     # via
     #   edx-lint
     #   pylint-celery

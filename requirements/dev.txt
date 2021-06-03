@@ -28,13 +28,13 @@ backoff==1.10.0
     #   analytics-python
 bcrypt==3.2.0
     # via paramiko
-black==21.5b1
+black==21.5b2
     # via -r requirements/test.txt
 bleach==3.3.0
     # via -r requirements/test.txt
 bok-choy==1.1.1
     # via -r requirements/test.txt
-certifi==2020.12.5
+certifi==2021.5.30
     # via
     #   -r requirements/test.txt
     #   requests
@@ -88,7 +88,7 @@ defusedxml==0.7.1
     #   -r requirements/test.txt
     #   python3-openid
     #   social-auth-core
-distlib==0.3.1
+distlib==0.3.2
     # via
     #   -r requirements/test.txt
     #   virtualenv
@@ -133,7 +133,7 @@ django-webpack-loader==0.7.0
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
-django==2.2.23
+django==2.2.24
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
@@ -189,7 +189,7 @@ edx-django-release-util==1.0.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==3.0.0
     # via -r requirements/test.txt
-edx-django-utils==4.0.0
+edx-django-utils==4.1.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
@@ -216,7 +216,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.68#egg=edx_credentials_the
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==8.4.0
+faker==8.5.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -294,7 +294,7 @@ newrelic==6.4.0.157
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
-oauthlib==3.1.0
+oauthlib==3.1.1
     # via
     #   -r requirements/test.txt
     #   requests-oauthlib
@@ -382,7 +382,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/test.txt
     #   pylint-celery
     #   pylint-django
-pylint==2.8.2
+pylint==2.8.3
     # via
     #   -r requirements/test.txt
     #   edx-lint
