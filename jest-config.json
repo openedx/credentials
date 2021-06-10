@@ -24,5 +24,6 @@
   "transformIgnorePatterns": [
     "/node_modules/(?!(@edx/paragon)/).*/"
   ],
-  "watchman": false
+  "watchman": false,
+  "testEnvironment": "jsdom"
 }
