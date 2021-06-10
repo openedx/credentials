@@ -216,7 +216,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.70#egg=edx_credentials_the
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==8.5.0
+faker==8.6.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -290,7 +290,7 @@ mypy-extensions==0.4.3
     #   black
 mysqlclient==2.0.3
     # via -r requirements/test.txt
-newrelic==6.4.0.157
+newrelic==6.4.1.158
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -401,7 +401,7 @@ pyparsing==2.4.7
     #   packaging
 pyrsistent==0.17.3
     # via jsonschema
-pytest-django==4.3.0
+pytest-django==4.4.0
     # via -r requirements/test.txt
 pytest==6.2.4
     # via
