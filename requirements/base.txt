@@ -158,7 +158,7 @@ monotonic==1.6
     # via analytics-python
 mysqlclient==2.0.3
     # via -r requirements/base.in
-newrelic==6.4.0.157
+newrelic==6.4.1.158
     # via
     #   -r requirements/base.in
     #   edx-django-utils
