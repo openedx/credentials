@@ -16,9 +16,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==3.3.0
     # via -r requirements/base.txt
-boto3==1.17.91
+boto3==1.17.95
     # via django-ses
-botocore==1.20.91
+botocore==1.20.95
     # via
     #   boto3
     #   s3transfer
@@ -180,7 +180,7 @@ gitdb==4.0.7
     # via
     #   -r requirements/base.txt
     #   gitpython
-gitpython==3.1.17
+gitpython==3.1.14
     # via
     #   -r requirements/base.txt
     #   transifex-client
@@ -241,7 +241,7 @@ path.py==12.5.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-path==15.1.2
+path==16.0.0
     # via
     #   -r requirements/base.txt
     #   path.py
