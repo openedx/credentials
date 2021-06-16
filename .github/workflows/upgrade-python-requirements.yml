@@ -1,9 +1,6 @@
 name: Upgrade Requirements
 
 on:
-  push:
-    branches: 
-      - '**'
     
   schedule:
     # will start the job at 00:15 UTC every Thursday
