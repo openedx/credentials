@@ -23,7 +23,7 @@ backoff==1.10.0
     # via
     #   -r requirements/base.txt
     #   analytics-python
-black==21.5b2
+black==21.6b0
     # via -r requirements/test.in
 bleach==3.3.0
     # via -r requirements/base.txt
@@ -190,7 +190,7 @@ git+https://github.com/edx/credentials-themes.git@0.1.70#egg=edx_credentials_the
     # via -r requirements/base.txt
 factory-boy==3.2.0
     # via -r requirements/test.in
-faker==8.6.0
+faker==8.8.0
     # via factory-boy
 filelock==3.0.12
     # via
@@ -204,7 +204,7 @@ gitdb==4.0.7
     # via
     #   -r requirements/base.txt
     #   gitpython
-gitpython==3.1.17
+gitpython==3.1.14
     # via
     #   -r requirements/base.txt
     #   transifex-client
@@ -272,7 +272,7 @@ path.py==12.5.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-path==15.1.2
+path==16.0.0
     # via
     #   -r requirements/base.txt
     #   path.py
