@@ -12,7 +12,7 @@
 analytics-python
 bleach
 coreapi
-django
+django>=3.2
 django-hijack
 django-extensions
 django-filter
@@ -25,7 +25,7 @@ django-storages
 django-waffle
 django-webpack-loader
 djangorestframework
-edx-ace
+-e git+https://github.com/edx/edx-ace.git@bf031d2034e2547fdc0a2559f9aab2acd4256a56#egg=edx_ace
 edx-auth-backends
 edx-django-release-util
 edx-django-sites-extensions

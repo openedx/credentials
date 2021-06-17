@@ -4,8 +4,14 @@
 #
 #    make upgrade
 #
+-e git+https://github.com/edx/edx-ace.git@bf031d2034e2547fdc0a2559f9aab2acd4256a56#egg=edx_ace
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.in
 analytics-python==1.3.1
     # via -r requirements/base.in
+asgiref==3.4.1
+    # via django
 attrs==21.2.0
     # via edx-ace
 backoff==1.10.0
@@ -37,9 +43,8 @@ defusedxml==0.7.1
     # via
     #   python3-openid
     #   social-auth-core
-django==2.2.24
+django==3.2.5
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.in
     #   django-appconf
     #   django-crum
@@ -102,14 +107,8 @@ djangorestframework==3.12.4
     #   drf-jwt
     #   edx-drf-extensions
     #   rest-condition
-drf-jwt==1.19.0
-    # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
-    #   edx-drf-extensions
-edx-ace==0.1.17
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/base.in
+drf-jwt==1.19.1
+    # via edx-drf-extensions
 edx-auth-backends==3.3.3
     # via -r requirements/base.in
 git+https://github.com/edx/credentials-themes.git@0.1.73#egg=edx_credentials_themes==0.1.73
@@ -192,7 +191,6 @@ pyjwkest==1.4.2
     # via edx-drf-extensions
 pyjwt[crypto]==1.7.1
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   drf-jwt
     #   edx-auth-backends
     #   edx-rest-api-client

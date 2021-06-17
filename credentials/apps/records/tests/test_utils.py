@@ -120,3 +120,4 @@ class MasqueradingAuthorizedTests(TestCase):
         self.assertEqual(masquerading_authorized(self.superuser, self.user), True)
         self.assertEqual(masquerading_authorized(self.superuser, self.staff_user), True)
         self.assertEqual(masquerading_authorized(self.superuser, self.superuser), False)
+
