@@ -186,11 +186,11 @@ edx-rest-api-client==5.3.0
     # via -r requirements/base.txt
 edx-toggles==4.1.0
     # via -r requirements/base.txt
-git+https://github.com/edx/credentials-themes.git@0.1.70#egg=edx_credentials_themes==0.1.70
+git+https://github.com/edx/credentials-themes.git@0.1.71#egg=edx_credentials_themes==0.1.71
     # via -r requirements/base.txt
 factory-boy==3.2.0
     # via -r requirements/test.in
-faker==8.8.0
+faker==8.8.1
     # via factory-boy
 filelock==3.0.12
     # via
