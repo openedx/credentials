@@ -16,9 +16,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==3.3.0
     # via -r requirements/base.txt
-boto3==1.17.96
+boto3==1.17.99
     # via django-ses
-botocore==1.20.96
+botocore==1.20.99
     # via
     #   boto3
     #   s3transfer
@@ -180,7 +180,7 @@ gitdb==4.0.7
     # via
     #   -r requirements/base.txt
     #   gitpython
-gitpython==3.1.14
+gitpython==3.1.18
     # via
     #   -r requirements/base.txt
     #   transifex-client
@@ -217,7 +217,7 @@ monotonic==1.6
     #   analytics-python
 mysqlclient==2.0.3
     # via -r requirements/base.txt
-newrelic==6.4.1.158
+newrelic==6.4.3.160
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
