@@ -114,8 +114,8 @@ def _filter_visible_program_certificates(query_set):
     supposed to be visible yet according to their certificate_available_date.
 
     Arguments:
-        query_set (UserCredential QuerySet): A queryset of UserCredential objects of
-        the ProgramCertificate ContentType.
+        query_set (UserCredential QuerySet): A queryset of UserCredential
+        objects of the ProgramCertificate ContentType.
 
     Returns:
         (QuerySet): A queryset of program UserCredentials that should be visible.
@@ -124,23 +124,24 @@ def _filter_visible_program_certificates(query_set):
     visible_program_cert_ids = []
     for user_credential in query_set:
         program_visible_date = _get_program_certificate_visible_date(user_credential)
-        if not program_visible_date or program_visible_date <= now:
+        if program_visible_date and program_visible_date <= now:
             visible_program_cert_ids.append(user_credential.id)
     return UserCredential.objects.filter(pk__in=visible_program_cert_ids)
 
 
 def _get_program_certificate_visible_date(user_program_credential):
     """
-    Finds the program certificate visible date by finding the latest associated
-    course certificate available date.
+    Finds the program credential visible date by finding the latest associated
+    course certificate_available_date. If a course credential has no
+    certificate_available_date, use its created date instead.
 
     Arguments:
         user_program_credential (UserCredential): A single UserCredential object; this
         must be of the ProgramCertificate ContentType.
 
     Returns:
-        (DateTime or None): The date on which the program certificate should be
-        visible, or else None.
+        (DateTime or None): The date on which the program credential should be
+        visible. (It shouldn’t return None but is technically possible.)
     """
     last_date = None
     for course_run in user_program_credential.credential.program.course_runs.all():
@@ -151,9 +152,8 @@ def _get_program_certificate_visible_date(user_program_credential):
         ).first()
 
         if course_run_cert:
-            date = course_run_cert.credential.certificate_available_date
-            if date:
-                last_date = max(last_date, date) if last_date else date
+            date = course_run_cert.credential.certificate_available_date or course_run_cert.created
+            last_date = max(last_date, date) if last_date else date
 
     return last_date
 
@@ -170,13 +170,15 @@ def get_credential_visible_dates(user_credentials):
     if settings.USE_CERTIFICATE_AVAILABLE_DATE.is_enabled():
         visible_date_dict = {}
         for user_credential in user_credentials:
+            # If this is a course credential
             if user_credential.course_credentials.exists():
-                date = user_credential.credential.certificate_available_date
+                date = user_credential.credential.certificate_available_date or user_credential.created
 
+            # If this is a program credential
             if user_credential.program_credentials.exists():
                 date = _get_program_certificate_visible_date(user_credential)
 
-            visible_date_dict[user_credential] = date or user_credential.created
+            visible_date_dict[user_credential] = date
 
         return visible_date_dict
 
