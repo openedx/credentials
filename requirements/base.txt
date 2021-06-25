@@ -140,7 +140,7 @@ future==0.18.2
     # via pyjwkest
 gitdb==4.0.7
     # via gitpython
-gitpython==3.1.14
+gitpython==3.1.18
     # via transifex-client
 idna==2.10
     # via requests
@@ -158,7 +158,7 @@ monotonic==1.6
     # via analytics-python
 mysqlclient==2.0.3
     # via -r requirements/base.in
-newrelic==6.4.1.158
+newrelic==6.4.3.160
     # via
     #   -r requirements/base.in
     #   edx-django-utils
