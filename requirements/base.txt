@@ -134,13 +134,13 @@ edx-rest-api-client==5.3.0
     # via -r requirements/base.in
 edx-toggles==4.1.0
     # via -r requirements/base.in
-git+https://github.com/edx/credentials-themes.git@0.1.71#egg=edx_credentials_themes==0.1.71
+git+https://github.com/edx/credentials-themes.git@0.1.72#egg=edx_credentials_themes==0.1.72
     # via -r requirements/base.in
 future==0.18.2
     # via pyjwkest
 gitdb==4.0.7
     # via gitpython
-gitpython==3.1.14
+gitpython==3.1.18
     # via transifex-client
 idna==2.10
     # via requests
@@ -158,7 +158,7 @@ monotonic==1.6
     # via analytics-python
 mysqlclient==2.0.3
     # via -r requirements/base.in
-newrelic==6.4.1.158
+newrelic==6.4.3.160
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -290,7 +290,7 @@ transifex-client==0.14.2
     # via edx-credentials-themes
 uritemplate==3.0.1
     # via coreapi
-urllib3==1.26.5
+urllib3==1.26.6
     # via
     #   requests
     #   transifex-client
