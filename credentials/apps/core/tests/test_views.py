@@ -1,6 +1,6 @@
 """Test core.views."""
 
-import imp
+import importlib
 import sys
 from unittest import mock
 
@@ -85,7 +85,7 @@ class SiteViewTests(SiteMixin, TestCase):
 
     def _reload_urlconf(self):
         """Helper method to reload url config."""
-        imp.reload(sys.modules[settings.ROOT_URLCONF])
+        importlib.reload(sys.modules[settings.ROOT_URLCONF])
         clear_url_caches()
 
     @override_settings(DEBUG=True)
