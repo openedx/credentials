@@ -113,11 +113,11 @@ class CatalogDataSynchronizer:
         Returns:
             None
         """
-        for model_type in self.existing_data:
+        for (model_type, dataset) in self.existing_data.items():
             removed = self.existing_data_sets[model_type] - self.updated_data_sets[model_type]
             if removed:
                 logger.info(f"Removing the following {model_type} UUIDs: {removed}")
-                self.existing_data[model_type].filter(uuid__in=removed).delete()
+                dataset.filter(uuid__in=removed).delete()
 
     def fetch_resource(self, resource_name, parse_method, extra_request_params=None):
         """
