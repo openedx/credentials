@@ -296,6 +296,9 @@ class ProgramCertificate(AbstractCertificate):
 
         return program_details
 
+    def get_absolute_url(self):
+        return reverse("credentials:render_example", kwargs={"uuid": self.program_uuid.hex})
+
 
 class UserCredentialAttribute(TimeStampedModel):
     """
