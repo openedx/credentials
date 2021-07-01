@@ -165,10 +165,15 @@ def get_credential_visible_dates(user_credentials):
     Calculates visible date for a collection of UserCredentials.
     Returns a dictionary of {UserCredential: datetime}.
     Guaranteed to return a datetime object for each credential.
+
+    Returns:
+        datetime: Returns the datetime that the Credentials will be visible and None if the visible
+        date is not available or cannot be calculated.
     """
 
     if settings.USE_CERTIFICATE_AVAILABLE_DATE.is_enabled():
         visible_date_dict = {}
+        date = None
         for user_credential in user_credentials:
             # If this is a course credential
             if user_credential.course_credentials.exists():

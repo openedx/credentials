@@ -3,10 +3,12 @@ import logging
 import uuid
 
 from django.conf import settings
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.template.defaultfilters import slugify
 from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _, override
 from django.views.generic import TemplateView
@@ -44,6 +46,35 @@ class SocialMediaMixin:
         return context
 
 
+def _get_organizations_list(program_details):
+    organization_names = []
+    for organization in program_details.organizations:
+        organization_names.append(organization.display_name)
+        if not organization.certificate_logo_image_url:
+            raise MissingCertificateLogoError(
+                "No certificate image logo defined for program: [{program_uuid}]".format(
+                    program_uuid=program_details.uuid
+                )
+            )
+    return organization_names
+
+
+def _get_org_name(organization_names, render_language):
+    org_name_string = ""
+    with override(render_language):
+        if len(organization_names) == 1:
+            org_name_string = organization_names[0]
+        elif len(organization_names) == 2:
+            org_name_string = _("{first_org} and {second_org}").format(
+                first_org=organization_names[0], second_org=organization_names[1]
+            )
+        elif organization_names:
+            org_name_string = _("{series_of_orgs}, and {last_org}").format(
+                series_of_orgs=", ".join(organization_names[:-1]), last_org=organization_names[-1]
+            )
+    return org_name_string
+
+
 class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
     """Certificate rendering view."""
 
@@ -61,45 +92,30 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
             program_credentials__site=self.request.site,
         )
 
+    def get_visible_date(self):
+        visible_date = get_credential_visible_date(self.user_credential)
+        now = datetime.datetime.now(datetime.timezone.utc)
+        if not visible_date or now < visible_date:
+            raise Http404
+        return visible_date
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_credential = self.user_credential
-        organization_names = []
 
         # NOTE: We currently only support rendering program credentials
         if user_credential.credential_content_type.model_class() != ProgramCertificate:
             raise Http404
 
-        visible_date = get_credential_visible_date(user_credential)
-        now = datetime.datetime.now(datetime.timezone.utc)
-        if now < visible_date:
-            raise Http404
+        visible_date = self.get_visible_date()
 
         program_details = user_credential.credential.program_details
-        for organization in program_details.organizations:
-            organization_names.append(organization.display_name)
-            if not organization.certificate_logo_image_url:
-                raise MissingCertificateLogoError(
-                    "No certificate image logo defined for program: [{program_uuid}]".format(
-                        program_uuid=program_details.uuid
-                    )
-                )
+        organization_names = _get_organizations_list(program_details)
 
         content_language = to_language(user_credential.credential.language)
         render_language = content_language if content_language else settings.LANGUAGE_CODE
 
-        org_name_string = ""
-        with override(render_language):
-            if len(organization_names) == 1:
-                org_name_string = organization_names[0]
-            elif len(organization_names) == 2:
-                org_name_string = _("{first_org} and {second_org}").format(
-                    first_org=organization_names[0], second_org=organization_names[1]
-                )
-            elif organization_names:
-                org_name_string = _("{series_of_orgs}, and {last_org}").format(
-                    series_of_orgs=", ".join(organization_names[:-1]), last_org=organization_names[-1]
-                )
+        org_name_string = _get_org_name(organization_names, render_language)
 
         user_data = user_credential.credential.site.siteconfiguration.get_user_api_data(user_credential.username)
 
@@ -141,6 +157,38 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
             "footer": self.select_theme_template(["_footer.html"]),
             "header": self.select_theme_template(["_header.html"]),
         }
+
+
+@method_decorator(staff_member_required(login_url=settings.LOGIN_URL), name="dispatch")
+class RenderExampleProgramCredential(RenderCredential):
+    """
+    This View overrides just enough of the RenderCredential View to be able to display an example certificate.
+    """
+
+    @cached_property
+    def user_credential(self):
+        """
+        We override this method to allow a preview of the program credential certificate without needing to also create
+        UserCredentials.
+
+        Returns:
+        """
+        program_cert = ProgramCertificate.objects.get(program__uuid=self.kwargs.get("uuid"))
+        return UserCredential(
+            pk=999999999,
+            uuid=uuid.UUID("11111111-1111-1111-1111-111111111111"),
+            status=UserCredential.AWARDED,
+            username=self.request.user.username,
+            credential=program_cert,
+            created=datetime.datetime.now(datetime.timezone.utc),
+        )
+
+    def get_visible_date(self):
+        """
+        We override this method to allow a preview of the program credential certificate without creating supporting
+        course UserCredentials.
+        """
+        return datetime.datetime.now(datetime.timezone.utc)
 
 
 class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):

@@ -337,6 +337,95 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
             )
 
 
+class RenderExampleCredentialViewTests(SiteMixin, TestCase):
+    faker = Faker()
+    MOCK_USER_DATA = {
+        "username": "test-user",
+        "name": "Test User",
+        "email": "test@example.org",
+    }
+    MOCK_STAFF_USER_DATA = {
+        "username": "staff-test-user",
+        "name": "Staff User",
+        "email": "staff@example.org",
+    }
+    PROGRAM_NAME = "Fake PC"
+    PROGRAM_TYPE = "Professional Certificate"
+    CREDENTIAL_TITLE = "Fake Custom Credential Title"
+
+    def setUp(self):
+        super().setUp()
+        self.course = CourseFactory.create(site=self.site)
+        self.course_runs = CourseRunFactory.create_batch(2, course=self.course)
+        self.program = ProgramFactory(title="TestProgram1", course_runs=self.course_runs, site=self.site)
+        self.program = ProgramFactory(title="TestProgram1", course_runs=self.course_runs, site=self.site)
+        self.program_certificate = factories.ProgramCertificateFactory(
+            site=self.site, program=self.program, program_uuid=self.program.uuid
+        )
+        self.signatory_1 = factories.SignatoryFactory()
+        self.signatory_2 = factories.SignatoryFactory()
+        self.platform_name = self.site.siteconfiguration.platform_name
+
+        self.user = UserFactory(username=self.MOCK_USER_DATA["username"])
+        self.staff_user = UserFactory(username=self.MOCK_STAFF_USER_DATA["username"], is_staff=True)
+
+    def _create_organization_details(self, use_proper_logo_url=True):
+        """Helper method to create organization details."""
+        return OrganizationDetails(
+            uuid=str(uuid.uuid4()),
+            key=self.faker.word(),
+            name=self.faker.word(),
+            display_name=self.faker.word(),
+            certificate_logo_image_url=self.faker.url() if use_proper_logo_url else None,
+        )
+
+    def _render_user_credential(
+        self,
+        test_user_data,
+        use_proper_logo_url=True,
+    ):
+        """Helper method to render a user certificate."""
+        program_certificate = self.program_certificate
+        organizations = [
+            self._create_organization_details(use_proper_logo_url),
+            self._create_organization_details(use_proper_logo_url),
+        ]
+
+        mocked_program_data = ProgramDetails(
+            uuid=str(self.program_certificate.program_uuid),
+            title=self.PROGRAM_NAME,
+            type=self.PROGRAM_TYPE,
+            type_slug=slugify(self.PROGRAM_TYPE),
+            credential_title=program_certificate.title,
+            course_count=2,
+            organizations=organizations,
+            hours_of_effort=self.faker.pyint(),
+            status="active",
+        )
+
+        with patch("credentials.apps.core.models.SiteConfiguration.get_user_api_data") as user_data, patch(
+            "credentials.apps.credentials.models.ProgramCertificate.program_details", new_callable=PropertyMock
+        ) as mock_program_details:
+            user_data.return_value = test_user_data
+            mock_program_details.return_value = mocked_program_data
+            response = self.client.get(program_certificate.get_absolute_url())
+
+        return response
+
+    def testStaffUserRequired(self):
+        self.client.login(username=self.staff_user.username, password=USER_PASSWORD)
+        response = self._render_user_credential(test_user_data=self.MOCK_STAFF_USER_DATA)
+        assert response.status_code == 200
+
+        self.client.logout()
+        response = self._render_user_credential(test_user_data={})
+        assert response.status_code != 200
+
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        response = self._render_user_credential(test_user_data=self.MOCK_USER_DATA)
+        assert response.status_code != 200
+
+
 @ddt.ddt
 class ExampleCredentialTests(SiteMixin, TestCase):
     def test_get(self):
