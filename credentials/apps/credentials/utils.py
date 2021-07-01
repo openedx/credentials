@@ -9,6 +9,7 @@ from edx_ace import Recipient, ace
 
 from credentials.apps.catalog.data import ProgramStatus
 from credentials.apps.core.models import User
+from credentials.apps.credentials.constants import UserCredentialStatus
 from credentials.apps.credentials.messages import ProgramCertificateIssuedMessage
 from credentials.apps.credentials.models import (
     ProgramCompletionEmailConfiguration,
@@ -144,6 +145,7 @@ def _get_program_certificate_visible_date(user_program_credential):
         visible. (It shouldn’t return None but is technically possible.)
     """
     last_date = None
+    course_certs_exist = False
     for course_run in user_program_credential.credential.program.course_runs.all():
         # Does the user have a course cert for this course run?
         course_run_cert = UserCredential.objects.filter(
@@ -154,6 +156,9 @@ def _get_program_certificate_visible_date(user_program_credential):
         if course_run_cert:
             date = course_run_cert.credential.certificate_available_date or course_run_cert.created
             last_date = max(last_date, date) if last_date else date
+            course_certs_exist = True
+    if not course_certs_exist and user_program_credential.status == UserCredentialStatus.AWARDED:
+        last_date = user_program_credential.created
 
     return last_date
 
@@ -166,14 +171,12 @@ def get_credential_visible_dates(user_credentials):
     Returns a dictionary of {UserCredential: datetime}.
     Guaranteed to return a datetime object for each credential.
     """
-
     if settings.USE_CERTIFICATE_AVAILABLE_DATE.is_enabled():
         visible_date_dict = {}
         for user_credential in user_credentials:
             # If this is a course credential
             if user_credential.course_credentials.exists():
                 date = user_credential.credential.certificate_available_date or user_credential.created
-
             # If this is a program credential
             if user_credential.program_credentials.exists():
                 date = _get_program_certificate_visible_date(user_credential)
