@@ -13,7 +13,7 @@
       "automerge": true
     }
   ],
-  "prConcurrentLimit": 5,
+  "prConcurrentLimit": 10,
   "rebaseWhen": "behind-base-branch",
   "schedule": [
     "before 6am every weekday"
