@@ -509,3 +509,8 @@ LOGO_WHITE_URL_PNG = "https://edx-cdn.org/v3/default/logo-white.png"
 LOGO_WHITE_URL_SVG = "https://edx-cdn.org/v3/default/logo-white.svg"
 FAVICON_URL = "https://edx-cdn.org/v3/default/favicon.ico"
 LOGO_POWERED_BY_OPEN_EDX_URL = "https://edx-cdn.org/v3/prod/open-edx-tag.svg"
+
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/dev/ref/settings/#default-auto-field
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
