@@ -30,7 +30,7 @@ bcrypt==3.2.0
     # via paramiko
 black==21.6b0
     # via -r requirements/test.txt
-bleach==3.3.0
+bleach==3.3.1
     # via -r requirements/test.txt
 bok-choy==1.1.1
     # via -r requirements/test.txt
@@ -38,13 +38,13 @@ certifi==2021.5.30
     # via
     #   -r requirements/test.txt
     #   requests
-cffi==1.14.5
+cffi==1.14.6
     # via
     #   -r requirements/test.txt
     #   bcrypt
     #   cryptography
     #   pynacl
-chardet==4.0.0
+charset-normalizer==2.0.2
     # via
     #   -r requirements/test.txt
     #   requests
@@ -149,7 +149,7 @@ django-statici18n==2.0.1
     # via -r requirements/test.txt
 django-storages==1.11.1
     # via -r requirements/test.txt
-django-waffle==2.2.0
+django-waffle==2.2.1
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -183,7 +183,7 @@ edx-ace==0.1.17
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
-edx-auth-backends==3.3.3
+edx-auth-backends==3.4.0
     # via -r requirements/test.txt
 git+https://github.com/edx/credentials-themes.git@0.1.73#egg=edx_credentials_themes==0.1.73
     # via -r requirements/test.txt
@@ -191,13 +191,13 @@ edx-django-release-util==1.0.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==3.0.0
     # via -r requirements/test.txt
-edx-django-utils==4.1.0
+edx-django-utils==4.2.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==6.5.0
+edx-drf-extensions==6.6.0
     # via -r requirements/test.txt
 edx-i18n-tools==0.5.3
     # via
@@ -210,13 +210,13 @@ edx-opaque-keys==2.2.2
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-edx-rest-api-client==5.3.0
+edx-rest-api-client==5.4.0
     # via -r requirements/test.txt
-edx-toggles==4.1.0
+edx-toggles==4.2.0
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==8.10.0
+faker==8.10.1
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -239,7 +239,7 @@ gitpython==3.1.18
     #   transifex-client
 httpretty==1.1.3
     # via -r requirements/test.txt
-idna==2.10
+idna==3.2
     # via
     #   -r requirements/test.txt
     #   requests
@@ -247,7 +247,7 @@ iniconfig==1.1.1
     # via
     #   -r requirements/test.txt
     #   pytest
-isort==5.9.1
+isort==5.9.2
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -389,7 +389,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/test.txt
     #   pylint-celery
     #   pylint-django
-pymongo==3.11.4
+pymongo==3.12.0
     # via
     #   -r requirements/test.txt
     #   edx-opaque-keys
@@ -407,7 +407,7 @@ pytest==6.2.4
     #   pytest-django
 pytest-django==4.4.0
     # via -r requirements/test.txt
-python-dateutil==2.8.1
+python-dateutil==2.8.2
     # via
     #   -r requirements/test.txt
     #   analytics-python
@@ -444,7 +444,7 @@ regex==2021.7.6
     # via
     #   -r requirements/test.txt
     #   black
-requests==2.25.1
+requests==2.26.0
     # via
     #   -r requirements/test.txt
     #   analytics-python
@@ -482,7 +482,7 @@ semantic-version==2.8.5
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-simplejson==3.17.2
+simplejson==3.17.3
     # via
     #   -r requirements/test.txt
     #   django-rest-swagger
@@ -550,7 +550,7 @@ text-unidecode==1.3
     #   -r requirements/test.txt
     #   faker
     #   python-slugify
-texttable==1.6.3
+texttable==1.6.4
     # via docker-compose
 toml==0.10.2
     # via
@@ -559,7 +559,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tox==3.23.1
+tox==3.24.0
     # via -r requirements/test.txt
 transifex-client==0.14.3
     # via
@@ -594,7 +594,7 @@ wrapt==1.12.1
     # via
     #   -r requirements/test.txt
     #   astroid
-xss-utils==0.2.0
+xss-utils==0.3.0
     # via -r requirements/test.txt
 
 # The following packages are considered to be unsafe in a requirements file:
