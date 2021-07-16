@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-analytics-python==1.3.1
+analytics-python==1.4.0
     # via -r requirements/test.txt
 appdirs==1.4.4
     # via
@@ -28,7 +28,7 @@ backoff==1.10.0
     #   analytics-python
 bcrypt==3.2.0
     # via paramiko
-black==21.6b0
+black==21.7b0
     # via -r requirements/test.txt
 bleach==3.3.1
     # via -r requirements/test.txt
@@ -44,7 +44,7 @@ cffi==1.14.6
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.2
+charset-normalizer==2.0.3
     # via
     #   -r requirements/test.txt
     #   requests
@@ -185,7 +185,7 @@ edx-ace==0.1.17
     #   -r requirements/test.txt
 edx-auth-backends==3.4.0
     # via -r requirements/test.txt
-git+https://github.com/edx/credentials-themes.git@0.1.73#egg=edx_credentials_themes==0.1.73
+git+https://github.com/edx/credentials-themes.git@0.1.74#egg=edx_credentials_themes==0.1.74
     # via -r requirements/test.txt
 edx-django-release-util==1.0.0
     # via -r requirements/test.txt
@@ -543,7 +543,7 @@ stevedore==3.3.0
     #   edx-ace
     #   edx-django-utils
     #   edx-opaque-keys
-testfixtures==6.17.1
+testfixtures==6.18.0
     # via -r requirements/test.txt
 text-unidecode==1.3
     # via
@@ -555,10 +555,13 @@ texttable==1.6.4
 toml==0.10.2
     # via
     #   -r requirements/test.txt
-    #   black
     #   pylint
     #   pytest
     #   tox
+tomli==1.0.4
+    # via
+    #   -r requirements/test.txt
+    #   black
 tox==3.24.0
     # via -r requirements/test.txt
 transifex-client==0.14.3
