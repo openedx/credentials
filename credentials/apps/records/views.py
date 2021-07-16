@@ -20,14 +20,15 @@ from django.views.generic import TemplateView, View
 from edx_ace import Recipient, ace
 from ratelimit.decorators import ratelimit
 
-from credentials.apps.catalog.models import CourseRun, Pathway, Program
+from credentials.apps.catalog.models import Pathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
-from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredential
+from credentials.apps.credentials.models import ProgramCertificate, UserCredential
 from credentials.apps.credentials.utils import filter_visible, get_credential_visible_dates
 from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
+from credentials.apps.records.utils import get_user_program_data
 from credentials.shared.constants import PathwayType
 
 from .constants import RECORDS_RATE_LIMIT
@@ -207,91 +208,8 @@ def get_record_data(user, program_uuid, site, platform_name=None):
 class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
     template_name = "records.html"
 
-    def _get_credentials(self):
-        """Returns two lists of credentials: a course list and a program list"""
-        # Get the content types for course and program certs, query for both in single query
-        course_cert_content_types = ContentType.objects.filter(
-            app_label="credentials", model__in=["coursecertificate", "programcertificate"]
-        )
-        course_certificate_type = None
-        program_certificate_type = None
-        for course_cert_content_type in course_cert_content_types:
-            if course_cert_content_type.model == "coursecertificate":
-                course_certificate_type = course_cert_content_type
-            elif course_cert_content_type.model == "programcertificate":
-                program_certificate_type = course_cert_content_type
-
-        # Get all user credentials, then sort them out to course/programs
-        user_credentials = filter_visible(
-            UserCredential.objects.filter(
-                username=self.request.user.username,
-                status=UserCredential.AWARDED,
-                credential_content_type__in=course_cert_content_types,
-            )
-        )
-        course_credentials = []
-        program_credentials = []
-        for credential in user_credentials:
-            if credential.credential_content_type_id == course_certificate_type.id:
-                course_credentials.append(credential)
-            elif credential.credential_content_type_id == program_certificate_type.id:
-                program_credentials.append(credential)
-
-        return course_credentials, program_credentials
-
-    def _course_credentials_to_course_runs(self, course_credentials):
-        """Convert a list of course UserCredentials into a list of CourseRun objects"""
-        # Using the course credentials, get the programs associated with them via course runs
-        course_credential_ids = [x.credential_id for x in course_credentials if x.status == UserCredential.AWARDED]
-        course_certificates = CourseCertificate.objects.filter(id__in=course_credential_ids, site=self.request.site)
-        course_run_keys = [course_cert.course_id for course_cert in course_certificates]
-        return CourseRun.objects.filter(key__in=course_run_keys)
-
-    def _programs_context(self, include_empty_programs=False, include_retired_programs=False):
-        """Translates a list of Program and UserCredentials (for programs) into context data."""
-        # Get all user credentials
-        course_credentials, program_credentials = self._get_credentials()
-
-        # Get course runs that this user has a credential in
-        course_runs = frozenset(self._course_credentials_to_course_runs(course_credentials))
-        course_filters = {} if include_empty_programs else {"course_runs__in": course_runs}
-
-        allowed_statuses = [Program.ACTIVE]
-        if include_retired_programs:
-            allowed_statuses.append(Program.RETIRED)
-
-        # Get a list of programs
-        programs = (
-            Program.objects.filter(site=self.request.site, status__in=allowed_statuses, **course_filters)
-            .distinct()
-            .prefetch_related(
-                "authoring_organizations",
-                "course_runs",
-            )
-            .order_by("title")
-        )
-
-        # Get the completed programs and a UUID set using the program_credentials
-        program_credential_ids = [program_credential.credential_id for program_credential in program_credentials]
-        program_certificates = ProgramCertificate.objects.filter(id__in=program_credential_ids, site=self.request.site)
-        completed_program_uuids = frozenset(
-            program_certificate.program_uuid for program_certificate in program_certificates
-        )
-
-        return [
-            {
-                "name": program.title,
-                "partner": ", ".join(program.authoring_organizations.values_list("name", flat=True)),
-                "uuid": program.uuid.hex,
-                "type": slugify(program.type),
-                "completed": program.uuid in completed_program_uuids,
-                "empty": not bool(course_runs.intersection(frozenset(program.course_runs.all()))),
-            }
-            for program in programs
-        ]
-
     def _get_programs(self):
-        """Returns a list of relevant program data (in _programs_context format)"""
+        """Returns a list of relevant program data (in get_user_program_data format)"""
         return []
 
     def get_context_data(self, **kwargs):
@@ -316,7 +234,12 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
 
 class RecordsView(RecordsListBaseView):
     def _get_programs(self):
-        return self._programs_context(include_empty_programs=False, include_retired_programs=True)
+        return get_user_program_data(
+            self.request.user.username,
+            self.request.site,
+            include_empty_programs=False,
+            include_retired_programs=True,
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -341,7 +264,12 @@ class RecordsView(RecordsListBaseView):
 
 class ProgramListingView(RecordsListBaseView):
     def _get_programs(self):
-        return self._programs_context(include_empty_programs=True, include_retired_programs=False)
+        return get_user_program_data(
+            self.request.user.username,
+            self.request.site,
+            include_empty_programs=True,
+            include_retired_programs=False,
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,5 +1,5 @@
 from .data import OrganizationDetails, ProgramDetails
-from .models import Program as _Program
+from .models import CourseRun as _CourseRun, Program as _Program
 
 
 def get_program_details_by_uuid(uuid, site):
@@ -50,3 +50,40 @@ def _convert_program_to_program_details(
         hours_of_effort=program.total_hours_of_effort,
         status=program.status,
     )
+
+
+def get_course_runs_by_course_run_keys(course_run_keys):
+    """
+    Get course runs using given course run keys
+
+    Arguments:
+        course_run_keys (list): List of CourseRun keys
+
+    Returns:
+        list(CourseRun): CourseRun objects associated with given course_run_keys
+    """
+    return _CourseRun.objects.filter(key__in=course_run_keys)
+
+
+def get_filtered_programs(request_site, allowed_statuses, **course_filters):
+    """
+    Get programs using given filters
+
+    Arguments:
+        request_site(site): Django site to search through
+        allowed_statuses(list): List of ProgramStatus values
+        course_filters(dict): Filters for courses
+
+    Returns:
+        list(Program): Program objects associated with given filters
+    """
+    programs = (
+        _Program.objects.filter(site=request_site, status__in=allowed_statuses, **course_filters)
+        .distinct()
+        .prefetch_related(
+            "authoring_organizations",
+            "course_runs",
+        )
+        .order_by("title")
+    )
+    return programs
