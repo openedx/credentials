@@ -13,7 +13,7 @@ appdirs==1.4.4
     #   -r requirements/dev.txt
     #   black
     #   virtualenv
-astroid==2.6.2
+astroid==2.6.5
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -42,11 +42,11 @@ bleach==3.3.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.18.0
+boto3==1.18.3
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.21.0
+botocore==1.21.3
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -183,7 +183,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==2.1.1
+django-ses==2.2.0
     # via -r requirements/production.txt
 django-simple-history==3.0.0
     # via
@@ -250,7 +250,7 @@ edx-auth-backends==3.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-git+https://github.com/edx/credentials-themes.git@0.1.74#egg=edx_credentials_themes==0.1.74
+git+https://github.com/edx/credentials-themes.git@0.1.75#egg=edx_credentials_themes==0.1.75
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -258,7 +258,7 @@ edx-django-release-util==1.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-sites-extensions==3.0.0
+edx-django-sites-extensions==3.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -436,7 +436,7 @@ path.py==12.5.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-i18n-tools
-pathspec==0.8.1
+pathspec==0.9.0
     # via
     #   -r requirements/dev.txt
     #   black
@@ -497,7 +497,7 @@ pyjwt[crypto]==1.7.1
     #   edx-auth-backends
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.9.3
+pylint==2.9.5
     # via
     #   -r requirements/dev.txt
     #   edx-lint
