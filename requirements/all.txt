@@ -42,11 +42,11 @@ bleach==3.3.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.18.4
+boto3==1.18.5
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.21.4
+botocore==1.21.5
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -250,7 +250,7 @@ edx-auth-backends==3.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-git+https://github.com/edx/credentials-themes.git@0.1.75#egg=edx_credentials_themes==0.1.75
+git+https://github.com/edx/credentials-themes.git@0.1.76#egg=edx_credentials_themes==0.1.76
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -273,7 +273,7 @@ edx-drf-extensions==6.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-i18n-tools==0.5.3
+edx-i18n-tools==0.7.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -427,11 +427,6 @@ paramiko==2.7.2
     #   -r requirements/dev.txt
     #   docker
 path==16.0.0
-    # via
-    #   -r requirements/dev.txt
-    #   -r requirements/production.txt
-    #   path.py
-path.py==12.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -723,7 +718,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tomli==1.0.4
+tomli==1.1.0
     # via
     #   -r requirements/dev.txt
     #   black

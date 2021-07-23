@@ -185,7 +185,7 @@ edx-ace==0.1.17
     #   -r requirements/test.txt
 edx-auth-backends==3.4.0
     # via -r requirements/test.txt
-git+https://github.com/edx/credentials-themes.git@0.1.75#egg=edx_credentials_themes==0.1.75
+git+https://github.com/edx/credentials-themes.git@0.1.76#egg=edx_credentials_themes==0.1.76
     # via -r requirements/test.txt
 edx-django-release-util==1.0.0
     # via -r requirements/test.txt
@@ -199,7 +199,7 @@ edx-django-utils==4.2.0
     #   edx-toggles
 edx-drf-extensions==6.6.0
     # via -r requirements/test.txt
-edx-i18n-tools==0.5.3
+edx-i18n-tools==0.7.0
     # via
     #   -r requirements/dev.in
     #   -r requirements/test.txt
@@ -312,10 +312,6 @@ packaging==21.0
 paramiko==2.7.2
     # via docker
 path==16.0.0
-    # via
-    #   -r requirements/test.txt
-    #   path.py
-path.py==12.5.0
     # via
     #   -r requirements/test.txt
     #   edx-i18n-tools
@@ -558,7 +554,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tomli==1.0.4
+tomli==1.1.0
     # via
     #   -r requirements/test.txt
     #   black
