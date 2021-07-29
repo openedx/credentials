@@ -59,7 +59,7 @@ click-log==0.3.2
     # via
     #   -r requirements/test.txt
     #   edx-lint
-code-annotations==1.1.2
+code-annotations==1.2.0
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -216,7 +216,7 @@ edx-toggles==4.2.0
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==8.10.1
+faker==8.10.3
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -311,7 +311,7 @@ packaging==21.0
     #   tox
 paramiko==2.7.2
     # via docker
-path==16.0.0
+path==16.2.0
     # via
     #   -r requirements/test.txt
     #   edx-i18n-tools
@@ -365,7 +365,7 @@ pyjwt[crypto]==1.7.1
     #   edx-auth-backends
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.9.5
+pylint==2.9.6
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -410,7 +410,7 @@ python-dateutil==2.8.2
     #   edx-ace
     #   edx-drf-extensions
     #   faker
-python-dotenv==0.18.0
+python-dotenv==0.19.0
     # via docker-compose
 python-memcached==1.59
     # via -r requirements/test.txt

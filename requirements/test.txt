@@ -50,7 +50,7 @@ click==8.0.1
     #   edx-lint
 click-log==0.3.2
     # via edx-lint
-code-annotations==1.1.2
+code-annotations==1.2.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.in
@@ -190,7 +190,7 @@ edx-toggles==4.2.0
     # via -r requirements/base.txt
 factory-boy==3.2.0
     # via -r requirements/test.in
-faker==8.10.1
+faker==8.10.3
     # via factory-boy
 filelock==3.0.12
     # via
@@ -268,7 +268,7 @@ packaging==21.0
     #   bleach
     #   pytest
     #   tox
-path==16.0.0
+path==16.2.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
@@ -318,7 +318,7 @@ pyjwt[crypto]==1.7.1
     #   edx-auth-backends
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.9.5
+pylint==2.9.6
     # via
     #   edx-lint
     #   pylint-celery
