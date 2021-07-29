@@ -187,7 +187,7 @@ edx-auth-backends==3.4.0
     # via -r requirements/test.txt
 git+https://github.com/edx/credentials-themes.git@0.1.76#egg=edx_credentials_themes==0.1.76
     # via -r requirements/test.txt
-edx-django-release-util==1.0.0
+edx-django-release-util==1.1.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==3.1.0
     # via -r requirements/test.txt
@@ -247,7 +247,7 @@ iniconfig==1.1.1
     # via
     #   -r requirements/test.txt
     #   pytest
-isort==5.9.2
+isort==5.9.3
     # via
     #   -r requirements/test.txt
     #   pylint
