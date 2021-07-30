@@ -128,6 +128,7 @@ django==2.2.24
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-appconf
+    #   django-cors-headers
     #   django-crum
     #   django-debug-toolbar
     #   django-extensions
@@ -155,6 +156,10 @@ django-appconf==1.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-statici18n
+django-cors-headers==3.7.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
 django-crum==0.7.9
     # via
     #   -r requirements/dev.txt
