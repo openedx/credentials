@@ -160,7 +160,7 @@ edx-ace==0.1.17
     #   -r requirements/base.txt
 edx-auth-backends==3.4.0
     # via -r requirements/base.txt
-git+https://github.com/edx/credentials-themes.git@0.1.77#egg=edx_credentials_themes==0.1.77
+git+https://github.com/edx/credentials-themes.git@0.1.78#egg=edx_credentials_themes==0.1.78
     # via -r requirements/base.txt
 edx-django-release-util==1.1.0
     # via -r requirements/base.txt
@@ -249,7 +249,7 @@ mypy-extensions==0.4.3
     # via black
 mysqlclient==2.0.3
     # via -r requirements/base.txt
-newrelic==6.4.4.161
+newrelic==6.6.0.162
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -477,7 +477,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tomli==1.1.0
+tomli==1.2.0
     # via black
 tox==3.24.0
     # via -r requirements/test.in
