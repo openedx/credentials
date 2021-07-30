@@ -112,7 +112,7 @@ edx-ace==0.1.17
     #   -r requirements/base.in
 edx-auth-backends==3.4.0
     # via -r requirements/base.in
-git+https://github.com/edx/credentials-themes.git@0.1.77#egg=edx_credentials_themes==0.1.77
+git+https://github.com/edx/credentials-themes.git@0.1.78#egg=edx_credentials_themes==0.1.78
     # via -r requirements/base.in
 edx-django-release-util==1.1.0
     # via -r requirements/base.in
@@ -158,7 +158,7 @@ monotonic==1.6
     # via analytics-python
 mysqlclient==2.0.3
     # via -r requirements/base.in
-newrelic==6.4.4.161
+newrelic==6.6.0.162
     # via
     #   -r requirements/base.in
     #   edx-django-utils

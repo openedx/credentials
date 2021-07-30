@@ -42,11 +42,11 @@ bleach==3.3.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.18.10
+boto3==1.18.11
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.21.10
+botocore==1.21.11
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -118,7 +118,7 @@ distlib==0.3.2
     # via
     #   -r requirements/dev.txt
     #   virtualenv
-distro==1.5.0
+distro==1.6.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
@@ -250,7 +250,7 @@ edx-auth-backends==3.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-git+https://github.com/edx/credentials-themes.git@0.1.77#egg=edx_credentials_themes==0.1.77
+git+https://github.com/edx/credentials-themes.git@0.1.78#egg=edx_credentials_themes==0.1.78
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -397,7 +397,7 @@ mysqlclient==2.0.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==6.4.4.161
+newrelic==6.6.0.162
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -718,7 +718,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tomli==1.1.0
+tomli==1.2.0
     # via
     #   -r requirements/dev.txt
     #   black
