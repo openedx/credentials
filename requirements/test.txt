@@ -37,7 +37,7 @@ cffi==1.14.6
     # via
     #   -r requirements/base.txt
     #   cryptography
-charset-normalizer==2.0.3
+charset-normalizer==2.0.4
     # via
     #   -r requirements/base.txt
     #   requests
@@ -175,7 +175,7 @@ edx-django-utils==4.2.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==6.6.0
+git+https://github.com/edx/edx-drf-extensions/@9a335c5bd7d7d7e3f09586373e3e8d76f2116fde#egg=edx-drf-extensions==6.6.1
     # via -r requirements/base.txt
 edx-i18n-tools==0.7.0
     # via
@@ -482,7 +482,7 @@ toml==0.10.2
     #   tox
 tomli==1.2.0
     # via black
-tox==3.24.0
+tox==3.24.1
     # via -r requirements/test.in
 transifex-client==0.14.3
     # via
