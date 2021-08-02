@@ -13,6 +13,7 @@ analytics-python
 bleach
 coreapi
 django
+django-cors-headers
 django-hijack
 django-extensions
 django-filter

@@ -66,6 +66,8 @@ BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL = os.environ.get(
     "http://edx.devstack.lms:18000/oauth2",
 )
 
+CORS_ORIGIN_WHITELIST = ("http://localhost:8080",)
+
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = str2bool(os.environ.get("SOCIAL_AUTH_REDIRECT_IS_HTTPS", False))
 
 JWT_AUTH.update(

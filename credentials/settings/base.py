@@ -2,6 +2,7 @@ import os
 from datetime import timezone
 from os.path import abspath, dirname, join
 
+from corsheaders.defaults import default_headers as corsheaders_default_headers
 from django.conf.global_settings import LANGUAGES_BIDI
 from edx_toggles.toggles import WaffleSwitch
 
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    "corsheaders",
+    "csrf.apps.CsrfAppConfig",  # Enables frontend apps to retrieve CSRF tokens
     "release_util",
     "rest_framework",
     "rest_framework_jwt",
@@ -74,6 +77,7 @@ INSTALLED_APPS += THIRD_PARTY_APPS
 INSTALLED_APPS += PROJECT_APPS
 
 MIDDLEWARE = (
+    "corsheaders.middleware.CorsMiddleware",
     "edx_django_utils.cache.middleware.RequestCacheMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -90,6 +94,11 @@ MIDDLEWARE = (
     "edx_rest_framework_extensions.middleware.RequestMetricsMiddleware",
     "edx_rest_framework_extensions.auth.jwt.middleware.EnsureJWTAuthSettingsMiddleware",
 )
+
+# Enable CORS
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = corsheaders_default_headers + ("use-jwt-cookie",)
+CORS_ORIGIN_WHITELIST = []
 
 ROOT_URLCONF = "credentials.urls"
 

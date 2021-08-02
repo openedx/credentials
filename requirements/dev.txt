@@ -99,6 +99,7 @@ django==2.2.24
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
     #   django-appconf
+    #   django-cors-headers
     #   django-crum
     #   django-debug-toolbar
     #   django-extensions
@@ -124,6 +125,8 @@ django-appconf==1.0.4
     # via
     #   -r requirements/test.txt
     #   django-statici18n
+django-cors-headers==3.7.0
+    # via -r requirements/test.txt
 django-crum==0.7.9
     # via
     #   -r requirements/test.txt
