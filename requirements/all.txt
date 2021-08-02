@@ -42,11 +42,11 @@ bleach==3.3.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.18.11
+boto3==1.18.12
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.21.11
+botocore==1.21.12
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -63,7 +63,7 @@ cffi==1.14.6
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.3
+charset-normalizer==2.0.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -274,7 +274,7 @@ edx-django-utils==4.2.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==6.6.0
+git+https://github.com/edx/edx-drf-extensions/@9a335c5bd7d7d7e3f09586373e3e8d76f2116fde#egg=edx-drf-extensions==6.6.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -727,7 +727,7 @@ tomli==1.2.0
     # via
     #   -r requirements/dev.txt
     #   black
-tox==3.24.0
+tox==3.24.1
     # via -r requirements/dev.txt
 transifex-client==0.14.3
     # via

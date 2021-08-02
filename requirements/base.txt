@@ -16,7 +16,7 @@ certifi==2021.5.30
     # via requests
 cffi==1.14.6
     # via cryptography
-charset-normalizer==2.0.3
+charset-normalizer==2.0.4
     # via requests
 click==8.0.1
     # via code-annotations
@@ -127,7 +127,7 @@ edx-django-utils==4.2.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==6.6.0
+git+https://github.com/edx/edx-drf-extensions/@9a335c5bd7d7d7e3f09586373e3e8d76f2116fde#egg=edx-drf-extensions==6.6.1
     # via -r requirements/base.in
 edx-i18n-tools==0.7.0
     # via edx-credentials-themes

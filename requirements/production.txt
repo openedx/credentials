@@ -16,9 +16,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==3.3.1
     # via -r requirements/base.txt
-boto3==1.18.11
+boto3==1.18.12
     # via django-ses
-botocore==1.21.11
+botocore==1.21.12
     # via
     #   boto3
     #   s3transfer
@@ -30,7 +30,7 @@ cffi==1.14.6
     # via
     #   -r requirements/base.txt
     #   cryptography
-charset-normalizer==2.0.3
+charset-normalizer==2.0.4
     # via
     #   -r requirements/base.txt
     #   requests
@@ -158,7 +158,7 @@ edx-django-utils==4.2.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==6.6.0
+git+https://github.com/edx/edx-drf-extensions/@9a335c5bd7d7d7e3f09586373e3e8d76f2116fde#egg=edx-drf-extensions==6.6.1
     # via -r requirements/base.txt
 edx-i18n-tools==0.7.0
     # via
