@@ -31,7 +31,6 @@ edx-auth-backends
 edx-django-release-util
 edx-django-sites-extensions
 edx-django-utils
-edx-drf-extensions
 edx-opaque-keys
 edx-rest-api-client
 edx-toggles
@@ -49,3 +48,4 @@ xss-utils
 
 # TODO Install in configuration
 git+https://github.com/edx/credentials-themes.git@0.1.78#egg=edx_credentials_themes==0.1.78
+git+https://github.com/edx/edx-drf-extensions/@9a335c5bd7d7d7e3f09586373e3e8d76f2116fde#egg=edx-drf-extensions==6.6.1
