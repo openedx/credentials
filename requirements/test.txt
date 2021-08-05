@@ -122,7 +122,9 @@ django-extensions==3.1.3
 django-filter==2.4.0
     # via -r requirements/base.txt
 django-hijack==2.3.0
-    # via -r requirements/base.txt
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
 django-ratelimit==3.0.1
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
@@ -163,7 +165,7 @@ edx-ace==0.1.17
     #   -r requirements/base.txt
 edx-auth-backends==3.4.0
     # via -r requirements/base.txt
-git+https://github.com/edx/credentials-themes.git@0.1.78#egg=edx_credentials_themes==0.1.78
+git+https://github.com/edx/credentials-themes.git@0.1.79#egg=edx_credentials_themes==0.1.79
     # via -r requirements/base.txt
 edx-django-release-util==1.1.0
     # via -r requirements/base.txt
@@ -449,12 +451,12 @@ smmap==4.0.0
     #   gitdb
 social-auth-app-django==4.0.0
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-auth-backends
 social-auth-core==4.0.2
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
-    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-auth-backends
     #   social-auth-app-django

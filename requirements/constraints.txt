@@ -15,9 +15,8 @@
 # can determine the cause of the failure. https://openedx.atlassian.net/browse/MICROBA-794
 virtualenv<20.2.2
 
-# This is pinned due to a constrain in a third party dependency drf-jwt. We won’t be able to unpin social-auth until this dependency gets on pyJWT 2.0.0
-# https://openedx.atlassian.net/browse/MICROBA-929
-social-auth-core<4.0.3
+# This should be moved to the common constraints with social-auth-core in an upcoming PR.
+social-auth-app-django<5.0.0
 
 # Newer versions require passing in lms_user_id rather than a username.
 # Ticket for adding LMS user IDs to Credentials: https://openedx.atlassian.net/browse/MICROBA-649
@@ -26,3 +25,6 @@ edx-ace<1.0.0
 # This has been pinned after a major version release to 1.x caused many tests to fail. At this time, there isn't much
 # info available on how to fix forward. We will come back around to evaluate as part of MICROBA-1237.
 django-webpack-loader<1.0.0
+
+# The update to 3.0.0 contains some large breaking changes. (MICROBA-1427)
+django-hijack<3.0.0
