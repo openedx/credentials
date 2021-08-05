@@ -10,13 +10,13 @@ attrs==21.2.0
     # via edx-ace
 backoff==1.10.0
     # via analytics-python
-bleach==3.3.1
+bleach==4.0.0
     # via -r requirements/base.in
 certifi==2021.5.30
     # via requests
 cffi==1.14.6
     # via cryptography
-charset-normalizer==2.0.3
+charset-normalizer==2.0.4
     # via requests
 click==8.0.1
     # via code-annotations
@@ -161,7 +161,7 @@ monotonic==1.6
     # via analytics-python
 mysqlclient==2.0.3
     # via -r requirements/base.in
-newrelic==6.6.0.162
+newrelic==6.8.0.163
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -274,6 +274,7 @@ social-auth-app-django==4.0.0
     #   edx-auth-backends
 social-auth-core==4.0.2
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -c requirements/constraints.txt
     #   edx-auth-backends
     #   social-auth-app-django
