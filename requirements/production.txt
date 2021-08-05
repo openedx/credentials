@@ -14,11 +14,11 @@ backoff==1.10.0
     # via
     #   -r requirements/base.txt
     #   analytics-python
-bleach==3.3.1
+bleach==4.0.0
     # via -r requirements/base.txt
-boto3==1.18.11
+boto3==1.18.14
     # via django-ses
-botocore==1.21.11
+botocore==1.21.14
     # via
     #   boto3
     #   s3transfer
@@ -30,7 +30,7 @@ cffi==1.14.6
     # via
     #   -r requirements/base.txt
     #   cryptography
-charset-normalizer==2.0.3
+charset-normalizer==2.0.4
     # via
     #   -r requirements/base.txt
     #   requests
@@ -220,7 +220,7 @@ monotonic==1.6
     #   analytics-python
 mysqlclient==2.0.3
     # via -r requirements/base.txt
-newrelic==6.6.0.162
+newrelic==6.8.0.163
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -384,6 +384,7 @@ social-auth-app-django==4.0.0
     #   edx-auth-backends
 social-auth-core==4.0.2
     # via
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-auth-backends
