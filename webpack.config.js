@@ -31,6 +31,7 @@ module.exports = {
     path: path.resolve('./credentials/static/bundles/'),
     filename: '[name]-[hash].js',
     libraryTarget: 'window',
+    publicPath: '/static/bundles/'
   },
   plugins: getPlugins(),
   externals: {
@@ -45,24 +46,32 @@ module.exports = {
       {
         test: /\.woff2?$/,
         // Inline small woff files and output them below font
-        loader: 'url-loader',
-        query: {
-          name: 'font/[name]-[hash].[ext]',
-          limit: 5000,
-          mimetype: 'application/font-woff',
-        },
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              name: 'font/[name]-[hash].[ext]',
+              limit: 5000,
+              mimetype: 'application/font-woff',
+            }
+          }
+        ]
       },
       {
         test: /\.(ttf|eot|svg)$/,
-        loader: 'file-loader',
-        query: {
-          name: 'font/[name]-[hash].[ext]',
-        },
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'font/[name]-[hash].[ext]'
+            }
+          }
+        ]
       },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        use: ['babel-loader']
       },
     ],
   },
