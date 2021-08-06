@@ -9,11 +9,11 @@
     "test-react": "jest --no-cache --coverage  --config ./jest-config.json"
   },
   "dependencies": {
-    "@babel/polyfill": "7.12.1",
     "@edx/paragon": "16.7.0",
     "axios": "0.21.1",
     "bi-app-sass": "1.1.0",
     "bootstrap": "4.6.0",
+    "core-js": "^3.16.0",
     "css-loader": "5.2.7",
     "css-minimizer-webpack-plugin": "1.3.0",
     "file-loader": "6.2.0",

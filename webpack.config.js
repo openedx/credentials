@@ -9,7 +9,7 @@ const isDevstack = (process.env.DJANGO_SETTINGS_MODULE === 'credentials.settings
 function getPlugins() {
   const plugins = [];
   plugins.push(new BundleTracker({ filename: './webpack-stats.json' }));
-  plugins.push(new MiniCssExtractPlugin({ filename: '[name]-[hash].css' }));
+  plugins.push(new MiniCssExtractPlugin({ filename: '[name]-[contenthash].css' }));
   return plugins;
 }
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
   },
   output: {
     path: path.resolve('./credentials/static/bundles/'),
-    filename: '[name]-[hash].js',
+    filename: '[name]-[contenthash].js',
     libraryTarget: 'window',
     publicPath: '/static/bundles/'
   },
@@ -50,7 +50,7 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              name: 'font/[name]-[hash].[ext]',
+              name: 'font/[name]-[contenthash].[ext]',
               limit: 5000,
               mimetype: 'application/font-woff',
             }
@@ -63,7 +63,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'font/[name]-[hash].[ext]'
+              name: 'font/[name]-[contenthash].[ext]'
             }
           }
         ]
