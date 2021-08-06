@@ -189,7 +189,7 @@ gitpython==3.1.18
     # via
     #   -r requirements/base.txt
     #   transifex-client
-greenlet==1.1.0
+greenlet==1.1.1
     # via gevent
 gunicorn==20.1.0
     # via -r requirements/production.in
@@ -382,7 +382,7 @@ smmap==4.0.0
     #   gitdb
 social-auth-app-django==4.0.0
     # via
-    #   -c requirements/constraints.txt
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.txt
     #   edx-auth-backends
 social-auth-core==4.0.2

@@ -328,7 +328,7 @@ gitpython==3.1.18
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   transifex-client
-greenlet==1.1.0
+greenlet==1.1.1
     # via
     #   -r requirements/production.txt
     #   gevent
@@ -682,7 +682,7 @@ smmap==4.0.0
     #   gitdb
 social-auth-app-django==4.0.0
     # via
-    #   -c requirements/constraints.txt
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-auth-backends
@@ -725,7 +725,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tomli==1.2.0
+tomli==1.2.1
     # via
     #   -r requirements/dev.txt
     #   black

@@ -272,7 +272,7 @@ smmap==4.0.0
     # via gitdb
 social-auth-app-django==4.0.0
     # via
-    #   -c requirements/constraints.txt
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/base.in
     #   edx-auth-backends
 social-auth-core==4.0.2
