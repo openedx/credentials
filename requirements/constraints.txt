@@ -15,9 +15,6 @@
 # can determine the cause of the failure. https://openedx.atlassian.net/browse/MICROBA-794
 virtualenv<20.2.2
 
-# This should be moved to the common constraints with social-auth-core in an upcoming PR.
-social-auth-app-django<5.0.0
-
 # Newer versions require passing in lms_user_id rather than a username.
 # Ticket for adding LMS user IDs to Credentials: https://openedx.atlassian.net/browse/MICROBA-649
 edx-ace<1.0.0

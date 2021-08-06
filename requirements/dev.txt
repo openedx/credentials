@@ -524,7 +524,7 @@ smmap==4.0.0
     #   gitdb
 social-auth-app-django==4.0.0
     # via
-    #   -c requirements/constraints.txt
+    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
     #   edx-auth-backends
 social-auth-core==4.0.2
@@ -560,7 +560,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tomli==1.2.0
+tomli==1.2.1
     # via
     #   -r requirements/test.txt
     #   black
