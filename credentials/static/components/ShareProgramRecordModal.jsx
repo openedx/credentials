@@ -1,4 +1,4 @@
-import '@babel/polyfill'; // Needed to support Promises on legacy browsers
+import 'core-js/features/promise'; // Needed to support Promises on legacy browsers
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
