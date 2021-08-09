@@ -130,7 +130,9 @@ edx-django-utils==4.2.0
     #   edx-rest-api-client
     #   edx-toggles
 edx-drf-extensions==6.6.0
-    # via -r requirements/base.in
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.in
 edx-i18n-tools==0.7.0
     # via edx-credentials-themes
 edx-opaque-keys==2.2.2
