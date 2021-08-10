@@ -518,3 +518,15 @@ LOGO_WHITE_URL_PNG = "https://edx-cdn.org/v3/default/logo-white.png"
 LOGO_WHITE_URL_SVG = "https://edx-cdn.org/v3/default/logo-white.svg"
 FAVICON_URL = "https://edx-cdn.org/v3/default/favicon.ico"
 LOGO_POWERED_BY_OPEN_EDX_URL = "https://edx-cdn.org/v3/prod/open-edx-tag.svg"
+
+# .. toggle_name: USE_LEARNER_RECORD_MFE
+# .. toggle_implementation: DjangoSetting
+# .. toggle_default: False
+# .. toggle_description: Determines if the Credentials IDA should redirect to the Learner Record MFE when navigating
+#   between the program detail page and program list pages.
+# .. toggle_warnings: Requires the Learner Record MFE to be deployed in a given environment if toggled to true. Requires
+#   a value to be set for the `LEARNER_RECORD_MFE_RECORDS_PAGE_URL` for navigation to route properly.
+# .. toggle_use_cases: opt_in
+# .. toggle_creation_date: 2021-08-10
+USE_LEARNER_RECORD_MFE = False
+LEARNER_RECORD_MFE_RECORDS_PAGE_URL = ""
