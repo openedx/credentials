@@ -119,10 +119,15 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
 
         user_data = user_credential.credential.site.siteconfiguration.get_user_api_data(user_credential.username)
 
+        credential_name = user_data["name"]
+        if user_data.get("use_verified_name_for_certs"):
+            credential_name = user_data["verified_name"]
+
         context.update(
             {
                 "user_credential": user_credential,
                 "user_data": user_data,
+                "credential_name": credential_name,
                 "child_templates": self.get_child_templates(),
                 "render_language": render_language,
                 "issue_date": visible_date,

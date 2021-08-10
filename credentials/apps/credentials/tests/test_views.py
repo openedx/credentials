@@ -73,7 +73,12 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         self.client.login(username=user.username, password=USER_PASSWORD)
 
     def _render_user_credential(
-        self, use_proper_logo_url=True, user_credential=None, program_certificate=None, custom_orgs=None
+        self,
+        use_proper_logo_url=True,
+        user_credential=None,
+        program_certificate=None,
+        custom_orgs=None,
+        test_user_data=None,
     ):
         """Helper method to render a user certificate."""
         user_credential = user_credential or self.user_credential
@@ -104,7 +109,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         with patch("credentials.apps.core.models.SiteConfiguration.get_user_api_data") as user_data, patch(
             "credentials.apps.credentials.models.ProgramCertificate.program_details", new_callable=PropertyMock
         ) as mock_program_details:
-            user_data.return_value = self.MOCK_USER_DATA
+            user_data.return_value = test_user_data if test_user_data else self.MOCK_USER_DATA
             mock_program_details.return_value = mocked_program_data
             response = self.client.get(user_credential.get_absolute_url())
             self.assertEqual(response.status_code, 200)
@@ -335,6 +340,19 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
                 response.context_data["org_name_string"],
                 "{}, {}, and {}".format(orgs[0].display_name, orgs[1].display_name, orgs[2].display_name),
             )
+
+    def test_render_verified_name(self):
+        """
+        Verify that the view renders certificates correctly if the user choose
+        their verified name to be used on certificates
+        """
+        user_data = {
+            "name": "John Doe",
+            "verified_name": "Jonathan Doe",
+            "use_verified_name_for_certs": True,
+        }
+        response = self._render_user_credential(test_user_data=user_data)
+        self.assertContains(response, user_data["verified_name"])
 
 
 class RenderExampleCredentialViewTests(SiteMixin, TestCase):

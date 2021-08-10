@@ -133,6 +133,10 @@ class SiteConfiguration(models.Model):
         return "{}/api/user/v1/".format(self.lms_url_root.strip("/"))
 
     @property
+    def name_verification_api_url(self):
+        return "{}/api/edx_name_affirmation/v1/verified_name".format(self.lms_url_root.strip("/"))
+
+    @property
     def api_client(self):
         """
         Returns a requests client for this site's service user.
@@ -149,9 +153,9 @@ class SiteConfiguration(models.Model):
         )
 
     def get_user_api_data(self, username):
-        """Retrieve details for the specified user from the User API.
+        """Retrieve details for the specified user from the User API and Verified Name API.
 
-        If the API call is successful, the returned data will be cached for the
+        If the API calls are successful, the returned data will be cached for the
         duration of USER_CACHE_TTL (in seconds). Failed API responses will NOT
         be cached.
 
@@ -165,10 +169,21 @@ class SiteConfiguration(models.Model):
         user_data = cache.get(cache_key)
 
         if not user_data:
+            # first get user api data
             user_url = urljoin(self.user_api_url, f"accounts/{username}")
-            response = self.api_client.get(user_url)
-            response.raise_for_status()
-            user_data = response.json()
+            user_response = self.api_client.get(user_url)
+            user_response.raise_for_status()
+            user_data = user_response.json()
+
+            # then get name verification api data
+            verification_url = urljoin(self.name_verification_api_url, f"?username={username}")
+            verification_response = self.api_client.get(verification_url)
+            if verification_response.status_code == 200:
+                verification_data = verification_response.json()
+                # add relevant verified name data to user_data
+                user_data["verified_name"] = verification_data.get("verified_name")
+                user_data["use_verified_name_for_certs"] = verification_data.get("use_verified_name_for_certs")
+
             cache.set(cache_key, user_data, settings.USER_CACHE_TTL)
 
         return user_data
