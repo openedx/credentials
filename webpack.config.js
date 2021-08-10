@@ -52,7 +52,7 @@ module.exports = {
             options: {
               name: 'font/[name]-[contenthash].[ext]',
               limit: 5000,
-              mimetype: 'application/font-woff',
+              mimetype: 'font/woff2',
             }
           }
         ]
