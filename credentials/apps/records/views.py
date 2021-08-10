@@ -8,6 +8,7 @@ from collections import defaultdict
 
 from analytics.client import Client as SegmentClient
 from django import http
+from django.conf import settings
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, JsonResponse
@@ -323,6 +324,10 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
         records_help_url = site_configuration.records_help_url if site_configuration else ""
         base_template = self.try_select_theme_template(["_base_style.html"])
 
+        program_list_url = "/records/"
+        if settings.USE_LEARNER_RECORD_MFE:
+            program_list_url = settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL
+
         context.update(
             {
                 "child_templates": {
@@ -339,6 +344,7 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
                 "records_help_url": records_help_url,
                 "request": self.request,
                 "base_style_template": base_template,
+                "program_list_url": program_list_url,
             }
         )
         return context

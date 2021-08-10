@@ -887,6 +887,18 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         )
         self.assertNotContains(response, "<xss>")
 
+    def test_program_list_url_value_mfe_disabled(self):
+        response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
+
+        assert response.context_data["program_list_url"] == "/records/"
+
+    @override_settings(USE_LEARNER_RECORD_MFE=True)
+    @override_settings(LEARNER_RECORD_MFE_RECORDS_PAGE_URL="http://some.website/page/")
+    def test_program_list_url_value_mfe_enabled(self):
+        response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
+
+        assert response.context_data["program_list_url"] == "http://some.website/page/"
+
 
 class ProgramRecordTests(SiteMixin, TestCase):
     USERNAME = "test-user"

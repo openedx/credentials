@@ -254,6 +254,7 @@ class ProgramRecord extends React.Component {
       uuid,
       loadModalsAsChildren,
       helpUrl,
+      programListUrl,
     } = this.props;
     const { sendRecordModalOpen, shareModelOpen } = this.state;
     const recordWrapperClass = 'program-record-wrapper';
@@ -267,7 +268,7 @@ class ProgramRecord extends React.Component {
         {!isPublic
           && (
           <div className="program-record-actions program-record-row">
-            <a href="/records/" className="top-bar-link">
+            <a href={programListUrl} className="top-bar-link">
               <span className="fa fa-caret-left" aria-hidden="true" />
               <span className="fa fa-caret-right" aria-hidden="true" /> {gettext('Back to My Records')}
             </a>
@@ -474,6 +475,7 @@ ProgramRecord.propTypes = {
   platform_name: PropTypes.string.isRequired,
   loadModalsAsChildren: PropTypes.bool,
   helpUrl: PropTypes.string,
+  programListUrl: PropTypes.string,
 };
 
 ProgramRecord.defaultProps = {
@@ -482,6 +484,7 @@ ProgramRecord.defaultProps = {
   icons: {},
   loadModalsAsChildren: true,
   helpUrl: '',
+  programListUrl: '',
 };
 
 export default ProgramRecord;

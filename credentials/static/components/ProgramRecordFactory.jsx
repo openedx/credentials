@@ -10,6 +10,7 @@ function ProgramRecordFactory(parent, props) {
     icons: props.icons,
     uuid: props.uuid,
     helpUrl: props.helpUrl,
+    programListUrl: props.programListUrl,
   };
 
   ReactDOM.render(
