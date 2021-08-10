@@ -10,6 +10,7 @@ will build the image which will take a few minutes. Following test runs will be 
 To make testing easier, there are a few commands that mirror our suites in CI:
 
 .. code-block:: bash
+
     $ make acceptance_tests_suite
     $ make unit_tests_suite
     $ make quality_and_translations_tests_suite
