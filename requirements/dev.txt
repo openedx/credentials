@@ -192,7 +192,7 @@ edx-auth-backends==3.4.0
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/test.txt
-git+https://github.com/edx/credentials-themes.git@0.1.80#egg=edx_credentials_themes==0.1.81
+git+https://github.com/edx/credentials-themes.git@0.1.82#egg=edx_credentials_themes==0.1.82
     # via -r requirements/test.txt
 edx-django-release-util==1.1.0
     # via -r requirements/test.txt
@@ -207,7 +207,6 @@ edx-django-utils==4.2.0
 edx-drf-extensions==6.6.0
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
-    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
 edx-i18n-tools==0.7.0
     # via
