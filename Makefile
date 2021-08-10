@@ -10,7 +10,7 @@ TOX = ''
 	extract_translations dummy_translations compile_translations fake_translations pull_translations push_translations \
 	detect_changed_source_translations validate_translations check_translations_up_to_date \
 	check_keywords pii_check coverage \
-	acceptance_tests_suite quality_and_translations_tests_suite unit_tests_suite
+	acceptance_tests_suite quality_and_translations_tests_suite unit_tests_suite docs
 
 ifdef TOXENV
 TOX := tox -- #to isolate each tox environment if TOXENV is defined
@@ -174,3 +174,6 @@ quality_and_translations_tests_suite: build_test_image
 # This should be ran locally, not inside of the devstack container
 unit_tests_suite: build_test_image
 	docker run -e "TERM=xterm-256color" -v /edx/app/credentials/node_modules/ -v `pwd`:/edx/app/credentials/ credentials:local bash -c 'cd /edx/app/credentials/ && make static && make tests && make coverage'
+
+docs:
+	tox -e docs
