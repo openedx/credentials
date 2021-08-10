@@ -11,3 +11,4 @@
 
 edx-sphinx-theme
 Sphinx
+jsx-lexer # A JSX lexer for Pygments
