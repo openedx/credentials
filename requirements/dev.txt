@@ -207,7 +207,6 @@ edx-django-utils==4.2.0
 edx-drf-extensions==6.6.0
     # via
     #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
-    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
 edx-i18n-tools==0.7.0
     # via
