@@ -124,7 +124,7 @@ distro==1.6.0
     #   docker-compose
 django==2.2.24
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-appconf
@@ -243,7 +243,7 @@ docopt==0.6.2
     #   docker-compose
 drf-jwt==1.19.0
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
@@ -252,9 +252,8 @@ edx-ace==0.1.17
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-auth-backends==3.4.0
+edx-auth-backends==4.0.0
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 git+https://github.com/edx/credentials-themes.git@0.1.83#egg=edx_credentials_themes==0.1.83
@@ -276,9 +275,8 @@ edx-django-utils==4.2.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==6.6.0
+edx-drf-extensions==7.0.1
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 edx-i18n-tools==0.7.0
@@ -491,13 +489,13 @@ pyjwkest==1.4.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-pyjwt[crypto]==1.7.1
+pyjwt[crypto]==2.1.0
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   drf-jwt
     #   edx-auth-backends
+    #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
 pylint==2.9.6
@@ -578,8 +576,6 @@ pytz==2021.1
     #   -r requirements/production.txt
     #   django
     #   django-ses
-pywatchman==1.4.1 ; "linux" in sys_platform
-    # via -r requirements/dev.txt
 pyyaml==5.4.1
     # via
     #   -r requirements/dev.txt
@@ -667,7 +663,6 @@ six==1.16.0
     #   python-memcached
     #   responses
     #   social-auth-app-django
-    #   social-auth-core
     #   tox
     #   transifex-client
     #   virtualenv
@@ -684,13 +679,12 @@ smmap==4.0.0
     #   gitdb
 social-auth-app-django==4.0.0
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
+    #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-auth-backends
-social-auth-core==4.0.2
+social-auth-core==4.1.0
     # via
-    #   -c https://raw.githubusercontent.com/edx/edx-lint/master/edx_lint/files/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-auth-backends
