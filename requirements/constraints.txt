@@ -25,7 +25,3 @@ django-webpack-loader<1.0.0
 
 # The update to 3.0.0 contains some large breaking changes. (MICROBA-1427)
 django-hijack<3.0.0
-
-# edx-drf-extension's upgrade to 7.0.0 is in conflict with the common-constraints' pinning of pyjwt[crypto]
-# See MICROBA-1435
-edx-drf-extensions<7.0.0
