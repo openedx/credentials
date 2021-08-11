@@ -26,7 +26,7 @@ jobs:
 
       - name: Get open release name
         id: get-open-release
-        if: ${{ github.ref.startsWith("refs/tags/open-release/") }}
+        if: ${{ startsWith(github.ref, "refs/tags/open-release/") }}
         uses: actions/github-script@v4
         with:
           script: return context.ref.split('refs/tags/open-release/')[1]
@@ -34,7 +34,7 @@ jobs:
 
       - name: Build and push Docker images
         uses: docker/build-push-action@v1
-        if: ${{ github.ref.startsWith("refs/tags/open-release/") }}
+        if: ${{ startsWith(github.ref, "refs/tags/open-release/") }}
         with:
           push: ${{ github.event_name != 'pull_request' }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
