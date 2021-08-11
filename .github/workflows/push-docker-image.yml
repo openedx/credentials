@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    tags:
+      - open-release/*
 jobs:
   push:
     runs-on: ubuntu-latest
@@ -21,3 +23,21 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           repository: openedx/credentials
           tags: latest,${{ github.sha }}
+
+      - name: Get open release name
+        id: get-open-release
+        if: ${{ github.ref.startsWith("refs/tags/open-release/") }}
+        uses: actions/github-script@v4
+        with:
+          script: return context.ref.split('refs/tags/open-release/')[1]
+          result-encoding: string
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v1
+        if: ${{ github.ref.startsWith("refs/tags/open-release/") }}
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: openedx/credentials
+          tags: ${{steps.get-open-release.outputs.result}}
