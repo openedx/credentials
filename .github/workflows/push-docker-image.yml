@@ -1,0 +1,23 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v1
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: openedx/credentials
+          tags: latest,${{ github.sha }}
