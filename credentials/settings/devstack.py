@@ -66,7 +66,7 @@ BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL = os.environ.get(
     "http://edx.devstack.lms:18000/oauth2",
 )
 
-CORS_ORIGIN_WHITELIST = ("http://localhost:8080",)
+CORS_ORIGIN_WHITELIST = ("http://localhost:1990",)
 
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = str2bool(os.environ.get("SOCIAL_AUTH_REDIRECT_IS_HTTPS", False))
 
@@ -95,7 +95,7 @@ JWT_AUTH.update(
 SEND_EMAIL_ON_PROGRAM_COMPLETION = True
 
 USE_LEARNER_RECORD_MFE = False
-LEARNER_RECORD_MFE_RECORDS_PAGE_URL = "http://localhost:8080/"
+LEARNER_RECORD_MFE_RECORDS_PAGE_URL = "http://localhost:1990/"
 
 
 #####################################################################
