@@ -90,8 +90,9 @@ RUN pip install newrelic
 CMD newrelic-admin run-program gunicorn --workers=2 --name credentials -c /edx/app/credentials/credentials/credentials/docker_gunicorn_configuration.py --log-file - --max-requests=1000 credentials.wsgi:application
 
 
+# We don't switch back to the app user for devstack because we need devstack users to be
+# able to update requirements and generally run things as root.
 FROM app as devstack
 USER root
 RUN pip install -r /edx/app/credentials/credentials/requirements/dev.txt
-USER app
 CMD gunicorn --reload --workers=2 --name credentials -c /edx/app/credentials/credentials/credentials/docker_gunicorn_configuration.py --log-file - --max-requests=1000 credentials.wsgi:application
