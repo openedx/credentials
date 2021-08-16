@@ -64,7 +64,7 @@ django==2.2.24
     #   xss-utils
 django-appconf==1.0.4
     # via django-statici18n
-django-cors-headers==3.7.0
+django-cors-headers==3.8.0
     # via -r requirements/base.in
 django-crum==0.7.9
     # via
@@ -193,7 +193,7 @@ pycparser==2.20
     # via cffi
 pycryptodomex==3.10.1
     # via pyjwkest
-pygments==2.9.0
+pygments==2.10.0
     # via -r requirements/base.in
 pyjwkest==1.4.2
     # via edx-drf-extensions
