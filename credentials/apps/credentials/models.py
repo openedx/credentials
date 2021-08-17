@@ -376,3 +376,24 @@ class ProgramCompletionEmailConfiguration(TimeStampedModel):
             or cls.objects.filter(identifier=program_type_slug).first()
             or cls.objects.filter(identifier=cls.DEFAULT_TEMPLATE_IDENTIFIER).first()
         )
+
+
+class UserCredentialDateOverride(TimeStampedModel):
+    """
+    Model to override a UserCredential's date with the given date. This date is
+    manually set in the LMS Django Admin and sent to credentials. Its primary
+    use is to override the issue date on an individual course certificate. We
+    keep a copy of it for display on the Learner Record.
+
+    .. no_pii:
+    """
+
+    user_credential = models.OneToOneField(
+        UserCredential,
+        on_delete=models.CASCADE,
+        related_name="date_override",
+        help_text="The id of the UserCredential that this date overrides",
+    )
+    date = models.DateField(
+        help_text="The date to override a course certificate with. This is set in the LMS Django Admin.",
+    )

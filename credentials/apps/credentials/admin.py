@@ -9,6 +9,7 @@ from credentials.apps.credentials.models import (
     Signatory,
     UserCredential,
     UserCredentialAttribute,
+    UserCredentialDateOverride,
 )
 
 
@@ -24,13 +25,19 @@ class UserCredentialAttributeInline(admin.TabularInline):
     extra = 1
 
 
+class UserCredentialDateOverrideInline(admin.TabularInline):
+    model = UserCredentialDateOverride
+    readonly_fields = ("date",)
+    can_delete = False
+
+
 @admin.register(UserCredential)
 class UserCredentialAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
     list_display = ("username", "certificate_uuid", "status", "credential_content_type", "title")
     list_filter = ("status", "credential_content_type")
     readonly_fields = TimeStampedModelAdminMixin.readonly_fields + ("uuid",)
     search_fields = ("username",)
-    inlines = (UserCredentialAttributeInline,)
+    inlines = (UserCredentialAttributeInline, UserCredentialDateOverrideInline)
 
     def get_queryset(self, request):
         return super().get_queryset(request).prefetch_related("credential")
