@@ -42,11 +42,11 @@ bleach==4.0.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.18.19
+boto3==1.18.24
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.21.19
+botocore==1.21.24
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -156,7 +156,7 @@ django-appconf==1.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-statici18n
-django-cors-headers==3.7.0
+django-cors-headers==3.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -166,7 +166,7 @@ django-crum==0.7.9
     #   -r requirements/production.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==3.2.1
+django-debug-toolbar==3.2.2
     # via -r requirements/dev.txt
 django-extensions==3.1.3
     # via
@@ -334,7 +334,7 @@ greenlet==1.1.1
     #   gevent
 gunicorn==20.1.0
     # via -r requirements/production.txt
-httpretty==1.1.3
+httpretty==1.1.4
     # via -r requirements/dev.txt
 idna==3.2
     # via
@@ -480,7 +480,7 @@ pycryptodomex==3.10.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   pyjwkest
-pygments==2.9.0
+pygments==2.10.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -576,6 +576,8 @@ pytz==2021.1
     #   -r requirements/production.txt
     #   django
     #   django-ses
+pywatchman==1.4.1 ; "linux" in sys_platform
+    # via -r requirements/dev.txt
 pyyaml==5.4.1
     # via
     #   -r requirements/dev.txt
@@ -725,7 +727,7 @@ tomli==1.2.1
     # via
     #   -r requirements/dev.txt
     #   black
-tox==3.24.1
+tox==3.24.2
     # via -r requirements/dev.txt
 transifex-client==0.14.3
     # via
