@@ -18,6 +18,7 @@ LOGGER_NAME = "credentials.apps.api.accreditors"
 
 class AccreditorTests(TestCase):
     attributes = [{"name": "whitelist_reason", "value": "Reason for whitelisting."}]
+    date_override = None
     course_credential = CourseCertificate
     program_credential = ProgramCertificate
 
@@ -43,8 +44,12 @@ class AccreditorTests(TestCase):
         """Verify the method calls the Issuer's issue_credential method."""
         accreditor = Accreditor(issuers=[ProgramCertificateIssuer()])
         with patch.object(ProgramCertificateIssuer, "issue_credential") as mock_method:
-            accreditor.issue_credential(self.program_cert, "tester", attributes=self.attributes)
-            mock_method.assert_called_with(self.program_cert, "tester", "awarded", self.attributes, None)
+            accreditor.issue_credential(
+                self.program_cert, "tester", attributes=self.attributes, date_override=self.date_override
+            )
+            mock_method.assert_called_with(
+                self.program_cert, "tester", "awarded", self.attributes, self.date_override, None
+            )
 
     def test_constructor_with_multiple_issuers_for_same_credential_type(self):
         """Verify the Accreditor supports a single Issuer per credential type.

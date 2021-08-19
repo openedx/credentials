@@ -13,6 +13,7 @@ from credentials.apps.credentials.models import (
     ProgramCertificate,
     UserCredential,
     UserCredentialAttribute,
+    UserCredentialDateOverride,
 )
 from credentials.apps.credentials.utils import send_program_certificate_created_message, validate_duplicate_attributes
 from credentials.apps.records.utils import send_updated_emails_for_program
@@ -42,7 +43,13 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
 
     @transaction.atomic
     def issue_credential(
-        self, credential, username, status=UserCredentialStatus.AWARDED, attributes=None, request=None
+        self,
+        credential,
+        username,
+        status=UserCredentialStatus.AWARDED,
+        attributes=None,
+        date_override=None,
+        request=None,
     ):
         """
         Issue a credential to the user.
@@ -70,6 +77,7 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
         )
 
         self.set_credential_attributes(user_credential, attributes)
+        self.set_credential_date_override(user_credential, date_override)
 
         return user_credential
 
@@ -93,6 +101,26 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
                 user_credential=user_credential, name=attr.get("name"), defaults={"value": attr.get("value")}
             )
 
+    @transaction.atomic
+    def set_credential_date_override(self, user_credential, date_override=None):
+        """
+        Add a date override to the given User Credential, or remove it if there
+        should no longer be one.
+
+        Arguments:
+            user_credential (AbstractCredential): The credential to associate
+                this date override to
+            date_override (Date): The date override that should be associated
+                with this credential
+        """
+
+        if date_override and date_override.get("date"):
+            UserCredentialDateOverride.objects.update_or_create(
+                user_credential=user_credential, defaults={"date": date_override.get("date")}
+            )
+        else:
+            UserCredentialDateOverride.objects.filter(user_credential=user_credential).delete()
+
 
 class ProgramCertificateIssuer(AbstractCredentialIssuer):
     """Issues ProgramCertificates."""
@@ -101,7 +129,13 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
 
     @transaction.atomic
     def issue_credential(
-        self, credential, username, status=UserCredentialStatus.AWARDED, attributes=None, request=None
+        self,
+        credential,
+        username,
+        status=UserCredentialStatus.AWARDED,
+        attributes=None,
+        date_override=None,
+        request=None,
     ):
         """
         Issue a Program Certificate to the user.
