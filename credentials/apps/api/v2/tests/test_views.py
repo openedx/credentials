@@ -4,6 +4,7 @@ from unittest import mock
 
 import ddt
 from django.contrib.auth.models import Permission
+from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.renderers import JSONRenderer
@@ -87,6 +88,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
             "username": expected_username,
             "credential": {"program_uuid": str(program_certificate.program_uuid)},
             "status": "awarded",
+            "date_override": None,
             "attributes": [
                 {
                     "name": expected_attribute_name,
@@ -167,6 +169,46 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         actual_attribute = user_credential.attributes.first()
         self.assertEqual(actual_attribute.name, expected_attribute.name)
         self.assertEqual(actual_attribute.value, expected_attribute.value)
+
+    def test_create_with_date_override(self):
+        """Verify that a UserCredentialDateOverride is created if a date_override
+        is sent with the post"""
+
+        course = CourseFactory.create(site=self.site)
+        course_run = CourseRunFactory.create(course=course)
+
+        expected_date_override = "9999-05-11"
+        expected_attribute_name = "fake-name"
+        expected_attribute_value = "fake-value"
+        data = {
+            "username": self.user.username,
+            "credential": {"course_run_key": course_run.key, "mode": "verified", "type": "course-run"},
+            "status": "awarded",
+            "date_override": {"date": expected_date_override},
+            "attributes": [
+                {
+                    "name": expected_attribute_name,
+                    "value": expected_attribute_value,
+                }
+            ],
+        }
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, "add_usercredential")
+        response = self.client.post(self.list_path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
+        user_credential = UserCredential.objects.last()
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data, self.serialize_user_credential(user_credential))
+
+        self.assertEqual(user_credential.date_override.date.strftime("%Y-%m-%d"), expected_date_override)
+
+        # Verify that the date_override is removed if not present in the post
+        data["date_override"] = None
+        response = self.client.post(self.list_path, data=json.dumps(data), content_type=JSON_CONTENT_TYPE)
+        user_credential.refresh_from_db()
+        with self.assertRaises(ObjectDoesNotExist):
+            print(user_credential.date_override)
 
     def test_destroy(self):
         """Verify the endpoint does NOT support the DELETE operation."""

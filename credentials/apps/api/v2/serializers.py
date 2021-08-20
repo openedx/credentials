@@ -16,6 +16,7 @@ from credentials.apps.credentials.models import (
     ProgramCertificate,
     UserCredential,
     UserCredentialAttribute,
+    UserCredentialDateOverride,
 )
 from credentials.apps.records.models import UserGrade
 
@@ -133,11 +134,20 @@ class UserCredentialAttributeSerializer(serializers.ModelSerializer):
         fields = ("name", "value")
 
 
+class UserCredentialDateOverrideSerializer(serializers.ModelSerializer):
+    """Serializer for UserCredentialDateOverride objects"""
+
+    class Meta:
+        model = UserCredentialDateOverride
+        fields = ("date",)
+
+
 class UserCredentialSerializer(serializers.ModelSerializer):
     """Serializer for UserCredential objects."""
 
     credential = CredentialField(read_only=True)
     attributes = UserCredentialAttributeSerializer(many=True, read_only=True)
+    date_override = UserCredentialDateOverrideSerializer(required=False, allow_null=True)
     certificate_url = UserCertificateURLField(source="uuid", read_only=True)
 
     class Meta:
@@ -149,6 +159,7 @@ class UserCredentialSerializer(serializers.ModelSerializer):
             "download_url",
             "uuid",
             "attributes",
+            "date_override",
             "created",
             "modified",
             "certificate_url",
@@ -167,6 +178,7 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
 
     credential = CredentialField()
     attributes = UserCredentialAttributeSerializer(many=True, required=False)
+    date_override = UserCredentialDateOverrideSerializer(required=False, allow_null=True)
     certificate_url = UserCertificateURLField(source="uuid")
 
     def validate_attributes(self, value):
@@ -193,9 +205,12 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
         username = validated_data["username"]
         status = validated_data.get("status", UserCredentialStatus.AWARDED)
         attributes = validated_data.pop("attributes", None)
+        date_override = validated_data.pop("date_override", None)
         request = self.context.get("request")
 
-        return accreditor.issue_credential(credential, username, status=status, attributes=attributes, request=request)
+        return accreditor.issue_credential(
+            credential, username, status=status, attributes=attributes, date_override=date_override, request=request
+        )
 
     def create(self, validated_data):
         return self.issue_credential(validated_data)

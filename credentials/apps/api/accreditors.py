@@ -35,7 +35,13 @@ class Accreditor:
                 self.credential_type_issuer_map[credential_type] = issuer
 
     def issue_credential(
-        self, credential, username, status=UserCredentialStatus.AWARDED, attributes=None, request=None
+        self,
+        credential,
+        username,
+        status=UserCredentialStatus.AWARDED,
+        attributes=None,
+        date_override=None,
+        request=None,
     ):
         """Issues a credential.
 
@@ -59,4 +65,4 @@ class Accreditor:
                 "Unable to issue credential. No issuer is registered for credential type [{}]".format(credential)
             )
 
-        return credential_issuer.issue_credential(credential, username, status, attributes, request)
+        return credential_issuer.issue_credential(credential, username, status, attributes, date_override, request)
