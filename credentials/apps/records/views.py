@@ -25,7 +25,7 @@ from credentials.apps.catalog.models import Pathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.models import ProgramCertificate, UserCredential
-from credentials.apps.credentials.utils import filter_visible, get_credential_visible_dates
+from credentials.apps.credentials.utils import filter_visible, get_credential_visible_date, get_credential_visible_dates
 from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
@@ -183,7 +183,8 @@ def get_record_data(user, program_uuid, site, platform_name=None):
 
         # If the user has taken the course, show the course_run info for the highest grade
         elif grade is not None and grade.course_run == course_run:
-            issue_date = visible_dates[user_credential_dict[course_run.key]]
+            user_credential = user_credential_dict.get(course_run.key)
+            issue_date = get_credential_visible_date(user_credential, use_date_override=True)
             course_data.append(
                 {
                     "name": course_run.title,

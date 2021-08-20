@@ -1,3 +1,4 @@
+import datetime
 import uuid
 
 import factory
@@ -49,6 +50,13 @@ class UserCredentialAttributeFactory(factory.django.DjangoModelFactory):
     user_credential = factory.SubFactory(UserCredentialFactory)
     name = factory.Sequence(lambda o: "name-%d" % o)
     value = factory.Sequence(lambda o: "value-%d" % o)
+
+
+class UserCredentialDateOverrideFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.UserCredentialDateOverride
+
+    date = datetime.date(2021, 5, 11)
 
 
 class SignatoryFactory(factory.django.DjangoModelFactory):
