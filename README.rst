@@ -8,6 +8,7 @@ Credentials can be run as part of devstack_.
 
 .. _devstack: https://github.com/edx/devstack
 
+
 Where to run `make` commands
 --------------------------
 Due to the nature of developing in containers, some commands must be ran inside the container, and some locally.
@@ -21,6 +22,10 @@ The exception to this, is commands that run inside their own containers, which c
   $ make unit_tests_suite
 
 `make accept` requires certain local OS-level packages to be installed (firefox / xbfb), so it's best to run it with the `acceptance_tests_suite` command noted above.
+
+Frontend Development
+--------------------
+When developing frontend code in Credentials, some of the code must be transpiled and bundled for it to be usable. This includes the React components found in `credentials/static/components` and the SASS code found at `credentials/static/sass`. In order to view your changes, you must run one of the `make static` commands. `make static` builds and collects your static assets once, while `make static.watch` will continue to watch for changes in your code and rebuild/recollect whenever you save. When using `make static.watch` it only triggers after save, so if you have existing changes, you make need to run `make static` once first, or make a small change to an existing file and save it so it triggers a rebuild. 
 
 Testing
 -------
