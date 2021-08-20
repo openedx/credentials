@@ -17,15 +17,21 @@ requirements have been installed (`make requirements`)
 
 The exception to this, is commands that run inside their own containers, which currently is only the testing suites ::
 
-  $ make acceptance_tests_suite
-  $ make quality_and_translations_tests_suite
-  $ make unit_tests_suite
+  make acceptance_tests_suite
+  make quality_and_translations_tests_suite
+  make unit_tests_suite
 
 `make accept` requires certain local OS-level packages to be installed (firefox / xbfb), so it's best to run it with the `acceptance_tests_suite` command noted above.
 
 Frontend Development
 --------------------
 When developing frontend code in Credentials, some of the code must be transpiled and bundled for it to be usable. This includes the React components found in ``credentials/static/components`` and the SASS code found at ``credentials/static/sass``. In order to view your changes, you must run one of the `make static` commands. `make static` builds and collects your static assets once, while `make static.watch` will continue to watch for changes in your code and rebuild/recollect whenever you save. When using `make static.watch` it only triggers after save, so if you have existing changes, you make need to run `make static` once first, or make a small change to an existing file and save it so it triggers a rebuild. 
+
+To see changes locally, from your devstack repo run ::
+
+  make credentials-shell
+  make static
+  make static.watch
 
 Testing
 -------
@@ -38,20 +44,21 @@ will build the image which will take a few minutes. Following test runs will be 
 
 To run acceptance tests locally ("acceptance_tests" in CI) ::
 
-  $ make acceptance_tests_suite
+  make acceptance_tests_suite
 
-To run python and javascript tests locally ("unit_tests" in CI)::
+To run python and javascript tests locally ("unit_tests" in CI) ::
 
-  $ make unit_tests_suite
+  make unit_tests_suite
 
-To run quality and translation tests locally ("quality_and_translations_tests" in CI)::
+To run quality and translation tests locally ("quality_and_translations_tests" in CI) ::
 
-  $ make quality_and_translations_tests_suite
+  make quality_and_translations_tests_suite
 
-isort and formatting (`black`) quality issues can be fixed automatically by running either::
-  $ make isort
-  or
-  $ make format
+isort and formatting (`black`) quality issues can be fixed automatically by running either ::
+
+  make isort
+  # or
+  make format
 
 Documentation
 -------------
