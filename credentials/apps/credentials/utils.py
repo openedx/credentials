@@ -4,6 +4,7 @@ import textwrap
 from itertools import groupby
 
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from edx_ace import Recipient, ace
 
@@ -49,6 +50,11 @@ def validate_duplicate_attributes(attributes):
         if len(list(group)) > 1:
             return False
     return True
+
+
+def to_datetime(date):
+    """Turn a date object into a datetime object by setting time to 00:00"""
+    return datetime.datetime.combine(date, datetime.datetime.min.time())
 
 
 # TODO: Delete this when removing USE_CERTIFICATE_AVAILABLE_DATE toggle:
@@ -160,24 +166,41 @@ def _get_program_certificate_visible_date(user_program_credential):
 
 # TODO: Refactor this when removing USE_CERTIFICATE_AVAILABLE_DATE toggle:
 # MICROBA-1198
-def get_credential_visible_dates(user_credentials):
+def get_credential_visible_dates(user_credentials, use_date_override=False):
     """
     Calculates visible date for a collection of UserCredentials.
     Returns a dictionary of {UserCredential: datetime}.
-    Guaranteed to return a datetime object for each credential.
+
+    Pass True as the `use_date_override` parameter to override the normal
+    visible date calculations with the UserCredential’s date override,
+    if present.
 
     Returns:
-        datetime: Returns the datetime that the Credentials will be visible and None if the visible
-        date is not available or cannot be calculated.
+        (Dict): Returns a dictionary of DateTimes keyed by UserCredential. If the
+        credential's visible date cannot be calculated, returns None instead of
+        a DateTime. Example:
+            {
+                <UserCredential>: <DateTime>,
+                <UserCredential>: None,
+                ...
+            }
     """
 
     if settings.USE_CERTIFICATE_AVAILABLE_DATE.is_enabled():
         visible_date_dict = {}
-        date = None
         for user_credential in user_credentials:
+            date = None
+
             # If this is a course credential
             if user_credential.course_credentials.exists():
                 date = user_credential.credential.certificate_available_date or user_credential.created
+
+                if use_date_override:
+                    try:
+                        date_override = user_credential.date_override.date
+                        date = to_datetime(date_override)
+                    except ObjectDoesNotExist:
+                        pass
 
             # If this is a program credential
             if user_credential.program_credentials.exists():
@@ -203,9 +226,9 @@ def get_credential_visible_dates(user_credentials):
     return visible_date_dict
 
 
-def get_credential_visible_date(user_credential):
+def get_credential_visible_date(user_credential, use_date_override=False):
     """Simpler, one-credential version of get_credential_visible_dates."""
-    return get_credential_visible_dates([user_credential])[user_credential]
+    return get_credential_visible_dates([user_credential], use_date_override)[user_credential]
 
 
 def send_program_certificate_created_message(username, program_certificate):
