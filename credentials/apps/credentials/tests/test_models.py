@@ -39,7 +39,7 @@ class SignatoryTests(TestCase):
 
     def get_image(self, name):
         """Get one of the test images from the test data directory."""
-        return ImageFile(open(TEST_DATA_ROOT + name + ".png"))  # pylint: disable=consider-using-with
+        return ImageFile(open(TEST_DATA_ROOT + name + ".png"))  # pylint: disable=unspecified-encoding
 
     def create_clean(self, file_obj):
         """
