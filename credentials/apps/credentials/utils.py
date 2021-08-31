@@ -188,19 +188,29 @@ def get_credential_visible_dates(user_credentials, use_date_override=False):
 
     if settings.USE_CERTIFICATE_AVAILABLE_DATE.is_enabled():
         visible_date_dict = {}
-        for user_credential in user_credentials:
-            date = None
+        date = None
 
+        for user_credential in user_credentials:
             # If this is a course credential
             if user_credential.course_credentials.exists():
-                date = user_credential.credential.certificate_available_date or user_credential.created
-
                 if use_date_override:
                     try:
                         date_override = user_credential.date_override.date
                         date = to_datetime(date_override)
                     except ObjectDoesNotExist:
                         pass
+                elif user_credential.credential.certificate_available_date:
+                    date = user_credential.credential.certificate_available_date
+                else:
+                    try:
+                        visible_date = UserCredentialAttribute.objects.prefetch_related(
+                            "user_credential__credential"
+                        ).filter(
+                            user_credential=user_credential, name="visible_date"
+                        )
+                        date = datetime_from_visible_date(visible_date.value)
+                    except UserCredentialAttribute.DoesNotExist:
+                        date = user_credential.created
 
             # If this is a program credential
             if user_credential.program_credentials.exists():
