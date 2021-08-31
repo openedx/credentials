@@ -667,15 +667,39 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
     # USE_CERTIFICATE_AVAILABLE_DATE waffle switch enabled. Clean up previous
     # tests in MICROBA-1198.
     @override_switch("credentials.use_certificate_available_date", active=True)
-    def test_visible_date_as_issue_date_with_certificate_available_date(self):
+    def test_cert_available_date_as_issue_date(self):
         """Verify that we show certificate_available_date when available"""
-        self.user_credentials[1].credential.certificate_available_date = "2017-05-11T03:14:00+00:00"
+        test_date = "2017-05-11T03:14:00+00:00"
+        self.user_credentials[1].credential.certificate_available_date = test_date
         self.user_credentials[1].credential.save()
 
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         grades = json.loads(response.context_data["record"])["grades"]
         self.assertEqual(len(grades), 1)
-        self.assertEqual(grades[0]["issue_date"], "2017-05-11T03:14:00+00:00")
+        self.assertEqual(grades[0]["issue_date"], test_date)
+
+    @override_switch("credentials.use_certificate_available_date", active=True)
+    def test_visible_date_as_issue_date_with_no_certificate_available_date(self):
+        """Verify that we show visible date when no cert available date"""
+        test_date = "2021-01-01T01:01:01Z"
+        UserCredentialAttributeFactory(
+            user_credential=self.user_credentials[1],
+            name="visible_date",
+            value=test_date,
+        )
+
+        response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
+        grades = json.loads(response.context_data["record"])["grades"]
+        self.assertEqual(len(grades), 1)
+        self.assertEqual(grades[0]["issue_date"], "2021-01-01T01:01:01+00:00")
+
+    @override_switch("credentials.use_certificate_available_date", active=True)
+    def test_created_date_as_issue_date_with_no_certificate_available_date(self):
+        """Verify that we show created date when no visible date"""
+        response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
+        grades = json.loads(response.context_data["record"])["grades"]
+        self.assertEqual(len(grades), 1)
+        self.assertEqual(grades[0]["issue_date"], self.user_credentials[1].created.isoformat())
 
     @override_switch("credentials.use_certificate_available_date", active=True)
     def test_future_visible_date_not_shown_with_certificate_available_date(self):
