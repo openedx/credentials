@@ -57,8 +57,6 @@ def to_datetime(date):
     return datetime.datetime.combine(date, datetime.datetime.min.time())
 
 
-# TODO: Delete this when removing USE_CERTIFICATE_AVAILABLE_DATE toggle:
-# MICROBA-1198
 def datetime_from_visible_date(date):
     """Turn a string version of a datetime, provided to us by the LMS in a particular format it uses for
     visible_date attributes, and turn it into a datetime object."""
@@ -158,10 +156,36 @@ def _get_program_certificate_visible_date(user_program_credential):
         ).first()
 
         if course_run_cert:
-            date = course_run_cert.credential.certificate_available_date or course_run_cert.created
+            date = _get_issue_date_for_course_credential(course_run_cert)
             last_date = max(last_date, date) if last_date else date
 
     return last_date
+
+
+def _get_issue_date_for_course_credential(course_run_user_credentials):
+    """
+    Retrieves the issue date for a given course run UserCredential. This method
+    attempts to find the date based on the certificate availability date and
+    the visible date attribute.
+
+    Arguments:
+        course_run_user_credentials (UserCredential): A Course Run UserCredential
+
+    Returns:
+        datetime: The datetime that the credential should be visible and was issued.
+    """
+    if course_run_user_credentials.credential.certificate_available_date:
+        date = course_run_user_credentials.credential.certificate_available_date
+    else:
+        try:
+            visible_date = UserCredentialAttribute.objects.prefetch_related("user_credential__credential").get(
+                user_credential=course_run_user_credentials, name="visible_date"
+            )
+            date = datetime_from_visible_date(visible_date.value)
+        except UserCredentialAttribute.DoesNotExist:
+            date = course_run_user_credentials.created
+            log.info(f"UserCredential {course_run_user_credentials.id} does not have a visible_date attribute")
+    return date
 
 
 # TODO: Refactor this when removing USE_CERTIFICATE_AVAILABLE_DATE toggle:
@@ -193,18 +217,11 @@ def get_credential_visible_dates(user_credentials, use_date_override=False):
             date = None
             # If this is a course credential
             if user_credential.course_credentials.exists():
-                if user_credential.credential.certificate_available_date:
-                    date = user_credential.credential.certificate_available_date
-                else:
-                    try:
-                        visible_date = UserCredentialAttribute.objects.prefetch_related(
-                            "user_credential__credential"
-                        ).get(user_credential=user_credential, name="visible_date")
-                        date = datetime_from_visible_date(visible_date.value)
-                    except UserCredentialAttribute.DoesNotExist:
-                        date = user_credential.created
-                        log.info(f"UserCredential {user_credential.id} does not have a visible_date attribute")
+                date = _get_issue_date_for_course_credential(user_credential)
 
+                # Date override only applies to Course Run UserCredential dates
+                # we should reconsider this if we ever decide they should
+                # impact the issue date of Program Certs.
                 if use_date_override:
                     try:
                         date_override = user_credential.date_override.date
