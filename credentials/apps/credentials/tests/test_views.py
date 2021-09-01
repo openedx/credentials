@@ -288,6 +288,22 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         response = self._render_user_credential()
         self.assertContains(response, "Issued May 1994")
 
+    @override_switch("credentials.use_certificate_available_date", active=True)
+    @responses.activate
+    def test_visible_date_as_issue_date_with_no_cert_availability_date_date(self):
+        """Verify that the view renders the visible_date as the issue date."""
+        for course_user_credential in self.course_user_credentials:
+            factories.UserCredentialAttributeFactory(
+                user_credential=course_user_credential,
+                name="visible_date",
+                value="2021-01-01T01:01:01Z",
+            )
+        for cert in self.course_certificates:
+            cert.certificate_available_date = None
+            cert.save()
+        response = self._render_user_credential()
+        self.assertContains(response, "Issued January 2021")
+
     @responses.activate
     def test_signatory_organization_name_override(self):
         """Verify that the view response contain signatory organization name if signatory have organization."""

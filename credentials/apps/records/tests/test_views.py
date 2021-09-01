@@ -663,7 +663,6 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         self.assertEqual(json.loads(response.context_data["record"])["program"]["completed"], completed)
 
-    # The following three tests are the same as the previous three, but with the
     # USE_CERTIFICATE_AVAILABLE_DATE waffle switch enabled. Clean up previous
     # tests in MICROBA-1198.
     @override_switch("credentials.use_certificate_available_date", active=True)
