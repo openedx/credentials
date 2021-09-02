@@ -337,7 +337,6 @@ SOCIAL_AUTH_PIPELINE = (
     "auth_backends.pipeline.update_email",
     # Credentials-specific pipeline below
     "credentials.apps.core.utils.update_full_name",
-    "credentials.apps.core.utils.update_lms_user_id",
 )
 
 # Set these to the correct values for your OAuth2 provider (e.g., devstack)
@@ -545,3 +544,4 @@ LOGO_POWERED_BY_OPEN_EDX_URL = "https://edx-cdn.org/v3/prod/open-edx-tag.svg"
 # .. toggle_creation_date: 2021-08-10
 USE_LEARNER_RECORD_MFE = False
 LEARNER_RECORD_MFE_RECORDS_PAGE_URL = ""
+ENABLE_SET_REQUEST_USER_FOR_JWT_COOKIE = True
