@@ -468,7 +468,7 @@ EDX_DRF_EXTENSIONS = {
         'tracking_context': 'tracking_context',
         'user_id': 'lms_user_id',
     },
-
+    "ENABLE_SET_REQUEST_USER_FOR_JWT_COOKIE": True,
     "OAUTH2_USER_INFO_URL": "http://127.0.0.1:8000/oauth2/user_info",
 }
 API_ROOT = None
@@ -544,4 +544,3 @@ LOGO_POWERED_BY_OPEN_EDX_URL = "https://edx-cdn.org/v3/prod/open-edx-tag.svg"
 # .. toggle_creation_date: 2021-08-10
 USE_LEARNER_RECORD_MFE = False
 LEARNER_RECORD_MFE_RECORDS_PAGE_URL = ""
-ENABLE_SET_REQUEST_USER_FOR_JWT_COOKIE = True
