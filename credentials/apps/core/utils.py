@@ -11,13 +11,15 @@ def update_full_name(strategy, details, user=None, *_args, **_kwargs):  # pylint
             user.full_name = full_name
             strategy.storage.user.changed(user)
 
-def update_lms_user_id(strategy, details, user=None, *_args, **_kwargs): # pylint: disable=keyword-arg-before-vararg
+
+def update_lms_user_id(strategy, details, user=None, *_args, **_kwargs):  # pylint: disable=keyword-arg-before-vararg
     if user:
         user_id = details.get("user_id")
 
         if user_id and user.lms_user_id != user_id:
             user.lms_user_id = user_id
             strategy.storage.user.changed(user)
+
 
 def _choices(*values):
     """
