@@ -337,6 +337,7 @@ SOCIAL_AUTH_PIPELINE = (
     "auth_backends.pipeline.update_email",
     # Credentials-specific pipeline below
     "credentials.apps.core.utils.update_full_name",
+    "credentials.apps.core.utils.update_lms_user_id",
 )
 
 # Set these to the correct values for your OAuth2 provider (e.g., devstack)
@@ -460,7 +461,16 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
     }
 }
-EDX_DRF_EXTENSIONS = {"OAUTH2_USER_INFO_URL": "http://127.0.0.1:8000/oauth2/user_info"}
+EDX_DRF_EXTENSIONS = {
+    "JWT_PAYLOAD_USER_ATTRIBUTE_MAPPING": {
+        "administrator": "is_staff",
+        "email": "email",
+        "full_name": "full_name",
+        "user_id": "lms_user_id",
+    },
+    "ENABLE_SET_REQUEST_USER_FOR_JWT_COOKIE": True,
+    "OAUTH2_USER_INFO_URL": "http://127.0.0.1:8000/oauth2/user_info",
+}
 API_ROOT = None
 MEDIA_STORAGE_BACKEND = {
     "DEFAULT_FILE_STORAGE": "django.core.files.storage.FileSystemStorage",
