@@ -149,26 +149,26 @@ class ProgramCertificateIssuedEmailTests(SiteMixin, TestCase):
             self.assertIn(fragment, email_body)
 
     def test_base_template(self):
-        send_program_certificate_created_message(self.user.username, self.program_cert)
+        send_program_certificate_created_message(self.user.username, self.program_cert, lms_user_id=123)
         self._assert_email_contents()
 
     def test_no_config(self):
         """With the config deleted, it shouldn't send an email"""
         self.default_config.delete()
-        send_program_certificate_created_message(self.user.username, self.program_cert)
+        send_program_certificate_created_message(self.user.username, self.program_cert, lms_user_id=123)
         self.assertEqual(0, len(mail.outbox))
 
     def test_disabled_config(self):
         """With the config disabled, it shouldn't send an email"""
         self.default_config.enabled = False
         self.default_config.save()
-        send_program_certificate_created_message(self.user.username, self.program_cert)
+        send_program_certificate_created_message(self.user.username, self.program_cert, lms_user_id=123)
         self.assertEqual(0, len(mail.outbox))
 
     def test_retired_program(self):
         self.program.status = ProgramStatus.RETIRED.value
         self.program.save()
-        send_program_certificate_created_message(self.user.username, self.program_cert)
+        send_program_certificate_created_message(self.user.username, self.program_cert, lms_user_id=123)
         self.assertEqual(0, len(mail.outbox))
 
     def test_send_email_exception_occurs(self):
@@ -184,7 +184,7 @@ class ProgramCertificateIssuedEmailTests(SiteMixin, TestCase):
 
         with LogCapture() as log:
             with mock.patch("edx_ace.ace.send", side_effect=Exception("Error!")):
-                send_program_certificate_created_message(self.user.username, self.program_cert)
+                send_program_certificate_created_message(self.user.username, self.program_cert, lms_user_id=123)
 
         for index, message in enumerate(expected_messages):
             assert message in log.records[index].getMessage()

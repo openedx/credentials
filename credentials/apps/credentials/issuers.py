@@ -50,6 +50,7 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
         attributes=None,
         date_override=None,
         request=None,
+        lms_user_id=None,  # pylint: disable=unused-argument
     ):
         """
         Issue a credential to the user.
@@ -136,6 +137,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         attributes=None,
         date_override=None,
         request=None,
+        lms_user_id=None,
     ):
         """
         Issue a Program Certificate to the user.
@@ -178,7 +180,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         # If this is a new ProgramCertificate and the `SEND_EMAIL_ON_PROGRAM_COMPLETION`
         # feature is enabled then let's send a congratulatory message to the learner
         if created and getattr(settings, "SEND_EMAIL_ON_PROGRAM_COMPLETION", False):
-            send_program_certificate_created_message(username, credential)
+            send_program_certificate_created_message(username, credential, lms_user_id)
 
         self.set_credential_attributes(user_credential, attributes)
 

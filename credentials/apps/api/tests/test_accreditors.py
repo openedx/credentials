@@ -45,10 +45,10 @@ class AccreditorTests(TestCase):
         accreditor = Accreditor(issuers=[ProgramCertificateIssuer()])
         with patch.object(ProgramCertificateIssuer, "issue_credential") as mock_method:
             accreditor.issue_credential(
-                self.program_cert, "tester", attributes=self.attributes, date_override=self.date_override
+                self.program_cert, "tester", attributes=self.attributes, date_override=self.date_override, lms_user_id=2
             )
             mock_method.assert_called_with(
-                self.program_cert, "tester", "awarded", self.attributes, self.date_override, None
+                self.program_cert, "tester", "awarded", self.attributes, self.date_override, None, 2
             )
 
     def test_constructor_with_multiple_issuers_for_same_credential_type(self):

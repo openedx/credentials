@@ -56,7 +56,7 @@ def send_updated_emails_for_program(request, username, program_certificate):
         csv_link = urllib.parse.urljoin(record_link, "csv")
 
         msg = ProgramCreditRequest(site, user.email).personalize(
-            recipient=Recipient(username=None, email_address=pathway.email),
+            recipient=Recipient(lms_user_id=None, email_address=pathway.email),
             language=program_certificate.language,
             user_context={
                 "pathway_name": pathway.name,

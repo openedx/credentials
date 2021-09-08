@@ -171,7 +171,7 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
         self.site_config.records_enabled = False
         self.site_config.save()
 
-        self.issuer.issue_credential(self.certificate, "testuser5")
+        self.issuer.issue_credential(self.certificate, "testuser5", lms_user_id=123)
         self.assertEqual(mock_send_learner_email.call_count, 1)
 
     @override_settings(SEND_EMAIL_ON_PROGRAM_COMPLETION=True)
@@ -187,12 +187,12 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
         self.site_config.records_enabled = False
         self.site_config.save()
 
-        self.issuer.issue_credential(self.certificate, user.username)
+        self.issuer.issue_credential(self.certificate, user.username, lms_user_id=123)
         # revoke the user credential
         user_credential = UserCredential.objects.get(username=username)
         user_credential.revoke()
         # issue the credential again, make sure that we haven't tried to send the email again
-        self.issuer.issue_credential(self.certificate, user.username)
+        self.issuer.issue_credential(self.certificate, user.username, lms_user_id=123)
         self.assertEqual(mock_send_learner_email.call_count, 1)
 
     @override_settings(SEND_EMAIL_ON_PROGRAM_COMPLETION=False)

@@ -258,7 +258,7 @@ def get_credential_visible_date(user_credential, use_date_override=False):
     return get_credential_visible_dates([user_credential], use_date_override)[user_credential]
 
 
-def send_program_certificate_created_message(username, program_certificate):
+def send_program_certificate_created_message(username, program_certificate, lms_user_id):
     """
     If the learner has earned a Program Certificate then we go ahead and send them an automated email congratulating
     them for their achievement. Emails to learners in credit eligible Programs will contain additional information.
@@ -283,8 +283,10 @@ def send_program_certificate_created_message(username, program_certificate):
         return
 
     try:
+        if not lms_user_id:
+            log.warning("Program certificate created email sent without lms_user_id")
         msg = ProgramCertificateIssuedMessage(program_certificate.site, user.email).personalize(
-            recipient=Recipient(username=user.username, email_address=user.email),
+            recipient=Recipient(lms_user_id=lms_user_id, email_address=user.email),
             language=program_certificate.language,
             user_context={
                 "program_title": program_details.title,

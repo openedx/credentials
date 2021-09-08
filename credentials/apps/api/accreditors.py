@@ -42,6 +42,7 @@ class Accreditor:
         attributes=None,
         date_override=None,
         request=None,
+        lms_user_id=None,
     ):
         """Issues a credential.
 
@@ -65,4 +66,6 @@ class Accreditor:
                 "Unable to issue credential. No issuer is registered for credential type [{}]".format(credential)
             )
 
-        return credential_issuer.issue_credential(credential, username, status, attributes, date_override, request)
+        return credential_issuer.issue_credential(
+            credential, username, status, attributes, date_override, request, lms_user_id
+        )
