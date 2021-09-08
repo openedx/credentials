@@ -181,6 +181,10 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
     date_override = UserCredentialDateOverrideSerializer(required=False, allow_null=True)
     certificate_url = UserCertificateURLField(source="uuid")
 
+    # This field is not part of the Model, so we add it here to use in the create step.
+    # it is write_only so that we do not attempt to show it in the API response.
+    lms_user_id = serializers.CharField(write_only=True, required=False)
+
     def validate_attributes(self, value):
         """Check that the name attributes cannot be duplicated."""
         names = [attribute["name"] for attribute in value]
@@ -206,10 +210,16 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
         status = validated_data.get("status", UserCredentialStatus.AWARDED)
         attributes = validated_data.pop("attributes", None)
         date_override = validated_data.pop("date_override", None)
+        lms_user_id = validated_data.pop("lms_user_id", None)
         request = self.context.get("request")
-
         return accreditor.issue_credential(
-            credential, username, status=status, attributes=attributes, date_override=date_override, request=request
+            credential,
+            username,
+            status=status,
+            attributes=attributes,
+            date_override=date_override,
+            request=request,
+            lms_user_id=lms_user_id,
         )
 
     def create(self, validated_data):
@@ -217,7 +227,7 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserCredential
-        fields = UserCredentialSerializer.Meta.fields
+        fields = UserCredentialSerializer.Meta.fields + ("lms_user_id",)
         read_only_fields = (
             "download_url",
             "uuid",

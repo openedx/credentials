@@ -392,7 +392,7 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
         csv_link = urllib.parse.urljoin(record_link, "csv")
 
         msg = ProgramCreditRequest(request.site, user.email).personalize(
-            recipient=Recipient(username=None, email_address=pathway.email),
+            recipient=Recipient(lms_user_id=None, email_address=pathway.email),
             language=certificate.language,
             user_context={
                 "pathway_name": pathway.name,

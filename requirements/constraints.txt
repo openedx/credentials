@@ -15,10 +15,6 @@
 # can determine the cause of the failure. https://openedx.atlassian.net/browse/MICROBA-794
 virtualenv<20.2.2
 
-# Newer versions require passing in lms_user_id rather than a username.
-# Ticket for adding LMS user IDs to Credentials: https://openedx.atlassian.net/browse/MICROBA-649
-edx-ace<1.0.0
-
 # This has been pinned after a major version release to 1.x caused many tests to fail. At this time, there isn't much
 # info available on how to fix forward. We will come back around to evaluate as part of MICROBA-1237.
 django-webpack-loader<1.0.0

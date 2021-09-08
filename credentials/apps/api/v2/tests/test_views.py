@@ -86,6 +86,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         expected_attribute_value = "fake-value"
         data = {
             "username": expected_username,
+            "lms_user_id": 123,
             "credential": {"program_uuid": str(program_certificate.program_uuid)},
             "status": "awarded",
             "date_override": None,
@@ -122,6 +123,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         program_certificate = ProgramCertificateFactory(site=self.site)
         data = {
             "username": "test-user",
+            "lms_user_id": 123,
             "credential": {"program_uuid": str(program_certificate.program_uuid)},
             "attributes": [
                 {
@@ -182,6 +184,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         expected_attribute_value = "fake-value"
         data = {
             "username": self.user.username,
+            "lms_user_id": 123,
             "credential": {"course_run_key": course_run.key, "mode": "verified", "type": "course-run"},
             "status": "awarded",
             "date_override": {"date": expected_date_override},
