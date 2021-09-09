@@ -194,7 +194,7 @@ edx-django-release-util==1.1.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==3.1.0
     # via -r requirements/test.txt
-edx-django-utils==4.3.0
+edx-django-utils==4.4.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
@@ -326,7 +326,7 @@ pbr==5.6.0
     # via
     #   -r requirements/test.txt
     #   stevedore
-pillow==8.3.1
+pillow==8.3.2
     # via -r requirements/test.txt
 platformdirs==2.3.0
     # via

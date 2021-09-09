@@ -123,7 +123,7 @@ edx-django-release-util==1.1.0
     # via -r requirements/base.in
 edx-django-sites-extensions==3.1.0
     # via -r requirements/base.in
-edx-django-utils==4.3.0
+edx-django-utils==4.4.0
     # via
     #   -r requirements/base.in
     #   edx-drf-extensions
@@ -179,7 +179,7 @@ path==16.2.0
     # via edx-i18n-tools
 pbr==5.6.0
     # via stevedore
-pillow==8.3.1
+pillow==8.3.2
     # via -r requirements/base.in
 polib==1.1.1
     # via edx-i18n-tools
