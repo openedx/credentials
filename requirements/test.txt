@@ -6,8 +6,6 @@
 #
 analytics-python==1.4.0
     # via -r requirements/base.txt
-appdirs==1.4.4
-    # via virtualenv
 astroid==2.7.3
     # via
     #   pylint
@@ -21,6 +19,8 @@ backoff==1.10.0
     # via
     #   -r requirements/base.txt
     #   analytics-python
+backports.entry-points-selectable==1.1.0
+    # via virtualenv
 black==21.8b0
     # via -r requirements/test.in
 bleach==4.1.0
@@ -282,6 +282,7 @@ platformdirs==2.3.0
     # via
     #   black
     #   pylint
+    #   virtualenv
 pluggy==1.0.0
     # via
     #   pytest
@@ -396,7 +397,7 @@ requests-oauthlib==1.3.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-responses==0.13.4
+responses==0.14.0
     # via -r requirements/test.in
 rest-condition==1.0.3
     # via
@@ -499,10 +500,8 @@ urllib3==1.26.6
     #   responses
     #   selenium
     #   transifex-client
-virtualenv==20.2.1
-    # via
-    #   -c requirements/constraints.txt
-    #   tox
+virtualenv==20.7.2
+    # via tox
 webencodings==0.5.1
     # via
     #   -r requirements/base.txt
