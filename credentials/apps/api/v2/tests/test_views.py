@@ -179,7 +179,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         course = CourseFactory.create(site=self.site)
         course_run = CourseRunFactory.create(course=course)
 
-        expected_date_override = "9999-05-11"
+        expected_date_override = "9999-05-11T00:00:00Z"
         expected_attribute_name = "fake-name"
         expected_attribute_value = "fake-value"
         data = {
@@ -204,7 +204,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data, self.serialize_user_credential(user_credential))
 
-        self.assertEqual(user_credential.date_override.date.strftime("%Y-%m-%d"), expected_date_override)
+        self.assertEqual(user_credential.date_override.date.strftime("%Y-%m-%dT%H:%M:%SZ"), expected_date_override)
 
         # Verify that the date_override is removed if not present in the post
         data["date_override"] = None
