@@ -8,6 +8,11 @@ analytics-python==1.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+asgiref==3.4.1
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   django
 astroid==2.7.3
     # via
     #   -r requirements/dev.txt
@@ -121,9 +126,9 @@ distro==1.6.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-django==2.2.24
+django==3.2.7
     # via
-    #   -c requirements/common_constraints.txt
+    #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-appconf
@@ -252,7 +257,7 @@ edx-auth-backends==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-git+https://github.com/edx/credentials-themes.git@0.1.84#egg=edx_credentials_themes==0.1.84
+git+https://github.com/edx/credentials-themes.git@0.1.85#egg=edx_credentials_themes==0.1.85
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -578,8 +583,6 @@ pytz==2021.1
     #   -r requirements/production.txt
     #   django
     #   django-ses
-pywatchman==1.4.1 ; "linux" in sys_platform
-    # via -r requirements/dev.txt
 pyyaml==5.4.1
     # via
     #   -r requirements/dev.txt
