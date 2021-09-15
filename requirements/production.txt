@@ -6,6 +6,10 @@
 #
 analytics-python==1.4.0
     # via -r requirements/base.txt
+asgiref==3.4.1
+    # via
+    #   -r requirements/base.txt
+    #   django
 attrs==21.2.0
     # via
     #   -r requirements/base.txt
@@ -61,9 +65,9 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==2.2.24
+django==3.2.7
     # via
-    #   -c requirements/common_constraints.txt
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   django-appconf
     #   django-cors-headers

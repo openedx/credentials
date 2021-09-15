@@ -6,6 +6,10 @@
 #
 analytics-python==1.4.0
     # via -r requirements/test.txt
+asgiref==3.4.1
+    # via
+    #   -r requirements/test.txt
+    #   django
 astroid==2.7.3
     # via
     #   -r requirements/test.txt
@@ -93,9 +97,9 @@ distlib==0.3.2
     #   virtualenv
 distro==1.6.0
     # via docker-compose
-django==2.2.24
+django==3.2.7
     # via
-    #   -c requirements/common_constraints.txt
+    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   django-appconf
     #   django-cors-headers
@@ -432,8 +436,6 @@ pytz==2021.1
     # via
     #   -r requirements/test.txt
     #   django
-pywatchman==1.4.1 ; "linux" in sys_platform
-    # via -r requirements/dev.in
 pyyaml==5.4.1
     # via
     #   -r requirements/test.txt
