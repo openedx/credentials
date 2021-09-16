@@ -38,7 +38,7 @@ bcrypt==3.2.0
     # via
     #   -r requirements/dev.txt
     #   paramiko
-black==21.8b0
+black==21.9b0
     # via -r requirements/dev.txt
 bleach==4.1.0
     # via
@@ -46,11 +46,11 @@ bleach==4.1.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.18.40
+boto3==1.18.42
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.21.40
+botocore==1.21.42
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -67,7 +67,7 @@ cffi==1.14.6
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.4
+charset-normalizer==2.0.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -302,7 +302,7 @@ edx-toggles==4.2.0
     #   -r requirements/production.txt
 factory-boy==3.2.0
     # via -r requirements/dev.txt
-faker==8.12.1
+faker==8.13.2
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -583,6 +583,8 @@ pytz==2021.1
     #   -r requirements/production.txt
     #   django
     #   django-ses
+pywatchman==1.4.1 ; "linux" in sys_platform
+    # via -r requirements/dev.txt
 pyyaml==5.4.1
     # via
     #   -r requirements/dev.txt
