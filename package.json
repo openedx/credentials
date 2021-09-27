@@ -13,7 +13,7 @@
     "axios": "0.21.4",
     "bi-app-sass": "1.1.0",
     "bootstrap": "4.6.0",
-    "core-js": "3.18.0",
+    "core-js": "3.18.1",
     "css-loader": "5.2.7",
     "css-minimizer-webpack-plugin": "3.0.2",
     "file-loader": "6.2.0",
