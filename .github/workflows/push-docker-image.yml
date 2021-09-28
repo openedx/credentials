@@ -27,7 +27,7 @@ jobs:
       - name: Get open release name
         id: get-open-release
         if: startsWith(github.ref, 'refs/tags/open-release/')
-        uses: actions/github-script@v4
+        uses: actions/github-script@v5
         with:
           script: return context.ref.split('refs/tags/open-release/')[1]
           result-encoding: string
