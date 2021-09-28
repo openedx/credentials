@@ -12,7 +12,7 @@ Although new users interacting with the system will automatically have this colu
 
 Usage
 ~~~~~
-Although credentials now supports **LMS_USER_ID**, it is not currently being widely used within the service. If the data is missing from a user, there should be no issues for general operation of the service, with one exception. If you using the service to automatically send emails to users who have completed programs, it is `required for that user to have the **LMS_USER_ID**`_.
+Although credentials now supports **LMS_USER_ID**, it is not currently being widely used within the service. It is only being updated for new users, and is not required for use with any API. If the data is missing from a user, there should be no issues for general operation of the service.
 
 .. _OEP-32: https://open-edx-proposals.readthedocs.io/en/latest/oep-0032-arch-unique-identifier-for-users.html
 .. _management command: https://github.com/edx/credentials/blob/master/credentials/apps/core/management/commands/sync_lms_user_ids.py
