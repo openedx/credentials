@@ -23,4 +23,5 @@ This repository contains the edX Credentials Service, used as the backend to sup
    analytics
    credentials_api
    edx_extensions
+   lms_user_id
    decisions
