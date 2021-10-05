@@ -25,7 +25,7 @@ django-statici18n
 django-storages
 django-waffle
 django-webpack-loader
-djangorestframework
+drf_yasg
 edx-ace
 edx-auth-backends
 edx-django-release-util
