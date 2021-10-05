@@ -76,7 +76,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==5.5
+coverage==6.0
     # via -r requirements/test.txt
 cryptography==3.4.8
     # via
@@ -84,7 +84,7 @@ cryptography==3.4.8
     #   paramiko
     #   pyjwt
     #   social-auth-core
-ddt==1.4.3
+ddt==1.4.4
     # via -r requirements/test.txt
 defusedxml==0.7.1
     # via
@@ -97,7 +97,7 @@ distlib==0.3.3
     #   virtualenv
 distro==1.6.0
     # via docker-compose
-django==3.2.7
+django==3.2.8
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
@@ -121,7 +121,6 @@ django==3.2.7
     #   edx-drf-extensions
     #   edx-i18n-tools
     #   edx-toggles
-    #   rest-condition
     #   xss-utils
 django-appconf==1.0.5
     # via
@@ -150,7 +149,7 @@ django-rest-swagger==2.2.0
     # via -r requirements/test.txt
 django-simple-history==3.0.0
     # via -r requirements/test.txt
-django-sortedm2m==3.0.2
+django-sortedm2m==3.1.1
     # via -r requirements/test.txt
 django-statici18n==2.0.1
     # via -r requirements/test.txt
@@ -162,7 +161,7 @@ django-waffle==2.2.1
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.4.0
+django-webpack-loader==1.4.1
     # via -r requirements/test.txt
 djangorestframework==3.12.4
     # via
@@ -170,7 +169,6 @@ djangorestframework==3.12.4
     #   django-rest-swagger
     #   drf-jwt
     #   edx-drf-extensions
-    #   rest-condition
 docker[ssh]==5.0.2
     # via docker-compose
 docker-compose==1.29.2
@@ -200,7 +198,7 @@ edx-django-utils==4.4.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==7.0.1
+edx-drf-extensions==8.0.0
     # via -r requirements/test.txt
 edx-i18n-tools==0.7.0
     # via
@@ -219,11 +217,11 @@ edx-toggles==4.2.0
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==8.14.0
+faker==8.16.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
-filelock==3.1.0
+filelock==3.3.0
     # via
     #   -r requirements/test.txt
     #   tox
@@ -258,7 +256,7 @@ itypes==1.2.0
     # via
     #   -r requirements/test.txt
     #   coreapi
-jinja2==3.0.1
+jinja2==3.0.2
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -432,7 +430,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/test.txt
     #   social-auth-core
-pytz==2021.1
+pytz==2021.3
     # via
     #   -r requirements/test.txt
     #   django
@@ -445,7 +443,7 @@ pyyaml==5.4.1
     #   docker-compose
     #   edx-django-release-util
     #   edx-i18n-tools
-regex==2021.9.24
+regex==2021.9.30
     # via
     #   -r requirements/test.txt
     #   black
@@ -471,10 +469,6 @@ requests-oauthlib==1.3.0
     #   social-auth-core
 responses==0.14.0
     # via -r requirements/test.txt
-rest-condition==1.0.3
-    # via
-    #   -r requirements/test.txt
-    #   edx-drf-extensions
 sailthru-client==2.2.3
     # via
     #   -r requirements/test.txt
