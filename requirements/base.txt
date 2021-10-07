@@ -31,7 +31,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==3.4.8
+cryptography==35.0.0
     # via
     #   pyjwt
     #   social-auth-core
@@ -65,7 +65,7 @@ django==3.2.8
     #   xss-utils
 django-appconf==1.0.5
     # via django-statici18n
-django-cors-headers==3.9.0
+django-cors-headers==3.10.0
     # via -r requirements/base.in
 django-crum==0.7.9
     # via
@@ -127,7 +127,7 @@ edx-django-utils==4.4.0
     #   edx-toggles
 edx-drf-extensions==8.0.0
     # via -r requirements/base.in
-edx-i18n-tools==0.7.0
+edx-i18n-tools==0.8.1
     # via edx-credentials-themes
 edx-opaque-keys==2.2.2
     # via
@@ -189,7 +189,7 @@ pygments==2.10.0
     # via -r requirements/base.in
 pyjwkest==1.4.2
     # via edx-drf-extensions
-pyjwt[crypto]==2.1.0
+pyjwt[crypto]==2.2.0
     # via
     #   drf-jwt
     #   edx-auth-backends
@@ -253,7 +253,6 @@ six==1.16.0
     #   edx-auth-backends
     #   edx-django-release-util
     #   edx-drf-extensions
-    #   edx-i18n-tools
     #   pyjwkest
     #   python-dateutil
     #   python-memcached

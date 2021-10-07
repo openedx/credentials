@@ -78,7 +78,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==6.0
     # via -r requirements/test.txt
-cryptography==3.4.8
+cryptography==35.0.0
     # via
     #   -r requirements/test.txt
     #   paramiko
@@ -126,7 +126,7 @@ django-appconf==1.0.5
     # via
     #   -r requirements/test.txt
     #   django-statici18n
-django-cors-headers==3.9.0
+django-cors-headers==3.10.0
     # via -r requirements/test.txt
 django-crum==0.7.9
     # via
@@ -200,7 +200,7 @@ edx-django-utils==4.4.0
     #   edx-toggles
 edx-drf-extensions==8.0.0
     # via -r requirements/test.txt
-edx-i18n-tools==0.7.0
+edx-i18n-tools==0.8.1
     # via
     #   -r requirements/dev.in
     #   -r requirements/test.txt
@@ -217,7 +217,7 @@ edx-toggles==4.2.0
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==8.16.0
+faker==9.0.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -364,7 +364,7 @@ pyjwkest==1.4.2
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-pyjwt[crypto]==2.1.0
+pyjwt[crypto]==2.2.0
     # via
     #   -r requirements/test.txt
     #   drf-jwt
@@ -498,7 +498,6 @@ six==1.16.0
     #   edx-auth-backends
     #   edx-django-release-util
     #   edx-drf-extensions
-    #   edx-i18n-tools
     #   edx-lint
     #   jsonschema
     #   pyjwkest
