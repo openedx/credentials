@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==4.1.0
     # via -r requirements/base.txt
-boto3==1.18.54
+boto3==1.18.56
     # via django-ses
-botocore==1.21.54
+botocore==1.21.56
     # via
     #   boto3
     #   s3transfer
@@ -55,7 +55,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==3.4.8
+cryptography==35.0.0
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -94,7 +94,7 @@ django-appconf==1.0.5
     # via
     #   -r requirements/base.txt
     #   django-statici18n
-django-cors-headers==3.9.0
+django-cors-headers==3.10.0
     # via -r requirements/base.txt
 django-crum==0.7.9
     # via
@@ -160,7 +160,7 @@ edx-django-utils==4.4.0
     #   edx-toggles
 edx-drf-extensions==8.0.0
     # via -r requirements/base.txt
-edx-i18n-tools==0.7.0
+edx-i18n-tools==0.8.1
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
@@ -272,7 +272,7 @@ pyjwkest==1.4.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-pyjwt[crypto]==2.1.0
+pyjwt[crypto]==2.2.0
     # via
     #   -r requirements/base.txt
     #   drf-jwt
@@ -359,7 +359,6 @@ six==1.16.0
     #   edx-auth-backends
     #   edx-django-release-util
     #   edx-drf-extensions
-    #   edx-i18n-tools
     #   pyjwkest
     #   python-dateutil
     #   python-memcached
