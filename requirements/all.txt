@@ -15,6 +15,7 @@ asgiref==3.4.1
     #   django
 astroid==2.8.2
 astroid==2.8.3
+astroid==2.8.2
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -57,6 +58,11 @@ boto3==1.18.64
     #   -r requirements/production.txt
     #   django-ses
 botocore==1.21.64
+boto3==1.18.59
+    # via
+    #   -r requirements/production.txt
+    #   django-ses
+botocore==1.21.59
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -216,6 +222,7 @@ django-statici18n==2.0.1
     #   -r requirements/production.txt
 django-storages==1.12.1
 django-storages==1.12.2
+django-storages==1.12.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -773,6 +780,7 @@ typing-extensions==3.10.0.2
     #   pylint
 uritemplate==4.0.0
 uritemplate==4.1.1
+uritemplate==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
