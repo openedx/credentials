@@ -27,7 +27,7 @@
     "react-copy-to-clipboard": "5.0.4",
     "react-dom": "16.14.0",
     "regenerator-runtime": "0.13.9",
-    "sass-loader": "12.1.0",
+    "sass-loader": "12.2.0",
     "style-loader": "3.3.0",
     "url-loader": "4.1.1",
     "webpack": "5.58.1",
