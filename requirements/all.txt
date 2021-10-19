@@ -13,7 +13,7 @@ asgiref==3.4.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django
-astroid==2.8.0
+astroid==2.8.3
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -46,33 +46,33 @@ bleach==4.1.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.18.56
+boto3==1.18.64
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.21.56
+botocore==1.21.64
     # via
     #   -r requirements/production.txt
     #   boto3
     #   s3transfer
-certifi==2021.5.30
+certifi==2021.10.8
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-cffi==1.14.6
+cffi==1.15.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.6
+charset-normalizer==2.0.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-click==8.0.1
+click==8.0.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -101,7 +101,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==6.0
+coverage==6.0.2
     # via -r requirements/dev.txt
 cryptography==35.0.0
     # via
@@ -205,7 +205,7 @@ django-statici18n==2.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-storages==1.11.1
+django-storages==1.12.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -227,7 +227,7 @@ djangorestframework==3.12.4
     #   django-rest-swagger
     #   drf-jwt
     #   edx-drf-extensions
-docker[ssh]==5.0.2
+docker[ssh]==5.0.3
     # via
     #   -r requirements/dev.txt
     #   docker-compose
@@ -241,9 +241,8 @@ docopt==0.6.2
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-drf-jwt==1.19.0
+drf-jwt==1.19.1
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
@@ -300,11 +299,11 @@ edx-toggles==4.2.0
     #   -r requirements/production.txt
 factory-boy==3.2.0
     # via -r requirements/dev.txt
-faker==9.0.0
+faker==9.3.1
     # via
     #   -r requirements/dev.txt
     #   factory-boy
-filelock==3.3.0
+filelock==3.3.1
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -335,7 +334,7 @@ gunicorn==20.1.0
     # via -r requirements/production.txt
 httpretty==1.1.4
     # via -r requirements/dev.txt
-idna==3.2
+idna==3.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -402,7 +401,7 @@ mysqlclient==2.0.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==7.0.0.166
+newrelic==7.2.2.169
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -427,7 +426,7 @@ packaging==21.0
     #   bleach
     #   pytest
     #   tox
-paramiko==2.7.2
+paramiko==2.8.0
     # via
     #   -r requirements/dev.txt
     #   docker
@@ -445,7 +444,7 @@ pbr==5.6.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   stevedore
-pillow==8.3.2
+pillow==8.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -480,7 +479,7 @@ pycparser==2.20
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cffi
-pycryptodomex==3.10.4
+pycryptodomex==3.11.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -494,7 +493,7 @@ pyjwkest==1.4.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-pyjwt[crypto]==2.2.0
+pyjwt[crypto]==2.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -556,7 +555,7 @@ python-dateutil==2.8.2
     #   edx-ace
     #   edx-drf-extensions
     #   faker
-python-dotenv==0.19.0
+python-dotenv==0.19.1
     # via
     #   -r requirements/dev.txt
     #   docker-compose
@@ -585,13 +584,14 @@ pywatchman==1.4.1 ; "linux" in sys_platform
     # via -r requirements/dev.txt
 pyyaml==5.4.1
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   code-annotations
     #   docker-compose
     #   edx-django-release-util
     #   edx-i18n-tools
-regex==2021.9.30
+regex==2021.10.8
     # via
     #   -r requirements/dev.txt
     #   black
@@ -694,7 +694,7 @@ sqlparse==0.4.2
     #   -r requirements/production.txt
     #   django
     #   django-debug-toolbar
-stevedore==3.4.0
+stevedore==3.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -739,7 +739,7 @@ typing-extensions==3.10.0.2
     #   black
     #   gitpython
     #   pylint
-uritemplate==3.0.1
+uritemplate==4.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -767,7 +767,7 @@ websocket-client==0.59.0
     #   -r requirements/dev.txt
     #   docker
     #   docker-compose
-wrapt==1.12.1
+wrapt==1.13.2
     # via
     #   -r requirements/dev.txt
     #   astroid

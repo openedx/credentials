@@ -20,25 +20,25 @@ backoff==1.10.0
     #   analytics-python
 bleach==4.1.0
     # via -r requirements/base.txt
-boto3==1.18.56
+boto3==1.18.64
     # via django-ses
-botocore==1.21.56
+botocore==1.21.64
     # via
     #   boto3
     #   s3transfer
-certifi==2021.5.30
+certifi==2021.10.8
     # via
     #   -r requirements/base.txt
     #   requests
-cffi==1.14.6
+cffi==1.15.0
     # via
     #   -r requirements/base.txt
     #   cryptography
-charset-normalizer==2.0.6
+charset-normalizer==2.0.7
     # via
     #   -r requirements/base.txt
     #   requests
-click==8.0.1
+click==8.0.3
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -121,7 +121,7 @@ django-sortedm2m==3.1.1
     # via -r requirements/base.txt
 django-statici18n==2.0.1
     # via -r requirements/base.txt
-django-storages==1.11.1
+django-storages==1.12.2
     # via -r requirements/base.txt
 django-waffle==2.2.1
     # via
@@ -137,9 +137,8 @@ djangorestframework==3.12.4
     #   django-rest-swagger
     #   drf-jwt
     #   edx-drf-extensions
-drf-jwt==1.19.0
+drf-jwt==1.19.1
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
     #   edx-drf-extensions
 edx-ace==1.3.1
@@ -191,7 +190,7 @@ greenlet==1.1.2
     # via gevent
 gunicorn==20.1.0
     # via -r requirements/production.in
-idna==3.2
+idna==3.3
     # via
     #   -r requirements/base.txt
     #   requests
@@ -220,7 +219,7 @@ monotonic==1.6
     #   analytics-python
 mysqlclient==2.0.3
     # via -r requirements/base.txt
-newrelic==7.0.0.166
+newrelic==7.2.2.169
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -248,7 +247,7 @@ pbr==5.6.0
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==8.3.2
+pillow==8.4.0
     # via -r requirements/base.txt
 polib==1.1.1
     # via
@@ -262,7 +261,7 @@ pycparser==2.20
     # via
     #   -r requirements/base.txt
     #   cffi
-pycryptodomex==3.10.4
+pycryptodomex==3.11.0
     # via
     #   -r requirements/base.txt
     #   pyjwkest
@@ -272,7 +271,7 @@ pyjwkest==1.4.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-pyjwt[crypto]==2.2.0
+pyjwt[crypto]==2.3.0
     # via
     #   -r requirements/base.txt
     #   drf-jwt
@@ -313,6 +312,7 @@ pytz==2021.3
     #   django-ses
 pyyaml==5.4.1
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   -r requirements/production.in
     #   code-annotations
@@ -384,7 +384,7 @@ sqlparse==0.4.2
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==3.4.0
+stevedore==3.5.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -403,7 +403,7 @@ typing-extensions==3.10.0.2
     # via
     #   -r requirements/base.txt
     #   gitpython
-uritemplate==3.0.1
+uritemplate==4.1.1
     # via
     #   -r requirements/base.txt
     #   coreapi
