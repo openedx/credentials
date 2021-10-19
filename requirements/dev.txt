@@ -10,9 +10,7 @@ asgiref==3.4.1
     # via
     #   -r requirements/test.txt
     #   django
-astroid==2.8.2
 astroid==2.8.3
-astroid==2.8.2
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -43,7 +41,7 @@ certifi==2021.10.8
     # via
     #   -r requirements/test.txt
     #   requests
-cffi==1.14.6
+cffi==1.15.0
     # via
     #   -r requirements/test.txt
     #   bcrypt
@@ -158,9 +156,7 @@ django-sortedm2m==3.1.1
     # via -r requirements/test.txt
 django-statici18n==2.0.1
     # via -r requirements/test.txt
-django-storages==1.12.1
 django-storages==1.12.2
-django-storages==1.12.1
     # via -r requirements/test.txt
 django-waffle==2.2.1
     # via
@@ -185,9 +181,8 @@ dockerpty==0.4.1
     # via docker-compose
 docopt==0.6.2
     # via docker-compose
-drf-jwt==1.19.0
+drf-jwt==1.19.1
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt
     #   edx-drf-extensions
 drf-yasg==1.20.0
@@ -227,11 +222,11 @@ edx-toggles==4.2.0
     # via -r requirements/test.txt
 factory-boy==3.2.0
     # via -r requirements/test.txt
-faker==9.3.1
+faker==9.5.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
-filelock==3.3.0
+filelock==3.3.1
     # via
     #   -r requirements/test.txt
     #   tox
@@ -250,7 +245,7 @@ gitpython==3.1.24
     #   transifex-client
 httpretty==1.1.4
     # via -r requirements/test.txt
-idna==3.2
+idna==3.3
     # via
     #   -r requirements/test.txt
     #   requests
@@ -305,7 +300,7 @@ mypy-extensions==0.4.3
     #   black
 mysqlclient==2.0.3
     # via -r requirements/test.txt
-newrelic==7.0.0.166
+newrelic==7.2.2.169
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -339,7 +334,7 @@ pbr==5.6.0
     # via
     #   -r requirements/test.txt
     #   stevedore
-pillow==8.3.2
+pillow==8.4.0
     # via -r requirements/test.txt
 platformdirs==2.4.0
     # via
@@ -379,7 +374,7 @@ pyjwkest==1.4.2
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-pyjwt[crypto]==2.2.0
+pyjwt[crypto]==2.3.0
     # via
     #   -r requirements/test.txt
     #   drf-jwt
@@ -407,7 +402,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/test.txt
     #   pylint-celery
     #   pylint-django
-pymongo==3.12.0
+pymongo==3.12.1
     # via
     #   -r requirements/test.txt
     #   edx-opaque-keys
@@ -555,7 +550,7 @@ sqlparse==0.4.2
     #   -r requirements/test.txt
     #   django
     #   django-debug-toolbar
-stevedore==3.4.0
+stevedore==3.5.0
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -595,9 +590,7 @@ typing-extensions==3.10.0.2
     #   black
     #   gitpython
     #   pylint
-uritemplate==4.0.0
 uritemplate==4.1.1
-uritemplate==4.0.0
     # via
     #   -r requirements/test.txt
     #   coreapi
@@ -621,7 +614,7 @@ websocket-client==0.59.0
     # via
     #   docker
     #   docker-compose
-wrapt==1.12.1
+wrapt==1.13.2
     # via
     #   -r requirements/test.txt
     #   astroid

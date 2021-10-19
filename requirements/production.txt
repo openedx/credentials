@@ -20,15 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==4.1.0
     # via -r requirements/base.txt
-boto3==1.18.59
+boto3==1.18.65
     # via django-ses
-botocore==1.21.59
-boto3==1.18.64
-    # via django-ses
-botocore==1.21.64
-boto3==1.18.59
-    # via django-ses
-botocore==1.21.59
+botocore==1.21.65
     # via
     #   boto3
     #   s3transfer
@@ -36,7 +30,7 @@ certifi==2021.10.8
     # via
     #   -r requirements/base.txt
     #   requests
-cffi==1.14.6
+cffi==1.15.0
     # via
     #   -r requirements/base.txt
     #   cryptography
@@ -130,9 +124,7 @@ django-sortedm2m==3.1.1
     # via -r requirements/base.txt
 django-statici18n==2.0.1
     # via -r requirements/base.txt
-django-storages==1.12.1
 django-storages==1.12.2
-django-storages==1.12.1
     # via -r requirements/base.txt
 django-waffle==2.2.1
     # via
@@ -149,9 +141,8 @@ djangorestframework==3.12.4
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
-drf-jwt==1.19.0
+drf-jwt==1.19.1
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
     #   edx-drf-extensions
 drf-yasg==1.20.0
@@ -205,7 +196,7 @@ greenlet==1.1.2
     # via gevent
 gunicorn==20.1.0
     # via -r requirements/production.in
-idna==3.2
+idna==3.3
     # via
     #   -r requirements/base.txt
     #   requests
@@ -238,7 +229,7 @@ monotonic==1.6
     #   analytics-python
 mysqlclient==2.0.3
     # via -r requirements/base.txt
-newrelic==7.0.0.166
+newrelic==7.2.2.169
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -267,7 +258,7 @@ pbr==5.6.0
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==8.3.2
+pillow==8.4.0
     # via -r requirements/base.txt
 polib==1.1.1
     # via
@@ -291,7 +282,7 @@ pyjwkest==1.4.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-pyjwt[crypto]==2.2.0
+pyjwt[crypto]==2.3.0
     # via
     #   -r requirements/base.txt
     #   drf-jwt
@@ -299,7 +290,7 @@ pyjwt[crypto]==2.2.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pymongo==3.12.0
+pymongo==3.12.1
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
@@ -412,7 +403,7 @@ sqlparse==0.4.2
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==3.4.0
+stevedore==3.5.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -431,9 +422,7 @@ typing-extensions==3.10.0.2
     # via
     #   -r requirements/base.txt
     #   gitpython
-uritemplate==4.0.0
 uritemplate==4.1.1
-uritemplate==4.0.0
     # via
     #   -r requirements/base.txt
     #   coreapi
