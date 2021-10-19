@@ -14,6 +14,7 @@ asgiref==3.4.1
     #   -r requirements/production.txt
     #   django
 astroid==2.8.2
+astroid==2.8.3
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -51,6 +52,11 @@ boto3==1.18.59
     #   -r requirements/production.txt
     #   django-ses
 botocore==1.21.59
+boto3==1.18.64
+    # via
+    #   -r requirements/production.txt
+    #   django-ses
+botocore==1.21.64
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -209,6 +215,7 @@ django-statici18n==2.0.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 django-storages==1.12.1
+django-storages==1.12.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -599,6 +606,7 @@ pywatchman==1.4.1 ; "linux" in sys_platform
     # via -r requirements/dev.txt
 pyyaml==5.4.1
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   code-annotations
@@ -764,6 +772,7 @@ typing-extensions==3.10.0.2
     #   gitpython
     #   pylint
 uritemplate==4.0.0
+uritemplate==4.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt

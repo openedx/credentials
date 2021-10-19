@@ -11,6 +11,7 @@ asgiref==3.4.1
     #   -r requirements/base.txt
     #   django
 astroid==2.8.2
+astroid==2.8.3
     # via
     #   pylint
     #   pylint-celery
@@ -139,6 +140,7 @@ django-sortedm2m==3.1.1
 django-statici18n==2.0.1
     # via -r requirements/base.txt
 django-storages==1.12.1
+django-storages==1.12.2
     # via -r requirements/base.txt
 django-waffle==2.2.1
     # via
@@ -386,6 +388,7 @@ pytz==2021.3
     #   django
 pyyaml==5.4.1
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   code-annotations
     #   edx-django-release-util
@@ -509,6 +512,7 @@ typing-extensions==3.10.0.2
     #   gitpython
     #   pylint
 uritemplate==4.0.0
+uritemplate==4.1.1
     # via
     #   -r requirements/base.txt
     #   coreapi

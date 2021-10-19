@@ -23,6 +23,9 @@ bleach==4.1.0
 boto3==1.18.59
     # via django-ses
 botocore==1.21.59
+boto3==1.18.64
+    # via django-ses
+botocore==1.21.64
     # via
     #   boto3
     #   s3transfer
@@ -125,6 +128,7 @@ django-sortedm2m==3.1.1
 django-statici18n==2.0.1
     # via -r requirements/base.txt
 django-storages==1.12.1
+django-storages==1.12.2
     # via -r requirements/base.txt
 django-waffle==2.2.1
     # via
@@ -324,6 +328,7 @@ pytz==2021.3
     #   django-ses
 pyyaml==5.4.1
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   -r requirements/production.in
     #   code-annotations
@@ -423,6 +428,7 @@ typing-extensions==3.10.0.2
     #   -r requirements/base.txt
     #   gitpython
 uritemplate==4.0.0
+uritemplate==4.1.1
     # via
     #   -r requirements/base.txt
     #   coreapi
