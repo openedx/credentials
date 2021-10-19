@@ -301,51 +301,45 @@ class ProgramRecord extends React.Component {
             />
           </div>
           )}
-        {
-          <StatusAlert
-            alertType="info"
-            open={this.state.sendRecordLoadingAlertOpen}
-            onClose={this.closeSendRecordLoadingAlert}
-            dialog={(
-              <div>
-                <span className="h6">{ gettext('We are sending your program record.') }</span>
-                <Icon id="StatusAlertIcon" className={['fa', 'fa-spinner', 'fa-spin']} />
-              </div>
-            )}
-          />
-        }
-        {
-          <StatusAlert
-            alertType="danger"
-            open={this.state.sendRecordFailureAlertOpen}
-            onClose={this.closeSendRecordFailureAlert}
-            dialog={(
-              <div>
-                <span className="h6">{ gettext('We were unable to send your program record.') }</span>
-                <span className="alert-body">
-                  {StringUtils.interpolate(gettext('We were unable to send your record to {orgs}.  You can attempt to send this record again.  Contact support if this issue persists.'),
-                    { orgs: StringUtils.formatStringList(this.state.sendRecordFailureOrgs) })}
-                </span>
-              </div>
-            )}
-          />
-        }
-        {
-          <StatusAlert
-            alertType="success"
-            open={this.state.sendRecordSuccessAlertOpen}
-            onClose={this.closeSendRecordSuccessAlert}
-            dialog={(
-              <div>
-                <span className="h6">{ gettext('You have successfully shared your Learner Record') }</span>
-                <span className="alert-body">
-                  {StringUtils.interpolate(gettext('You have sent your record to {orgs}.  Next, ensure you understand their application process.'),
-                    { orgs: StringUtils.formatStringList(this.state.sendRecordSuccessOrgs) })}
-                </span>
-              </div>
-            )}
-          />
-        }
+        <StatusAlert
+          alertType="info"
+          open={this.state.sendRecordLoadingAlertOpen}
+          onClose={this.closeSendRecordLoadingAlert}
+          dialog={(
+            <div>
+              <span className="h6">{ gettext('We are sending your program record.') }</span>
+              <Icon id="StatusAlertIcon" className={['fa', 'fa-spinner', 'fa-spin']} />
+            </div>
+          )}
+        />
+        <StatusAlert
+          alertType="danger"
+          open={this.state.sendRecordFailureAlertOpen}
+          onClose={this.closeSendRecordFailureAlert}
+          dialog={(
+            <div>
+              <span className="h6">{ gettext('We were unable to send your program record.') }</span>
+              <span className="alert-body">
+                {StringUtils.interpolate(gettext('We were unable to send your record to {orgs}.  You can attempt to send this record again.  Contact support if this issue persists.'),
+                  { orgs: StringUtils.formatStringList(this.state.sendRecordFailureOrgs) })}
+              </span>
+            </div>
+          )}
+        />
+        <StatusAlert
+          alertType="success"
+          open={this.state.sendRecordSuccessAlertOpen}
+          onClose={this.closeSendRecordSuccessAlert}
+          dialog={(
+            <div>
+              <span className="h6">{ gettext('You have successfully shared your Learner Record') }</span>
+              <span className="alert-body">
+                {StringUtils.interpolate(gettext('You have sent your record to {orgs}.  Next, ensure you understand their application process.'),
+                  { orgs: StringUtils.formatStringList(this.state.sendRecordSuccessOrgs) })}
+              </span>
+            </div>
+          )}
+        />
         <article className="program-record">
           <header className="d-flex justify-content-between program-record-header">
             <div className="program-overview">
