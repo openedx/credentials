@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 THIRD_PARTY_APPS = [
     "corsheaders",
     "csrf.apps.CsrfAppConfig",  # Enables frontend apps to retrieve CSRF tokens
+    "drf_yasg",
     "release_util",
     "rest_framework",
     "rest_framework_jwt",
@@ -58,7 +59,6 @@ THIRD_PARTY_APPS = [
     "django_sites_extensions",
     # TODO Set in EXTRA_APPS via configuration
     "edx_credentials_themes",
-    "rest_framework_swagger",
     "hijack",
     "xss_utils",
 ]
