@@ -28,7 +28,7 @@
     "react-dom": "16.14.0",
     "regenerator-runtime": "0.13.9",
     "sass-loader": "12.2.0",
-    "style-loader": "3.3.0",
+    "style-loader": "3.3.1",
     "url-loader": "4.1.1",
     "webpack": "5.59.1",
     "webpack-bundle-tracker": "1.4.0"
