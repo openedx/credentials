@@ -57,7 +57,7 @@
     "geckodriver": "2.0.4",
     "gulp": "4.0.2",
     "gulp-eslint": "6.0.0",
-    "jasmine-core": "3.10.0",
+    "jasmine-core": "3.10.1",
     "jasmine-jquery": "2.1.1",
     "jest": "27.3.1",
     "jquery": "3.6.0",
