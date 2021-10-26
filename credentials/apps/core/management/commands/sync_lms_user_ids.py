@@ -1,5 +1,9 @@
 """
 Django management command to load the `lms_user_id` column from historical user data.
+
+******
+Please see the `0001-pausing-lms-user-id-backfill` ADR before attempting to use this management command.
+******
 """
 
 
@@ -40,6 +44,13 @@ class Command(BaseCommand):
         ) u
 
     This management command assumes the data will be accessible from an AWS S3 bucket hosting the exported CSV.
+
+    The user executing this management command requires specific SQL permissions:
+        - CREATE
+        - UPDATE
+        - DROP
+        - INDEX
+        - LOAD FROM S3
 
     This commands capabilities are split into multiple 'stages' in order to allow time for manual verifications before
     and after syncing the LMS user data:
