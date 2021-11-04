@@ -3,8 +3,8 @@ name: Upgrade Requirements
 on:
     
   schedule:
-    # will start the job at 00:15 UTC every Thursday
-    - cron: "15 0 * * 4"
+    # will start the job at 13:15 UTC every Thursday
+    - cron: "15 13 * * 4"
   workflow_dispatch:
     inputs:
       branch:
