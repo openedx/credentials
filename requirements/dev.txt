@@ -25,7 +25,7 @@ backoff==1.10.0
     # via
     #   -r requirements/test.txt
     #   analytics-python
-backports.entry-points-selectable==1.1.0
+backports.entry-points-selectable==1.1.1
     # via
     #   -r requirements/test.txt
     #   virtualenv
@@ -76,7 +76,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==6.1.1
+coverage==6.1.2
     # via -r requirements/test.txt
 cryptography==35.0.0
     # via
@@ -135,7 +135,7 @@ django-crum==0.7.9
     #   edx-toggles
 django-debug-toolbar==3.2.2
     # via -r requirements/dev.in
-django-extensions==3.1.3
+django-extensions==3.1.5
     # via -r requirements/test.txt
 django-filter==21.1
     # via -r requirements/test.txt
@@ -181,7 +181,7 @@ drf-jwt==1.19.1
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-edx-ace==1.3.1
+edx-ace==1.4.0
     # via -r requirements/test.txt
 edx-auth-backends==4.0.1
     # via -r requirements/test.txt
@@ -247,7 +247,7 @@ iniconfig==1.1.1
     # via
     #   -r requirements/test.txt
     #   pytest
-isort==5.10.0
+isort==5.10.1
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -255,7 +255,7 @@ itypes==1.2.0
     # via
     #   -r requirements/test.txt
     #   coreapi
-jinja2==3.0.2
+jinja2==3.0.3
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -290,7 +290,7 @@ mypy-extensions==0.4.3
     #   black
 mysqlclient==2.0.3
     # via -r requirements/test.txt
-newrelic==7.2.2.169
+newrelic==7.2.3.170
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -319,7 +319,7 @@ pathspec==0.9.0
     # via
     #   -r requirements/test.txt
     #   black
-pbr==5.6.0
+pbr==5.7.0
     # via
     #   -r requirements/test.txt
     #   stevedore
@@ -344,12 +344,12 @@ psutil==5.8.0
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
-py==1.10.0
+py==1.11.0
     # via
     #   -r requirements/test.txt
     #   pytest
     #   tox
-pycparser==2.20
+pycparser==2.21
     # via
     #   -r requirements/test.txt
     #   cffi
@@ -416,7 +416,7 @@ python-dateutil==2.8.2
     #   edx-ace
     #   edx-drf-extensions
     #   faker
-python-dotenv==0.19.1
+python-dotenv==0.19.2
     # via docker-compose
 python-memcached==1.59
     # via -r requirements/test.txt
@@ -443,7 +443,7 @@ pyyaml==5.4.1
     #   docker-compose
     #   edx-django-release-util
     #   edx-i18n-tools
-regex==2021.11.2
+regex==2021.11.10
     # via
     #   -r requirements/test.txt
     #   black

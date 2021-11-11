@@ -23,7 +23,7 @@ backoff==1.10.0
     # via
     #   -r requirements/base.txt
     #   analytics-python
-backports.entry-points-selectable==1.1.0
+backports.entry-points-selectable==1.1.1
     # via virtualenv
 black==21.10b0
     # via -r requirements/test.in
@@ -67,7 +67,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage==6.1.1
+coverage==6.1.2
     # via -r requirements/test.in
 cryptography==35.0.0
     # via
@@ -117,7 +117,7 @@ django-crum==0.7.9
     #   -r requirements/base.txt
     #   edx-django-utils
     #   edx-toggles
-django-extensions==3.1.3
+django-extensions==3.1.5
     # via -r requirements/base.txt
 django-filter==21.1
     # via -r requirements/base.txt
@@ -155,7 +155,7 @@ drf-jwt==1.19.1
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-edx-ace==1.3.1
+edx-ace==1.4.0
     # via -r requirements/base.txt
 edx-auth-backends==4.0.1
     # via -r requirements/base.txt
@@ -215,7 +215,7 @@ idna==3.3
     #   requests
 iniconfig==1.1.1
     # via pytest
-isort==5.10.0
+isort==5.10.1
     # via
     #   -r requirements/test.in
     #   pylint
@@ -223,7 +223,7 @@ itypes==1.2.0
     # via
     #   -r requirements/base.txt
     #   coreapi
-jinja2==3.0.2
+jinja2==3.0.3
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -248,7 +248,7 @@ mypy-extensions==0.4.3
     # via black
 mysqlclient==2.0.3
     # via -r requirements/base.txt
-newrelic==7.2.2.169
+newrelic==7.2.3.170
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -273,7 +273,7 @@ path==16.2.0
     #   edx-i18n-tools
 pathspec==0.9.0
     # via black
-pbr==5.6.0
+pbr==5.7.0
     # via
     #   -r requirements/base.txt
     #   stevedore
@@ -296,11 +296,11 @@ psutil==5.8.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-py==1.10.0
+py==1.11.0
     # via
     #   pytest
     #   tox
-pycparser==2.20
+pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
@@ -379,7 +379,7 @@ pyyaml==5.4.1
     #   code-annotations
     #   edx-django-release-util
     #   edx-i18n-tools
-regex==2021.11.2
+regex==2021.11.10
     # via black
 requests==2.26.0
     # via
