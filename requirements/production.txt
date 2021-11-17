@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==4.1.0
     # via -r requirements/base.txt
-boto3==1.20.3
+boto3==1.20.7
     # via django-ses
-botocore==1.23.3
+botocore==1.23.7
     # via
     #   boto3
     #   s3transfer
@@ -67,6 +67,7 @@ defusedxml==0.7.1
     #   social-auth-core
 django==3.2.9
     # via
+    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   django-appconf
@@ -145,7 +146,7 @@ edx-ace==1.4.0
     # via -r requirements/base.txt
 edx-auth-backends==4.0.1
     # via -r requirements/base.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.92
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.94
     # via -r requirements/base.txt
 edx-django-release-util==1.1.0
     # via -r requirements/base.txt
@@ -194,6 +195,10 @@ idna==3.3
     # via
     #   -r requirements/base.txt
     #   requests
+importlib-metadata==4.8.2
+    # via
+    #   -r requirements/base.txt
+    #   markdown
 itypes==1.2.0
     # via
     #   -r requirements/base.txt
@@ -207,7 +212,7 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-markdown==3.3.4
+markdown==3.3.5
     # via -r requirements/base.txt
 markupsafe==2.0.1
     # via
@@ -219,7 +224,7 @@ monotonic==1.6
     #   analytics-python
 mysqlclient==2.0.3
     # via -r requirements/base.txt
-newrelic==7.2.3.170
+newrelic==7.2.4.171
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -345,7 +350,7 @@ semantic-version==2.8.5
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-simplejson==3.17.5
+simplejson==3.17.6
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
@@ -399,7 +404,7 @@ transifex-client==0.14.3
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
-typing-extensions==3.10.0.2
+typing-extensions==4.0.0
     # via
     #   -r requirements/base.txt
     #   gitpython
@@ -419,6 +424,10 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.3.0
     # via -r requirements/base.txt
+zipp==3.6.0
+    # via
+    #   -r requirements/base.txt
+    #   importlib-metadata
 zope.event==4.5.0
     # via gevent
 zope.interface==5.4.0

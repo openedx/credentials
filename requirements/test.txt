@@ -10,7 +10,7 @@ asgiref==3.4.1
     # via
     #   -r requirements/base.txt
     #   django
-astroid==2.8.4
+astroid==2.8.5
     # via
     #   pylint
     #   pylint-celery
@@ -25,7 +25,7 @@ backoff==1.10.0
     #   analytics-python
 backports.entry-points-selectable==1.1.1
     # via virtualenv
-black==21.10b0
+black==21.11b0
     # via -r requirements/test.in
 bleach==4.1.0
     # via -r requirements/base.txt
@@ -84,6 +84,7 @@ defusedxml==0.7.1
 distlib==0.3.3
     # via virtualenv
     # via
+    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   django-appconf
@@ -159,7 +160,7 @@ edx-ace==1.4.0
     # via -r requirements/base.txt
 edx-auth-backends==4.0.1
     # via -r requirements/base.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.92
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.94
     # via -r requirements/base.txt
 edx-django-release-util==1.1.0
     # via -r requirements/base.txt
@@ -189,9 +190,9 @@ edx-toggles==4.2.0
     # via -r requirements/base.txt
 factory-boy==3.2.1
     # via -r requirements/test.in
-faker==9.8.0
+faker==9.8.2
     # via factory-boy
-filelock==3.3.2
+filelock==3.4.0
     # via
     #   tox
     #   virtualenv
@@ -213,6 +214,10 @@ idna==3.3
     # via
     #   -r requirements/base.txt
     #   requests
+importlib-metadata==4.8.2
+    # via
+    #   -r requirements/base.txt
+    #   markdown
 iniconfig==1.1.1
     # via pytest
 isort==5.10.1
@@ -232,7 +237,7 @@ lazy==1.4
     # via bok-choy
 lazy-object-proxy==1.6.0
     # via astroid
-markdown==3.3.4
+markdown==3.3.5
     # via -r requirements/base.txt
 markupsafe==2.0.1
     # via
@@ -248,7 +253,7 @@ mypy-extensions==0.4.3
     # via black
 mysqlclient==2.0.3
     # via -r requirements/base.txt
-newrelic==7.2.3.170
+newrelic==7.2.4.171
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -399,7 +404,7 @@ requests-oauthlib==1.3.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-responses==0.15.0
+responses==0.16.0
     # via -r requirements/test.in
 sailthru-client==2.2.3
     # via
@@ -411,7 +416,7 @@ semantic-version==2.8.5
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-simplejson==3.17.5
+simplejson==3.17.6
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
@@ -482,7 +487,7 @@ transifex-client==0.14.3
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
-typing-extensions==3.10.0.2
+typing-extensions==4.0.0
     # via
     #   -r requirements/base.txt
     #   astroid
@@ -510,6 +515,10 @@ wrapt==1.13.3
     # via astroid
 xss-utils==0.3.0
     # via -r requirements/base.txt
+zipp==3.6.0
+    # via
+    #   -r requirements/base.txt
+    #   importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools

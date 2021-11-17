@@ -40,7 +40,7 @@ requests==2.26.0
     # via sphinx
 six==1.16.0
     # via edx-sphinx-theme
-snowballstemmer==2.1.0
+snowballstemmer==2.2.0
     # via sphinx
 sphinx==4.3.0
     # via
