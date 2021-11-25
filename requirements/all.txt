@@ -13,7 +13,7 @@ asgiref==3.4.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django
-astroid==2.8.5
+astroid==2.8.6
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -46,11 +46,11 @@ bleach==4.1.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.20.8
+boto3==1.20.13
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.23.8
+botocore==1.23.13
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -67,7 +67,7 @@ cffi==1.15.0
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.7
+charset-normalizer==2.0.8
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -103,7 +103,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==6.1.2
     # via -r requirements/dev.txt
-cryptography==35.0.0
+cryptography==36.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -192,7 +192,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==2.3.0
+django-ses==2.3.1
     # via -r requirements/production.txt
 django-simple-history==3.0.0
     # via
@@ -300,7 +300,7 @@ edx-toggles==4.2.0
     #   -r requirements/production.txt
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==9.8.2
+faker==9.8.3
     # via
     #   -r requirements/dev.txt
     #   factory-boy
