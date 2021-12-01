@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==4.1.0
     # via -r requirements/base.txt
-boto3==1.20.8
+boto3==1.20.17
     # via django-ses
-botocore==1.23.8
+botocore==1.23.17
     # via
     #   boto3
     #   s3transfer
@@ -34,7 +34,7 @@ cffi==1.15.0
     # via
     #   -r requirements/base.txt
     #   cryptography
-charset-normalizer==2.0.7
+charset-normalizer==2.0.8
     # via
     #   -r requirements/base.txt
     #   requests
@@ -55,7 +55,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==35.0.0
+cryptography==36.0.0
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -114,7 +114,7 @@ django-ratelimit==3.0.1
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==2.3.0
+django-ses==2.3.1
     # via -r requirements/production.in
 django-simple-history==3.0.0
     # via -r requirements/base.txt
@@ -146,7 +146,7 @@ edx-ace==1.4.0
     # via -r requirements/base.txt
 edx-auth-backends==4.0.1
     # via -r requirements/base.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.94
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.95
     # via -r requirements/base.txt
 edx-django-release-util==1.1.0
     # via -r requirements/base.txt
@@ -284,7 +284,7 @@ pyjwt[crypto]==2.3.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pymongo==3.12.1
+pymongo==4.0
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
@@ -404,7 +404,7 @@ transifex-client==0.14.3
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
-typing-extensions==4.0.0
+typing-extensions==4.0.1
     # via
     #   -r requirements/base.txt
     #   gitpython

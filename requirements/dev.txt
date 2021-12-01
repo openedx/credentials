@@ -10,7 +10,7 @@ asgiref==3.4.1
     # via
     #   -r requirements/test.txt
     #   django
-astroid==2.8.5
+astroid==2.9.0
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -47,7 +47,7 @@ cffi==1.15.0
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.7
+charset-normalizer==2.0.8
     # via
     #   -r requirements/test.txt
     #   requests
@@ -76,9 +76,9 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==6.1.2
+coverage==6.2
     # via -r requirements/test.txt
-cryptography==35.0.0
+cryptography==36.0.0
     # via
     #   -r requirements/test.txt
     #   paramiko
@@ -186,7 +186,7 @@ edx-ace==1.4.0
     # via -r requirements/test.txt
 edx-auth-backends==4.0.1
     # via -r requirements/test.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.94
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.95
     # via -r requirements/test.txt
 edx-django-release-util==1.1.0
     # via -r requirements/test.txt
@@ -217,7 +217,7 @@ edx-toggles==4.2.0
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==9.8.2
+faker==9.9.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -314,7 +314,7 @@ packaging==21.3
     #   bleach
     #   pytest
     #   tox
-paramiko==2.8.0
+paramiko==2.8.1
     # via docker
 path==16.2.0
     # via
@@ -376,7 +376,7 @@ pyjwt[crypto]==2.3.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.11.1
+pylint==2.12.1
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -396,7 +396,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/test.txt
     #   pylint-celery
     #   pylint-django
-pymongo==3.12.1
+pymongo==4.0
     # via
     #   -r requirements/test.txt
     #   edx-opaque-keys
@@ -412,7 +412,7 @@ pytest==6.2.5
     # via
     #   -r requirements/test.txt
     #   pytest-django
-pytest-django==4.4.0
+pytest-django==4.5.0
     # via -r requirements/test.txt
 python-dateutil==2.8.2
     # via
@@ -569,7 +569,7 @@ transifex-client==0.14.3
     #   -r requirements/dev.in
     #   -r requirements/test.txt
     #   edx-credentials-themes
-typing-extensions==4.0.0
+typing-extensions==4.0.1
     # via
     #   -r requirements/test.txt
     #   astroid
