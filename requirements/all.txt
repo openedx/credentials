@@ -38,7 +38,7 @@ bcrypt==3.2.0
     # via
     #   -r requirements/dev.txt
     #   paramiko
-black==21.11b1
+black==21.12b0
     # via -r requirements/dev.txt
 bleach==4.1.0
     # via
@@ -46,11 +46,11 @@ bleach==4.1.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.20.18
+boto3==1.20.22
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.23.18
+botocore==1.23.22
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -67,7 +67,7 @@ cffi==1.15.0
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.8
+charset-normalizer==2.0.9
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -118,7 +118,7 @@ defusedxml==0.7.1
     #   -r requirements/production.txt
     #   python3-openid
     #   social-auth-core
-distlib==0.3.3
+distlib==0.3.4
     # via
     #   -r requirements/dev.txt
     #   virtualenv
@@ -126,7 +126,7 @@ distro==1.6.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-django==3.2.9
+django==3.2.10
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -159,7 +159,7 @@ django-appconf==1.0.5
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-statici18n
-django-cors-headers==3.10.0
+django-cors-headers==3.10.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -247,7 +247,7 @@ drf-jwt==1.19.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-edx-ace==1.4.0
+edx-ace==1.4.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -300,7 +300,7 @@ edx-toggles==4.2.0
     #   -r requirements/production.txt
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==9.9.0
+faker==10.0.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -485,7 +485,7 @@ pycparser==2.21
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cffi
-pycryptodomex==3.11.0
+pycryptodomex==3.12.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -508,7 +508,7 @@ pyjwt[crypto]==2.3.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.12.1
+pylint==2.12.2
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -528,7 +528,7 @@ pylint-plugin-utils==0.6
     #   -r requirements/dev.txt
     #   pylint-celery
     #   pylint-django
-pymongo==4.0
+pymongo==4.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -550,7 +550,7 @@ pytest==6.2.5
     # via
     #   -r requirements/dev.txt
     #   pytest-django
-pytest-django==4.5.1
+pytest-django==4.5.2
     # via -r requirements/dev.txt
 python-dateutil==2.8.2
     # via
@@ -597,10 +597,6 @@ pyyaml==5.4.1
     #   docker-compose
     #   edx-django-release-util
     #   edx-i18n-tools
-regex==2021.11.10
-    # via
-    #   -r requirements/dev.txt
-    #   black
 requests==2.26.0
     # via
     #   -r requirements/dev.txt

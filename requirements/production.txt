@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==4.1.0
     # via -r requirements/base.txt
-boto3==1.20.18
+boto3==1.20.22
     # via django-ses
-botocore==1.23.18
+botocore==1.23.22
     # via
     #   boto3
     #   s3transfer
@@ -34,7 +34,7 @@ cffi==1.15.0
     # via
     #   -r requirements/base.txt
     #   cryptography
-charset-normalizer==2.0.8
+charset-normalizer==2.0.9
     # via
     #   -r requirements/base.txt
     #   requests
@@ -65,7 +65,7 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==3.2.9
+django==3.2.10
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -95,7 +95,7 @@ django-appconf==1.0.5
     # via
     #   -r requirements/base.txt
     #   django-statici18n
-django-cors-headers==3.10.0
+django-cors-headers==3.10.1
     # via -r requirements/base.txt
 django-crum==0.7.9
     # via
@@ -142,7 +142,7 @@ drf-jwt==1.19.1
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-edx-ace==1.4.0
+edx-ace==1.4.1
     # via -r requirements/base.txt
 edx-auth-backends==4.0.1
     # via -r requirements/base.txt
@@ -266,7 +266,7 @@ pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pycryptodomex==3.11.0
+pycryptodomex==3.12.0
     # via
     #   -r requirements/base.txt
     #   pyjwkest
@@ -284,7 +284,7 @@ pyjwt[crypto]==2.3.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pymongo==4.0
+pymongo==4.0.1
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
