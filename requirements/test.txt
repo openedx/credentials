@@ -25,7 +25,7 @@ backoff==1.10.0
     #   analytics-python
 backports.entry-points-selectable==1.1.1
     # via virtualenv
-black==21.11b1
+black==21.12b0
     # via -r requirements/test.in
 bleach==4.1.0
     # via -r requirements/base.txt
@@ -39,7 +39,7 @@ cffi==1.15.0
     # via
     #   -r requirements/base.txt
     #   cryptography
-charset-normalizer==2.0.8
+charset-normalizer==2.0.9
     # via
     #   -r requirements/base.txt
     #   requests
@@ -81,7 +81,7 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-distlib==0.3.3
+distlib==0.3.4
     # via virtualenv
     # via
     #   -c requirements/common_constraints.txt
@@ -111,7 +111,7 @@ django-appconf==1.0.5
     # via
     #   -r requirements/base.txt
     #   django-statici18n
-django-cors-headers==3.10.0
+django-cors-headers==3.10.1
     # via -r requirements/base.txt
 django-crum==0.7.9
     # via
@@ -146,7 +146,7 @@ django-waffle==2.2.1
     #   edx-toggles
 django-webpack-loader==1.4.1
     # via -r requirements/base.txt
-djangorestframework==3.12.4
+djangorestframework==3.13.0
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
@@ -156,11 +156,11 @@ drf-jwt==1.19.1
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-edx-ace==1.4.0
+edx-ace==1.4.1
     # via -r requirements/base.txt
 edx-auth-backends==4.0.1
     # via -r requirements/base.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.94
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.96
     # via -r requirements/base.txt
 edx-django-release-util==1.1.0
     # via -r requirements/base.txt
@@ -190,7 +190,7 @@ edx-toggles==4.2.0
     # via -r requirements/base.txt
 factory-boy==3.2.1
     # via -r requirements/test.in
-faker==9.9.0
+faker==10.0.0
     # via factory-boy
 filelock==3.4.0
     # via
@@ -309,7 +309,7 @@ pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pycryptodomex==3.11.0
+pycryptodomex==3.12.0
     # via
     #   -r requirements/base.txt
     #   pyjwkest
@@ -327,7 +327,7 @@ pyjwt[crypto]==2.3.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.12.1
+pylint==2.12.2
     # via
     #   edx-lint
     #   pylint-celery
@@ -341,7 +341,7 @@ pylint-plugin-utils==0.6
     # via
     #   pylint-celery
     #   pylint-django
-pymongo==4.0
+pymongo==4.0.1
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
@@ -353,7 +353,7 @@ pytest==6.2.5
     # via
     #   -r requirements/test.in
     #   pytest-django
-pytest-django==4.5.1
+pytest-django==4.5.2
     # via -r requirements/test.in
 python-dateutil==2.8.2
     # via
@@ -377,6 +377,7 @@ pytz==2021.3
     # via
     #   -r requirements/base.txt
     #   django
+    #   djangorestframework
 pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
@@ -384,8 +385,6 @@ pyyaml==5.4.1
     #   code-annotations
     #   edx-django-release-util
     #   edx-i18n-tools
-regex==2021.11.10
-    # via black
 requests==2.26.0
     # via
     #   -r requirements/base.txt
