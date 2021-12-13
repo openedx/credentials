@@ -18,7 +18,7 @@ certifi==2021.10.8
     # via requests
 cffi==1.15.0
     # via cryptography
-charset-normalizer==2.0.8
+charset-normalizer==2.0.9
     # via requests
 click==8.0.3
     # via code-annotations
@@ -39,7 +39,7 @@ defusedxml==0.7.1
     # via
     #   python3-openid
     #   social-auth-core
-django==3.2.9
+django==3.2.10
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -66,7 +66,7 @@ django==3.2.9
     #   xss-utils
 django-appconf==1.0.5
     # via django-statici18n
-django-cors-headers==3.10.0
+django-cors-headers==3.10.1
     # via -r requirements/base.in
 django-crum==0.7.9
     # via
@@ -100,7 +100,7 @@ django-waffle==2.2.1
     #   edx-toggles
 django-webpack-loader==1.4.1
     # via -r requirements/base.in
-djangorestframework==3.12.4
+djangorestframework==3.13.0
     # via
     #   -r requirements/base.in
     #   django-rest-swagger
@@ -108,11 +108,11 @@ djangorestframework==3.12.4
     #   edx-drf-extensions
 drf-jwt==1.19.1
     # via edx-drf-extensions
-edx-ace==1.4.0
+edx-ace==1.4.1
     # via -r requirements/base.in
 edx-auth-backends==4.0.1
     # via -r requirements/base.in
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.94
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.96
     # via -r requirements/base.in
 edx-django-release-util==1.1.0
     # via -r requirements/base.in
@@ -184,7 +184,7 @@ psutil==5.8.0
     # via edx-django-utils
 pycparser==2.21
     # via cffi
-pycryptodomex==3.11.0
+pycryptodomex==3.12.0
     # via pyjwkest
 pygments==2.10.0
     # via -r requirements/base.in
@@ -197,7 +197,7 @@ pyjwt[crypto]==2.3.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pymongo==4.0
+pymongo==4.0.1
     # via edx-opaque-keys
 pyparsing==3.0.6
     # via packaging
@@ -218,6 +218,7 @@ pytz==2021.3
     # via
     #   -r requirements/base.in
     #   django
+    #   djangorestframework
 pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
