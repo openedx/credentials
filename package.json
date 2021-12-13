@@ -45,7 +45,7 @@
     "babel-jest": "27.4.4",
     "babel-loader": "8.2.3",
     "codecov": "3.8.3",
-    "edx-custom-a11y-rules": "1.1.0",
+    "edx-custom-a11y-rules": "2.0.1",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.6",
     "eslint": "8.4.1",
