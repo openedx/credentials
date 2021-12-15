@@ -46,11 +46,11 @@ bleach==4.1.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.20.23
+boto3==1.22.0
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.23.23
+botocore==1.25.0
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -95,15 +95,16 @@ coreapi==2.3.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-rest-swagger
+    #   drf-yasg
     #   openapi-codec
 coreschema==0.0.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==6.2
+coverage==6.3.2
     # via -r requirements/dev.txt
-cryptography==36.0.0
+cryptography==36.0.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -144,6 +145,7 @@ django==3.2.10
     #   django-storages
     #   djangorestframework
     #   drf-jwt
+    #   drf-yasg
     #   edx-ace
     #   edx-auth-backends
     #   edx-credentials-themes
@@ -221,12 +223,13 @@ django-webpack-loader==1.4.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-djangorestframework==3.13.0
+djangorestframework==3.13.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-rest-swagger
     #   drf-jwt
+    #   drf-yasg
     #   edx-drf-extensions
 docker[ssh]==5.0.3
     # via
@@ -242,12 +245,12 @@ docopt==0.6.2
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-drf-jwt==1.19.1
+drf-jwt==1.19.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-edx-ace==1.4.1
+edx-ace==1.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -345,6 +348,11 @@ importlib-metadata==4.8.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   markdown
+inflection==0.5.1
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   drf-yasg
 iniconfig==1.1.1
     # via
     #   -r requirements/dev.txt
@@ -377,7 +385,7 @@ lazy==1.4
     # via
     #   -r requirements/dev.txt
     #   bok-choy
-lazy-object-proxy==1.6.0
+lazy-object-proxy==1.7.1
     # via
     #   -r requirements/dev.txt
     #   astroid
@@ -428,8 +436,6 @@ openapi-codec==1.3.2
 packaging==21.3
     # via
     #   -r requirements/dev.txt
-    #   -r requirements/production.txt
-    #   bleach
     #   pytest
     #   tox
 paramiko==2.8.1
@@ -622,7 +628,7 @@ requests-oauthlib==1.3.0
     #   social-auth-core
 responses==0.16.0
     # via -r requirements/dev.txt
-s3transfer==0.5.0
+s3transfer==0.5.2
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -723,7 +729,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tomli==1.2.2
+tomli==2.0.1
     # via
     #   -r requirements/dev.txt
     #   black
@@ -747,7 +753,7 @@ uritemplate==4.1.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-urllib3==1.26.7
+urllib3==1.26.9
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
