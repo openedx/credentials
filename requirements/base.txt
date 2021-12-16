@@ -31,7 +31,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==36.0.0
+cryptography==36.0.1
     # via
     #   pyjwt
     #   social-auth-core
@@ -100,7 +100,7 @@ django-waffle==2.2.1
     #   edx-toggles
 django-webpack-loader==1.4.1
     # via -r requirements/base.in
-djangorestframework==3.13.0
+djangorestframework==3.13.1
     # via
     #   -r requirements/base.in
     #   django-rest-swagger

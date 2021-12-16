@@ -78,7 +78,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==6.2
     # via -r requirements/test.txt
-cryptography==36.0.0
+cryptography==36.0.1
     # via
     #   -r requirements/test.txt
     #   paramiko
@@ -134,7 +134,7 @@ django-crum==0.7.9
     #   -r requirements/test.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==3.2.3
+django-debug-toolbar==3.2.4
     # via -r requirements/dev.in
 django-extensions==3.1.5
     # via -r requirements/test.txt
@@ -164,7 +164,7 @@ django-waffle==2.2.1
     #   edx-toggles
 django-webpack-loader==1.4.1
     # via -r requirements/test.txt
-djangorestframework==3.13.0
+djangorestframework==3.13.1
     # via
     #   -r requirements/test.txt
     #   django-rest-swagger
@@ -271,7 +271,7 @@ lazy==1.4
     # via
     #   -r requirements/test.txt
     #   bok-choy
-lazy-object-proxy==1.6.0
+lazy-object-proxy==1.7.1
     # via
     #   -r requirements/test.txt
     #   astroid
@@ -555,7 +555,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tomli==1.2.2
+tomli==1.2.3
     # via
     #   -r requirements/test.txt
     #   black
