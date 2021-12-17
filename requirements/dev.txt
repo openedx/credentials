@@ -186,7 +186,7 @@ edx-ace==1.4.1
     # via -r requirements/test.txt
 edx-auth-backends==4.0.1
     # via -r requirements/test.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.96
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.97
     # via -r requirements/test.txt
 edx-django-release-util==1.1.0
     # via -r requirements/test.txt
@@ -244,7 +244,7 @@ idna==3.3
     # via
     #   -r requirements/test.txt
     #   requests
-importlib-metadata==4.8.2
+importlib-metadata==4.9.0
     # via
     #   -r requirements/test.txt
     #   markdown

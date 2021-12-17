@@ -255,7 +255,7 @@ edx-auth-backends==4.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.96
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.97
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -340,7 +340,7 @@ idna==3.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-importlib-metadata==4.8.2
+importlib-metadata==4.9.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
