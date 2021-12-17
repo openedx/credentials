@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==4.1.0
     # via -r requirements/base.txt
-boto3==1.20.23
+boto3==1.20.24
     # via django-ses
-botocore==1.23.23
+botocore==1.23.24
     # via
     #   boto3
     #   s3transfer
@@ -55,7 +55,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==36.0.0
+cryptography==36.0.1
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -132,7 +132,7 @@ django-waffle==2.2.1
     #   edx-toggles
 django-webpack-loader==1.4.1
     # via -r requirements/base.txt
-djangorestframework==3.13.0
+djangorestframework==3.13.1
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
@@ -146,7 +146,7 @@ edx-ace==1.4.1
     # via -r requirements/base.txt
 edx-auth-backends==4.0.1
     # via -r requirements/base.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.96
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.97
     # via -r requirements/base.txt
 edx-django-release-util==1.1.0
     # via -r requirements/base.txt
@@ -195,7 +195,7 @@ idna==3.3
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-metadata==4.8.2
+importlib-metadata==4.9.0
     # via
     #   -r requirements/base.txt
     #   markdown
