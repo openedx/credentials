@@ -22,7 +22,7 @@
     "js-cookie": "3.0.1",
     "mini-css-extract-plugin": "2.4.5",
     "node-sass": "6.0.1",
-    "prop-types": "15.7.2",
+    "prop-types": "15.8.0",
     "react": "16.14.0",
     "react-copy-to-clipboard": "5.0.4",
     "react-dom": "16.14.0",
