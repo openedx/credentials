@@ -46,11 +46,11 @@ bleach==4.1.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.20.24
+boto3==1.20.26
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.23.24
+botocore==1.23.26
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -267,7 +267,7 @@ edx-django-sites-extensions==3.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-utils==4.4.0
+edx-django-utils==4.4.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -290,7 +290,7 @@ edx-opaque-keys==2.2.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-edx-rest-api-client==5.4.0
+edx-rest-api-client==5.4.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -340,7 +340,7 @@ idna==3.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-importlib-metadata==4.9.0
+importlib-metadata==4.10.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
