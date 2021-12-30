@@ -10,7 +10,7 @@ asgiref==3.4.1
     # via
     #   -r requirements/base.txt
     #   django
-attrs==21.2.0
+attrs==21.4.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
@@ -120,7 +120,7 @@ django-simple-history==3.0.0
     # via -r requirements/base.txt
 django-sortedm2m==3.1.1
     # via -r requirements/base.txt
-django-statici18n==2.1.1
+django-statici18n==2.2.0
     # via -r requirements/base.txt
 django-storages==1.12.3
     # via -r requirements/base.txt
@@ -258,7 +258,7 @@ polib==1.1.1
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-psutil==5.8.0
+psutil==5.9.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -401,7 +401,7 @@ text-unidecode==1.3
     # via
     #   -r requirements/base.txt
     #   python-slugify
-transifex-client==0.14.3
+transifex-client==0.14.4
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes

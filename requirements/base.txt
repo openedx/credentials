@@ -8,7 +8,7 @@ analytics-python==1.4.0
     # via -r requirements/base.in
 asgiref==3.4.1
     # via django
-attrs==21.2.0
+attrs==21.4.0
     # via edx-ace
 backoff==1.10.0
     # via analytics-python
@@ -88,7 +88,7 @@ django-simple-history==3.0.0
     # via -r requirements/base.in
 django-sortedm2m==3.1.1
     # via -r requirements/base.in
-django-statici18n==2.1.1
+django-statici18n==2.2.0
     # via -r requirements/base.in
 django-storages==1.12.3
     # via -r requirements/base.in
@@ -180,7 +180,7 @@ pillow==8.4.0
     # via -r requirements/base.in
 polib==1.1.1
     # via edx-i18n-tools
-psutil==5.8.0
+psutil==5.9.0
     # via edx-django-utils
 pycparser==2.21
     # via cffi
@@ -282,7 +282,7 @@ stevedore==3.5.0
     #   edx-opaque-keys
 text-unidecode==1.3
     # via python-slugify
-transifex-client==0.14.3
+transifex-client==0.14.4
     # via edx-credentials-themes
 typing-extensions==4.0.1
     # via gitpython
