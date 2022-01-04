@@ -69,6 +69,12 @@ jobs:
           make static
           make tests
 
+  migrations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: make migration_linter
+
   code_coverage:
     runs-on: ubuntu-latest
     steps:

@@ -27,3 +27,5 @@ pytest-django
 responses
 testfixtures
 tox
+django-migration-linter
+

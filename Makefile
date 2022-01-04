@@ -81,6 +81,8 @@ upgrade: piptools $(COMMON_CONSTRAINTS_TXT)	## update the requirements/*.txt fil
 	sed '/^[dD]jango==/d' requirements/test.txt > requirements/test.tmp
 	mv requirements/test.tmp requirements/test.txt
 
+
+
 ### Quality commands ###
 
 quality: isort_check quality-js format_check ## Run linters
@@ -198,3 +200,7 @@ unit_tests_suite: build_test_image
 
 docs:
 	tox -e docs
+
+migration_linter:
+	python manage.py lintmigrations
+
