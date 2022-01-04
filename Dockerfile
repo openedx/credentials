@@ -1,6 +1,15 @@
-FROM ubuntu:focal as app
+FROM ubuntu:focal as base
 MAINTAINER devops@edx.org
 
+# Warning: This file is experimental.
+#
+# Short-term goals:
+# * Be a suitable replacement for the `edxops/credentials` image in devstack (in progress).
+# * Take advantage of Docker caching layers: aim to put commands in order of
+#   increasing cache-busting frequency.
+# * Related to ^, use no Ansible or Paver.
+# Long-term goal:
+# * Be a suitable base for production Credentials images. This may not yet be the case.
 
 # Packages installed:
 # git; Used to pull in particular requirements from github rather than pypi,
@@ -85,14 +94,19 @@ CMD gunicorn --workers=2 --name credentials -c /edx/app/credentials/credentials/
 # bust the image cache
 COPY . /edx/app/credentials/credentials
 
-FROM app as newrelic
-RUN pip install newrelic
-CMD newrelic-admin run-program gunicorn --workers=2 --name credentials -c /edx/app/credentials/credentials/credentials/docker_gunicorn_configuration.py --log-file - --max-requests=1000 credentials.wsgi:application
-
-
 # We don't switch back to the app user for devstack because we need devstack users to be
 # able to update requirements and generally run things as root.
-FROM app as devstack
+FROM base as dev
 USER root
+ENV DJANGO_SETTINGS_MODULE credentials.settings.devstack
 RUN pip install -r /edx/app/credentials/credentials/requirements/dev.txt
-CMD gunicorn --reload --workers=2 --name credentials -c /edx/app/credentials/credentials/credentials/docker_gunicorn_configuration.py --log-file - --max-requests=1000 credentials.wsgi:application
+
+# Temporary compatibility hack while devstack is supporting
+# both the old `edxops/credentials` image and this image:
+# Add in a dummy ../credentials_env file.
+# The credentials_env file was originally needed for sourcing to get
+# environment variables like DJANGO_SETTINGS_MODULE, but now we just set
+# those variables right in the Dockerfile.
+RUN touch ../credentials_env
+
+CMD while true; do python ./manage.py runserver 0.0.0.0:18150; sleep 2; done

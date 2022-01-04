@@ -6,7 +6,6 @@
 #
 analytics-python==1.4.0
     # via -r requirements/base.in
-attrs==21.4.0
     # via edx-ace
 backoff==1.10.0
     # via analytics-python
@@ -37,9 +36,9 @@ defusedxml==0.7.1
     # via
     #   python3-openid
     #   social-auth-core
-django==2.2.26
     # via
     #   -c requirements/common_constraints.txt
+    #   -c requirements/constraints.txt
     #   -r requirements/base.in
     #   django-appconf
     #   django-cors-headers
@@ -85,7 +84,6 @@ django-simple-history==3.0.0
     # via -r requirements/base.in
 django-sortedm2m==3.1.1
     # via -r requirements/base.in
-django-statici18n==2.2.0
     # via -r requirements/base.in
 django-storages==1.12.3
     # via -r requirements/base.in
@@ -95,25 +93,16 @@ django-waffle==2.2.1
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==0.7.0
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/base.in
 djangorestframework==3.13.1
     # via
     #   -r requirements/base.in
     #   django-rest-swagger
     #   drf-jwt
     #   edx-drf-extensions
-drf-jwt==1.19.0
-    # via
-    #   -c requirements/common_constraints.txt
-    #   edx-drf-extensions
 edx-ace==1.4.1
     # via -r requirements/base.in
 edx-auth-backends==4.0.1
     # via -r requirements/base.in
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.84
     # via -r requirements/base.in
 edx-django-release-util==1.1.0
     # via -r requirements/base.in
@@ -177,7 +166,6 @@ path==16.2.0
     # via edx-i18n-tools
 pbr==5.8.0
     # via stevedore
-pillow==9.0.0
     # via -r requirements/base.in
 polib==1.1.1
     # via edx-i18n-tools
@@ -222,7 +210,6 @@ pytz==2021.3
     #   djangorestframework
 pyyaml==5.4.1
     # via
-    #   -c requirements/common_constraints.txt
     #   code-annotations
     #   edx-django-release-util
     #   edx-i18n-tools
@@ -260,15 +247,13 @@ six==1.16.0
     #   pyjwkest
     #   python-dateutil
     #   python-memcached
-    #   social-auth-app-django
     #   transifex-client
 slumber==0.7.1
     # via edx-rest-api-client
 smmap==5.0.0
     # via gitdb
-social-auth-app-django==4.0.0
+social-auth-app-django==5.0.0
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
     #   edx-auth-backends
 social-auth-core==4.1.0
@@ -299,5 +284,4 @@ webencodings==0.5.1
     # via bleach
 xss-utils==0.3.0
     # via -r requirements/base.in
-zipp==3.7.0
     # via importlib-metadata

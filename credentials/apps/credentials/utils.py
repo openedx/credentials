@@ -52,11 +52,6 @@ def validate_duplicate_attributes(attributes):
     return True
 
 
-def to_datetime(date):
-    """Turn a date object into a datetime object by setting time to 00:00"""
-    return datetime.datetime.combine(date, datetime.datetime.min.time())
-
-
 def datetime_from_visible_date(date):
     """Turn a string version of a datetime, provided to us by the LMS in a particular format it uses for
     visible_date attributes, and turn it into a datetime object."""
@@ -224,8 +219,7 @@ def get_credential_visible_dates(user_credentials, use_date_override=False):
                 # impact the issue date of Program Certs.
                 if use_date_override:
                     try:
-                        date_override = user_credential.date_override.date
-                        date = to_datetime(date_override)
+                        date = user_credential.date_override.date
                     except ObjectDoesNotExist:
                         pass
 

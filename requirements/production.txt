@@ -6,7 +6,6 @@
 #
 analytics-python==1.4.0
     # via -r requirements/base.txt
-attrs==21.4.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
@@ -16,9 +15,6 @@ backoff==1.10.0
     #   analytics-python
 bleach==4.1.0
     # via -r requirements/base.txt
-boto3==1.20.27
-    # via django-ses
-botocore==1.23.27
     # via
     #   boto3
     #   s3transfer
@@ -61,9 +57,9 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==2.2.26
     # via
     #   -c requirements/common_constraints.txt
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   django-appconf
     #   django-cors-headers
@@ -115,7 +111,6 @@ django-simple-history==3.0.0
     # via -r requirements/base.txt
 django-sortedm2m==3.1.1
     # via -r requirements/base.txt
-django-statici18n==2.2.0
     # via -r requirements/base.txt
 django-storages==1.12.3
     # via -r requirements/base.txt
@@ -125,26 +120,19 @@ django-waffle==2.2.1
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==0.7.0
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/base.txt
 djangorestframework==3.13.1
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
     #   drf-jwt
     #   edx-drf-extensions
-drf-jwt==1.19.0
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
     #   edx-drf-extensions
 edx-ace==1.4.1
     # via -r requirements/base.txt
 edx-auth-backends==4.0.1
     # via -r requirements/base.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.84
     # via -r requirements/base.txt
 edx-django-release-util==1.1.0
     # via -r requirements/base.txt
@@ -250,7 +238,6 @@ pbr==5.8.0
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==9.0.0
     # via -r requirements/base.txt
 polib==1.1.1
     # via
@@ -316,7 +303,6 @@ pytz==2021.3
     #   djangorestframework
 pyyaml==5.4.1
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
     #   -r requirements/production.in
     #   code-annotations
@@ -366,7 +352,6 @@ six==1.16.0
     #   pyjwkest
     #   python-dateutil
     #   python-memcached
-    #   social-auth-app-django
     #   transifex-client
 slumber==0.7.1
     # via
@@ -376,9 +361,8 @@ smmap==5.0.0
     # via
     #   -r requirements/base.txt
     #   gitdb
-social-auth-app-django==4.0.0
+social-auth-app-django==5.0.0
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
     #   edx-auth-backends
 social-auth-core==4.1.0
@@ -425,7 +409,6 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.3.0
     # via -r requirements/base.txt
-zipp==3.7.0
     # via
     #   -r requirements/base.txt
     #   importlib-metadata

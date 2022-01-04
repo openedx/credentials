@@ -85,7 +85,6 @@ class SiteConfigurationTests(SiteMixin, TestCase):
             "proctored_exam_attempt_id": None,
             "is_verified": True,
             "use_verified_name_for_certs": False,
-            "verified_name_enabled": True,
         }
         verification_url = f"{self.site_configuration.name_verification_api_url}?username={username}"
         responses.add(

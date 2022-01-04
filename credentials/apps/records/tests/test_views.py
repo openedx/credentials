@@ -747,7 +747,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         grades = json.loads(response.context_data["record"])["grades"]
         self.assertEqual(len(grades), 1)
-        self.assertEqual(grades[0]["issue_date"], "2021-05-11T00:00:00")
+        self.assertEqual(grades[0]["issue_date"], "2021-05-11T00:00:00+00:00")
 
     def test_organization_order(self):
         """Test that the organizations are returned in the order they were added"""

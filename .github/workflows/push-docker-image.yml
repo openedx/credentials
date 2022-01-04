@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Images
 
 on:
   push:
@@ -15,29 +15,37 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Build and push Docker images
-        uses: docker/build-push-action@v1
+      # Use the release name as the image tag if we're building an open release tag.
+      # Examples: if we're building 'open-release/maple.1', tag the image as 'maple.1'.
+      # Otherwise, we must be building from a push to master, so use 'latest'.
+      - name: Get tag name
+        id: get-tag-name
+        uses: actions/github-script@v5
         with:
-          push: ${{ github.event_name != 'pull_request' }}
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: openedx/credentials
-          tags: latest,${{ github.sha }}
-
-      - name: Get open release name
-        id: get-open-release
-        if: startsWith(github.ref, 'refs/tags/open-release/')
-        uses: actions/github-script@v4
-        with:
-          script: return context.ref.split('refs/tags/open-release/')[1]
+          script: |
+            const tagName = startsWith(github.ref, 'refs/tags/open-release/')
+                          ? context.ref.split('refs/tags/open-release/')[1]
+                          : 'latest';
+            console.log('Will use tag: ' + tagName);
+            return tagName;
           result-encoding: string
 
-      - name: Build and push Docker images
+      - name: Build and push base Docker image
         uses: docker/build-push-action@v1
-        if: startsWith(github.ref, 'refs/tags/open-release/')
         with:
           push: ${{ github.event_name != 'pull_request' }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          target: base
           repository: openedx/credentials
-          tags: ${{steps.get-open-release.outputs.result}}
+          tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
+
+      - name: Build and push dev Docker image
+        uses: docker/build-push-action@v1
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          target: dev
+          repository: openedx/credentials-dev
+          tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}

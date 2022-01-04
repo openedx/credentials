@@ -394,6 +394,6 @@ class UserCredentialDateOverride(TimeStampedModel):
         related_name="date_override",
         help_text="The id of the UserCredential that this date overrides",
     )
-    date = models.DateField(
+    date = models.DateTimeField(
         help_text="The date to override a course certificate with. This is set in the LMS Django Admin.",
     )

@@ -11,13 +11,11 @@
 # Common constraints for edx repos
 -c common_constraints.txt
 
-# This upgrade causes a failure in tests currently. We need to constrain it until we
-# can determine the cause of the failure. https://openedx.atlassian.net/browse/MICROBA-794
-virtualenv<20.2.2
-
-# This has been pinned after a major version release to 1.x caused many tests to fail. At this time, there isn't much
-# info available on how to fix forward. We will come back around to evaluate as part of MICROBA-1237.
-django-webpack-loader<1.0.0
+Django<4.0
 
 # The update to 3.0.0 contains some large breaking changes. (MICROBA-1427)
 django-hijack<3.0.0
+
+# The update to pyyaml 6.x failed as docker-compose wants <6,>=3.10. Pinning to <6.0. This constraint will be
+# re-evaluated as part of MICROBA-1556.
+pyyaml<6.0

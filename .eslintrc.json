@@ -1,6 +1,6 @@
 {
   "extends": "@edx/eslint-config",
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "rules": {
     "import/no-extraneous-dependencies": [
       "error",
@@ -30,7 +30,8 @@
   },
   "parserOptions": {
     "sourceType": "module",
-    "ecmaVersion": 2017
+    "ecmaVersion": 2017,
+    "requireConfigFile": false
   },
   "globals": {
     "FB": true,
