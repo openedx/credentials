@@ -23,9 +23,8 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            const tagName = startsWith(github.ref, 'refs/tags/open-release/')
-                          ? context.ref.split('refs/tags/open-release/')[1]
-                          : 'latest';
+            const releasePrefix = 'refs/tags/open-release/';
+            const tagName = context.ref.split(releasePrefix)[1] || 'latest';
             console.log('Will use tag: ' + tagName);
             return tagName;
           result-encoding: string
