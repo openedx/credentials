@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==4.1.0
     # via -r requirements/base.txt
-boto3==1.20.27
+boto3==1.20.29
     # via django-ses
-botocore==1.23.27
+botocore==1.23.29
     # via
     #   boto3
     #   s3transfer
@@ -34,7 +34,7 @@ cffi==1.15.0
     # via
     #   -r requirements/base.txt
     #   cryptography
-charset-normalizer==2.0.9
+charset-normalizer==2.0.10
     # via
     #   -r requirements/base.txt
     #   requests
@@ -270,7 +270,7 @@ pycryptodomex==3.12.0
     # via
     #   -r requirements/base.txt
     #   pyjwkest
-pygments==2.11.1
+pygments==2.11.2
     # via -r requirements/base.txt
 pyjwkest==1.4.2
     # via
@@ -324,7 +324,7 @@ pyyaml==5.4.1
     #   code-annotations
     #   edx-django-release-util
     #   edx-i18n-tools
-requests==2.27.0
+requests==2.27.1
     # via
     #   -r requirements/base.txt
     #   analytics-python
