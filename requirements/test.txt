@@ -37,7 +37,7 @@ cffi==1.15.0
     # via
     #   -r requirements/base.txt
     #   cryptography
-charset-normalizer==2.0.9
+charset-normalizer==2.0.10
     # via
     #   -r requirements/base.txt
     #   requests
@@ -188,7 +188,7 @@ edx-toggles==4.2.0
     # via -r requirements/base.txt
 factory-boy==3.2.1
     # via -r requirements/test.in
-faker==11.1.0
+faker==11.3.0
     # via factory-boy
 filelock==3.4.2
     # via
@@ -311,7 +311,7 @@ pycryptodomex==3.12.0
     # via
     #   -r requirements/base.txt
     #   pyjwkest
-pygments==2.11.1
+pygments==2.11.2
     # via -r requirements/base.txt
 pyjwkest==1.4.2
     # via
@@ -383,7 +383,7 @@ pyyaml==5.4.1
     #   code-annotations
     #   edx-django-release-util
     #   edx-i18n-tools
-requests==2.27.0
+requests==2.27.1
     # via
     #   -r requirements/base.txt
     #   analytics-python
