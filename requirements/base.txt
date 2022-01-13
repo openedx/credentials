@@ -66,7 +66,7 @@ django==3.2.11
     #   xss-utils
 django-appconf==1.0.5
     # via django-statici18n
-django-cors-headers==3.10.1
+django-cors-headers==3.11.0
     # via -r requirements/base.in
 django-crum==0.7.9
     # via
@@ -92,7 +92,7 @@ django-statici18n==2.2.0
     # via -r requirements/base.in
 django-storages==1.12.3
     # via -r requirements/base.in
-django-waffle==2.2.1
+django-waffle==2.3.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -106,7 +106,7 @@ djangorestframework==3.13.1
     #   django-rest-swagger
     #   drf-jwt
     #   edx-drf-extensions
-drf-jwt==1.19.1
+drf-jwt==1.19.2
     # via edx-drf-extensions
 edx-ace==1.4.1
     # via -r requirements/base.in
@@ -114,7 +114,7 @@ edx-auth-backends==4.0.1
     # via -r requirements/base.in
 edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.97
     # via -r requirements/base.in
-edx-django-release-util==1.1.0
+edx-django-release-util==1.1.1
     # via -r requirements/base.in
 edx-django-sites-extensions==3.1.0
     # via -r requirements/base.in
@@ -140,7 +140,7 @@ future==0.18.2
     # via pyjwkest
 gitdb==4.0.9
     # via gitpython
-gitpython==3.1.24
+gitpython==3.1.26
     # via transifex-client
 idna==3.3
     # via requests
@@ -172,7 +172,7 @@ openapi-codec==1.3.2
     # via django-rest-swagger
 packaging==21.3
     # via bleach
-path==16.2.0
+path==16.3.0
     # via edx-i18n-tools
 pbr==5.8.0
     # via stevedore
@@ -284,11 +284,9 @@ text-unidecode==1.3
     # via python-slugify
 transifex-client==0.14.4
     # via edx-credentials-themes
-typing-extensions==4.0.1
-    # via gitpython
 uritemplate==4.1.1
     # via coreapi
-urllib3==1.26.7
+urllib3==1.26.8
     # via
     #   requests
     #   transifex-client
