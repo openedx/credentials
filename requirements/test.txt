@@ -182,7 +182,7 @@ edx-opaque-keys==2.2.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-edx-rest-api-client==5.4.1
+edx-rest-api-client==5.5.0
     # via -r requirements/base.txt
 edx-toggles==4.2.0
     # via -r requirements/base.txt
@@ -212,7 +212,7 @@ idna==3.3
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-metadata==4.10.0
+importlib-metadata==4.10.1
     # via
     #   -r requirements/base.txt
     #   markdown
@@ -448,7 +448,7 @@ social-auth-app-django==5.0.0
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.1.0
+social-auth-core==4.2.0
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
@@ -508,7 +508,7 @@ webencodings==0.5.1
     #   bleach
 wrapt==1.13.3
     # via astroid
-xss-utils==0.3.0
+xss-utils==0.4.0
     # via -r requirements/base.txt
 zipp==3.7.0
     # via

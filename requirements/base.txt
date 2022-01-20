@@ -132,7 +132,7 @@ edx-opaque-keys==2.2.2
     # via
     #   -r requirements/base.in
     #   edx-drf-extensions
-edx-rest-api-client==5.4.1
+edx-rest-api-client==5.5.0
     # via -r requirements/base.in
 edx-toggles==4.2.0
     # via -r requirements/base.in
@@ -144,7 +144,7 @@ gitpython==3.1.26
     # via transifex-client
 idna==3.3
     # via requests
-importlib-metadata==4.10.0
+importlib-metadata==4.10.1
     # via markdown
 itypes==1.2.0
     # via coreapi
@@ -268,7 +268,7 @@ social-auth-app-django==5.0.0
     # via
     #   -r requirements/base.in
     #   edx-auth-backends
-social-auth-core==4.1.0
+social-auth-core==4.2.0
     # via
     #   edx-auth-backends
     #   social-auth-app-django
@@ -292,7 +292,7 @@ urllib3==1.26.8
     #   transifex-client
 webencodings==0.5.1
     # via bleach
-xss-utils==0.3.0
+xss-utils==0.4.0
     # via -r requirements/base.in
 zipp==3.7.0
     # via importlib-metadata
