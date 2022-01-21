@@ -207,7 +207,7 @@ edx-opaque-keys==2.2.2
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-edx-rest-api-client==5.4.1
+edx-rest-api-client==5.5.0
     # via -r requirements/test.txt
 edx-toggles==4.2.0
     # via -r requirements/test.txt
@@ -240,7 +240,7 @@ idna==3.3
     # via
     #   -r requirements/test.txt
     #   requests
-importlib-metadata==4.10.0
+importlib-metadata==4.10.1
     # via
     #   -r requirements/test.txt
     #   markdown
@@ -402,7 +402,7 @@ pyparsing==3.0.6
     # via
     #   -r requirements/test.txt
     #   packaging
-pyrsistent==0.18.0
+pyrsistent==0.18.1
     # via jsonschema
 pytest==6.2.5
     # via
@@ -518,7 +518,7 @@ social-auth-app-django==5.0.0
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
-social-auth-core==4.1.0
+social-auth-core==4.2.0
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
@@ -594,7 +594,7 @@ wrapt==1.13.3
     # via
     #   -r requirements/test.txt
     #   astroid
-xss-utils==0.3.0
+xss-utils==0.4.0
     # via -r requirements/test.txt
 zipp==3.7.0
     # via

@@ -42,11 +42,11 @@ bleach==4.1.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.20.34
+boto3==1.20.39
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.23.34
+botocore==1.23.39
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -286,7 +286,7 @@ edx-opaque-keys==2.2.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-edx-rest-api-client==5.4.1
+edx-rest-api-client==5.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -336,7 +336,7 @@ idna==3.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-importlib-metadata==4.10.0
+importlib-metadata==4.10.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -538,7 +538,7 @@ pyparsing==3.0.6
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   packaging
-pyrsistent==0.18.0
+pyrsistent==0.18.1
     # via
     #   -r requirements/dev.txt
     #   jsonschema
@@ -680,7 +680,7 @@ social-auth-app-django==5.0.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-auth-backends
-social-auth-core==4.1.0
+social-auth-core==4.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -767,7 +767,7 @@ wrapt==1.13.3
     # via
     #   -r requirements/dev.txt
     #   astroid
-xss-utils==0.3.0
+xss-utils==0.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
