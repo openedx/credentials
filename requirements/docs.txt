@@ -34,7 +34,7 @@ pygments==2.11.2
     # via
     #   jsx-lexer
     #   sphinx
-pyparsing==3.0.6
+pyparsing==3.0.7
     # via packaging
 pytz==2021.3
     # via babel

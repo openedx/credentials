@@ -8,7 +8,7 @@ analytics-python==1.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-asgiref==3.4.1
+asgiref==3.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -42,11 +42,11 @@ bleach==4.1.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.20.39
+boto3==1.20.41
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.23.39
+botocore==1.23.41
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -251,7 +251,7 @@ edx-auth-backends==4.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.97
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.101
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -403,7 +403,7 @@ mysqlclient==2.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==7.2.4.171
+newrelic==7.4.0.172
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -481,7 +481,7 @@ pycparser==2.21
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cffi
-pycryptodomex==3.12.0
+pycryptodomex==3.13.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -533,7 +533,7 @@ pynacl==1.5.0
     # via
     #   -r requirements/dev.txt
     #   paramiko
-pyparsing==3.0.6
+pyparsing==3.0.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
