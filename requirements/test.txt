@@ -65,7 +65,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage==6.2
+coverage==6.3
     # via -r requirements/test.in
 cryptography==36.0.1
     # via
@@ -158,13 +158,13 @@ edx-ace==1.4.1
     # via -r requirements/base.txt
 edx-auth-backends==4.0.1
     # via -r requirements/base.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.101
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.102
     # via -r requirements/base.txt
 edx-django-release-util==1.1.1
     # via -r requirements/base.txt
 edx-django-sites-extensions==3.1.0
     # via -r requirements/base.txt
-edx-django-utils==4.4.1
+edx-django-utils==4.4.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
