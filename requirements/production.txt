@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==4.1.0
     # via -r requirements/base.txt
-boto3==1.20.44
+boto3==1.20.46
     # via django-ses
-botocore==1.23.44
+botocore==1.23.46
     # via
     #   boto3
     #   s3transfer
@@ -34,7 +34,7 @@ cffi==1.15.0
     # via
     #   -r requirements/base.txt
     #   cryptography
-charset-normalizer==2.0.10
+charset-normalizer==2.0.11
     # via
     #   -r requirements/base.txt
     #   requests
@@ -65,7 +65,7 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==3.2.11
+django==3.2.12
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -114,7 +114,7 @@ django-ratelimit==3.0.1
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==2.3.1
+django-ses==2.4.0
     # via -r requirements/production.in
 django-simple-history==3.0.0
     # via -r requirements/base.txt
@@ -144,15 +144,15 @@ drf-jwt==1.19.2
     #   edx-drf-extensions
 edx-ace==1.4.1
     # via -r requirements/base.txt
-edx-auth-backends==4.0.1
+edx-auth-backends==4.1.0
     # via -r requirements/base.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.102
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.104
     # via -r requirements/base.txt
 edx-django-release-util==1.1.1
     # via -r requirements/base.txt
 edx-django-sites-extensions==3.1.0
     # via -r requirements/base.txt
-edx-django-utils==4.4.2
+edx-django-utils==4.5.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -164,13 +164,13 @@ edx-i18n-tools==0.8.1
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
-edx-opaque-keys==2.2.2
+edx-opaque-keys==2.3.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
 edx-rest-api-client==5.5.0
     # via -r requirements/base.txt
-edx-toggles==4.2.0
+edx-toggles==4.3.1
     # via -r requirements/base.txt
 future==0.18.2
     # via
@@ -231,7 +231,7 @@ newrelic==7.4.0.172
     #   edx-django-utils
 nodeenv==1.6.0
     # via -r requirements/production.in
-oauthlib==3.1.1
+oauthlib==3.2.0
     # via
     #   -r requirements/base.txt
     #   requests-oauthlib
@@ -266,7 +266,7 @@ pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pycryptodomex==3.13.0
+pycryptodomex==3.14.0
     # via
     #   -r requirements/base.txt
     #   pyjwkest
@@ -284,7 +284,7 @@ pyjwt[crypto]==2.3.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pymongo==4.0.1
+pymongo==3.12.3
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
@@ -337,7 +337,7 @@ requests==2.27.1
     #   slumber
     #   social-auth-core
     #   transifex-client
-requests-oauthlib==1.3.0
+requests-oauthlib==1.3.1
     # via
     #   -r requirements/base.txt
     #   social-auth-core
