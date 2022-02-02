@@ -4,7 +4,7 @@ Credentials API constants.
 
 # Regex used for UU-IDs.
 UUID_REGEX = r"[0-9a-f]{32}"
-UUID_PATTERN = fr"(?P<uuid>{UUID_REGEX})"
+UUID_PATTERN = rf"(?P<uuid>{UUID_REGEX})"
 
 
 class UserCredentialStatus:

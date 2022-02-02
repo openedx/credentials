@@ -34,7 +34,7 @@ bcrypt==3.2.0
     # via
     #   -r requirements/dev.txt
     #   paramiko
-black==21.12b0
+black==22.1.0
     # via -r requirements/dev.txt
 bleach==4.1.0
     # via
@@ -42,11 +42,11 @@ bleach==4.1.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.20.44
+boto3==1.20.46
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.23.44
+botocore==1.23.46
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -63,7 +63,7 @@ cffi==1.15.0
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.10
+charset-normalizer==2.0.11
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -97,7 +97,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==6.3
+coverage==6.3.1
     # via -r requirements/dev.txt
 cryptography==36.0.1
     # via
@@ -122,7 +122,7 @@ distro==1.6.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-django==3.2.11
+django==3.2.12
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -188,7 +188,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==2.3.1
+django-ses==2.4.0
     # via -r requirements/production.txt
 django-simple-history==3.0.0
     # via
@@ -247,11 +247,11 @@ edx-ace==1.4.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-auth-backends==4.0.1
+edx-auth-backends==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.102
+edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.104
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -263,7 +263,7 @@ edx-django-sites-extensions==3.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-utils==4.4.2
+edx-django-utils==4.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -281,7 +281,7 @@ edx-i18n-tools==0.8.1
     #   edx-credentials-themes
 edx-lint==5.2.1
     # via -r requirements/dev.txt
-edx-opaque-keys==2.2.2
+edx-opaque-keys==2.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -290,13 +290,13 @@ edx-rest-api-client==5.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-toggles==4.2.0
+edx-toggles==4.3.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==11.3.0
+faker==12.0.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -410,7 +410,7 @@ newrelic==7.4.0.172
     #   edx-django-utils
 nodeenv==1.6.0
     # via -r requirements/production.txt
-oauthlib==3.1.1
+oauthlib==3.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -481,7 +481,7 @@ pycparser==2.21
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cffi
-pycryptodomex==3.13.0
+pycryptodomex==3.14.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -524,7 +524,7 @@ pylint-plugin-utils==0.7
     #   -r requirements/dev.txt
     #   pylint-celery
     #   pylint-django
-pymongo==4.0.1
+pymongo==3.12.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -611,7 +611,7 @@ requests==2.27.1
     #   slumber
     #   social-auth-core
     #   transifex-client
-requests-oauthlib==1.3.0
+requests-oauthlib==1.3.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -706,7 +706,6 @@ text-unidecode==1.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-    #   faker
     #   python-slugify
 texttable==1.6.4
     # via
@@ -718,7 +717,7 @@ toml==0.10.2
     #   pylint
     #   pytest
     #   tox
-tomli==1.2.3
+tomli==2.0.0
     # via
     #   -r requirements/dev.txt
     #   black
