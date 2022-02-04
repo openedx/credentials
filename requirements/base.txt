@@ -112,7 +112,7 @@ edx-ace==1.4.1
     # via -r requirements/base.in
 edx-auth-backends==4.1.0
     # via -r requirements/base.in
-edx-credentials-themes @ git+https://github.com/edx/credentials-themes.git@0.1.104
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.104
     # via -r requirements/base.in
 edx-django-release-util==1.1.1
     # via -r requirements/base.in
@@ -176,7 +176,7 @@ path==16.3.0
     # via edx-i18n-tools
 pbr==5.8.0
     # via stevedore
-pillow==9.0.0
+pillow==9.0.1
     # via -r requirements/base.in
 polib==1.1.1
     # via edx-i18n-tools
@@ -184,7 +184,7 @@ psutil==5.9.0
     # via edx-django-utils
 pycparser==2.21
     # via cffi
-pycryptodomex==3.14.0
+pycryptodomex==3.14.1
     # via pyjwkest
 pygments==2.11.2
     # via -r requirements/base.in
