@@ -72,7 +72,7 @@ jobs:
         DB_HOST: localhost
         DB_PORT: 3306
       run: |
-        echo "CREATE DATABASE IF NOT EXISTS discovery;" | sudo mysql -u root
+        echo "CREATE DATABASE IF NOT EXISTS credentials;" | sudo mysql -u root
         echo "Running the migrations."
-        python manage.py migrate --settings=course_discovery.settings.test
+        python manage.py migrate --settings=credentials.settings.test
         echo "use mysql; select * from user;" | sudo mysql -u root
