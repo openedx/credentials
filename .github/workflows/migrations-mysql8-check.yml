@@ -66,7 +66,7 @@ jobs:
     - name: Run Tests
       env:
         DB_ENGINE: django.db.backends.mysql
-        DB_NAME: discovery
+        DB_NAME: credentials
         DB_USER: root
         DB_PASSWORD:
         DB_HOST: localhost
