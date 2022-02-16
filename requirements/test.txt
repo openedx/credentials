@@ -37,7 +37,7 @@ cffi==1.15.0
     # via
     #   -r requirements/base.txt
     #   cryptography
-charset-normalizer==2.0.11
+charset-normalizer==2.0.12
     # via
     #   -r requirements/base.txt
     #   requests
@@ -158,11 +158,11 @@ edx-ace==1.4.1
     # via -r requirements/base.txt
 edx-auth-backends==4.1.0
     # via -r requirements/base.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.104
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.106
     # via -r requirements/base.txt
 edx-django-release-util==1.1.1
     # via -r requirements/base.txt
-edx-django-sites-extensions==3.1.0
+edx-django-sites-extensions==4.0.0
     # via -r requirements/base.txt
 edx-django-utils==4.5.0
     # via
@@ -172,7 +172,7 @@ edx-django-utils==4.5.0
     #   edx-toggles
 edx-drf-extensions==8.0.1
     # via -r requirements/base.txt
-edx-i18n-tools==0.8.1
+edx-i18n-tools==0.9.1
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
@@ -188,9 +188,9 @@ edx-toggles==4.3.1
     # via -r requirements/base.txt
 factory-boy==3.2.1
     # via -r requirements/test.in
-faker==12.2.0
+faker==13.0.0
     # via factory-boy
-filelock==3.4.2
+filelock==3.5.1
     # via
     #   tox
     #   virtualenv
@@ -212,7 +212,7 @@ idna==3.3
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-metadata==4.10.1
+importlib-metadata==4.11.1
     # via
     #   -r requirements/base.txt
     #   markdown
@@ -333,7 +333,7 @@ pylint==2.12.2
     #   pylint-plugin-utils
 pylint-celery==0.3
     # via edx-lint
-pylint-django==2.5.0
+pylint-django==2.5.1
     # via edx-lint
 pylint-plugin-utils==0.7
     # via
@@ -347,7 +347,7 @@ pyparsing==3.0.7
     # via
     #   -r requirements/base.txt
     #   packaging
-pytest==7.0.0
+pytest==7.0.1
     # via
     #   -r requirements/test.in
     #   pytest-django
@@ -483,7 +483,7 @@ transifex-client==0.14.4
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
-typing-extensions==4.0.1
+typing-extensions==4.1.1
     # via
     #   astroid
     #   black
