@@ -42,11 +42,11 @@ bleach==4.1.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.21.0
+boto3==1.21.1
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.24.0
+botocore==1.24.1
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -188,7 +188,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==2.4.0
+django-ses==2.5.0
     # via -r requirements/production.txt
 django-simple-history==3.0.0
     # via
