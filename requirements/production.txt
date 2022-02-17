@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==4.1.0
     # via -r requirements/base.txt
-boto3==1.21.0
+boto3==1.21.1
     # via django-ses
-botocore==1.24.0
+botocore==1.24.1
     # via
     #   boto3
     #   s3transfer
@@ -114,7 +114,7 @@ django-ratelimit==3.0.1
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==2.4.0
+django-ses==2.5.0
     # via -r requirements/production.in
 django-simple-history==3.0.0
     # via -r requirements/base.txt
