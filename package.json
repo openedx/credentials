@@ -34,7 +34,7 @@
     "webpack-bundle-tracker": "1.4.0"
   },
   "devDependencies": {
-    "@babel/core": "7.17.4",
+    "@babel/core": "7.17.5",
     "@babel/eslint-parser": "7.17.0",
     "@babel/plugin-proposal-object-rest-spread": "7.17.3",
     "@babel/plugin-transform-modules-commonjs": "7.16.8",
