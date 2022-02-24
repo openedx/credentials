@@ -20,7 +20,7 @@ cffi==1.15.0
     # via cryptography
 charset-normalizer==2.0.12
     # via requests
-click==8.0.3
+click==8.0.4
     # via code-annotations
 code-annotations==1.3.0
     # via edx-toggles
@@ -108,13 +108,13 @@ djangorestframework==3.13.1
     #   edx-drf-extensions
 drf-jwt==1.19.2
     # via edx-drf-extensions
-edx-ace==1.4.1
+edx-ace==1.5.0
     # via -r requirements/base.in
 edx-auth-backends==4.1.0
     # via -r requirements/base.in
 edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.106
     # via -r requirements/base.in
-edx-django-release-util==1.1.1
+edx-django-release-util==1.2.0
     # via -r requirements/base.in
 edx-django-sites-extensions==4.0.0
     # via -r requirements/base.in
@@ -140,7 +140,7 @@ future==0.18.2
     # via pyjwkest
 gitdb==4.0.9
     # via gitpython
-gitpython==3.1.26
+gitpython==3.1.27
     # via transifex-client
 idna==3.3
     # via requests
@@ -154,7 +154,7 @@ jinja2==3.0.3
     #   coreschema
 markdown==3.3.6
     # via -r requirements/base.in
-markupsafe==2.0.1
+markupsafe==2.1.0
     # via jinja2
 monotonic==1.6
     # via analytics-python

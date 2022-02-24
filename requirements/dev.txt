@@ -47,7 +47,7 @@ charset-normalizer==2.0.12
     # via
     #   -r requirements/test.txt
     #   requests
-click==8.0.3
+click==8.0.4
     # via
     #   -r requirements/test.txt
     #   black
@@ -72,7 +72,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==6.3.1
+coverage==6.3.2
     # via -r requirements/test.txt
 cryptography==36.0.1
     # via
@@ -178,13 +178,13 @@ drf-jwt==1.19.2
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-edx-ace==1.4.1
+edx-ace==1.5.0
     # via -r requirements/test.txt
 edx-auth-backends==4.1.0
     # via -r requirements/test.txt
 edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.106
     # via -r requirements/test.txt
-edx-django-release-util==1.1.1
+edx-django-release-util==1.2.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==4.0.0
     # via -r requirements/test.txt
@@ -213,11 +213,11 @@ edx-toggles==4.3.1
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==13.0.0
+faker==13.2.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
-filelock==3.5.1
+filelock==3.6.0
     # via
     #   -r requirements/test.txt
     #   tox
@@ -230,7 +230,7 @@ gitdb==4.0.9
     # via
     #   -r requirements/test.txt
     #   gitpython
-gitpython==3.1.26
+gitpython==3.1.27
     # via
     #   -r requirements/test.txt
     #   transifex-client
@@ -273,7 +273,7 @@ lazy-object-proxy==1.7.1
     #   astroid
 markdown==3.3.6
     # via -r requirements/test.txt
-markupsafe==2.0.1
+markupsafe==2.1.0
     # via
     #   -r requirements/test.txt
     #   jinja2
@@ -326,7 +326,7 @@ pbr==5.8.1
     #   stevedore
 pillow==9.0.1
     # via -r requirements/test.txt
-platformdirs==2.5.0
+platformdirs==2.5.1
     # via
     #   -r requirements/test.txt
     #   black
@@ -383,7 +383,7 @@ pylint-celery==0.3
     # via
     #   -r requirements/test.txt
     #   edx-lint
-pylint-django==2.5.1
+pylint-django==2.5.2
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -576,7 +576,7 @@ urllib3==1.26.8
     #   responses
     #   selenium
     #   transifex-client
-virtualenv==20.13.1
+virtualenv==20.13.2
     # via
     #   -r requirements/test.txt
     #   tox
