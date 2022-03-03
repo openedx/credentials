@@ -213,7 +213,7 @@ edx-toggles==4.3.1
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==13.2.0
+faker==13.3.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -240,7 +240,7 @@ idna==3.3
     # via
     #   -r requirements/test.txt
     #   requests
-importlib-metadata==4.11.1
+importlib-metadata==4.11.2
     # via
     #   -r requirements/test.txt
     #   markdown
@@ -291,7 +291,7 @@ mypy-extensions==0.4.3
     #   black
 mysqlclient==2.1.0
     # via -r requirements/test.txt
-newrelic==7.4.0.172
+newrelic==7.6.0.173
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -312,7 +312,7 @@ packaging==21.3
     #   tox
 paramiko==2.9.2
     # via docker
-path==16.3.0
+path==16.4.0
     # via
     #   -r requirements/test.txt
     #   edx-i18n-tools
@@ -534,7 +534,7 @@ stevedore==3.5.0
     #   edx-ace
     #   edx-django-utils
     #   edx-opaque-keys
-testfixtures==6.18.3
+testfixtures==6.18.5
     # via -r requirements/test.txt
 text-unidecode==1.3
     # via
