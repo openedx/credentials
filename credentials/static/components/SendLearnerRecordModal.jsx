@@ -164,6 +164,7 @@ SendLearnerRecordModal.propTypes = {
   // TODO: replace with redux global state variables
   // eslint-disable-next-line react/forbid-prop-types
   creditPathways: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
   creditPathwaysList: PropTypes.arrayOf(PropTypes.object),
 };
 

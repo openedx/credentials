@@ -461,7 +461,9 @@ ProgramRecord.propTypes = {
     type_name: PropTypes.string,
     last_updated: PropTypes.string,
   }).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
   grades: PropTypes.arrayOf(PropTypes.object).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
   pathways: PropTypes.arrayOf(PropTypes.object),
   isPublic: PropTypes.bool,
   icons: PropTypes.shape(),

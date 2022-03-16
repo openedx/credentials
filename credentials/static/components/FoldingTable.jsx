@@ -45,6 +45,7 @@ class FoldingTable extends React.Component {
 }
 
 FoldingTable.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   dataKey: PropTypes.string.isRequired,
   foldedColumns: PropTypes.arrayOf(PropTypes.shape({
