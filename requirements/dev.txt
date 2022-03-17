@@ -54,7 +54,7 @@ click==8.0.4
     #   click-log
     #   code-annotations
     #   edx-lint
-click-log==0.3.2
+click-log==0.4.0
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -74,7 +74,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==6.3.2
     # via -r requirements/test.txt
-cryptography==36.0.1
+cryptography==36.0.2
     # via
     #   -r requirements/test.txt
     #   paramiko
@@ -213,7 +213,7 @@ edx-toggles==4.3.1
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==13.3.1
+faker==13.3.2
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -240,7 +240,7 @@ idna==3.3
     # via
     #   -r requirements/test.txt
     #   requests
-importlib-metadata==4.11.2
+importlib-metadata==4.11.3
     # via
     #   -r requirements/test.txt
     #   markdown
@@ -273,7 +273,7 @@ lazy-object-proxy==1.7.1
     #   astroid
 markdown==3.3.6
     # via -r requirements/test.txt
-markupsafe==2.1.0
+markupsafe==2.1.1
     # via
     #   -r requirements/test.txt
     #   jinja2
@@ -310,7 +310,7 @@ packaging==21.3
     #   bleach
     #   pytest
     #   tox
-paramiko==2.9.2
+paramiko==2.10.2
     # via docker
 path==16.4.0
     # via
@@ -404,7 +404,7 @@ pyparsing==3.0.7
     #   packaging
 pyrsistent==0.18.1
     # via jsonschema
-pytest==7.0.1
+pytest==7.1.0
     # via
     #   -r requirements/test.txt
     #   pytest-django
@@ -498,6 +498,7 @@ six==1.16.0
     #   edx-drf-extensions
     #   edx-lint
     #   jsonschema
+    #   paramiko
     #   pyjwkest
     #   python-dateutil
     #   python-memcached
@@ -569,7 +570,7 @@ uritemplate==4.1.1
     # via
     #   -r requirements/test.txt
     #   coreapi
-urllib3==1.26.8
+urllib3==1.26.9
     # via
     #   -r requirements/test.txt
     #   requests
