@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==4.1.0
     # via -r requirements/base.txt
-boto3==1.21.21
+boto3==1.21.23
     # via django-ses
-botocore==1.24.21
+botocore==1.24.23
     # via
     #   boto3
     #   s3transfer
@@ -114,7 +114,7 @@ django-ratelimit==3.0.1
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==2.6.0
+django-ses==2.6.1
     # via -r requirements/production.in
 django-simple-history==3.0.0
     # via -r requirements/base.txt
@@ -152,7 +152,7 @@ edx-django-release-util==1.2.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==4.0.0
     # via -r requirements/base.txt
-edx-django-utils==4.5.0
+edx-django-utils==4.6.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -175,7 +175,6 @@ edx-toggles==4.3.1
 future==0.18.2
     # via
     #   -r requirements/base.txt
-    #   django-ses
     #   pyjwkest
 gevent==21.12.0
     # via -r requirements/production.in
@@ -310,7 +309,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-pytz==2021.3
+pytz==2022.1
     # via
     #   -r requirements/base.txt
     #   django
