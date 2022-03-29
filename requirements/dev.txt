@@ -10,7 +10,7 @@ asgiref==3.5.0
     # via
     #   -r requirements/test.txt
     #   django
-astroid==2.9.3
+astroid==2.11.2
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -27,7 +27,7 @@ backoff==1.10.0
     #   analytics-python
 bcrypt==3.2.0
     # via paramiko
-black==22.1.0
+black==22.3.0
     # via -r requirements/test.txt
 bleach==4.1.0
     # via -r requirements/test.txt
@@ -47,7 +47,7 @@ charset-normalizer==2.0.12
     # via
     #   -r requirements/test.txt
     #   requests
-click==8.0.4
+click==8.1.0
     # via
     #   -r requirements/test.txt
     #   black
@@ -87,6 +87,10 @@ defusedxml==0.7.1
     #   -r requirements/test.txt
     #   python3-openid
     #   social-auth-core
+dill==0.3.4
+    # via
+    #   -r requirements/test.txt
+    #   pylint
 distlib==0.3.4
     # via
     #   -r requirements/test.txt
@@ -152,7 +156,7 @@ django-statici18n==2.2.0
     # via -r requirements/test.txt
 django-storages==1.12.3
     # via -r requirements/test.txt
-django-waffle==2.3.0
+django-waffle==2.4.1
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -201,7 +205,7 @@ edx-i18n-tools==0.9.1
     #   -r requirements/dev.in
     #   -r requirements/test.txt
     #   edx-credentials-themes
-edx-lint==5.2.1
+edx-lint==5.2.2
     # via -r requirements/test.txt
 edx-opaque-keys==2.3.0
     # via
@@ -213,7 +217,7 @@ edx-toggles==4.3.1
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==13.3.2
+faker==13.3.4
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -256,7 +260,7 @@ itypes==1.2.0
     # via
     #   -r requirements/test.txt
     #   coreapi
-jinja2==3.0.3
+jinja2==3.1.1
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -277,7 +281,7 @@ markupsafe==2.1.1
     # via
     #   -r requirements/test.txt
     #   jinja2
-mccabe==0.6.1
+mccabe==0.7.0
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -372,7 +376,7 @@ pyjwt[crypto]==2.3.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.12.2
+pylint==2.13.3
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -383,7 +387,7 @@ pylint-celery==0.3
     # via
     #   -r requirements/test.txt
     #   edx-lint
-pylint-django==2.5.2
+pylint-django==2.5.3
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -417,7 +421,7 @@ python-dateutil==2.8.2
     #   edx-ace
     #   edx-drf-extensions
     #   faker
-python-dotenv==0.19.2
+python-dotenv==0.20.0
     # via docker-compose
 python-memcached==1.59
     # via -r requirements/test.txt
@@ -546,12 +550,12 @@ texttable==1.6.4
 toml==0.10.2
     # via
     #   -r requirements/test.txt
-    #   pylint
     #   tox
 tomli==2.0.1
     # via
     #   -r requirements/test.txt
     #   black
+    #   pylint
     #   pytest
 tox==3.24.5
     # via -r requirements/test.txt
@@ -577,7 +581,7 @@ urllib3==1.26.9
     #   responses
     #   selenium
     #   transifex-client
-virtualenv==20.13.4
+virtualenv==20.14.0
     # via
     #   -r requirements/test.txt
     #   tox
@@ -589,7 +593,7 @@ websocket-client==0.59.0
     # via
     #   docker
     #   docker-compose
-wrapt==1.13.3
+wrapt==1.14.0
     # via
     #   -r requirements/test.txt
     #   astroid
