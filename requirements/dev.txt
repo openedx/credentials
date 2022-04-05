@@ -47,7 +47,7 @@ charset-normalizer==2.0.12
     # via
     #   -r requirements/test.txt
     #   requests
-click==8.1.0
+click==8.1.2
     # via
     #   -r requirements/test.txt
     #   black
@@ -295,7 +295,7 @@ mypy-extensions==0.4.3
     #   black
 mysqlclient==2.1.0
     # via -r requirements/test.txt
-newrelic==7.6.0.173
+newrelic==7.8.0.174
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -328,7 +328,7 @@ pbr==5.8.1
     # via
     #   -r requirements/test.txt
     #   stevedore
-pillow==9.0.1
+pillow==9.1.0
     # via -r requirements/test.txt
 platformdirs==2.5.1
     # via
@@ -376,7 +376,7 @@ pyjwt[crypto]==2.3.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.13.3
+pylint==2.13.4
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -599,7 +599,7 @@ wrapt==1.14.0
     #   astroid
 xss-utils==0.4.0
     # via -r requirements/test.txt
-zipp==3.7.0
+zipp==3.8.0
     # via
     #   -r requirements/test.txt
     #   importlib-metadata

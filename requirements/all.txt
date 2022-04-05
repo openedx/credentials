@@ -42,11 +42,11 @@ bleach==4.1.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.21.29
+boto3==1.21.33
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.24.29
+botocore==1.24.33
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -68,7 +68,7 @@ charset-normalizer==2.0.12
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-click==8.1.0
+click==8.1.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -192,7 +192,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==2.6.1
+django-ses==3.0.1
     # via -r requirements/production.txt
 django-simple-history==3.0.0
     # via
@@ -406,7 +406,7 @@ mysqlclient==2.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==7.6.0.173
+newrelic==7.8.0.174
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -449,7 +449,7 @@ pbr==5.8.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   stevedore
-pillow==9.0.1
+pillow==9.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -507,7 +507,7 @@ pyjwt[crypto]==2.3.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.13.3
+pylint==2.13.4
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -773,7 +773,7 @@ xss-utils==0.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-zipp==3.7.0
+zipp==3.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
