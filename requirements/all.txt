@@ -36,17 +36,17 @@ bcrypt==3.2.0
     #   paramiko
 black==22.3.0
     # via -r requirements/dev.txt
-bleach==4.1.0
+bleach==5.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.21.33
+boto3==1.21.36
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.24.33
+botocore==1.24.36
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -217,7 +217,7 @@ django-waffle==2.4.1
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.4.1
+django-webpack-loader==1.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -255,7 +255,7 @@ edx-auth-backends==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.109
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.110
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -406,7 +406,7 @@ mysqlclient==2.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==7.8.0.174
+newrelic==7.10.0.175
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -427,8 +427,6 @@ openapi-codec==1.3.2
 packaging==21.3
     # via
     #   -r requirements/dev.txt
-    #   -r requirements/production.txt
-    #   bleach
     #   pytest
     #   tox
 paramiko==2.10.3
@@ -507,7 +505,7 @@ pyjwt[crypto]==2.3.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.13.4
+pylint==2.13.5
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -539,7 +537,6 @@ pynacl==1.5.0
 pyparsing==3.0.7
     # via
     #   -r requirements/dev.txt
-    #   -r requirements/production.txt
     #   packaging
 pyrsistent==0.18.1
     # via
