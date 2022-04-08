@@ -12,7 +12,7 @@ attrs==21.4.0
     # via edx-ace
 backoff==1.10.0
     # via analytics-python
-bleach==4.1.0
+bleach==5.0.0
     # via -r requirements/base.in
 certifi==2021.10.8
     # via requests
@@ -98,7 +98,7 @@ django-waffle==2.4.1
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.4.1
+django-webpack-loader==1.5.0
     # via -r requirements/base.in
 djangorestframework==3.13.1
     # via
@@ -112,7 +112,7 @@ edx-ace==1.5.0
     # via -r requirements/base.in
 edx-auth-backends==4.1.0
     # via -r requirements/base.in
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.109
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.110
     # via -r requirements/base.in
 edx-django-release-util==1.2.0
     # via -r requirements/base.in
@@ -160,7 +160,7 @@ monotonic==1.6
     # via analytics-python
 mysqlclient==2.1.0
     # via -r requirements/base.in
-newrelic==7.8.0.174
+newrelic==7.10.0.175
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -170,8 +170,6 @@ oauthlib==3.2.0
     #   social-auth-core
 openapi-codec==1.3.2
     # via django-rest-swagger
-packaging==21.3
-    # via bleach
 path==16.4.0
     # via edx-i18n-tools
 pbr==5.8.1
@@ -199,8 +197,6 @@ pyjwt[crypto]==2.3.0
     #   social-auth-core
 pymongo==3.12.3
     # via edx-opaque-keys
-pyparsing==3.0.7
-    # via packaging
 python-dateutil==2.8.2
     # via
     #   analytics-python
