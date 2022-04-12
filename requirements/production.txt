@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==5.0.0
     # via -r requirements/base.txt
-boto3==1.21.36
+boto3==1.21.38
     # via django-ses
-botocore==1.24.36
+botocore==1.24.38
     # via
     #   boto3
     #   s3transfer
@@ -65,7 +65,7 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==3.2.12
+django==3.2.13
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
