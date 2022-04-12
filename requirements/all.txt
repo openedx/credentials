@@ -126,7 +126,7 @@ distro==1.7.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-django==3.2.12
+django==3.2.13
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
