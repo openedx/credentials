@@ -42,11 +42,11 @@ bleach==5.0.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.21.38
+boto3==1.21.42
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.24.38
+botocore==1.24.42
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -451,7 +451,7 @@ pillow==9.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-platformdirs==2.5.1
+platformdirs==2.5.2
     # via
     #   -r requirements/dev.txt
     #   black
@@ -728,7 +728,7 @@ transifex-client==0.14.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-credentials-themes
-typing-extensions==4.1.1
+typing-extensions==4.2.0
     # via
     #   -r requirements/dev.txt
     #   astroid

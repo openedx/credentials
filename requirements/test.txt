@@ -282,7 +282,7 @@ pbr==5.8.1
     #   stevedore
 pillow==9.1.0
     # via -r requirements/base.txt
-platformdirs==2.5.1
+platformdirs==2.5.2
     # via
     #   black
     #   pylint
@@ -480,7 +480,7 @@ transifex-client==0.14.4
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
-typing-extensions==4.1.1
+typing-extensions==4.2.0
     # via
     #   astroid
     #   black

@@ -329,7 +329,7 @@ pbr==5.8.1
     #   stevedore
 pillow==9.1.0
     # via -r requirements/test.txt
-platformdirs==2.5.1
+platformdirs==2.5.2
     # via
     #   -r requirements/test.txt
     #   black
@@ -563,7 +563,7 @@ transifex-client==0.14.4
     #   -r requirements/dev.in
     #   -r requirements/test.txt
     #   edx-credentials-themes
-typing-extensions==4.1.1
+typing-extensions==4.2.0
     # via
     #   -r requirements/test.txt
     #   astroid
