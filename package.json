@@ -9,7 +9,7 @@
     "test-react": "jest --no-cache --coverage  --config ./jest-config.json"
   },
   "dependencies": {
-    "@edx/paragon": "19.18.1",
+    "@edx/paragon": "19.18.3",
     "axios": "0.26.1",
     "bi-app-sass": "1.1.0",
     "bootstrap": "4.6.1",
