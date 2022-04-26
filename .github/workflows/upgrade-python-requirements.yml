@@ -15,7 +15,7 @@ jobs:
     with:
        branch: ${{ github.event.inputs.branch }}
        team_reviewers: "edx-aperture"
-       email_address: aperture@edx.opsgenie.net
+       email_address: aperture@2u-internal.opsgenie.net
        send_success_notification: true
     secrets:
        requirements_bot_github_token: ${{ secrets.REQUIREMENTS_BOT_GITHUB_TOKEN }}
