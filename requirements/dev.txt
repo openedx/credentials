@@ -6,11 +6,11 @@
 #
 analytics-python==1.4.0
     # via -r requirements/test.txt
-asgiref==3.5.0
+asgiref==3.5.1
     # via
     #   -r requirements/test.txt
     #   django
-astroid==2.11.3
+astroid==2.11.4
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -25,7 +25,7 @@ backoff==1.10.0
     # via
     #   -r requirements/test.txt
     #   analytics-python
-bcrypt==3.2.0
+bcrypt==3.2.2
     # via paramiko
 black==22.3.0
     # via -r requirements/test.txt
@@ -47,7 +47,7 @@ charset-normalizer==2.0.12
     # via
     #   -r requirements/test.txt
     #   requests
-click==8.1.2
+click==8.1.3
     # via
     #   -r requirements/test.txt
     #   black
@@ -74,7 +74,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==6.3.2
     # via -r requirements/test.txt
-cryptography==36.0.2
+cryptography==37.0.1
     # via
     #   -r requirements/test.txt
     #   paramiko
@@ -134,7 +134,7 @@ django-crum==0.7.9
     #   -r requirements/test.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==3.2.4
+django-debug-toolbar==3.4.0
     # via -r requirements/dev.in
 django-extensions==3.1.5
     # via -r requirements/test.txt
@@ -217,7 +217,7 @@ edx-toggles==4.3.1
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==13.4.0
+faker==13.7.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -260,7 +260,7 @@ itypes==1.2.0
     # via
     #   -r requirements/test.txt
     #   coreapi
-jinja2==3.1.1
+jinja2==3.1.2
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -375,7 +375,7 @@ pyjwt[crypto]==2.3.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.13.7
+pylint==2.13.8
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -491,7 +491,6 @@ six==1.16.0
     # via
     #   -r requirements/test.txt
     #   analytics-python
-    #   bcrypt
     #   bleach
     #   bok-choy
     #   dockerpty
@@ -592,7 +591,7 @@ websocket-client==0.59.0
     # via
     #   docker
     #   docker-compose
-wrapt==1.14.0
+wrapt==1.14.1
     # via
     #   -r requirements/test.txt
     #   astroid
