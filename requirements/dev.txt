@@ -10,7 +10,7 @@ asgiref==3.5.1
     # via
     #   -r requirements/test.txt
     #   django
-astroid==2.11.4
+astroid==2.11.5
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -128,7 +128,7 @@ django-appconf==1.0.5
     # via
     #   -r requirements/test.txt
     #   django-statici18n
-django-cors-headers==3.11.0
+django-cors-headers==3.12.0
     # via -r requirements/test.txt
 django-crum==0.7.9
     # via
@@ -193,7 +193,7 @@ edx-django-release-util==1.2.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==4.0.0
     # via -r requirements/test.txt
-edx-django-utils==4.7.0
+edx-django-utils==4.8.1
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
@@ -218,7 +218,7 @@ edx-toggles==4.3.1
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==13.7.0
+faker==13.11.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
