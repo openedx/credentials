@@ -10,7 +10,7 @@ asgiref==3.5.1
     # via
     #   -r requirements/base.txt
     #   django
-astroid==2.11.4
+astroid==2.11.5
     # via
     #   pylint
     #   pylint-celery
@@ -113,7 +113,7 @@ django-appconf==1.0.5
     # via
     #   -r requirements/base.txt
     #   django-statici18n
-django-cors-headers==3.11.0
+django-cors-headers==3.12.0
     # via -r requirements/base.txt
 django-crum==0.7.9
     # via
@@ -168,7 +168,7 @@ edx-django-release-util==1.2.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==4.0.0
     # via -r requirements/base.txt
-edx-django-utils==4.7.0
+edx-django-utils==4.8.1
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -192,7 +192,7 @@ edx-toggles==4.3.1
     # via -r requirements/base.txt
 factory-boy==3.2.1
     # via -r requirements/test.in
-faker==13.7.0
+faker==13.11.0
     # via factory-boy
 filelock==3.6.0
     # via
