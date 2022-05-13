@@ -195,8 +195,9 @@ django-rest-swagger==2.2.0
     #   -r requirements/production.txt
 django-ses==3.0.1
     # via -r requirements/production.txt
-django-simple-history==3.1.1
+django-simple-history==3.0.0
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 django-sortedm2m==3.1.1
@@ -301,7 +302,7 @@ edx-toggles==5.0.0
     #   -r requirements/production.txt
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==13.11.0
+faker==13.11.1
     # via
     #   -r requirements/dev.txt
     #   factory-boy

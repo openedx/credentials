@@ -149,8 +149,10 @@ django-ratelimit==3.0.1
     # via -r requirements/test.txt
 django-rest-swagger==2.2.0
     # via -r requirements/test.txt
-django-simple-history==3.1.1
-    # via -r requirements/test.txt
+django-simple-history==3.0.0
+    # via
+    #   -c requirements/common_constraints.txt
+    #   -r requirements/test.txt
 django-sortedm2m==3.1.1
     # via -r requirements/test.txt
 django-statici18n==2.2.0
@@ -218,7 +220,7 @@ edx-toggles==5.0.0
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==13.11.0
+faker==13.11.1
     # via
     #   -r requirements/test.txt
     #   factory-boy
