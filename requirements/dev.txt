@@ -73,7 +73,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==6.3.2
+coverage==6.3.3
     # via -r requirements/test.txt
 cryptography==37.0.2
     # via
@@ -149,7 +149,7 @@ django-ratelimit==3.0.1
     # via -r requirements/test.txt
 django-rest-swagger==2.2.0
     # via -r requirements/test.txt
-django-simple-history==3.0.0
+django-simple-history==3.1.1
     # via -r requirements/test.txt
 django-sortedm2m==3.1.1
     # via -r requirements/test.txt
@@ -214,7 +214,7 @@ edx-opaque-keys==2.3.0
     #   edx-drf-extensions
 edx-rest-api-client==5.5.0
     # via -r requirements/test.txt
-edx-toggles==4.3.1
+edx-toggles==5.0.0
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
@@ -222,7 +222,7 @@ faker==13.11.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
-filelock==3.6.0
+filelock==3.7.0
     # via
     #   -r requirements/test.txt
     #   tox
@@ -368,7 +368,7 @@ pyjwkest==1.4.2
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-pyjwt[crypto]==2.3.0
+pyjwt[crypto]==2.4.0
     # via
     #   -r requirements/test.txt
     #   drf-jwt
@@ -405,7 +405,7 @@ pynacl==1.5.0
     #   -r requirements/test.txt
     #   edx-django-utils
     #   paramiko
-pyparsing==3.0.8
+pyparsing==3.0.9
     # via
     #   -r requirements/test.txt
     #   packaging

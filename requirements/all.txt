@@ -42,11 +42,11 @@ bleach==5.0.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.22.10
+boto3==1.22.13
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.25.10
+botocore==1.25.13
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -98,7 +98,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==6.3.2
+coverage==6.3.3
     # via -r requirements/dev.txt
 cryptography==37.0.2
     # via
@@ -195,7 +195,7 @@ django-rest-swagger==2.2.0
     #   -r requirements/production.txt
 django-ses==3.0.1
     # via -r requirements/production.txt
-django-simple-history==3.0.0
+django-simple-history==3.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -295,7 +295,7 @@ edx-rest-api-client==5.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-toggles==4.3.1
+edx-toggles==5.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -305,7 +305,7 @@ faker==13.11.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
-filelock==3.6.0
+filelock==3.7.0
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -497,7 +497,7 @@ pyjwkest==1.4.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-pyjwt[crypto]==2.3.0
+pyjwt[crypto]==2.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -537,7 +537,7 @@ pynacl==1.5.0
     #   -r requirements/production.txt
     #   edx-django-utils
     #   paramiko
-pyparsing==3.0.8
+pyparsing==3.0.9
     # via
     #   -r requirements/dev.txt
     #   packaging

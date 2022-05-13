@@ -88,7 +88,7 @@ django-ratelimit==3.0.1
     # via -r requirements/base.in
 django-rest-swagger==2.2.0
     # via -r requirements/base.in
-django-simple-history==3.0.0
+django-simple-history==3.1.1
     # via -r requirements/base.in
 django-sortedm2m==3.1.1
     # via -r requirements/base.in
@@ -138,7 +138,7 @@ edx-opaque-keys==2.3.0
     #   edx-drf-extensions
 edx-rest-api-client==5.5.0
     # via -r requirements/base.in
-edx-toggles==4.3.1
+edx-toggles==5.0.0
     # via -r requirements/base.in
 future==0.18.2
     # via pyjwkest
@@ -192,7 +192,7 @@ pygments==2.12.0
     # via -r requirements/base.in
 pyjwkest==1.4.2
     # via edx-drf-extensions
-pyjwt[crypto]==2.3.0
+pyjwt[crypto]==2.4.0
     # via
     #   drf-jwt
     #   edx-auth-backends

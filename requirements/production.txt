@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==5.0.0
     # via -r requirements/base.txt
-boto3==1.22.10
+boto3==1.22.13
     # via django-ses
-botocore==1.25.10
+botocore==1.25.13
     # via
     #   boto3
     #   s3transfer
@@ -118,7 +118,7 @@ django-rest-swagger==2.2.0
     # via -r requirements/base.txt
 django-ses==3.0.1
     # via -r requirements/production.in
-django-simple-history==3.0.0
+django-simple-history==3.1.1
     # via -r requirements/base.txt
 django-sortedm2m==3.1.1
     # via -r requirements/base.txt
@@ -172,7 +172,7 @@ edx-opaque-keys==2.3.0
     #   edx-drf-extensions
 edx-rest-api-client==5.5.0
     # via -r requirements/base.txt
-edx-toggles==4.3.1
+edx-toggles==5.0.0
     # via -r requirements/base.txt
 future==0.18.2
     # via
@@ -273,7 +273,7 @@ pyjwkest==1.4.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-pyjwt[crypto]==2.3.0
+pyjwt[crypto]==2.4.0
     # via
     #   -r requirements/base.txt
     #   drf-jwt
