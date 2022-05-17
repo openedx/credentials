@@ -6,7 +6,7 @@
 #
 analytics-python==1.4.0
     # via -r requirements/base.txt
-asgiref==3.5.1
+asgiref==3.5.2
     # via
     #   -r requirements/base.txt
     #   django
@@ -329,7 +329,7 @@ pyjwt[crypto]==2.4.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.13.8
+pylint==2.13.9
     # via
     #   edx-lint
     #   pylint-celery
