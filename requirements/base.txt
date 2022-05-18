@@ -6,7 +6,7 @@
 #
 analytics-python==1.4.0
     # via -r requirements/base.in
-asgiref==3.5.1
+asgiref==3.5.2
     # via django
 attrs==21.4.0
     # via edx-ace
@@ -118,7 +118,7 @@ edx-ace==1.5.0
     # via -r requirements/base.in
 edx-auth-backends==4.1.0
     # via -r requirements/base.in
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.112
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.113
     # via -r requirements/base.in
 edx-django-release-util==1.2.0
     # via -r requirements/base.in
@@ -180,7 +180,7 @@ path==16.4.0
     # via edx-i18n-tools
 pbr==5.9.0
     # via stevedore
-pillow==9.1.0
+pillow==9.1.1
     # via -r requirements/base.in
 polib==1.1.1
     # via edx-i18n-tools

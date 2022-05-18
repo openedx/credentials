@@ -6,7 +6,7 @@
 #
 analytics-python==1.4.0
     # via -r requirements/base.txt
-asgiref==3.5.1
+asgiref==3.5.2
     # via
     #   -r requirements/base.txt
     #   django
@@ -164,7 +164,7 @@ edx-ace==1.5.0
     # via -r requirements/base.txt
 edx-auth-backends==4.1.0
     # via -r requirements/base.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.112
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.113
     # via -r requirements/base.txt
 edx-django-release-util==1.2.0
     # via -r requirements/base.txt
@@ -284,7 +284,7 @@ pbr==5.9.0
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==9.1.0
+pillow==9.1.1
     # via -r requirements/base.txt
 platformdirs==2.5.2
     # via
@@ -329,7 +329,7 @@ pyjwt[crypto]==2.4.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.13.8
+pylint==2.13.9
     # via
     #   edx-lint
     #   pylint-celery
