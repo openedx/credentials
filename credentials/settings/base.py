@@ -488,7 +488,7 @@ SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 # .. toggle_use_cases: open_edx
 # .. toggle_creation_date: 2020-10-08
 # .. toggle_target_removal_date: NA
-# .. toggle_warnings: This is a toggle for the feature
+# .. toggle_warning: This is a toggle for the feature
 # .. toggle_tickets: MICROBA-521
 SEND_EMAIL_ON_PROGRAM_COMPLETION = False
 ALLOWED_EMAIL_HTML_TAGS = [
@@ -540,7 +540,7 @@ LOGO_POWERED_BY_OPEN_EDX_URL = "https://edx-cdn.org/v3/prod/open-edx-tag.svg"
 # .. toggle_default: False
 # .. toggle_description: Determines if the Credentials IDA should redirect to the Learner Record MFE when navigating
 #   between the program detail page and program list pages.
-# .. toggle_warnings: Requires the Learner Record MFE to be deployed in a given environment if toggled to true. Requires
+# .. toggle_warning: Requires the Learner Record MFE to be deployed in a given environment if toggled to true. Requires
 #   a value to be set for the `LEARNER_RECORD_MFE_RECORDS_PAGE_URL` for navigation to route properly.
 # .. toggle_use_cases: opt_in
 # .. toggle_creation_date: 2021-08-10
