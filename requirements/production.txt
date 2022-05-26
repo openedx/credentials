@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==5.0.0
     # via -r requirements/base.txt
-boto3==1.23.6
+boto3==1.23.8
     # via django-ses
-botocore==1.26.6
+botocore==1.26.8
     # via
     #   boto3
     #   s3transfer
@@ -150,7 +150,7 @@ edx-ace==1.5.0
     # via -r requirements/base.txt
 edx-auth-backends==4.1.0
     # via -r requirements/base.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.113
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.114
     # via -r requirements/base.txt
 edx-django-release-util==1.2.0
     # via -r requirements/base.txt
@@ -346,7 +346,7 @@ sailthru-client==2.2.3
     # via
     #   -r requirements/base.txt
     #   edx-ace
-semantic-version==2.9.0
+semantic-version==2.10.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
