@@ -189,7 +189,7 @@ edx-ace==1.5.0
     # via -r requirements/test.txt
 edx-auth-backends==4.1.0
     # via -r requirements/test.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.113
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.114
     # via -r requirements/test.txt
 edx-django-release-util==1.2.0
     # via -r requirements/test.txt
@@ -220,7 +220,7 @@ edx-toggles==5.0.0
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==13.11.1
+faker==13.12.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -474,7 +474,7 @@ requests-oauthlib==1.3.1
     # via
     #   -r requirements/test.txt
     #   social-auth-core
-responses==0.20.0
+responses==0.21.0
     # via -r requirements/test.txt
 sailthru-client==2.2.3
     # via
@@ -484,7 +484,7 @@ selenium==3.141.0
     # via
     #   -r requirements/test.txt
     #   bok-choy
-semantic-version==2.9.0
+semantic-version==2.10.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
