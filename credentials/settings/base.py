@@ -78,8 +78,11 @@ INSTALLED_APPS += PROJECT_APPS
 
 MIDDLEWARE = (
     "corsheaders.middleware.CorsMiddleware",
-    "edx_django_utils.monitoring.DeploymentMonitoringMiddleware",
     "edx_django_utils.cache.middleware.RequestCacheMiddleware",
+    "edx_django_utils.monitoring.DeploymentMonitoringMiddleware",
+    "edx_django_utils.monitoring.CookieMonitoringMiddleware",
+    "edx_django_utils.monitoring.CachedCustomMonitoringMiddleware",
+    "edx_django_utils.monitoring.MonitoringMemoryMiddleware",
     "edx_rest_framework_extensions.auth.jwt.middleware.JwtAuthCookieMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
