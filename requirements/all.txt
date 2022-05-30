@@ -42,11 +42,12 @@ bleach==5.0.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.23.8
+boto3==1.23.10
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.26.8
+botocore==1.26.10
+
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -587,8 +588,6 @@ pytz==2022.1
     #   django
     #   django-ses
     #   djangorestframework
-pywatchman==1.4.1 ; "linux" in sys_platform
-    # via -r requirements/dev.txt
 pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt

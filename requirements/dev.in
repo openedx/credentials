@@ -9,7 +9,6 @@
 -r test.txt
 
 # i18n
-transifex-client
 edx-i18n-tools
 
 # for docker devstack
