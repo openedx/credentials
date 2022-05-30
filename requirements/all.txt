@@ -47,6 +47,7 @@ boto3==1.23.10
     #   -r requirements/production.txt
     #   django-ses
 botocore==1.26.10
+
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -257,7 +258,7 @@ edx-auth-backends==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.113
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.114
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
