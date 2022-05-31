@@ -6,6 +6,8 @@
 #
 analytics-python==1.4.0
     # via -r requirements/test.txt
+appdirs==1.4.4
+    # via django-migration-linter
 asgiref==3.5.2
     # via
     #   -r requirements/test.txt
@@ -110,6 +112,7 @@ django==3.2.13
     #   django-extensions
     #   django-filter
     #   django-hijack
+    #   django-migration-linter
     #   django-statici18n
     #   django-storages
     #   djangorestframework
@@ -145,6 +148,8 @@ django-hijack==2.3.0
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
+django-migration-linter==4.1.0
+    # via -r requirements/dev.in
 django-ratelimit==3.0.1
     # via -r requirements/test.txt
 django-rest-swagger==2.2.0
@@ -444,8 +449,6 @@ pytz==2022.1
     #   -r requirements/test.txt
     #   django
     #   djangorestframework
-pywatchman==1.4.1 ; "linux" in sys_platform
-    # via -r requirements/dev.in
 pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
@@ -554,6 +557,7 @@ texttable==1.6.4
 toml==0.10.2
     # via
     #   -r requirements/test.txt
+    #   django-migration-linter
     #   tox
 tomli==2.0.1
     # via

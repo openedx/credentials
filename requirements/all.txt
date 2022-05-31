@@ -8,6 +8,10 @@ analytics-python==1.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+appdirs==1.4.4
+    # via
+    #   -r requirements/dev.txt
+    #   django-migration-linter
 asgiref==3.5.2
     # via
     #   -r requirements/dev.txt
@@ -42,11 +46,11 @@ bleach==5.0.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.23.8
+boto3==1.23.10
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.26.8
+botocore==1.26.10
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -140,6 +144,7 @@ django==3.2.13
     #   django-extensions
     #   django-filter
     #   django-hijack
+    #   django-migration-linter
     #   django-ses
     #   django-statici18n
     #   django-storages
@@ -185,6 +190,8 @@ django-hijack==2.3.0
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+django-migration-linter==4.1.0
+    # via -r requirements/dev.txt
 django-ratelimit==3.0.1
     # via
     #   -r requirements/dev.txt
@@ -587,8 +594,6 @@ pytz==2022.1
     #   django
     #   django-ses
     #   djangorestframework
-pywatchman==1.4.1 ; "linux" in sys_platform
-    # via -r requirements/dev.txt
 pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
@@ -717,6 +722,7 @@ texttable==1.6.4
 toml==0.10.2
     # via
     #   -r requirements/dev.txt
+    #   django-migration-linter
     #   tox
 tomli==2.0.1
     # via

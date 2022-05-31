@@ -61,6 +61,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_swagger",
     "hijack",
     "xss_utils",
+    "django_migration_linter",
 ]
 
 PROJECT_APPS = [
