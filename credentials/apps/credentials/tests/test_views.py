@@ -507,9 +507,8 @@ class I18nAssetsTemplateTagTest(TestCase):
         """Verify that the filter correctly filters an image"""
 
         context = Context({})
-        template_to_render = Template(
-            "{% load i18n_assets %}" '{{ "openedx/images/example-logo.svg" | translate_file_path}}'
-        )
+        template = "{% load i18n_assets %}" + '{{ "openedx/images/example-logo.svg" | translate_file_path}}'
+        template_to_render = Template(template)
         rendered_template = template_to_render.render(context)
         # Make sure the translated string occurs in the template
         self.assertEqual(rendered_template.find("openedx/images/example-logo-en.svg"), 0)

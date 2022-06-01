@@ -258,7 +258,7 @@ class RecordsView(RecordsListBaseView):
         # Translators: A 'record' here means something like a transcript -- a list of courses and grades.
         context["title"] = _("My Learner Records")
         context["program_help"] = _(
-            "A program record is created once you have earned at least one " "course certificate in a program."
+            "A program record is created once you have earned at least one course certificate in a program."
         )
 
         return context
@@ -278,7 +278,7 @@ class ProgramListingView(RecordsListBaseView):
 
         context["title"] = _("Program Listing View")
         context["program_help"] = _(
-            "The following is a list of all active programs for which program records " "are being generated."
+            "The following is a list of all active programs for which program records are being generated."
         )
 
         return context
