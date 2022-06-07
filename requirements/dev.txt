@@ -73,7 +73,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==6.4
+coverage==6.4.1
     # via -r requirements/test.txt
 cryptography==37.0.2
     # via
@@ -128,7 +128,7 @@ django-appconf==1.0.5
     # via
     #   -r requirements/test.txt
     #   django-statici18n
-django-cors-headers==3.12.0
+django-cors-headers==3.13.0
     # via -r requirements/test.txt
 django-crum==0.7.9
     # via
@@ -159,7 +159,7 @@ django-statici18n==2.2.0
     # via -r requirements/test.txt
 django-storages==1.12.3
     # via -r requirements/test.txt
-django-waffle==2.4.1
+django-waffle==2.5.0
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -220,7 +220,7 @@ edx-toggles==5.0.0
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==13.12.0
+faker==13.12.1
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -370,7 +370,7 @@ pyjwt[crypto]==2.4.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.14.0
+pylint==2.14.1
     # via
     #   -r requirements/test.txt
     #   edx-lint
