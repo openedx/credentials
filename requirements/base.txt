@@ -70,7 +70,7 @@ django==3.2.13
     #   xss-utils
 django-appconf==1.0.5
     # via django-statici18n
-django-cors-headers==3.12.0
+django-cors-headers==3.13.0
     # via -r requirements/base.in
 django-crum==0.7.9
     # via
@@ -98,7 +98,7 @@ django-statici18n==2.2.0
     # via -r requirements/base.in
 django-storages==1.12.3
     # via -r requirements/base.in
-django-waffle==2.4.1
+django-waffle==2.5.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils

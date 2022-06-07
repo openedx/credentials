@@ -42,11 +42,11 @@ bleach==5.0.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.24.0
+boto3==1.24.3
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.27.0
+botocore==1.27.3
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -98,7 +98,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==6.4
+coverage==6.4.1
     # via -r requirements/dev.txt
 cryptography==37.0.2
     # via
@@ -160,7 +160,7 @@ django-appconf==1.0.5
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-statici18n
-django-cors-headers==3.12.0
+django-cors-headers==3.13.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -193,7 +193,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==3.0.1
+django-ses==3.1.0
     # via -r requirements/production.txt
 django-simple-history==3.0.0
     # via
@@ -212,7 +212,7 @@ django-storages==1.12.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-waffle==2.4.1
+django-waffle==2.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -302,7 +302,7 @@ edx-toggles==5.0.0
     #   -r requirements/production.txt
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==13.12.0
+faker==13.12.1
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -497,7 +497,7 @@ pyjwt[crypto]==2.4.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.14.0
+pylint==2.14.1
     # via
     #   -r requirements/dev.txt
     #   edx-lint
