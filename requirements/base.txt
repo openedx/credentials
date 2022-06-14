@@ -162,7 +162,7 @@ monotonic==1.6
     # via analytics-python
 mysqlclient==2.1.0
     # via -r requirements/base.in
-newrelic==7.10.0.175
+newrelic==7.12.0.176
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -223,7 +223,7 @@ pyyaml==5.4.1
     #   code-annotations
     #   edx-django-release-util
     #   edx-i18n-tools
-requests==2.27.1
+requests==2.28.0
     # via
     #   -r requirements/base.in
     #   analytics-python
@@ -262,7 +262,7 @@ social-auth-app-django==5.0.0
     # via
     #   -r requirements/base.in
     #   edx-auth-backends
-social-auth-core==4.2.0
+social-auth-core==4.3.0
     # via
     #   edx-auth-backends
     #   social-auth-app-django
