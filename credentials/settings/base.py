@@ -58,7 +58,7 @@ THIRD_PARTY_APPS = [
     "django_sites_extensions",
     # TODO Set in EXTRA_APPS via configuration
     "edx_credentials_themes",
-    "rest_framework_swagger",
+    "drf_yasg",
     "hijack",
     "xss_utils",
 ]
