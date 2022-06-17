@@ -104,7 +104,7 @@ describe('<ProgramRecord />', () => {
 
       const firstRowData = programRows.at(0).find('td');
       expect(firstRowData.at(0).text()).toEqual(grades[0].name);
-      expect(firstRowData.at(0).key()).toEqual('name');
+      expect(firstRowData.at(0).key()).toEqual('cell_0_name');
       expect(firstRowData.at(1).text()).toEqual(grades[0].school);
       expect(firstRowData.at(2).text()).toEqual(grades[0].course_id);
       expect(firstRowData.at(3).text()).toEqual('82%');
@@ -115,7 +115,7 @@ describe('<ProgramRecord />', () => {
 
       const thirdRowData = programRows.at(2).find('td');
       expect(thirdRowData.at(0).text()).toEqual(grades[2].name);
-      expect(thirdRowData.at(0).key()).toEqual('name');
+      expect(thirdRowData.at(0).key()).toEqual('cell_2_name');
       expect(thirdRowData.at(1).text()).toEqual(grades[2].school);
       expect(thirdRowData.at(2).text()).toEqual('');
       expect(thirdRowData.at(3).text()).toEqual('');

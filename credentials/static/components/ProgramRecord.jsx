@@ -387,14 +387,14 @@ class ProgramRecord extends React.Component {
               columns={[
                 // Note that when you change one of these strings, you should look at
                 // the foldedColumns for any necessary changes there too.
-                { key: 'name', label: gettext('Course Name') },
-                { key: 'school', label: gettext('School') },
-                { key: 'course_id', label: gettext('Course ID') },
-                { key: 'percent_grade', label: gettext('Highest Grade Earned') },
-                { key: 'letter_grade', label: gettext('Letter Grade') },
-                { key: 'attempts', label: gettext('Verified Attempts') },
-                { key: 'issue_date', label: gettext('Date Earned') },
-                { key: 'status', label: gettext('Status') },
+                { accessor: 'name', Header: gettext('Course Name') },
+                { accessor: 'school', Header: gettext('School') },
+                { accessor: 'course_id', Header: gettext('Course ID') },
+                { accessor: 'percent_grade', Header: gettext('Highest Grade Earned') },
+                { accessor: 'letter_grade', Header: gettext('Letter Grade') },
+                { accessor: 'attempts', Header: gettext('Verified Attempts') },
+                { accessor: 'issue_date', Header: gettext('Date Earned') },
+                { accessor: 'status', Header: gettext('Status') },
               ]}
               foldedColumns={[
                 { key: 'name', className: 'h6 font-weight-bold' },
