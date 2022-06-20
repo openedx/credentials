@@ -112,10 +112,8 @@ class MasqueradeBanner extends React.Component {
           onClose={this.closeMasqueradeFailureAlert}
           dismissible
         >
-          <div>
-            <Alert.Heading>{ gettext('Masquerading failed') }</Alert.Heading>
-            <span className="alert-body">{ gettext('You either do not have permission to masquerade as this user, or the user could not be found.') }</span>
-          </div>
+          <Alert.Heading>{ gettext('Masquerading failed') }</Alert.Heading>
+          <span className="alert-body">{ gettext('You either do not have permission to masquerade as this user, or the user could not be found.') }</span>
         </Alert>
       </nav>
     );
