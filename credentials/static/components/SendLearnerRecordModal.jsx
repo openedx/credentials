@@ -2,7 +2,7 @@ import 'core-js/features/promise'; // Needed to support Promises on legacy brows
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Button, CheckBoxGroup, CheckBox, Modal, StatusAlert,
+  Button, CheckBoxGroup, CheckBox, Modal, Alert,
 } from '@edx/paragon';
 import StringUtils from './Utils';
 
@@ -106,17 +106,16 @@ class SendLearnerRecordModal extends React.Component {
             </p>
             {this.anyInactivePathways && (
             <div>
-              <StatusAlert
-                alertType="danger"
-                open
+              <Alert
+                variant="danger"
+                show
                 dismissible={false}
-                dialog={(
-                  <div>
-                    <span className="h6">{gettext('Not all credit partners are ready to receive records yet')}</span>
-                    <p className="alert-body">{gettext('You can check back in the future or share your record link directly if you need to do so immediately.')}</p>
-                  </div>
-)}
-              />
+              >
+                <Alert.Heading>
+                  { gettext('Not all credit partners are ready to receive records yet')}
+                </Alert.Heading>
+                <p className="alert-body">{gettext('You can check back in the future or share your record link directly if you need to do so immediately.')}</p>
+              </Alert>
             </div>
             )}
             <p>{ gettext('Select organization(s) you wish to send this record to:') }</p>
