@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
-import { Button, StatusAlert } from '@edx/paragon';
+import { Button, Alert } from '@edx/paragon';
 
 import StringUtils from './Utils';
 
@@ -106,17 +106,17 @@ class MasqueradeBanner extends React.Component {
             />
           </form>
         </div>
-        <StatusAlert
-          alertType="danger"
-          open={this.state.masqueradeFailureAlertOpen}
+        <Alert
+          variant="danger"
+          show={this.state.masqueradeFailureAlertOpen}
           onClose={this.closeMasqueradeFailureAlert}
-          dialog={(
-            <div>
-              <span className="h6">{ gettext('Masquerading failed') }</span>
-              <span className="alert-body">{ gettext('You either do not have permission to masquerade as this user, or the user could not be found.') }</span>
-            </div>
-            )}
-        />
+          dismissible
+        >
+          <div>
+            <Alert.Heading>{ gettext('Masquerading failed') }</Alert.Heading>
+            <span className="alert-body">{ gettext('You either do not have permission to masquerade as this user, or the user could not be found.') }</span>
+          </div>
+        </Alert>
       </nav>
     );
   }

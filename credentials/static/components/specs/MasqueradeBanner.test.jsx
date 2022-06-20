@@ -30,19 +30,19 @@ describe('<MasqueradeBanner />', () => {
     });
 
     it('shows the failure alert', () => {
-      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-danger').exists()).toBe(false);
       wrapper.setState({ masqueradeFailureAlertOpen: true });
       wrapper.update();
-      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(false);
+      expect(wrapper.find('.alert-danger .alert-heading').first().text()).toEqual(gettext('Masquerading failed'));
     });
 
     it('closes the failure alert', () => {
-      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-danger').exists()).toBe(false);
       wrapper.setState({ masqueradeFailureAlertOpen: true });
       wrapper.update();
-      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(false);
-      wrapper.find('.alert-danger .close').simulate('click');
-      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-danger').hasClass('show')).toBe(true);
+      wrapper.find('.alert-danger .btn').first().simulate('click');
+      expect(wrapper.find('.alert-danger').hasClass('show')).toBe(false);
     });
 
     it('handles releasing masquerade', () => {
@@ -52,7 +52,7 @@ describe('<MasqueradeBanner />', () => {
 
       return postPromise.then(() => {
         wrapper.update();
-        expect(wrapper.find('.alert-danger').prop('hidden')).toBe(true);
+        expect(wrapper.find('.alert-danger').exists()).toBe(false);
       });
     });
   });
@@ -92,19 +92,19 @@ describe('<MasqueradeBanner />', () => {
 
       return postPromise.then(() => {
         wrapper.update();
-        expect(wrapper.find('.alert-danger').prop('hidden')).toBe(true);
+        expect(wrapper.find('.alert-danger').exists()).toBe(false);
       });
     });
 
     it('shows the failure alert on masquerade failure', () => {
-      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-danger').exists()).toBe(false);
       const postPromise = Promise.resolve({ status: 400, response: { message: 'error' } });
       axios.post.mockImplementation(() => postPromise);
       wrapper.find('.masquerade-form').simulate('submit');
 
       return postPromise.catch(() => {
         wrapper.update();
-        expect(wrapper.find('.alert-danger').prop('hidden')).toBe(false);
+        expect(wrapper.find('.alert-danger').hasClass('show')).toBe(true);
       });
     });
   });
