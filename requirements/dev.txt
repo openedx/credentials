@@ -33,7 +33,7 @@ bleach==5.0.0
     # via -r requirements/test.txt
 bok-choy==1.1.1
     # via -r requirements/test.txt
-certifi==2022.5.18.1
+certifi==2022.6.15
     # via
     #   -r requirements/test.txt
     #   requests
@@ -139,7 +139,7 @@ django-debug-toolbar==3.4.0
     # via -r requirements/dev.in
 django-extensions==3.1.5
     # via -r requirements/test.txt
-django-filter==21.1
+django-filter==22.1
     # via -r requirements/test.txt
 django-hijack==2.3.0
     # via
@@ -165,7 +165,7 @@ django-waffle==2.5.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.5.0
+django-webpack-loader==1.6.0
     # via -r requirements/test.txt
 djangorestframework==3.13.1
     # via
@@ -370,7 +370,7 @@ pyjwt[crypto]==2.4.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.14.1
+pylint==2.14.3
     # via
     #   -r requirements/test.txt
     #   edx-lint
