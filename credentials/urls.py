@@ -23,8 +23,8 @@ from django.contrib import admin
 from django.urls import re_path
 from django.utils.translation import gettext_lazy as _
 from django.views.defaults import page_not_found
-from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from credentials.apps.core import views as core_views
