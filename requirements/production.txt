@@ -18,11 +18,11 @@ backoff==1.10.0
     # via
     #   -r requirements/base.txt
     #   analytics-python
-bleach==5.0.0
+bleach==5.0.1
     # via -r requirements/base.txt
-boto3==1.24.10
+boto3==1.24.18
     # via django-ses
-botocore==1.27.10
+botocore==1.27.18
     # via
     #   boto3
     #   s3transfer
@@ -109,7 +109,7 @@ django-crum==0.7.9
     #   edx-toggles
 django-extensions==3.1.5
     # via -r requirements/base.txt
-django-filter==21.1
+django-filter==22.1
     # via -r requirements/base.txt
 django-hijack==2.3.0
     # via
@@ -137,7 +137,7 @@ django-waffle==2.5.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.5.0
+django-webpack-loader==1.6.0
     # via -r requirements/base.txt
 djangorestframework==3.13.1
     # via
@@ -196,7 +196,7 @@ idna==3.3
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-metadata==4.11.4
+importlib-metadata==4.12.0
     # via
     #   -r requirements/base.txt
     #   markdown
@@ -213,7 +213,7 @@ jinja2==3.1.2
     #   -r requirements/base.txt
     #   code-annotations
     #   coreschema
-jmespath==1.0.0
+jmespath==1.0.1
     # via
     #   boto3
     #   botocore
@@ -227,14 +227,14 @@ monotonic==1.6
     # via
     #   -r requirements/base.txt
     #   analytics-python
-mysqlclient==2.1.0
+mysqlclient==2.1.1
     # via -r requirements/base.txt
 newrelic==7.12.0.176
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
     #   edx-django-utils
-nodeenv==1.6.0
+nodeenv==1.7.0
     # via -r requirements/production.in
 oauthlib==3.2.0
     # via
@@ -271,7 +271,7 @@ pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pycryptodomex==3.14.1
+pycryptodomex==3.15.0
     # via
     #   -r requirements/base.txt
     #   pyjwkest

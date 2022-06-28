@@ -27,9 +27,9 @@ backoff==1.10.0
     #   analytics-python
 bcrypt==3.2.2
     # via paramiko
-black==22.3.0
+black==22.6.0
     # via -r requirements/test.txt
-bleach==5.0.0
+bleach==5.0.1
     # via -r requirements/test.txt
 bok-choy==1.1.1
     # via -r requirements/test.txt
@@ -138,11 +138,11 @@ django-crum==0.7.9
     #   -r requirements/test.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==3.4.0
+django-debug-toolbar==3.5.0
     # via -r requirements/dev.in
 django-extensions==3.1.5
     # via -r requirements/test.txt
-django-filter==21.1
+django-filter==22.1
     # via -r requirements/test.txt
 django-hijack==2.3.0
     # via
@@ -168,7 +168,7 @@ django-waffle==2.5.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.5.0
+django-webpack-loader==1.6.0
     # via -r requirements/test.txt
 djangorestframework==3.13.1
     # via
@@ -226,7 +226,7 @@ edx-toggles==5.0.0
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==13.13.0
+faker==13.14.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -245,7 +245,7 @@ idna==3.3
     # via
     #   -r requirements/test.txt
     #   requests
-importlib-metadata==4.11.4
+importlib-metadata==4.12.0
     # via
     #   -r requirements/test.txt
     #   markdown
@@ -298,7 +298,7 @@ mypy-extensions==0.4.3
     # via
     #   -r requirements/test.txt
     #   black
-mysqlclient==2.1.0
+mysqlclient==2.1.1
     # via -r requirements/test.txt
 newrelic==7.12.0.176
     # via
@@ -363,7 +363,7 @@ pycparser==2.21
     # via
     #   -r requirements/test.txt
     #   cffi
-pycryptodomex==3.14.1
+pycryptodomex==3.15.0
     # via
     #   -r requirements/test.txt
     #   pyjwkest
@@ -381,7 +381,7 @@ pyjwt[crypto]==2.4.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.14.2
+pylint==2.14.3
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -588,7 +588,7 @@ urllib3==1.26.9
     #   requests
     #   responses
     #   selenium
-virtualenv==20.14.1
+virtualenv==20.15.0
     # via
     #   -r requirements/test.txt
     #   tox
