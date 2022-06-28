@@ -37,12 +37,13 @@ admin.site.site_header = _("Credentials Administration")
 admin.site.site_title = admin.site.site_header
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Credentials API",
-      default_version='v1',
-      description="Credentials API docs",
-   ),
-   public=False,
+    openapi.Info(
+        title="Credentials API",
+        default_version="v1",
+        description="Credentials API docs",
+    ),
+    public=False,
+    permission_classes=[permissions.AllowAny],
    permission_classes=[permissions.AllowAny],
 )
 
