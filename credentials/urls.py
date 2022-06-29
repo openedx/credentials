@@ -44,7 +44,6 @@ schema_view = get_schema_view(
     ),
     public=False,
     permission_classes=[permissions.AllowAny],
-   permission_classes=[permissions.AllowAny],
 )
 
 urlpatterns = oauth2_urlpatterns + [
