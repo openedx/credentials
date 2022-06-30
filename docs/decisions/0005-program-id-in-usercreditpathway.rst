@@ -36,7 +36,7 @@ Requesting Credit Before Completion
 
 Users are allowed to request credit for a given ``Program`` before they have completed the ``Program``. (There are some imaginable business reasons for allowing this.) However, due to our current constraints, they are not able to request credit again once they do complete the ``Program``.
 
-We have some existing code that is supposed to automatically re-request credit as the learner completes more courses in a ``Program`` where they have already requested credit, but that code appears to be broken.
+We have some existing code that tries to mitigate this by resending a request for credit when a learner is awarded a program certificate: if that learner already has a ``UserCreditPathway`` record along the relevant pathway, we automatically send the credit request again. The learner does not consent to it, and they are not notified that the request has been resent.
 
 Decision
 ********
@@ -47,7 +47,7 @@ Note: this ``program_id`` is the ID of the relevant ``Program`` in the Credentia
 
 We will remove any checks preventing learners from re-requesting credit. We will no longer check for existing ``UserCreditPathway`` records when determining what options to show in the UI.
 
-We will remove the code that was intended to resubmit credit requests but is now broken.
+We will remove the code that resubmits credit requests upon program completion.
 
 Consequences
 ************
@@ -59,6 +59,8 @@ However, this data will only start being collected at the time this feature is r
 Learners will now be able to request credit for multiple ``Program``\ s, even if they use the same ``Pathway``.
 
 Learners will now be able to re-request credit for the same ``Program``. This prevents students from getting stuck if they requested credit before completion, and also opens up the risk of learners spamming institutions with credit requests.
+
+No automatic process will request credit on the learner’s behalf.
 
 There will be some changes in the UI to accommodate this shift.
 
