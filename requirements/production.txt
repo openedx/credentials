@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==5.0.1
     # via -r requirements/base.txt
-boto3==1.24.18
+boto3==1.24.21
     # via django-ses
-botocore==1.27.18
+botocore==1.27.21
     # via
     #   boto3
     #   s3transfer
@@ -30,12 +30,12 @@ certifi==2022.6.15
     # via
     #   -r requirements/base.txt
     #   requests
-cffi==1.15.0
+cffi==1.15.1
     # via
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.12
+charset-normalizer==2.1.0
     # via
     #   -r requirements/base.txt
     #   requests
@@ -156,7 +156,7 @@ edx-ace==1.5.0
     # via -r requirements/base.txt
 edx-auth-backends==4.1.0
     # via -r requirements/base.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.115
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.116
     # via -r requirements/base.txt
 edx-django-release-util==1.2.0
     # via -r requirements/base.txt
@@ -229,7 +229,7 @@ monotonic==1.6
     #   analytics-python
 mysqlclient==2.1.1
     # via -r requirements/base.txt
-newrelic==7.12.0.176
+newrelic==7.14.0.177
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -332,7 +332,7 @@ pyyaml==5.4.1
     #   code-annotations
     #   edx-django-release-util
     #   edx-i18n-tools
-requests==2.28.0
+requests==2.28.1
     # via
     #   -r requirements/base.txt
     #   analytics-python

@@ -37,13 +37,13 @@ certifi==2022.6.15
     # via
     #   -r requirements/test.txt
     #   requests
-cffi==1.15.0
+cffi==1.15.1
     # via
     #   -r requirements/test.txt
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.12
+charset-normalizer==2.1.0
     # via
     #   -r requirements/test.txt
     #   requests
@@ -195,7 +195,7 @@ edx-ace==1.5.0
     # via -r requirements/test.txt
 edx-auth-backends==4.1.0
     # via -r requirements/test.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.115
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.116
     # via -r requirements/test.txt
 edx-django-release-util==1.2.0
     # via -r requirements/test.txt
@@ -300,7 +300,7 @@ mypy-extensions==0.4.3
     #   black
 mysqlclient==2.1.1
     # via -r requirements/test.txt
-newrelic==7.12.0.176
+newrelic==7.14.0.177
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -381,7 +381,7 @@ pyjwt[crypto]==2.4.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.14.3
+pylint==2.14.4
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -456,7 +456,7 @@ pyyaml==5.4.1
     #   docker-compose
     #   edx-django-release-util
     #   edx-i18n-tools
-requests==2.28.0
+requests==2.28.1
     # via
     #   -r requirements/test.txt
     #   analytics-python
@@ -569,7 +569,7 @@ tomlkit==0.11.0
     # via
     #   -r requirements/test.txt
     #   pylint
-tox==3.25.0
+tox==3.25.1
     # via -r requirements/test.txt
 typing-extensions==4.2.0
     # via
@@ -588,7 +588,7 @@ urllib3==1.26.9
     #   requests
     #   responses
     #   selenium
-virtualenv==20.15.0
+virtualenv==20.15.1
     # via
     #   -r requirements/test.txt
     #   tox
