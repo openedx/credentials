@@ -34,19 +34,19 @@ bcrypt==3.2.2
     # via
     #   -r requirements/dev.txt
     #   paramiko
-black==22.3.0
+black==22.6.0
     # via -r requirements/dev.txt
-bleach==5.0.0
+bleach==5.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.24.10
+boto3==1.24.18
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.27.10
+botocore==1.27.18
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -173,13 +173,13 @@ django-crum==0.7.9
     #   -r requirements/production.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==3.4.0
+django-debug-toolbar==3.5.0
     # via -r requirements/dev.txt
 django-extensions==3.1.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-filter==21.1
+django-filter==22.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -222,7 +222,7 @@ django-waffle==2.5.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.5.0
+django-webpack-loader==1.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -310,7 +310,7 @@ edx-toggles==5.0.0
     #   -r requirements/production.txt
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==13.13.0
+faker==13.14.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -339,7 +339,7 @@ idna==3.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-importlib-metadata==4.11.4
+importlib-metadata==4.12.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -368,7 +368,7 @@ jinja2==3.1.2
     #   -r requirements/production.txt
     #   code-annotations
     #   coreschema
-jmespath==1.0.0
+jmespath==1.0.1
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -407,7 +407,7 @@ mypy-extensions==0.4.3
     # via
     #   -r requirements/dev.txt
     #   black
-mysqlclient==2.1.0
+mysqlclient==2.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -416,7 +416,7 @@ newrelic==7.12.0.176
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-django-utils
-nodeenv==1.6.0
+nodeenv==1.7.0
     # via -r requirements/production.txt
 oauthlib==3.2.0
     # via
@@ -489,7 +489,7 @@ pycparser==2.21
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cffi
-pycryptodomex==3.14.1
+pycryptodomex==3.15.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -512,7 +512,7 @@ pyjwt[crypto]==2.4.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.14.2
+pylint==2.14.3
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -758,7 +758,7 @@ urllib3==1.26.9
     #   requests
     #   responses
     #   selenium
-virtualenv==20.14.1
+virtualenv==20.15.0
     # via
     #   -r requirements/dev.txt
     #   tox
