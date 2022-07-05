@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==5.0.1
     # via -r requirements/base.txt
-boto3==1.24.21
+boto3==1.24.22
     # via django-ses
-botocore==1.27.21
+botocore==1.27.22
     # via
     #   boto3
     #   s3transfer
@@ -59,7 +59,7 @@ coreschema==0.0.4
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-cryptography==37.0.2
+cryptography==37.0.4
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -69,7 +69,7 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==3.2.13
+django==3.2.14
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -257,7 +257,7 @@ pbr==5.9.0
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==9.1.1
+pillow==9.2.0
     # via -r requirements/base.txt
 polib==1.1.1
     # via
