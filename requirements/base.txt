@@ -38,7 +38,7 @@ coreschema==0.0.4
     # via
     #   coreapi
     #   drf-yasg
-cryptography==37.0.2
+cryptography==37.0.4
     # via
     #   pyjwt
     #   social-auth-core
@@ -46,7 +46,7 @@ defusedxml==0.7.1
     # via
     #   python3-openid
     #   social-auth-core
-django==3.2.13
+django==3.2.14
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -187,7 +187,7 @@ path==16.4.0
     # via edx-i18n-tools
 pbr==5.9.0
     # via stevedore
-pillow==9.1.1
+pillow==9.2.0
     # via -r requirements/base.in
 polib==1.1.1
     # via edx-i18n-tools

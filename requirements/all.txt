@@ -42,11 +42,11 @@ bleach==5.0.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.24.21
+boto3==1.24.22
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.27.21
+botocore==1.27.22
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -102,7 +102,7 @@ coreschema==0.0.4
     #   drf-yasg
 coverage==6.4.1
     # via -r requirements/dev.txt
-cryptography==37.0.2
+cryptography==37.0.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -129,7 +129,7 @@ distro==1.7.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-django==3.2.13
+django==3.2.14
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -454,7 +454,7 @@ pbr==5.9.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   stevedore
-pillow==9.1.1
+pillow==9.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -738,7 +738,7 @@ tomlkit==0.11.0
     #   pylint
 tox==3.25.1
     # via -r requirements/dev.txt
-typing-extensions==4.2.0
+typing-extensions==4.3.0
     # via
     #   -r requirements/dev.txt
     #   astroid
