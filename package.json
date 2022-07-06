@@ -54,7 +54,7 @@
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.30.0",
     "eslint-plugin-react-hooks": "1.7.0",
-    "geckodriver": "3.0.1",
+    "geckodriver": "3.0.2",
     "gulp": "4.0.2",
     "gulp-eslint": "6.0.0",
     "jasmine-core": "3.99.1",

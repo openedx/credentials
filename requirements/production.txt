@@ -18,24 +18,24 @@ backoff==1.10.0
     # via
     #   -r requirements/base.txt
     #   analytics-python
-bleach==5.0.0
+bleach==5.0.1
     # via -r requirements/base.txt
-boto3==1.24.8
+boto3==1.24.22
     # via django-ses
-botocore==1.27.8
+botocore==1.27.22
     # via
     #   boto3
     #   s3transfer
-certifi==2022.5.18.1
+certifi==2022.6.15
     # via
     #   -r requirements/base.txt
     #   requests
-cffi==1.15.0
+cffi==1.15.1
     # via
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==2.0.12
+charset-normalizer==2.1.0
     # via
     #   -r requirements/base.txt
     #   requests
@@ -52,12 +52,14 @@ coreapi==2.3.3
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
+    #   drf-yasg
     #   openapi-codec
 coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==37.0.2
+    #   drf-yasg
+cryptography==37.0.4
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -67,7 +69,7 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==3.2.13
+django==3.2.14
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -83,6 +85,7 @@ django==3.2.13
     #   django-storages
     #   djangorestframework
     #   drf-jwt
+    #   drf-yasg
     #   edx-ace
     #   edx-auth-backends
     #   edx-credentials-themes
@@ -106,7 +109,7 @@ django-crum==0.7.9
     #   edx-toggles
 django-extensions==3.1.5
     # via -r requirements/base.txt
-django-filter==21.1
+django-filter==22.1
     # via -r requirements/base.txt
 django-hijack==2.3.0
     # via
@@ -134,23 +137,26 @@ django-waffle==2.5.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.5.0
+django-webpack-loader==1.6.0
     # via -r requirements/base.txt
 djangorestframework==3.13.1
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
     #   drf-jwt
+    #   drf-yasg
     #   edx-drf-extensions
 drf-jwt==1.19.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
+drf-yasg==1.20.0
+    # via -r requirements/base.txt
 edx-ace==1.5.0
     # via -r requirements/base.txt
 edx-auth-backends==4.1.0
     # via -r requirements/base.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.115
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.117
     # via -r requirements/base.txt
 edx-django-release-util==1.2.0
     # via -r requirements/base.txt
@@ -190,10 +196,14 @@ idna==3.3
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-metadata==4.11.4
+importlib-metadata==4.12.0
     # via
     #   -r requirements/base.txt
     #   markdown
+inflection==0.5.1
+    # via
+    #   -r requirements/base.txt
+    #   drf-yasg
 itypes==1.2.0
     # via
     #   -r requirements/base.txt
@@ -203,7 +213,7 @@ jinja2==3.1.2
     #   -r requirements/base.txt
     #   code-annotations
     #   coreschema
-jmespath==1.0.0
+jmespath==1.0.1
     # via
     #   boto3
     #   botocore
@@ -217,14 +227,14 @@ monotonic==1.6
     # via
     #   -r requirements/base.txt
     #   analytics-python
-mysqlclient==2.1.0
+mysqlclient==2.1.1
     # via -r requirements/base.txt
-newrelic==7.12.0.176
+newrelic==7.14.0.177
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
     #   edx-django-utils
-nodeenv==1.6.0
+nodeenv==1.7.0
     # via -r requirements/production.in
 oauthlib==3.2.0
     # via
@@ -235,6 +245,10 @@ openapi-codec==1.3.2
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
+packaging==21.3
+    # via
+    #   -r requirements/base.txt
+    #   drf-yasg
 path==16.4.0
     # via
     #   -r requirements/base.txt
@@ -243,7 +257,7 @@ pbr==5.9.0
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==9.1.1
+pillow==9.2.0
     # via -r requirements/base.txt
 polib==1.1.1
     # via
@@ -257,7 +271,7 @@ pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pycryptodomex==3.14.1
+pycryptodomex==3.15.0
     # via
     #   -r requirements/base.txt
     #   pyjwkest
@@ -283,6 +297,10 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
+pyparsing==3.0.9
+    # via
+    #   -r requirements/base.txt
+    #   packaging
 python-dateutil==2.8.2
     # via
     #   -r requirements/base.txt
@@ -314,7 +332,7 @@ pyyaml==5.4.1
     #   code-annotations
     #   edx-django-release-util
     #   edx-i18n-tools
-requests==2.28.0
+requests==2.28.1
     # via
     #   -r requirements/base.txt
     #   analytics-python
@@ -330,6 +348,14 @@ requests-oauthlib==1.3.1
     # via
     #   -r requirements/base.txt
     #   social-auth-core
+ruamel-yaml==0.17.21
+    # via
+    #   -r requirements/base.txt
+    #   drf-yasg
+ruamel-yaml-clib==0.2.6
+    # via
+    #   -r requirements/base.txt
+    #   ruamel-yaml
 s3transfer==0.6.0
     # via boto3
 sailthru-client==2.2.3
@@ -389,6 +415,7 @@ uritemplate==4.1.1
     # via
     #   -r requirements/base.txt
     #   coreapi
+    #   drf-yasg
 urllib3==1.26.9
     # via
     #   -r requirements/base.txt
