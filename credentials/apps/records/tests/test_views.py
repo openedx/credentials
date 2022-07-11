@@ -591,7 +591,6 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         private_data = json.loads(response.context_data["record"])
-
         self.assertEqual(private_data, public_data)
 
     def test_highest_grades(self):
@@ -671,7 +670,6 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         test_date = "2017-05-11T03:14:00+00:00"
         self.user_credentials[1].credential.certificate_available_date = test_date
         self.user_credentials[1].credential.save()
-
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         grades = json.loads(response.context_data["record"])["grades"]
         self.assertEqual(len(grades), 1)
@@ -841,7 +839,6 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
             "last_updated": UserCredential.objects.last().created.isoformat(),
             "school": ", ".join(self.org_names),
         }
-
         self.assertEqual(program_data, expected)
 
     def test_pathway_data(self):

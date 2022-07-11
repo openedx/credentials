@@ -2,9 +2,30 @@ from .data import OrganizationDetails, ProgramDetails
 from .models import CourseRun as _CourseRun, Program as _Program
 
 
+def get_program_and_course_details(uuid, site):
+    """
+    Get program and its associated course runs
+
+    Arguments:
+        uuid(str): Program uuid to find by
+        site(site): Django site
+
+    Returns:
+        dict(Program): Program with its course run details
+    """
+    try:
+        program = _Program.objects.prefetch_related("course_runs__course").get(uuid=uuid, site=site)
+
+    except _Program.DoesNotExist:
+        return None
+
+    return program
+
+
 def get_program_details_by_uuid(uuid, site):
     try:
         program = _Program.objects.get(uuid=uuid, site=site)
+
     except _Program.DoesNotExist:
         return None
 

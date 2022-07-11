@@ -15,7 +15,8 @@ from credentials.apps.credentials.tests.factories import (
     ProgramCertificateFactory,
     UserCredentialFactory,
 )
-from credentials.apps.records.rest_api.v1.serializers import ProgramSerializer
+from credentials.apps.records.api import get_program_details
+from credentials.apps.records.rest_api.v1.serializers import ProgramRecordSerializer, ProgramSerializer
 from credentials.apps.records.utils import get_user_program_data
 
 
@@ -67,6 +68,16 @@ class ProgramRecordsSerializerTests(SiteMixin, TestCase):
             many=True,
         ).data
 
+    def serialize_program_record_details(self):
+        url = "/" + str(self.program.uuid)
+        request = APIRequestFactory(SERVER_NAME=self.site.domain).get(url)
+        return ProgramRecordSerializer(
+            get_program_details(
+                request_user=self.user, request_site=self.site, uuid=self.program.uuid, is_public=False
+            ),
+            context={"request": request},
+        ).data
+
     def test_valid_data_zero_programs(self):
         self.program.delete()
         serializer = self.serialize_program_records()
@@ -104,3 +115,46 @@ class ProgramRecordsSerializerTests(SiteMixin, TestCase):
         self.assertEqual(serializer[0]["partner"], expected["partner"])
         self.assertEqual(serializer[0]["completed"], expected["completed"])
         self.assertEqual(serializer[0]["empty"], expected["empty"])
+
+    def test_valid_details_data(self):
+        serializer = self.serialize_program_record_details()
+        expected = {
+            "record": {
+                "learner": {"full_name": self.user.full_name, "username": self.user.username, "email": self.user.email},
+                "program": {
+                    "name": "TestProgram1",
+                    "uuid": self.program.uuid,
+                    "partner": "TestOrg1, TestOrg2",
+                    "completed": True,
+                    "empty": True,
+                },
+                "platform_name": self.site_configuration.platform_name,
+                "grades": [
+                    {
+                        "name": "Test çօմɾʂҽ iJXceupiNcKb",
+                        "school": "",
+                        "attempts": 0,
+                        "course_id": "",
+                        "issue_date": "",
+                        "percent_grade": 0.0,
+                        "letter_grade": "",
+                    },
+                ],
+                "pathways": [],
+            },
+            "is_public": False,
+            "uuid": self.program.uuid,
+            "records_help_url": self.site_configuration.records_help_url,
+        }
+        self.assertEqual(serializer["record"]["learner"]["full_name"], expected["record"]["learner"]["full_name"])
+        self.assertEqual(serializer["record"]["learner"]["username"], expected["record"]["learner"]["username"])
+        self.assertEqual(serializer["record"]["learner"]["email"], expected["record"]["learner"]["email"])
+        self.assertEqual(serializer["record"]["program"]["name"], expected["record"]["program"]["name"])
+        self.assertEqual(str(serializer["uuid"]).replace("-", ""), str(expected["uuid"]).replace("-", ""))
+        self.assertEqual(serializer["record"]["program"]["school"], expected["record"]["program"]["partner"])
+        self.assertEqual(serializer["record"]["program"]["completed"], expected["record"]["program"]["completed"])
+        self.assertEqual(serializer["record"]["program"]["empty"], expected["record"]["program"]["empty"])
+        self.assertEqual(serializer["record"]["platform_name"], expected["record"]["platform_name"])
+        self.assertEqual(serializer["record"]["pathways"], expected["record"]["pathways"])
+        self.assertEqual(serializer["is_public"], expected["is_public"])
+        self.assertEqual(serializer["records_help_url"], expected["records_help_url"])
