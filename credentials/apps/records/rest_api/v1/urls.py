@@ -1,8 +1,11 @@
-from django.urls import re_path
+from rest_framework import routers
 
 from credentials.apps.records.rest_api.v1 import views
 
 
-urlpatterns = [
-    re_path(r"^program_records/$", views.ProgramRecords.as_view(), name="program_records"),
-]
+router = routers.DefaultRouter()
+router.register(r"program_records", views.ProgramRecordsViewSet, basename="records")
+
+urlpatterns = []
+
+urlpatterns += router.urls
