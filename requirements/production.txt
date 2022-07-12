@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==5.0.1
     # via -r requirements/base.txt
-boto3==1.24.22
+boto3==1.24.27
     # via django-ses
-botocore==1.27.22
+botocore==1.27.27
     # via
     #   boto3
     #   s3transfer
@@ -107,7 +107,7 @@ django-crum==0.7.9
     #   -r requirements/base.txt
     #   edx-django-utils
     #   edx-toggles
-django-extensions==3.1.5
+django-extensions==3.2.0
     # via -r requirements/base.txt
 django-filter==22.1
     # via -r requirements/base.txt
@@ -400,7 +400,7 @@ sqlparse==0.4.2
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==3.5.0
+stevedore==4.0.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -416,7 +416,7 @@ uritemplate==4.1.1
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.9
+urllib3==1.26.10
     # via
     #   -r requirements/base.txt
     #   botocore

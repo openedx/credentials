@@ -80,7 +80,7 @@ django-crum==0.7.9
     # via
     #   edx-django-utils
     #   edx-toggles
-django-extensions==3.1.5
+django-extensions==3.2.0
     # via -r requirements/base.in
 django-filter==22.1
     # via -r requirements/base.in
@@ -285,7 +285,7 @@ social-auth-core==4.3.0
     #   social-auth-app-django
 sqlparse==0.4.2
     # via django
-stevedore==3.5.0
+stevedore==4.0.0
     # via
     #   code-annotations
     #   edx-ace
@@ -297,7 +297,7 @@ uritemplate==4.1.1
     # via
     #   coreapi
     #   drf-yasg
-urllib3==1.26.9
+urllib3==1.26.10
     # via requests
 webencodings==0.5.1
     # via bleach
