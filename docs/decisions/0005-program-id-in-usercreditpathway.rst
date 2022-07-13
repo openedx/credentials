@@ -11,7 +11,7 @@ Provisional (=> Accepted)
 Context
 *******
 
-The ``Pathway`` model represents a way for learners to request credit for a ``Program`` from an ``Organization``. It links one ``Organization`` to many ``Programs`` that the Organization is willing to offer credit for. A ``Pathway`` can have many ``Programs``, and any ``Program`` may belong to multiple ``Pathway``\ s.
+The ``Pathway`` model represents a way for learners to request credit for a ``Program`` from an institution. A ``Pathway`` can be associated with many ``Program``\ s, and any ``Program`` may be associated with many ``Pathway``\ s.
 
 The ``UserCreditPathway`` model represents a record of any time a learner has requested credit using a ``Pathway``. This keeps track of only the ``User`` ID, the ``Pathway`` ID, and a ``status`` column (which indicates whether or not the email requesting credit has actually been sent).
 
@@ -77,3 +77,8 @@ Instead of adding the Credentials ``Program`` ID to the ``UserCreditPathway`` mo
 Using the ``ProgramCertRecord`` ID could make sense, since the URL that it represents is technically what the learner is sharing with the institution.
 
 However, we are mostly interested in adding a field to help us understand which ``Program`` was shared, so we are choosing to link the ``Program`` directly instead. Also, the ``ProgramCertRecord`` model is confusing: from the name, it would be easy to think that a ``ProgramCertRecord`` connects a ``User``, a ``Program``, and a program certificate; or that a ``ProgramCertRecord`` exists for every learner who has completed a course in a program, or else for learners who have completed every course in a program. It does none of these things. It no longer has anything to do with certificates, and a ``ProgramCertRecord`` only exists when a learner has decided to share their progress in a program. We would like to move away from this confusing model.
+
+References
+**********
+
+Pathways Documentation: https://edx-credentials.readthedocs.io/en/latest/pathways.html
