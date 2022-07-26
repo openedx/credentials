@@ -15,7 +15,9 @@ from credentials.apps.credentials.tests.factories import (
     ProgramCertificateFactory,
     UserCredentialFactory,
 )
-from credentials.apps.records.rest_api.v1.serializers import ProgramSerializer
+from credentials.apps.records.api import get_program_details
+from credentials.apps.records.rest_api.v1.serializers import ProgramRecordSerializer, ProgramSerializer
+from credentials.apps.records.tests.factories import ProgramCertRecordFactory
 from credentials.apps.records.utils import get_user_program_data
 
 
@@ -67,6 +69,16 @@ class ProgramRecordsViewTests(SiteMixin, TestCase):
             many=True,
         ).data
 
+    def serialize_program_record_details(self, is_public):
+        url = "/" + str(self.program.uuid) + "/?is_public=" + str(is_public)
+        request = APIRequestFactory(SERVER_NAME=self.site.domain).get(url)
+        return ProgramRecordSerializer(
+            get_program_details(
+                request_user=self.user, request_site=self.site, uuid=self.program.uuid, is_public=is_public
+            ),
+            context={"request": request},
+        ).data
+
     def test_deny_unauthenticated_user(self):
         self.client.logout()
         response = self.client.get("/records/api/v1/program_records/")
@@ -84,3 +96,43 @@ class ProgramRecordsViewTests(SiteMixin, TestCase):
         response = self.client.get("/records/api/v1/program_records/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["enrolled_programs"], self.serialize_program_records())
+
+    def test_get_private_details(self):
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        uuid = str(self.program.uuid).replace("-", "")
+
+        response = self.client.get("/records/api/v1/program_records/" + uuid + "/?is_public=false")
+        self.assertEqual(response.status_code, 200)
+
+        # Initialize two variables to hold data we intend to mutate
+        response_dict = response.data
+        serializer_dict = self.serialize_program_record_details(False)
+        # We want to omit "last_updated" from the test as it will always be different
+        del response_dict["record"]["program"]["last_updated"]
+        del serializer_dict["record"]["program"]["last_updated"]
+        # Remove any "-" from the uuid in the serializer
+        serializer_dict["uuid"] = serializer_dict["uuid"].replace("-", "")
+
+        self.assertEqual(response_dict, serializer_dict)
+        self.assertFalse(response.data["is_public"], "Query paramater is set to public when it should be private")
+
+    def test_get_public_details(self):
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        # Create ProgramCertRecord for public request
+        ProgramCertRecordFactory(uuid=self.program.uuid, program=self.program, user=self.user)
+        uuid = str(self.program.uuid).replace("-", "")
+
+        response = self.client.get("/records/api/v1/program_records/" + uuid + "/?is_public=true")
+        self.assertEqual(response.status_code, 200)
+
+        # Initialize two variables to hold data we intend to mutate
+        response_dict = response.data
+        serializer_dict = self.serialize_program_record_details(True)
+        # We want to omit "last_updated" from the test as it will always be different
+        del response_dict["record"]["program"]["last_updated"]
+        del serializer_dict["record"]["program"]["last_updated"]
+        # Remove any "-" from the uuid in the serializer
+        serializer_dict["uuid"] = serializer_dict["uuid"].replace("-", "")
+
+        self.assertEqual(response_dict, serializer_dict)
+        self.assertTrue(response.data["is_public"], "Query paramater is set to private when it should be public")

@@ -8,3 +8,11 @@ class ProgramSerializer(serializers.Serializer):  # pylint: disable=abstract-met
     partner = serializers.CharField(max_length=255)
     completed = serializers.BooleanField()
     empty = serializers.BooleanField()
+
+
+class ProgramRecordSerializer(serializers.Serializer):  # pylint: disable=abstract-method
+
+    record = serializers.DictField()
+    is_public = serializers.BooleanField()
+    uuid = serializers.UUIDField()
+    records_help_url = serializers.CharField(max_length=255)

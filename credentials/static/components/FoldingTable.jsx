@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Table } from '@edx/paragon';
+import { DataTable } from '@edx/paragon';
 
 /**
  *  Depending on view width, either renders as a normal everyday
@@ -23,8 +23,9 @@ class FoldingTable extends React.Component {
 
   renderTable() {
     return (
-      <Table
+      <DataTable
         className={['table-borderless', 'table-responsive']}
+        itemCount={this.props.data.length}
         {...this.props}
       />
     );

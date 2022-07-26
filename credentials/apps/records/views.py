@@ -1,19 +1,15 @@
 import csv
-import datetime
 import io
 import json
 import logging
 import urllib.parse
-from collections import defaultdict
 
 from analytics.client import Client as SegmentClient
 from django import http
 from django.conf import settings
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
-from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
-from django.template.defaultfilters import slugify
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
@@ -25,10 +21,10 @@ from credentials.apps.catalog.models import Pathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.models import ProgramCertificate, UserCredential
-from credentials.apps.credentials.utils import filter_visible, get_credential_visible_date, get_credential_visible_dates
+from credentials.apps.records.api import get_program_details, get_record_data
 from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
-from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
+from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 from credentials.apps.records.utils import get_user_program_data
 from credentials.shared.constants import PathwayType
 
@@ -63,148 +59,6 @@ class ConditionallyRequireLoginMixin(AccessMixin):
         if not request.user.is_authenticated and not kwargs["is_public"]:
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
-
-
-def get_record_data(user, program_uuid, site, platform_name=None):
-    program = Program.objects.prefetch_related("course_runs__course").get(uuid=program_uuid, site=site)
-    program_course_runs = program.course_runs.all()
-    program_course_runs_set = frozenset(program_course_runs)
-
-    # Get all pathway organizations and their statuses
-    program_pathways = program.pathways.all()
-    program_pathways_set = frozenset(program_pathways)
-    user_credit_pathways = (
-        UserCreditPathway.objects.select_related("pathway").filter(user=user, pathway__in=program_pathways_set).all()
-    )
-    user_credit_pathways_dict = {user_pathway.pathway: user_pathway.status for user_pathway in user_credit_pathways}
-    pathways = [(pathway, user_credit_pathways_dict.setdefault(pathway, "")) for pathway in program_pathways]
-
-    # Find program credential if it exists (indicates if user has completed this program)
-    program_credential_query = filter_visible(
-        UserCredential.objects.filter(
-            username=user.username, status=UserCredential.AWARDED, program_credentials__program_uuid=program_uuid
-        )
-    )
-
-    # Get all of the user course-certificates associated with the program courses (including not AWARDED ones)
-    course_certificate_content_type = ContentType.objects.get(app_label="credentials", model="coursecertificate")
-    course_user_credentials = filter_visible(
-        UserCredential.objects.prefetch_related("credential").filter(
-            username=user.username,
-            credential_content_type=course_certificate_content_type,
-        )
-    )
-
-    # Maps course run key to the associated credential
-    user_credential_dict = {
-        user_credential.credential.course_id: user_credential for user_credential in course_user_credentials
-    }
-
-    # Maps credentials to visible_date datetimes (a date when the cert becomes valid)
-    visible_dates = get_credential_visible_dates(course_user_credentials)
-
-    # Get all (verified) user grades relevant to this program
-    course_grades = UserGrade.objects.select_related("course_run__course").filter(
-        username=user.username, course_run__in=program_course_runs_set, verified=True
-    )
-
-    # Keep track of number of attempts and best attempt per course
-    num_attempts_dict = defaultdict(int)
-    highest_attempt_dict = {}  # Maps course -> highest grade earned
-    last_updated = None
-
-    # Find the highest course cert grades for each course
-    for course_grade in course_grades:
-        course_run = course_grade.course_run
-        course = course_run.course
-        user_credential = user_credential_dict.get(course_run.key)
-
-        if user_credential is not None:
-            num_attempts_dict[course] += 1
-            visible_date = visible_dates[user_credential]
-            last_updated = max(filter(None, [visible_date, course_grade.modified, last_updated]))
-
-            # Update grade if grade is higher and part of awarded cert
-            if user_credential.status == UserCredential.AWARDED:
-                current = highest_attempt_dict.setdefault(course, course_grade)
-                if course_grade.percent_grade > current.percent_grade:
-                    highest_attempt_dict[course] = course_grade
-
-    last_updated = last_updated or datetime.datetime.today()
-
-    learner_data = {
-        "full_name": user.get_full_name(),
-        "username": user.username,
-        "email": user.email,
-    }
-
-    program_data = {
-        "name": program.title,
-        "type": slugify(program.type),
-        "type_name": program.type,
-        "completed": program_credential_query.exists(),
-        "empty": not highest_attempt_dict,
-        "last_updated": last_updated.isoformat(),
-        "school": ", ".join(program.authoring_organizations.values_list("name", flat=True)),
-    }
-
-    pathway_data = [
-        {
-            "name": pathway[0].name,
-            "id": pathway[0].id,
-            "status": pathway[1],
-            "is_active": bool(pathway[0].email),
-            "pathway_type": pathway[0].pathway_type,
-        }
-        for pathway in pathways
-    ]
-
-    # Add course-run data to the response in the order that is maintained by the Program's sorted field
-    course_data = []
-    added_courses = set()
-    for course_run in program_course_runs:
-        course = course_run.course
-        grade = highest_attempt_dict.get(course)
-
-        # If user hasn't taken this course yet, or doesn't have a cert, we want to show empty values
-        if grade is None and course not in added_courses:
-            course_data.append(
-                {
-                    "name": course.title,
-                    "school": ", ".join(course.owners.values_list("name", flat=True)),
-                    "attempts": 0,
-                    "course_id": "",
-                    "issue_date": "",
-                    "percent_grade": 0.0,
-                    "letter_grade": "",
-                }
-            )
-            added_courses.add(course)
-
-        # If the user has taken the course, show the course_run info for the highest grade
-        elif grade is not None and grade.course_run == course_run:
-            user_credential = user_credential_dict.get(course_run.key)
-            issue_date = get_credential_visible_date(user_credential, use_date_override=True)
-            course_data.append(
-                {
-                    "name": course_run.title,
-                    "school": ", ".join(course.owners.values_list("name", flat=True)),
-                    "attempts": num_attempts_dict[course],
-                    "course_id": course_run.key,
-                    "issue_date": issue_date.isoformat(),
-                    "percent_grade": float(grade.percent_grade),
-                    "letter_grade": grade.letter_grade or _("N/A"),
-                }
-            )
-            added_courses.add(course)
-
-    return {
-        "learner": learner_data,
-        "program": program_data,
-        "platform_name": platform_name,
-        "grades": course_data,
-        "pathways": pathway_data,
-    }
 
 
 class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
@@ -295,25 +149,16 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
     template_name = "programs.html"
 
     def _get_record(self, uuid, is_public):
-        # if a public view, the uuid is that of a ProgramCertRecord,
-        # if private, the uuid is that of a Program
-        if is_public:
-            program_cert_record = get_object_or_404(ProgramCertRecord, uuid=uuid)
-            user = program_cert_record.user
-            program_uuid = program_cert_record.program.uuid
-        else:
-            user = self.request.user
-            program_uuid = uuid
-
-        data = get_record_data(
-            user, program_uuid, self.request.site, platform_name=self.request.site.siteconfiguration.platform_name
-        )
-
-        # Only allow superusers to view a record with no data in it (i.e. don't allow learners to guess URLs and view)
-        if not self.request.user.is_superuser and data["program"]["empty"]:
+        try:
+            data = get_program_details(self.request.user, self.request.site, uuid, is_public)
+        except ProgramCertRecord.DoesNotExist:
             raise http.Http404()
 
-        return data
+        # Only allow superusers to view a record with no data in it (i.e. don't allow learners to guess URLs and view)
+        if not self.request.user.is_superuser and data["record"]["program"]["empty"]:
+            raise http.Http404()
+
+        return data["record"]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
