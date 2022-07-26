@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==5.0.1
     # via -r requirements/base.txt
-boto3==1.24.22
+boto3==1.24.37
     # via django-ses
-botocore==1.27.22
+botocore==1.27.37
     # via
     #   boto3
     #   s3transfer
@@ -107,7 +107,7 @@ django-crum==0.7.9
     #   -r requirements/base.txt
     #   edx-django-utils
     #   edx-toggles
-django-extensions==3.1.5
+django-extensions==3.2.0
     # via -r requirements/base.txt
 django-filter==22.1
     # via -r requirements/base.txt
@@ -131,7 +131,7 @@ django-statici18n==2.2.0
     # via -r requirements/base.txt
 django-storages==1.12.3
     # via -r requirements/base.txt
-django-waffle==2.5.0
+django-waffle==2.6.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -150,7 +150,7 @@ drf-jwt==1.19.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-drf-yasg==1.20.0
+drf-yasg==1.21.3
     # via -r requirements/base.txt
 edx-ace==1.5.0
     # via -r requirements/base.txt
@@ -217,7 +217,7 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-markdown==3.3.7
+markdown==3.4.1
     # via -r requirements/base.txt
 markupsafe==2.1.1
     # via
@@ -229,7 +229,7 @@ monotonic==1.6
     #   analytics-python
 mysqlclient==2.1.1
     # via -r requirements/base.txt
-newrelic==7.14.0.177
+newrelic==7.16.0.178
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -324,6 +324,7 @@ pytz==2022.1
     #   django
     #   django-ses
     #   djangorestframework
+    #   drf-yasg
 pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
@@ -400,7 +401,7 @@ sqlparse==0.4.2
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==3.5.0
+stevedore==4.0.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -416,7 +417,7 @@ uritemplate==4.1.1
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.9
+urllib3==1.26.11
     # via
     #   -r requirements/base.txt
     #   botocore
@@ -427,7 +428,7 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.4.0
     # via -r requirements/base.txt
-zipp==3.8.0
+zipp==3.8.1
     # via
     #   -r requirements/base.txt
     #   importlib-metadata

@@ -12,7 +12,7 @@ certifi==2022.6.15
     # via requests
 charset-normalizer==2.1.0
     # via requests
-docutils==0.18.1
+docutils==0.19
     # via sphinx
 edx-sphinx-theme==3.0.0
     # via -r requirements/docs.in
@@ -24,7 +24,7 @@ importlib-metadata==4.12.0
     # via sphinx
 jinja2==3.1.2
     # via sphinx
-jsx-lexer==1.0.0
+jsx-lexer==2.0.0
     # via -r requirements/docs.in
 markupsafe==2.1.1
     # via jinja2
@@ -44,7 +44,7 @@ six==1.16.0
     # via edx-sphinx-theme
 snowballstemmer==2.2.0
     # via sphinx
-sphinx==5.0.2
+sphinx==5.1.0
     # via
     #   -r requirements/docs.in
     #   edx-sphinx-theme
@@ -60,7 +60,7 @@ sphinxcontrib-qthelp==1.0.3
     # via sphinx
 sphinxcontrib-serializinghtml==1.1.5
     # via sphinx
-urllib3==1.26.9
+urllib3==1.26.11
     # via requests
-zipp==3.8.0
+zipp==3.8.1
     # via importlib-metadata
