@@ -20,7 +20,7 @@ from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import re_path
+from django.urls import path, re_path
 from django.utils.translation import gettext_lazy as _
 from django.views.defaults import page_not_found
 from drf_yasg import openapi
@@ -62,6 +62,11 @@ urlpatterns = oauth2_urlpatterns + [
     re_path(r"^favicon\.ico$", FaviconView.as_view(permanent=True)),
     re_path(r"^mock-toggles$", MockToggleStateView.as_view()),
     re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
+]
+
+# edx-drf-extensions csrf app
+urlpatterns += [
+    path("", include("csrf.urls")),
 ]
 
 handler500 = "credentials.apps.core.views.render_500"
