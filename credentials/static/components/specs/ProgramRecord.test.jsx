@@ -192,51 +192,51 @@ describe('<ProgramRecord />', () => {
     });
 
     it('shows the info alert', () => {
-      expect(wrapper.find('.alert-info').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-info').exists()).toBe(false);
       wrapper.setState({ sendRecordLoadingAlertOpen: true });
       wrapper.update();
-      expect(wrapper.find('.alert-info').prop('hidden')).toBe(false);
+      expect(wrapper.find('.alert-info').hasClass('show')).toBe(true);
     });
 
     it('shows the success alert', () => {
-      expect(wrapper.find('.alert-success').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-danger').exists()).toBe(false);
       wrapper.setState({ sendRecordSuccessOrgs: ['RIT'], sendRecordSuccessAlertOpen: true });
       wrapper.update();
-      expect(wrapper.find('.alert-success').prop('hidden')).toBe(false);
+      expect(wrapper.find('.alert-success').hasClass('show')).toBe(true);
     });
 
     it('shows the failure alert', () => {
-      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-danger').exists()).toBe(false);
       wrapper.setState({ sendRecordFailureOrgs: ['RIT'], sendRecordFailureAlertOpen: true });
       wrapper.update();
-      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(false);
+      expect(wrapper.find('.alert-danger').hasClass('show')).toBe(true);
     });
 
     it('closes the info alert', () => {
-      expect(wrapper.find('.alert-info').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-info').exists()).toBe(false);
       wrapper.setState({ sendRecordLoadingAlertOpen: true });
       wrapper.update();
-      expect(wrapper.find('.alert-info').prop('hidden')).toBe(false);
-      wrapper.find('.alert-info .close').simulate('click');
-      expect(wrapper.find('.alert-info').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-info').hasClass('show')).toBe(true);
+      wrapper.find('.alert-info .btn').first().simulate('click');
+      expect(wrapper.find('.alert-info').hasClass('show')).toBe(false);
     });
 
     it('closes the success alert', () => {
-      expect(wrapper.find('.alert-success').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-success').exists()).toBe(false);
       wrapper.setState({ sendRecordSuccessOrgs: ['RIT'], sendRecordSuccessAlertOpen: true });
       wrapper.update();
-      expect(wrapper.find('.alert-success').prop('hidden')).toBe(false);
-      wrapper.find('.alert-success .close').simulate('click');
-      expect(wrapper.find('.alert-success').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-success').hasClass('show')).toBe(true);
+      wrapper.find('.alert-success .btn').first().simulate('click');
+      expect(wrapper.find('.alert-success').hasClass('show')).toBe(false);
     });
 
     it('closes the failure alert', () => {
-      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-danger').exists()).toBe(false);
       wrapper.setState({ sendRecordFailureOrgs: ['RIT'], sendRecordFailureAlertOpen: true });
       wrapper.update();
-      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(false);
-      wrapper.find('.alert-danger .close').simulate('click');
-      expect(wrapper.find('.alert-danger').prop('hidden')).toBe(true);
+      expect(wrapper.find('.alert-danger').hasClass('show')).toBe(true);
+      wrapper.find('.alert-danger .btn').first().simulate('click');
+      expect(wrapper.find('.alert-danger').hasClass('show')).toBe(false);
     });
 
     it('correctly categorizes send request success', () => {

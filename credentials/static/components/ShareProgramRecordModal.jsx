@@ -4,7 +4,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import {
-  Button, Icon, InputText, Modal, StatusAlert,
+  Button, Icon, InputText, Modal, Alert,
 } from '@edx/paragon';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import trackEvent from './Analytics';
@@ -135,26 +135,26 @@ class ShareProgramRecordModal extends React.Component {
           <div>
             {urlError
               && (
-              <StatusAlert
-                alertType="danger"
-                open
+              <Alert
+                variant="danger"
+                show
                 dismissible={false}
-                dialog={(
-                  <div>
-                    <span className="h6">{ gettext('We were unable to create your record link.') }</span>
-                    <p className="alert-body">{ gettext('You can close this window and try again.') }</p>
-                  </div>
-                )}
-              />
+              >
+                <Alert.Heading>
+                  { gettext('We were unable to create your record link.') }
+                </Alert.Heading>
+                <p className="alert-body">{ gettext('You can close this window and try again.') }</p>
+              </Alert>
               )}
             {urlCopied
               && (
-              <StatusAlert
-                alertType="success"
-                open
+              <Alert
+                variant="success"
+                show
                 dismissible={false}
-                dialog={gettext('Successfully copied program record link.')}
-              />
+              >
+                {gettext('Successfully copied program record link.')}
+              </Alert>
               )}
             <p>{ gettext('Copy this link to share your record with a university, employer, or anyone else of your choosing. Anyone you share this link with will have access to your record forever.') }</p>
             {this.renderSwitchToSendParagraph()}
