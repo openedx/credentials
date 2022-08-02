@@ -10,11 +10,11 @@ asgiref==3.5.2
     # via
     #   -r requirements/base.txt
     #   django
-astroid==2.11.6
+astroid==2.11.7
     # via
     #   pylint
     #   pylint-celery
-attrs==21.4.0
+attrs==22.1.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
@@ -69,7 +69,7 @@ coreschema==0.0.4
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-coverage==6.4.1
+coverage==6.4.2
     # via -r requirements/test.in
 cryptography==37.0.4
     # via
@@ -85,7 +85,7 @@ defusedxml==0.7.1
     #   social-auth-core
 dill==0.3.5.1
     # via pylint
-distlib==0.3.4
+distlib==0.3.5
     # via virtualenv
     # via
     #   -c requirements/common_constraints.txt
@@ -123,7 +123,7 @@ django-crum==0.7.9
     #   -r requirements/base.txt
     #   edx-django-utils
     #   edx-toggles
-django-extensions==3.1.5
+django-extensions==3.2.0
     # via -r requirements/base.txt
 django-filter==22.1
     # via -r requirements/base.txt
@@ -145,7 +145,7 @@ django-statici18n==2.2.0
     # via -r requirements/base.txt
 django-storages==1.12.3
     # via -r requirements/base.txt
-django-waffle==2.5.0
+django-waffle==2.6.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -164,7 +164,7 @@ drf-jwt==1.19.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-drf-yasg==1.20.0
+drf-yasg==1.21.3
     # via -r requirements/base.txt
 edx-ace==1.5.0
     # via -r requirements/base.txt
@@ -200,7 +200,7 @@ edx-toggles==5.0.0
     # via -r requirements/base.txt
 factory-boy==3.2.1
     # via -r requirements/test.in
-faker==13.14.0
+faker==13.15.1
     # via factory-boy
 filelock==3.7.1
     # via
@@ -243,7 +243,7 @@ lazy==1.4
     # via bok-choy
 lazy-object-proxy==1.7.1
     # via astroid
-markdown==3.3.7
+markdown==3.4.1
     # via -r requirements/base.txt
 markupsafe==2.1.1
     # via
@@ -259,7 +259,7 @@ mypy-extensions==0.4.3
     # via black
 mysqlclient==2.1.1
     # via -r requirements/base.txt
-newrelic==7.14.0.177
+newrelic==7.16.0.178
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -333,7 +333,7 @@ pyjwt[crypto]==2.4.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.14.4
+pylint==2.14.5
     # via
     #   edx-lint
     #   pylint-celery
@@ -387,6 +387,7 @@ pytz==2022.1
     #   -r requirements/base.txt
     #   django
     #   djangorestframework
+    #   drf-yasg
 pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
@@ -451,7 +452,6 @@ six==1.16.0
     #   python-dateutil
     #   python-memcached
     #   tox
-    #   virtualenv
 slumber==0.7.1
     # via
     #   -r requirements/base.txt
@@ -469,14 +469,14 @@ sqlparse==0.4.2
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==3.5.0
+stevedore==4.0.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
     #   edx-ace
     #   edx-django-utils
     #   edx-opaque-keys
-testfixtures==6.18.5
+testfixtures==7.0.0
     # via -r requirements/test.in
 text-unidecode==1.3
     # via
@@ -489,7 +489,7 @@ tomli==2.0.1
     #   black
     #   pylint
     #   pytest
-tomlkit==0.11.0
+tomlkit==0.11.1
     # via pylint
 tox==3.25.1
     # via -r requirements/test.in
@@ -503,13 +503,13 @@ uritemplate==4.1.1
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.9
+urllib3==1.26.11
     # via
     #   -r requirements/base.txt
     #   requests
     #   responses
     #   selenium
-virtualenv==20.15.1
+virtualenv==20.16.2
     # via tox
 webencodings==0.5.1
     # via
@@ -519,7 +519,7 @@ wrapt==1.14.1
     # via astroid
 xss-utils==0.4.0
     # via -r requirements/base.txt
-zipp==3.8.0
+zipp==3.8.1
     # via
     #   -r requirements/base.txt
     #   importlib-metadata
