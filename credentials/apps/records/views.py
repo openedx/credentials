@@ -3,6 +3,7 @@ import io
 import json
 import logging
 import urllib.parse
+from uuid import uuid4
 
 from analytics.client import Client as SegmentClient
 from django import http
@@ -355,8 +356,14 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
             "userAgent": request.META.get("HTTP_USER_AGENT"),
         }
 
+        # Use the value of 'ajs_anonymous_id' as the anonymous id if the cookie exists, otherwise generate a UUID to
+        # use as the anonymous id. See https://segment.com/docs/guides/how-to-guides/collect-pageviews-serverside/.
+        # Without this, the download CSV functionality in development environments is broken due to the
+        # 'ajs_anonymous_id' cookie not existing in the request.
+        anonymous_id = request.COOKIES.get("ajs_anonymous_id", str(uuid4()))
+
         segment_client.track(
-            request.COOKIES.get("ajs_anonymous_id"),
+            anonymous_id,
             context=context,
             event="edx.bi.credentials.program_record.download_started",
             properties=properties,
@@ -374,7 +381,7 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
         )
         response = ProgramRecordCsvView.SegmentHttpResponse(
             string_io,
-            anonymous_id=request.COOKIES.get("ajs_anonymous_id"),
+            anonymous_id=anonymous_id,
             content_type="text/csv",
             context=context,
             event="edx.bi.credentials.program_record.download_finished",
