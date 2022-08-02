@@ -156,7 +156,7 @@ edx-ace==1.5.0
     # via -r requirements/base.txt
 edx-auth-backends==4.1.0
     # via -r requirements/base.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.117
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.118
     # via -r requirements/base.txt
 edx-django-release-util==1.2.0
     # via -r requirements/base.txt
