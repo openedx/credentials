@@ -42,11 +42,11 @@ bleach==5.0.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.24.43
+boto3==1.24.44
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.27.43
+botocore==1.27.44
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -129,7 +129,7 @@ distro==1.7.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-django==3.2.14
+django==3.2.15
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
