@@ -34,7 +34,7 @@ describe('<ShareProgramRecordModal />', () => {
 
       return promise.then(() => {
         wrapper.update();
-        expect(wrapper.find('.modal-body .form-group input').props().value).toBe(wrapper.state('programRecordUrl'));
+        expect(wrapper.find('.modal-body .pgn__form-group input').props().value).toBe(wrapper.state('programRecordUrl'));
         expect(wrapper.find('.modal-body .loading-wrapper').length).toBe(0);
         expect(wrapper.find('.modal-body button.btn-primary').length).toBe(1);
       });
@@ -65,7 +65,7 @@ describe('<ShareProgramRecordModal />', () => {
     it('renders the url input as read only', () => (
       promise.then(() => {
         wrapper.update();
-        expect(wrapper.find('.modal-body .form-group input').prop('readOnly')).toBe(true);
+        expect(wrapper.find('.modal-body .pgn__form-group input').prop('readOnly')).toBe(true);
       })
     ));
 
@@ -85,10 +85,10 @@ describe('<ShareProgramRecordModal />', () => {
 
       return promise.then(() => {
         wrapper.update();
-        const input = wrapper.find('.modal-dialog .form-group input').getDOMNode();
+        const input = wrapper.find('.modal-dialog .pgn__form-group input').getDOMNode();
         input.selectionStart = 0;
         input.selectionEnd = input.value.length; // Select all of the url to copy
-        wrapper.find('.modal-dialog .form-group input').simulate('copy');
+        wrapper.find('.modal-dialog .pgn__form-group input').simulate('copy');
         expect(wrapper.state('urlCopied')).toBe(true);
       });
     });
@@ -98,10 +98,10 @@ describe('<ShareProgramRecordModal />', () => {
 
       return promise.then(() => {
         wrapper.update();
-        const input = wrapper.find('.modal-dialog .form-group input').getDOMNode();
+        const input = wrapper.find('.modal-dialog .pgn__form-group input').getDOMNode();
         input.selectionStart = 0;
         input.selectionEnd = 5; // Only select part of the url to copy
-        wrapper.find('.modal-body .form-group input').simulate('copy');
+        wrapper.find('.modal-body .pgn__form-group input').simulate('copy');
         expect(wrapper.state('urlCopied')).toBe(false);
       });
     });
