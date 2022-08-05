@@ -4,7 +4,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import {
-  Button, Icon, InputText, Modal, Alert,
+  Button, Icon, Modal, Alert, Form,
 } from '@edx/paragon';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import trackEvent from './Analytics';
@@ -162,13 +162,15 @@ class ShareProgramRecordModal extends React.Component {
               && (
               <div className="url-group">
                 <div onCopy={this.checkUrlCopied}>
-                  <InputText
-                    value={programRecordUrl}
-                    name="program-record-share-url"
-                    className={['program-record-share-url']}
-                    label={<span className="sr-only">{gettext('Program Record URL')}</span>}
-                    readOnly
-                  />
+                  <Form.Group>
+                    <Form.Control
+                      value={programRecordUrl}
+                      name="program-record-share-url"
+                      className={['program-record-share-url']}
+                      label={<span className="sr-only">{gettext('Program Record URL')}</span>}
+                      readOnly
+                    />
+                  </Form.Group>
                 </div>
                 <CopyToClipboard
                   text={programRecordUrl}
