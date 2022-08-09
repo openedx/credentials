@@ -265,7 +265,7 @@ edx-auth-backends==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.118
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.119
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
