@@ -75,7 +75,7 @@ coreschema==0.0.4
     #   -r requirements/test.txt
     #   coreapi
     #   drf-yasg
-coverage==6.4.2
+coverage==6.4.3
     # via -r requirements/test.txt
 cryptography==37.0.4
     # via
@@ -160,7 +160,7 @@ django-sortedm2m==3.1.1
     # via -r requirements/test.txt
 django-statici18n==2.2.0
     # via -r requirements/test.txt
-django-storages==1.12.3
+django-storages==1.13.1
     # via -r requirements/test.txt
 django-waffle==2.6.0
     # via
@@ -565,7 +565,7 @@ tomli==2.0.1
     #   black
     #   pylint
     #   pytest
-tomlkit==0.11.1
+tomlkit==0.11.2
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -588,7 +588,7 @@ urllib3==1.26.11
     #   requests
     #   responses
     #   selenium
-virtualenv==20.16.2
+virtualenv==20.16.3
     # via
     #   -r requirements/test.txt
     #   tox
