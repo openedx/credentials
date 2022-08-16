@@ -76,7 +76,7 @@ cryptography==37.0.4
     #   -r requirements/base.txt
     #   pyjwt
     #   social-auth-core
-ddt==1.5.0
+ddt==1.6.0
     # via -r requirements/test.in
 defusedxml==0.7.1
     # via
@@ -141,7 +141,7 @@ django-simple-history==3.0.0
     #   -r requirements/base.txt
 django-sortedm2m==3.1.1
     # via -r requirements/base.txt
-django-statici18n==2.2.0
+django-statici18n==2.3.1
     # via -r requirements/base.txt
 django-storages==1.13.1
     # via -r requirements/base.txt
@@ -200,9 +200,9 @@ edx-toggles==5.0.0
     # via -r requirements/base.txt
 factory-boy==3.2.1
     # via -r requirements/test.in
-faker==13.15.1
+faker==14.0.0
     # via factory-boy
-filelock==3.7.1
+filelock==3.8.0
     # via
     #   tox
     #   virtualenv
@@ -259,7 +259,7 @@ mypy-extensions==0.4.3
     # via black
 mysqlclient==2.1.1
     # via -r requirements/base.txt
-newrelic==7.16.0.178
+newrelic==8.0.0.179
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -284,7 +284,7 @@ path==16.4.0
     #   edx-i18n-tools
 pathspec==0.9.0
     # via black
-pbr==5.9.0
+pbr==5.10.0
     # via
     #   -r requirements/base.txt
     #   stevedore
@@ -319,7 +319,7 @@ pycryptodomex==3.15.0
     # via
     #   -r requirements/base.txt
     #   pyjwkest
-pygments==2.12.0
+pygments==2.13.0
     # via -r requirements/base.txt
 pyjwkest==1.4.2
     # via
@@ -382,7 +382,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-pytz==2022.1
+pytz==2022.2.1
     # via
     #   -r requirements/base.txt
     #   django
@@ -489,7 +489,7 @@ tomli==2.0.1
     #   black
     #   pylint
     #   pytest
-tomlkit==0.11.2
+tomlkit==0.11.4
     # via pylint
 tox==3.25.1
     # via -r requirements/test.in
