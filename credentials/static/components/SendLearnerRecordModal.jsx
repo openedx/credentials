@@ -2,7 +2,7 @@ import 'core-js/features/promise'; // Needed to support Promises on legacy brows
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Button, CheckBoxGroup, CheckBox, Modal, Alert,
+  Button, Form, Modal, Alert,
 } from '@edx/paragon';
 import StringUtils from './Utils';
 
@@ -70,7 +70,8 @@ class SendLearnerRecordModal extends React.Component {
   }
 
   // Update a credit pathway's state when the checkbox is updated
-  checkCreditPathway(checked, name) {
+  checkCreditPathway(event) {
+    const { checked, name } = event.target;
     this.setState((prevState) => {
       const updatedCreditPathways = { ...prevState.creditPathways };
       updatedCreditPathways[name].checked = checked;
@@ -119,20 +120,19 @@ class SendLearnerRecordModal extends React.Component {
             </div>
             )}
             <p>{ gettext('Select organization(s) you wish to send this record to:') }</p>
-            <CheckBoxGroup>
-              {this.props.creditPathwaysList.map(pathway => (
-                <CheckBox
-                  id={'checkbox-' + pathway.id}
-                  name={pathway.name}
-                  label={this.getPathwayDisplayName(pathway.name)}
-                  key={pathway.id}
-                  disabled={this.state.creditPathways[pathway.name].sent
-                      || !this.state.creditPathways[pathway.name].isActive}
-                  onChange={this.checkCreditPathway}
-                  checked={this.state.creditPathways[pathway.name].checked}
-                />
-              ))}
-            </CheckBoxGroup>
+            {this.props.creditPathwaysList.map(pathway => (
+              <Form.Checkbox
+                id={'checkbox-' + pathway.id}
+                name={pathway.name}
+                key={pathway.id}
+                disabled={this.state.creditPathways[pathway.name].sent
+                    || !this.state.creditPathways[pathway.name].isActive}
+                onChange={this.checkCreditPathway}
+                checked={this.state.creditPathways[pathway.name].checked}
+              >
+                {this.getPathwayDisplayName(pathway.name)}
+              </Form.Checkbox>
+            ))}
           </div>
         )}
         open
