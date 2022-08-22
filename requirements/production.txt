@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==5.0.1
     # via -r requirements/base.txt
-boto3==1.24.52
+boto3==1.24.56
     # via django-ses
-botocore==1.27.52
+botocore==1.27.56
     # via
     #   boto3
     #   s3transfer
@@ -35,7 +35,7 @@ cffi==1.15.1
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==2.1.0
+charset-normalizer==2.1.1
     # via
     #   -r requirements/base.txt
     #   requests
@@ -119,7 +119,7 @@ django-ratelimit==3.0.1
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==3.1.0
+django-ses==3.1.2
     # via -r requirements/production.in
 django-simple-history==3.0.0
     # via
@@ -131,7 +131,7 @@ django-statici18n==2.3.1
     # via -r requirements/base.txt
 django-storages==1.13.1
     # via -r requirements/base.txt
-django-waffle==2.6.0
+django-waffle==2.7.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -156,7 +156,7 @@ edx-ace==1.5.0
     # via -r requirements/base.txt
 edx-auth-backends==4.1.0
     # via -r requirements/base.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.119
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.120
     # via -r requirements/base.txt
 edx-django-release-util==1.2.0
     # via -r requirements/base.txt
@@ -417,7 +417,7 @@ uritemplate==4.1.1
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.11
+urllib3==1.26.12
     # via
     #   -r requirements/base.txt
     #   botocore
