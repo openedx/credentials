@@ -42,11 +42,11 @@ bleach==5.0.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.24.52
+boto3==1.24.56
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.27.52
+botocore==1.27.56
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -63,7 +63,7 @@ cffi==1.15.1
     #   bcrypt
     #   cryptography
     #   pynacl
-charset-normalizer==2.1.0
+charset-normalizer==2.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -100,7 +100,7 @@ coreschema==0.0.4
     #   -r requirements/production.txt
     #   coreapi
     #   drf-yasg
-coverage==6.4.3
+coverage==6.4.4
     # via -r requirements/dev.txt
 cryptography==37.0.4
     # via
@@ -173,7 +173,7 @@ django-crum==0.7.9
     #   -r requirements/production.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==3.5.0
+django-debug-toolbar==3.6.0
     # via -r requirements/dev.txt
 django-extensions==3.2.0
     # via
@@ -196,7 +196,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==3.1.0
+django-ses==3.1.2
     # via -r requirements/production.txt
 django-simple-history==3.0.0
     # via
@@ -215,7 +215,7 @@ django-storages==1.13.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-waffle==2.6.0
+django-waffle==2.7.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -234,7 +234,7 @@ djangorestframework==3.13.1
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
-docker[ssh]==5.0.3
+docker[ssh]==6.0.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
@@ -265,7 +265,7 @@ edx-auth-backends==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.119
+edx_credentials_themes @ git+https://github.com/edx/credentials-themes.git@0.1.120
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -310,7 +310,7 @@ edx-toggles==5.0.0
     #   -r requirements/production.txt
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==14.0.0
+faker==14.1.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -433,6 +433,7 @@ packaging==21.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+    #   docker
     #   drf-yasg
     #   pytest
     #   tox
@@ -750,11 +751,12 @@ uritemplate==4.1.1
     #   -r requirements/production.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.11
+urllib3==1.26.12
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   botocore
+    #   docker
     #   requests
     #   responses
     #   selenium
