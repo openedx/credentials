@@ -91,7 +91,6 @@ describe('<SendLearnerRecordModal />', () => {
 
   it('enables send button when at least one organization is checked', () => {
     expect(wrapper.find('.modal-footer button.btn-primary').prop('disabled')).toBe(true);
-    // console.error(wrapper.find('.modal-body input').at(0).debug());
     wrapper.find('.modal-body input').at(0).simulate('change', { target: { checked: true, value: 'testX' } });
     wrapper.update();
     expect(wrapper.find('.modal-footer button.btn-primary').prop('disabled')).toBe(false);
