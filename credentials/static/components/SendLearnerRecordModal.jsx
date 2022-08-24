@@ -71,7 +71,7 @@ class SendLearnerRecordModal extends React.Component {
 
   // Update a credit pathway's state when the checkbox is updated
   checkCreditPathway(event) {
-    const { checked, name } = event.target;
+    const { checked, value: name } = event.target;
     this.setState((prevState) => {
       const updatedCreditPathways = { ...prevState.creditPathways };
       updatedCreditPathways[name].checked = checked;
@@ -120,19 +120,22 @@ class SendLearnerRecordModal extends React.Component {
             </div>
             )}
             <p>{ gettext('Select organization(s) you wish to send this record to:') }</p>
-            {this.props.creditPathwaysList.map(pathway => (
-              <Form.Checkbox
-                id={'checkbox-' + pathway.id}
-                name={pathway.name}
-                key={pathway.id}
-                disabled={this.state.creditPathways[pathway.name].sent
-                    || !this.state.creditPathways[pathway.name].isActive}
-                onChange={this.checkCreditPathway}
-                checked={this.state.creditPathways[pathway.name].checked}
-              >
-                {this.getPathwayDisplayName(pathway.name)}
-              </Form.Checkbox>
-            ))}
+            <Form.CheckboxSet name="pathways">
+              {this.props.creditPathwaysList.map(pathway => (
+                <Form.Checkbox
+                  id={'checkbox-' + pathway.id}
+                  name={pathway.name}
+                  value={pathway.name}
+                  key={pathway.id}
+                  disabled={this.state.creditPathways[pathway.name].sent
+                      || !this.state.creditPathways[pathway.name].isActive}
+                  onChange={this.checkCreditPathway}
+                  checked={this.state.creditPathways[pathway.name].checked}
+                >
+                  {this.getPathwayDisplayName(pathway.name)}
+                </Form.Checkbox>
+              ))}
+            </Form.CheckboxSet>
           </div>
         )}
         open
