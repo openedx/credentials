@@ -8,6 +8,10 @@ analytics-python==1.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+appdirs==1.4.4
+    # via
+    #   -r requirements/dev.txt
+    #   django-migration-linter
 asgiref==3.5.2
     # via
     #   -r requirements/dev.txt
@@ -30,7 +34,7 @@ backoff==1.10.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   analytics-python
-bcrypt==3.2.2
+bcrypt==4.0.0
     # via
     #   -r requirements/dev.txt
     #   paramiko
@@ -42,11 +46,11 @@ bleach==5.0.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.24.57
+boto3==1.24.60
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.27.57
+botocore==1.27.60
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -60,7 +64,6 @@ cffi==1.15.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-    #   bcrypt
     #   cryptography
     #   pynacl
 charset-normalizer==2.1.1
@@ -121,7 +124,7 @@ dill==0.3.5.1
     # via
     #   -r requirements/dev.txt
     #   pylint
-distlib==0.3.5
+distlib==0.3.6
     # via
     #   -r requirements/dev.txt
     #   virtualenv
@@ -142,6 +145,7 @@ django==3.2.15
     #   django-extensions
     #   django-filter
     #   django-hijack
+    #   django-migration-linter
     #   django-ses
     #   django-statici18n
     #   django-storages
@@ -188,6 +192,8 @@ django-hijack==2.3.0
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+django-migration-linter==4.1.0
+    # via -r requirements/dev.txt
 django-ratelimit==3.0.1
     # via
     #   -r requirements/dev.txt
@@ -284,7 +290,7 @@ edx-django-utils==5.0.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.0.1
+edx-drf-extensions==8.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -326,7 +332,7 @@ future==0.18.2
     #   pyjwkest
 gevent==21.12.0
     # via -r requirements/production.txt
-greenlet==1.1.2
+greenlet==1.1.3
     # via
     #   -r requirements/production.txt
     #   gevent
@@ -726,6 +732,7 @@ texttable==1.6.4
 toml==0.10.2
     # via
     #   -r requirements/dev.txt
+    #   django-migration-linter
     #   tox
 tomli==2.0.1
     # via
