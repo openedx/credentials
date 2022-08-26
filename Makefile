@@ -201,5 +201,9 @@ quality_and_translations_tests_suite: build_test_image
 unit_tests_suite: build_test_image
 	docker run -e "TERM=xterm-256color" -v /edx/app/credentials/node_modules/ -v `pwd`:/edx/app/credentials/ credentials:local bash -c 'cd /edx/app/credentials/ && make static && make tests && make coverage'
 
+
+migration_linter:
+	python manage.py lintmigrations --settings=credentials.settings.test
+
 docs:
 	tox -e docs

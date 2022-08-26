@@ -108,3 +108,18 @@ jobs:
         run: make requirements
       - name: Build the docs
         run: make docs
+
+
+  migrations-linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+          architecture: x64
+      - name: Install Dependencies
+        run: make requirements
+      - name: Run migrations linting
+        run: make migration_linter
+
