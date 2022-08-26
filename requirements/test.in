@@ -18,6 +18,7 @@ bok-choy
 code-annotations          # provides commands used by the pii_check make target
 coverage
 ddt
+django-migration-linter
 edx-lint
 factory-boy
 httpretty
