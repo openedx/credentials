@@ -1,0 +1,34 @@
+name: Migration Linter CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  migrations-linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get commits data
+        run: |
+          echo "PR_FETCH_DEPTH=$(( ${{ github.event.pull_request.commits }} + 1 ))" >> "${GITHUB_ENV}"
+
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: ${{ env.PR_FETCH_DEPTH }}
+
+      - name: Check commits
+        run: git log --oneline
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Install Dependencies
+        run: make requirements
+
+      - name: Run migrations linting
+        run: |
+          python manage.py lintmigrations --settings=credentials.settings.test --project-root-path=. --git-commit-id `git rev-parse HEAD~${{ github.event.pull_request.commits }}` --warnings-as-errors

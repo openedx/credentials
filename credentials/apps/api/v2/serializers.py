@@ -262,7 +262,7 @@ class UserGradeSerializer(serializers.ModelSerializer):
         # turn off validation, it only tries to complain about unique_together when updating existing objects
         validators = []
 
-    def is_valid(self, *, raise_exception=False):
+    def is_valid(self, *, raise_exception=False):  # pylint: disable=arguments-differ
         # The LMS sometimes gives us None for the letter grade for some reason. But since the model doesn't take null,
         # just convert it into an empty string instead.
         if self.initial_data.get("letter_grade", "") is None:

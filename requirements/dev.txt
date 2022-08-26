@@ -6,6 +6,10 @@
 #
 analytics-python==1.4.0
     # via -r requirements/test.txt
+appdirs==1.4.4
+    # via
+    #   -r requirements/test.txt
+    #   django-migration-linter
 asgiref==3.5.2
     # via
     #   -r requirements/test.txt
@@ -111,6 +115,7 @@ django==3.2.16
     #   django-extensions
     #   django-filter
     #   django-hijack
+    #   django-migration-linter
     #   django-statici18n
     #   django-storages
     #   djangorestframework
@@ -147,6 +152,8 @@ django-hijack==2.3.0
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
+django-migration-linter==4.1.0
+    # via -r requirements/test.txt
 django-ratelimit==3.0.1
     # via -r requirements/test.txt
 django-rest-swagger==2.2.0
@@ -555,6 +562,10 @@ text-unidecode==1.3
     #   python-slugify
 texttable==1.6.4
     # via docker-compose
+toml==0.10.2
+    # via
+    #   -r requirements/test.txt
+    #   django-migration-linter
 tomli==2.0.1
     # via
     #   -r requirements/test.txt
