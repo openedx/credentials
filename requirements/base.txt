@@ -92,10 +92,8 @@ django-ratelimit==3.0.1
     # via -r requirements/base.in
 django-rest-swagger==2.2.0
     # via -r requirements/base.in
-django-simple-history==3.0.0
-    # via
-    #   -c requirements/common_constraints.txt
-    #   -r requirements/base.in
+django-simple-history==3.1.1
+    # via -r requirements/base.in
 django-sortedm2m==3.1.1
     # via -r requirements/base.in
 django-statici18n==2.3.1
@@ -137,7 +135,7 @@ edx-django-utils==5.0.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.0.1
+edx-drf-extensions==8.2.0
     # via -r requirements/base.in
 edx-i18n-tools==0.9.1
     # via edx-credentials-themes
