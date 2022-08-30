@@ -22,7 +22,7 @@ from credentials.apps.catalog.models import Pathway, Program
 from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.models import ProgramCertificate, UserCredential
-from credentials.apps.records.api import get_program_details, get_record_data
+from credentials.apps.records.api import get_program_details, get_program_record_data
 from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
@@ -324,7 +324,7 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
         segment_client = SegmentClient(write_key=site_configuration.segment_key)
 
         program_cert_record = get_object_or_404(ProgramCertRecord, uuid=kwargs.get("uuid"))
-        record = get_record_data(
+        record = get_program_record_data(
             program_cert_record.user,
             program_cert_record.program.uuid,
             request.site,
