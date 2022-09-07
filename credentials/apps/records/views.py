@@ -266,8 +266,15 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
 @method_decorator(ratelimit(key="user", rate=RECORDS_RATE_LIMIT, method="POST", block=True), name="dispatch")
 class ProgramRecordCreationView(LoginRequiredMixin, RecordsEnabledMixin, View):
     """
-    Creates a new Program Certificate Record from given username and program uuid,
-    returns the uuid of the created Program Certificate Record
+    Creates a new Program Certificate Record from given username and program uuid
+
+    POST: /programs/:program_uuid/share/
+
+    Returns:
+        Dict: Dictionary containing the URL for the program certificate record instance
+
+    If Learner Record MFE is enabled, the URL will route there instead.
+    Make sure to include a base URL for the MFE in the `LEARNER_RECORD_MFE_RECORDS_PAGE_URL` environment variable
     """
 
     def post(self, request, **kwargs):
@@ -289,7 +296,12 @@ class ProgramRecordCreationView(LoginRequiredMixin, RecordsEnabledMixin, View):
         pcr, created = ProgramCertRecord.objects.get_or_create(user=user, program=program)
         status_code = 201 if created else 200
 
+        if settings.USE_LEARNER_RECORD_MFE:
+            response = {"url": f"{settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL}shared/{pcr.uuid.hex}"}
+            return JsonResponse(response, status=status_code)
+
         url = request.build_absolute_uri(reverse("records:public_programs", kwargs={"uuid": pcr.uuid.hex}))
+
         return JsonResponse({"url": url}, status=status_code)
 
 
