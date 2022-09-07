@@ -953,7 +953,7 @@ class ProgramRecordTests(SiteMixin, TestCase):
         self.assertTrue(response.url.startswith("/login/?next="))
 
     def test_user_creation(self):
-        """Verify successful creation of a ProgramCertRecord and return of a uuid"""
+        """Verify successful creation of a ProgramCertRecord and return of a URL with the uuid for the public record"""
         rev = reverse("records:share_program", kwargs={"uuid": self.program.uuid.hex})
         data = {"username": self.USERNAME}
         jdata = json.dumps(data).encode("utf-8")
@@ -962,6 +962,22 @@ class ProgramRecordTests(SiteMixin, TestCase):
 
         self.assertEqual(response.status_code, 201)
         self.assertRegex(json_data["url"], UUID_PATTERN)
+
+    @override_settings(USE_LEARNER_RECORD_MFE=True)
+    @override_settings(LEARNER_RECORD_MFE_RECORDS_PAGE_URL="http://some.website/page/")
+    def test_user_creation_with_MFE(self):
+        """
+        Verify successful creation of a ProgramCertRecord and return of a URL with the uuid for the public record
+        (Learner Record MFE)
+        """
+        rev = reverse("records:share_program", kwargs={"uuid": self.program.uuid.hex})
+        data = {"username": self.USERNAME}
+        jdata = json.dumps(data).encode("utf-8")
+        response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
+        json_data = response.json()
+
+        self.assertEqual(response.status_code, 201)
+        self.assertRegex(json_data["url"], rf"http://some.website/page/shared/{UUID_PATTERN}")
 
     def test_different_user_creation(self):
         """Verify that the view rejects a User attempting to create a ProgramCertRecord for another"""
