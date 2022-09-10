@@ -3,7 +3,7 @@
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/edx/credentials"
+    "url": "git://github.com/openedx/credentials"
   },
   "scripts": {
     "test-react": "jest --no-cache --coverage  --config ./jest-config.json"

@@ -6,7 +6,7 @@ edX Credentials Service   |Codecov|_
 This repository contains the edX Credentials Service, which supports course and program certificates. This service is a replacement for the ``certificates`` app in ``edx-platform``.
 Credentials can be run as part of devstack_.
 
-.. _devstack: https://github.com/edx/devstack
+.. _devstack: https://github.com/openedx/devstack
 
 
 Where to run `make` commands
@@ -66,21 +66,21 @@ Documentation
 `Documentation`_ is hosted on Read the Docs. The source is hosted in this repo's `docs`_ directory. To contribute, please open a PR against this repo.
 
 .. _Documentation: https://edx-credentials.readthedocs.io/en/latest/
-.. _docs: https://github.com/edx/credentials/tree/master/docs
+.. _docs: https://github.com/openedx/credentials/tree/master/docs
 
 License
 -------
 
 The code in this repository is licensed under version 3 of the AGPL unless otherwise noted. Please see the LICENSE_ file for details.
 
-.. _LICENSE: https://github.com/edx/credentials/blob/master/LICENSE
+.. _LICENSE: https://github.com/openedx/credentials/blob/master/LICENSE
 
 How To Contribute
 -----------------
 
 Contributions are welcome. Please read `How To Contribute`_ for details. Even though it was written with ``edx-platform`` in mind, these guidelines should be followed for Open edX code in general.
 
-.. _`How To Contribute`: https://github.com/edx/edx-platform/blob/master/CONTRIBUTING.rst
+.. _`How To Contribute`: https://github.com/openedx/edx-platform/blob/master/CONTRIBUTING.rst
 
 Reporting Security Issues
 -------------------------
