@@ -1,8 +1,10 @@
+import datetime
 import json
 from decimal import Decimal
 from unittest import mock
 
 import ddt
+import pytz
 from django.contrib.auth.models import Permission
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
@@ -589,6 +591,24 @@ class GradeViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(grade.letter_grade, self.data["letter_grade"])
         self.assertDictEqual(response.data, self.serialize_user_grade(grade))
+
+    def test_upgrade_with_lms_last_updated_at_data(self):
+        """Verify the endpoint supports updating the status"""
+        # create a grade record as it would be before we added the `lms_last_updated_at` field
+        grade = UserGradeFactory(course_run=self.course_run)
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, "add_usergrade")
+
+        # simulate updating the existing record with the new field in the data
+        dt = datetime.datetime.now()
+        last_updated_at = dt.replace(tzinfo=pytz.UTC)
+        data = self.serialize_user_grade(grade)
+        data["lms_last_updated_at"] = last_updated_at
+        response = self.client.post(self.list_path, data=JSONRenderer().render(data), content_type=JSON_CONTENT_TYPE)
+        self.assertEqual(response.status_code, 201)
+        # verify the data is part of the grade record as expected
+        grade.refresh_from_db()
+        self.assertEqual(grade.lms_last_updated_at, last_updated_at)
 
 
 @ddt.ddt

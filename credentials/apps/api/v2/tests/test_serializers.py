@@ -1,8 +1,10 @@
 from collections import namedtuple
+from datetime import datetime
 from logging import WARNING
 from uuid import uuid4
 
 import ddt
+import pytz
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.exceptions import ValidationError
@@ -158,6 +160,7 @@ class UserGradeSerializerTests(SiteMixin, TestCase):
             "letter_grade": grade.letter_grade,
             "percent_grade": str(grade.percent_grade),
             "verified": grade.verified,
+            "lms_last_updated_at": None,
             "created": grade.created.strftime(api_settings.DATETIME_FORMAT),
             "modified": grade.modified.strftime(api_settings.DATETIME_FORMAT),
         }
@@ -167,6 +170,8 @@ class UserGradeSerializerTests(SiteMixin, TestCase):
     def test_to_internal_value(self):
         Request = namedtuple("Request", ["site"])
         serializer = UserGradeSerializer(context={"request": Request(site=self.site)})
+        updated_at_dt = datetime.now()
+        updated_at_utc = updated_at_dt.replace(tzinfo=pytz.UTC)
 
         data = {
             "username": "alice",
@@ -174,6 +179,7 @@ class UserGradeSerializerTests(SiteMixin, TestCase):
             "letter_grade": "A",
             "percent_grade": 0.9,
             "verified": True,
+            "lms_last_updated_at": updated_at_utc,
         }
 
         with self.assertRaisesMessage(ValidationError, "No CourseRun exists for key [nope]"):
@@ -189,6 +195,7 @@ class UserGradeSerializerTests(SiteMixin, TestCase):
         self.assertEqual(grade["verified"], True)
         self.assertEqual(grade["letter_grade"], "A")
         self.assertEqual(str(grade["percent_grade"]), "0.9000")
+        self.assertEqual(grade["lms_last_updated_at"], updated_at_utc)
 
 
 class UserCredentialAttributeSerializerTests(TestCase):

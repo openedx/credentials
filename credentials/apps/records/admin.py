@@ -41,6 +41,7 @@ class UserGradeAdmin(admin.ModelAdmin):
         "course_run__key",
     )
     raw_id_fields = ("course_run",)
+    readonly_fields = ["lms_last_updated_at"]
 
 
 @admin.register(UserCreditPathway)

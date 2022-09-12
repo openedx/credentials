@@ -30,6 +30,7 @@ class UserGrade(TimeStampedModel):
     letter_grade = models.CharField(max_length=255, blank=True)
     percent_grade = models.DecimalField(max_digits=5, decimal_places=4, null=False)
     verified = models.BooleanField(verbose_name="Verified Learner ID", default=True)
+    lms_last_updated_at = models.DateTimeField(null=True)
 
     class Meta:
         unique_together = ("username", "course_run")
