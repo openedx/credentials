@@ -375,7 +375,8 @@ class ProgramListingViewTests(SiteMixin, TestCase):
         actual_child_templates = response_context_data["child_templates"]
         self.assert_matching_template_origin(actual_child_templates["footer"], "_footer.html")
         self.assert_matching_template_origin(actual_child_templates["header"], "_header.html")
-        self.assertNotIn("masquerade", actual_child_templates)  # no masquerading on this view
+        # no masquerading on this view
+        self.assertNotIn("masquerade", actual_child_templates)
 
     def assert_matching_template_origin(self, actual, expected_template_name):
         expected = select_template([expected_template_name])
@@ -637,7 +638,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         grades = json.loads(response.context_data["record"])["grades"]
         self.assertEqual(len(grades), 1)
-        self.assertEqual(grades[0]["course_id"], self.course_runs[0].key)  # 0 instead of 1 now that 1 is in future
+        # 0 instead of 1 now that 1 is in future
+        self.assertEqual(grades[0]["course_id"], self.course_runs[0].key)
         self.assertEqual(grades[0]["issue_date"], self.user_credentials[0].created.isoformat())
 
     @ddt.data(
@@ -709,7 +711,8 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
         grades = json.loads(response.context_data["record"])["grades"]
         self.assertEqual(len(grades), 1)
-        self.assertEqual(grades[0]["course_id"], self.course_runs[0].key)  # 0 instead of 1 now that 1 is in future
+        # 0 instead of 1 now that 1 is in future
+        self.assertEqual(grades[0]["course_id"], self.course_runs[0].key)
         self.assertEqual(grades[0]["issue_date"], self.user_credentials[0].created.isoformat())
 
     @ddt.data(
@@ -1138,10 +1141,10 @@ class ProgramSendTests(SiteMixin, TestCase):
     def test_resend_with_program(self):
         """verify that updating with a program updates a previous record with no program"""
 
-        #create the artifacts left after a legacy call to send record
+        # create the artifacts left after a legacy call to send record
         ProgramCertRecordFactory(user=self.user, program=self.program, uuid=self.program.uuid)
         UserCreditPathwayFactory(pathway=self.pathway, user=self.user, program=None, status="")
-        
+
         response = self.post()
         self.assertEqual(response.status_code, 200, "Invalid response from post")
 
@@ -1150,7 +1153,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertEqual(pathwayCount, 1, "Pathway was not updated")
         refetched_ucp = UserCreditPathway.objects.get(user=self.user, pathway=self.pathway)
         self.assertEqual(refetched_ucp.program, self.program, "Incorrect program associated with Pathway")
-        
+
     def test_send_with_new_program(self):
         """Verify that an existing user credit pathway with no program is not modified when a new one is created with a new program"""
         legacyProgram = ProgramFactory(title="testProgram2")
@@ -1158,31 +1161,27 @@ class ProgramSendTests(SiteMixin, TestCase):
         UserCreditPathwayFactory(pathway=self.pathway, user=self.user, program=None, status="")
         response = self.post()
         # there should now be two
-        self.assertEqual(UserCreditPathway.objects.filter(pathway=self.pathway, user=self.user).count(), 
-        2,
-        "Did not find expected number of UserCreditPathway items.")
-
-        self.assertEqual(UserCreditPathway.objects.filter(
-                pathway=self.pathway, 
-                user=self.user,
-                program=None
-            ).count(),
-            1,
-            "UserCreditPathway with null progam incorrectly updated"
+        self.assertEqual(
+            UserCreditPathway.objects.filter(pathway=self.pathway, user=self.user).count(),
+            2,
+            "Did not find expected number of UserCreditPathway items.",
         )
 
-        self.assertEqual(UserCreditPathway.objects.filter(
-                pathway=self.pathway, 
-                user=self.user,
-                program=self.program
-            ).count(),
+        self.assertEqual(
+            UserCreditPathway.objects.filter(pathway=self.pathway, user=self.user, program=None).count(),
             1,
-            "New UserCreditPathway not created when null program UserCreditPathway exists"
+            "UserCreditPathway with null progam incorrectly updated",
+        )
+
+        self.assertEqual(
+            UserCreditPathway.objects.filter(pathway=self.pathway, user=self.user, program=self.program).count(),
+            1,
+            "New UserCreditPathway not created when null program UserCreditPathway exists",
         )
 
         response = self.post()
         self.assertEqual(response.status_code, 200)
-        
+
 
 class ProgramRecordCsvViewTests(SiteMixin, TestCase):
     MOCK_USER_DATA = {

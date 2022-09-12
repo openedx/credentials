@@ -83,12 +83,8 @@ class UserCreditPathway(TimeStampedModel):
         default=constants.UserCreditPathwayStatus.SENT,
         blank=True,
     )
-    
-    program= models.ForeignKey(Program,
-        null=True, 
-        blank=True,
-        on_delete=models.PROTECT
-    )
+
+    program = models.ForeignKey(Program, null=True, blank=True, on_delete=models.PROTECT)
 
     def clean(self):
         # Don't allow pathway to have any type other than the CREDIT type

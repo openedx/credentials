@@ -249,26 +249,26 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
         )
         ace.send(msg)
 
-        # Create a record of this email 
+        # Create a record of this email
         if UserCreditPathway.objects.filter(user=user, pathway=pathway, program=program).exists():
-           UserCreditPathway.objects.update_or_create(
+            UserCreditPathway.objects.update_or_create(
                 user=user,
                 pathway=pathway,
                 program=program,
                 defaults={"status": UserCreditPathwayStatus.SENT},
             )
-        elif preexisting_program_cert_record and UserCreditPathway.objects.filter(user=user, pathway=pathway, program=None).exists():
-            # A program for this user already existed, and a pathway for this user without a program exists. 
+        elif (
+            preexisting_program_cert_record
+            and UserCreditPathway.objects.filter(user=user, pathway=pathway, program=None).exists()
+        ):
+            # A program for this user already existed, and a pathway for this user without a program exists.
             # Update the status and program
             UserCreditPathway.objects.update_or_create(
-            user=user,
-            pathway=pathway,
-            program=None,
-            defaults={
-                "status": UserCreditPathwayStatus.SENT,
-                "program": program
-            },
-        )
+                user=user,
+                pathway=pathway,
+                program=None,
+                defaults={"status": UserCreditPathwayStatus.SENT, "program": program},
+            )
         else:
             UserCreditPathway.objects.update_or_create(
                 user=user,

@@ -59,8 +59,4 @@ class UserCreditPathwayAdmin(admin.ModelAdmin):
         "program_title",
         "status",
     )
-    raw_id_fields = (
-        "user",
-        "pathway",
-        "program"
-    )
+    raw_id_fields = ("user", "pathway", "program")
