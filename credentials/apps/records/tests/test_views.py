@@ -1125,7 +1125,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertIn("has sent their partially completed program record for", str(email.message()))
 
     def test_allowed_sending_second_email(self):
-        """Verify that an email can't be sent twice"""
+        """Verify that an email can be sent more than once"""
         UserCreditPathwayFactory(pathway=self.pathway, user=self.user)
         response = self.post()
         self.assertEqual(response.status_code, 200)

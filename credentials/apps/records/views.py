@@ -262,7 +262,7 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
             and UserCreditPathway.objects.filter(user=user, pathway=pathway, program=None).exists()
         ):
             # A program for this user already existed, and a pathway for this user without a program exists.
-            # Update the status and program
+            # Search for the entry without a program, and then update the status and program.
             UserCreditPathway.objects.update_or_create(
                 user=user,
                 pathway=pathway,
