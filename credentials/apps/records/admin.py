@@ -50,14 +50,17 @@ class UserCreditPathwayAdmin(admin.ModelAdmin):
     list_display = (
         "user",
         "pathway",
+        "program",
         "status",
     )
     search_fields = (
         "user__username",
         "pathway__org_name",
+        "program_title",
         "status",
     )
     raw_id_fields = (
         "user",
         "pathway",
+        "program"
     )

@@ -227,11 +227,8 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
         )
         certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)
         user = get_object_or_404(User, username=username)
+        preexisting_program_cert_record = ProgramCertRecord.objects.filter(user=user, program=program).exists()
         public_record, _ = ProgramCertRecord.objects.get_or_create(user=user, program=program)
-
-        # Make sure we haven't already sent an email with a 'sent' status
-        if UserCreditPathway.objects.filter(user=user, pathway=pathway, status=UserCreditPathwayStatus.SENT).exists():
-            return JsonResponse({"error": "Pathway email already sent"}, status=400)
 
         record_path = reverse("records:public_programs", kwargs={"uuid": public_record.uuid.hex})
         record_link = request.build_absolute_uri(record_path)
@@ -252,13 +249,33 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
         )
         ace.send(msg)
 
-        # Create a record of this email so that we can't send multiple times
-        # If the status was previously changed, we want to reset it to SENT
-        UserCreditPathway.objects.update_or_create(
+        # Create a record of this email 
+        if UserCreditPathway.objects.filter(user=user, pathway=pathway, program=program).exists():
+           UserCreditPathway.objects.update_or_create(
+                user=user,
+                pathway=pathway,
+                program=program,
+                defaults={"status": UserCreditPathwayStatus.SENT},
+            )
+        elif preexisting_program_cert_record and UserCreditPathway.objects.filter(user=user, pathway=pathway, program=None).exists():
+            # A program for this user already existed, and a pathway for this user without a program exists. 
+            # Update the status and program
+            UserCreditPathway.objects.update_or_create(
             user=user,
             pathway=pathway,
-            defaults={"status": UserCreditPathwayStatus.SENT},
+            program=None,
+            defaults={
+                "status": UserCreditPathwayStatus.SENT,
+                "program": program
+            },
         )
+        else:
+            UserCreditPathway.objects.update_or_create(
+                user=user,
+                pathway=pathway,
+                program=program,
+                defaults={"status": UserCreditPathwayStatus.SENT},
+            )
 
         return http.HttpResponse(status=200)
 

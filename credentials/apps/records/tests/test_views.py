@@ -1121,20 +1121,68 @@ class ProgramSendTests(SiteMixin, TestCase):
         email = mail.outbox[0]
         self.assertIn("has sent their partially completed program record for", str(email.message()))
 
-    def prevent_sending_second_email(self):
+    def test_allowed_sending_second_email(self):
         """Verify that an email can't be sent twice"""
         UserCreditPathwayFactory(pathway=self.pathway, user=self.user)
         response = self.post()
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 200)
 
     def test_resend_email(self):
         """Verify that a manually updated email status can be resent"""
-        UserCreditPathwayFactory(pathway=self.pathway, user=self.user, status="")
+        UserCreditPathwayFactory(pathway=self.pathway, user=self.user, program=self.program, status="")
         response = self.post()
         self.assertEqual(response.status_code, 200)
-        user_credit_pathway = UserCreditPathway.objects.get(user=self.user, pathway=self.pathway)
+        user_credit_pathway = UserCreditPathway.objects.get(user=self.user, pathway=self.pathway, program=self.program)
         self.assertEqual(user_credit_pathway.status, UserCreditPathwayStatus.SENT)
 
+    def test_resend_with_program(self):
+        """verify that updating with a program updates a previous record with no program"""
+
+        #create the artifacts left after a legacy call to send record
+        ProgramCertRecordFactory(user=self.user, program=self.program, uuid=self.program.uuid)
+        UserCreditPathwayFactory(pathway=self.pathway, user=self.user, program=None, status="")
+        
+        response = self.post()
+        self.assertEqual(response.status_code, 200, "Invalid response from post")
+
+        # If there are more than one, it means it was not updated, but a new user credit pathway created
+        pathwayCount = UserCreditPathway.objects.filter(pathway=self.pathway, user=self.user).count()
+        self.assertEqual(pathwayCount, 1, "Pathway was not updated")
+        refetched_ucp = UserCreditPathway.objects.get(user=self.user, pathway=self.pathway)
+        self.assertEqual(refetched_ucp.program, self.program, "Incorrect program associated with Pathway")
+        
+    def test_send_with_new_program(self):
+        """Verify that an existing user credit pathway with no program is not modified when a new one is created with a new program"""
+        legacyProgram = ProgramFactory(title="testProgram2")
+        ProgramCertRecordFactory(user=self.user, program=legacyProgram, uuid=legacyProgram.uuid)
+        UserCreditPathwayFactory(pathway=self.pathway, user=self.user, program=None, status="")
+        response = self.post()
+        # there should now be two
+        self.assertEqual(UserCreditPathway.objects.filter(pathway=self.pathway, user=self.user).count(), 
+        2,
+        "Did not find expected number of UserCreditPathway items.")
+
+        self.assertEqual(UserCreditPathway.objects.filter(
+                pathway=self.pathway, 
+                user=self.user,
+                program=None
+            ).count(),
+            1,
+            "UserCreditPathway with null progam incorrectly updated"
+        )
+
+        self.assertEqual(UserCreditPathway.objects.filter(
+                pathway=self.pathway, 
+                user=self.user,
+                program=self.program
+            ).count(),
+            1,
+            "New UserCreditPathway not created when null program UserCreditPathway exists"
+        )
+
+        response = self.post()
+        self.assertEqual(response.status_code, 200)
+        
 
 class ProgramRecordCsvViewTests(SiteMixin, TestCase):
     MOCK_USER_DATA = {
