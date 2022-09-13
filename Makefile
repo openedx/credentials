@@ -89,7 +89,7 @@ upgrade: piptools $(COMMON_CONSTRAINTS_TXT)	## update the requirements/*.txt fil
 ### Quality commands ###
 
 quality: isort_check quality-js format_check ## Run linters
-	pylint --django-settings-module=credentials.settings.test --rcfile=pylintrc acceptance_tests credentials *.py
+	PYTHONPATH=. pylint --django-settings-module=credentials.settings.test --rcfile=pylintrc acceptance_tests credentials *.py
 
 quality_fix: isort format
 
