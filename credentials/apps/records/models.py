@@ -84,6 +84,8 @@ class UserCreditPathway(TimeStampedModel):
         blank=True,
     )
 
+    program = models.ForeignKey(Program, null=True, blank=True, on_delete=models.PROTECT)
+
     def clean(self):
         # Don't allow pathway to have any type other than the CREDIT type
         if self.pathway.pathway_type != PathwayType.CREDIT.value:
@@ -94,4 +96,4 @@ class UserCreditPathway(TimeStampedModel):
         return super().save(*args, **kwargs)
 
     class Meta:
-        unique_together = ("user", "pathway")
+        unique_together = ("user", "pathway", "program")

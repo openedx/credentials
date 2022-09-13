@@ -141,7 +141,7 @@ User Credit Pathways
 ~~~~~~~~~~~~~~~~~~~~
 
 To add or update a user credit pathway, use the ``UserCreditPathway`` model. This model is used to track which
-users have sent which records to which credit pathways.
+users have sent which records to which credit pathways for which program.
 
 The following image shows a configured ``UserCreditPathway`` model in the Django administration panel.
 
