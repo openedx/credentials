@@ -13,7 +13,7 @@ asgiref==3.5.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django
-astroid==2.12.7
+astroid==2.12.9
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -42,16 +42,16 @@ bleach==5.0.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.24.66
+boto3==1.24.71
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.27.66
+botocore==1.27.71
     # via
     #   -r requirements/production.txt
     #   boto3
     #   s3transfer
-certifi==2022.6.15
+certifi==2022.6.15.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -101,7 +101,7 @@ coreschema==0.0.4
     #   drf-yasg
 coverage==6.4.4
     # via -r requirements/dev.txt
-cryptography==37.0.4
+cryptography==38.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -174,7 +174,7 @@ django-crum==0.7.9
     #   edx-toggles
 django-debug-toolbar==3.6.0
     # via -r requirements/dev.txt
-django-extensions==3.2.0
+django-extensions==3.2.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -276,14 +276,14 @@ edx-django-sites-extensions==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-utils==5.0.0
+edx-django-utils==5.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.2.0
+edx-drf-extensions==8.3.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -292,7 +292,7 @@ edx-i18n-tools==0.9.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-credentials-themes
-edx-lint==5.2.4
+edx-lint==5.2.5
     # via -r requirements/dev.txt
 edx-opaque-keys==2.3.0
     # via
@@ -410,14 +410,14 @@ mysqlclient==2.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==8.0.0.179
+newrelic==8.1.0.180
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-django-utils
 nodeenv==1.7.0
     # via -r requirements/production.txt
-oauthlib==3.2.0
+oauthlib==3.2.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -512,7 +512,7 @@ pyjwt[crypto]==2.4.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.15.0
+pylint==2.15.2
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -722,21 +722,18 @@ texttable==1.6.4
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-toml==0.10.2
-    # via
-    #   -r requirements/dev.txt
-    #   tox
 tomli==2.0.1
     # via
     #   -r requirements/dev.txt
     #   black
     #   pylint
     #   pytest
+    #   tox
 tomlkit==0.11.4
     # via
     #   -r requirements/dev.txt
     #   pylint
-tox==3.25.1
+tox==3.26.0
     # via -r requirements/dev.txt
 typing-extensions==4.3.0
     # via
@@ -759,7 +756,7 @@ urllib3==1.26.12
     #   requests
     #   responses
     #   selenium
-virtualenv==20.16.4
+virtualenv==20.16.5
     # via
     #   -r requirements/dev.txt
     #   tox
