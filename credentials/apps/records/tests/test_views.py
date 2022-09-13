@@ -1155,7 +1155,8 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertEqual(refetched_ucp.program, self.program, "Incorrect program associated with Pathway")
 
     def test_send_with_new_program(self):
-        """Verify that an existing user credit pathway with no program is not modified when a new one is created with a new program"""
+        """Verify that an existing user credit pathway with no program is not 
+        modified when a new one is created with a new program"""
         legacyProgram = ProgramFactory(title="testProgram2")
         ProgramCertRecordFactory(user=self.user, program=legacyProgram, uuid=legacyProgram.uuid)
         UserCreditPathwayFactory(pathway=self.pathway, user=self.user, program=None, status="")
