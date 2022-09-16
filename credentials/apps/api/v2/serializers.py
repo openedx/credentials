@@ -250,6 +250,7 @@ class UserGradeSerializer(serializers.ModelSerializer):
             "letter_grade",
             "percent_grade",
             "verified",
+            "lms_last_updated_at",
             "created",
             "modified",
         )
