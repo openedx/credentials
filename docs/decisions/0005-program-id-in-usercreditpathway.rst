@@ -4,9 +4,8 @@
 Status
 ******
 
-Provisional (=> Accepted)
+Accepted
 
-.. I suggest this start in "Provisional" status once this PR and general approach is approved and until the actual work is done, at which point it can be changed to "Accepted."
 
 Context
 *******
@@ -43,7 +42,7 @@ Decision
 
 We will add the ``program_id`` to the ``UserCreditPathway`` model. This will be added at the same point that the ``UserCreditPathway`` record is first created: when the user through the UI decides to request credit from an institution. We already have the ``program_id`` at this point, but we have not been saving it.
 
-Note: this ``program_id`` is the ID of the relevant ``Program`` in the Credentials service. This ID differs from the program ID in Discovery or the LMS.
+Note: this ``program_id`` is the ID of the relevant ``Program`` in the Credentials service. This ID differs from the program ID in Discovery or the LMS. The ``program_uuid`` can be found by joining to the related ``Program`` object.
 
 We will remove any checks preventing learners from re-requesting credit. We will no longer check for existing ``UserCreditPathway`` records when determining what options to show in the UI.
 
