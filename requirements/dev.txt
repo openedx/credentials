@@ -33,7 +33,7 @@ bleach==5.0.1
     # via -r requirements/test.txt
 bok-choy==1.1.1
     # via -r requirements/test.txt
-certifi==2022.9.14
+certifi==2022.9.24
     # via
     #   -r requirements/test.txt
     #   requests
@@ -137,7 +137,7 @@ django-crum==0.7.9
     #   -r requirements/test.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==3.6.0
+django-debug-toolbar==3.7.0
     # via -r requirements/dev.in
 django-extensions==3.2.1
     # via -r requirements/test.txt
@@ -169,7 +169,7 @@ django-waffle==3.0.0
     #   edx-toggles
 django-webpack-loader==1.6.0
     # via -r requirements/test.txt
-djangorestframework==3.13.1
+djangorestframework==3.14.0
     # via
     #   -r requirements/test.txt
     #   django-rest-swagger
@@ -188,7 +188,7 @@ drf-jwt==1.19.2
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-drf-yasg==1.21.3
+drf-yasg==1.21.4
     # via -r requirements/test.txt
 edx-ace==1.5.0
     # via -r requirements/test.txt
@@ -225,7 +225,7 @@ edx-toggles==5.0.0
     # via -r requirements/test.txt
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==14.2.0
+faker==15.0.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -321,7 +321,7 @@ packaging==21.3
     #   tox
 paramiko==2.11.0
     # via docker
-path==16.4.0
+path==16.5.0
     # via
     #   -r requirements/test.txt
     #   edx-i18n-tools
@@ -535,7 +535,7 @@ social-auth-core==4.3.0
     #   -r requirements/test.txt
     #   edx-auth-backends
     #   social-auth-app-django
-sqlparse==0.4.2
+sqlparse==0.4.3
     # via
     #   -r requirements/test.txt
     #   django
