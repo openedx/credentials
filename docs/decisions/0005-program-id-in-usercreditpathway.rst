@@ -12,6 +12,8 @@ Context
 
 The ``Pathway`` model represents a way for learners to request credit for a ``Program`` from an institution. A ``Pathway`` can be associated with many ``Program``\ s, and any ``Program`` may be associated with many ``Pathway``\ s.
 
+This is specific to ``Program``, and not applied to ``Curriculum`` which is a separate implementation of programs, but mostly used for Masters Degrees.
+
 The ``UserCreditPathway`` model represents a record of any time a learner has requested credit using a ``Pathway``. This keeps track of only the ``User`` ID, the ``Pathway`` ID, and a ``status`` column (which indicates whether or not the email requesting credit has actually been sent).
 
 We create a ``UserCreditPathway`` record whenever a learner requests credit for a ``Program`` on their Program Record page. Once a ``UserCreditPathway`` record has been created associating that ``User`` with that ``Pathway``, we do not allow the same ``User`` to request credit along the same ``Pathway`` again. (Presumably, this was to prevent users from spamming institutions with emails requesting credit.)
