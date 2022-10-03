@@ -5,7 +5,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import {
-  Button, Icon, Modal, Alert, Form,
+  Button, Icon, Alert, Form, ModalCloseButton, ModalLayer,
 } from '@edx/paragon';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import trackEvent from './Analytics';
@@ -128,77 +128,81 @@ class ShareProgramRecordModal extends React.Component {
     const { onClose, parentSelector } = this.props;
 
     return (
-      <Modal
-        title={gettext('Share Link to Record')}
-        {...(parentSelector && { parentSelector })}
-        onClose={onClose}
-        body={(
+      <ModalLayer isOpen onClose={onClose}>
+        <div className="mw-sm p-5 bg-white mx-auto my-5">
+          <h2>{StringUtils.interpolate(
+            gettext('Share Link to Record'),
+            { ...(parentSelector && { parentSelector }) },
+          )}
+          </h2>
           <div>
             {urlError
               && (
-              <Alert
-                variant="danger"
-                show
-                dismissible={false}
-              >
-                <Alert.Heading>
-                  { gettext('We were unable to create your record link.') }
-                </Alert.Heading>
-                <p className="alert-body">{ gettext('You can close this window and try again.') }</p>
-              </Alert>
+                <Alert
+                  variant="danger"
+                  show
+                  dismissible={false}
+                >
+                  <Alert.Heading>
+                    {gettext('We were unable to create your record link.')}
+                  </Alert.Heading>
+                  <p className="alert-body">{gettext('You can close this window and try again.')}</p>
+                </Alert>
               )}
             {urlCopied
               && (
-              <Alert
-                variant="success"
-                show
-                dismissible={false}
-              >
-                {gettext('Successfully copied program record link.')}
-              </Alert>
+                <Alert
+                  variant="success"
+                  show
+                  dismissible={false}
+                >
+                  {gettext('Successfully copied program record link.')}
+                </Alert>
               )}
-            <p>{ gettext('Copy this link to share your record with a university, employer, or anyone else of your choosing. Anyone you share this link with will have access to your record forever.') }</p>
+            <p>{gettext('Copy this link to share your record with a university, employer, or anyone else of your choosing. Anyone you share this link with will have access to your record forever.')}</p>
             {this.renderSwitchToSendParagraph()}
             {urlReturned
               && (
-              <div className="url-group">
-                <div onCopy={this.checkUrlCopied}>
-                  <Form.Group>
-                    <Form.Control
-                      value={programRecordUrl}
-                      name="program-record-share-url"
-                      className={['program-record-share-url']}
-                      label={<span className="sr-only">{gettext('Program Record URL')}</span>}
-                      readOnly
+                <div className="url-group">
+                  <div onCopy={this.checkUrlCopied}>
+                    <Form.Group>
+                      <Form.Control
+                        value={programRecordUrl}
+                        name="program-record-share-url"
+                        className={['program-record-share-url']}
+                        label={<span className="sr-only">{gettext('Program Record URL')}</span>}
+                        readOnly
+                      />
+                    </Form.Group>
+                  </div>
+                  <CopyToClipboard
+                    text={programRecordUrl}
+                    onCopy={this.setUrlAsCopied}
+                  >
+                    <Button.Deprecated
+                      label={gettext('Copy Link')}
+                      className={['btn-primary']}
+                      onClick={trackEvent('edx.bi.credentials.program_record.share_url_copied', {
+                        category: 'records',
+                        'program-uuid': this.props.uuid,
+                      })}
                     />
-                  </Form.Group>
+                  </CopyToClipboard>
                 </div>
-                <CopyToClipboard
-                  text={programRecordUrl}
-                  onCopy={this.setUrlAsCopied}
-                >
-                  <Button.Deprecated
-                    label={gettext('Copy Link')}
-                    className={['btn-primary']}
-                    onClick={trackEvent('edx.bi.credentials.program_record.share_url_copied', {
-                      category: 'records',
-                      'program-uuid': this.props.uuid,
-                    })}
-                  />
-                </CopyToClipboard>
-              </div>
               )}
             {!urlReturned && !urlError
               && (
-              <div className="loading-wrapper d-inline-flex">
-                <Icon id="ShareModalIcon" className={['fa', 'fa-spinner', 'fa-spin']} />
-                <p>{ gettext('Loading record link...') }</p>
-              </div>
+                <div className="loading-wrapper d-inline-flex">
+                  <Icon id="ShareModalIcon" className={['fa', 'fa-spinner', 'fa-spin']} />
+                  <p>{gettext('Loading record link...')}</p>
+                </div>
               )}
           </div>
-        )}
-        open
-      />
+
+          <ModalCloseButton className="float-right" variant="link">Close</ModalCloseButton>
+        </div>
+
+      </ModalLayer>
     );
   }
 }
@@ -216,7 +220,7 @@ ShareProgramRecordModal.propTypes = {
 };
 
 ShareProgramRecordModal.defaultProps = {
-  onClose: () => {},
+  onClose: () => { },
   onSwitchToSend: null,
   parentSelector: false,
 };

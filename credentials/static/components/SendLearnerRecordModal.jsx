@@ -3,7 +3,7 @@ import 'core-js/features/promise'; // Needed to support Promises on legacy brows
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Button, Form, Modal, Alert,
+  Button, Form, Alert, ModalLayer, ModalCloseButton,
 } from '@edx/paragon';
 import StringUtils from './Utils';
 
@@ -89,16 +89,16 @@ class SendLearnerRecordModal extends React.Component {
     } = this.props;
 
     return (
-      <Modal
-        title={StringUtils.interpolate(
-          gettext('Send to {platform} Credit Partner'),
-          { platform: platformName },
-        )}
-        {...(parentSelector && { parentSelector })}
-        onClose={onClose}
-        body={(
+      <ModalLayer isOpen onClose={onClose}>
+        <div className="mw-sm p-5 bg-white mx-auto my-5">
+          <h2>{StringUtils.interpolate(
+            gettext('Send to {platform} Credit Partner'),
+            { platform: platformName },
+            { ...(parentSelector && { parentSelector }) },
+          )}
+          </h2>
           <div>
-            <p>{ StringUtils.interpolate(
+            <p>{StringUtils.interpolate(
               gettext('You can directly share your program record with {platform} partners that accept credit for this {type} Program. Once you send your record you cannot unsend it.'),
               {
                 platform: platformName,
@@ -107,20 +107,20 @@ class SendLearnerRecordModal extends React.Component {
             )}
             </p>
             {this.anyInactivePathways && (
-            <div>
-              <Alert
-                variant="danger"
-                show
-                dismissible={false}
-              >
-                <Alert.Heading>
-                  { gettext('Not all credit partners are ready to receive records yet')}
-                </Alert.Heading>
-                <p className="alert-body">{gettext('You can check back in the future or share your record link directly if you need to do so immediately.')}</p>
-              </Alert>
-            </div>
+              <div>
+                <Alert
+                  variant="danger"
+                  show
+                  dismissible={false}
+                >
+                  <Alert.Heading>
+                    {gettext('Not all credit partners are ready to receive records yet')}
+                  </Alert.Heading>
+                  <p className="alert-body">{gettext('You can check back in the future or share your record link directly if you need to do so immediately.')}</p>
+                </Alert>
+              </div>
             )}
-            <p>{ gettext('Select organization(s) you wish to send this record to:') }</p>
+            <p>{gettext('Select organization(s) you wish to send this record to:')}</p>
             <Form.CheckboxSet name="pathways">
               {this.props.creditPathwaysList.map(pathway => (
                 <Form.Checkbox
@@ -129,7 +129,7 @@ class SendLearnerRecordModal extends React.Component {
                   value={pathway.name}
                   key={pathway.id}
                   disabled={this.state.creditPathways[pathway.name].sent
-                      || !this.state.creditPathways[pathway.name].isActive}
+                    || !this.state.creditPathways[pathway.name].isActive}
                   onChange={this.checkCreditPathway}
                   checked={this.state.creditPathways[pathway.name].checked}
                 >
@@ -138,18 +138,24 @@ class SendLearnerRecordModal extends React.Component {
               ))}
             </Form.CheckboxSet>
           </div>
-        )}
-        open
-        buttons={[
-          <Button.Deprecated
-            label={gettext('Send')}
-            key="send"
-            buttonType="primary"
-            onClick={this.callSendHandler}
-            disabled={this.state.numCheckedOrganizations <= 0}
-          />,
-        ]}
-      />
+          <p className="float-right">
+
+            <ModalCloseButton variant="link">Close</ModalCloseButton>
+
+            <Button
+              key="send"
+              buttonType="primary"
+              onClick={this.callSendHandler}
+              disabled={this.state.numCheckedOrganizations <= 0}
+              variant="primary"
+              className="mie-2"
+            >
+              {gettext('Send')}
+            </Button>
+          </p>
+        </div>
+
+      </ModalLayer>
     );
   }
 }
@@ -172,7 +178,7 @@ SendLearnerRecordModal.propTypes = {
 };
 
 SendLearnerRecordModal.defaultProps = {
-  onClose: () => {},
+  onClose: () => { },
   parentSelector: false,
   creditPathways: {},
   creditPathwaysList: [],
