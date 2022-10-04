@@ -74,7 +74,7 @@ coreschema==0.0.4
     #   -r requirements/test.txt
     #   coreapi
     #   drf-yasg
-coverage==6.4.4
+coverage==6.5.0
     # via -r requirements/test.txt
 cryptography==38.0.1
     # via
@@ -99,7 +99,7 @@ distlib==0.3.6
     #   virtualenv
 distro==1.7.0
     # via docker-compose
-django==3.2.15
+django==3.2.16
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -244,7 +244,7 @@ idna==3.4
     # via
     #   -r requirements/test.txt
     #   requests
-importlib-metadata==4.12.0
+importlib-metadata==5.0.0
     # via
     #   -r requirements/test.txt
     #   markdown
@@ -299,7 +299,7 @@ mypy-extensions==0.4.3
     #   black
 mysqlclient==2.1.1
     # via -r requirements/test.txt
-newrelic==8.1.0.180
+newrelic==8.2.0.181
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -441,7 +441,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/test.txt
     #   social-auth-core
-pytz==2022.2.1
+pytz==2022.4
     # via
     #   -r requirements/test.txt
     #   django
@@ -562,7 +562,7 @@ tomli==2.0.1
     #   pylint
     #   pytest
     #   tox
-tomlkit==0.11.4
+tomlkit==0.11.5
     # via
     #   -r requirements/test.txt
     #   pylint
