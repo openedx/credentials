@@ -42,11 +42,11 @@ bleach==5.0.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.24.81
+boto3==1.24.85
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.27.81
+botocore==1.27.85
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -99,7 +99,7 @@ coreschema==0.0.4
     #   -r requirements/production.txt
     #   coreapi
     #   drf-yasg
-coverage==6.4.4
+coverage==6.5.0
     # via -r requirements/dev.txt
 cryptography==38.0.1
     # via
@@ -128,7 +128,7 @@ distro==1.7.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-django==3.2.15
+django==3.2.16
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -195,7 +195,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==3.1.2
+django-ses==3.2.0
     # via -r requirements/production.txt
 django-simple-history==3.0.0
     # via
@@ -338,7 +338,7 @@ idna==3.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-importlib-metadata==4.12.0
+importlib-metadata==5.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -410,7 +410,7 @@ mysqlclient==2.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==8.1.0.180
+newrelic==8.2.0.181
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -585,7 +585,7 @@ python3-openid==3.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   social-auth-core
-pytz==2022.2.1
+pytz==2022.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -729,7 +729,7 @@ tomli==2.0.1
     #   pylint
     #   pytest
     #   tox
-tomlkit==0.11.4
+tomlkit==0.11.5
     # via
     #   -r requirements/dev.txt
     #   pylint

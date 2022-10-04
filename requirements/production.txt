@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==5.0.1
     # via -r requirements/base.txt
-boto3==1.24.81
+boto3==1.24.85
     # via django-ses
-botocore==1.27.81
+botocore==1.27.85
     # via
     #   boto3
     #   s3transfer
@@ -69,7 +69,7 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==3.2.15
+django==3.2.16
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -119,7 +119,7 @@ django-ratelimit==3.0.1
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==3.1.2
+django-ses==3.2.0
     # via -r requirements/production.in
 django-simple-history==3.0.0
     # via
@@ -196,7 +196,7 @@ idna==3.4
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-metadata==4.12.0
+importlib-metadata==5.0.0
     # via
     #   -r requirements/base.txt
     #   markdown
@@ -229,7 +229,7 @@ monotonic==1.6
     #   analytics-python
 mysqlclient==2.1.1
     # via -r requirements/base.txt
-newrelic==8.1.0.180
+newrelic==8.2.0.181
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -318,7 +318,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-pytz==2022.2.1
+pytz==2022.4
     # via
     #   -r requirements/base.txt
     #   django

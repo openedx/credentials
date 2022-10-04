@@ -69,7 +69,7 @@ coreschema==0.0.4
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-coverage==6.4.4
+coverage==6.5.0
     # via -r requirements/test.in
 cryptography==38.0.1
     # via
@@ -216,7 +216,7 @@ idna==3.4
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-metadata==4.12.0
+importlib-metadata==5.0.0
     # via
     #   -r requirements/base.txt
     #   markdown
@@ -259,7 +259,7 @@ mypy-extensions==0.4.3
     # via black
 mysqlclient==2.1.1
     # via -r requirements/base.txt
-newrelic==8.1.0.180
+newrelic==8.2.0.181
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -382,7 +382,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-pytz==2022.2.1
+pytz==2022.4
     # via
     #   -r requirements/base.txt
     #   django
@@ -488,7 +488,7 @@ tomli==2.0.1
     #   pylint
     #   pytest
     #   tox
-tomlkit==0.11.4
+tomlkit==0.11.5
     # via pylint
 tox==3.26.0
     # via -r requirements/test.in
