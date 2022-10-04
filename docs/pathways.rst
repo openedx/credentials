@@ -9,7 +9,7 @@ Creation
 Pathways get created in the course-discovery_ admin.
 Credentials receives these pathways by calling the ``copy_catalog`` management command.
 
-.. _course-discovery: https://github.com/edx/course-discovery
+.. _course-discovery: https://github.com/openedx/course-discovery
 
 Sending Learner Records
 -----------------------
@@ -23,7 +23,7 @@ This email contains information about the record, a link to the public record, a
 After an email is sent, a ``UserCreditPathway`` object is created to prevent the learner from sending the same record to the
 same pathway again. This is done by disabling the pathway's checkbox and adding text to it indicating to the user that the record has been sent.
 
-.. _edx-ace: https://github.com/edx/edx-ace
+.. _edx-ace: https://github.com/openedx/edx-ace
 
 Source Email Address
 --------------------

@@ -109,8 +109,8 @@ The templates for these two pages contain React factory calls which render the c
 
 These themed templates can be created by first copying the records_factory block from the `records template`_ and the program_record_factory block from the `programs template`_. Paste this code into new files in your theme's templates directory, at credentials/records.html and credentials/programs.html, respectively. In these new files, add in the ``icons`` parameter as seen in the example credentials/records.html below.
 
-.. _records template: https://github.com/edx/credentials/blob/master/credentials/templates/records.html
-.. _programs template: https://github.com/edx/credentials/blob/master/credentials/templates/programs.html
+.. _records template: https://github.com/openedx/credentials/blob/master/credentials/templates/records.html
+.. _programs template: https://github.com/openedx/credentials/blob/master/credentials/templates/programs.html
 .. code-block:: JSX
 
     {% block records_factory %}
