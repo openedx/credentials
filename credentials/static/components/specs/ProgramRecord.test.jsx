@@ -155,7 +155,7 @@ describe('<ProgramRecord />', () => {
       wrapper.find('.program-record-actions button.btn-primary').simulate('click');
       wrapper.update();
       expect(wrapper.find('.pgn__modal-content-container').length).toBe(1);
-      wrapper.find('.pgn__modal-content-container .pgn__modal-close-button button').simulate('click');
+      wrapper.find('.pgn__modal-footer .pgn__action-row .pgn__modal-close-button button').simulate('click');
       wrapper.update();
       expect(wrapper.find('.pgn__modal-content-container').length).toBe(0);
     });
