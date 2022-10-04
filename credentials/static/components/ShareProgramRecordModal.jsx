@@ -5,7 +5,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import {
-  Button, Icon, Alert, Form, ModalCloseButton, ModalLayer,
+  Button, Icon, Alert, Form, ModalDialog, ActionRow,
 } from '@edx/paragon';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import trackEvent from './Analytics';
@@ -128,14 +128,23 @@ class ShareProgramRecordModal extends React.Component {
     const { onClose, parentSelector } = this.props;
 
     return (
-      <ModalLayer isOpen onClose={onClose}>
-        <div className="mw-sm p-5 bg-white mx-auto my-5">
-          <h2>{StringUtils.interpolate(
-            gettext('Share Link to Record'),
-            { ...(parentSelector && { parentSelector }) },
-          )}
-          </h2>
-          <div>
+      <ModalDialog
+        isOpen
+        title="my modal"
+        onClose={onClose}
+        size="md"
+        hasCloseButton
+      >
+        <ModalDialog.Header>
+          <ModalDialog.Title>
+            {StringUtils.interpolate(
+              gettext('Share Link to Record'),
+              { ...(parentSelector && { parentSelector }) },
+            )}
+          </ModalDialog.Title>
+        </ModalDialog.Header>
+        <ModalDialog.Body>
+          <div className="p-3">
             {urlError
               && (
                 <Alert
@@ -198,11 +207,15 @@ class ShareProgramRecordModal extends React.Component {
                 </div>
               )}
           </div>
-
-          <ModalCloseButton className="float-right" variant="link">Close</ModalCloseButton>
-        </div>
-
-      </ModalLayer>
+        </ModalDialog.Body>
+        <ModalDialog.Footer>
+          <ActionRow>
+            <ModalDialog.CloseButton variant="link">
+              Cancel
+            </ModalDialog.CloseButton>
+          </ActionRow>
+        </ModalDialog.Footer>
+      </ModalDialog>
     );
   }
 }

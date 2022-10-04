@@ -55,31 +55,31 @@ describe('<SendLearnerRecordModal />', () => {
   });
 
   it('displays the program record url if API returns successfully', () => {
-    expect(wrapper.find('.modal-dialog').length).toBe(1);
-    expect(wrapper.find('.modal-header .modal-title').text()).toBe('Send to partnerX Credit Partner');
-    expect(wrapper.find('.modal-header button').length).toBe(1);
-    expect(wrapper.find('.modal-footer button').length).toBe(2);
+    expect(wrapper.find('.pgn__modal-body-content').length).toBe(1);
+    expect(wrapper.find('.pgn__modal-title').text()).toBe('Send to partnerX Credit Partner');
+    expect(wrapper.find('.pgn__modal-close-container button').length).toBe(1);
+    expect(wrapper.find('.pgn__modal-footer .pgn__action-row button').length).toBe(2);
   });
 
   it('closes if the header close button is clicked', () => {
-    expect(wrapper.find('.modal-dialog').length).toBe(1);
-    wrapper.find('.modal-header button').simulate('click');
-    expect(wrapper.find('.modal-dialog').length).toBe(0);
+    expect(wrapper.find('.pgn__modal-body-content').length).toBe(1);
+    wrapper.find('.pgn__modal-close-container button').simulate('click');
+    expect(wrapper.find('.pgn__modal .pgn__modal-md .pgn__modal-default').length).toBe(0);
   });
 
   it('closes if the footer close button is clicked', () => {
-    expect(wrapper.find('.modal-dialog').length).toBe(1);
-    wrapper.find('.modal-footer button.btn.btn-link').simulate('click');
-    expect(wrapper.find('.modal-dialog').length).toBe(0);
+    expect(wrapper.find('.pgn__modal-body-content').length).toBe(1);
+    wrapper.find('.pgn__modal-footer .pgn__action-row .pgn__modal-close-button button').simulate('click');
+    expect(wrapper.find('.pgn__modal .pgn__modal-md .pgn__modal-default').length).toBe(0);
   });
 
   it('calls sendHandler if selected', () => {
-    wrapper.find('.modal-body input').at(0).simulate('change');
+    wrapper.find('.pgn__modal-body-content').at(0).simulate('change');
     const pathways = wrapper.state().creditPathways;
     pathways.testX.checked = true;
     const numCheckedOrganizations = 1;
     wrapper.instance().setState({ pathways, numCheckedOrganizations });
-    wrapper.find('.modal-footer button.btn-primary').simulate('click');
+    wrapper.find('.pgn__modal-footer .pgn__action-row button.btn-primary').simulate('click');
     wrapper.update();
     expect(defaultProps.sendHandler.mock.calls.length).toBe(1);
   });
@@ -90,10 +90,10 @@ describe('<SendLearnerRecordModal />', () => {
   });
 
   it('enables send button when at least one organization is checked', () => {
-    expect(wrapper.find('.modal-footer button.btn-primary').prop('disabled')).toBe(true);
-    wrapper.find('.modal-body input').at(0).simulate('change', { target: { checked: true, value: 'testX' } });
+    expect(wrapper.find('.pgn__modal-footer .pgn__action-row button.btn-primary').prop('disabled')).toBe(true);
+    wrapper.find('.pgn__modal-body-content input').at(0).simulate('change', { target: { checked: true, value: 'testX' } });
     wrapper.update();
-    expect(wrapper.find('.modal-footer button.btn-primary').prop('disabled')).toBe(false);
+    expect(wrapper.find('.pgn__modal-footer .pgn__action-row button.btn-primary').prop('disabled')).toBe(false);
   });
 
   it('gets the correct organization display names', () => {

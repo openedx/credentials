@@ -3,7 +3,7 @@ import 'core-js/features/promise'; // Needed to support Promises on legacy brows
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Button, Form, Alert, ModalLayer, ModalCloseButton,
+  Button, Form, Alert, ActionRow, ModalDialog,
 } from '@edx/paragon';
 import StringUtils from './Utils';
 
@@ -89,15 +89,24 @@ class SendLearnerRecordModal extends React.Component {
     } = this.props;
 
     return (
-      <ModalLayer isOpen onClose={onClose}>
-        <div className="mw-sm p-5 bg-white mx-auto my-5">
-          <h2>{StringUtils.interpolate(
-            gettext('Send to {platform} Credit Partner'),
-            { platform: platformName },
-            { ...(parentSelector && { parentSelector }) },
-          )}
-          </h2>
-          <div>
+      <ModalDialog
+        isOpen
+        title="my modal"
+        onClose={onClose}
+        size="md"
+        hasCloseButton
+      >
+        <ModalDialog.Header>
+          <ModalDialog.Title>
+            {StringUtils.interpolate(
+              gettext('Send to {platform} Credit Partner'),
+              { platform: platformName },
+              { ...(parentSelector && { parentSelector }) },
+            )}
+          </ModalDialog.Title>
+        </ModalDialog.Header>
+        <ModalDialog.Body>
+          <div className="p-3">
             <p>{StringUtils.interpolate(
               gettext('You can directly share your program record with {platform} partners that accept credit for this {type} Program. Once you send your record you cannot unsend it.'),
               {
@@ -138,10 +147,12 @@ class SendLearnerRecordModal extends React.Component {
               ))}
             </Form.CheckboxSet>
           </div>
-          <p className="float-right">
-
-            <ModalCloseButton variant="link">Close</ModalCloseButton>
-
+        </ModalDialog.Body>
+        <ModalDialog.Footer className="p-2">
+          <ActionRow>
+            <ModalDialog.CloseButton variant="link">
+              Close
+            </ModalDialog.CloseButton>
             <Button
               key="send"
               buttonType="primary"
@@ -152,10 +163,9 @@ class SendLearnerRecordModal extends React.Component {
             >
               {gettext('Send')}
             </Button>
-          </p>
-        </div>
-
-      </ModalLayer>
+          </ActionRow>
+        </ModalDialog.Footer>
+      </ModalDialog>
     );
   }
 }

@@ -144,51 +144,51 @@ describe('<ProgramRecord />', () => {
     });
 
     it('loads the send learner record modal', () => {
-      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(0);
       wrapper.find('.program-record-actions button.btn.btn-primary').simulate('click');
       wrapper.update();
-      expect(wrapper.find('.modal-dialog').length).toBe(1);
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(1);
     });
 
     it('closes the send learner record modal', () => {
-      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(0);
       wrapper.find('.program-record-actions button.btn-primary').simulate('click');
       wrapper.update();
-      expect(wrapper.find('.modal-dialog').length).toBe(1);
-      wrapper.find('.modal-dialog .modal-header button').simulate('click');
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(1);
+      wrapper.find('.pgn__modal-content-container .pgn__modal-close-button button').simulate('click');
       wrapper.update();
-      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(0);
     });
 
     it('loads the share program url modal', () => {
       const promise = Promise.resolve({ uuid: '21366aa129514333a4a9f32161ad3a69' });
       axios.post.mockImplementation(() => promise);
 
-      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(0);
       wrapper.find('.program-record-actions button.btn-outline-primary').simulate('click');
       wrapper.update();
-      expect(wrapper.find('.modal-dialog').length).toBe(1);
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(1);
     });
 
     it('closes the share program url modal', () => {
-      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(0);
       wrapper.find('.program-record-actions button.btn-outline-primary').simulate('click');
       wrapper.update();
-      expect(wrapper.find('.modal-dialog').length).toBe(1);
-      wrapper.find('.modal-dialog .modal-header button').simulate('click');
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(1);
+      wrapper.find('.pgn__modal-footer .pgn__action-row button').simulate('click');
       wrapper.update();
-      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(0);
     });
 
     it('switches from share to send', () => {
-      expect(wrapper.find('.modal-dialog').length).toBe(0);
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(0);
       wrapper.find('.program-record-actions button.btn-outline-primary').simulate('click');
       wrapper.update();
-      expect(wrapper.find('.modal-dialog').length).toBe(1);
-      wrapper.find('.modal-dialog .switch-to-send').simulate('click');
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(1);
+      wrapper.find('.pgn__modal-content-container .switch-to-send').simulate('click');
       wrapper.update();
-      expect(wrapper.find('.modal-dialog').length).toBe(1);
-      expect(wrapper.find('.modal-dialog .modal-header .modal-title').text()).toEqual('Send to testX Credit Partner');
+      expect(wrapper.find('.pgn__modal-content-container').length).toBe(1);
+      expect(wrapper.find('.pgn__modal-content-container h2').text()).toEqual('Send to testX Credit Partner');
     });
 
     it('shows the info alert', () => {
