@@ -35,7 +35,8 @@ jobs:
       matrix:
         python-version: ["py38"]
         django-version: ["django32"]
-        node-version: [ 16.14.0 ]
+        node-version: [ 16 ]
+        npm: [8.5.x]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v2
@@ -46,6 +47,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Setup NPM
+        run: npm install -g npm@${{ matrix.npm }}
       - name: Install Dependencies
         run: make requirements
       - name: Install Firefox
