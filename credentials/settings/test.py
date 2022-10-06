@@ -5,7 +5,8 @@ from credentials.settings.base import *
 from credentials.settings.utils import get_logger_config
 
 INSTALLED_APPS += [
-    "credentials.apps.edx_credentials_extensions", "django_migration_linter",
+    "credentials.apps.edx_credentials_extensions",
+    "django_migration_linter",
 ]
 
 LOGGING = get_logger_config(debug=False, dev_env=True, local_loglevel="DEBUG")
