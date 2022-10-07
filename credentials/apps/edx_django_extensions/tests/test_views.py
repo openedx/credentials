@@ -15,7 +15,7 @@ class ManagementViewTests(SiteMixin, TestCase):
     def setUp(self):
         super().setUp()
         self.user = UserFactory(is_staff=True, is_superuser=True)
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
 
     def get_response_messages(self, response):
         return list(response.context["messages"])

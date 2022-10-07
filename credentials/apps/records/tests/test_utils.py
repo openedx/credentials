@@ -45,7 +45,7 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
         super().setUp()
         dump_random_state()
         self.user = UserFactory(username=self.USERNAME)
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
         self.program = ProgramFactory(site=self.site)
         self.pathway = PathwayFactory(site=self.site, programs=[self.program])
         self.pc = ProgramCertificateFactory(site=self.site, program_uuid=self.program.uuid)

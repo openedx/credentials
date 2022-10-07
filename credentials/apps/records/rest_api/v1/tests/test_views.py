@@ -94,13 +94,13 @@ class ProgramRecordsViewTests(SiteMixin, TestCase):
     def test_allow_authenticated_user(self):
         """Verify the endpoint requires an authenticated user."""
         self.client.logout()
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
         response = self.client.get("/records/api/v1/program_records/")
         self.assertEqual(response.status_code, 200)
 
     def test_details_allow_authenticated_user(self):
         self.client.logout()
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
         uuid = str(self.program.uuid).replace("-", "")
         response = self.client.get(f"/records/api/v1/program_records/{uuid}/?is_public=false")
         self.assertEqual(response.status_code, 200)
@@ -112,13 +112,13 @@ class ProgramRecordsViewTests(SiteMixin, TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_get(self):
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
         response = self.client.get("/records/api/v1/program_records/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["enrolled_programs"], self.serialize_program_records())
 
     def test_get_private_details(self):
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
         uuid = str(self.program.uuid).replace("-", "")
 
         response = self.client.get(f"/records/api/v1/program_records/{uuid}/?is_public=false")
@@ -156,7 +156,7 @@ class ProgramRecordsViewTests(SiteMixin, TestCase):
         self.assertTrue(response.data["is_public"], "Query parameter is set to private when it should be public")
 
     def test_deny_support_get(self):
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
         uuid = str(self.program.uuid).replace("-", "")
 
         # Create a new user to look up

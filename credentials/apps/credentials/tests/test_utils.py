@@ -73,7 +73,7 @@ class ProgramCertificateIssuedEmailTests(SiteMixin, TestCase):
     def setUp(self):
         super().setUp()
         self.user = UserFactory(username=self.USERNAME)
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
         self.program = None
         self.program_cert = None
 

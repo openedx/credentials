@@ -99,7 +99,7 @@ class RecordsViewTests(SiteMixin, TestCase):
             credential=self.program_cert,
         )
 
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
 
     def _render_records(self, program_data=None, status_code=200):
         """Helper method to mock and render a user certificate."""
@@ -335,7 +335,7 @@ class ProgramListingViewTests(SiteMixin, TestCase):
             credential=self.program_cert,
         )
 
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
 
     def _render_listing(self, expected_program_data=None, status_code=200):
         """Helper method to mock and render a user certificate."""
@@ -458,7 +458,7 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         dump_random_state()
 
         self.user = UserFactory(username=self.MOCK_USER_DATA["username"])
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
 
         self.course = CourseFactory(site=self.site)
         self.course_runs = CourseRunFactory.create_batch(3, course=self.course)
@@ -943,7 +943,7 @@ class ProgramRecordTests(SiteMixin, TestCase):
         dump_random_state()
 
         user = UserFactory(username=self.USERNAME)
-        self.client.login(username=user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
         self.program = ProgramFactory(site=self.site)
 
     def test_login_required(self):
@@ -1018,7 +1018,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         super().setUp()
 
         self.user = UserFactory(username=self.USERNAME)
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
         self.program = ProgramFactory(site=self.site)
         self.pathway = PathwayFactory(site=self.site, programs=[self.program])
         self.pc = ProgramCertificateFactory(site=self.site, program_uuid=self.program.uuid)
@@ -1194,7 +1194,7 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
     def setUp(self):
         super().setUp()
         self.user = UserFactory(username=self.MOCK_USER_DATA["username"])
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
         self.course = CourseFactory(site=self.site)
         self.course_runs = [CourseRunFactory(course=self.course) for _ in range(3)]
         self.user_grade_low = UserGradeFactory(
@@ -1305,7 +1305,7 @@ class MasqueradeBannerFactoryTests(SiteMixin, TestCase):
     def setUp(self):
         super().setUp()
         self.user = UserFactory(username=self.MOCK_USER_DATA["username"])
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
 
     def _render_page(self, page):
         """Helper method to render the given page with no record/program data."""

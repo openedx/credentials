@@ -70,7 +70,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         )
         self.platform_name = self.site.siteconfiguration.platform_name
         user = UserFactory(username=self.MOCK_USER_DATA["username"])
-        self.client.login(username=user.username, password=USER_PASSWORD)
+        self.client.force_login(user=self.user)
 
     def _render_user_credential(
         self,
