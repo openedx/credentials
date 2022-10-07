@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# Ansible managed
 
 source /edx/app/credentials/credentials_env
 COMMAND=$1

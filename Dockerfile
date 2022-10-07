@@ -123,8 +123,6 @@ ENV DJANGO_SETTINGS_MODULE credentials.settings.production
 
 COPY scripts/credentials.sh "$CREDENTIALS_APP_DIR/credentials.sh"
 
-#CMD ["gunicorn", "--workers=2", "--name", "credentials", "-c", "/edx/app/credentials/credentials/credentials/docker_gunicorn_configuration.py", "--log-file", "-", "--max-requests=1000", "credentials.wsgi:application"]
-#CMD ["sh", "-c", "gunicorn", "--workers=2", "--name", "credentials", "-c", "${CREDENTIALS_CODE_DIR}/docker_gunicorn_configuration.py", "--log-file", "-", "--max-requests=1000", "credentials.wsgi:application"]
 ENTRYPOINT ["/edx/app/credentials/credentials.sh"]
 
 
