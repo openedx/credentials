@@ -943,7 +943,7 @@ class ProgramRecordTests(SiteMixin, TestCase):
         dump_random_state()
 
         user = UserFactory(username=self.USERNAME)
-        self.client.force_login(user=self.user)
+        self.client.force_login(user=user)
         self.program = ProgramFactory(site=self.site)
 
     def test_login_required(self):
