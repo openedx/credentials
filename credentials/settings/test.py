@@ -47,3 +47,7 @@ JWT_AUTH.update(
     }
 )
 STATICFILES_STORAGE = None
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+]
