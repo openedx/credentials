@@ -5,6 +5,14 @@ Program records are how learners can view and share their achievements in a give
 Views
 -----
 
+Learner Records Microfrontend
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There is now a `Learner Records Microfrontend <https://github.com/edx/frontend-app-learner-record/>`__ that can be used in in place of the legacy credentials UI. The records MFE provides all the same features of the credentials views, with a few changes. Mainly, it no longer supports masquerading, and instead uses a new tab created in the `Support tools MFE <https://github.com/openedx/frontend-app-support-tools/>`__ for tasks that would be completed using masquerading in the past. In the future, the credentials views will be deprecated with the MFE in its place. Eventually the old views will be removed entirely.
+
+To have the UI link to the new MFE, the flag ``LEARNER_RECORD_MICROFRONTEND_URL`` must be set for both the LMS and the profile MFE if it is in use. This flag is defined in the `base.py` file in credentials settings.
+
+---
+
 A learner can see a list of their own program records at ``/records/`` which then links to specific program records under ``/records/programs/<uuid>``.
 
 If you are a staff user, you can masquerade as a specific learner (see the pages as that user sees them) by using the banner that appears at the top of the records pages.
