@@ -10,7 +10,7 @@ asgiref==3.5.2
     # via
     #   -r requirements/base.txt
     #   django
-astroid==2.12.10
+astroid==2.12.11
     # via
     #   pylint
     #   pylint-celery
@@ -23,7 +23,7 @@ backoff==1.10.0
     # via
     #   -r requirements/base.txt
     #   analytics-python
-black==22.8.0
+black==22.10.0
     # via -r requirements/test.in
 bleach==5.0.1
     # via -r requirements/base.txt
@@ -176,7 +176,7 @@ edx-django-release-util==1.2.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==4.0.0
     # via -r requirements/base.txt
-edx-django-utils==5.1.0
+edx-django-utils==5.2.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -259,7 +259,7 @@ mypy-extensions==0.4.3
     # via black
 mysqlclient==2.1.1
     # via -r requirements/base.txt
-newrelic==8.2.0.181
+newrelic==8.2.1
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -333,7 +333,7 @@ pyjwt[crypto]==2.5.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.15.3
+pylint==2.15.4
     # via
     #   edx-lint
     #   pylint-celery
@@ -496,7 +496,7 @@ types-cryptography==3.3.23
     # via
     #   -r requirements/base.txt
     #   pyjwt
-typing-extensions==4.3.0
+typing-extensions==4.4.0
     # via
     #   astroid
     #   black
@@ -522,7 +522,7 @@ wrapt==1.14.1
     # via astroid
 xss-utils==0.4.0
     # via -r requirements/base.txt
-zipp==3.8.1
+zipp==3.9.0
     # via
     #   -r requirements/base.txt
     #   importlib-metadata

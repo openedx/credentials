@@ -131,7 +131,7 @@ edx-django-release-util==1.2.0
     # via -r requirements/base.in
 edx-django-sites-extensions==4.0.0
     # via -r requirements/base.in
-edx-django-utils==5.1.0
+edx-django-utils==5.2.0
     # via
     #   -r requirements/base.in
     #   edx-drf-extensions
@@ -171,7 +171,7 @@ monotonic==1.6
     # via analytics-python
 mysqlclient==2.1.1
     # via -r requirements/base.in
-newrelic==8.2.0.181
+newrelic==8.2.1
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -306,5 +306,5 @@ webencodings==0.5.1
     # via bleach
 xss-utils==0.4.0
     # via -r requirements/base.in
-zipp==3.8.1
+zipp==3.9.0
     # via importlib-metadata
