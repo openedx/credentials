@@ -156,9 +156,9 @@ django-ratelimit==3.0.1
     #   -r requirements/test.txt
 django-rest-swagger==2.2.0
     # via -r requirements/test.txt
-django-simple-history==3.0.0
+django-simple-history==3.1.1
     # via
-    #   -c requirements/common_constraints.txt
+    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
 django-sortedm2m==3.1.1
     # via -r requirements/test.txt
@@ -240,7 +240,7 @@ exceptiongroup==1.1.1
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==18.10.1
+faker==18.11.1
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -355,13 +355,13 @@ pbr==5.11.1
     #   stevedore
 pillow==9.5.0
     # via -r requirements/test.txt
-platformdirs==3.6.0
+platformdirs==3.8.0
     # via
     #   -r requirements/test.txt
     #   black
     #   pylint
     #   virtualenv
-pluggy==1.0.0
+pluggy==1.2.0
     # via
     #   -r requirements/test.txt
     #   pytest
