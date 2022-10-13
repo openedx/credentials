@@ -201,6 +201,7 @@ class User(AbstractUser):
 
     full_name = models.CharField(_("Full Name"), max_length=255, blank=True, null=True)
     lms_user_id = models.IntegerField(null=True, db_index=True)
+    first_name = models.CharField(_("first name"), max_length=30, blank=True)
 
     class Meta:
         get_latest_by = "date_joined"
