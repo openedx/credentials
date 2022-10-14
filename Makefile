@@ -81,6 +81,7 @@ upgrade: piptools $(COMMON_CONSTRAINTS_TXT)	## update the requirements/*.txt fil
 	pip-compile --rebuild --upgrade -o requirements/dev.txt requirements/dev.in
 	pip-compile --rebuild --upgrade -o requirements/production.txt requirements/production.in
 	pip-compile --rebuild --upgrade -o requirements/all.txt requirements/all.in
+	pip-compile --rebuild --upgrade -o requirements/translations.txt requirements/translations.in
 	# Let tox control the Django version for tests
 	grep -e "^django==" requirements/production.txt > requirements/django.txt
 	sed '/^[dD]jango==/d' requirements/test.txt > requirements/test.tmp
