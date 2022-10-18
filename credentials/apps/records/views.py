@@ -9,7 +9,7 @@ from analytics.client import Client as SegmentClient
 from django import http
 from django.conf import settings
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -90,6 +90,7 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
 
 
 class RecordsView(RecordsListBaseView):
+    # TODO: We should be able to remove this function as part of https://github.com/openedx/credentials/issues/1722
     def _get_programs(self):
         return get_user_program_data(
             self.request.user.username,
@@ -98,6 +99,15 @@ class RecordsView(RecordsListBaseView):
             include_retired_programs=True,
         )
 
+    # NOTE: We _should_ keep this for redirecting users to the Learner Record MFE to continue to work correctly
+    def get(self, request, *args, **kwargs):
+        # If the Learner Record MFE is enabled, redirect our user to the MFE, otherwise we use the legacy frontend
+        if settings.USE_LEARNER_RECORD_MFE:
+            return HttpResponseRedirect(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL)
+
+        return super().get(request, *args, **kwargs)
+
+    # TODO: We should be able to remove this function as part of https://github.com/openedx/credentials/issues/1722
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -146,9 +156,14 @@ class ProgramListingView(RecordsListBaseView):
         return super().dispatch(request, *args, **kwargs)
 
 
+# NOTE: As part of https://github.com/openedx/credentials/issues/1722, portions of this class can be removed. However,
+# to ensure that public program records continue to be redirected to the Learner Record MFE, we _must_ keep the
+# overridden `get` function (even after the Learner Record MFE is the default (only) frontend for the `records` app).
+# The other functions that are part of this class can be removed.
 class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
     template_name = "programs.html"
 
+    # TODO: We should be able to remove this function as part of https://github.com/openedx/credentials/issues/1722
     def _get_record(self, uuid, is_public):
         try:
             data = get_program_details(self.request.user, self.request.site, uuid, is_public)
@@ -161,6 +176,20 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
 
         return data["record"]
 
+    # NOTE: We _must_ keep this to ensure we are redirecting users to the Learner Record MFE when viewing shared public
+    # program records.
+    def get(self, request, *args, **kwargs):
+        # If we're using the Learner Record MFE for displaying program records AND this is a public program record
+        # request, redirect the request to the Learner Record MFE.
+        is_public = kwargs["is_public"]
+        if settings.USE_LEARNER_RECORD_MFE and is_public:
+            uuid = kwargs["uuid"]
+            url = urllib.parse.urljoin(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL, f"shared/{uuid}")
+            return HttpResponseRedirect(url)
+
+        return super().get(request, *args, **kwargs)
+
+    # TODO: We should be able to remove this function as part of https://github.com/openedx/credentials/issues/1722
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         uuid = kwargs["uuid"]
@@ -313,12 +342,7 @@ class ProgramRecordCreationView(LoginRequiredMixin, RecordsEnabledMixin, View):
         pcr, created = ProgramCertRecord.objects.get_or_create(user=user, program=program)
         status_code = 201 if created else 200
 
-        if settings.USE_LEARNER_RECORD_MFE:
-            response = {"url": f"{settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL}shared/{pcr.uuid.hex}"}
-            return JsonResponse(response, status=status_code)
-
         url = request.build_absolute_uri(reverse("records:public_programs", kwargs={"uuid": pcr.uuid.hex}))
-
         return JsonResponse({"url": url}, status=status_code)
 
 

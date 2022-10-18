@@ -241,7 +241,7 @@ def _get_shared_program_cert_record_data(program, user):
     except ProgramCertRecord.DoesNotExist:
         return None
     else:
-        return str(shared_program_record.uuid)
+        return str(shared_program_record.uuid.hex)
 
 
 def get_program_record_data(user, program_uuid, site, platform_name=None):
