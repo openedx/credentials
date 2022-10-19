@@ -9,9 +9,11 @@ from . import views
 urlpatterns = [
     re_path(r"^$", views.RecordsView.as_view(), name="index"),
     re_path(r"^api/", include(("credentials.apps.records.rest_api.urls", "api"), namespace="api")),
+    # TODO: We should be able to remove this as part of https://github.com/openedx/credentials/issues/1722
     re_path(
         rf"^programs/{UUID_PATTERN}/$", views.ProgramRecordView.as_view(), {"is_public": False}, name="private_programs"
     ),
+    # NOTE: We need to _keep_ this to ensure shared public program records continue to work
     re_path(
         rf"^programs/shared/{UUID_PATTERN}/$",
         views.ProgramRecordView.as_view(),
