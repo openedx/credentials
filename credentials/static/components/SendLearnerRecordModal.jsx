@@ -1,3 +1,4 @@
+// TODO: We should be able to remove this as part of https://github.com/openedx/credentials/issues/1722
 import 'core-js/features/promise'; // Needed to support Promises on legacy browsers
 import React from 'react';
 import PropTypes from 'prop-types';

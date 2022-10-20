@@ -1,3 +1,4 @@
+// TODO: We should be able to remove this as part of https://github.com/openedx/credentials/issues/1722
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
