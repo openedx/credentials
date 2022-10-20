@@ -58,3 +58,5 @@ References
 ----------
 
 The Open edX platform Django apps ADR 0014: https://github.com/openedx/edx-platform/blob/master/docs/decisions/0014-no-new-apps.rst
+
+How to enable plugins for an IDA: https://github.com/openedx/edx-django-utils/blob/master/edx_django_utils/plugins/docs/how_tos/how_to_enable_plugins_for_an_ida.rst
