@@ -2,20 +2,22 @@
   "extends": [
     "config:base"
   ],
+  "prConcurrentLimit": 0,
+  "rebaseWhen": "never",
+  "masterIssue": true,
+  "pip_requirements": {
+    "fileMatch": ["requirements/base.in"]
+  },
+  "ignorePaths" : ["test.in"],
   "packageRules": [
     {
-      "updateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
-      ],
-      "automerge": true
+      "packagePatterns": ["pytest"],
+      "separateMinorPatch": true
+    },
+    {
+      "packagePatterns": ["pytest"],
+      "updateTypes": ["patch"],
+      "enabled": false
     }
-  ],
-  "prConcurrentLimit": 10,
-  "rebaseWhen": "behind-base-branch",
-  "schedule": [
-    "before 6am every weekday"
   ]
 }
