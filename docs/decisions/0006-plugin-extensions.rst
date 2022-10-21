@@ -11,7 +11,7 @@ Context
 -------
 
 More functionality is planned to be added to the Credentials service as a part of
-https://github.com/openedx/credentials/issues/1734 and https://github.com/openedx/credentials/issues/1736.
+`credentials/issues/1734`_ and `credentials/issues/1736`_.
 Credentials may benefit from adoption of the `Django App Plugin`_ functionality.
 It would provide additional possibilities to support many integrations with third-party
 services for credentials sharing, like digital credentials platforms, digital wallets,
@@ -19,7 +19,8 @@ credentials signing services, etc.
 
 For more information on plugins in particular, see the `Django Apps Plugin README`_.
 
-
+.. _`credentials/issues/1734`: https://github.com/openedx/credentials/issues/1734 
+.. _`credentials/issues/1736`: https://github.com/openedx/credentials/issues/1736 
 .. _Django App Plugin: https://github.com/openedx/edx-django-utils/blob/master/edx_django_utils/plugins/README.rst
 .. _Django Apps Plugin README: https://github.com/openedx/edx-django-utils/blob/master/edx_django_utils/plugins/README.rst
 
