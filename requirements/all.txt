@@ -13,7 +13,7 @@ asgiref==3.5.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django
-astroid==2.12.11
+astroid==2.12.12
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -42,11 +42,11 @@ bleach==5.0.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.24.93
+boto3==1.25.4
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.27.93
+botocore==1.28.4
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -116,7 +116,7 @@ defusedxml==0.7.1
     #   -r requirements/production.txt
     #   python3-openid
     #   social-auth-core
-dill==0.3.5.1
+dill==0.3.6
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -195,7 +195,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==3.2.0
+django-ses==3.2.1
     # via -r requirements/production.txt
 django-simple-history==3.0.0
     # via
@@ -264,7 +264,7 @@ edx-auth-backends==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.1.121
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.1.122
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -307,6 +307,10 @@ edx-toggles==5.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+exceptiongroup==1.0.0
+    # via
+    #   -r requirements/dev.txt
+    #   pytest
 factory-boy==3.2.1
     # via -r requirements/dev.txt
 faker==15.1.1
@@ -380,7 +384,7 @@ lazy==1.5
     # via
     #   -r requirements/dev.txt
     #   bok-choy
-lazy-object-proxy==1.7.1
+lazy-object-proxy==1.8.0
     # via
     #   -r requirements/dev.txt
     #   astroid
@@ -410,7 +414,7 @@ mysqlclient==2.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==8.2.1
+newrelic==8.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -449,12 +453,12 @@ pathspec==0.10.1
     # via
     #   -r requirements/dev.txt
     #   black
-pbr==5.10.0
+pbr==5.11.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   stevedore
-pillow==9.2.0
+pillow==9.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -482,7 +486,6 @@ psutil==5.9.3
 py==1.11.0
     # via
     #   -r requirements/dev.txt
-    #   pytest
     #   tox
 pycparser==2.21
     # via
@@ -503,7 +506,7 @@ pyjwkest==1.4.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-pyjwt[crypto]==2.5.0
+pyjwt[crypto]==2.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -512,7 +515,7 @@ pyjwt[crypto]==2.5.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.15.4
+pylint==2.15.5
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -548,11 +551,11 @@ pyparsing==3.0.9
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   packaging
-pyrsistent==0.18.1
+pyrsistent==0.19.1
     # via
     #   -r requirements/dev.txt
     #   jsonschema
-pytest==7.1.3
+pytest==7.2.0
     # via
     #   -r requirements/dev.txt
     #   pytest-django
@@ -632,7 +635,7 @@ ruamel-yaml==0.17.21
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   drf-yasg
-ruamel-yaml-clib==0.2.6
+ruamel-yaml-clib==0.2.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -703,7 +706,7 @@ sqlparse==0.4.3
     #   -r requirements/production.txt
     #   django
     #   django-debug-toolbar
-stevedore==4.0.1
+stevedore==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -733,17 +736,12 @@ tomli==2.0.1
     #   pylint
     #   pytest
     #   tox
-tomlkit==0.11.5
+tomlkit==0.11.6
     # via
     #   -r requirements/dev.txt
     #   pylint
-tox==3.26.0
+tox==3.27.0
     # via -r requirements/dev.txt
-types-cryptography==3.3.23.1
-    # via
-    #   -r requirements/dev.txt
-    #   -r requirements/production.txt
-    #   pyjwt
 types-toml==0.10.8
     # via
     #   -r requirements/dev.txt
@@ -769,7 +767,7 @@ urllib3==1.26.12
     #   requests
     #   responses
     #   selenium
-virtualenv==20.16.5
+virtualenv==20.16.6
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -791,7 +789,7 @@ xss-utils==0.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-zipp==3.9.0
+zipp==3.10.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
