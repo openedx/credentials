@@ -194,7 +194,7 @@ edx-ace==1.5.0
     # via -r requirements/test.txt
 edx-auth-backends==4.1.0
     # via -r requirements/test.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.1.121
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.1.123
     # via -r requirements/test.txt
 edx-django-release-util==1.2.0
     # via -r requirements/test.txt
@@ -229,7 +229,7 @@ exceptiongroup==1.0.0
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==15.1.1
+faker==15.1.2
     # via
     #   -r requirements/test.txt
     #   factory-boy
