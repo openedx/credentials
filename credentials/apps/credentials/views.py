@@ -226,7 +226,6 @@ class ExampleCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
 
         context.update(
             {
-                "credential_name": "John Doe",
                 "user_credential": {
                     "modified": timezone.now(),
                     "uuid": uuid.uuid4(),
