@@ -2,7 +2,6 @@
 Template tags and helper functions for creating language tagged files
 """
 import logging
-
 from os.path import splitext
 
 from django import template
@@ -14,6 +13,7 @@ from django.utils.translation import get_language
 
 register = template.Library()
 logger = logging.getLogger(__name__)
+
 
 @register.filter(name="translate_file_path")
 def translate_file_path(filepath):
@@ -29,7 +29,7 @@ def translate_file_path(filepath):
     try:
         return select_template(paths).origin.template_name
     except TemplateDoesNotExist:
-        logger.error(f"Could not find translation template in [{paths}]" )
+        logger.error(f"Could not find translation template in [{paths}]")
         raise
 
 
