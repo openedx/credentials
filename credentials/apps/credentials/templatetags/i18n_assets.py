@@ -1,16 +1,19 @@
 """
 Template tags and helper functions for creating language tagged files
 """
+import logging
+
 from os.path import splitext
 
 from django import template
 from django.conf import settings
+from django.template import TemplateDoesNotExist
 from django.template.loader import select_template
 from django.utils.translation import get_language
 
 
 register = template.Library()
-
+logger = logging.getLogger(__name__)
 
 @register.filter(name="translate_file_path")
 def translate_file_path(filepath):
@@ -23,7 +26,11 @@ def translate_file_path(filepath):
     This will search for 'some/path/filename-**.svg' where ** is the requested/default language tags.
     """
     paths = construct_file_language_names(filepath, get_language())
-    return select_template(paths).origin.template_name
+    try:
+        return select_template(paths).origin.template_name
+    except TemplateDoesNotExist:
+        logger.error(f"Could not find translation template in [{paths}]" )
+        raise
 
 
 def construct_file_language_names(filepath, language, default=settings.LANGUAGE_CODE):
