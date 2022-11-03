@@ -107,9 +107,7 @@ class ThemeViewMixin:
         try:
             return select_template(self.add_theme_to_template_names(templates))
         except TemplateDoesNotExist:
-            logger.error(
-                f"Could not select template in [{templates}] for theme "
-            )
+            logger.error(f"Could not select template in [{templates}] for theme ")
             raise
 
     def try_select_theme_template(self, templates):
@@ -119,9 +117,7 @@ class ThemeViewMixin:
         try:
             return select_template(self.add_theme_to_template_names(templates))
         except TemplateDoesNotExist:
-            logger.error(
-                f"Could not find theme template in [{templates}]"
-            )
+            logger.error(f"Could not find theme template in [{templates}]")
             return ""
 
 
