@@ -210,7 +210,7 @@ class ApiTests(SiteMixin, TestCase):
         Test that verifies the functionality of the `_get_shared_program_cert_record_data` utility function.
         """
         result = _get_shared_program_cert_record_data(self.program, self.user)
-        assert result == str(self.shared_program_cert_record.uuid)
+        assert result == str(self.shared_program_cert_record.uuid.hex)
 
     def test_get_shared_program_cert_record_data_record_dne(self):
         """

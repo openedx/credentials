@@ -286,6 +286,18 @@ class RecordsViewTests(SiteMixin, TestCase):
         ]
         self.assertEqual(program_data, expected_program_data)
 
+    @override_settings(USE_LEARNER_RECORD_MFE=True)
+    @override_settings(LEARNER_RECORD_MFE_RECORDS_PAGE_URL="http://some.website/page/")
+    def test_index_page_redirect(self):
+        """
+        Verify that a public program cert record request is redirected to the Learner Record MFE when enabled.
+        """
+        expected_redirect_url = "http://some.website/page/"
+
+        response = self.client.get(reverse("records:index"))
+        assert response.status_code == 302
+        assert response["Location"] == expected_redirect_url
+
 
 # This view shares almost all the code with RecordsView above. So we'll just test the interesting differences.
 @ddt.ddt
@@ -934,6 +946,18 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
 
         assert response.context_data["program_list_url"] == "http://some.website/page/"
 
+    @override_settings(USE_LEARNER_RECORD_MFE=True)
+    @override_settings(LEARNER_RECORD_MFE_RECORDS_PAGE_URL="http://some.website/page/")
+    def test_public_pcr_redirect(self):
+        """
+        Verify that a public program cert record request is redirected to the Learner Record MFE when enabled.
+        """
+        expected_redirect_url = f"http://some.website/page/shared/{self.pcr.uuid.hex}"
+
+        response = self.client.get(reverse("records:public_programs", kwargs={"uuid": self.pcr.uuid.hex}))
+        assert response.status_code == 302
+        assert response["Location"] == expected_redirect_url
+
 
 class ProgramRecordTests(SiteMixin, TestCase):
     USERNAME = "test-user"
@@ -965,22 +989,6 @@ class ProgramRecordTests(SiteMixin, TestCase):
 
         self.assertEqual(response.status_code, 201)
         self.assertRegex(json_data["url"], UUID_PATTERN)
-
-    @override_settings(USE_LEARNER_RECORD_MFE=True)
-    @override_settings(LEARNER_RECORD_MFE_RECORDS_PAGE_URL="http://some.website/page/")
-    def test_user_creation_with_MFE(self):
-        """
-        Verify successful creation of a ProgramCertRecord and return of a URL with the uuid for the public record
-        (Learner Record MFE)
-        """
-        rev = reverse("records:share_program", kwargs={"uuid": self.program.uuid.hex})
-        data = {"username": self.USERNAME}
-        jdata = json.dumps(data).encode("utf-8")
-        response = self.client.post(rev, data=jdata, content_type=JSON_CONTENT_TYPE)
-        json_data = response.json()
-
-        self.assertEqual(response.status_code, 201)
-        self.assertRegex(json_data["url"], rf"http://some.website/page/shared/{UUID_PATTERN}")
 
     def test_different_user_creation(self):
         """Verify that the view rejects a User attempting to create a ProgramCertRecord for another"""
