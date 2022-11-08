@@ -38,7 +38,7 @@ coreschema==0.0.4
     # via
     #   coreapi
     #   drf-yasg
-cryptography==38.0.1
+cryptography==38.0.3
     # via
     #   pyjwt
     #   social-auth-core
@@ -191,7 +191,7 @@ pillow==9.3.0
     # via -r requirements/base.in
 polib==1.1.1
     # via edx-i18n-tools
-psutil==5.9.3
+psutil==5.9.4
     # via edx-django-utils
 pycparser==2.21
     # via cffi
@@ -208,7 +208,7 @@ pyjwt[crypto]==2.6.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pymongo==3.12.3
+pymongo==3.13.0
     # via edx-opaque-keys
 pynacl==1.5.0
     # via edx-django-utils
