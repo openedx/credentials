@@ -194,7 +194,7 @@ edx-ace==1.5.0
     # via -r requirements/test.txt
 edx-auth-backends==4.1.0
     # via -r requirements/test.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.1.123
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.1.124
     # via -r requirements/test.txt
 edx-django-release-util==1.2.0
     # via -r requirements/test.txt
@@ -543,7 +543,7 @@ sqlparse==0.4.3
     #   -r requirements/test.txt
     #   django
     #   django-debug-toolbar
-stevedore==4.1.0
+stevedore==4.1.1
     # via
     #   -r requirements/test.txt
     #   code-annotations
