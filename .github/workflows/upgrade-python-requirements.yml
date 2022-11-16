@@ -2,7 +2,7 @@ name: Upgrade Requirements
 
 on:
   schedule:
-     # will start the job at 13:15 UTC (09:15 EST) every Tuesday
+     # will start the job at 13:15 UTC every Tuesday
      - cron: "15 13 * * 2"
   workflow_dispatch:
      inputs:
@@ -13,7 +13,7 @@ on:
 jobs:
    call-upgrade-python-requirements-workflow:
     with:
-       branch: ${{ github.event.inputs.branch }}
+       branch: ${{ github.event.inputs.branch || 'master' }}
        team_reviewers: "2U-aperture"
        email_address: aperture@2u-internal.opsgenie.net
        send_success_notification: true
