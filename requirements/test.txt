@@ -151,7 +151,7 @@ django-waffle==3.0.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.6.0
+django-webpack-loader==1.7.0
     # via -r requirements/base.txt
 djangorestframework==3.14.0
     # via
@@ -198,11 +198,11 @@ edx-rest-api-client==5.5.0
     # via -r requirements/base.txt
 edx-toggles==5.0.0
     # via -r requirements/base.txt
-exceptiongroup==1.0.1
+exceptiongroup==1.0.4
     # via pytest
 factory-boy==3.2.1
     # via -r requirements/test.in
-faker==15.3.1
+faker==15.3.2
     # via factory-boy
 filelock==3.8.0
     # via
@@ -284,7 +284,7 @@ path==16.5.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-pathspec==0.10.1
+pathspec==0.10.2
     # via black
 pbr==5.11.0
     # via
@@ -292,7 +292,7 @@ pbr==5.11.0
     #   stevedore
 pillow==9.3.0
     # via -r requirements/base.txt
-platformdirs==2.5.3
+platformdirs==2.5.4
     # via
     #   black
     #   pylint
@@ -432,7 +432,7 @@ semantic-version==2.10.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-simplejson==3.17.6
+simplejson==3.18.0
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
@@ -492,9 +492,9 @@ tomli==2.0.1
     #   tox
 tomlkit==0.11.6
     # via pylint
-tox==3.27.0
+tox==3.27.1
     # via -r requirements/test.in
-types-toml==0.10.8
+types-toml==0.10.8.1
     # via responses
 typing-extensions==4.4.0
     # via
@@ -512,7 +512,7 @@ urllib3==1.26.12
     #   requests
     #   responses
     #   selenium
-virtualenv==20.16.6
+virtualenv==20.16.7
     # via tox
 webencodings==0.5.1
     # via
