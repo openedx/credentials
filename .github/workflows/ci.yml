@@ -7,21 +7,6 @@ on:
     branches: [ master ]
 
 jobs:
-  acceptance_tests:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
-      with:
-        python-version: "3.8"
-        architecture: x64
-    - name: Install Dependencies
-      run: make requirements
-    - name: Run Tests
-      run: |
-        make static
-        make accept
-
   quality_and_translations_tests:
     runs-on: ubuntu-latest
     steps:
@@ -50,7 +35,7 @@ jobs:
       matrix:
         python-version: ["py38"]
         django-version: ["django32"]
-        node-version: [ 16 ]
+        node-version: [ 16.14.0 ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -76,17 +61,30 @@ jobs:
 
   code_coverage:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["py38"]
+        django-version: ["django32"]
+        node-version: [ 16.14.0 ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: "3.8"
           architecture: x64
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
         run: make requirements
+      - name: Install Firefox
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y firefox xvfb
       - name: Run Tests (required for code cov)
         env:
-          TOXENV: django32
+          TOXENV: ${{ matrix.django-version }}
         run: |
           make static
           make tests
