@@ -107,7 +107,7 @@ format_check: ## check that code is formatted correctly
 	black --check .
 
 quality-js: ## Run JavaScript linter
-	$(NODE_BIN)/gulp lint
+	npm run lint
 
 ### Testing commands ###
 
