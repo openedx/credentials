@@ -10,7 +10,7 @@ asgiref==3.5.2
     # via
     #   -r requirements/base.txt
     #   django
-astroid==2.12.12
+astroid==2.12.13
     # via
     #   pylint
     #   pylint-celery
@@ -333,7 +333,7 @@ pyjwt[crypto]==2.6.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.15.5
+pylint==2.15.6
     # via
     #   edx-lint
     #   pylint-celery
@@ -374,7 +374,7 @@ python-dateutil==2.8.2
     #   faker
 python-memcached==1.59
     # via -r requirements/base.txt
-python-slugify==6.1.2
+python-slugify==7.0.0
     # via
     #   -r requirements/base.txt
     #   code-annotations

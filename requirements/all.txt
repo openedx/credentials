@@ -13,7 +13,7 @@ asgiref==3.5.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django
-astroid==2.12.12
+astroid==2.12.13
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -42,11 +42,11 @@ bleach==5.0.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.26.10
+boto3==1.26.14
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.10
+botocore==1.29.14
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -515,7 +515,7 @@ pyjwt[crypto]==2.6.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.15.5
+pylint==2.15.6
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -578,7 +578,7 @@ python-memcached==1.59
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-python-slugify==6.1.2
+python-slugify==7.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -721,7 +721,7 @@ text-unidecode==1.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   python-slugify
-texttable==1.6.4
+texttable==1.6.5
     # via
     #   -r requirements/dev.txt
     #   docker-compose
@@ -798,7 +798,7 @@ zope-event==4.5.0
     # via
     #   -r requirements/production.txt
     #   gevent
-zope-interface==5.5.1
+zope-interface==5.5.2
     # via
     #   -r requirements/production.txt
     #   gevent

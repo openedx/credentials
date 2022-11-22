@@ -221,7 +221,7 @@ python-dateutil==2.8.2
     #   edx-drf-extensions
 python-memcached==1.59
     # via -r requirements/base.in
-python-slugify==6.1.2
+python-slugify==7.0.0
     # via code-annotations
 python3-openid==3.2.0
     # via social-auth-core
