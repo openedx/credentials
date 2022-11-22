@@ -89,8 +89,10 @@ upgrade: piptools $(COMMON_CONSTRAINTS_TXT)	## update the requirements/*.txt fil
 
 ### Quality commands ###
 
+# 11/22/2022: The `acceptance_tests` suite was removed from this Makefile target due to an issue getting them to run
+# after the Credentials Node16 upgrade.
 quality: isort_check quality-js format_check ## Run linters
-	PYTHONPATH=. pylint --django-settings-module=credentials.settings.test --rcfile=pylintrc acceptance_tests credentials *.py
+	PYTHONPATH=. pylint --django-settings-module=credentials.settings.test --rcfile=pylintrc credentials *.py
 
 quality_fix: isort format
 
