@@ -32,12 +32,8 @@ Decision
 
 * Use plugin applications for future extension points and optional functionality for the Credentials service.
 
-* Create a version of `cookiecutter-django-app`_ for the Credentials, to easily create new plugin applications.
-
-
 .. _edx_django_utils: https://github.com/openedx/edx-django-utils
 .. _overrides system: https://github.com/openedx/edx-django-utils/blob/master/edx_django_utils/plugins/pluggable_override.py#L11
-.. _cookiecutter-django-app: https://github.com/openedx/edx-cookiecutters/tree/master/cookiecutter-django-app
 
 Consequences
 ------------
