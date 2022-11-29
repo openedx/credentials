@@ -2,12 +2,19 @@ import datetime
 import uuid
 
 import factory
+from factory.django import ImageField
+
+from django.core.files.base import ContentFile
 
 from credentials.apps.core.tests.factories import SiteFactory
 from credentials.apps.credentials import constants, models
 
 
 PASSWORD = "dummy-password"
+
+
+def create_test_image(extension):
+    return ContentFile(ImageField()._make_data({"width": 1289, "height": 720}), f"example.{extension}")
 
 
 class AbstractCertificateFactory(factory.django.DjangoModelFactory):
@@ -23,6 +30,7 @@ class CourseCertificateFactory(AbstractCertificateFactory):
     is_active = True
     certificate_available_date = None
     course_run = None
+    title = factory.Faker("word")
 
 
 class ProgramCertificateFactory(AbstractCertificateFactory):
@@ -66,3 +74,4 @@ class SignatoryFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("name")
     title = factory.Faker("job")
+    image = factory.LazyAttribute(lambda _: create_test_image("png"))
