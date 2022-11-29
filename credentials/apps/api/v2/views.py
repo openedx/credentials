@@ -3,15 +3,16 @@ import logging
 from django.apps import apps
 from django.db import transaction
 from django.db.models import Q
+from django.shortcuts import get_object_or_404
 from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
-from rest_framework import mixins, permissions, status, viewsets
+from rest_framework import generics, mixins, permissions, status, viewsets
 from rest_framework.exceptions import Throttled
 from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView, exception_handler
 
 from credentials.apps.api.v2.filters import UserCredentialFilter
-from credentials.apps.api.v2.permissions import CanReplaceUsername, UserCredentialPermissions
+from credentials.apps.api.v2.permissions import CanReplaceUsername, IsAdminUserOrReadOnly, UserCredentialPermissions
 from credentials.apps.api.v2.serializers import (
     CourseCertificateSerializer,
     UserCredentialCreationSerializer,
@@ -283,9 +284,29 @@ class UsernameReplacementView(APIView):
 
 
 class CourseCertificateViewSet(
-    mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.CreateModelMixin, viewsets.GenericViewSet
+    mixins.CreateModelMixin,
+    generics.RetrieveDestroyAPIView,
+    mixins.UpdateModelMixin,
+    viewsets.GenericViewSet,
 ):
     queryset = CourseCertificate.objects.all()
     serializer_class = CourseCertificateSerializer
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (IsAdminUserOrReadOnly,)
     lookup_field = "course_id"
+    SAFE_METHODS = ("GET", "HEAD", "OPTIONS")
+
+    def get_object(self) -> CourseCertificate:
+        data = self.request.GET if self.request.method in self.SAFE_METHODS else self.request.data
+
+        return get_object_or_404(
+            CourseCertificate,
+            course_id=data.get("course_id"),
+            certificate_type=data.get("certificate_type"),
+        )
+
+    def perform_destroy(self, instance: CourseCertificate) -> None:
+        """
+        Overriden perform_destroy to delete related signatories.
+        """
+        instance.signatories.all().delete()
+        instance.delete()
