@@ -1,10 +1,10 @@
+import json
 from collections import namedtuple
 from datetime import datetime
 from logging import WARNING
 from uuid import uuid4
 
 import ddt
-import json
 import pytz
 from django.test import TestCase
 from django.urls import reverse
@@ -26,11 +26,11 @@ from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import CourseCertificate
 from credentials.apps.credentials.tests.factories import (
     CourseCertificateFactory,
-    create_test_image,
     ProgramCertificateFactory,
     SignatoryFactory,
     UserCredentialAttributeFactory,
     UserCredentialFactory,
+    create_image,
 )
 from credentials.apps.records.tests.factories import UserGradeFactory
 
@@ -302,7 +302,6 @@ class UserCredentialSerializerTests(TestCase):
 class SignatorySerializerTests(SiteMixin, TestCase):
     def test_create_signatory(self):
         signatory = SignatoryFactory()
-
         actual = SignatorySerializer(signatory).data
         expected = {
             "name": signatory.name,
@@ -312,9 +311,8 @@ class SignatorySerializerTests(SiteMixin, TestCase):
         }
         self.assertEqual(actual, expected)
 
-    def test_create_signatory_missing_image(self):
+    def test_create_signatory_with_missing_image(self):
         signatory = SignatoryFactory(image=None)
-
         actual = SignatorySerializer(signatory).data
         expected = {
             "name": signatory.name,
@@ -325,28 +323,17 @@ class SignatorySerializerTests(SiteMixin, TestCase):
         self.assertEqual(actual, expected)
 
     def test_validation(self):
-        png_image = create_test_image("png")
-        data = {
-            "image": png_image,
-            "name": "signatory 1",
-            "organization": "edX",
-            "title": "title"
-        }
+        png_image = create_image("png")
+        data = {"image": png_image, "name": "signatory 1", "organization": "edX", "title": "title"}
         actual = SignatorySerializer(data=data).is_valid()
-
-        self.assertEqual(actual, True)
+        self.assertTrue(actual)
 
     def test_validation_with_wrong_image_extension(self):
-        jpg_image = create_test_image("jpg")
-        data = {
-            "image": jpg_image,
-            "name": "signatory 1",
-            "organization": "edX",
-            "title": "title"
-        }
+        jpg_image = create_image("jpg")
+        data = {"image": jpg_image, "name": "signatory 1", "organization": "edX", "title": "title"}
         actual = SignatorySerializer(data=data).is_valid()
 
-        self.assertEqual(actual, False)
+        self.assertFalse(actual)
 
 
 class CourseCertificateSerializerTests(SiteMixin, TestCase):
@@ -424,36 +411,29 @@ class CourseCertificateSerializerTests(SiteMixin, TestCase):
             )
 
     def test_parse_signatories_in_files(self):
-        png_image = create_test_image("png")
-        signatories_data = [{
-            "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png",
-            "name": "signatory 1",
-            "organization": "edX",
-            "title": "title"
-        },
-        {
-            "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image+1.png",
-            "name": "signatory 2",
-            "organization": "edX",
-            "title": "title"
-        }]
+        png_image = create_image("png")
+        signatories_data = [
+            {
+                "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png",
+                "name": "signatory 1",
+                "organization": "edX",
+                "title": "title",
+            },
+            {
+                "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image+1.png",
+                "name": "signatory 2",
+                "organization": "edX",
+                "title": "title",
+            },
+        ]
         files = {
             "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png": png_image,
             "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image+1.png": png_image,
         }
 
-        actual = CourseCertificateSerializer.parse_signatories_in_files(json.dumps(signatories_data), files)
-        expected = [{
-            "image": png_image,
-            "name": "signatory 1",
-            "organization": "edX",
-            "title": "title"
-        },
-        {
-            "image": png_image,
-            "name": "signatory 2",
-            "organization": "edX",
-            "title": "title"
-        }]
-        self.assertEqual(actual, expected)
-
+        actual = CourseCertificateSerializer.populate_signatories(json.dumps(signatories_data), files)
+        expected = [
+            {"image": png_image, "name": "signatory 1", "organization": "edX", "title": "title"},
+            {"image": png_image, "name": "signatory 2", "organization": "edX", "title": "title"},
+        ]
+        self.assertEqual(list(actual), expected)

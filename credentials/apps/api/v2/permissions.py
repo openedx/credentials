@@ -53,11 +53,10 @@ class CanReplaceUsername(permissions.BasePermission):
 
 class IsAdminUserOrReadOnly(permissions.BasePermission):
     """
-    Grants access to edit only the administrator.
+    Grants access to edit only the staff.
+    Grants read access to all users.
     """
-
-    SAFE_METHODS = ('GET', 'HEAD', 'OPTIONS')
 
     def has_permission(self, request, view):
         is_admin_user = request.user and (request.user.is_superuser or request.user.is_staff)
-        return request.method in self.SAFE_METHODS or is_admin_user
+        return is_admin_user or request.method in permissions.SAFE_METHODS

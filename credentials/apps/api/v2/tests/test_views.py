@@ -33,6 +33,7 @@ from credentials.apps.credentials.tests.factories import (
 from credentials.apps.records.models import UserGrade
 from credentials.apps.records.tests.factories import UserGradeFactory
 
+
 JSON_CONTENT_TYPE = "application/json"
 LOGGER_NAME = "credentials.apps.credentials.issuers"
 LOGGER_NAME_SERIALIZER = "credentials.apps.api.v2.serializers"
@@ -701,8 +702,6 @@ class UsernameReplacementViewTests(JwtMixin, APITestCase):
 class CourseCertificateViewSetTests(SiteMixin, APITestCase):
     """Tests CourseCertificateViewSet"""
 
-    SERVICE_USERNAME = "test_replace_username_service_worker"
-
     def setUp(self):
         super().setUp()
         self.user = UserFactory()
@@ -718,24 +717,28 @@ class CourseCertificateViewSetTests(SiteMixin, APITestCase):
             "certificate_available_date": self.certificate.certificate_available_date,
             "is_active": self.certificate.is_active,
             "signatories": list(self.certificate.signatories.all()),
-            "title": self.certificate.title
+            "title": self.certificate.title,
         }
         self.valid_data = {
             "course_id": "course-v1:edX+DemoX+Demo_Course",
             "certificate_type": "honor",
             "title": "Name of the certificate",
-            "signatories": json.dumps([{
-                "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png",
-                "name": "signatory 1",
-                "organization": "edX",
-                "title": "title"
-            },
-            {
-                "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image+1.png",
-                "name": "signatory 2",
-                "organization": "edX",
-                "title": "title"
-            }]),
+            "signatories": json.dumps(
+                [
+                    {
+                        "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png",
+                        "name": "signatory 1",
+                        "organization": "edX",
+                        "title": "title",
+                    },
+                    {
+                        "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image+1.png",
+                        "name": "signatory 2",
+                        "organization": "edX",
+                        "title": "title",
+                    },
+                ]
+            ),
             "is_active": True,
         }
 
@@ -745,35 +748,25 @@ class CourseCertificateViewSetTests(SiteMixin, APITestCase):
         self.client.login(username=user.username, password=USER_PASSWORD)
 
     def test_get_for_anonymous(self):
-        params = {
-            "course_id": self.certificate.course_id,
-            "certificate_type": self.certificate.certificate_type
-        }
+        params = {"course_id": self.certificate.course_id, "certificate_type": self.certificate.certificate_type}
         response = self.client.get(self.url, data=params)
-
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, self.certificate_data)
 
     def test_get_for_staff(self):
         self.authenticate_user(self.superuser)
-        params = {
-            "course_id": self.certificate.course_id,
-            "certificate_type": self.certificate.certificate_type
-        }
+        params = {"course_id": self.certificate.course_id, "certificate_type": self.certificate.certificate_type}
         response = self.client.get(self.url, data=params)
-
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, self.certificate_data)
 
     def test_post_for_anonymous(self):
         response = self.client.post(self.url, data=self.valid_data)
-
         self.assertEqual(response.status_code, 401)
 
     def test_post_for_staff(self):
         self.authenticate_user(self.superuser)
         response = self.client.post(self.url, data=self.valid_data)
-
         self.assertEqual(response.status_code, 201)
 
     def test_delete_for_anonymous(self):
@@ -784,8 +777,8 @@ class CourseCertificateViewSetTests(SiteMixin, APITestCase):
             "signatories": [],
             "is_active": True,
         }
+        self.assertEqual(CourseCertificate.objects.first(), self.certificate)
         response = self.client.delete(self.url, data=data)
-
         self.assertEqual(response.status_code, 401)
         self.assertEqual(CourseCertificate.objects.first(), self.certificate)
 
@@ -798,7 +791,7 @@ class CourseCertificateViewSetTests(SiteMixin, APITestCase):
             "signatories": [],
             "is_active": True,
         }
+        self.assertEqual(CourseCertificate.objects.first(), self.certificate)
         response = self.client.delete(self.url, data=data)
-
         self.assertEqual(response.status_code, 204)
         self.assertEqual(CourseCertificate.objects.first(), None)
