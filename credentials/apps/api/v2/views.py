@@ -293,10 +293,9 @@ class CourseCertificateViewSet(
     serializer_class = CourseCertificateSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
     lookup_field = "course_id"
-    SAFE_METHODS = ("GET", "HEAD", "OPTIONS")
 
     def get_object(self) -> CourseCertificate:
-        data = self.request.GET if self.request.method in self.SAFE_METHODS else self.request.data
+        data = self.request.GET if self.request.method in permissions.SAFE_METHODS else self.request.data
 
         return get_object_or_404(
             CourseCertificate,
@@ -305,8 +304,5 @@ class CourseCertificateViewSet(
         )
 
     def perform_destroy(self, instance: CourseCertificate) -> None:
-        """
-        Overriden perform_destroy to delete related signatories.
-        """
-        instance.signatories.all().delete()
+        instance.signatories.clear()
         instance.delete()
