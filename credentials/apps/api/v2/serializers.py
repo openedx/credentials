@@ -2,11 +2,15 @@
 Serializers for data manipulated by the credentials service APIs.
 """
 import logging
+from pathlib import Path
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models.query import QuerySet
+from django.utils.datastructures import MultiValueDict
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.reverse import reverse
+from rest_framework.utils import json
 
 from credentials.apps.api.accreditors import Accreditor
 from credentials.apps.catalog.models import CourseRun
@@ -14,6 +18,7 @@ from credentials.apps.credentials.constants import UserCredentialStatus
 from credentials.apps.credentials.models import (
     CourseCertificate,
     ProgramCertificate,
+    Signatory,
     UserCredential,
     UserCredentialAttribute,
     UserCredentialDateOverride,
@@ -22,6 +27,7 @@ from credentials.apps.records.models import UserGrade
 
 
 logger = logging.getLogger(__name__)
+DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S'
 
 
 class CredentialField(serializers.Field):
@@ -285,8 +291,35 @@ class UserGradeSerializer(serializers.ModelSerializer):
         return grade
 
 
+class SignatorySerializer(serializers.ModelSerializer):
+    """Serializer used to create Signatory objects."""
+
+    class Meta:
+        model = Signatory
+        fields = (
+            "name",
+            "title",
+            "organization_name_override",
+            "image",
+        )
+
+    def validate_image(self, value):
+        if value:
+            extension = Path(value.name).suffix[1:].lower()
+            if extension != 'png':
+                raise ValidationError("Only PNG files can be uploaded. Please select a file ending in .png to upload.")
+        return value
+
+
 class CourseCertificateSerializer(serializers.ModelSerializer):
     course_run = CourseRunField(read_only=True)
+    certificate_available_date = serializers.DateTimeField(
+        format=DATETIME_FORMAT,
+        required=False,
+        allow_null=True,
+    )
+    signatories = SignatorySerializer(many=True, required=False)
+    title = serializers.CharField(required=False, allow_null=True)
 
     class Meta:
         model = CourseCertificate
@@ -298,6 +331,8 @@ class CourseCertificateSerializer(serializers.ModelSerializer):
             "certificate_type",
             "certificate_available_date",
             "is_active",
+            "signatories",
+            "title",
         )
         read_only_fields = ("id", "course_run", "site")
 
@@ -322,7 +357,46 @@ class CourseCertificateSerializer(serializers.ModelSerializer):
             defaults={
                 "is_active": validated_data["is_active"],
                 "course_run": course_run,
-                "certificate_available_date": validated_data["certificate_available_date"],
+                "certificate_available_date": validated_data.get("certificate_available_date"),
+                "title": validated_data.get("title"),
             },
         )
+
+        cert.signatories.all().delete()
+        self.save_related_signatories(cert)
+
         return cert
+
+    def save_related_signatories(self, certificate: CourseCertificate):
+        """
+        Generates new signatures and relates them to the certificate.
+        """
+        raw_signatories_data = self.context["request"].data.get("signatories")
+        files = self.context["request"].FILES
+
+        if raw_signatories_data and files:
+            signatories_parsed_data = self.parse_signatories_in_files(raw_signatories_data, files)
+            certificate.signatories.set(self.validate_create_signatories(signatories_parsed_data))
+
+    @staticmethod
+    def validate_create_signatories(signatories_data: list) -> QuerySet[Signatory]:
+        """
+        Validates and creates new signatures objects.
+        """
+        serializer = SignatorySerializer(data=signatories_data, many=True)
+        serializer.is_valid(raise_exception=True)
+        return serializer.create(serializer.validated_data)
+
+    @staticmethod
+    def parse_signatories_in_files(raw_signatories_data: str, files: MultiValueDict) -> list:
+        """
+        Collects the data and files from the request into a list of signatories with image files.
+        """
+        signatories = []
+
+        for signatory in json.loads(raw_signatories_data):
+            if signatory_file := files.get(signatory.get("image"), None):
+                signatory["image"] = signatory_file
+                signatories.append(signatory)
+
+        return signatories
