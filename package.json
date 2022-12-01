@@ -48,7 +48,7 @@
     "codecov": "3.8.3",
     "edx-custom-a11y-rules": "2.0.1",
     "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "1.15.6",
+    "enzyme-adapter-react-16": "1.15.7",
     "eslint": "8.17.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-plugin-import": "2.26.0",
