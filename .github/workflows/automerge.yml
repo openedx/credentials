@@ -1,13 +1,28 @@
-name: Label auto-merge PRs
-
+name: automerge
 on:
-  pull_request_target:
-    types: [ auto_merge_enabled, auto_merge_disabled ]
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  status: {}
 jobs:
-  add_remove_labels:
+  automerge:
     runs-on: ubuntu-latest
     steps:
-      - uses: ubuntudroid/automerge-labeler@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          label: 'automerge' # optional
+      - id: automerge
+        name: automerge
+        uses: "pascalgn/automerge-action@v0.15.5"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
