@@ -30,3 +30,6 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_LABELS: "automerge"
+          LOG: "DEBUG"
+          MERGE_ERROR_FAIL: true
+          MERGE_METHOD_LABEL_REQUIRED: false
