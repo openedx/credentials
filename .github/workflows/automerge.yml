@@ -8,10 +8,6 @@ on:
     types:
       - completed
   status: {}
-  
-# permissions:
-#   contents: read
-#   pull-requests: write
 
 jobs:
   automerge:
