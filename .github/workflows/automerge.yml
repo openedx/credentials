@@ -1,4 +1,4 @@
-name: automerge check
+name: merge - rebasing branch if out of date
 
 on:
   pull_request:
@@ -8,7 +8,7 @@ on:
     types:
       - completed
   status: {}
-
+  
 jobs:
   automerge:
     runs-on: ubuntu-latest
