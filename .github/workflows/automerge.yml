@@ -1,15 +1,10 @@
 name: automerge
 on:
+  repository_dispatch:
+    types: [checks-complete]
   pull_request:
     types:
       - labeled
-      - unlabeled
-      - synchronize
-      - opened
-      - edited
-      - ready_for_review
-      - reopened
-      - unlocked
   pull_request_review:
     types:
       - submitted
@@ -27,4 +22,3 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_LABELS: "automerge"
-          MERGE_METHOD: "automerge"
