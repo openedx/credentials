@@ -53,8 +53,8 @@ class AccreditorTests(TestCase):
 
     def test_constructor_with_multiple_issuers_for_same_credential_type(self):
         """Verify the Accreditor supports a single Issuer per credential type.
-        Attempts to register additional issuers for a credential type should  
-        result in a warning being logged
+        Attempts to register additional issuers for a credential type should
+        result in a warning being logged.
         """
         msg = (
             "The issuer [{0}] is already registered to issue credentials of type [{1}]. [{0}] will NOT be used.".format(
