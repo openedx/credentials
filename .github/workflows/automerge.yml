@@ -7,7 +7,6 @@ on:
   check_suite:
     types:
       - completed
-  status: {}
 
 permissions:
   checks: read
