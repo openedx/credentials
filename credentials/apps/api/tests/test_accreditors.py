@@ -74,6 +74,6 @@ class AccreditorTests(TestCase):
 
         expected = {
             self.course_credential: accreditor.issuers[0],
-            self.program_credential: accreditor.issuers[1],
+            self.program_credential: accreditor.issuers[0],
         }
         self.assertDictEqual(accreditor.credential_type_issuer_map, expected)
