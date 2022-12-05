@@ -1,12 +1,23 @@
-name: merge - rebasing branch if out of date
-
+name: automerge
 on:
   pull_request:
     types:
       - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
   check_suite:
     types:
       - completed
+  status: {}
+  
 
 permissions:
   checks: read
