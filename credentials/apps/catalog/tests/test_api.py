@@ -20,7 +20,7 @@ from credentials.apps.credentials.tests.factories import CourseCertificateFactor
 
 
 class APITests(TestCase):
-    """Tests internal API calls"""
+    """Tests internal API calls."""
 
     def setUp(self):
         super().setUp()
