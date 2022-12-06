@@ -17,23 +17,18 @@ on:
     types: [completed]
     if: github.event.check_suite.pull_requests.length > 0
     
-
-# permissions:
-#   checks: read
-#   contents: write
-#   actions: write
   
-jobs:
-  automerge:
-    runs-on: ubuntu-latest
-    steps:
-      - name: automerge
-        uses: "pascalgn/automerge-action@v0.8.3"
-        env:
-          GITHUB_TOKEN: "${{ github.token }}"
-          MERGE_LABELS: "automerge"
-          MERGE_COMMIT_MESSAGE: "pull-request-title"
-          UPDATE_LABELS: ":rocket: Ready to Merge"
-#           MERGE_RETRIES: "60"
-#           MERGE_RETRY_SLEEP: "10000"
-          MERGE_REQUIRED_APPROVALS: "0"
+    jobs:
+      automerge:
+        runs-on: ubuntu-latest
+        steps:
+          - name: automerge
+            uses: "pascalgn/automerge-action@v0.8.3"
+            env:
+              GITHUB_TOKEN: "${{ github.token }}"
+              MERGE_LABELS: "automerge"
+              MERGE_COMMIT_MESSAGE: "pull-request-title"
+              UPDATE_LABELS: ":rocket: Ready to Merge"
+    #           MERGE_RETRIES: "60"
+    #           MERGE_RETRY_SLEEP: "10000"
+              MERGE_REQUIRED_APPROVALS: "0"
