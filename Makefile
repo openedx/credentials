@@ -119,6 +119,11 @@ tests: ## Run tests and generate coverage report
 js-tests: ## Run javascript tests
 	npm run test-react
 
+test-karma: ## Run JS tests through Karma & install firefox. This command needs to be ran manually in the devstack container before submitting a pull request. It can not be run in CI as of APER-2136.
+	sudo apt-get update
+	sudo apt-get install --no-install-recommends -y firefox xvfb
+	xvfb-run $(NODE_BIN)/karma start
+
 # Requires locally installed software (firefox / xvfb). Easiest to run using `acceptance_tests_suite` command at the bottom
 accept: ## Run acceptance tests
 	./acceptance_tests/runtests.sh
