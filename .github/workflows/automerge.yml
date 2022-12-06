@@ -19,10 +19,10 @@ on:
   status: {}
   
 
-permissions:
-  checks: read
-  contents: write
-  actions: write
+# permissions:
+#   checks: read
+#   contents: write
+#   actions: write
   
 jobs:
   automerge:
