@@ -69,7 +69,7 @@ class AccreditorTests(TestCase):
         self.assertEqual(accreditor.credential_type_issuer_map, expected)
 
     def test_constructor_with_multiple_issuers(self):
-        """Verify the Accreditor supports multiple Issuers. This is final. """
+        """Verify the Accreditor supports multiple."""
         accreditor = Accreditor(issuers=[CourseCertificateIssuer(), ProgramCertificateIssuer()])
 
         expected = {
