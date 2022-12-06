@@ -14,10 +14,9 @@ on:
     types:
       - submitted
   check_suite:
-    types:
-      - completed
-  status: {}
-  
+    types: [completed]
+    if: github.event.check_suite.pull_requests.length > 0
+    
 
 # permissions:
 #   checks: read
