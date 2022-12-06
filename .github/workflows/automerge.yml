@@ -34,6 +34,6 @@ jobs:
           MERGE_LABELS: "automerge"
           MERGE_COMMIT_MESSAGE: "pull-request-title"
           UPDATE_LABELS: ":rocket: Ready to Merge"
-          MERGE_RETRIES: "60"
-          MERGE_RETRY_SLEEP: "10000"
+#           MERGE_RETRIES: "60"
+#           MERGE_RETRY_SLEEP: "10000"
           MERGE_REQUIRED_APPROVALS: "0"
