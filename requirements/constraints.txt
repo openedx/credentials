@@ -13,9 +13,13 @@
 
 Django<4.0
 
-# The update to 3.0.0 contains some large breaking changes. (MICROBA-1427)
+# The update to 3.0.0 contains some large breaking changes. (APER-1427)
 django-hijack<3.0.0
 
 # The update to pyyaml 6.x failed as docker-compose wants <6,>=3.10. Pinning to <6.0. This constraint will be
-# re-evaluated as part of MICROBA-1556.
+# re-evaluated as part of APER-1556.
 pyyaml<6.0
+
+# The update to django-ratelimit 4.x failed because of some breaking changes. Pinning to <4.x. This constraint will be
+# re-evaluated as part of APER-2169.
+django-ratelimit<4.0
