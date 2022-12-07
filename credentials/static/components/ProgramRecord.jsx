@@ -206,9 +206,14 @@ class ProgramRecord extends React.Component {
     // Send all requeests and update success and failure statuses
     // Disabling eslint error since make_translations fails when using backticks
     // eslint-disable-next-line prefer-template
-    axios.all(orgs.map(org => axios.post('/records/programs/' + uuid + '/send',
-      { username: this.props.learner.username, pathway_id: this.creditPathways[org].id },
-      headers)
+    axios.all(orgs.map(org => axios.post(
+      '/records/programs/' + uuid + '/send',
+      {
+        username: this.props.learner.username,
+        pathway_id: this.creditPathways[org].id,
+      },
+      headers,
+    )
       .then((response) => {
         if (response.status >= 200 && response.status < 300) {
           successOrgs.push(org);
@@ -302,6 +307,7 @@ class ProgramRecord extends React.Component {
             />
           </div>
           )}
+        {/* eslint-disable react/no-unstable-nested-components */}
         <Alert
           variant="info"
           show={this.state.sendRecordLoadingAlertOpen}
@@ -319,8 +325,10 @@ class ProgramRecord extends React.Component {
         >
           <Alert.Heading>{ gettext('We were unable to send your program record.') }</Alert.Heading>
           <span className="alert-body">
-            {StringUtils.interpolate(gettext('We were unable to send your record to {orgs}.  You can attempt to send this record again.  Contact support if this issue persists.'),
-              { orgs: StringUtils.formatStringList(this.state.sendRecordFailureOrgs) })}
+            {StringUtils.interpolate(
+              gettext('We were unable to send your record to {orgs}.  You can attempt to send this record again.  Contact support if this issue persists.'),
+              { orgs: StringUtils.formatStringList(this.state.sendRecordFailureOrgs) },
+            )}
           </span>
         </Alert>
         <Alert
@@ -331,8 +339,10 @@ class ProgramRecord extends React.Component {
         >
           <Alert.Heading>{ gettext('You have successfully shared your Learner Record') }</Alert.Heading>
           <span className="alert-body">
-            {StringUtils.interpolate(gettext('You have sent your record to {orgs}.  Next, ensure you understand their application process.'),
-              { orgs: StringUtils.formatStringList(this.state.sendRecordSuccessOrgs) })}
+            {StringUtils.interpolate(
+              gettext('You have sent your record to {orgs}.  Next, ensure you understand their application process.'),
+              { orgs: StringUtils.formatStringList(this.state.sendRecordSuccessOrgs) },
+            )}
           </span>
         </Alert>
         <article className="program-record">
@@ -355,9 +365,8 @@ class ProgramRecord extends React.Component {
                 }
                 <span className="updated">
                   { StringUtils.interpolate(
-                    gettext('Last Updated {date}'), {
-                      date: this.formatDate(program.last_updated),
-                    },
+                    gettext('Last Updated {date}'),
+                    { date: this.formatDate(program.last_updated) },
                   )}
                 </span>
               </div>

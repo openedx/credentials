@@ -107,7 +107,7 @@ format_check: ## check that code is formatted correctly
 	black --check .
 
 quality-js: ## Run JavaScript linter
-	$(NODE_BIN)/gulp lint
+	npm run lint
 
 ### Testing commands ###
 
@@ -117,7 +117,6 @@ tests: ## Run tests and generate coverage report
 	make js-tests
 
 js-tests: ## Run javascript tests
-	$(NODE_BIN)/gulp test
 	npm run test-react
 
 # Requires locally installed software (firefox / xvfb). Easiest to run using `acceptance_tests_suite` command at the bottom
