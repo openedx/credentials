@@ -21,7 +21,7 @@
     "font-awesome": "4.7.0",
     "imports-loader": "3.1.1",
     "js-cookie": "3.0.1",
-    "mini-css-extract-plugin": "2.6.0",
+    "mini-css-extract-plugin": "2.7.2",
     "prop-types": "15.8.1",
     "react": "16.14.0",
     "react-copy-to-clipboard": "5.1.0",
