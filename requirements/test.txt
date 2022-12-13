@@ -23,7 +23,7 @@ backoff==1.10.0
     # via
     #   -r requirements/base.txt
     #   analytics-python
-black==22.10.0
+black==22.12.0
     # via -r requirements/test.in
 bleach==5.0.1
     # via -r requirements/base.txt
@@ -153,7 +153,7 @@ django-waffle==3.0.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.7.0
+django-webpack-loader==1.8.0
     # via -r requirements/base.txt
 djangorestframework==3.14.0
     # via
@@ -230,7 +230,7 @@ inflection==0.5.1
     #   drf-yasg
 iniconfig==1.1.1
     # via pytest
-isort==5.10.1
+isort==5.11.1
     # via
     #   -r requirements/test.in
     #   pylint
@@ -286,7 +286,7 @@ path==16.6.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-pathspec==0.10.2
+pathspec==0.10.3
     # via black
 pbr==5.11.0
     # via
