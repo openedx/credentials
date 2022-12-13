@@ -34,7 +34,7 @@ bcrypt==4.0.1
     # via
     #   -r requirements/dev.txt
     #   paramiko
-black==22.10.0
+black==22.12.0
     # via -r requirements/dev.txt
 bleach==5.0.1
     # via
@@ -42,11 +42,11 @@ bleach==5.0.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.26.25
+boto3==1.26.28
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.25
+botocore==1.29.28
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -222,7 +222,7 @@ django-waffle==3.0.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.7.0
+django-webpack-loader==1.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -265,7 +265,7 @@ edx-auth-backends==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.1.125
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.1.127
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -357,7 +357,7 @@ iniconfig==1.1.1
     # via
     #   -r requirements/dev.txt
     #   pytest
-isort==5.10.1
+isort==5.11.1
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -450,7 +450,7 @@ path==16.6.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-i18n-tools
-pathspec==0.10.2
+pathspec==0.10.3
     # via
     #   -r requirements/dev.txt
     #   black
