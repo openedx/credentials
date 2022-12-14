@@ -110,7 +110,7 @@ django-waffle==3.0.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.7.0
+django-webpack-loader==1.8.0
     # via -r requirements/base.in
 djangorestframework==3.14.0
     # via
@@ -127,7 +127,7 @@ edx-ace==1.6.0
     # via -r requirements/base.in
 edx-auth-backends==4.1.0
     # via -r requirements/base.in
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.1.125
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.1.127
     # via -r requirements/base.in
 edx-django-release-util==1.2.0
     # via -r requirements/base.in
