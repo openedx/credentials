@@ -5,6 +5,7 @@
 .tox
 coverage
 coverage.xml
+Dockerfile
 geckodriver.log
 htmlcov
 node_modules
