@@ -25,14 +25,10 @@ ARG CREDENTIALS_SERVICE_NAME="xxx"
 ARG CREDENTIALS_APP_DIR="${COMMON_APP_DIR}/credentials"
 ENV CREDENTIALS_APP_DIR="${COMMON_APP_DIR}/credentials"
 ENV CREDENTIALS_VENV_DIR="${COMMON_APP_DIR}/credentials/venvs/credentials"
-ARG SUPERVISOR_AVAILABLE_DIR="${SUPERVISOR_APP_DIR}/conf.available.d"
-ARG SUPERVISOR_VENV_BIN="${SUPERVISOR_VENV_DIR}/bin"
-ARG SUPERVISOR_CFG_DIR="${SUPERVISOR_APP_DIR}/conf.d"
 ENV CREDENTIALS_CODE_DIR="${CREDENTIALS_APP_DIR}/credentials"
 ARG CREDENTIALS_NODEENV_DIR="${COMMON_APP_DIR}/credentials/nodeenvs/credentials"
 ARG CREDENTIALS_NODE_VERSION="16.14.0"
 ARG CREDENTIALS_NPM_VERSION="8.5.x"
-ARG SUPERVISOR_VERSION="4.2.1"
 
 ENV PATH="$CREDENTIALS_VENV_DIR/bin:$PATH"
 
@@ -51,7 +47,6 @@ RUN mkdir -p "$CREDENTIALS_APP_DIR"
 WORKDIR ${CREDENTIALS_CODE_DIR}
 
 RUN virtualenv -p python3.8 --always-copy ${CREDENTIALS_VENV_DIR}
-RUN virtualenv -p python3.8 --always-copy ${SUPERVISOR_VENV_DIR}
 
 
 ENV PATH "${CREDENTIALS_NODEENV_DIR}/bin:$PATH"
@@ -102,11 +97,6 @@ FROM app as production
 
 ENV DJANGO_SETTINGS_MODULE credentials.settings.production
 
-COPY scripts/credentials.sh "$CREDENTIALS_APP_DIR/credentials.sh"
-
-ENTRYPOINT ["/edx/app/credentials/credentials.sh"]
-
-
 FROM app as dev
 
 # credentials service config commands below
@@ -114,6 +104,3 @@ RUN pip install -r ${CREDENTIALS_CODE_DIR}/requirements/dev.txt
 
 
 ENV DJANGO_SETTINGS_MODULE credentials.settings.devstack
-
-ENTRYPOINT ["/edx/app/credentials/devstack.sh"]
-CMD ["start"]
