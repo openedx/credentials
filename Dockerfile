@@ -3,8 +3,6 @@ FROM ubuntu:focal as app
 # System requirements
 
 RUN apt-get update && \
-apt-get install -y software-properties-common && \
-apt-add-repository -y ppa:deadsnakes/ppa && apt-get update && \
 apt-get upgrade -qy && apt-get install language-pack-en locales git \
 python3.8-dev python3-virtualenv libmysqlclient-dev libssl-dev build-essential wget unzip -qy && \
 rm -rf /var/lib/apt/lists/*
@@ -26,12 +24,9 @@ ARG COMMON_APP_DIR="/edx/app"
 ARG CREDENTIALS_SERVICE_NAME="xxx"
 ARG CREDENTIALS_APP_DIR="${COMMON_APP_DIR}/credentials"
 ENV CREDENTIALS_APP_DIR="${COMMON_APP_DIR}/credentials"
-ENV SUPERVISOR_APP_DIR="${COMMON_APP_DIR}/supervisor"
 ENV CREDENTIALS_VENV_DIR="${COMMON_APP_DIR}/credentials/venvs/credentials"
-ARG SUPERVISOR_VENV_DIR="${SUPERVISOR_APP_DIR}/venvs/supervisor"
 ARG SUPERVISOR_AVAILABLE_DIR="${SUPERVISOR_APP_DIR}/conf.available.d"
 ARG SUPERVISOR_VENV_BIN="${SUPERVISOR_VENV_DIR}/bin"
-ARG SUPEVISOR_CTL="${SUPERVISOR_VENV_BIN}/supervisorctl"
 ARG SUPERVISOR_CFG_DIR="${SUPERVISOR_APP_DIR}/conf.d"
 ENV CREDENTIALS_CODE_DIR="${CREDENTIALS_APP_DIR}/credentials"
 ARG CREDENTIALS_NODEENV_DIR="${COMMON_APP_DIR}/credentials/nodeenvs/credentials"
@@ -63,11 +58,6 @@ ENV PATH "${CREDENTIALS_NODEENV_DIR}/bin:$PATH"
 # No need to activate credentials venv as it is already in path
 RUN pip install nodeenv
 
-#install supervisor and deps in its virtualenv
-RUN . ${SUPERVISOR_VENV_BIN}/activate && \
-  pip install supervisor==${SUPERVISOR_VERSION} backoff==1.4.3 boto==2.48.0 && \
-  deactivate
-
 RUN nodeenv ${CREDENTIALS_NODEENV_DIR} --node=${CREDENTIALS_NODE_VERSION} --prebuilt
 RUN npm install -g npm@${CREDENTIALS_NPM_VERSION}
 
@@ -75,10 +65,6 @@ RUN npm install -g npm@${CREDENTIALS_NPM_VERSION}
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 RUN npm install --production
-
-# create supervisor job
-COPY /configuration_files/supervisor.conf /etc/systemd/system/supervisor.service
-COPY /configuration_files/supervisorctl ${SUPERVISOR_VENV_BIN}/supervisorctl
 
 # Copy just Python requirements & install them.
 COPY requirements ${CREDENTIALS_CODE_DIR}/requirements
@@ -101,11 +87,6 @@ RUN pip install -r ${CREDENTIALS_CODE_DIR}/requirements/production.txt
 # After the requirements so changes to the code will not bust the image cache
 COPY . ${CREDENTIALS_CODE_DIR}/
 
-COPY scripts/devstack.sh "$CREDENTIALS_APP_DIR/devstack.sh"
-# Enable supervisor script
-COPY scripts/credentials.sh $CREDENTIALS_APP_DIR/credentials.sh
-COPY /configuration_files/credentials.conf ${SUPERVISOR_AVAILABLE_DIR}/credentials.conf
-COPY /configuration_files/credentials.conf ${SUPERVISOR_CFG_DIR}/credentials.conf
 # Manage.py symlink
 COPY /manage.py /edx/bin/manage.credentials
 
