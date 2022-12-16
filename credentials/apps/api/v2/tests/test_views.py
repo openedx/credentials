@@ -723,22 +723,20 @@ class CourseCertificateViewSetTests(SiteMixin, APITestCase):
             "course_id": "course-v1:edX+DemoX+Demo_Course",
             "certificate_type": "honor",
             "title": "Name of the certificate",
-            "signatories": json.dumps(
-                [
-                    {
-                        "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png",
-                        "name": "signatory 1",
-                        "organization": "edX",
-                        "title": "title",
-                    },
-                    {
-                        "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image+1.png",
-                        "name": "signatory 2",
-                        "organization": "edX",
-                        "title": "title",
-                    },
-                ]
-            ),
+            "signatories": [
+                """{
+                    "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png",
+                    "name": "signatory 1",
+                    "organization": "edX",
+                    "title": "title",
+                }""",
+                """{
+                    "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image+1.png",
+                    "name": "signatory 2",
+                    "organization": "edX",
+                    "title": "title",
+                }""",
+            ],
             "is_active": True,
         }
 
