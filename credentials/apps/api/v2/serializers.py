@@ -1,6 +1,7 @@
 """
 Serializers for data manipulated by the credentials service APIs.
 """
+import ast
 import logging
 from pathlib import Path
 from typing import Dict, Generator, List, Union
@@ -11,7 +12,6 @@ from django.utils.datastructures import MultiValueDict
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.reverse import reverse
-from rest_framework.utils import json
 
 from credentials.apps.api.accreditors import Accreditor
 from credentials.apps.catalog.models import CourseRun
@@ -294,12 +294,14 @@ class UserGradeSerializer(serializers.ModelSerializer):
 class SignatorySerializer(serializers.ModelSerializer):
     """Serializer for Signatory objects."""
 
+    organization = serializers.CharField(max_length=255, source="organization_name_override", required=False)
+
     class Meta:
         model = Signatory
         fields = (
             "image",
             "name",
-            "organization_name_override",
+            "organization",
             "title",
         )
 
@@ -311,13 +313,41 @@ class SignatorySerializer(serializers.ModelSerializer):
         return value
 
 
+class SignatoryListField(serializers.ListField):
+    """
+    Serializes a list of strings into a list of dicts.
+    Populate signatories images in dict files instead of strings with their filenames.
+    """
+
+    def to_internal_value(self, data: str) -> Dict[str, Union[str, InMemoryUploadedFile]]:
+        """
+        Converts a list of dict that is a string to a list of dict.
+        """
+        data_ = self.populate_signatories(data, self.context["request"].FILES)  # pylint: disable=no-member
+        return super().to_internal_value(data_)
+
+    @staticmethod
+    def populate_signatories(
+        signatories_data: List[str],
+        files: MultiValueDict,
+    ) -> Generator[Dict[str, Union[str, InMemoryUploadedFile]], None, None]:
+        """
+        Populates a list of signature data with files.
+        """
+        for signatory_data in signatories_data:
+            signatory = ast.literal_eval(signatory_data)
+            if signatory_file := files.get(signatory.get("image"), None):
+                signatory["image"] = signatory_file
+                yield signatory
+
+    def to_representation(self, data):
+        return super().to_representation(data.all())
+
+
 class CourseCertificateSerializer(serializers.ModelSerializer):
     course_run = CourseRunField(read_only=True)
-    certificate_available_date = serializers.DateTimeField(
-        required=False,
-        allow_null=True,
-    )
-    signatories = SignatorySerializer(many=True, required=False)
+    certificate_available_date = serializers.DateTimeField(required=False, allow_null=True)
+    signatories = SignatoryListField(child=SignatorySerializer(), required=False)
     title = serializers.CharField(required=False, allow_null=True)
 
     class Meta:
@@ -362,37 +392,8 @@ class CourseCertificateSerializer(serializers.ModelSerializer):
         )
 
         cert.signatories.clear()
-        self.save_related_signatories(cert)
+        for signatory_data in validated_data.get("signatories", []):
+            signatory = Signatory.objects.create(**signatory_data)
+            cert.signatories.add(signatory)
 
         return cert
-
-    def save_related_signatories(self, certificate: CourseCertificate) -> None:
-        """
-        Creates new signatures and relates them to the certificate.
-        """
-        signatories_data = self.context["request"].data.get("signatories")  # pylint: disable=no-member
-        files = self.context["request"].FILES  # pylint: disable=no-member
-
-        if signatories_data and files:
-            signatories_populated_data = self.populate_signatories(signatories_data, files)
-            signatories = self.create_signatories(list(signatories_populated_data))
-            certificate.signatories.set(signatories)
-
-    @staticmethod
-    def create_signatories(signatories_data: List[Dict[str, Union[str, InMemoryUploadedFile]]]) -> List[Signatory]:
-        serializer = SignatorySerializer(data=signatories_data, many=True)
-        serializer.is_valid(raise_exception=True)
-        return serializer.save()
-
-    @staticmethod
-    def populate_signatories(
-        signatories_data: str,
-        files: MultiValueDict,
-    ) -> Generator[Dict[str, Union[str, InMemoryUploadedFile]], None, None]:
-        """
-        Populates a list of signature data with files.
-        """
-        for signatory in json.loads(signatories_data):
-            if signatory_file := files.get(signatory.get("image"), None):
-                signatory["image"] = signatory_file
-                yield signatory
