@@ -1,4 +1,3 @@
-import json
 from collections import namedtuple
 from datetime import datetime
 from logging import WARNING
@@ -15,6 +14,7 @@ from rest_framework.test import APIRequestFactory
 from credentials.apps.api.v2.serializers import (
     CourseCertificateSerializer,
     CredentialField,
+    SignatoryListField,
     SignatorySerializer,
     UserCredentialAttributeSerializer,
     UserCredentialCreationSerializer,
@@ -306,7 +306,7 @@ class SignatorySerializerTests(SiteMixin, TestCase):
         expected = {
             "name": signatory.name,
             "title": signatory.title,
-            "organization_name_override": signatory.organization_name_override,
+            "organization": signatory.organization_name_override,
             "image": signatory.image.url,
         }
         self.assertEqual(actual, expected)
@@ -317,7 +317,7 @@ class SignatorySerializerTests(SiteMixin, TestCase):
         expected = {
             "name": signatory.name,
             "title": signatory.title,
-            "organization_name_override": signatory.organization_name_override,
+            "organization": signatory.organization_name_override,
             "image": None,
         }
         self.assertEqual(actual, expected)
@@ -334,6 +334,36 @@ class SignatorySerializerTests(SiteMixin, TestCase):
         actual = SignatorySerializer(data=data).is_valid()
 
         self.assertFalse(actual)
+
+
+class SignatoryListFieldTests(SiteMixin, TestCase):
+    def test_populate_signatories(self):
+        png_image = create_image("png")
+        signatories_data = [
+            """{
+                "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png",
+                "name": "signatory 1",
+                "organization": "edX",
+                "title": "title",
+            }""",
+            """{
+                "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image+1.png",
+                "name": "signatory 2",
+                "organization": "edX",
+                "title": "title",
+            }""",
+        ]
+        files = {
+            "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png": png_image,
+            "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image+1.png": png_image,
+        }
+        actual = SignatoryListField.populate_signatories(signatories_data, files)
+        expected = [
+            {"image": png_image, "name": "signatory 1", "organization": "edX", "title": "title"},
+            {"image": png_image, "name": "signatory 2", "organization": "edX", "title": "title"},
+        ]
+
+        self.assertEqual(list(actual), expected)
 
 
 class CourseCertificateSerializerTests(SiteMixin, TestCase):
@@ -409,31 +439,3 @@ class CourseCertificateSerializerTests(SiteMixin, TestCase):
             CourseCertificateSerializer(context={"request": Request(site=self.site, data=data, FILES=None)}).create(
                 validated_data=data
             )
-
-    def test_parse_signatories_in_files(self):
-        png_image = create_image("png")
-        signatories_data = [
-            {
-                "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png",
-                "name": "signatory 1",
-                "organization": "edX",
-                "title": "title",
-            },
-            {
-                "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image+1.png",
-                "name": "signatory 2",
-                "organization": "edX",
-                "title": "title",
-            },
-        ]
-        files = {
-            "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png": png_image,
-            "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image+1.png": png_image,
-        }
-
-        actual = CourseCertificateSerializer.populate_signatories(json.dumps(signatories_data), files)
-        expected = [
-            {"image": png_image, "name": "signatory 1", "organization": "edX", "title": "title"},
-            {"image": png_image, "name": "signatory 2", "organization": "edX", "title": "title"},
-        ]
-        self.assertEqual(list(actual), expected)
