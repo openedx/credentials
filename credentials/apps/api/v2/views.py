@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
 from rest_framework import generics, mixins, permissions, status, viewsets
 from rest_framework.exceptions import Throttled
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView, exception_handler
@@ -292,6 +293,7 @@ class CourseCertificateViewSet(
     queryset = CourseCertificate.objects.all()
     serializer_class = CourseCertificateSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
+    parser_classes = (MultiPartParser, FormParser)
     lookup_field = "course_id"
 
     def get_object(self) -> CourseCertificate:
