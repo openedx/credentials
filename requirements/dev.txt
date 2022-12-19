@@ -74,7 +74,7 @@ coreschema==0.0.4
     #   -r requirements/test.txt
     #   coreapi
     #   drf-yasg
-coverage==6.5.0
+coverage==7.0.0
     # via -r requirements/test.txt
 cryptography==38.0.4
     # via
@@ -196,7 +196,7 @@ edx-ace==1.6.0
     # via -r requirements/test.txt
 edx-auth-backends==4.1.0
     # via -r requirements/test.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.1.127
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.1
     # via -r requirements/test.txt
 edx-django-release-util==1.2.0
     # via -r requirements/test.txt
@@ -250,7 +250,7 @@ idna==3.4
     # via
     #   -r requirements/test.txt
     #   requests
-importlib-metadata==5.1.0
+importlib-metadata==5.2.0
     # via
     #   -r requirements/test.txt
     #   markdown
@@ -262,7 +262,7 @@ iniconfig==1.1.1
     # via
     #   -r requirements/test.txt
     #   pytest
-isort==5.11.1
+isort==5.11.3
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -386,7 +386,7 @@ pyjwt[crypto]==2.6.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.15.8
+pylint==2.15.9
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -442,7 +442,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/test.txt
     #   social-auth-core
-pytz==2022.6
+pytz==2022.7
     # via
     #   -r requirements/test.txt
     #   django
@@ -571,7 +571,7 @@ tomlkit==0.11.6
     # via
     #   -r requirements/test.txt
     #   pylint
-tox==3.27.1
+tox==3.28.0
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt

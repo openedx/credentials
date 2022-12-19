@@ -42,11 +42,11 @@ bleach==5.0.1
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.26.28
+boto3==1.26.33
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.28
+botocore==1.29.33
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -99,7 +99,7 @@ coreschema==0.0.4
     #   -r requirements/production.txt
     #   coreapi
     #   drf-yasg
-coverage==6.5.0
+coverage==7.0.0
     # via -r requirements/dev.txt
 cryptography==38.0.4
     # via
@@ -196,7 +196,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==3.2.2
+django-ses==3.3.0
     # via -r requirements/production.txt
 django-simple-history==3.0.0
     # via
@@ -265,7 +265,7 @@ edx-auth-backends==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.1.127
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -343,7 +343,7 @@ idna==3.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-importlib-metadata==5.1.0
+importlib-metadata==5.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -357,7 +357,7 @@ iniconfig==1.1.1
     # via
     #   -r requirements/dev.txt
     #   pytest
-isort==5.11.1
+isort==5.11.3
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -516,7 +516,7 @@ pyjwt[crypto]==2.6.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.15.8
+pylint==2.15.9
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -584,7 +584,7 @@ python3-openid==3.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   social-auth-core
-pytz==2022.6
+pytz==2022.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -736,7 +736,7 @@ tomlkit==0.11.6
     # via
     #   -r requirements/dev.txt
     #   pylint
-tox==3.27.1
+tox==3.28.0
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
@@ -792,7 +792,7 @@ zipp==3.11.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   importlib-metadata
-zope-event==4.5.0
+zope-event==4.6
     # via
     #   -r requirements/production.txt
     #   gevent
