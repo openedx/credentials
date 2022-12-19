@@ -84,7 +84,7 @@ class Signatory(TimeStampedModel):
     """
 
     name = models.CharField(max_length=255)
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, null=True, blank=True)
     organization_name_override = models.CharField(
         max_length=255,
         null=True,

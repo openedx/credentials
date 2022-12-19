@@ -294,7 +294,9 @@ class UserGradeSerializer(serializers.ModelSerializer):
 class SignatorySerializer(serializers.ModelSerializer):
     """Serializer for Signatory objects."""
 
-    organization = serializers.CharField(max_length=255, source="organization_name_override", required=False)
+    organization = serializers.CharField(
+        max_length=255, source="organization_name_override", required=False, allow_blank=True
+    )
 
     class Meta:
         model = Signatory
