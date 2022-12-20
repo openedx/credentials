@@ -6,7 +6,7 @@
 #
 analytics-python==1.4.0
     # via -r requirements/base.in
-asgiref==3.5.2
+asgiref==3.6.0
     # via django
 attrs==22.1.0
     # via edx-ace
@@ -155,7 +155,7 @@ future==0.18.2
     # via pyjwkest
 idna==3.4
     # via requests
-importlib-metadata==5.1.0
+importlib-metadata==5.2.0
     # via markdown
 inflection==0.5.1
     # via drf-yasg
@@ -225,7 +225,7 @@ python-slugify==7.0.0
     # via code-annotations
 python3-openid==3.2.0
     # via social-auth-core
-pytz==2022.6
+pytz==2022.7
     # via
     #   -r requirements/base.in
     #   django
