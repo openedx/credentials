@@ -27,11 +27,8 @@ ENV CREDENTIALS_APP_DIR="${COMMON_APP_DIR}/credentials"
 ENV CREDENTIALS_VENV_DIR="${COMMON_APP_DIR}/credentials/venvs/credentials"
 ENV CREDENTIALS_CODE_DIR="${CREDENTIALS_APP_DIR}/credentials"
 ARG CREDENTIALS_NODEENV_DIR="${COMMON_APP_DIR}/credentials/nodeenvs/credentials"
-ARG CREDENTIALS_NODE_VERSION="16.14.0"
-ARG CREDENTIALS_NPM_VERSION="8.5.x"
 
 ENV PATH="$CREDENTIALS_VENV_DIR/bin:$PATH"
-
 ENV CREDENTIALS_NODEENV_DIR "${COMMON_APP_DIR}/credentials/nodeenvs/credentials"
 ENV CREDENTIALS_NODEENV_BIN "${CREDENTIALS_NODEENV_DIR}/bin"
 ENV CREDENTIALS_NODE_MODULES_DIR "${CREDENTIALS_CODE_DIR}}/node_modules"
@@ -53,8 +50,8 @@ ENV PATH "${CREDENTIALS_NODEENV_DIR}/bin:$PATH"
 # No need to activate credentials venv as it is already in path
 RUN pip install nodeenv
 
-RUN nodeenv ${CREDENTIALS_NODEENV_DIR} --node=${CREDENTIALS_NODE_VERSION} --prebuilt
-RUN npm install -g npm@${CREDENTIALS_NPM_VERSION}
+RUN nodeenv ${CREDENTIALS_NODEENV_DIR} --node=16.14.0 --prebuilt
+RUN npm install -g npm@$8.5.x
 
 # Copy just JS requirements and install them.
 COPY package.json package.json
@@ -72,35 +69,33 @@ RUN mkdir -p /edx/var/credentials/
 # Log dir
 RUN mkdir -p /edx/var/log/
 
-
-ENV CREDENTIALS_CFG="${COMMON_CFG_DIR}/credentials.yml"
-COPY configuration_files/credentials.yml ${CREDENTIALS_CFG}
-
 # credentials service config commands below
 RUN pip install -r ${CREDENTIALS_CODE_DIR}/requirements/production.txt
 
 # After the requirements so changes to the code will not bust the image cache
 COPY . ${CREDENTIALS_CODE_DIR}/
 
-# Manage.py symlink
-COPY /manage.py /edx/bin/manage.credentials
-
-RUN chown credentials:credentials "$CREDENTIALS_APP_DIR/devstack.sh" && chmod a+x "$CREDENTIALS_APP_DIR/devstack.sh"
-
 # placeholder file for the time being unless devstack provisioning scripts need it.
 RUN touch ${CREDENTIALS_APP_DIR}/credentials_env
 # Expose ports.
 EXPOSE 18150
-
-
-FROM app as production
-
-ENV DJANGO_SETTINGS_MODULE credentials.settings.production
 
 FROM app as dev
 
 # credentials service config commands below
 RUN pip install -r ${CREDENTIALS_CODE_DIR}/requirements/dev.txt
 
-
 ENV DJANGO_SETTINGS_MODULE credentials.settings.devstack
+
+CMD while true; do python ./manage.py runserver 0.0.0.0:18150; sleep 2; done
+
+FROM app as production
+
+ENV DJANGO_SETTINGS_MODULE credentials.settings.production
+
+CMD gunicorn \
+    --pythonpath=/edx/app/credentials/credentials \
+    --timeout=300 \
+    -b 0.0.0.0:18150 \
+    -w 2 \
+    - credentials.wsgi:application
