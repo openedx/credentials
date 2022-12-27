@@ -6,11 +6,11 @@
 #
 analytics-python==1.4.0
     # via -r requirements/base.txt
-asgiref==3.5.2
+asgiref==3.6.0
     # via
     #   -r requirements/base.txt
     #   django
-attrs==22.1.0
+attrs==22.2.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==5.0.1
     # via -r requirements/base.txt
-boto3==1.26.28
+boto3==1.26.37
     # via django-ses
-botocore==1.29.28
+botocore==1.29.37
     # via
     #   boto3
     #   s3transfer
@@ -121,7 +121,7 @@ django-ratelimit==3.0.1
     #   -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==3.2.2
+django-ses==3.3.0
     # via -r requirements/production.in
 django-simple-history==3.0.0
     # via
@@ -131,7 +131,7 @@ django-sortedm2m==3.1.1
     # via -r requirements/base.txt
 django-statici18n==2.3.1
     # via -r requirements/base.txt
-django-storages==1.13.1
+django-storages==1.13.2
     # via -r requirements/base.txt
 django-waffle==3.0.0
     # via
@@ -170,7 +170,7 @@ edx-django-utils==5.2.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.3.1
+edx-drf-extensions==8.4.0
     # via -r requirements/base.txt
 edx-i18n-tools==0.9.2
     # via
@@ -198,7 +198,7 @@ idna==3.4
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-metadata==5.1.0
+importlib-metadata==5.2.0
     # via
     #   -r requirements/base.txt
     #   markdown
@@ -316,7 +316,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-pytz==2022.6
+pytz==2022.7
     # via
     #   -r requirements/base.txt
     #   django
@@ -430,7 +430,7 @@ zipp==3.11.0
     # via
     #   -r requirements/base.txt
     #   importlib-metadata
-zope-event==4.5.0
+zope-event==4.6
     # via gevent
 zope-interface==5.5.2
     # via gevent
