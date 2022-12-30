@@ -32,7 +32,7 @@ jobs:
           # We need to use a personal access token (it's the Nils access token),
           # because the GitHub Actions are not able to merge a PR, when protect
           # our branch (Restrict who can push to matching branches). 
-          GITHUB_TOKEN: "${{ secrets.AUTOMERGE_TOKEN }}"
+          GITHUB_TOKEN: "${{ github.token }}"
           MERGE_LABELS: "auto-merge"
           UPDATE_LABELS: "auto-merge"
           MERGE_COMMIT_MESSAGE: "pull-request-title-and-description"
