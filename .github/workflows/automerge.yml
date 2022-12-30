@@ -27,7 +27,7 @@ jobs:
       github.event.pull_request.draft == false
     steps:
       - name: automerge
-        uses: "pascalgn/automerge-action@v0.14.2"
+        uses: "pascalgn/automerge-action@v0.15.5"
         env:
           # We need to use a personal access token (it's the Nils access token),
           # because the GitHub Actions are not able to merge a PR, when protect
