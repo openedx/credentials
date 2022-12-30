@@ -22,9 +22,9 @@ on:
 jobs:
   automerge:
     runs-on: ubuntu-latest
-    if: |
-      contains(github.event.pull_request.labels.*.name, 'auto-merge') &&
-      github.event.pull_request.draft == false
+#     if: |
+#       contains(github.event.pull_request.labels.*.name, 'auto-merge') &&
+#       github.event.pull_request.draft == false
     steps:
       - name: automerge
         uses: "pascalgn/automerge-action@v0.15.5"
