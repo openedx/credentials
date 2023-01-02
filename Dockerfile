@@ -92,6 +92,9 @@ ENV PATH="$NODE_BIN/.bin:$PATH"
 # Run webpack
 RUN webpack --config webpack.config.js
 
+# Change static folder owner to application user.
+RUN chown -R app:app /edx/app/credentials/credentials/credentials/static
+
 # Code is owned by root so it cannot be modified by the application user.
 # So we copy it before changing users.
 USER app
