@@ -36,6 +36,6 @@ jobs:
           MERGE_LABELS: "auto-merge"
           UPDATE_LABELS: "auto-merge"
           MERGE_COMMIT_MESSAGE: "pull-request-title-and-description"
-          MERGE_RETRIES: "10"
+          MERGE_RETRIES: "20"
           MERGE_RETRY_SLEEP: "5000"
           MERGE_REQUIRED_APPROVALS: "0"
