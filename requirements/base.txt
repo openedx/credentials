@@ -6,9 +6,9 @@
 #
 analytics-python==1.4.0
     # via -r requirements/base.in
-asgiref==3.5.2
+asgiref==3.6.0
     # via django
-attrs==22.1.0
+attrs==22.2.0
     # via edx-ace
 backoff==1.10.0
     # via analytics-python
@@ -38,7 +38,7 @@ coreschema==0.0.4
     # via
     #   coreapi
     #   drf-yasg
-cryptography==38.0.4
+cryptography==39.0.0
     # via
     #   pyjwt
     #   social-auth-core
@@ -102,7 +102,7 @@ django-sortedm2m==3.1.1
     # via -r requirements/base.in
 django-statici18n==2.3.1
     # via -r requirements/base.in
-django-storages==1.13.1
+django-storages==1.13.2
     # via -r requirements/base.in
 django-waffle==3.0.0
     # via
@@ -139,7 +139,7 @@ edx-django-utils==5.2.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.3.1
+edx-drf-extensions==8.4.0
     # via -r requirements/base.in
 edx-i18n-tools==0.9.2
     # via edx-credentials-themes
@@ -155,7 +155,7 @@ future==0.18.2
     # via pyjwkest
 idna==3.4
     # via requests
-importlib-metadata==5.1.0
+importlib-metadata==6.0.0
     # via markdown
 inflection==0.5.1
     # via drf-yasg
@@ -189,7 +189,7 @@ path==16.6.0
     # via edx-i18n-tools
 pbr==5.11.0
     # via stevedore
-pillow==9.3.0
+pillow==9.4.0
     # via -r requirements/base.in
 polib==1.1.1
     # via edx-i18n-tools
@@ -199,7 +199,7 @@ pycparser==2.21
     # via cffi
 pycryptodomex==3.16.0
     # via pyjwkest
-pygments==2.13.0
+pygments==2.14.0
     # via -r requirements/base.in
 pyjwkest==1.4.2
     # via edx-drf-extensions
@@ -225,7 +225,7 @@ python-slugify==7.0.0
     # via code-annotations
 python3-openid==3.2.0
     # via social-auth-core
-pytz==2022.6
+pytz==2022.7
     # via
     #   -r requirements/base.in
     #   django
