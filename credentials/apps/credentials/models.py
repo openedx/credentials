@@ -199,7 +199,7 @@ class CourseCertificate(AbstractCertificate):
     """
 
     course_id = models.CharField(max_length=255, validators=[validate_course_key])
-    course_run = models.OneToOneField(CourseRun, null=True, on_delete=models.PROTECT)
+    course_run = models.ForeignKey(CourseRun, null=True, on_delete=models.PROTECT)
     certificate_available_date = models.DateTimeField(
         null=True,
         blank=True,
