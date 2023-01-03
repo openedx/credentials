@@ -767,6 +767,22 @@ class CourseCertificateViewSetTests(SiteMixin, APITestCase):
         response = self.client.post(self.url, data=self.valid_data)
         self.assertEqual(response.status_code, 201)
 
+    def test_post_for_staff_with_blank_signatories(self):
+        self.authenticate_user(self.superuser)
+        data = {
+            "course_id": "course-v1:edX+DemoX+Demo_Course",
+            "certificate_type": "honor",
+            "title": "Name of the certificate",
+            # NOTE: In tests, parsers do not work properly, unlike real queries.
+            # It is in this form that data comes from the studio when creating
+            # a certificate configuration without signatures.
+            # This is the case for this test.
+            "signatories": ["image", "name", "organization", "title"],
+            "is_active": True,
+        }
+        response = self.client.post(self.url, data=data, files={})
+        self.assertEqual(response.status_code, 201)
+
     def test_delete_for_anonymous(self):
         data = {
             "course_id": self.certificate.course_id,

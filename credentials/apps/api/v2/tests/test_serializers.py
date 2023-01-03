@@ -340,18 +340,18 @@ class SignatoryListFieldTests(SiteMixin, TestCase):
     def test_populate_signatories(self):
         png_image = create_image("png")
         signatories_data = [
-            """{
+            {
                 "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png",
                 "name": "signatory 1",
                 "organization": "edX",
                 "title": "title",
-            }""",
-            """{
+            },
+            {
                 "image": "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image+1.png",
                 "name": "signatory 2",
                 "organization": "edX",
                 "title": "title",
-            }""",
+            },
         ]
         files = {
             "/asset-v1:edX+DemoX+Demo_Course+type@asset+block@images_course_image.png": png_image,
