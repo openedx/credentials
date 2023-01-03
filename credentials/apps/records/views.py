@@ -367,14 +367,15 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
             super(ProgramRecordCsvView.SegmentHttpResponse, self).__init__(*args, **kwargs)
 
         def close(self):
-            self.segment_client.track(
-                self.anonymous_id, event=self.event, properties=self.properties, context=self.context
-            )
+            if self.segment_client:
+                self.segment_client.track(
+                    self.anonymous_id, event=self.event, properties=self.properties, context=self.context
+                )
             super(ProgramRecordCsvView.SegmentHttpResponse, self).close()
 
     def get(self, request, *args, **kwargs):
         site_configuration = request.site.siteconfiguration
-        segment_client = SegmentClient(write_key=site_configuration.segment_key)
+        segment_client = None
 
         program_cert_record = get_object_or_404(ProgramCertRecord, uuid=kwargs.get("uuid"))
         record = get_program_record_data(
@@ -415,12 +416,14 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
         # 'ajs_anonymous_id' cookie not existing in the request.
         anonymous_id = request.COOKIES.get("ajs_anonymous_id", str(uuid4()))
 
-        segment_client.track(
-            anonymous_id,
-            context=context,
-            event="edx.bi.credentials.program_record.download_started",
-            properties=properties,
-        )
+        if segment_key := site_configuration.segment_key:
+            segment_client = SegmentClient(write_key=segment_key)
+            segment_client.track(
+                request.COOKIES.get("ajs_anonymous_id"),
+                context=context,
+                event="edx.bi.credentials.program_record.download_started",
+                properties=properties,
+            )
 
         string_io = io.StringIO()
         writer = csv.writer(string_io, quoting=csv.QUOTE_ALL)

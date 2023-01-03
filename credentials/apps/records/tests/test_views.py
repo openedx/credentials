@@ -1192,6 +1192,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertEqual(response.status_code, 200)
 
 
+@ddt.ddt
 class ProgramRecordCsvViewTests(SiteMixin, TestCase):
     MOCK_USER_DATA = {
         "username": "test-user",
@@ -1250,15 +1251,22 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
         )
         self.assertEqual(404, response.status_code)
 
+    @ddt.data(True, False)
     @patch("credentials.apps.records.views.SegmentClient", autospec=True)
     @patch("credentials.apps.records.views.SegmentClient.track", autospec=True)
-    def tests_creates_csv(self, segment_client, track):  # pylint: disable=unused-argument
-        """Verify that the csv parses and contains all of the necessary titles/headers"""
+    def tests_creates_csv(self, segment_should_be_used, segment_client, track):  # pylint: disable=unused-argument
+        """
+        Verify that the csv parses and contains all of the necessary titles/headers.
+        """
+        if segment_should_be_used:
+            self.site_configuration.segment_key = "the_key_to_the_apartment_where_the_money_will_be"
+            self.site_configuration.save()
         response = self.client.get(
             reverse("records:program_record_csv", kwargs={"uuid": self.program_cert_record.uuid.hex})
         )
+        self.assertEqual(bool(self.site_configuration.segment_key), segment_should_be_used)
         self.assertEqual(200, response.status_code)
-        self.assertTrue(track.called)
+        self.assertEqual(track.called, segment_should_be_used)
         content = response.content.decode("utf-8")
         csv_reader = csv.reader(io.StringIO(content))
         body = list(csv_reader)
