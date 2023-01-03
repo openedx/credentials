@@ -5,9 +5,9 @@ from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
-from rest_framework import generics, mixins, permissions, status, viewsets
+from rest_framework import mixins, permissions, status, viewsets
 from rest_framework.exceptions import Throttled
-from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView, exception_handler
@@ -286,14 +286,19 @@ class UsernameReplacementView(APIView):
 
 class CourseCertificateViewSet(
     mixins.CreateModelMixin,
-    generics.RetrieveDestroyAPIView,
+    mixins.DestroyModelMixin,
+    mixins.RetrieveModelMixin,
     mixins.UpdateModelMixin,
     viewsets.GenericViewSet,
 ):
     queryset = CourseCertificate.objects.all()
     serializer_class = CourseCertificateSerializer
     permission_classes = (IsAdminUserOrReadOnly,)
-    parser_classes = (MultiPartParser, FormParser)
+    parser_classes = (
+        JSONParser,
+        MultiPartParser,
+        FormParser,
+    )
     lookup_field = "course_id"
 
     def get_object(self) -> CourseCertificate:
@@ -304,6 +309,12 @@ class CourseCertificateViewSet(
             course_id=data.get("course_id"),
             certificate_type=data.get("certificate_type"),
         )
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
     def perform_destroy(self, instance: CourseCertificate) -> None:
         instance.signatories.clear()
