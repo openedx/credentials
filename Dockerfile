@@ -83,16 +83,26 @@ RUN pip install -r requirements/production.txt
 
 RUN mkdir -p /edx/var/log
 
+# This line is after the python requirements so that changes to the code will not
+# bust the image cache
+COPY . /edx/app/credentials/credentials
+
+# Install dependencies in node_modules directory
+RUN npm install --no-save
+ENV NODE_BIN=/edx/app/credentials/credentials/node_modules
+ENV PATH="$NODE_BIN/.bin:$PATH"
+# Run webpack
+RUN webpack --config webpack.config.js
+
+# Change static folder owner to application user.
+RUN chown -R app:app /edx/app/credentials/credentials/credentials/static
+
 # Code is owned by root so it cannot be modified by the application user.
 # So we copy it before changing users.
 USER app
 
 # Gunicorn 19 does not log to stdout or stderr by default. Once we are past gunicorn 19, the logging to STDOUT need not be specified.
 CMD gunicorn --workers=2 --name credentials -c /edx/app/credentials/credentials/credentials/docker_gunicorn_configuration.py --log-file - --max-requests=1000 credentials.wsgi:application
-
-# This line is after the requirements so that changes to the code will not
-# bust the image cache
-COPY . /edx/app/credentials/credentials
 
 # We don't switch back to the app user for devstack because we need devstack users to be
 # able to update requirements and generally run things as root.
