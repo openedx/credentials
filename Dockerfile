@@ -83,6 +83,8 @@ RUN pip install -r requirements/production.txt
 
 RUN mkdir -p /edx/var/log
 
+# This line is after the python requirements so that changes to the code will not
+# bust the image cache
 COPY . /edx/app/credentials/credentials
 
 # Install dependencies in node_modules directory
