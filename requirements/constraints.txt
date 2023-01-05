@@ -23,3 +23,7 @@ pyyaml<6.0
 # The update to django-ratelimit 4.x failed because of some breaking changes. Pinning to <4.x. This constraint will be
 # re-evaluated as part of APER-2169.
 django-ratelimit<4.0
+
+# Version of sphinx is pinned to v5.3.0 because of breaking changes in v6.
+# re-evaluated as part of APER-2220
+sphinx<6.0
