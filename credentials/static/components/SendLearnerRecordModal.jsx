@@ -177,7 +177,6 @@ SendLearnerRecordModal.propTypes = {
     PropTypes.string,
     PropTypes.bool,
   ]),
-  uuid: PropTypes.string.isRequired,
   typeName: PropTypes.string.isRequired,
   platformName: PropTypes.string.isRequired,
   // TODO: replace with redux global state variables
