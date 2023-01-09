@@ -89,7 +89,7 @@ class TestPipelineUserRoles(TestCase):
 
     def test_admin_role_is_assigned(self):
         """
-        Make sure the user is assigned the ADMINS role if the "administrator" claim
+        Make sure the users is assigned the ADMINS role if the "administrator" claim
         is set to true.
         """
         self.assert_has_admin_role(False)
