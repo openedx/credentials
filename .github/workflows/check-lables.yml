@@ -1,0 +1,25 @@
+name: Upgrade Requirements
+
+jobs:
+  upgrade_requirements:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        python-version: ["3.8"]
+
+    steps:
+
+      - name: setup tubular
+        run: |
+          git clone https://github.com/openedx/tubular.git
+          cd $GITHUB_WORKSPACE/tubular
+          pip install -r requirements/base.txt
+          
+      - name: create pull request
+        id: createpullrequest
+        env:
+          GITHUB_TOKEN: ${{ secrets.requirements_bot_github_token }}
+        run: |
+          cd $GITHUB_WORKSPACE/testeng-ci
+          check_pr_tests_status.py --org openedx --repo credentials 1893
