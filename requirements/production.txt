@@ -158,7 +158,7 @@ edx-ace==1.6.0
     # via -r requirements/base.txt
 edx-auth-backends==4.1.0
     # via -r requirements/base.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.2
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.3
     # via -r requirements/base.txt
 edx-django-release-util==1.2.0
     # via -r requirements/base.txt
@@ -221,7 +221,7 @@ jmespath==1.0.1
     #   botocore
 markdown==3.4.1
     # via -r requirements/base.txt
-markupsafe==2.1.1
+markupsafe==2.1.2
     # via
     #   -r requirements/base.txt
     #   jinja2
