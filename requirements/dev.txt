@@ -196,7 +196,7 @@ edx-ace==1.6.0
     # via -r requirements/test.txt
 edx-auth-backends==4.1.0
     # via -r requirements/test.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.2
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.3
     # via -r requirements/test.txt
 edx-django-release-util==1.2.0
     # via -r requirements/test.txt
@@ -231,7 +231,7 @@ exceptiongroup==1.1.0
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==16.4.0
+faker==16.6.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -287,7 +287,7 @@ lazy-object-proxy==1.9.0
     #   astroid
 markdown==3.4.1
     # via -r requirements/test.txt
-markupsafe==2.1.1
+markupsafe==2.1.2
     # via
     #   -r requirements/test.txt
     #   jinja2
