@@ -1,0 +1,33 @@
+name: Add Issues to Project
+
+on:
+  issues:
+    types:
+      - opened
+  pull_request:
+    types:
+      - opened
+
+env:
+  PROJECT_ORG: openedx
+  PROJECT_NUMBER: 23
+
+jobs:
+  add-to-project:
+    name: "Add issue to project"
+    runs-on: ubuntu-latest
+    steps:
+      # Generate a token from org-level GitHub App because non-classic projects
+      # are defined at the org level
+      - name: "Generate token"
+        id: generate_token
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.GRAPHQL_AUTH_APP_ID }}
+          private_key: ${{ secrets.GRAPHQL_AUTH_APP_PEM }}
+      
+      - name: "Add to project"
+        uses: actions/add-to-project@v0.3.0
+        with:
+          project-url: https://github.com/orgs/${{ env.PROJECT_ORG }}/projects/${{ env.PROJECT_NUMBER }}
+          github-token: ${{ steps.generate_token.outputs.token }}
