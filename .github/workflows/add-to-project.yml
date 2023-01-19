@@ -1,4 +1,4 @@
-name: Add Issues to Project
+name: Add New Items to Project
 
 on:
   issues:
@@ -8,26 +8,14 @@ on:
     types:
       - opened
 
-env:
-  PROJECT_ORG: openedx
-  PROJECT_NUMBER: 23
-
 jobs:
-  add-to-project:
-    name: "Add issue to project"
-    runs-on: ubuntu-latest
-    steps:
-      # Generate a token from org-level GitHub App because non-classic projects
-      # are defined at the org level
-      - name: "Generate token"
-        id: generate_token
-        uses: tibdex/github-app-token@v1
-        with:
-          app_id: ${{ secrets.GRAPHQL_AUTH_APP_ID }}
-          private_key: ${{ secrets.GRAPHQL_AUTH_APP_PEM }}
-      
-      - name: "Add to project"
-        uses: actions/add-to-project@v0.4.0
-        with:
-          project-url: https://github.com/orgs/${{ env.PROJECT_ORG }}/projects/${{ env.PROJECT_NUMBER }}
-          github-token: ${{ steps.generate_token.outputs.token }}
+  add-item-to-project:
+    name: "Add item to project"
+    uses: openedx/.github/.github/workflows/add-issue-to-a-project.yml@master
+    secrets:
+      GITHUB_APP_ID: ${{ secrets.GRAPHQL_AUTH_APP_ID }}
+      GITHUB_APP_PRIVATE_KEY: ${{ secrets.GRAPHQL_AUTH_APP_PEM }}
+    with:
+      # required, it's the numeric part of a github project url
+      # for example, https://github.com/orgs/openedx/projects/4 has PROJECT_NUMBER: 4
+      PROJECT_NUMBER: 23
