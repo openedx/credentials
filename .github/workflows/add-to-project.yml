@@ -27,7 +27,7 @@ jobs:
           private_key: ${{ secrets.GRAPHQL_AUTH_APP_PEM }}
       
       - name: "Add to project"
-        uses: actions/add-to-project@v0.3.0
+        uses: actions/add-to-project@v0.4.0
         with:
           project-url: https://github.com/orgs/${{ env.PROJECT_ORG }}/projects/${{ env.PROJECT_NUMBER }}
           github-token: ${{ steps.generate_token.outputs.token }}
