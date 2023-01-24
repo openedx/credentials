@@ -10,7 +10,7 @@ asgiref==3.6.0
     # via
     #   -r requirements/test.txt
     #   django
-astroid==2.13.2
+astroid==2.13.3
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -29,7 +29,7 @@ bcrypt==4.0.1
     # via paramiko
 black==22.12.0
     # via -r requirements/test.txt
-bleach==5.0.1
+bleach==6.0.0
     # via -r requirements/test.txt
 bok-choy==1.1.1
     # via -r requirements/test.txt
@@ -208,7 +208,7 @@ edx-django-utils==5.2.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.4.0
+edx-drf-extensions==8.4.1
     # via -r requirements/test.txt
 edx-i18n-tools==0.9.2
     # via
@@ -325,7 +325,7 @@ packaging==23.0
     #   drf-yasg
     #   pytest
     #   tox
-paramiko==2.12.0
+paramiko==3.0.0
     # via docker
 path==16.6.0
     # via
@@ -430,7 +430,7 @@ python-dateutil==2.8.2
     #   edx-ace
     #   edx-drf-extensions
     #   faker
-python-dotenv==0.21.0
+python-dotenv==0.21.1
     # via docker-compose
 python-memcached==1.59
     # via -r requirements/test.txt
@@ -517,7 +517,6 @@ six==1.16.0
     #   edx-drf-extensions
     #   edx-lint
     #   jsonschema
-    #   paramiko
     #   pyjwkest
     #   python-dateutil
     #   python-memcached
