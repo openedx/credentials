@@ -935,16 +935,38 @@ class ProgramRecordViewTests(SiteMixin, TestCase):
         self.assertNotContains(response, "<xss>")
 
     def test_program_list_url_value_mfe_disabled(self):
+        """
+        Verify that the path to a private program record is working correctly when the Learner Record MFE is disabled.
+        """
+        expected_path = f"/records/programs/{self.program.uuid.hex}/"
+
         response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
 
-        assert response.context_data["program_list_url"] == "/records/"
+        assert response.status_code == 200
+        assert response.context_data["request"].path == expected_path
+
+    def test_shared_program_list_url_mfe_disabled(self):
+        """
+        Verify that the path to a public program record is working correctly when the Learner Record MFE is disabled.
+        """
+        expected_path = f"/records/programs/shared/{self.pcr.uuid.hex}/"
+
+        response = self.client.get(reverse("records:public_programs", kwargs={"uuid": self.pcr.uuid.hex}))
+
+        assert response.status_code == 200
+        assert response.context_data["request"].path == expected_path
 
     @override_settings(USE_LEARNER_RECORD_MFE=True)
     @override_settings(LEARNER_RECORD_MFE_RECORDS_PAGE_URL="http://some.website/page/")
-    def test_program_list_url_value_mfe_enabled(self):
-        response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
+    def test_private_pr_redirect(self):
+        """
+        Verify that a request to view a private program record is redirected to the Learner Record MFE when enabled.
+        """
+        expected_redirect_url = f"http://some.website/page/{self.program.uuid.hex}"
 
-        assert response.context_data["program_list_url"] == "http://some.website/page/"
+        response = self.client.get(reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}))
+        assert response.status_code == 302
+        assert response["Location"] == expected_redirect_url
 
     @override_settings(USE_LEARNER_RECORD_MFE=True)
     @override_settings(LEARNER_RECORD_MFE_RECORDS_PAGE_URL="http://some.website/page/")

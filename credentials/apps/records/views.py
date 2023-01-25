@@ -179,12 +179,15 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
     # NOTE: We _must_ keep this to ensure we are redirecting users to the Learner Record MFE when viewing shared public
     # program records.
     def get(self, request, *args, **kwargs):
-        # If we're using the Learner Record MFE for displaying program records AND this is a public program record
-        # request, redirect the request to the Learner Record MFE.
-        is_public = kwargs["is_public"]
-        if settings.USE_LEARNER_RECORD_MFE and is_public:
+        # If the Learner Record MFE is enabled, ensure we are redirecting users to the correct route depending on the
+        # privacy level of the program record entity.
+        if settings.USE_LEARNER_RECORD_MFE:
+            is_public = kwargs["is_public"]
             uuid = kwargs["uuid"]
-            url = urllib.parse.urljoin(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL, f"shared/{uuid}")
+            if is_public:
+                url = urllib.parse.urljoin(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL, f"shared/{uuid}")
+            else:
+                url = urllib.parse.urljoin(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL, f"{uuid}")
             return HttpResponseRedirect(url)
 
         return super().get(request, *args, **kwargs)
