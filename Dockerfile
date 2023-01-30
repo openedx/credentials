@@ -1,5 +1,4 @@
 FROM ubuntu:focal as base
-MAINTAINER devops@edx.org
 
 # Warning: This file is experimental.
 #
