@@ -1,16 +1,13 @@
-name: Add New Items to Project
+name: Add New Issues to Project
 
 on:
   issues:
     types:
       - opened
-  pull_request:
-    types:
-      - opened
 
 jobs:
-  add-item-to-project:
-    name: "Add item to project"
+  add-issue-to-project:
+    name: "Add issue to project"
     uses: openedx/.github/.github/workflows/add-issue-to-a-project.yml@master
     secrets:
       GITHUB_APP_ID: ${{ secrets.GRAPHQL_AUTH_APP_ID }}

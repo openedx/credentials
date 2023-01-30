@@ -15,6 +15,8 @@ metadata:
     # names that might be interested in changes to the architecture of this
     # component.
     openedx.org/arch-interest-groups: ""
+    # This can be multiple comma-separated projects.
+    openedx.org/add-to-projects: "openedx:23"
 spec:
   type: 'service'
   lifecycle: 'production'
