@@ -13,7 +13,7 @@ asgiref==3.6.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django
-astroid==2.13.3
+astroid==2.13.4
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -42,11 +42,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.26.57
+boto3==1.26.60
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.57
+botocore==1.29.60
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -330,7 +330,7 @@ future==0.18.3
     #   pyjwkest
 gevent==22.10.2
     # via -r requirements/production.txt
-greenlet==2.0.1
+greenlet==2.0.2
     # via
     #   -r requirements/production.txt
     #   gevent
@@ -357,7 +357,7 @@ iniconfig==2.0.0
     # via
     #   -r requirements/dev.txt
     #   pytest
-isort==5.11.4
+isort==5.12.0
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -493,7 +493,7 @@ pycparser==2.21
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cffi
-pycryptodomex==3.16.0
+pycryptodomex==3.17
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -574,7 +574,7 @@ python-memcached==1.59
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-python-slugify==7.0.0
+python-slugify==8.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -786,7 +786,7 @@ xss-utils==0.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-zipp==3.11.0
+zipp==3.12.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt

@@ -197,7 +197,7 @@ psutil==5.9.4
     # via edx-django-utils
 pycparser==2.21
     # via cffi
-pycryptodomex==3.16.0
+pycryptodomex==3.17
     # via pyjwkest
 pygments==2.14.0
     # via -r requirements/base.in
@@ -221,7 +221,7 @@ python-dateutil==2.8.2
     #   edx-drf-extensions
 python-memcached==1.59
     # via -r requirements/base.in
-python-slugify==7.0.0
+python-slugify==8.0.0
     # via code-annotations
 python3-openid==3.2.0
     # via social-auth-core
@@ -304,5 +304,5 @@ webencodings==0.5.1
     # via bleach
 xss-utils==0.4.0
     # via -r requirements/base.in
-zipp==3.11.0
+zipp==3.12.0
     # via importlib-metadata

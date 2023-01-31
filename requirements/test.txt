@@ -10,7 +10,7 @@ asgiref==3.6.0
     # via
     #   -r requirements/base.txt
     #   django
-astroid==2.13.3
+astroid==2.13.4
     # via
     #   pylint
     #   pylint-celery
@@ -230,7 +230,7 @@ inflection==0.5.1
     #   drf-yasg
 iniconfig==2.0.0
     # via pytest
-isort==5.11.4
+isort==5.12.0
     # via
     #   -r requirements/test.in
     #   pylint
@@ -317,7 +317,7 @@ pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pycryptodomex==3.16.0
+pycryptodomex==3.17
     # via
     #   -r requirements/base.txt
     #   pyjwkest
@@ -372,7 +372,7 @@ python-dateutil==2.8.2
     #   faker
 python-memcached==1.59
     # via -r requirements/base.txt
-python-slugify==7.0.0
+python-slugify==8.0.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -522,7 +522,7 @@ wrapt==1.14.1
     # via astroid
 xss-utils==0.4.0
     # via -r requirements/base.txt
-zipp==3.11.0
+zipp==3.12.0
     # via
     #   -r requirements/base.txt
     #   importlib-metadata
