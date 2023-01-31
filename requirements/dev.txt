@@ -10,7 +10,7 @@ asgiref==3.6.0
     # via
     #   -r requirements/test.txt
     #   django
-astroid==2.13.3
+astroid==2.13.4
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -262,7 +262,7 @@ iniconfig==2.0.0
     # via
     #   -r requirements/test.txt
     #   pytest
-isort==5.11.4
+isort==5.12.0
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -368,7 +368,7 @@ pycparser==2.21
     # via
     #   -r requirements/test.txt
     #   cffi
-pycryptodomex==3.16.0
+pycryptodomex==3.17
     # via
     #   -r requirements/test.txt
     #   pyjwkest
@@ -434,7 +434,7 @@ python-dotenv==0.21.1
     # via docker-compose
 python-memcached==1.59
     # via -r requirements/test.txt
-python-slugify==7.0.0
+python-slugify==8.0.0
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -614,7 +614,7 @@ wrapt==1.14.1
     #   astroid
 xss-utils==0.4.0
     # via -r requirements/test.txt
-zipp==3.11.0
+zipp==3.12.0
     # via
     #   -r requirements/test.txt
     #   importlib-metadata
