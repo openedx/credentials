@@ -253,7 +253,7 @@ class UsernameReplacementView(APIView):
         try:
             with transaction.atomic():
                 num_rows_changed = 0
-                for (model, column) in replacement_locations:
+                for model, column in replacement_locations:
                     num_rows_changed += model.objects.filter(**{column: current_username}).update(
                         **{column: new_username}
                     )

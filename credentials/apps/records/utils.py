@@ -49,7 +49,6 @@ def send_updated_emails_for_program(request, username, program_certificate):
 
     # Send emails for those already marked as "SENT"
     for user_pathway in user_pathways:
-
         pathway = user_pathway.pathway
         record_path = reverse("records:public_programs", kwargs={"uuid": pcr.uuid.hex})
         record_link = request.build_absolute_uri(record_path)
