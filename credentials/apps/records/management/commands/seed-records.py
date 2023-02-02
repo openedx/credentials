@@ -104,7 +104,6 @@ class Command(BaseCommand):
         course_id = 1
 
         for organization in organizations:
-
             course1, created = Course.objects.get_or_create(
                 site=site, uuid=faker.uuid4(), title=f"Course {course_id}", key=f"Course-{course_id}"
             )
