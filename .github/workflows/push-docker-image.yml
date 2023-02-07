@@ -30,7 +30,7 @@ jobs:
           result-encoding: string
 
       - name: Build and push base Docker image
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v4
         with:
           push: ${{ github.event_name != 'pull_request' }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -40,7 +40,7 @@ jobs:
           tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
 
       - name: Build and push dev Docker image
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v4
         with:
           push: ${{ github.event_name != 'pull_request' }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
