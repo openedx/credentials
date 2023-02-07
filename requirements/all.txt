@@ -42,11 +42,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.26.62
+boto3==1.26.65
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.62
+botocore==1.29.65
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -222,7 +222,7 @@ django-waffle==3.0.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.8.0
+django-webpack-loader==1.8.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -407,7 +407,7 @@ monotonic==1.6
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   analytics-python
-mypy-extensions==0.4.3
+mypy-extensions==1.0.0
     # via
     #   -r requirements/dev.txt
     #   black
@@ -655,7 +655,7 @@ semantic-version==2.10.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-simplejson==3.18.1
+simplejson==3.18.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -740,7 +740,7 @@ tox==3.28.0
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
-types-toml==0.10.8.2
+types-toml==0.10.8.3
     # via
     #   -r requirements/dev.txt
     #   responses
@@ -765,7 +765,7 @@ urllib3==1.26.14
     #   requests
     #   responses
     #   selenium
-virtualenv==20.17.1
+virtualenv==20.18.0
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -787,7 +787,7 @@ xss-utils==0.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-zipp==3.12.0
+zipp==3.12.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
