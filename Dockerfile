@@ -1,14 +1,6 @@
 FROM ubuntu:focal as minimal-system
 
 # Warning: This file is experimental.
-#
-# Short-term goals:
-# * Be a suitable replacement for the `edxops/credentials` image in devstack (in progress).
-# * Take advantage of Docker caching layers: aim to put commands in order of
-#   increasing cache-busting frequency.
-# * Related to ^, use no Ansible or Paver.
-# Long-term goal:
-# * Be a suitable base for production LMS and CMS images (THIS IS NOT YET THE CASE!).
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG SERVICE_VARIANT
