@@ -153,7 +153,6 @@ USER root
 
 # Temporary compatibility hack while devstack is supporting both the old `edxops/credentials` image and this image.
 # * Add in a dummy ../credentials_env file
-# * devstack sets /edx/etc/studio.yml as CMS_CFG.
 RUN touch ../credentials_env
 
 ENV CREDENTIALS_PLATFORM_SETTINGS='devstack'
