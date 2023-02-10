@@ -19,8 +19,8 @@ ENV LC_ALL='en_US.UTF-8'
 
 # Env vars: path
 ENV VIRTUAL_ENV="/edx/app/credentials/venvs/credentials"
-ENV NODE_ENV=/edx/app/credentials/nodeenvs/credentials
-ENV NODE_BIN=/edx/app/credentials/credentials/node_modules
+ENV NODE_ENV="/edx/app/credentials/nodeenvs/credentials"
+ENV NODE_BIN="/edx/app/credentials/credentials/node_modules"
 ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
 ENV PATH="$NODE_ENV/bin:$PATH"
 ENV PATH="$NODE_BIN/.bin:$PATH"
@@ -40,6 +40,7 @@ RUN apt-get update && \
     apt-get -y dist-upgrade && \
     apt-get -y install --no-install-recommends \
         python3 \
+        python3-dev \
         python3-venv \
         python3.8 \
         python3.8-minimal \
@@ -99,10 +100,20 @@ RUN pip install nodeenv
 RUN nodeenv /edx/app/credentials/nodeenvs/credentials --node=16.14.0 --prebuilt
 RUN npm install -g npm@8.5.3
 
+# Copy over remaining parts of repository (including all code)
+
+COPY . .
+RUN npm install --no-save
+# Run webpack
+RUN webpack --config webpack.config.js
+
+# Change static folder owner to application user.
+RUN chown -R app:app /edx/app/credentials/credentials/credentials/static
+
 # The builder-development stage is a temporary stage that installs python modules required for development purposes
 # The built artifacts from this stage are then copied to the development stage.
 FROM builder-production as builder-development
-
+COPY requirements/dev.txt /edx/app/credentials/credentials/requirements/dev.txt
 RUN pip install -r /edx/app/credentials/credentials/requirements/dev.txt
 
 # base stage
@@ -110,14 +121,8 @@ FROM minimal-system as base
 
 # Copy python virtual environment, nodejs and node_modules
 COPY --from=builder-production /edx/app/credentials/venvs/credentials /edx/app/credentials/venvs/credentials
-COPY --from=builder-production /edx/app/credentials/nodeenv /edx/app/credentials/nodeenv
-COPY --from=builder-production /edx/app/credentials/edx-platform/node_modules /edx/app/credentials/edx-platform/node_modules
-
-# Copy over remaining parts of repository (including all code)
-COPY . .
-
-# Install Python requirements again in order to capture local projects
-RUN pip install -e .
+COPY --from=builder-production /edx/app/credentials/nodeenvs/credentials /edx/app/credentials/nodeenvs/credentials
+COPY --from=builder-production /edx/app/credentials/credentials/node_modules /edx/app/credentials/credentials/node_modules
 
 USER app
 
