@@ -165,15 +165,21 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
         pathway_id = body["pathway_id"]
         program_uuid = kwargs["uuid"]
 
+        # need to clarify, is it safe to assume the User is the same as request.user?
+        program_details = get_program_details(
+            User,
+            request.site,
+            program_uuid,
+            bool(program_uuid),
+        )
+
         # verify that the user or an admin is making the request
         if username != request.user.get_username() and not request.user.is_staff:
             log.info(f'[Share Program Record] Request made from user {request.user.get_username()} for username {username}')
             return JsonResponse({"error": "Permission denied"}, status=403)
 
-        credential = UserCredential.objects.filter(
-            username=username, status=UserCredential.AWARDED, program_credentials__program_uuid=program_uuid
-        )
-        program = get_object_or_404(Program, uuid=program_uuid, site=request.site)
+        # TODO: get pathway, cert, public record
+        program = program_details.record.program
         pathway = get_object_or_404(
             Pathway,
             id=pathway_id,
@@ -181,11 +187,11 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
             pathway_type=PathwayType.CREDIT.value,
         )
         certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)
-        user = get_object_or_404(User, username=username)
-        preexisting_program_cert_record = ProgramCertRecord.objects.filter(user=user, program=program).exists()
+        user = program_details.record.learner
+        preexisting_program_cert_record = program_details.record.shared_program_record_uuid.exists()
         public_record, _ = ProgramCertRecord.objects.get_or_create(user=user, program=program)
 
-        record_path = reverse("records:public_programs", kwargs={"uuid": public_record.uuid.hex})
+        record_path = reverse("records:public_programs", kwargs={"uuid": public_record.hex})
         record_link = request.build_absolute_uri(record_path)
         csv_link = urllib.parse.urljoin(record_link, "csv")
 
@@ -197,7 +203,7 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
                 "program_name": program.title,
                 "record_link": record_link,
                 "user_full_name": request.user.get_full_name() or request.user.username,
-                "program_completed": credential.exists(),
+                "program_completed": program_details.record.program.completed,
                 "previously_sent": False,
                 "csv_link": csv_link,
             },
@@ -207,6 +213,7 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
         log.info(f'[Share Program Record] Pathway is {pathway.name}')
         ace.send(msg)
 
+        # Need to clarify, is it worth replacing UserCreditPathway with post/patch methods in api.py?
         # Create a record of this email
         if UserCreditPathway.objects.filter(user=user, pathway=pathway, program=program).exists():
             UserCreditPathway.objects.update_or_create(
