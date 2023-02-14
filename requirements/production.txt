@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==6.0.0
     # via -r requirements/base.txt
-boto3==1.26.65
+boto3==1.26.70
     # via django-ses
-botocore==1.29.65
+botocore==1.29.70
     # via
     #   boto3
     #   s3transfer
@@ -59,7 +59,7 @@ coreschema==0.0.4
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-cryptography==39.0.0
+cryptography==39.0.1
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -69,7 +69,7 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==3.2.17
+django==3.2.18
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -152,7 +152,7 @@ drf-jwt==1.19.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-drf-yasg==1.21.4
+drf-yasg==1.21.5
     # via -r requirements/base.txt
 edx-ace==1.6.0
     # via -r requirements/base.txt
@@ -231,7 +231,7 @@ monotonic==1.6
     #   analytics-python
 mysqlclient==2.1.1
     # via -r requirements/base.txt
-newrelic==8.5.0
+newrelic==8.6.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -399,7 +399,7 @@ sqlparse==0.4.3
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==4.1.1
+stevedore==5.0.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -426,7 +426,7 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.4.0
     # via -r requirements/base.txt
-zipp==3.12.1
+zipp==3.13.0
     # via
     #   -r requirements/base.txt
     #   importlib-metadata
