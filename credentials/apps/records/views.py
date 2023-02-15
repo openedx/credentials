@@ -91,6 +91,15 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
 
 
 class RecordsView(RecordsListBaseView):
+    # TODO: We should be able to remove this function as part of https://github.com/openedx/credentials/issues/1722
+    def _get_programs(self):
+        return get_user_program_data(
+            self.request.user.username,
+            self.request.site,
+            include_empty_programs=False,
+            include_retired_programs=True,
+        )
+
     # NOTE: We _should_ keep this for redirecting users to the Learner Record MFE to continue to work correctly
     def get(self, request, *args, **kwargs):
         # If the Learner Record MFE is enabled, redirect our user to the MFE, otherwise we use the legacy frontend
@@ -98,6 +107,27 @@ class RecordsView(RecordsListBaseView):
             return HttpResponseRedirect(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL)
 
         return super().get(request, *args, **kwargs)
+
+    # TODO: We should be able to remove this function as part of https://github.com/openedx/credentials/issues/1722
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        site_configuration = self.request.site.siteconfiguration
+        if site_configuration:
+            context["profile_url"] = urllib.parse.urljoin(
+                site_configuration.lms_url_root, "u/" + self.request.user.username
+            )
+            context["records_help_url"] = site_configuration.records_help_url
+
+        context["child_templates"]["masquerade"] = self.select_theme_template(["_masquerade.html"])
+
+        # Translators: A 'record' here means something like a transcript -- a list of courses and grades.
+        context["title"] = _("My Learner Records")
+        context["program_help"] = _(
+            "A program record is created once you have earned at least one course certificate in a program."
+        )
+
+        return context
 
 
 class ProgramListingView(RecordsListBaseView):
@@ -134,6 +164,19 @@ class ProgramListingView(RecordsListBaseView):
 class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
     template_name = "programs.html"
 
+    # TODO: We should be able to remove this function as part of https://github.com/openedx/credentials/issues/1722
+    def _get_record(self, uuid, is_public):
+        try:
+            data = get_program_details(self.request.user, self.request.site, uuid, is_public)
+        except ProgramCertRecord.DoesNotExist:
+            raise http.Http404()
+
+        # Only allow superusers to view a record with no data in it (i.e. don't allow learners to guess URLs and view)
+        if not self.request.user.is_superuser and data["record"]["program"]["empty"]:
+            raise http.Http404()
+
+        return data["record"]
+
     # NOTE: We _must_ keep this to ensure we are redirecting users to the Learner Record MFE when viewing shared public
     # program records.
     def get(self, request, *args, **kwargs):
@@ -150,6 +193,41 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
 
         return super().get(request, *args, **kwargs)
 
+    # TODO: We should be able to remove this function as part of https://github.com/openedx/credentials/issues/1722
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        uuid = kwargs["uuid"]
+        is_public = kwargs["is_public"]
+        record = self._get_record(uuid, is_public)
+
+        site_configuration = self.request.site.siteconfiguration
+        records_help_url = site_configuration.records_help_url if site_configuration else ""
+        base_template = self.try_select_theme_template(["_base_style.html"])
+
+        program_list_url = "/records/"
+        if settings.USE_LEARNER_RECORD_MFE:
+            program_list_url = settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL
+
+        context.update(
+            {
+                "child_templates": {
+                    "footer": self.select_theme_template(["_footer.html"]),
+                    "header": self.select_theme_template(["_header.html"]),
+                    "masquerade": self.select_theme_template(["_masquerade.html"]),
+                },
+                "record": json.dumps(record, sort_keys=True),
+                "program_name": record.get("program", {}).get("name"),
+                "render_language": self.request.LANGUAGE_CODE,
+                "is_public": is_public,
+                "icons_template": self.try_select_theme_template(["credentials/programs.html"]),
+                "uuid": uuid,
+                "records_help_url": records_help_url,
+                "request": self.request,
+                "base_style_template": base_template,
+                "program_list_url": program_list_url,
+            }
+        )
+        return context
 
 @method_decorator(ratelimit(key="user", rate=RECORDS_RATE_LIMIT, method="POST", block=True), name="dispatch")
 class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
@@ -165,21 +243,15 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
         pathway_id = body["pathway_id"]
         program_uuid = kwargs["uuid"]
 
-        # need to clarify, is it safe to assume the User is the same as request.user?
-        program_details = get_program_details(
-            User,
-            request.site,
-            program_uuid,
-            bool(program_uuid),
-        )
-
         # verify that the user or an admin is making the request
         if username != request.user.get_username() and not request.user.is_staff:
             log.info(f'[Share Program Record] Request made from user {request.user.get_username()} for username {username}')
             return JsonResponse({"error": "Permission denied"}, status=403)
 
-        # TODO: get pathway, cert, public record
-        program = program_details.record.program
+        credential = UserCredential.objects.filter(
+            username=username, status=UserCredential.AWARDED, program_credentials__program_uuid=program_uuid
+        )
+        program = get_object_or_404(Program, uuid=program_uuid, site=request.site)
         pathway = get_object_or_404(
             Pathway,
             id=pathway_id,
@@ -187,12 +259,11 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
             pathway_type=PathwayType.CREDIT.value,
         )
         certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)
-        user = program_details.record.learner
-        preexisting_program_cert_record = program_details.record.shared_program_record_uuid.exists()
+        user = get_object_or_404(User, username=username)
+        preexisting_program_cert_record = ProgramCertRecord.objects.filter(user=user, program=program).exists()
         public_record, _ = ProgramCertRecord.objects.get_or_create(user=user, program=program)
 
-        record_path = reverse("records:public_programs", kwargs={"uuid": public_record.hex})
-        record_link = request.build_absolute_uri(record_path)
+        record_path = reverse("records:public_programs", kwargs={"uuid": public_record.uuid.hex})        record_link = request.build_absolute_uri(record_path)
         csv_link = urllib.parse.urljoin(record_link, "csv")
 
         msg = ProgramCreditRequest(request.site, user.email).personalize(
@@ -203,17 +274,14 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
                 "program_name": program.title,
                 "record_link": record_link,
                 "user_full_name": request.user.get_full_name() or request.user.username,
-                "program_completed": program_details.record.program.completed,
+                "program_completed": credential.exists(),
                 "previously_sent": False,
                 "csv_link": csv_link,
             },
         )
-        log.info(f'[Share Program Record] User information sent is either full_name or username {request.user.get_full_name() or request.user.username}')
-        log.info(f'[Share Program Record] Program Record is {program.title} with UUID {program_uuid}')
-        log.info(f'[Share Program Record] Pathway is {pathway.name}')
+        log.info(f'[Share Program Record] User {request.user.get_full_name()} is enrolled in Program {program.title} with UUID {program_uuid}. Pathway is {pathway.name}')
         ace.send(msg)
 
-        # Need to clarify, is it worth replacing UserCreditPathway with post/patch methods in api.py?
         # Create a record of this email
         if UserCreditPathway.objects.filter(user=user, pathway=pathway, program=program).exists():
             UserCreditPathway.objects.update_or_create(

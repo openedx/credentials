@@ -12,7 +12,7 @@ from credentials.apps.credentials.api import (
     get_user_credentials_by_id,
 )
 from credentials.apps.credentials.data import UserCredentialStatus
-from credentials.apps.records.models import ProgramCertificate, ProgramCertRecord, UserCreditPathway, UserGrade
+from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
 
 
 COURSE_CERTIFICATE_CONTENT_TYPE = ContentType.objects.filter(app_label="credentials", model="coursecertificate")
