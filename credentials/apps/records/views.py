@@ -263,7 +263,8 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
         preexisting_program_cert_record = ProgramCertRecord.objects.filter(user=user, program=program).exists()
         public_record, _ = ProgramCertRecord.objects.get_or_create(user=user, program=program)
 
-        record_path = reverse("records:public_programs", kwargs={"uuid": public_record.uuid.hex})        record_link = request.build_absolute_uri(record_path)
+        record_path = reverse("records:public_programs", kwargs={"uuid": public_record.uuid.hex})
+        record_link = request.build_absolute_uri(record_path)
         csv_link = urllib.parse.urljoin(record_link, "csv")
 
         msg = ProgramCreditRequest(request.site, user.email).personalize(
@@ -279,7 +280,8 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
                 "csv_link": csv_link,
             },
         )
-        log.info(f'[Share Program Record] User {request.user.get_full_name()} is enrolled in Program {program.title} with UUID {program_uuid}. Pathway is {pathway.name}')
+
+        log.info(f'[Share Program Record] Internal Credentials user id [{user.id}] is enrolled in program [{program.title}] with UUID [{program_uuid}]. Pathway is [{pathway.name}]')
         ace.send(msg)
 
         # Create a record of this email
