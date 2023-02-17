@@ -229,6 +229,7 @@ class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, Tem
         )
         return context
 
+
 @method_decorator(ratelimit(key="user", rate=RECORDS_RATE_LIMIT, method="POST", block=True), name="dispatch")
 class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
     """
@@ -245,7 +246,6 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
 
         # verify that the user or an admin is making the request
         if username != request.user.get_username() and not request.user.is_staff:
-            log.info(f'[Share Program Record] Request made from user {request.user.get_username()} for username {username}')
             return JsonResponse({"error": "Permission denied"}, status=403)
 
         credential = UserCredential.objects.filter(
@@ -281,7 +281,10 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
             },
         )
 
-        log.info(f'[Share Program Record] Internal Credentials user id [{user.id}] is enrolled in program [{program.title}] with UUID [{program_uuid}]. Pathway is [{pathway.name}]')
+        log.info(
+            f"[Share Program Record] Internal Credentials User [{user.id}] is sharing their progress in program "
+            f"[{program_uuid}] with pathway [{pathway_id}]"
+        )
         ace.send(msg)
 
         # Create a record of this email
