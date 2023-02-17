@@ -8,6 +8,7 @@ from uuid import uuid4
 from analytics.client import Client as SegmentClient
 from django import http
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
@@ -19,7 +20,6 @@ from edx_ace import Recipient, ace
 from ratelimit.decorators import ratelimit
 
 from credentials.apps.catalog.models import Pathway, Program
-from credentials.apps.core.models import User
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.models import ProgramCertificate, UserCredential
 from credentials.apps.records.api import get_program_details, get_program_record_data
@@ -33,6 +33,7 @@ from .constants import RECORDS_RATE_LIMIT
 
 
 log = logging.getLogger(__name__)
+User = get_user_model()
 
 
 def rate_limited(request, exception):  # pylint: disable=unused-argument
@@ -278,6 +279,11 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
                 "previously_sent": False,
                 "csv_link": csv_link,
             },
+        )
+
+        log.info(
+            f"[Share Program Record] Internal Credentials User [{user.id}] is sharing their progress in program "
+            f"[{program_uuid}] with pathway [{pathway_id}]"
         )
         ace.send(msg)
 
