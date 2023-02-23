@@ -138,15 +138,15 @@ USER app
 # Production target
 FROM base as production
 ENV CREDENTIALS_PLATFORM_SETTINGS='production'
-ENV DJANGO_SETTINGS_MODULE="credntials.settings.$CREDENTIALS_PLATFORM_SETTINGS"
+ENV DJANGO_SETTINGS_MODULE="credentials.settings.$CREDENTIALS_PLATFORM_SETTINGS"
 EXPOSE 18150
 CMD gunicorn \
-    -c /edx/app/credentials/credentials/credntials/docker_gunicorn_configuration.py \
-    --name credntials \
+    -c /edx/app/credentials/credentials/credentials/docker_gunicorn_configuration.py \
+    --name credentials \
     --bind=0.0.0.0:18150 \
     --max-requests=1000 \
     --log-file - \
-    - credntials.wsgi:application
+    - credentials.wsgi:application
 
 # Development target
 FROM base as development
@@ -160,6 +160,6 @@ USER root
 RUN touch ../credentials_env
 
 ENV CREDENTIALS_PLATFORM_SETTINGS='devstack'
-ENV DJANGO_SETTINGS_MODULE="credntials.settings.$CREDENTIALS_PLATFORM_SETTINGS"
+ENV DJANGO_SETTINGS_MODULE="credentials.settings.$CREDENTIALS_PLATFORM_SETTINGS"
 EXPOSE 18150
 CMD while true; do python ./manage.py runserver 0.0.0.0:18150; sleep 2; done
