@@ -31,8 +31,7 @@ module.exports = {
   output: {
     path: path.resolve('./credentials/static/bundles/'),
     filename: '[name]-[contenthash].js',
-    libraryTarget: 'window',
-    publicPath: '/static/bundles/'
+    libraryTarget: 'window'
   },
   plugins: getPlugins(),
   externals: {
