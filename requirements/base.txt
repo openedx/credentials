@@ -38,7 +38,7 @@ coreschema==0.0.4
     # via
     #   coreapi
     #   drf-yasg
-cryptography==39.0.0
+cryptography==39.0.1
     # via
     #   pyjwt
     #   social-auth-core
@@ -46,7 +46,7 @@ defusedxml==0.7.1
     # via
     #   python3-openid
     #   social-auth-core
-django==3.2.17
+django==3.2.18
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -121,13 +121,13 @@ djangorestframework==3.14.0
     #   edx-drf-extensions
 drf-jwt==1.19.2
     # via edx-drf-extensions
-drf-yasg==1.21.4
+drf-yasg==1.21.5
     # via -r requirements/base.in
-edx-ace==1.6.0
+edx-ace==1.6.1
     # via -r requirements/base.in
 edx-auth-backends==4.1.0
     # via -r requirements/base.in
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.4
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.6
     # via -r requirements/base.in
 edx-django-release-util==1.2.0
     # via -r requirements/base.in
@@ -173,7 +173,7 @@ monotonic==1.6
     # via analytics-python
 mysqlclient==2.1.1
     # via -r requirements/base.in
-newrelic==8.5.0
+newrelic==8.7.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -191,7 +191,7 @@ pbr==5.11.1
     # via stevedore
 pillow==9.4.0
     # via -r requirements/base.in
-polib==1.1.1
+polib==1.2.0
     # via edx-i18n-tools
 psutil==5.9.4
     # via edx-django-utils
@@ -221,7 +221,7 @@ python-dateutil==2.8.2
     #   edx-drf-extensions
 python-memcached==1.59
     # via -r requirements/base.in
-python-slugify==8.0.0
+python-slugify==8.0.1
     # via code-annotations
 python3-openid==3.2.0
     # via social-auth-core
@@ -286,7 +286,7 @@ social-auth-core==4.3.0
     #   social-auth-app-django
 sqlparse==0.4.3
     # via django
-stevedore==4.1.1
+stevedore==5.0.0
     # via
     #   code-annotations
     #   edx-ace
@@ -304,5 +304,5 @@ webencodings==0.5.1
     # via bleach
 xss-utils==0.4.0
     # via -r requirements/base.in
-zipp==3.12.1
+zipp==3.14.0
     # via importlib-metadata
