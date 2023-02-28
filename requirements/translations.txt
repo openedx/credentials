@@ -15,7 +15,7 @@ edx-i18n-tools==0.9.2
     # via -r requirements/translations.in
 path==16.6.0
     # via edx-i18n-tools
-polib==1.1.1
+polib==1.2.0
     # via edx-i18n-tools
 pytz==2022.7.1
     # via django
