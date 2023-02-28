@@ -74,7 +74,7 @@ django==3.2.18
     #   xss-utils
 django-appconf==1.0.5
     # via django-statici18n
-django-cors-headers==3.13.0
+django-cors-headers==3.14.0
     # via -r requirements/base.in
 django-crum==0.7.9
     # via
@@ -191,7 +191,7 @@ pbr==5.11.1
     # via stevedore
 pillow==9.4.0
     # via -r requirements/base.in
-polib==1.1.1
+polib==1.2.0
     # via edx-i18n-tools
 psutil==5.9.4
     # via edx-django-utils
@@ -221,7 +221,7 @@ python-dateutil==2.8.2
     #   edx-drf-extensions
 python-memcached==1.59
     # via -r requirements/base.in
-python-slugify==8.0.0
+python-slugify==8.0.1
     # via code-annotations
 python3-openid==3.2.0
     # via social-auth-core
@@ -304,5 +304,5 @@ webencodings==0.5.1
     # via bleach
 xss-utils==0.4.0
     # via -r requirements/base.in
-zipp==3.14.0
+zipp==3.15.0
     # via importlib-metadata
