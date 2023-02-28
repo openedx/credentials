@@ -74,7 +74,7 @@ coreschema==0.0.4
     #   -r requirements/test.txt
     #   coreapi
     #   drf-yasg
-coverage==7.1.0
+coverage==7.2.1
     # via -r requirements/test.txt
 cryptography==39.0.1
     # via
@@ -130,7 +130,7 @@ django-appconf==1.0.5
     # via
     #   -r requirements/test.txt
     #   django-statici18n
-django-cors-headers==3.13.0
+django-cors-headers==3.14.0
     # via -r requirements/test.txt
 django-crum==0.7.9
     # via
@@ -196,7 +196,7 @@ edx-ace==1.6.1
     # via -r requirements/test.txt
 edx-auth-backends==4.1.0
     # via -r requirements/test.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.4
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.7
     # via -r requirements/test.txt
 edx-django-release-util==1.2.0
     # via -r requirements/test.txt
@@ -231,7 +231,7 @@ exceptiongroup==1.1.0
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==17.0.0
+faker==17.3.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -353,7 +353,7 @@ pluggy==1.0.0
     #   -r requirements/test.txt
     #   pytest
     #   tox
-polib==1.1.1
+polib==1.2.0
     # via
     #   -r requirements/test.txt
     #   edx-i18n-tools
@@ -435,7 +435,7 @@ python-dotenv==0.21.1
     # via docker-compose
 python-memcached==1.59
     # via -r requirements/test.txt
-python-slugify==8.0.0
+python-slugify==8.0.1
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -609,13 +609,13 @@ websocket-client==0.59.0
     # via
     #   docker
     #   docker-compose
-wrapt==1.14.1
+wrapt==1.15.0
     # via
     #   -r requirements/test.txt
     #   astroid
 xss-utils==0.4.0
     # via -r requirements/test.txt
-zipp==3.14.0
+zipp==3.15.0
     # via
     #   -r requirements/test.txt
     #   importlib-metadata
