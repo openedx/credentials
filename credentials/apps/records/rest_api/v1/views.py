@@ -18,7 +18,6 @@ log = logging.getLogger(__name__)
 
 
 class ProgramRecordsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
-
     authentication_classes = (
         JwtAuthentication,
         SessionAuthentication,
@@ -63,7 +62,6 @@ class ProgramRecordsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, vi
         return Response({"enrolled_programs": serializer.data})
 
     def retrieve(self, request, *args, **kwargs):
-
         """
         Retrieving data for a specific program by its ID
         GET: /records/api/v1/program_records/:program_uuid/

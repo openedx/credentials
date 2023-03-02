@@ -1,5 +1,19 @@
 FROM ubuntu:focal as app
 
+# Warning: This file is experimental.
+#
+# Short-term goals:
+# * Be a suitable replacement for the `edxops/credentials` image in devstack (in progress).
+# * Take advantage of Docker caching layers: aim to put commands in order of
+#   increasing cache-busting frequency.
+# * Related to ^, use no Ansible or Paver.
+# Long-term goal:
+# * Be a suitable base for production Credentials images. This may not yet be the case.
+
+# Packages installed:
+# git; Used to pull in particular requirements from github rather than pypi,
+# and to check the sha of the code checkout.
+
 # System requirements
 
 # python3-pip; install pip to install application requirements.txt files
@@ -32,9 +46,6 @@ ARG CREDENTIALS_NODEENV_DIR="${COMMON_APP_DIR}/credentials/nodeenvs/credentials"
 
 ENV PATH="$CREDENTIALS_VENV_DIR/bin:$PATH"
 ENV CREDENTIALS_NODEENV_DIR "${COMMON_APP_DIR}/credentials/nodeenvs/credentials"
-ENV CREDENTIALS_NODEENV_BIN "${CREDENTIALS_NODEENV_DIR}/bin"
-ENV CREDENTIALS_NODE_MODULES_DIR "${CREDENTIALS_CODE_DIR}}/node_modules"
-ENV CREDENTIALS_NODE_BIN "${CREDENTIALS_NODE_MODULES_DIR}/.bin"
 
 # Working directory will be root of repo.
 WORKDIR ${CREDENTIALS_CODE_DIR}
@@ -68,6 +79,53 @@ COPY . ${CREDENTIALS_CODE_DIR}/
 RUN touch ${CREDENTIALS_APP_DIR}/credentials_env
 # Expose ports.
 EXPOSE 18150
+
+RUN useradd -m --shell /bin/false app
+
+# Install watchman
+RUN wget https://github.com/facebook/watchman/releases/download/v2020.08.17.00/watchman-v2020.08.17.00-linux.zip
+RUN unzip watchman-v2020.08.17.00-linux.zip
+RUN mkdir -p /usr/local/{bin,lib} /usr/local/var/run/watchman
+RUN cp watchman-v2020.08.17.00-linux/bin/* /usr/local/bin
+RUN cp watchman-v2020.08.17.00-linux/lib/* /usr/local/lib
+RUN chmod 755 /usr/local/bin/watchman
+RUN chmod 2777 /usr/local/var/run/watchman
+
+# Now install credentials
+WORKDIR /edx/app/credentials/credentials
+
+# Copy the requirements explicitly even though we copy everything below
+# this prevents the image cache from busting unless the dependencies have changed.
+COPY requirements/production.txt /edx/app/credentials/credentials/requirements/production.txt
+COPY requirements/pip_tools.txt /edx/app/credentials/credentials/requirements/pip_tools.txt
+
+# Dependencies are installed as root so they cannot be modified by the application user.
+RUN pip install -r requirements/pip_tools.txt
+RUN pip install -r requirements/production.txt
+
+RUN mkdir -p /edx/var/log
+
+# This line is after the python requirements so that changes to the code will not
+# bust the image cache
+COPY . /edx/app/credentials/credentials
+
+# Install dependencies in node_modules directory
+RUN npm install --no-save
+ENV NODE_BIN=/edx/app/credentials/credentials/node_modules
+ENV PATH="$NODE_BIN/.bin:$PATH"
+# Run webpack
+RUN webpack --config webpack.config.js
+
+# Change static folder owner to application user.
+RUN chown -R app:app /edx/app/credentials/credentials/credentials/static
+
+# Code is owned by root so it cannot be modified by the application user.
+# So we copy it before changing users.
+USER app
+
+# Gunicorn 19 does not log to stdout or stderr by default. Once we are past gunicorn 19, the logging to STDOUT need not be specified.
+CMD gunicorn --workers=2 --name credentials -c /edx/app/credentials/credentials/credentials/docker_gunicorn_configuration.py --log-file - --max-requests=1000 credentials.wsgi:application
+
 
 FROM app as dev
 

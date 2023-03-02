@@ -494,7 +494,7 @@ SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 # .. toggle_warning: This is a toggle for the feature
 # .. toggle_tickets: MICROBA-521
 SEND_EMAIL_ON_PROGRAM_COMPLETION = False
-ALLOWED_EMAIL_HTML_TAGS = [
+ALLOWED_EMAIL_HTML_TAGS = {
     "a",
     "b",
     "blockquote",
@@ -513,7 +513,7 @@ ALLOWED_EMAIL_HTML_TAGS = [
     "span",
     "strong",
     "ul",
-]
+}
 
 # .. toggle_name: USE_CERTIFICATE_AVAILABLE_DATE
 # .. toggle_implementation: WaffleSwitch

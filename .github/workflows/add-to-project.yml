@@ -1,0 +1,18 @@
+name: Add New Issues to Project
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  add-issue-to-project:
+    name: "Add issue to project"
+    uses: openedx/.github/.github/workflows/add-issue-to-a-project.yml@master
+    secrets:
+      GITHUB_APP_ID: ${{ secrets.GRAPHQL_AUTH_APP_ID }}
+      GITHUB_APP_PRIVATE_KEY: ${{ secrets.GRAPHQL_AUTH_APP_PEM }}
+    with:
+      # required, it's the numeric part of a github project url
+      # for example, https://github.com/orgs/openedx/projects/4 has PROJECT_NUMBER: 4
+      PROJECT_NUMBER: 23

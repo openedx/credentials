@@ -46,10 +46,7 @@ def get_logger_config(
         "- %(message)s"
     ).format(service_variant=service_variant, logging_env=logging_env, hostname=hostname)
 
-    if debug:
-        handlers = ["console"]
-    else:
-        handlers = ["local"]
+    handlers = ["console"]
 
     logger_config = {
         "version": 1,
