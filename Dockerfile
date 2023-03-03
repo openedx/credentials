@@ -115,15 +115,6 @@ COPY requirements/dev.txt /edx/app/credentials/credentials/requirements/dev.txt
 RUN pip install -r /edx/app/credentials/credentials/requirements/dev.txt
 
 
-# Install watchman
-RUN wget https://github.com/facebook/watchman/releases/download/v2020.08.17.00/watchman-v2020.08.17.00-linux.zip && \ 
-    unzip watchman-v2020.08.17.00-linux.zip && \
-    mkdir -p /usr/local/{bin,lib} /usr/local/var/run/watchman && \
-    cp watchman-v2020.08.17.00-linux/bin/* /usr/local/bin && \
-    cp watchman-v2020.08.17.00-linux/lib/* /usr/local/lib && \
-    chmod 755 /usr/local/bin/watchman && \
-    chmod 2777 /usr/local/var/run/watchman
-
 # base stage
 FROM minimal-system as base
 
@@ -150,6 +141,15 @@ CMD gunicorn \
 
 # Development target
 FROM base as development
+
+# Install watchman
+RUN wget https://github.com/facebook/watchman/releases/download/v2020.08.17.00/watchman-v2020.08.17.00-linux.zip && \
+    unzip watchman-v2020.08.17.00-linux.zip && \
+    mkdir -p /usr/local/{bin,lib} /usr/local/var/run/watchman && \
+    cp watchman-v2020.08.17.00-linux/bin/* /usr/local/bin && \
+    cp watchman-v2020.08.17.00-linux/lib/* /usr/local/lib && \
+    chmod 755 /usr/local/bin/watchman && \
+    chmod 2777 /usr/local/var/run/watchman
 
 COPY --from=builder-development /edx/app/credentials/venvs/credentials /edx/app/credentials/venvs/credentials
 
