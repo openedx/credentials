@@ -58,7 +58,7 @@ ENV PATH "${CREDENTIALS_NODEENV_DIR}/bin:$PATH"
 RUN pip install nodeenv
 
 RUN nodeenv ${CREDENTIALS_NODEENV_DIR} --node=16.14.0 --prebuilt
-RUN npm install -g npm@$8.5.x
+RUN npm install -g npm@8.5.x
 
 # Copy just JS requirements and install them.
 COPY package.json package.json
