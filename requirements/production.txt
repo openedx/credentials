@@ -20,9 +20,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==6.0.0
     # via -r requirements/base.txt
-boto3==1.26.80
+boto3==1.26.85
     # via django-ses
-botocore==1.29.80
+botocore==1.29.85
     # via
     #   boto3
     #   s3transfer
@@ -35,7 +35,7 @@ cffi==1.15.1
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.0.1
+charset-normalizer==3.1.0
     # via
     #   -r requirements/base.txt
     #   requests
@@ -59,7 +59,7 @@ coreschema==0.0.4
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-cryptography==39.0.1
+cryptography==39.0.2
     # via
     #   -r requirements/base.txt
     #   pyjwt

@@ -13,7 +13,7 @@ asgiref==3.6.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django
-astroid==2.14.2
+astroid==2.15.0
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -42,11 +42,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.26.80
+boto3==1.26.85
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.80
+botocore==1.29.85
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -62,7 +62,7 @@ cffi==1.15.1
     #   -r requirements/production.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.0.1
+charset-normalizer==3.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -101,7 +101,7 @@ coreschema==0.0.4
     #   drf-yasg
 coverage==7.2.1
     # via -r requirements/dev.txt
-cryptography==39.0.1
+cryptography==39.0.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -314,7 +314,7 @@ exceptiongroup==1.1.0
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==17.3.0
+faker==17.6.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -464,7 +464,7 @@ pillow==9.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-platformdirs==3.0.0
+platformdirs==3.1.0
     # via
     #   -r requirements/dev.txt
     #   black
@@ -517,7 +517,7 @@ pyjwt[crypto]==2.6.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.16.2
+pylint==2.16.4
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -552,7 +552,7 @@ pyrsistent==0.19.3
     # via
     #   -r requirements/dev.txt
     #   jsonschema
-pytest==7.2.1
+pytest==7.2.2
     # via
     #   -r requirements/dev.txt
     #   pytest-django
@@ -765,7 +765,7 @@ urllib3==1.26.14
     #   requests
     #   responses
     #   selenium
-virtualenv==20.19.0
+virtualenv==20.20.0
     # via
     #   -r requirements/dev.txt
     #   tox
