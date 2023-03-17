@@ -74,7 +74,7 @@ coreschema==0.0.4
     #   -r requirements/test.txt
     #   coreapi
     #   drf-yasg
-coverage==7.2.1
+coverage==7.2.2
     # via -r requirements/test.txt
 cryptography==39.0.2
     # via
@@ -196,13 +196,13 @@ edx-ace==1.6.1
     # via -r requirements/test.txt
 edx-auth-backends==4.1.0
     # via -r requirements/test.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.8
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.9
     # via -r requirements/test.txt
 edx-django-release-util==1.2.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==4.0.0
     # via -r requirements/test.txt
-edx-django-utils==5.2.0
+edx-django-utils==5.3.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
@@ -215,7 +215,7 @@ edx-i18n-tools==0.9.2
     #   -r requirements/dev.in
     #   -r requirements/test.txt
     #   edx-credentials-themes
-edx-lint==5.3.2
+edx-lint==5.3.4
     # via -r requirements/test.txt
 edx-opaque-keys==2.3.0
     # via
@@ -225,7 +225,7 @@ edx-rest-api-client==5.5.0
     # via -r requirements/test.txt
 edx-toggles==5.0.0
     # via -r requirements/test.txt
-exceptiongroup==1.1.0
+exceptiongroup==1.1.1
     # via
     #   -r requirements/test.txt
     #   pytest
@@ -235,7 +235,7 @@ faker==17.6.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
-filelock==3.9.0
+filelock==3.10.0
     # via
     #   -r requirements/test.txt
     #   tox
@@ -326,13 +326,13 @@ packaging==23.0
     #   drf-yasg
     #   pytest
     #   tox
-paramiko==3.0.0
+paramiko==3.1.0
     # via docker
 path==16.6.0
     # via
     #   -r requirements/test.txt
     #   edx-i18n-tools
-pathspec==0.11.0
+pathspec==0.11.1
     # via
     #   -r requirements/test.txt
     #   black
@@ -342,7 +342,7 @@ pbr==5.11.1
     #   stevedore
 pillow==9.4.0
     # via -r requirements/test.txt
-platformdirs==3.1.0
+platformdirs==3.1.1
     # via
     #   -r requirements/test.txt
     #   black
@@ -387,7 +387,7 @@ pyjwt[crypto]==2.6.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.16.4
+pylint==2.17.0
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -459,6 +459,7 @@ pyyaml==5.4.1
     #   docker-compose
     #   edx-django-release-util
     #   edx-i18n-tools
+    #   responses
 requests==2.28.2
     # via
     #   -r requirements/test.txt
@@ -478,7 +479,7 @@ requests-oauthlib==1.3.1
     # via
     #   -r requirements/test.txt
     #   social-auth-core
-responses==0.22.0
+responses==0.23.1
     # via -r requirements/test.txt
 ruamel-yaml==0.17.21
     # via
@@ -500,7 +501,7 @@ semantic-version==2.10.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-simplejson==3.18.3
+simplejson==3.18.4
     # via
     #   -r requirements/test.txt
     #   django-rest-swagger
@@ -527,11 +528,11 @@ slumber==0.7.1
     # via
     #   -r requirements/test.txt
     #   edx-rest-api-client
-social-auth-app-django==5.0.0
+social-auth-app-django==5.1.0
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
-social-auth-core==4.3.0
+social-auth-core==4.4.0
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
@@ -556,10 +557,6 @@ text-unidecode==1.3
     #   python-slugify
 texttable==1.6.7
     # via docker-compose
-toml==0.10.2
-    # via
-    #   -r requirements/test.txt
-    #   responses
 tomli==2.0.1
     # via
     #   -r requirements/test.txt
@@ -575,7 +572,7 @@ tox==3.28.0
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt
-types-toml==0.10.8.5
+types-pyyaml==6.0.12.8
     # via
     #   -r requirements/test.txt
     #   responses
@@ -590,14 +587,14 @@ uritemplate==4.1.1
     #   -r requirements/test.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.14
+urllib3==1.26.15
     # via
     #   -r requirements/test.txt
     #   docker
     #   requests
     #   responses
     #   selenium
-virtualenv==20.20.0
+virtualenv==20.21.0
     # via
     #   -r requirements/test.txt
     #   tox

@@ -127,13 +127,13 @@ edx-ace==1.6.1
     # via -r requirements/base.in
 edx-auth-backends==4.1.0
     # via -r requirements/base.in
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.8
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.9
     # via -r requirements/base.in
 edx-django-release-util==1.2.0
     # via -r requirements/base.in
 edx-django-sites-extensions==4.0.0
     # via -r requirements/base.in
-edx-django-utils==5.2.0
+edx-django-utils==5.3.0
     # via
     #   -r requirements/base.in
     #   edx-drf-extensions
@@ -259,7 +259,7 @@ sailthru-client==2.2.3
     # via edx-ace
 semantic-version==2.10.0
     # via edx-drf-extensions
-simplejson==3.18.3
+simplejson==3.18.4
     # via
     #   django-rest-swagger
     #   sailthru-client
@@ -276,11 +276,11 @@ six==1.16.0
     #   python-memcached
 slumber==0.7.1
     # via edx-rest-api-client
-social-auth-app-django==5.0.0
+social-auth-app-django==5.1.0
     # via
     #   -r requirements/base.in
     #   edx-auth-backends
-social-auth-core==4.3.0
+social-auth-core==4.4.0
     # via
     #   edx-auth-backends
     #   social-auth-app-django
@@ -298,7 +298,7 @@ uritemplate==4.1.1
     # via
     #   coreapi
     #   drf-yasg
-urllib3==1.26.14
+urllib3==1.26.15
     # via requests
 webencodings==0.5.1
     # via bleach
