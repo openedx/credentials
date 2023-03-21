@@ -27,3 +27,7 @@ django-ratelimit<4.0
 # Version of sphinx is pinned to v5.3.0 because of breaking changes in v6.
 # re-evaluated as part of APER-2220
 sphinx<6.0
+
+# Pinning analytics-python to 1.4.0 to avoid an undocumented update to the project (w/ version number `1.4.post1`?).
+# It looks like we should be migrating to the 2.x version of the library (whose name has changed).
+analytics-python<=1.4.0
