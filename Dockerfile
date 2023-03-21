@@ -46,9 +46,9 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # Create Node env
 RUN pip install nodeenv
 ENV NODE_ENV=/edx/app/credentials/nodeenvs/credentials
-RUN nodeenv $NODE_ENV --node=16.14.0 --prebuilt
+RUN nodeenv $NODE_ENV --node=18.15.0 --prebuilt
 ENV PATH="$NODE_ENV/bin:$PATH"
-RUN npm install -g npm@8.5.3
+RUN npm install -g npm@9.x.x
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8

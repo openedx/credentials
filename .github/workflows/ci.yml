@@ -35,17 +35,19 @@ jobs:
       matrix:
         python-version: ["py38"]
         django-version: ["django32"]
-        node-version: [ 16.14.0 ]
+ 
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: "3.8"
           architecture: x64
+      - name: Setup Nodejs Env
+        run: echo "NODE_VER=`cat .nvmrc`" >> $GITHUB_ENV
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODE_VER }}
       - name: Install Dependencies
         run: make requirements
       - name: Install Firefox
@@ -65,17 +67,18 @@ jobs:
       matrix:
         python-version: ["py38"]
         django-version: ["django32"]
-        node-version: [ 16.14.0 ]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: "3.8"
           architecture: x64
+      - name: Setup Nodejs Env
+        run: echo "NODE_VER=`cat .nvmrc`" >> $GITHUB_ENV
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.NODE_VER }}
       - name: Install Dependencies
         run: make requirements
       - name: Install Firefox
