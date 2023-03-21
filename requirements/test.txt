@@ -69,7 +69,7 @@ coreschema==0.0.4
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-coverage==7.2.1
+coverage==7.2.2
     # via -r requirements/test.in
 cryptography==39.0.2
     # via
@@ -178,7 +178,7 @@ edx-django-release-util==1.2.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==4.0.0
     # via -r requirements/base.txt
-edx-django-utils==5.2.0
+edx-django-utils==5.3.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -204,9 +204,9 @@ exceptiongroup==1.1.1
     # via pytest
 factory-boy==3.2.1
     # via -r requirements/test.in
-faker==17.6.0
+faker==18.2.0
     # via factory-boy
-filelock==3.9.0
+filelock==3.10.0
     # via
     #   tox
     #   virtualenv
@@ -220,7 +220,7 @@ idna==3.4
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-metadata==6.0.0
+importlib-metadata==6.1.0
     # via
     #   -r requirements/base.txt
     #   markdown
@@ -263,7 +263,7 @@ mypy-extensions==1.0.0
     # via black
 mysqlclient==2.1.1
     # via -r requirements/base.txt
-newrelic==8.7.0
+newrelic==8.7.1
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -287,7 +287,7 @@ path==16.6.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-pathspec==0.11.0
+pathspec==0.11.1
     # via black
 pbr==5.11.1
     # via
@@ -432,7 +432,7 @@ semantic-version==2.10.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-simplejson==3.18.3
+simplejson==3.18.4
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
@@ -456,11 +456,11 @@ slumber==0.7.1
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-social-auth-app-django==5.0.0
+social-auth-app-django==5.1.0
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.3.0
+social-auth-core==4.4.0
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
