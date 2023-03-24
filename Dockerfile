@@ -50,6 +50,7 @@ RUN apt-get update && \
         unzip \
         locales \
         software-properties-common \
+	make \
     && \
     apt-get clean all && \
     rm -rf /var/lib/apt/*
