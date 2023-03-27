@@ -143,6 +143,8 @@ CMD gunicorn \
 # Development target
 FROM base as development
 
+USER root
+
 # Install watchman
 RUN wget https://github.com/facebook/watchman/releases/download/v2020.08.17.00/watchman-v2020.08.17.00-linux.zip && \
     unzip watchman-v2020.08.17.00-linux.zip && \
@@ -153,8 +155,6 @@ RUN wget https://github.com/facebook/watchman/releases/download/v2020.08.17.00/w
     chmod 2777 /usr/local/var/run/watchman
 
 COPY --from=builder-development /edx/app/credentials/venvs/credentials /edx/app/credentials/venvs/credentials
-
-USER root
 
 # Temporary compatibility hack while devstack is supporting both the old `edxops/credentials` image and this image.
 # * Add in a dummy ../credentials_env file
