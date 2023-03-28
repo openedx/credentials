@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-analytics-python==1.4.0
+analytics-python==1.4.post1
     # via -r requirements/base.in
 asgiref==3.6.0
     # via django
@@ -38,7 +38,7 @@ coreschema==0.0.4
     # via
     #   coreapi
     #   drf-yasg
-cryptography==39.0.2
+cryptography==40.0.1
     # via
     #   pyjwt
     #   social-auth-core
@@ -82,7 +82,7 @@ django-crum==0.7.9
     #   edx-toggles
 django-extensions==3.2.1
     # via -r requirements/base.in
-django-filter==22.1
+django-filter==23.1
     # via -r requirements/base.in
 django-hijack==2.3.0
     # via
@@ -133,7 +133,7 @@ edx-django-release-util==1.2.0
     # via -r requirements/base.in
 edx-django-sites-extensions==4.0.0
     # via -r requirements/base.in
-edx-django-utils==5.2.0
+edx-django-utils==5.3.0
     # via
     #   -r requirements/base.in
     #   edx-drf-extensions
@@ -155,7 +155,7 @@ future==0.18.3
     # via pyjwkest
 idna==3.4
     # via requests
-importlib-metadata==6.0.0
+importlib-metadata==6.1.0
     # via markdown
 inflection==0.5.1
     # via drf-yasg
@@ -165,7 +165,7 @@ jinja2==3.1.2
     # via
     #   code-annotations
     #   coreschema
-markdown==3.4.1
+markdown==3.4.3
     # via -r requirements/base.in
 markupsafe==2.1.2
     # via jinja2
@@ -173,7 +173,7 @@ monotonic==1.6
     # via analytics-python
 mysqlclient==2.1.1
     # via -r requirements/base.in
-newrelic==8.7.0
+newrelic==8.7.1
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -225,7 +225,7 @@ python-slugify==8.0.1
     # via code-annotations
 python3-openid==3.2.0
     # via social-auth-core
-pytz==2022.7.1
+pytz==2023.2
     # via
     #   -r requirements/base.in
     #   django
@@ -259,7 +259,7 @@ sailthru-client==2.2.3
     # via edx-ace
 semantic-version==2.10.0
     # via edx-drf-extensions
-simplejson==3.18.3
+simplejson==3.18.4
     # via
     #   django-rest-swagger
     #   sailthru-client
@@ -276,11 +276,11 @@ six==1.16.0
     #   python-memcached
 slumber==0.7.1
     # via edx-rest-api-client
-social-auth-app-django==5.0.0
+social-auth-app-django==5.1.0
     # via
     #   -r requirements/base.in
     #   edx-auth-backends
-social-auth-core==4.3.0
+social-auth-core==4.4.0
     # via
     #   edx-auth-backends
     #   social-auth-app-django

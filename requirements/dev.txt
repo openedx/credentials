@@ -4,13 +4,13 @@
 #
 #    make upgrade
 #
-analytics-python==1.4.0
+analytics-python==1.4.post1
     # via -r requirements/test.txt
 asgiref==3.6.0
     # via
     #   -r requirements/test.txt
     #   django
-astroid==2.15.0
+astroid==2.15.1
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -74,9 +74,9 @@ coreschema==0.0.4
     #   -r requirements/test.txt
     #   coreapi
     #   drf-yasg
-coverage==7.2.1
+coverage==7.2.2
     # via -r requirements/test.txt
-cryptography==39.0.2
+cryptography==40.0.1
     # via
     #   -r requirements/test.txt
     #   paramiko
@@ -141,7 +141,7 @@ django-debug-toolbar==3.8.1
     # via -r requirements/dev.in
 django-extensions==3.2.1
     # via -r requirements/test.txt
-django-filter==22.1
+django-filter==23.1
     # via -r requirements/test.txt
 django-hijack==2.3.0
     # via
@@ -202,7 +202,7 @@ edx-django-release-util==1.2.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==4.0.0
     # via -r requirements/test.txt
-edx-django-utils==5.2.0
+edx-django-utils==5.3.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
@@ -231,11 +231,11 @@ exceptiongroup==1.1.1
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==17.6.0
+faker==18.3.1
     # via
     #   -r requirements/test.txt
     #   factory-boy
-filelock==3.9.0
+filelock==3.10.7
     # via
     #   -r requirements/test.txt
     #   tox
@@ -250,7 +250,7 @@ idna==3.4
     # via
     #   -r requirements/test.txt
     #   requests
-importlib-metadata==6.0.0
+importlib-metadata==6.1.0
     # via
     #   -r requirements/test.txt
     #   markdown
@@ -285,7 +285,7 @@ lazy-object-proxy==1.9.0
     # via
     #   -r requirements/test.txt
     #   astroid
-markdown==3.4.1
+markdown==3.4.3
     # via -r requirements/test.txt
 markupsafe==2.1.2
     # via
@@ -305,7 +305,7 @@ mypy-extensions==1.0.0
     #   black
 mysqlclient==2.1.1
     # via -r requirements/test.txt
-newrelic==8.7.0
+newrelic==8.7.1
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -332,7 +332,7 @@ path==16.6.0
     # via
     #   -r requirements/test.txt
     #   edx-i18n-tools
-pathspec==0.11.0
+pathspec==0.11.1
     # via
     #   -r requirements/test.txt
     #   black
@@ -342,7 +342,7 @@ pbr==5.11.1
     #   stevedore
 pillow==9.4.0
     # via -r requirements/test.txt
-platformdirs==3.1.1
+platformdirs==3.2.0
     # via
     #   -r requirements/test.txt
     #   black
@@ -387,7 +387,7 @@ pyjwt[crypto]==2.6.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.17.0
+pylint==2.17.1
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -443,7 +443,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/test.txt
     #   social-auth-core
-pytz==2022.7.1
+pytz==2023.2
     # via
     #   -r requirements/test.txt
     #   django
@@ -501,7 +501,7 @@ semantic-version==2.10.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-simplejson==3.18.3
+simplejson==3.18.4
     # via
     #   -r requirements/test.txt
     #   django-rest-swagger
@@ -528,11 +528,11 @@ slumber==0.7.1
     # via
     #   -r requirements/test.txt
     #   edx-rest-api-client
-social-auth-app-django==5.0.0
+social-auth-app-django==5.1.0
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
-social-auth-core==4.3.0
+social-auth-core==4.4.0
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
@@ -564,7 +564,7 @@ tomli==2.0.1
     #   pylint
     #   pytest
     #   tox
-tomlkit==0.11.6
+tomlkit==0.11.7
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -572,7 +572,7 @@ tox==3.28.0
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt
-types-pyyaml==6.0.12.8
+types-pyyaml==6.0.12.9
     # via
     #   -r requirements/test.txt
     #   responses
