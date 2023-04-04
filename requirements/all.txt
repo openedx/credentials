@@ -14,7 +14,7 @@ asgiref==3.6.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django
-astroid==2.15.1
+astroid==2.15.2
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -36,7 +36,7 @@ bcrypt==4.0.1
     # via
     #   -r requirements/dev.txt
     #   paramiko
-black==23.1.0
+black==23.3.0
     # via -r requirements/dev.txt
 bleach==6.0.0
     # via
@@ -44,11 +44,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.26.100
+boto3==1.26.105
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.100
+botocore==1.29.105
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -160,6 +160,7 @@ django==3.2.18
     #   edx-i18n-tools
     #   edx-toggles
     #   openedx-events
+    #   social-auth-app-django
     #   xss-utils
 django-appconf==1.0.5
     # via
@@ -176,7 +177,7 @@ django-crum==0.7.9
     #   -r requirements/production.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==3.8.1
+django-debug-toolbar==4.0.0
     # via -r requirements/dev.txt
 django-extensions==3.2.1
     # via
@@ -325,7 +326,7 @@ exceptiongroup==1.1.1
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==18.3.1
+faker==18.3.2
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -431,7 +432,7 @@ mysqlclient==2.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==8.7.1
+newrelic==8.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -481,7 +482,7 @@ pbr==5.11.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   stevedore
-pillow==9.4.0
+pillow==9.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -538,7 +539,7 @@ pyjwt[crypto]==2.6.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.17.1
+pylint==2.17.2
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -606,7 +607,7 @@ python3-openid==3.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   social-auth-core
-pytz==2023.2
+pytz==2023.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -707,12 +708,12 @@ slumber==0.7.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-rest-api-client
-social-auth-app-django==5.1.0
+social-auth-app-django==5.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-auth-backends
-social-auth-core==4.4.0
+social-auth-core==4.4.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt

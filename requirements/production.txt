@@ -23,9 +23,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==6.0.0
     # via -r requirements/base.txt
-boto3==1.26.100
+boto3==1.26.105
     # via django-ses
-botocore==1.29.100
+botocore==1.29.105
     # via
     #   boto3
     #   s3transfer
@@ -100,6 +100,7 @@ django==3.2.18
     #   edx-i18n-tools
     #   edx-toggles
     #   openedx-events
+    #   social-auth-app-django
     #   xss-utils
 django-appconf==1.0.5
     # via
@@ -246,7 +247,7 @@ monotonic==1.6
     #   analytics-python
 mysqlclient==2.1.1
     # via -r requirements/base.txt
-newrelic==8.7.1
+newrelic==8.8.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -278,7 +279,7 @@ pbr==5.11.1
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==9.4.0
+pillow==9.5.0
     # via -r requirements/base.txt
 polib==1.2.0
     # via
@@ -335,7 +336,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-pytz==2023.2
+pytz==2023.3
     # via
     #   -r requirements/base.txt
     #   django
@@ -405,11 +406,11 @@ slumber==0.7.1
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-social-auth-app-django==5.1.0
+social-auth-app-django==5.2.0
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.4.0
+social-auth-core==4.4.1
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
