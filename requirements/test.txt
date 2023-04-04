@@ -12,7 +12,7 @@ asgiref==3.6.0
     # via
     #   -r requirements/base.txt
     #   django
-astroid==2.15.1
+astroid==2.15.2
     # via
     #   pylint
     #   pylint-celery
@@ -26,7 +26,7 @@ backoff==1.10.0
     # via
     #   -r requirements/base.txt
     #   analytics-python
-black==23.1.0
+black==23.3.0
     # via -r requirements/test.in
 bleach==6.0.0
     # via -r requirements/base.txt
@@ -116,6 +116,7 @@ distlib==0.3.6
     #   edx-i18n-tools
     #   edx-toggles
     #   openedx-events
+    #   social-auth-app-django
     #   xss-utils
 django-appconf==1.0.5
     # via
@@ -215,7 +216,7 @@ exceptiongroup==1.1.1
     # via pytest
 factory-boy==3.2.1
     # via -r requirements/test.in
-faker==18.3.1
+faker==18.3.2
     # via factory-boy
 fastavro==1.7.3
     # via
@@ -278,7 +279,7 @@ mypy-extensions==1.0.0
     # via black
 mysqlclient==2.1.1
     # via -r requirements/base.txt
-newrelic==8.7.1
+newrelic==8.8.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -312,7 +313,7 @@ pbr==5.11.1
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==9.4.0
+pillow==9.5.0
     # via -r requirements/base.txt
 platformdirs==3.2.0
     # via
@@ -355,7 +356,7 @@ pyjwt[crypto]==2.6.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.17.1
+pylint==2.17.2
     # via
     #   edx-lint
     #   pylint-celery
@@ -400,7 +401,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-pytz==2023.2
+pytz==2023.3
     # via
     #   -r requirements/base.txt
     #   django
@@ -475,11 +476,11 @@ slumber==0.7.1
     # via
     #   -r requirements/base.txt
     #   edx-rest-api-client
-social-auth-app-django==5.1.0
+social-auth-app-django==5.2.0
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.4.0
+social-auth-core==4.4.1
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends

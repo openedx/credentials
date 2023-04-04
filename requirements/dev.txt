@@ -12,7 +12,7 @@ asgiref==3.6.0
     # via
     #   -r requirements/test.txt
     #   django
-astroid==2.15.1
+astroid==2.15.2
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -30,7 +30,7 @@ backoff==1.10.0
     #   analytics-python
 bcrypt==4.0.1
     # via paramiko
-black==23.1.0
+black==23.3.0
     # via -r requirements/test.txt
 bleach==6.0.0
     # via -r requirements/test.txt
@@ -130,6 +130,7 @@ django==3.2.18
     #   edx-i18n-tools
     #   edx-toggles
     #   openedx-events
+    #   social-auth-app-django
     #   xss-utils
 django-appconf==1.0.5
     # via
@@ -142,7 +143,7 @@ django-crum==0.7.9
     #   -r requirements/test.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==3.8.1
+django-debug-toolbar==4.0.0
     # via -r requirements/dev.in
 django-extensions==3.2.1
     # via -r requirements/test.txt
@@ -242,7 +243,7 @@ exceptiongroup==1.1.1
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==18.3.1
+faker==18.3.2
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -320,7 +321,7 @@ mypy-extensions==1.0.0
     #   black
 mysqlclient==2.1.1
     # via -r requirements/test.txt
-newrelic==8.7.1
+newrelic==8.8.0
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -359,7 +360,7 @@ pbr==5.11.1
     # via
     #   -r requirements/test.txt
     #   stevedore
-pillow==9.4.0
+pillow==9.5.0
     # via -r requirements/test.txt
 platformdirs==3.2.0
     # via
@@ -406,7 +407,7 @@ pyjwt[crypto]==2.6.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.17.1
+pylint==2.17.2
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -462,7 +463,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/test.txt
     #   social-auth-core
-pytz==2023.2
+pytz==2023.3
     # via
     #   -r requirements/test.txt
     #   django
@@ -547,11 +548,11 @@ slumber==0.7.1
     # via
     #   -r requirements/test.txt
     #   edx-rest-api-client
-social-auth-app-django==5.1.0
+social-auth-app-django==5.2.0
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
-social-auth-core==4.4.0
+social-auth-core==4.4.1
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
