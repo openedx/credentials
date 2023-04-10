@@ -453,6 +453,6 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
             properties=properties,
             segment_client=segment_client,
         )
-        filename = filename.replace(" ", "_").lower().encode("utf-8")
+        filename = filename.replace(" ", "_").lower()
         response["Content-Disposition"] = 'attachment; filename="{filename}.csv"'.format(filename=filename)
         return response
