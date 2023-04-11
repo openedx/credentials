@@ -61,6 +61,7 @@ THIRD_PARTY_APPS = [
     "drf_yasg",
     "hijack",
     "xss_utils",
+    "edx_django_utils.user",
 ]
 
 PROJECT_APPS = [
