@@ -23,9 +23,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==6.0.0
     # via -r requirements/base.txt
-boto3==1.26.105
+boto3==1.26.110
     # via django-ses
-botocore==1.29.105
+botocore==1.29.110
     # via
     #   boto3
     #   s3transfer
@@ -214,7 +214,7 @@ idna==3.4
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-metadata==6.1.0
+importlib-metadata==6.3.0
     # via
     #   -r requirements/base.txt
     #   markdown
@@ -297,7 +297,7 @@ pycryptodomex==3.17
     # via
     #   -r requirements/base.txt
     #   pyjwkest
-pygments==2.14.0
+pygments==2.15.0
     # via -r requirements/base.txt
 pyjwkest==1.4.2
     # via
@@ -385,7 +385,7 @@ semantic-version==2.10.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-simplejson==3.18.4
+simplejson==3.19.1
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger

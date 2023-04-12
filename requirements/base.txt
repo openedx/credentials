@@ -170,7 +170,7 @@ future==0.18.3
     # via pyjwkest
 idna==3.4
     # via requests
-importlib-metadata==6.1.0
+importlib-metadata==6.3.0
     # via markdown
 inflection==0.5.1
     # via drf-yasg
@@ -216,7 +216,7 @@ pycparser==2.21
     # via cffi
 pycryptodomex==3.17
     # via pyjwkest
-pygments==2.14.0
+pygments==2.15.0
     # via -r requirements/base.in
 pyjwkest==1.4.2
     # via edx-drf-extensions
@@ -276,7 +276,7 @@ sailthru-client==2.2.3
     # via edx-ace
 semantic-version==2.10.0
     # via edx-drf-extensions
-simplejson==3.18.4
+simplejson==3.19.1
     # via
     #   django-rest-swagger
     #   sailthru-client
