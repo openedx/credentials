@@ -23,9 +23,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==6.0.0
     # via -r requirements/base.txt
-boto3==1.26.110
+boto3==1.26.111
     # via django-ses
-botocore==1.29.110
+botocore==1.29.111
     # via
     #   boto3
     #   s3transfer
@@ -164,20 +164,20 @@ edx-ace==1.6.1
     # via -r requirements/base.txt
 edx-auth-backends==4.1.0
     # via -r requirements/base.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.11
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.12
     # via -r requirements/base.txt
 edx-django-release-util==1.2.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==4.0.0
     # via -r requirements/base.txt
-edx-django-utils==5.3.0
+edx-django-utils==5.4.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.4.1
+edx-drf-extensions==8.5.3
     # via -r requirements/base.txt
 edx-event-bus-kafka==3.9.6
     # via -r requirements/base.txt
@@ -267,7 +267,7 @@ openedx-events==7.0.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
-packaging==23.0
+packaging==23.1
     # via
     #   -r requirements/base.txt
     #   drf-yasg
