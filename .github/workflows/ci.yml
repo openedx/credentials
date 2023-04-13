@@ -89,10 +89,10 @@ jobs:
           make static
           make tests
       - name: Run code coverage
-        run: |
-          make coverage
-          pip install codecov
-          codecov
+        uses: codecov/codecov-action@v1
+        with:
+          flags: unittests
+          fail_ci_if_error: true
 
   docs:
     runs-on: ubuntu-latest
