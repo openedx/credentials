@@ -1,4 +1,4 @@
-comment: off
+comment: false
 coverage:
   status:
     patch:
@@ -7,3 +7,6 @@ coverage:
     project:
       default:
         target: 95
+ignore:
+  - credentials/settings/production.py
+  - credentials/settings/devstack.py
