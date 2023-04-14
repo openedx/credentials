@@ -2,8 +2,10 @@ from os import environ
 
 import yaml
 
+from edx_django_utils.plugins import add_plugins
 from credentials.settings.base import *
 from credentials.settings.utils import get_env_setting, get_logger_config
+from credentials.apps.plugins.constants import PROJECT_TYPE, SettingsType
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -58,3 +60,5 @@ DB_OVERRIDES = dict(
 
 for override, value in DB_OVERRIDES.items():
     DATABASES["default"][override] = value
+
+add_plugins(__name__, PROJECT_TYPE, SettingsType.PRODUCTION)
