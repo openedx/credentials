@@ -25,9 +25,11 @@ from django.utils.translation import gettext_lazy as _
 from django.views.defaults import page_not_found
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
+from edx_django_utils.plugins import get_plugin_url_patterns
 from rest_framework import permissions
 
 from credentials.apps.core import views as core_views
+from credentials.apps.plugins.constants import PROJECT_TYPE
 from credentials.apps.records.views import ProgramListingView
 from credentials.views import FaviconView, MockToggleStateView
 
@@ -83,3 +85,6 @@ if settings.DEBUG and os.environ.get("ENABLE_DJANGO_TOOLBAR", False):  # pragma:
     import debug_toolbar
 
     urlpatterns.append(re_path(r"^__debug__/", include(debug_toolbar.urls)))
+
+# Plugin django app urls
+urlpatterns.extend(get_plugin_url_patterns(PROJECT_TYPE))

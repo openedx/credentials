@@ -1,8 +1,10 @@
 import os
 from pathlib import Path as path
 
+from edx_django_utils.plugins import add_plugins
 from credentials.settings.base import *
 from credentials.settings.utils import get_logger_config
+from credentials.apps.plugins.constants import PROJECT_TYPE, SettingsType
 
 INSTALLED_APPS += [
     "credentials.apps.edx_credentials_extensions",
@@ -47,3 +49,4 @@ JWT_AUTH.update(
     }
 )
 STATICFILES_STORAGE = None
+add_plugins(__name__, PROJECT_TYPE, SettingsType.TEST)
