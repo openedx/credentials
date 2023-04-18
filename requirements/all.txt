@@ -14,12 +14,12 @@ asgiref==3.6.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django
-astroid==2.15.2
+astroid==2.15.3
     # via
     #   -r requirements/dev.txt
     #   pylint
     #   pylint-celery
-attrs==22.2.0
+attrs==23.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -43,11 +43,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==1.1.1
     # via -r requirements/dev.txt
-boto3==1.26.110
+boto3==1.26.115
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.110
+botocore==1.29.115
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -102,7 +102,7 @@ coreschema==0.0.4
     #   drf-yasg
 coverage==7.2.3
     # via -r requirements/dev.txt
-cryptography==40.0.1
+cryptography==40.0.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -281,7 +281,7 @@ edx-django-sites-extensions==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-utils==5.3.0
+edx-django-utils==5.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -289,7 +289,7 @@ edx-django-utils==5.3.0
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.4.1
+edx-drf-extensions==8.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -359,7 +359,7 @@ idna==3.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-importlib-metadata==6.3.0
+importlib-metadata==6.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -454,7 +454,7 @@ openedx-events==7.0.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-event-bus-kafka
-packaging==23.0
+packaging==23.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -501,7 +501,7 @@ polib==1.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-i18n-tools
-psutil==5.9.4
+psutil==5.9.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -573,7 +573,7 @@ pyrsistent==0.19.3
     # via
     #   -r requirements/dev.txt
     #   jsonschema
-pytest==7.3.0
+pytest==7.3.1
     # via
     #   -r requirements/dev.txt
     #   pytest-django
@@ -718,7 +718,7 @@ social-auth-core==4.4.1
     #   -r requirements/production.txt
     #   edx-auth-backends
     #   social-auth-app-django
-sqlparse==0.4.3
+sqlparse==0.4.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
