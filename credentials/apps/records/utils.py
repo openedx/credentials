@@ -101,7 +101,7 @@ def masquerading_authorized(masquerader, target):
     return False
 
 
-def _get_credentials(request_username):
+def get_credentials(request_username):
     """
     Returns two lists of credentials: a course list and a program list
 
@@ -174,7 +174,7 @@ def get_user_program_data(request_username, request_site, include_empty_programs
         user is enrolled in
     """
     # Get all user credentials
-    course_credentials, program_credentials = _get_credentials(request_username)
+    course_credentials, program_credentials = get_credentials(request_username)
 
     # Get course runs that this user has a credential in
     course_runs = frozenset(_course_credentials_to_course_runs(request_site, course_credentials))
