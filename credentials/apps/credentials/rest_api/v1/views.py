@@ -22,8 +22,8 @@ class LearnerCertificateStatusView(APIView):
         **POST Parameters**
 
         A POST request must include one of "lms_user_id" or "username", 
-        it can have one or both of a list of course 
-        uuids and/or a program uuid
+        and it can have one or both of a list of course 
+        uuids and/or a program uuid.
 
         {
             "lms_user_id": "lms_id",
@@ -36,15 +36,14 @@ class LearnerCertificateStatusView(APIView):
 
         **POST Response Values**
 
-        As long as data validation passes, the request will return a 200 with a new mapping
-        of old usernames (key) to new username (value)
+        The request will return a 200 with a list of learner cert statuses.
 
         {
-            "lms_id": 3,
+            "lms_user_id": 3,
             "username": "edx",
             "status": [
                 {
-                    "course": "8759ceb8-7112-4b48-a9b4-8a9a69fdad51",
+                    "course_uuid": "8759ceb8-7112-4b48-a9b4-8a9a69fdad51",
                     "course_run": {
                         "uuid": "0e63eeea-f957-4d38-884a-bf7af5af6155",
                         "key": "course-v1:edX+TK-100+2T2022"
@@ -55,7 +54,7 @@ class LearnerCertificateStatusView(APIView):
                     "grade": "Pass"
                 },
                 {
-                    "course": "d81fce24-c0e3-49cc-b375-51a02c79aa9d",
+                    "course_uuid": "d81fce24-c0e3-49cc-b375-51a02c79aa9d",
                     "course_run": {
                         "uuid": "b4a38fe1-93b6-4fa6-a834-a656bcf9e75c",
                         "key": "course-v1:edX+CRYPT101+1T2023"
@@ -66,8 +65,7 @@ class LearnerCertificateStatusView(APIView):
                     "grade": "Pass"
                 }
             ]
-        }
-        """
+        }        """
         lms_user_id = request.data.get("lms_user_id")
         username = request.data.get("username")
 
@@ -101,11 +99,12 @@ class LearnerCertificateStatusView(APIView):
                 grade = UserGrade.objects.get(username=username, 
                                       course_run = credential.credential.course_run)
                 cred_status = {
-                    "course": str(credential.credential.course_run.course.uuid),
+                    "course_uuid": str(credential.credential.course_run.course.uuid),
                     "course_run": 
                         { "uuid": str(credential.credential.course_run.uuid),
                           "key": credential.credential.course_run.key,
                         },
+                    # alternate structure for course:
                     #"course": {
                     #    "uuid": str(credential.credential.course_run.course.uuid),
                     #    "title": credential.credential.course_run.course.title,
@@ -125,7 +124,7 @@ class LearnerCertificateStatusView(APIView):
 
         return Response(
             status=status.HTTP_200_OK,
-            data={"lms_id": lms_user_id, 
+            data={"lms_user_id": lms_user_id, 
                   "username": username,
                   "status": courses},
         )
