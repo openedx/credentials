@@ -25,7 +25,7 @@ The exception to this, is commands that run inside their own containers, which c
 
 Frontend Development
 --------------------
-When developing frontend code in Credentials, some of the code must be transpiled and bundled for it to be usable. This includes the React components found in ``credentials/static/components`` and the SASS code found at ``credentials/static/sass``. In order to view your changes, you must run one of the `make static` commands. `make static` builds and collects your static assets once, while `make static.watch` will continue to watch for changes in your code and rebuild/recollect whenever you save. When using `make static.watch` it only triggers after save, so if you have existing changes, you make need to run `make static` once first, or make a small change to an existing file and save it so it triggers a rebuild. 
+When developing frontend code in Credentials, some of the code must be transpiled and bundled for it to be usable. This includes the React components found in ``credentials/static/components`` and the SASS code found at ``credentials/static/sass``. In order to view your changes, you must run one of the `make static` commands. `make static` builds and collects your static assets once, while `make static.watch` will continue to watch for changes in your code and rebuild/recollect whenever you save. When using `make static.watch` it only triggers after save, so if you have existing changes, you make need to run `make static` once first, or make a small change to an existing file and save it so it triggers a rebuild.
 
 To see changes locally, from your devstack repo run ::
 
@@ -71,16 +71,16 @@ Documentation
 License
 -------
 
-The code in this repository is licensed under version 3 of the AGPL unless otherwise noted. Please see the LICENSE_ file for details. 
+The code in this repository is licensed under version 3 of the AGPL unless otherwise noted. Please see the LICENSE_ file for details.
 
 .. _LICENSE: https://github.com/openedx/credentials/blob/master/LICENSE
 
 How To Contribute
 -----------------
 
-Contributions are welcome. Please read `How To Contribute`_ for details. Even though it was written with ``edx-platform`` in mind, these guidelines should be followed for Open edX code in general.
+Contributions are welcome. Please read `How To Contribute`_ for details.
 
-.. _`How To Contribute`: https://github.com/openedx/edx-platform/blob/master/CONTRIBUTING.rst
+.. _`How To Contribute`: https://github.com/openedx/.github/blob/master/CONTRIBUTING.md
 
 Reporting Security Issues
 -------------------------
