@@ -13,5 +13,5 @@ urlpatterns = [
     re_path(r"^example/$", views.ExampleCredential.as_view(), name="example"),
     re_path(rf"^example/{UUID_PATTERN}/$", views.RenderExampleProgramCredential.as_view(), name="render_example"),
     re_path(rf"^{UUID_PATTERN}/$", views.RenderCredential.as_view(), name="render"),
-    url(r"^v1/", include((credentials_api_v1_urls, "v1"), namespace="v1")),
+    url(r"^api/", include((credentials_api_v1_urls, "api"), namespace="api")),
 ]

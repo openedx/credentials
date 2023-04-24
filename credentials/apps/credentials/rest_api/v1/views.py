@@ -26,7 +26,7 @@ class LearnerCertificateStatusView(APIView):
         uuids and/or a program uuid.
 
         {
-            "lms_user_id": "lms_id",
+            "lms_user_id": <lms_id>,
             "courses": [
                 "uuid1",
                 "uuid2"
