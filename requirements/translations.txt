@@ -23,5 +23,5 @@ pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
     #   edx-i18n-tools
-sqlparse==0.4.3
+sqlparse==0.4.4
     # via django
