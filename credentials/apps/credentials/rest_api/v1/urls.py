@@ -3,6 +3,7 @@ from rest_framework import routers
 
 from credentials.apps.credentials.rest_api.v1.views import LearnerCertificateStatusView
 
+
 urlpatterns = [
     url(
         r"^learner_cert_status/$",

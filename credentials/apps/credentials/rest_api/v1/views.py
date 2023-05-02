@@ -1,18 +1,18 @@
-import logging
 import json
+import logging
 
 from django.apps import apps
 from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
-
 from rest_framework import permissions, status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView, exception_handler
 
 from credentials.apps.core.models import User
+from credentials.apps.credentials.rest_api.v1.permissions import CanGetLearnerStatus
 from credentials.apps.records.models import UserGrade
 from credentials.apps.records.utils import get_credentials
-from credentials.apps.credentials.rest_api.v1.permissions import CanGetLearnerStatus
+
 
 log = logging.getLogger(__name__)
 

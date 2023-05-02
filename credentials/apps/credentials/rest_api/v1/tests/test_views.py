@@ -7,16 +7,11 @@ from django.urls import reverse
 from rest_framework.test import APIRequestFactory, APITestCase
 
 from credentials.apps.api.tests.mixins import JwtMixin
-from credentials.apps.api.v2.serializers import (
-    UserCredentialSerializer,
-)
+from credentials.apps.api.v2.serializers import UserCredentialSerializer
 from credentials.apps.catalog.tests.factories import CourseRunFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
-from credentials.apps.credentials.tests.factories import (
-    CourseCertificateFactory,
-    UserCredentialFactory,
-)
+from credentials.apps.credentials.tests.factories import CourseCertificateFactory, UserCredentialFactory
 from credentials.apps.records.utils import get_credentials
 
 
