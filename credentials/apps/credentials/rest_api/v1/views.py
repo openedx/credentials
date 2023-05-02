@@ -16,15 +16,15 @@ from credentials.apps.credentials.rest_api.v1.permissions import CanGetLearnerSt
 
 log = logging.getLogger(__name__)
 
-class LearnerCertificateStatusView(APIView):
 
+class LearnerCertificateStatusView(APIView):
     authentication_classes = (
         JwtAuthentication,
         SessionAuthentication,
     )
 
     permission_classes = (
-        permissions.IsAuthenticated, 
+        permissions.IsAuthenticated,
         CanGetLearnerStatus,
     )
 
@@ -32,8 +32,8 @@ class LearnerCertificateStatusView(APIView):
         """
         **POST Parameters**
 
-        A POST request must include one of "lms_user_id" or "username", 
-        and it can have one or both of a list of course 
+        A POST request must include one of "lms_user_id" or "username",
+        and it can have one or both of a list of course
         uuids and/or a program uuid.
 
         {
@@ -76,11 +76,11 @@ class LearnerCertificateStatusView(APIView):
                     "grade": "Pass"
                 }
             ]
-        }        """
+        }"""
         lms_user_id = request.data.get("lms_user_id")
         username = request.data.get("username")
 
-        #only one of username or lms_user_id can be used
+        # only one of username or lms_user_id can be used
         if (username and lms_user_id) or not (username or lms_user_id):
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
@@ -88,20 +88,18 @@ class LearnerCertificateStatusView(APIView):
 
         try:
             if username:
-                user = User.objects.get(username = username)
+                user = User.objects.get(username=username)
                 lms_user_id = user.lms_user_id
             else:
-                user = User.objects.get(lms_user_id = lms_user_id)
+                user = User.objects.get(lms_user_id=lms_user_id)
                 username = user.username
         except User.DoesNotExist:
-                # we don't have the user in the system
-                return Response(
-                    status=status.HTTP_404_NOT_FOUND
-                )
+            # we don't have the user in the system
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         course_ids = request.data.get("courses")
 
-        #get the list of records for the user
+        # get the list of records for the user
         course_credentials, program_credentials = get_credentials(username)
 
         courses = list()
@@ -109,19 +107,17 @@ class LearnerCertificateStatusView(APIView):
             if str(credential.credential.course_run.course.uuid) in course_ids:
                 # we don't always have the grade, so defend for missing it
                 try:
-                    grade = UserGrade.objects.get(username=username, 
-                                      course_run = credential.credential.course_run)
+                    grade = UserGrade.objects.get(username=username, course_run=credential.credential.course_run)
                     letter_grade = grade.letter_grade
                 except UserGrade.DoesNotExist:
                     letter_grade = None
 
                 cred_status = {
                     "course_uuid": str(credential.credential.course_run.course.uuid),
-                    "course_run": 
-                        { "uuid": str(credential.credential.course_run.uuid),
-                          "key": credential.credential.course_run.key,
-                        },
-                    
+                    "course_run": {
+                        "uuid": str(credential.credential.course_run.uuid),
+                        "key": credential.credential.course_run.key,
+                    },
                     "status": credential.status,
                     "type": credential.credential.certificate_type,
                     "certificate_available_date": credential.credential.certificate_available_date,
@@ -131,10 +127,5 @@ class LearnerCertificateStatusView(APIView):
 
         return Response(
             status=status.HTTP_200_OK,
-            data={"lms_user_id": lms_user_id, 
-                  "username": username,
-                  "status": courses},
+            data={"lms_user_id": lms_user_id, "username": username, "status": courses},
         )
-
-
-
