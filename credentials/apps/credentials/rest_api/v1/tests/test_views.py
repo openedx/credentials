@@ -130,20 +130,20 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
     def test_unknown_user(self):
         user_credential, data  = self.create_credential()
         data["username"] = "unknown_user"
-        response = self.call_api(self.service_user, data)
+        response = self.call_api(self.user, data)
         self.assertEqual(response.status_code, 404)
 
     def test_unknown_lms_id(self):
         user_credential, data  = self.create_credential(use_lms_id=True)
         data["lms_user_id"] = 999999
-        response = self.call_api(self.service_user, data)
+        response = self.call_api(self.user, data)
         self.assertEqual(response.status_code, 404)
     
     def test_lms_and_username(self):
         """Call should fail because only one of username or lms id can be provided."""
         user_credential, data  = self.create_credential()
         data["lms_user_id"] = self.user.lms_user_id
-        response = self.call_api(self.service_user, data)
+        response = self.call_api(self.user, data)
         self.assertEqual(response.status_code, 400, msg="API should not allow lms_id AND username")
         
     def test_user_no_credentials(self):
@@ -153,7 +153,7 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         uncredentialled_user = UserFactory()
         """slide in a different username with no courses"""
         data["username"] = uncredentialled_user.username
-        response = self.call_api(self.service_user, data)
+        response = self.call_api(self.user, data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["username"], uncredentialled_user.username)
         self.assertEqual(len(response.data["status"]), 0)
