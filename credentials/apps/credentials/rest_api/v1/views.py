@@ -1,12 +1,10 @@
-import json
 import logging
 
-from django.apps import apps
 from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
 from rest_framework import permissions, status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
-from rest_framework.views import APIView, exception_handler
+from rest_framework.views import APIView
 
 from credentials.apps.core.models import User
 from credentials.apps.credentials.rest_api.v1.permissions import CanGetLearnerStatus
@@ -100,9 +98,9 @@ class LearnerCertificateStatusView(APIView):
         course_ids = request.data.get("courses")
 
         # get the list of records for the user
-        course_credentials, program_credentials = get_credentials(username)
+        course_credentials, program_credentials = get_credentials(username)  # pylint: disable=unused-variable
 
-        courses = list()
+        courses = []
         for credential in course_credentials:
             if str(credential.credential.course_run.course.uuid) in course_ids:
                 # we don't always have the grade, so defend for missing it

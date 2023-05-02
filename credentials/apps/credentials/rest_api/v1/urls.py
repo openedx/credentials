@@ -1,5 +1,4 @@
 from django.conf.urls import url
-from rest_framework import routers
 
 from credentials.apps.credentials.rest_api.v1.views import LearnerCertificateStatusView
 
