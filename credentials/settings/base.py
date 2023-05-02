@@ -458,6 +458,7 @@ if os.environ.get("ENABLE_DJANGO_TOOLBAR", False):
 # END DJANGO DEBUG TOOLBAR CONFIGURATION
 
 USERNAME_REPLACEMENT_WORKER = "replace with valid username"
+LEARNER_STATUS_WORKER = "replace with valid username"
 
 CSRF_COOKIE_SECURE = False
 FILE_STORAGE_BACKEND = {}

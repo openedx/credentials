@@ -14,6 +14,7 @@ class UserFactory(django.DjangoModelFactory):
     class Meta:
         model = User
 
+    lms_user_id = Sequence(lambda n: n)
     username = Sequence(lambda n: "user_%d" % n)
     password = PostGenerationMethodCall("set_password", USER_PASSWORD)
     first_name = Faker("first_name")

@@ -2,20 +2,31 @@ import logging
 import json
 
 from django.apps import apps
+from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
+
 from rest_framework import permissions, status
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView, exception_handler
 
 from credentials.apps.core.models import User
 from credentials.apps.records.models import UserGrade
 from credentials.apps.records.utils import get_credentials
+from credentials.apps.credentials.rest_api.v1.permissions import CanGetLearnerStatus
 
 log = logging.getLogger(__name__)
 
 class LearnerCertificateStatusView(APIView):
 
+    authentication_classes = (
+        JwtAuthentication,
+        SessionAuthentication,
+    )
 
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (
+        permissions.IsAuthenticated, 
+        CanGetLearnerStatus,
+    )
 
     def post(self, request):
         """
@@ -75,18 +86,18 @@ class LearnerCertificateStatusView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        if username:
-            user = User.objects.get(username = username)
-            print("lms_user_id:", user.lms_user_id)
-        
-        if lms_user_id:
-            user = User.objects.get(lms_user_id = lms_user_id)
-            if not user:
-                # we don't have the user mapped to a lms_user_id
+        try:
+            if username:
+                user = User.objects.get(username = username)
+                lms_user_id = user.lms_user_id
+            else:
+                user = User.objects.get(lms_user_id = lms_user_id)
+                username = user.username
+        except User.DoesNotExist:
+                # we don't have the user in the system
                 return Response(
-                    status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                    status=status.HTTP_404_NOT_FOUND
                 )
-            username = user.username
 
         course_ids = request.data.get("courses")
 
@@ -96,31 +107,27 @@ class LearnerCertificateStatusView(APIView):
         courses = list()
         for credential in course_credentials:
             if str(credential.credential.course_run.course.uuid) in course_ids:
-                grade = UserGrade.objects.get(username=username, 
+                # we don't always have the grade, so defend for missing it
+                try:
+                    grade = UserGrade.objects.get(username=username, 
                                       course_run = credential.credential.course_run)
+                    letter_grade = grade.letter_grade
+                except UserGrade.DoesNotExist:
+                    letter_grade = None
+
                 cred_status = {
                     "course_uuid": str(credential.credential.course_run.course.uuid),
                     "course_run": 
                         { "uuid": str(credential.credential.course_run.uuid),
                           "key": credential.credential.course_run.key,
                         },
-                    # alternate structure for course:
-                    #"course": {
-                    #    "uuid": str(credential.credential.course_run.course.uuid),
-                    #    "title": credential.credential.course_run.course.title,
-                    #    "key": credential.credential.course_run.course.key,
-                    #},
                     
                     "status": credential.status,
                     "type": credential.credential.certificate_type,
                     "certificate_available_date": credential.credential.certificate_available_date,
-                    "grade": grade.letter_grade,
+                    "grade": letter_grade,
                 }
                 courses.append(cred_status)
-
-            else:
-                print("uuid", credential.credential.course_run.course.uuid, "not in")
-                print(course_ids)
 
         return Response(
             status=status.HTTP_200_OK,
