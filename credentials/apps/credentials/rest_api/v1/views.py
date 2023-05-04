@@ -1,15 +1,14 @@
 import logging
 
+from django.contrib.auth import get_user_model
 from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
 from rest_framework import permissions, status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from credentials.apps.core.models import User
 from credentials.apps.credentials.rest_api.v1.permissions import CanGetLearnerStatus
-from credentials.apps.records.models import UserGrade
-from credentials.apps.records.utils import get_credentials
+from credentials.apps.records.api import get_learner_course_run_status
 
 
 log = logging.getLogger(__name__)
@@ -31,8 +30,8 @@ class LearnerCertificateStatusView(APIView):
         **POST Parameters**
 
         A POST request must include one of "lms_user_id" or "username",
-        and it can have one or both of a list of course
-        uuids and/or a program uuid.
+        and a list of course uuids
+        (or a program uuid, in a future version)
 
         {
             "lms_user_id": <lms_id>,
@@ -83,6 +82,7 @@ class LearnerCertificateStatusView(APIView):
             return Response(
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        User = get_user_model()
 
         try:
             if username:
@@ -93,35 +93,14 @@ class LearnerCertificateStatusView(APIView):
                 username = user.username
         except User.DoesNotExist:
             # we don't have the user in the system
+            log.warning(
+                f"No user with username {username} or lms_id {lms_user_id} available for learner certificate status."
+            )
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         course_ids = request.data.get("courses")
 
-        # get the list of records for the user
-        course_credentials, program_credentials = get_credentials(username)  # pylint: disable=unused-variable
-
-        courses = []
-        for credential in course_credentials:
-            if str(credential.credential.course_run.course.uuid) in course_ids:
-                # we don't always have the grade, so defend for missing it
-                try:
-                    grade = UserGrade.objects.get(username=username, course_run=credential.credential.course_run)
-                    letter_grade = grade.letter_grade
-                except UserGrade.DoesNotExist:
-                    letter_grade = None
-
-                cred_status = {
-                    "course_uuid": str(credential.credential.course_run.course.uuid),
-                    "course_run": {
-                        "uuid": str(credential.credential.course_run.uuid),
-                        "key": credential.credential.course_run.key,
-                    },
-                    "status": credential.status,
-                    "type": credential.credential.certificate_type,
-                    "certificate_available_date": credential.credential.certificate_available_date,
-                    "grade": letter_grade,
-                }
-                courses.append(cred_status)
+        courses = get_learner_course_run_status(username, course_ids)
 
         return Response(
             status=status.HTTP_200_OK,
