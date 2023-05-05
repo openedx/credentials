@@ -59,7 +59,11 @@ class LearnerCertificateStatusView(APIView):
                     "status": "awarded",
                     "type": "verified",
                     "certificate_available_date": null,
-                    "grade": "Pass"
+                    "grade": {
+                        "letter_grade": "Pass",
+                        "percent_grade": 75.0,
+                        "verified": true
+                        }
                 },
                 {
                     "course_uuid": "d81fce24-c0e3-49cc-b375-51a02c79aa9d",
@@ -70,7 +74,11 @@ class LearnerCertificateStatusView(APIView):
                     "status": "awarded",
                     "type": "verified",
                     "certificate_available_date": null,
-                    "grade": "Pass"
+                    "grade": {
+                        "letter_grade": "Pass",
+                        "percent_grade": 70.5,
+                        "verified": true
+                        }
                 }
             ]
         }"""

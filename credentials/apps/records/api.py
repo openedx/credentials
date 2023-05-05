@@ -330,9 +330,13 @@ def get_learner_course_run_status(username, course_ids):
             # we don't always have the grade, so defend for missing it
             try:
                 grade = UserGrade.objects.get(username=username, course_run=credential.credential.course_run)
-                letter_grade = grade.letter_grade
+                course_grade = {
+                    "letter_grade": grade.letter_grade,
+                    "percent_grade": grade.percent_grade,
+                    "verified": grade.verified,
+                }
             except UserGrade.DoesNotExist:
-                letter_grade = None
+                course_grade = None
 
             cred_status = {
                 "course_uuid": str(credential.credential.course_run.course.uuid),
@@ -343,7 +347,7 @@ def get_learner_course_run_status(username, course_ids):
                 "status": credential.status,
                 "type": credential.credential.certificate_type,
                 "certificate_available_date": credential.credential.certificate_available_date,
-                "grade": letter_grade,
+                "grade": course_grade,
             }
             courses.append(cred_status)
     return courses

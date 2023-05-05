@@ -12,6 +12,7 @@ from credentials.apps.catalog.tests.factories import CourseRunFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.tests.factories import CourseCertificateFactory, UserCredentialFactory
+from credentials.apps.records.tests.factories import UserGradeFactory
 
 
 JSON_CONTENT_TYPE = "application/json"
@@ -69,6 +70,7 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         user_credential = UserCredentialFactory(
             credential=credential, credential__site=self.site, username=self.user.username
         )
+
         if use_lms_id:
             data = {
                 "lms_user_id": self.user.lms_user_id,
@@ -88,6 +90,8 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         )
         UserCredentialFactory(credential=credential, credential__site=self.site, username=self.user.username)
 
+        expected_grade = UserGradeFactory(username=self.user.username, course_run=course_run)
+
         data = {"username": self.user.username, "courses": [str(course_run.course.uuid)]}
 
         response = self.call_api(self.user, data)
@@ -103,7 +107,11 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
                     "status": "awarded",
                     "type": "honor",
                     "certificate_available_date": None,
-                    "grade": None,
+                    "grade": {
+                        "letter_grade": expected_grade.letter_grade,
+                        "percent_grade": expected_grade.percent_grade,
+                        "verified": expected_grade.verified,
+                    },
                 }
             ],
         }
