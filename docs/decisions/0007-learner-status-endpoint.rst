@@ -1,5 +1,5 @@
 0. Endpoint for Learner Credential Status
-################
+##########################################
 
 Status
 **Draft**
