@@ -11,11 +11,10 @@ Because of the loose coupling between programs, courses and course-runs, there i
 The loose coupling means that a program is defined in Discovery by a list of courses. Those courses have course-runs, and the course-runs are automatically added to the program definition.
 The program definition in Discovery can also have exceptions - course-runs that are excluded from the program.
 The gap between courses in a program vs actual course-runs completed by a learner can lead to situations where a learner believes that they have completed all the courses in a program, but they have not because they have completed a course-run that is not in the program, but they don't have visibility into the exceptions.
+These use cases are currently difficult to reconcile because the only way to correlate the courses that a learner has taken and the exception list for course-runs in a program is through the admin interface. For a system that only tracks what courses a learner has taken, then additional queries need to be made to map the course-runs associated with the courses. 
 
 There are teams that need to get the current status of a set of courses for a learner for issues such as subscriptions.
 Support often has to determine the status of a learner's credentials with respect to a program to determine if a learner has completed a course on the exclude list.
-
-
 
 
 Decision
