@@ -13,6 +13,7 @@ from credentials.apps.credentials.api import (
 )
 from credentials.apps.credentials.data import UserCredentialStatus
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
+from credentials.apps.records.utils import get_credentials
 
 
 COURSE_CERTIFICATE_CONTENT_TYPE = ContentType.objects.filter(app_label="credentials", model="coursecertificate")
@@ -180,7 +181,7 @@ def _get_transformed_grade_data(program, user):
     transformed_grade_data = []
     added_courses = set()
 
-    # add the course-run grade data to teh response in the order that is maintained by the Program's sorted field
+    # add the course-run grade data to the response in the order that is maintained by the Program's sorted field
     for course_run in program_course_runs:
         course = course_run.course
         grade = highest_attempt_dict.get(course)
@@ -313,3 +314,40 @@ def get_program_details(request_user, request_site, uuid, is_public):
         "uuid": uuid,
         "records_help_url": records_help_url,
     }
+
+
+def get_learner_course_run_status(username, course_ids):
+    """
+    Return the status for all of the course runs related to the courses in
+    the course uuid list for the given learner
+    """
+
+    course_credentials, program_credentials = get_credentials(username)  # pylint: disable=unused-variable
+
+    courses = []
+    for credential in course_credentials:
+        if str(credential.credential.course_run.course.uuid) in course_ids:
+            # we don't always have the grade, so defend for missing it
+            try:
+                grade = UserGrade.objects.get(username=username, course_run=credential.credential.course_run)
+                course_grade = {
+                    "letter_grade": grade.letter_grade,
+                    "percent_grade": grade.percent_grade,
+                    "verified": grade.verified,
+                }
+            except UserGrade.DoesNotExist:
+                course_grade = None
+
+            cred_status = {
+                "course_uuid": str(credential.credential.course_run.course.uuid),
+                "course_run": {
+                    "uuid": str(credential.credential.course_run.uuid),
+                    "key": credential.credential.course_run.key,
+                },
+                "status": credential.status,
+                "type": credential.credential.certificate_type,
+                "certificate_available_date": credential.credential.certificate_available_date,
+                "grade": course_grade,
+            }
+            courses.append(cred_status)
+    return courses

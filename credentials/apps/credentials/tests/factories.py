@@ -22,6 +22,7 @@ class CourseCertificateFactory(AbstractCertificateFactory):
     certificate_type = constants.CertificateType.HONOR
     is_active = True
     certificate_available_date = None
+    course_run = None
 
 
 class ProgramCertificateFactory(AbstractCertificateFactory):

@@ -28,7 +28,7 @@ from credentials.apps.records.tests.factories import ProgramCertRecordFactory, U
 from credentials.apps.records.tests.utils import dump_random_state
 from credentials.apps.records.utils import (
     _course_credentials_to_course_runs,
-    _get_credentials,
+    get_credentials,
     get_user_program_data,
     masquerading_authorized,
     send_updated_emails_for_program,
@@ -278,13 +278,13 @@ class GetCredentialsTests(SiteMixin, TestCase):
         for course_cert in self.course_certs:
             course_cert.delete()
         self.program_cert.delete()
-        course_results, program_results = _get_credentials(self.user.username)
+        course_results, program_results = get_credentials(self.user.username)
         assert course_results == []
         assert program_results == []
 
     def test_get_credentials_course_only(self):
         self.program_cert.delete()
-        course_results, program_results = _get_credentials(self.user.username)
+        course_results, program_results = get_credentials(self.user.username)
         assert course_results == self.course_user_credentials
         assert program_results == []
 
@@ -293,12 +293,12 @@ class GetCredentialsTests(SiteMixin, TestCase):
             course_run.delete()
         for course_cert in self.course_certs:
             course_cert.delete()
-        course_results, program_results = _get_credentials(self.user.username)
+        course_results, program_results = get_credentials(self.user.username)
         assert course_results == []
         assert program_results[0] == self.program_user_credential
 
     def test_get_credentials_both_course_and_program(self):
-        course_results, program_results = _get_credentials(self.user.username)
+        course_results, program_results = get_credentials(self.user.username)
         assert course_results == self.course_user_credentials
         assert program_results[0] == self.program_user_credential
 

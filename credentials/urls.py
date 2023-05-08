@@ -50,6 +50,10 @@ schema_view = get_schema_view(
 
 urlpatterns = oauth2_urlpatterns + [
     re_path(r"^admin/", admin.site.urls),
+    re_path(
+        r"^api/credentials/",
+        include(("credentials.apps.credentials.rest_api.urls", "credentials_api"), namespace="credentials_api"),
+    ),
     re_path(r"^api/", include(("credentials.apps.api.urls", "api"), namespace="api")),
     re_path(r"^api-auth/", include((oauth2_urlpatterns, "rest_framework"), namespace="rest_framework")),
     re_path(r"^api-docs/$", schema_view.with_ui("swagger", cache_timeout=0), name="api_docs"),
