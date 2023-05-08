@@ -7,13 +7,13 @@ Status
 Context
 *******
 
-Because of the loose coupling between Programs and Courses and Course runs, there is a need for a mechanism to evaluate a learners status in multiple courses in the context of a program.
-The loose coupling means that a program is defined in Discovery by a list of courses. Those courses have course runs, and the course runs are automatically added to the program definition.
-The program definition in Discovery can also have exceptions - course runs that are excluded from the program.
+Because of the loose coupling between programs, courses and course-runs, there is a need for a mechanism to evaluate a learners status in multiple courses in the context of a program.
+The loose coupling means that a program is defined in Discovery by a list of courses. Those courses have course-runs, and the course-runs are automatically added to the program definition.
+The program definition in Discovery can also have exceptions - course-runs that are excluded from the program.
 The gap between courses in a program vs actual course-runs completed by a learner can lead to situations where a learner believes that they have completed all the courses in a program, but they have not because they have completed a course-run that is not in the program, but they don't have visibility into the exceptions.
 
 There are teams that need to get the current status of a set of courses for a learner for issues such as subscriptions.
-Support often has to determine the status of a learners credentials with respect to a program to determine if a learner has completed a course on the exclude list.
+Support often has to determine the status of a learner's credentials with respect to a program to determine if a learner has completed a course on the exclude list.
 
 
 
@@ -23,7 +23,7 @@ Decision
 
 Add an API to the Credentials service that takes a learner ID and a list of courses, and returns the completion status for the learner for each of the courses.
 
-A follow up interation of the API will allow passing in a learner and a program, and the API will return the status for all the course-runs and tag any course-runs in the exclude list for that program.
+A follow up to the API will allow passing in a learner and a program, and the API will return the status for all the course-runs and tag any course-runs in the exclude list for that program.
 
 
 Consequences
@@ -37,7 +37,7 @@ Rejected Alternatives
 
 - Add the endpoint to platform.
   This was rejected because the long term plan is to move the course credential responsibilities to the Credentials IDA, and it would need to be
-  remimplemented. It would be coming from the current source of truth, but platform may not have the discovery information needed for reconciling the program data.
+  reimplemented. It would be coming from the current source of truth, but platform may not have the discovery information needed for reconciling the program data.
 
 References
 **********
