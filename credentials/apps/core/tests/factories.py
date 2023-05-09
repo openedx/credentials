@@ -21,6 +21,7 @@ class UserFactory(django.DjangoModelFactory):
     last_name = Faker("last_name")
     full_name = Faker("name")
     email = Faker("safe_email")
+    lms_user_id = Faker("random_int")
     is_staff = False
     is_superuser = False
     is_active = True
