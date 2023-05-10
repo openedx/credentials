@@ -1,0 +1,3 @@
+"""
+Verifiable Credentials DB models.
+"""
