@@ -192,8 +192,10 @@ edx-django-utils==5.4.0
     #   edx-toggles
 edx-drf-extensions==8.7.0
     # via -r requirements/base.txt
-edx-event-bus-kafka==3.10.0
-    # via -r requirements/base.txt
+edx-event-bus-kafka==3.9.6
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
 edx-i18n-tools==0.9.2
     # via
     #   -r requirements/base.txt
