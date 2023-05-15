@@ -5,10 +5,9 @@ Django managment command to sync missing lms user ids from platform
 import logging
 import time
 from urllib.parse import urljoin
-from urllib.error import HTTPError
 
 from django.contrib.auth import get_user_model
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from credentials.apps.core.models import SiteConfiguration
 
 User = get_user_model()
@@ -63,10 +62,14 @@ class Command(BaseCommand):
             curr_users = users_without_lms_id[x: slice_size]
             ids = self.get_lms_ids(curr_users)
             for user in curr_users:
-                try:
-                    self.update_user(user, ids[user.username])
-                except:
-                    logger.error(f"Could not update lms_user_id for user {user.username}")
+                # did the endpoint return a value for this user?
+                if user.username in ids.keys():
+                    try:
+                        self.update_user(user, ids[user.username])
+                    except:
+                        logger.error(f"Error occurred when updating lms_user_id for user {user.username}")
+                else:
+                    logger.error(f"Could not get lms_user_id for user {user.username}")
             if x + slice_size < count:
                 time.sleep(pause)
         else:
@@ -82,15 +85,14 @@ class Command(BaseCommand):
         # create a comma separated string with the usernames
         user_name_list = ','.join(user.username for user in users)
         user_url = urljoin(site_configs.user_api_url, f"accounts?username={user_name_list}")
-        try:
-            user_response = site_configs.api_client.get(user_url)
-            user_response.raise_for_status()
+        user_response = site_configs.api_client.get(user_url)
+        if 200 == user_response.status_code:
             user_data = user_response.json()
 
             for user_profile in user_data:
                 user_dict[user_profile["username"]] = user_profile["id"]
-        except HTTPError as http_error:
-            logger.error(f"An HTTP error occurred {http_error}")
+        else:
+            logger.error(f" {user_url} returned status {user_response.status_code}")
 
         return user_dict    
 
@@ -99,7 +101,3 @@ class Command(BaseCommand):
         if id and id > 0:
             user.lms_user_id = id
             user.save(update_fields=['lms_user_id'])
-
-
-
-
