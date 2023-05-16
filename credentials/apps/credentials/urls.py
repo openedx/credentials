@@ -1,7 +1,7 @@
 """
 URLs for the credentials views.
 """
-from django.conf.urls import include, re_path
+from django.urls import include, re_path
 from django.urls import re_path
 
 from credentials.apps.credentials import views
