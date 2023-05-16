@@ -56,7 +56,6 @@ jobs:
         env:
           TOXENV: ${{ matrix.django-version }}
         run: |
-          make static
           make tests
 
   code_coverage:
@@ -86,7 +85,6 @@ jobs:
         env:
           TOXENV: ${{ matrix.django-version }}
         run: |
-          make static
           make tests
       - name: Run code coverage
         uses: codecov/codecov-action@v1
