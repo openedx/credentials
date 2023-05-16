@@ -29,6 +29,7 @@ class Command(BaseCommand):
         )
         parser.add_argument("--verbose", action="store_true", help="Log each update")
         parser.add_argument("--site", type=str, default=0, help="Domain of the site to query for lms_user_id's")
+        parser.add_argument("--dry_run", action="store_true", help="Don't actually change the data")
 
     def handle(self, *args, **options):
         """
@@ -42,6 +43,7 @@ class Command(BaseCommand):
         limit = options.get("limit")
         verbosity = options.get("verbose")
         site_domain = options.get("site")
+        dry_run = options.get("dry_run")
 
         # if there are multiple sites managing different users
         # This is likely rare
@@ -73,7 +75,7 @@ class Command(BaseCommand):
                 # did the endpoint return a value for this user?
                 if user.username in ids:
                     try:
-                        self.update_user(user, ids[user.username], verbosity)
+                        self.update_user(user, ids[user.username], verbosity, dry_run)
                     except RuntimeError as err:
                         logger.error(f"Error occurred when updating lms_user_id for user {user.username}: {err}")
                 else:
@@ -103,11 +105,13 @@ class Command(BaseCommand):
 
         return user_dict
 
-    def update_user(self, user, lms_user_id, verbosity):
+    def update_user(self, user, lms_user_id, verbosity, dry_run):
         """update the lms_user_id for the user"""
         if lms_user_id and lms_user_id > 0:
             user.lms_user_id = lms_user_id
+            dry_run_msg = "(dry run) " if dry_run else ""
             if verbosity:
-                logger.info(f"updating {user.username} with id {lms_user_id}")
+                logger.info(f"{dry_run_msg}updating {user.username} with id {lms_user_id}")
             # use update_fields to just update this one piece of data
-            user.save(update_fields=["lms_user_id"])
+            if not dry_run:
+                user.save(update_fields=["lms_user_id"])
