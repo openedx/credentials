@@ -9,13 +9,11 @@ from urllib.parse import urljoin
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
-from credentials.apps.core.models import Site, SiteConfiguration
+from credentials.apps.core.models import SiteConfiguration
 
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
-
-site_configs = SiteConfiguration.objects.first()
 
 
 class Command(BaseCommand):
@@ -28,7 +26,7 @@ class Command(BaseCommand):
             "--limit", type=int, default=100, help="Total number of IDs to update. 0 for update all, Default is 100"
         )
         parser.add_argument("--verbose", action="store_true", help="Log each update")
-        parser.add_argument("--site", type=str, default=0, help="Domain of the site to query for lms_user_id's")
+        parser.add_argument("--site_id", type=int, default=0, help="ORM id of the site to query for lms_user_ids")
         parser.add_argument("--dry_run", action="store_true", help="Don't actually change the data")
 
     def handle(self, *args, **options):
@@ -42,17 +40,17 @@ class Command(BaseCommand):
         pause = options.get("pause_ms")
         limit = options.get("limit")
         verbosity = options.get("verbose")
-        site_domain = options.get("site")
+        site_id = options.get("site_id")
         dry_run = options.get("dry_run")
 
+        site_configs = SiteConfiguration.objects.first()
         # if there are multiple sites managing different users
         # This is likely rare
-        if site_domain:
-            logger.info(f"using {site_domain} for user queries")
-            site = Site.objects.filter(domain=site_domain)
-            globals()["site_configs"] = SiteConfiguration.objects.filter(site=site)
-        else:
-            logger.info(f"using {site_configs.site.domain} for user queries")
+        if site_id:
+            logger.info(f"using site id {site_id} for user queries")
+            site_configs = SiteConfiguration.objects.filter(site__id=site_id)
+
+        logger.info(f"using {site_configs.site.domain} for user queries")
 
         # Get the actual number of users to process, an arg of 0 means all of them
         count = min(limit, num_users_to_update)
@@ -70,7 +68,7 @@ class Command(BaseCommand):
             # don't go past the end of the loop
             slice_size = min(count, x + offset)
             curr_users = users_without_lms_id[x:slice_size]
-            ids = self.get_lms_ids(curr_users)
+            ids = self.get_lms_ids(curr_users, site_configs)
             for user in curr_users:
                 # did the endpoint return a value for this user?
                 if user.username in ids:
@@ -85,7 +83,7 @@ class Command(BaseCommand):
 
         logger.warning("sync_ids_from_platform finished!")
 
-    def get_lms_ids(self, users):
+    def get_lms_ids(self, users, site_configs):
         """
         given a list of users, query platform and get lms_user_ids
         return a dict of lms_user_ids keyed by username
