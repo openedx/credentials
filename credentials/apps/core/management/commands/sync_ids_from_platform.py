@@ -8,83 +8,90 @@ from urllib.parse import urljoin
 
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
-from credentials.apps.core.models import SiteConfiguration
 
-User = get_user_model()
+from credentials.apps.core.models import Site, SiteConfiguration
+
+
 logger = logging.getLogger(__name__)
+User = get_user_model()
 
 site_configs = SiteConfiguration.objects.first()
 
-class Command(BaseCommand):
 
+class Command(BaseCommand):
     def add_arguments(self, parser):
+        parser.add_argument("--batch_size", type=int, default=10, help="Number of IDs to process at a time. Default 10")
         parser.add_argument(
-            "--batch_size", 
-            type=int, 
-            default=10, 
-            help="Number of IDs to process at a time. Default 10")
+            "--pause_ms", type=int, default=1, help="Number of seconds to pause between calls. Default 1 sec"
+        )
         parser.add_argument(
-            "--pause_ms", 
-            type=int, 
-            default=1, 
-            help="Number of seconds to pause between calls. Default 1 sec")
-        parser.add_argument(
-            "--limit", 
-            type=int, 
-            default=0, 
-            help="Total number of IDs to update. 0 for update all, Default is 0 (all)")
+            "--limit", type=int, default=100, help="Total number of IDs to update. 0 for update all, Default is 100"
+        )
+        parser.add_argument("--verbose", action="store_true", help="Log each update")
+        parser.add_argument("--site", type=str, default=0, help="Domain of the site to query for lms_user_id's")
 
     def handle(self, *args, **options):
         """
-            Get batches of user info from accounts and update the lms_user_id
-            for users who are missing it.
+        Get batches of user info from accounts and update the lms_user_id
+        for users who are missing it.
         """
         users_without_lms_id = User.objects.filter(lms_user_id=None)
         num_users_to_update = users_without_lms_id.count()
         offset = options.get("batch_size")
         pause = options.get("pause_ms")
-        count = options.get("limit")
+        limit = options.get("limit")
+        verbosity = options.get("verbose")
+        site_domain = options.get("site")
+
+        # if there are multiple sites managing different users
+        # This is likely rare
+        if site_domain:
+            logger.info(f"using {site_domain} for user queries")
+            site = Site.objects.filter(domain=site_domain)
+            globals()["site_configs"] = SiteConfiguration.objects.filter(site=site)
+        else:
+            logger.info(f"using {site_configs.site.domain} for user queries")
+
         # Get the actual number of users to process, an arg of 0 means all of them
-        count = min(count, num_users_to_update)
-        if (0 == count):
+        count = min(limit, num_users_to_update)
+        if 0 == limit:
             count = num_users_to_update
-               
+
         if count == 0:
-            logger.warn("No users to update. Stopping")
+            logger.warning("No users to update. Stopping")
             return
 
-        logger.warn(f"Start processing {count} IDs with no lms_user_id")
+        logger.warning(f"Start processing {count} IDs with no lms_user_id")
 
-        # loop over users in batches    
+        # loop over users in batches
         for x in range(0, count, offset):
             # don't go past the end of the loop
-            slice_size = min(count, x+offset)
-            curr_users = users_without_lms_id[x: slice_size]
+            slice_size = min(count, x + offset)
+            curr_users = users_without_lms_id[x:slice_size]
             ids = self.get_lms_ids(curr_users)
             for user in curr_users:
                 # did the endpoint return a value for this user?
-                if user.username in ids.keys():
+                if user.username in ids:
                     try:
-                        self.update_user(user, ids[user.username])
-                    except:
-                        logger.error(f"Error occurred when updating lms_user_id for user {user.username}")
+                        self.update_user(user, ids[user.username], verbosity)
+                    except RuntimeError as err:
+                        logger.error(f"Error occurred when updating lms_user_id for user {user.username}: {err}")
                 else:
                     logger.error(f"Could not get lms_user_id for user {user.username}")
             if x + slice_size < count:
                 time.sleep(pause)
-        else:
-            logger.warn("sync_ids_from_platform finished!")
-        
+
+        logger.warning("sync_ids_from_platform finished!")
 
     def get_lms_ids(self, users):
         """
         given a list of users, query platform and get lms_user_ids
         return a dict of lms_user_ids keyed by username
         """
-        user_dict = dict()
+        user_dict = {}
         # create a comma separated string with the usernames
-        user_name_list = ','.join(user.username for user in users)
-        user_url = urljoin(site_configs.user_api_url, f"accounts?username={user_name_list}")
+        query_param_names = ",".join(user.username for user in users)
+        user_url = urljoin(site_configs.user_api_url, f"accounts?username={query_param_names}")
         user_response = site_configs.api_client.get(user_url)
         if 200 == user_response.status_code:
             user_data = user_response.json()
@@ -94,10 +101,13 @@ class Command(BaseCommand):
         else:
             logger.error(f" {user_url} returned status {user_response.status_code}")
 
-        return user_dict    
+        return user_dict
 
-    def update_user(self, user, id):
-        """ update the lms_user_id for the user """
-        if id and id > 0:
-            user.lms_user_id = id
-            user.save(update_fields=['lms_user_id'])
+    def update_user(self, user, lms_user_id, verbosity):
+        """update the lms_user_id for the user"""
+        if lms_user_id and lms_user_id > 0:
+            user.lms_user_id = lms_user_id
+            if verbosity:
+                logger.info(f"updating {user.username} with id {lms_user_id}")
+            # use update_fields to just update this one piece of data
+            user.save(update_fields=["lms_user_id"])
