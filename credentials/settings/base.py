@@ -464,7 +464,9 @@ CSRF_COOKIE_SECURE = False
 FILE_STORAGE_BACKEND = {}
 EXTRA_APPS = []
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+STATICFILES_STORAGE = "credentials.custom_static_storage.CustomStaticFilesStorage"
+
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
