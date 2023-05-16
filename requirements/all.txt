@@ -14,7 +14,7 @@ asgiref==3.6.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django
-astroid==2.15.4
+astroid==2.15.5
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -43,11 +43,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==2.0.2
     # via -r requirements/dev.txt
-boto3==1.26.133
+boto3==1.26.134
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.133
+botocore==1.29.134
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -166,7 +166,7 @@ django-appconf==1.0.5
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-statici18n
-django-cors-headers==3.14.0
+django-cors-headers==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -176,7 +176,7 @@ django-crum==0.7.9
     #   -r requirements/production.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==4.0.0
+django-debug-toolbar==4.1.0
     # via -r requirements/dev.txt
 django-extensions==3.2.1
     # via
@@ -238,7 +238,7 @@ djangorestframework==3.14.0
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
-docker[ssh]==6.1.1
+docker[ssh]==6.1.2
     # via
     #   -r requirements/dev.txt
     #   docker-compose
@@ -311,7 +311,7 @@ edx-opaque-keys[django]==2.3.0
     #   -r requirements/production.txt
     #   edx-drf-extensions
     #   openedx-events
-edx-rest-api-client==5.5.0
+edx-rest-api-client==5.5.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -437,7 +437,7 @@ newrelic==8.8.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-django-utils
-nodeenv==1.7.0
+nodeenv==1.8.0
     # via -r requirements/production.txt
 oauthlib==3.2.2
     # via
@@ -450,7 +450,7 @@ openapi-codec==1.3.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-rest-swagger
-openedx-events==7.2.0
+openedx-events==7.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -486,7 +486,7 @@ pillow==9.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-platformdirs==3.5.0
+platformdirs==3.5.1
     # via
     #   -r requirements/dev.txt
     #   black
@@ -554,7 +554,7 @@ pylint-django==2.5.3
     # via
     #   -r requirements/dev.txt
     #   edx-lint
-pylint-plugin-utils==0.7
+pylint-plugin-utils==0.8.1
     # via
     #   -r requirements/dev.txt
     #   pylint-celery
@@ -724,7 +724,7 @@ sqlparse==0.4.4
     #   -r requirements/production.txt
     #   django
     #   django-debug-toolbar
-stevedore==5.0.0
+stevedore==5.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
