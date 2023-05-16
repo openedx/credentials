@@ -34,7 +34,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["py38"]
-        django-version: ["django32"]
+        django-version: ["django42"]
         node-version: [ 16.14.0 ]
     steps:
       - uses: actions/checkout@v3
@@ -64,7 +64,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["py38"]
-        django-version: ["django32"]
+        django-version: ["django42"]
         node-version: [ 16.14.0 ]
     steps:
       - uses: actions/checkout@v3
