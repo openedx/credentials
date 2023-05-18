@@ -20,7 +20,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("--batch_size", type=int, default=10, help="Number of IDs to process at a time. Default 10")
         parser.add_argument(
-            "--pause_ms", type=int, default=1, help="Number of seconds to pause between calls. Default 1 sec"
+            "--pause_secs", type=int, default=1, help="Number of seconds to pause between calls. Default 1 sec"
         )
         parser.add_argument(
             "--limit", type=int, default=100, help="Total number of IDs to update. 0 for update all, Default is 100"
@@ -37,7 +37,7 @@ class Command(BaseCommand):
         users_without_lms_id = User.objects.filter(lms_user_id=None)
         num_users_to_update = users_without_lms_id.count()
         offset = options.get("batch_size")
-        pause = options.get("pause_ms")
+        pause = options.get("pause_secs")
         limit = options.get("limit")
         verbosity = options.get("verbose")
         site_id = options.get("site_id")
@@ -48,7 +48,7 @@ class Command(BaseCommand):
         # This is likely rare
         if site_id:
             logger.info(f"using site id {site_id} for user queries")
-            site_configs = SiteConfiguration.objects.filter(site__id=site_id)
+            site_configs = SiteConfiguration.objects.get(site__id=site_id)
 
         logger.info(f"using {site_configs.site.domain} for user queries")
 
