@@ -1,10 +1,7 @@
 """
 Tests for the sync_lms_user_ids management command
 """
-from io import StringIO 
 import json
-import random
-from urllib.parse import urljoin
 
 import responses
 from django.contrib.auth import get_user_model
@@ -40,8 +37,6 @@ class LmsIdSyncTests(SiteMixin, TestCase):
             match_querystring=False,
         )
 
-
-
     @responses.activate
     def test_update_ids(self):
         """verify all ids were updated"""
@@ -58,17 +53,20 @@ class LmsIdSyncTests(SiteMixin, TestCase):
 
     @responses.activate
     def test_update_ids_404(self):
-        UserFactory(username="user1", lms_user_id=None)
-        """verify all ids were updated"""
+        user = UserFactory(username="user1", lms_user_id=None)
 
         self.mock_access_token_response()
         user_url = self.site.siteconfiguration.user_api_url + "accounts"
-        responses.add(responses.GET, user_url, content_type=JSON, status=404, match_querystring=False,)
-        try:
-            call_command("sync_ids_from_platform", verbose=True)
-        except:
-            self.assertTrue("call should not throw exception")
- 
+        responses.add(
+            responses.GET,
+            user_url,
+            content_type=JSON,
+            status=404,
+            match_querystring=False,
+        )
+        self.assertEqual(user.username, "user1")
+        self.assertEqual(user.lms_user_id, None, "User ID was updated unexpectedly")
+
     @responses.activate
     def test_update_site(self):
         """verify all ids were updated"""
