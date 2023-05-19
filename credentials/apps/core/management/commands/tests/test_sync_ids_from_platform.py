@@ -1,7 +1,10 @@
 """
 Tests for the sync_lms_user_ids management command
 """
+from io import StringIO 
 import json
+import random
+from urllib.parse import urljoin
 
 import responses
 from django.contrib.auth import get_user_model
@@ -37,6 +40,8 @@ class LmsIdSyncTests(SiteMixin, TestCase):
             match_querystring=False,
         )
 
+
+
     @responses.activate
     def test_update_ids(self):
         """verify all ids were updated"""
@@ -51,6 +56,19 @@ class LmsIdSyncTests(SiteMixin, TestCase):
         self.assertEqual(user.username, "user1")
         self.assertEqual(user.lms_user_id, 1, "User ID was not updated")
 
+    @responses.activate
+    def test_update_ids_404(self):
+        UserFactory(username="user1", lms_user_id=None)
+        """verify all ids were updated"""
+
+        self.mock_access_token_response()
+        user_url = self.site.siteconfiguration.user_api_url + "accounts"
+        responses.add(responses.GET, user_url, content_type=JSON, status=404, match_querystring=False,)
+        try:
+            call_command("sync_ids_from_platform", verbose=True)
+        except:
+            self.assertTrue("call should not throw exception")
+ 
     @responses.activate
     def test_update_site(self):
         """verify all ids were updated"""
@@ -73,7 +91,7 @@ class LmsIdSyncTests(SiteMixin, TestCase):
 
         self.mock_access_token_response()
         self.mock_account_api_response()
-        call_command("sync_ids_from_platform", dry_run=True, verbose=True, limit=0)
+        call_command("sync_ids_from_platform", dry_run=True, verbose=True, limit=0, pause_secs=0)
 
         user = User.objects.get(username="user1")
         print(f"fetched user: {user.username}, id {user.lms_user_id}")

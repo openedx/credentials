@@ -57,10 +57,6 @@ class Command(BaseCommand):
         if 0 == limit:
             count = num_users_to_update
 
-        if count == 0:
-            logger.warning("No users to update. Stopping")
-            return
-
         logger.warning(f"Start processing {count} IDs with no lms_user_id")
 
         # loop over users in batches
@@ -72,10 +68,7 @@ class Command(BaseCommand):
             for user in curr_users:
                 # did the endpoint return a value for this user?
                 if user.username in ids:
-                    try:
-                        self.update_user(user, ids[user.username], verbosity, dry_run)
-                    except RuntimeError as err:
-                        logger.error(f"Error occurred when updating lms_user_id for user {user.username}: {err}")
+                    self.update_user(user, ids[user.username], verbosity, dry_run)
                 else:
                     logger.error(f"Could not get lms_user_id for user {user.username}")
             if x + slice_size < count:
