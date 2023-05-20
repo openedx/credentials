@@ -1,10 +1,10 @@
-from django.urls import re_path
+from django.urls import path
 from rest_framework.routers import DefaultRouter
 
 from credentials.apps.api.v2 import views
 
 
-urlpatterns = [re_path(r"^replace_usernames/$", views.UsernameReplacementView.as_view(), name="replace_usernames")]
+urlpatterns = [path("replace_usernames/", views.UsernameReplacementView.as_view(), name="replace_usernames")]
 
 router = DefaultRouter()
 # URLs can not have hyphen as it is not currently supported by slumber

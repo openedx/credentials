@@ -8,6 +8,7 @@ from credentials.apps.core.forms import SiteConfigurationAdminForm
 from credentials.apps.core.models import SiteConfiguration, User
 
 
+@admin.register(User)
 class CustomUserAdmin(UserAdmin):
     """Admin configuration for the custom User model."""
 
@@ -20,6 +21,7 @@ class CustomUserAdmin(UserAdmin):
     )
 
 
+@admin.register(SiteConfiguration)
 class SiteConfigurationAdmin(admin.ModelAdmin):
     """Admin for the SiteConfiguration model."""
 
@@ -71,5 +73,3 @@ class SiteConfigurationAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(User, CustomUserAdmin)
-admin.site.register(SiteConfiguration, SiteConfigurationAdmin)
