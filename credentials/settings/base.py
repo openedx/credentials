@@ -63,6 +63,7 @@ THIRD_PARTY_APPS = [
     "drf_yasg",
     "hijack",
     "xss_utils",
+    "openedx_events",
 ]
 
 PROJECT_APPS = [
