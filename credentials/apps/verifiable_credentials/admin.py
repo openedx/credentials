@@ -1,0 +1,3 @@
+"""
+Admin section configuration.
+"""
