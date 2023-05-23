@@ -43,11 +43,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==2.0.2
     # via -r requirements/dev.txt
-boto3==1.26.134
+boto3==1.26.138
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.134
+botocore==1.29.138
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -200,7 +200,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==3.4.1
+django-ses==3.5.0
     # via -r requirements/production.txt
 django-simple-history==3.0.0
     # via
@@ -226,7 +226,7 @@ django-waffle==3.0.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==1.8.1
+django-webpack-loader==2.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -289,7 +289,7 @@ edx-django-utils==5.4.0
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.7.0
+edx-drf-extensions==8.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -311,7 +311,7 @@ edx-opaque-keys[django]==2.3.0
     #   -r requirements/production.txt
     #   edx-drf-extensions
     #   openedx-events
-edx-rest-api-client==5.5.1
+edx-rest-api-client==5.5.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -326,7 +326,7 @@ exceptiongroup==1.1.1
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==18.7.0
+faker==18.9.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -340,11 +340,6 @@ filelock==3.12.0
     #   -r requirements/dev.txt
     #   tox
     #   virtualenv
-future==0.18.3
-    # via
-    #   -r requirements/dev.txt
-    #   -r requirements/production.txt
-    #   pyjwkest
 gevent==22.10.2
     # via -r requirements/production.txt
 greenlet==2.0.2
@@ -450,7 +445,7 @@ openapi-codec==1.3.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-rest-swagger
-openedx-events==7.3.0
+openedx-events==8.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -516,20 +511,10 @@ pycparser==2.21
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cffi
-pycryptodomex==3.17
-    # via
-    #   -r requirements/dev.txt
-    #   -r requirements/production.txt
-    #   pyjwkest
 pygments==2.15.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pyjwkest==1.4.2
-    # via
-    #   -r requirements/dev.txt
-    #   -r requirements/production.txt
-    #   edx-drf-extensions
 pyjwt[crypto]==2.7.0
     # via
     #   -r requirements/dev.txt
@@ -554,7 +539,7 @@ pylint-django==2.5.3
     # via
     #   -r requirements/dev.txt
     #   edx-lint
-pylint-plugin-utils==0.8.1
+pylint-plugin-utils==0.8.2
     # via
     #   -r requirements/dev.txt
     #   pylint-celery
@@ -627,7 +612,7 @@ pyyaml==5.4.1
     #   edx-django-release-util
     #   edx-i18n-tools
     #   responses
-requests==2.30.0
+requests==2.31.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -637,7 +622,6 @@ requests==2.30.0
     #   docker-compose
     #   edx-drf-extensions
     #   edx-rest-api-client
-    #   pyjwkest
     #   requests-oauthlib
     #   responses
     #   sailthru-client
@@ -697,7 +681,6 @@ six==1.16.0
     #   edx-drf-extensions
     #   edx-lint
     #   jsonschema
-    #   pyjwkest
     #   python-dateutil
     #   python-memcached
     #   tox
@@ -758,11 +741,11 @@ tox==3.28.0
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
-types-pyyaml==6.0.12.9
+types-pyyaml==6.0.12.10
     # via
     #   -r requirements/dev.txt
     #   responses
-typing-extensions==4.5.0
+typing-extensions==4.6.0
     # via
     #   -r requirements/dev.txt
     #   astroid
@@ -774,7 +757,7 @@ uritemplate==4.1.1
     #   -r requirements/production.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.15
+urllib3==1.26.16
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
