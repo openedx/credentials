@@ -74,6 +74,7 @@ PROJECT_APPS = [
     "credentials.apps.credentials_theme_openedx",
     "credentials.apps.records",
     "credentials.apps.plugins",
+    "credentials.apps.verifiable_credentials",
 ]
 
 INSTALLED_APPS += THIRD_PARTY_APPS

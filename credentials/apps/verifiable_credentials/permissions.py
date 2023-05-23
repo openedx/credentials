@@ -1,0 +1,3 @@
+"""
+Verifiable credentials specific permissions.
+"""
