@@ -9,6 +9,6 @@
 
 -c constraints.txt
 
-edx-sphinx-theme
+sphinx-book-theme
 Sphinx
 jsx-lexer # A JSX lexer for Pygments
