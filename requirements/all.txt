@@ -9,7 +9,7 @@ analytics-python==1.4.0
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-asgiref==3.7.0
+asgiref==3.7.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -43,11 +43,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==2.0.2
     # via -r requirements/dev.txt
-boto3==1.26.138
+boto3==1.26.142
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.138
+botocore==1.29.142
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -100,7 +100,7 @@ coreschema==0.0.4
     #   -r requirements/production.txt
     #   coreapi
     #   drf-yasg
-coverage==7.2.5
+coverage==7.2.7
     # via -r requirements/dev.txt
 cryptography==40.0.2
     # via
@@ -269,7 +269,7 @@ edx-auth-backends==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.14
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.15
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -458,7 +458,7 @@ packaging==23.1
     #   drf-yasg
     #   pytest
     #   tox
-paramiko==3.1.0
+paramiko==3.2.0
     # via
     #   -r requirements/dev.txt
     #   docker
@@ -633,7 +633,7 @@ requests-oauthlib==1.3.1
     #   social-auth-core
 responses==0.23.1
     # via -r requirements/dev.txt
-ruamel-yaml==0.17.26
+ruamel-yaml==0.17.30
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -744,7 +744,7 @@ types-pyyaml==6.0.12.10
     # via
     #   -r requirements/dev.txt
     #   responses
-typing-extensions==4.6.0
+typing-extensions==4.6.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
