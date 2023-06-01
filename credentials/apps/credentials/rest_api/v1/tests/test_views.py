@@ -42,15 +42,6 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         self.client.logout()
         self.client.login(username=user.username, password=USER_PASSWORD)
 
-    def add_user_permission(self, user, permission):
-        """Assigns a permission of the given name to the user."""
-        user.user_permissions.add(Permission.objects.get(codename=permission))
-
-    def serialize_user_credential(self, user_credential, many=False):
-        """Serialize the given UserCredential object(s)."""
-        request = APIRequestFactory(SERVER_NAME=self.site.domain).get("/")
-        return UserCredentialSerializer(user_credential, context={"request": request}, many=many).data
-
     def build_jwt_headers(self, user):
         """
         Helper function for creating headers for the JWT authentication.
