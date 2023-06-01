@@ -3,12 +3,10 @@ from enum import Enum
 from unittest import mock
 
 import ddt
-from django.contrib.auth.models import Permission
 from django.urls import reverse
-from rest_framework.test import APIRequestFactory, APITestCase
+from rest_framework.test import APITestCase
 
 from credentials.apps.api.tests.mixins import JwtMixin
-from credentials.apps.api.v2.serializers import UserCredentialSerializer
 from credentials.apps.catalog.tests.factories import CourseRunFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
