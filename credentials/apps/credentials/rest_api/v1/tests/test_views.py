@@ -4,6 +4,7 @@ from unittest import mock
 import ddt
 from django.contrib.auth.models import Permission
 from django.urls import reverse
+from enum import Enum
 from rest_framework.test import APIRequestFactory, APITestCase
 
 from credentials.apps.api.tests.mixins import JwtMixin
@@ -16,6 +17,9 @@ from credentials.apps.records.tests.factories import UserGradeFactory
 
 
 JSON_CONTENT_TYPE = "application/json"
+IdType = Enum("IdType", ["lms_user_id", "username"])
+CredIdType = Enum("CredIdType", ["course_uuid", "course_run_uuid", "course_run_key"])
+GradeType = Enum("GradeType", ["grade", "no_grade"])
 
 
 @ddt.ddt
@@ -62,7 +66,9 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         headers = self.build_jwt_headers(user)
         return self.client.post(self.status_path, data, **headers, content_type=JSON_CONTENT_TYPE)
 
-    def create_credential(self, use_lms_id=False, use_course_run=False):
+    def create_credential(
+        self, id_type=IdType.username, cred_id_type=CredIdType.course_uuid, grade_type=GradeType.grade
+    ):
         course_run = CourseRunFactory.create()
         credential = CourseCertificateFactory.create(
             course_id=course_run.course.id, site=self.site, course_run=course_run
@@ -70,16 +76,19 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         user_credential = UserCredentialFactory(
             credential=credential, credential__site=self.site, username=self.user.username
         )
-        expected_grade = UserGradeFactory(username=self.user.username, course_run=course_run)
+        if grade_type == GradeType.grade:
+            expected_grade = UserGradeFactory(username=self.user.username, course_run=course_run)
 
         data = {}
-        if use_lms_id:
+        if id_type == IdType.lms_user_id:
             data["lms_user_id"] = self.user.lms_user_id
         else:
             data["username"] = self.user.username
 
-        if use_course_run:
+        if cred_id_type == CredIdType.course_run_uuid:
             data["course_runs"] = [str(user_credential.credential.course_run.uuid)]
+        elif cred_id_type == CredIdType.course_run_key:
+            data["course_runs"] = [str(user_credential.credential.course_run.key)]
         else:
             data["courses"] = [str(user_credential.credential.course_run.course.uuid)]
 
@@ -93,21 +102,30 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
                     "status": "awarded",
                     "type": "honor",
                     "certificate_available_date": None,
-                    "grade": {
-                        "letter_grade": expected_grade.letter_grade,
-                        "percent_grade": expected_grade.percent_grade,
-                        "verified": expected_grade.verified,
-                    },
+                    "grade": None,
                 }
             ],
         }
+
+        if grade_type == GradeType.grade:
+            expected_response["status"][0]["grade"] = {
+                "letter_grade": expected_grade.letter_grade,
+                "percent_grade": expected_grade.percent_grade,
+                "verified": expected_grade.verified,
+            }
+
         return data, expected_response
 
-    @ddt.data((True, True), (True, False), (False, True), (False, False))
+    @ddt.data(
+        (IdType.lms_user_id, CredIdType.course_run_uuid, GradeType.grade),
+        (IdType.lms_user_id, CredIdType.course_run_key, GradeType.no_grade),
+        (IdType.username, CredIdType.course_uuid, GradeType.grade),
+        (IdType.username, CredIdType.course_run_key, GradeType.grade),
+    )
     @ddt.unpack
-    def test_post_positive(self, use_lms_id, use_course_run):
+    def test_post_positive(self, id_type, cred_type, grade_type):
         """Test the iterations of id and course-run vs course"""
-        data, expected_response = self.create_credential(use_lms_id, use_course_run)
+        data, expected_response = self.create_credential(id_type, cred_type, grade_type)
         response = self.call_api(self.user, data)
         self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
 
@@ -120,7 +138,7 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_unknown_lms_id(self):
-        data, expected_response = self.create_credential(use_lms_id=True)  # pylint: disable=unused-variable
+        data, expected_response = self.create_credential(IdType.lms_user_id)  # pylint: disable=unused-variable
         data["lms_user_id"] = 999999
         response = self.call_api(self.user, data)
         self.assertEqual(response.status_code, 404)

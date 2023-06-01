@@ -42,7 +42,7 @@ class LearnerCertificateStatusView(APIView):
             ],
             "course_runs": [
                 "course_run_uuid1",
-                "course_run_uuid2",
+                "course_run_key2",
                 ...
             ]
         }

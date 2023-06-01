@@ -328,7 +328,11 @@ def get_learner_course_run_status(username, course_ids, course_runs):
     courses = []
     for credential in course_credentials:
         if (course_ids and (str(credential.credential.course_run.course.uuid) in course_ids)) or (
-            course_runs and (str(credential.credential.course_run.uuid) in course_runs)
+            course_runs
+            and (
+                (str(credential.credential.course_run.uuid) in course_runs)
+                or ((str(credential.credential.course_run.key) in course_runs))
+            )
         ):
             # we don't always have the grade, so defend for missing it
             try:
