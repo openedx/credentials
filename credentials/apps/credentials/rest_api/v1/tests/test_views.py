@@ -1,10 +1,10 @@
 import json
+from enum import Enum
 from unittest import mock
 
 import ddt
 from django.contrib.auth.models import Permission
 from django.urls import reverse
-from enum import Enum
 from rest_framework.test import APIRequestFactory, APITestCase
 
 from credentials.apps.api.tests.mixins import JwtMixin
