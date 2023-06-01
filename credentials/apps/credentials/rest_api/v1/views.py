@@ -30,14 +30,19 @@ class LearnerCertificateStatusView(APIView):
         **POST Parameters**
 
         A POST request must include one of "lms_user_id" or "username",
-        and a list of course uuids
+        and a list of course uuids, course_runs, or a mix of both.
         (or a program uuid, in a future version)
 
         {
             "lms_user_id": <lms_id>,
             "courses": [
-                "uuid1",
-                "uuid2"
+                "course_uuid1",
+                "course_uuid2"
+                ...
+            ],
+            "course_runs": [
+                "course_run_uuid1",
+                "course_run_uuid2",
                 ...
             ]
         }
@@ -108,7 +113,9 @@ class LearnerCertificateStatusView(APIView):
 
         course_ids = request.data.get("courses")
 
-        courses = get_learner_course_run_status(username, course_ids)
+        course_runs = request.data.get("course_runs")
+
+        courses = get_learner_course_run_status(username, course_ids, course_runs)
 
         return Response(
             status=status.HTTP_200_OK,

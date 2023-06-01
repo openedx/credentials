@@ -316,17 +316,20 @@ def get_program_details(request_user, request_site, uuid, is_public):
     }
 
 
-def get_learner_course_run_status(username, course_ids):
+def get_learner_course_run_status(username, course_ids, course_runs):
     """
-    Return the status for all of the course runs related to the courses in
-    the course uuid list for the given learner
+    Return the status for all of the related course runs related to the courses in
+    the course uuid list, plus any course_runs explicitly called out in the course_runs list
+    for the given learner.
     """
 
     course_credentials, program_credentials = get_credentials(username)  # pylint: disable=unused-variable
 
     courses = []
     for credential in course_credentials:
-        if str(credential.credential.course_run.course.uuid) in course_ids:
+        if (course_ids and (str(credential.credential.course_run.course.uuid) in course_ids)) or (
+            course_runs and (str(credential.credential.course_run.uuid) in course_runs)
+        ):
             # we don't always have the grade, so defend for missing it
             try:
                 grade = UserGrade.objects.get(username=username, course_run=credential.credential.course_run)
