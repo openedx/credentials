@@ -328,7 +328,7 @@ def get_learner_course_run_status(username, course_ids, course_runs):
     courses = []
     keeper = False
     for credential in course_credentials:
-        if (course_ids):
+        if course_ids:
             if str(credential.credential.course_run.course.uuid) in course_ids:
                 keeper = True
         elif course_runs:
@@ -345,7 +345,7 @@ def get_learner_course_run_status(username, course_ids, course_runs):
             )
         ):
         """
-        
+
         if keeper:
             # we don't always have the grade, so defend for missing it
             try:
