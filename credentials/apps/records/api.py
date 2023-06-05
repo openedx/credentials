@@ -326,17 +326,7 @@ def get_learner_course_run_status(username, course_ids, course_runs):
     course_credentials, program_credentials = get_credentials(username)  # pylint: disable=unused-variable
 
     courses = []
-    keeper = False
     for credential in course_credentials:
-        if course_ids:
-            if str(credential.credential.course_run.course.uuid) in course_ids:
-                keeper = True
-        elif course_runs:
-            if str(credential.credential.course_run.uuid) in course_runs:
-                keeper = True
-            elif str(credential.credential.course_run.key) in course_runs:
-                keeper = True
-                """
         if (course_ids and (str(credential.credential.course_run.course.uuid) in course_ids)) or (
             course_runs
             and (
@@ -344,9 +334,6 @@ def get_learner_course_run_status(username, course_ids, course_runs):
                 or ((str(credential.credential.course_run.key) in course_runs))
             )
         ):
-        """
-
-        if keeper:
             # we don't always have the grade, so defend for missing it
             try:
                 grade = UserGrade.objects.get(username=username, course_run=credential.credential.course_run)

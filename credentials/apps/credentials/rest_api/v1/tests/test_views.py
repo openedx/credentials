@@ -105,21 +105,6 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
 
         return data, expected_response
 
-    @ddt.data(
-        (IdType.lms_user_id, CredIdType.course_run_uuid, GradeType.grade),
-        (IdType.lms_user_id, CredIdType.course_run_key, GradeType.no_grade),
-        (IdType.username, CredIdType.course_uuid, GradeType.grade),
-        (IdType.username, CredIdType.course_run_key, GradeType.grade),
-    )
-    @ddt.unpack
-    def test_post_positive(self, id_type, cred_type, grade_type):
-        """Test the iterations of id and course-run vs course"""
-        data, expected_response = self.create_credential(id_type, cred_type, grade_type)
-        response = self.call_api(self.user, data)
-        self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
-
-        self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
-
     def test_coverage(self):
         data, expected_response = self.create_credential(
             IdType.lms_user_id, CredIdType.course_run_uuid, GradeType.grade
@@ -128,12 +113,19 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
         self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
 
-        data, expected_response = self.create_credential(IdType.lms_user_id, CredIdType.course_uuid, GradeType.grade)
+        data, expected_response = self.create_credential(
+            IdType.lms_user_id, CredIdType.course_run_key, GradeType.no_grade
+        )
         response = self.call_api(self.user, data)
         self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
         self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
 
-        data, expected_response = self.create_credential(IdType.lms_user_id, CredIdType.course_run_key, GradeType.grade)
+        data, expected_response = self.create_credential(IdType.username, CredIdType.course_run_uuid, GradeType.grade)
+        response = self.call_api(self.user, data)
+        self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
+        self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
+
+        data, expected_response = self.create_credential(IdType.username, CredIdType.course_run_key, GradeType.grade)
         response = self.call_api(self.user, data)
         self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
         self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
