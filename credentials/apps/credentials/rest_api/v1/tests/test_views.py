@@ -119,32 +119,7 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
 
         self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
-
-    # def test_coverage(self):
-    #     data, expected_response = self.create_credential(
-    #         IdType.lms_user_id, CredIdType.course_run_uuid, GradeType.grade
-    #     )
-    #     response = self.call_api(self.user, data)
-    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
-    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
-
-    #     data, expected_response = self.create_credential(
-    #         IdType.lms_user_id, CredIdType.course_run_key, GradeType.no_grade
-    #     )
-    #     response = self.call_api(self.user, data)
-    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
-    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
-
-    #     data, expected_response = self.create_credential(IdType.username, CredIdType.course_run_uuid, GradeType.grade)
-    #     response = self.call_api(self.user, data)
-    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
-    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
-
-    #     data, expected_response = self.create_credential(IdType.username, CredIdType.course_run_key, GradeType.grade)
-    #     response = self.call_api(self.user, data)
-    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
-    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
-
+ 
     def test_unknown_user(self):
         data, expected_response = self.create_credential()  # pylint: disable=unused-variable
         data["username"] = "unknown_user"
