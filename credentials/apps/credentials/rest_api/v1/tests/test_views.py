@@ -1,13 +1,12 @@
 import json
+from enum import Enum
 from unittest import mock
 
 import ddt
-from django.contrib.auth.models import Permission
 from django.urls import reverse
-from rest_framework.test import APIRequestFactory, APITestCase
+from rest_framework.test import APITestCase
 
 from credentials.apps.api.tests.mixins import JwtMixin
-from credentials.apps.api.v2.serializers import UserCredentialSerializer
 from credentials.apps.catalog.tests.factories import CourseRunFactory
 from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
@@ -16,6 +15,9 @@ from credentials.apps.records.tests.factories import UserGradeFactory
 
 
 JSON_CONTENT_TYPE = "application/json"
+IdType = Enum("IdType", ["lms_user_id", "username"])
+CredIdType = Enum("CredIdType", ["course_uuid", "course_run_uuid", "course_run_key"])
+GradeType = Enum("GradeType", ["grade", "no_grade"])
 
 
 @ddt.ddt
@@ -38,18 +40,11 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         self.client.logout()
         self.client.login(username=user.username, password=USER_PASSWORD)
 
-    def add_user_permission(self, user, permission):
-        """Assigns a permission of the given name to the user."""
-        user.user_permissions.add(Permission.objects.get(codename=permission))
-
-    def serialize_user_credential(self, user_credential, many=False):
-        """Serialize the given UserCredential object(s)."""
-        request = APIRequestFactory(SERVER_NAME=self.site.domain).get("/")
-        return UserCredentialSerializer(user_credential, context={"request": request}, many=many).data
-
     def build_jwt_headers(self, user):
         """
         Helper function for creating headers for the JWT authentication.
+        Cloned and owned from elsewhere in the codebase, this should
+        be part of a utility somewhere.
         """
         jwt_payload = self.default_payload(user)
         token = self.generate_token(jwt_payload)
@@ -57,12 +52,19 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         return headers
 
     def call_api(self, user, data):
-        """Helper function to call API with data"""
+        """
+        Helper function to call API with data
+        """
         data = json.dumps(data)
         headers = self.build_jwt_headers(user)
         return self.client.post(self.status_path, data, **headers, content_type=JSON_CONTENT_TYPE)
 
-    def create_credential(self, use_lms_id=False):
+    def create_credential(
+        self, id_type=IdType.username, cred_id_type=CredIdType.course_uuid, grade_type=GradeType.grade
+    ):
+        """
+        Create the payload for a request and also the expected response.
+        """
         course_run = CourseRunFactory.create()
         credential = CourseCertificateFactory.create(
             course_id=course_run.course.id, site=self.site, course_run=course_run
@@ -70,34 +72,23 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         user_credential = UserCredentialFactory(
             credential=credential, credential__site=self.site, username=self.user.username
         )
+        if grade_type == GradeType.grade:
+            expected_grade = UserGradeFactory(username=self.user.username, course_run=course_run)
 
-        if use_lms_id:
-            data = {
-                "lms_user_id": self.user.lms_user_id,
-                "courses": [str(user_credential.credential.course_run.course.uuid)],
-            }
+        data = {}
+        if id_type == IdType.lms_user_id:
+            data["lms_user_id"] = self.user.lms_user_id
         else:
-            data = {"username": self.user.username, "courses": [str(user_credential.credential.course_run.course.uuid)]}
-        return data
+            data["username"] = self.user.username
 
-    def test_post(self):
-        """
-        Test with single course, no grade
-        """
-        course_run = CourseRunFactory.create()
-        credential = CourseCertificateFactory.create(
-            course_id=course_run.course.id, site=self.site, course_run=course_run
-        )
-        UserCredentialFactory(credential=credential, credential__site=self.site, username=self.user.username)
+        if cred_id_type == CredIdType.course_run_uuid:
+            data["course_runs"] = [str(user_credential.credential.course_run.uuid)]
+        elif cred_id_type == CredIdType.course_run_key:
+            data["course_runs"] = [str(user_credential.credential.course_run.key)]
+        else:
+            data["courses"] = [str(user_credential.credential.course_run.course.uuid)]
 
-        expected_grade = UserGradeFactory(username=self.user.username, course_run=course_run)
-
-        data = {"username": self.user.username, "courses": [str(course_run.course.uuid)]}
-
-        response = self.call_api(self.user, data)
-        self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
-
-        expected_data = {
+        expected_response = {
             "lms_user_id": self.user.lms_user_id,
             "username": self.user.username,
             "status": [
@@ -107,32 +98,80 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
                     "status": "awarded",
                     "type": "honor",
                     "certificate_available_date": None,
-                    "grade": {
-                        "letter_grade": expected_grade.letter_grade,
-                        "percent_grade": expected_grade.percent_grade,
-                        "verified": expected_grade.verified,
-                    },
+                    "grade": None,
                 }
             ],
         }
 
-        self.assertEqual(response.data, expected_data, msg="Unexpected value returned from query")
+        if grade_type == GradeType.grade:
+            expected_response["status"][0]["grade"] = {
+                "letter_grade": expected_grade.letter_grade,
+                "percent_grade": expected_grade.percent_grade,
+                "verified": expected_grade.verified,
+            }
+
+        return data, expected_response
+
+    @ddt.data(
+        (IdType.lms_user_id, CredIdType.course_run_uuid, GradeType.grade),
+        (IdType.lms_user_id, CredIdType.course_run_key, GradeType.no_grade),
+        (IdType.username, CredIdType.course_uuid, GradeType.grade),
+        (IdType.username, CredIdType.course_run_key, GradeType.grade),
+    )
+    @ddt.unpack
+    def test_post_positive(self, id_type, cred_type, grade_type):
+        """
+        Test the iterations of id and course-run vs course
+        """
+        data, expected_response = self.create_credential(id_type, cred_type, grade_type)
+        response = self.call_api(self.user, data)
+        self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
+
+        self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
+
+    ## This is here as part of an experiment in code coverage. There appears to be a
+    ## difference in how the code is called and how coverage is calculated.
+
+    # def test_coverage(self):
+    #     data, expected_response = self.create_credential(
+    #         IdType.lms_user_id, CredIdType.course_run_uuid, GradeType.grade
+    #     )
+    #     response = self.call_api(self.user, data)
+    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
+    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
+
+    #     data, expected_response = self.create_credential(
+    #         IdType.lms_user_id, CredIdType.course_run_key, GradeType.no_grade
+    #     )
+    #     response = self.call_api(self.user, data)
+    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
+    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
+
+    #     data, expected_response = self.create_credential(IdType.username, CredIdType.course_run_uuid, GradeType.grade)
+    #     response = self.call_api(self.user, data)
+    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
+    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
+
+    #     data, expected_response = self.create_credential(IdType.username, CredIdType.course_run_key, GradeType.grade)
+    #     response = self.call_api(self.user, data)
+    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
+    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
 
     def test_unknown_user(self):
-        data = self.create_credential()
+        data, expected_response = self.create_credential()  # pylint: disable=unused-variable
         data["username"] = "unknown_user"
         response = self.call_api(self.user, data)
         self.assertEqual(response.status_code, 404)
 
     def test_unknown_lms_id(self):
-        data = self.create_credential(use_lms_id=True)
+        data, expected_response = self.create_credential(IdType.lms_user_id)  # pylint: disable=unused-variable
         data["lms_user_id"] = 999999
         response = self.call_api(self.user, data)
         self.assertEqual(response.status_code, 404)
 
     def test_lms_and_username(self):
         """Call should fail because only one of username or lms id can be provided."""
-        data = self.create_credential()
+        data, expected_response = self.create_credential()  # pylint: disable=unused-variable
         data["lms_user_id"] = self.user.lms_user_id
         response = self.call_api(self.user, data)
         self.assertEqual(response.status_code, 400, msg="API should not allow lms_id AND username")
@@ -141,7 +180,7 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         """Query for an existing course, but user has no credentials that match query"""
 
         # Generate credentials for the self user so there is a legit course
-        data = self.create_credential()
+        data, expected_response = self.create_credential()  # pylint: disable=unused-variable
         uncredentialled_user = UserFactory()
         # Slide in a different username with no courses
         data["username"] = uncredentialled_user.username
@@ -152,7 +191,7 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
 
     def test_auth(self):
         """Verify the endpoint does not works except with the service worker or admin"""
-        data = self.create_credential()
+        data, expected_response = self.create_credential()  # pylint: disable=unused-variable
 
         # Test non-authenticated
         random_user = UserFactory()
