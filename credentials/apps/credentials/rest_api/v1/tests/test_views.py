@@ -43,6 +43,8 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
     def build_jwt_headers(self, user):
         """
         Helper function for creating headers for the JWT authentication.
+        Cloned and owned from elsewhere in the codebase, this should
+        be part of a utility somewhere.
         """
         jwt_payload = self.default_payload(user)
         token = self.generate_token(jwt_payload)
@@ -50,7 +52,9 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         return headers
 
     def call_api(self, user, data):
-        """Helper function to call API with data"""
+        """
+        Helper function to call API with data
+        """
         data = json.dumps(data)
         headers = self.build_jwt_headers(user)
         return self.client.post(self.status_path, data, **headers, content_type=JSON_CONTENT_TYPE)
@@ -58,6 +62,9 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
     def create_credential(
         self, id_type=IdType.username, cred_id_type=CredIdType.course_uuid, grade_type=GradeType.grade
     ):
+        """
+        Create the payload for a request and also the expected response.
+        """
         course_run = CourseRunFactory.create()
         credential = CourseCertificateFactory.create(
             course_id=course_run.course.id, site=self.site, course_run=course_run
@@ -113,13 +120,43 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
     )
     @ddt.unpack
     def test_post_positive(self, id_type, cred_type, grade_type):
-        """Test the iterations of id and course-run vs course"""
+        """
+        Test the iterations of id and course-run vs course
+        """
         data, expected_response = self.create_credential(id_type, cred_type, grade_type)
         response = self.call_api(self.user, data)
         self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
 
         self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
- 
+
+    ## This is here as part of an experiment in code coverage. There appears to be a
+    ## difference in how the code is called and how coverage is calculated.
+
+    # def test_coverage(self):
+    #     data, expected_response = self.create_credential(
+    #         IdType.lms_user_id, CredIdType.course_run_uuid, GradeType.grade
+    #     )
+    #     response = self.call_api(self.user, data)
+    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
+    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
+
+    #     data, expected_response = self.create_credential(
+    #         IdType.lms_user_id, CredIdType.course_run_key, GradeType.no_grade
+    #     )
+    #     response = self.call_api(self.user, data)
+    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
+    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
+
+    #     data, expected_response = self.create_credential(IdType.username, CredIdType.course_run_uuid, GradeType.grade)
+    #     response = self.call_api(self.user, data)
+    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
+    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
+
+    #     data, expected_response = self.create_credential(IdType.username, CredIdType.course_run_key, GradeType.grade)
+    #     response = self.call_api(self.user, data)
+    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
+    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
+
     def test_unknown_user(self):
         data, expected_response = self.create_credential()  # pylint: disable=unused-variable
         data["username"] = "unknown_user"
