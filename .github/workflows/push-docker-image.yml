@@ -59,4 +59,5 @@ jobs:
           target: dev
           repository: openedx/credentials-dev
           tags: "test"
-          platforms: ${{ matrix.build_platform }}
+          platforms: |
+            ${{ matrix.build_platform }}
