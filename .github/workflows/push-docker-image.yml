@@ -1,15 +1,20 @@
 name: Build and Push Docker Images
 
 on:
+  pull_request:
+    
   push:
     branches:
       - master
     tags:
       - open-release/*
-jobs:
+jobs:  
   push:
+    strategy:
+      matrix:
+        build_platform: ["linux/amd64", "linux/arm64"]
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    # if: github.event_name == 'push'
 
     steps:
       - name: Checkout
@@ -18,33 +23,41 @@ jobs:
       # Use the release name as the image tag if we're building an open release tag.
       # Examples: if we're building 'open-release/maple.1', tag the image as 'maple.1'.
       # Otherwise, we must be building from a push to master, so use 'latest'.
-      - name: Get tag name
-        id: get-tag-name
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const releasePrefix = 'refs/tags/open-release/';
-            const tagName = context.ref.split(releasePrefix)[1] || 'latest';
-            console.log('Will use tag: ' + tagName);
-            return tagName;
-          result-encoding: string
+      # - name: Get tag name
+      #   id: get-tag-name
+      #   uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       const releasePrefix = 'refs/tags/open-release/';
+      #       const tagName = context.ref.split(releasePrefix)[1] || 'latest';
+      #       console.log('Will use tag: ' + tagName);
+      #       return tagName;
+      #     result-encoding: string
 
-      - name: Build and push base Docker image
-        uses: docker/build-push-action@v1
-        with:
-          push: ${{ github.event_name != 'pull_request' }}
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          target: base
-          repository: openedx/credentials
-          tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
+      - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v1
+        
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
 
+      # - name: Build and push base Docker image
+      #   uses: docker/build-push-action@v1
+      #   with:
+      #     push: ${{ github.event_name != 'pull_request' }}
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      #     target: base
+      #     repository: openedx/credentials
+      #     tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
+
+      
       - name: Build and push dev Docker image
         uses: docker/build-push-action@v1
         with:
-          push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ github.event_name == 'pull_request' }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           target: dev
           repository: openedx/credentials-dev
-          tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
+          tags: "test"
+          platforms: ${{ matrix.build_platform }}
