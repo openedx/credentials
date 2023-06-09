@@ -10,4 +10,3 @@ coverage:
 ignore:
   - credentials/settings/production.py
   - credentials/settings/devstack.py
-  - credentials/apps/core/management/commands/sync_lms_user_ids.py
