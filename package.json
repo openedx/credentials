@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@edx/paragon": "19.19.1",
-    "axios": "0.27.2",
+    "axios": "1.4.0",
     "bi-app-sass": "1.1.0",
     "bootstrap": "4.6.1",
     "core-js": "3.29.1",
