@@ -221,7 +221,7 @@ fastavro==1.7.4
     # via
     #   -r requirements/base.txt
     #   openedx-events
-filelock==3.12.0
+filelock==3.12.2
     # via
     #   tox
     #   virtualenv
@@ -310,7 +310,7 @@ pbr==5.11.1
     #   stevedore
 pillow==9.5.0
     # via -r requirements/base.txt
-platformdirs==3.5.1
+platformdirs==3.5.3
     # via
     #   black
     #   pylint
@@ -365,7 +365,7 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pytest==7.3.1
+pytest==7.3.2
     # via
     #   -r requirements/test.in
     #   pytest-django

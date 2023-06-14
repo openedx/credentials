@@ -43,11 +43,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==2.0.2
     # via -r requirements/dev.txt
-boto3==1.26.147
+boto3==1.26.152
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.147
+botocore==1.29.152
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -334,7 +334,7 @@ fastavro==1.7.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   openedx-events
-filelock==3.12.0
+filelock==3.12.2
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -480,7 +480,7 @@ pillow==9.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-platformdirs==3.5.1
+platformdirs==3.5.3
     # via
     #   -r requirements/dev.txt
     #   black
@@ -558,7 +558,7 @@ pyrsistent==0.19.3
     # via
     #   -r requirements/dev.txt
     #   jsonschema
-pytest==7.3.1
+pytest==7.3.2
     # via
     #   -r requirements/dev.txt
     #   pytest-django
