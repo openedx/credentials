@@ -9,9 +9,6 @@ on:
       - open-release/*
 jobs:  
   push:
-    strategy:
-      matrix:
-        build_platform: ["linux/amd64", "linux/arm64"]
     runs-on: ubuntu-latest
     # if: github.event_name == 'push'
 
@@ -65,5 +62,4 @@ jobs:
           target: dev
           # repository: openedx/credentials-dev
           tags: "openedx/credentials-dev:test"
-          platforms: |
-            ${{ matrix.build_platform }}
+          platforms: linux/amd64,linux/arm64
