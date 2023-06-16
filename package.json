@@ -29,7 +29,7 @@
     "regenerator-runtime": "0.13.11",
     "sass": "1.59.3",
     "sass-loader": "12.6.0",
-    "style-loader": "3.3.2",
+    "style-loader": "3.3.3",
     "url-loader": "4.1.1",
     "webpack": "5.76.2",
     "webpack-bundle-tracker": "1.8.1"
