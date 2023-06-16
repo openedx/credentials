@@ -59,7 +59,10 @@ def _update_or_create_credential(username, credential_type, credential_id, statu
     try:
         content_type = ContentType.objects.get_for_model(credential_type)
         credential, created = _UserCredential.objects.update_or_create(
-            username=username, credential_content_type=content_type, credential_id=credential_id, status=status
+            username=username,
+            credential_content_type=content_type,
+            credential_id=credential_id,
+            defaults={"status": status},
         )
     except Exception:  # pylint: disable=broad-exception-caught
         logger.exception(
