@@ -351,7 +351,7 @@ class GetOrCreateCertConfigTests(SiteMixin, TestCase):
         `get_course_cert_config` function.
         """
         course_cert_config = CourseCertificateFactory.create(
-            course_id=self.course.id, course_run=self.course_run, site=self.site
+            course_id=self.course_run.key, course_run=self.course_run, site=self.site
         )
 
         expected_message = (
@@ -361,7 +361,7 @@ class GetOrCreateCertConfigTests(SiteMixin, TestCase):
         with LogCapture() as log:
             course_cert = get_course_cert_config(self.course_run, "honor")
 
-        assert course_cert.course_id == str(self.course.id)
+        assert course_cert.course_id == self.course_run.key
         assert course_cert.course_run == self.course_run
         assert course_cert.id == course_cert_config.id
         assert log.records[0].msg == expected_message
@@ -454,7 +454,7 @@ class AwardCourseCertificateTests(SiteMixin, TestCase):
         bus.
         """
         course_cert_config = CourseCertificateFactory.create(
-            course_id=self.course.id, course_run=self.course_run, site=self.site
+            course_id=self.course_run.key, course_run=self.course_run, site=self.site
         )
 
         award_course_certificate(self.user, self.course_run.key, "honor")
@@ -471,7 +471,7 @@ class AwardCourseCertificateTests(SiteMixin, TestCase):
         """
         course_credential_content_type = ContentType.objects.get(app_label="credentials", model="coursecertificate")
         course_cert_config = CourseCertificateFactory.create(
-            course_id=self.course.id, course_run=self.course_run, site=self.site
+            course_id=self.course_run.key, course_run=self.course_run, site=self.site
         )
         credential = UserCredentialFactory.create(
             username=self.user.username,

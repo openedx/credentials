@@ -93,7 +93,7 @@ def get_course_cert_config(course_run, mode, create=False):
     course_cert_config = None
     try:
         logger.info(f"Attempting to retrieve the course certificate configuration for course run [{course_run.key}]")
-        course_cert_config = _CourseCertificate.objects.get(course_run=course_run)
+        course_cert_config = _CourseCertificate.objects.get(course_id=course_run.key)
     except _CourseCertificate.DoesNotExist:
         logger.error(f"A course certificate configuration could not be found for course run [{course_run.key}]")
     finally:
