@@ -27,66 +27,60 @@ class LearnerCertificateStatusView(APIView):
         CanGetLearnerStatus,
     )
 
-    lms_user_id_schema = openapi.Schema(
-        type=openapi.TYPE_STRING,
-        description='lms_user_id as a string')
+    lms_user_id_schema = openapi.Schema(type=openapi.TYPE_STRING, description="lms_user_id as a string")
 
-    username_schema = openapi.Schema(
-        type=openapi.TYPE_STRING,
-        description='username')
+    username_schema = openapi.Schema(type=openapi.TYPE_STRING, description="username")
 
     per_course_grade_schema = openapi.Schema(
         type=openapi.TYPE_OBJECT,
         properties={
-            'letter_grade': openapi.Schema(type=openapi.TYPE_STRING),
-            'percent_grade': openapi.Schema(type=openapi.FORMAT_DECIMAL),
-            'verified': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-        }
+            "letter_grade": openapi.Schema(type=openapi.TYPE_STRING),
+            "percent_grade": openapi.Schema(type=openapi.FORMAT_DECIMAL),
+            "verified": openapi.Schema(type=openapi.TYPE_BOOLEAN),
+        },
     )
     course_run_object_schema = openapi.Schema(
-         type=openapi.TYPE_OBJECT,
-         properties={
-            'uuid': openapi.Schema(type=openapi.TYPE_STRING),
-            'key': openapi.Schema(type=openapi.TYPE_STRING),
-            'status': openapi.Schema(type=openapi.TYPE_STRING),
-            'type': openapi.Schema(type=openapi.TYPE_STRING),
-            'certificate_available_date': openapi.Schema(type=openapi.FORMAT_DATE),
-            'grade': per_course_grade_schema,
-         }
+        type=openapi.TYPE_OBJECT,
+        properties={
+            "uuid": openapi.Schema(type=openapi.TYPE_STRING),
+            "key": openapi.Schema(type=openapi.TYPE_STRING),
+            "status": openapi.Schema(type=openapi.TYPE_STRING),
+            "type": openapi.Schema(type=openapi.TYPE_STRING),
+            "certificate_available_date": openapi.Schema(type=openapi.FORMAT_DATE),
+            "grade": per_course_grade_schema,
+        },
     )
     per_course_status_schema = openapi.Schema(
-         type=openapi.TYPE_OBJECT,
-         properties={
-              'course_uuid': openapi.TYPE_STRING,
-              'course_run': course_run_object_schema,
-         }
+        type=openapi.TYPE_OBJECT,
+        properties={
+            "course_uuid": openapi.TYPE_STRING,
+            "course_run": course_run_object_schema,
+        },
     )
 
     learner_cert_status_request_schema = openapi.Schema(
         type=openapi.TYPE_OBJECT,
         properties={
-            'lms_user_id': lms_user_id_schema,
-            'username': username_schema,
-            'courses': openapi.Schema(
-                type=openapi.TYPE_ARRAY,
-                items=openapi.Items(type=openapi.TYPE_STRING),
-                description='array of strings'),
-            'course_runs': openapi.Schema(
-                type=openapi.TYPE_ARRAY,
-                items=openapi.Items(type=openapi.TYPE_STRING),
-                description='array of strings'),
+            "lms_user_id": lms_user_id_schema,
+            "username": username_schema,
+            "courses": openapi.Schema(
+                type=openapi.TYPE_ARRAY, items=openapi.Items(type=openapi.TYPE_STRING), description="array of strings"
+            ),
+            "course_runs": openapi.Schema(
+                type=openapi.TYPE_ARRAY, items=openapi.Items(type=openapi.TYPE_STRING), description="array of strings"
+            ),
         },
     )
 
     learner_cert_status_return_schema = openapi.Schema(
         type=openapi.TYPE_OBJECT,
         properties={
-            'lms_user_id': lms_user_id_schema,
-            'username': username_schema,
-            'status': openapi.Schema(
+            "lms_user_id": lms_user_id_schema,
+            "username": username_schema,
+            "status": openapi.Schema(
                 type=openapi.TYPE_ARRAY,
                 items=course_run_object_schema,
-            )
+            ),
         },
     )
 
@@ -95,8 +89,8 @@ class LearnerCertificateStatusView(APIView):
     }
 
     @swagger_auto_schema(
-            request_body=learner_cert_status_request_schema,
-            responses=learner_cert_status_responses,
+        request_body=learner_cert_status_request_schema,
+        responses=learner_cert_status_responses,
     )
     def post(self, request):
         """

@@ -30,6 +30,7 @@ log = logging.getLogger(__name__)
 # endpoints, per:
 # https://openedx.atlassian.net/wiki/spaces/AC/pages/18350757/edX+REST+API+Conventions
 
+
 def credentials_throttle_handler(exc, context):
     """Exception handler for logging messages when an endpoint is throttled."""
     response = exception_handler(exc, context)
