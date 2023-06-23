@@ -35,3 +35,6 @@ analytics-python<=1.4.0
 # Pinning urllib3 to versions < 2.x as this conflicts with boto. This constraint will be re-evaluated as part of
 # APER-2422
 urllib3<2
+
+# Pinning mysqlclient to version 2.1.1 as newer version was breaking our build. This constraint will be re-evaluted as part of APER-2556
+mysqlclient<=2.1.1
