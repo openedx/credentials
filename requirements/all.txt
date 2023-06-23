@@ -43,11 +43,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==2.0.2
     # via -r requirements/dev.txt
-boto3==1.26.156
+boto3==1.26.158
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.156
+botocore==1.29.158
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -267,7 +267,7 @@ edx-auth-backends==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.16
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.17
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -323,7 +323,7 @@ exceptiongroup==1.1.1
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==18.10.1
+faker==18.11.1
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -420,7 +420,7 @@ mypy-extensions==1.0.0
     # via
     #   -r requirements/dev.txt
     #   black
-mysqlclient==2.1.1
+mysqlclient==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -478,13 +478,13 @@ pillow==9.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-platformdirs==3.6.0
+platformdirs==3.7.0
     # via
     #   -r requirements/dev.txt
     #   black
     #   pylint
     #   virtualenv
-pluggy==1.0.0
+pluggy==1.2.0
     # via
     #   -r requirements/dev.txt
     #   pytest

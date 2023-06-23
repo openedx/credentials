@@ -199,7 +199,7 @@ edx-ace==1.6.1
     # via -r requirements/test.txt
 edx-auth-backends==4.1.0
     # via -r requirements/test.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.16
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.2.17
     # via -r requirements/test.txt
 edx-django-release-util==1.2.0
     # via -r requirements/test.txt
@@ -240,7 +240,7 @@ exceptiongroup==1.1.1
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/test.txt
-faker==18.10.1
+faker==18.11.1
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -312,7 +312,7 @@ mypy-extensions==1.0.0
     # via
     #   -r requirements/test.txt
     #   black
-mysqlclient==2.1.1
+mysqlclient==2.2.0
     # via -r requirements/test.txt
 newrelic==8.8.0
     # via
@@ -355,13 +355,13 @@ pbr==5.11.1
     #   stevedore
 pillow==9.5.0
     # via -r requirements/test.txt
-platformdirs==3.6.0
+platformdirs==3.7.0
     # via
     #   -r requirements/test.txt
     #   black
     #   pylint
     #   virtualenv
-pluggy==1.0.0
+pluggy==1.2.0
     # via
     #   -r requirements/test.txt
     #   pytest
