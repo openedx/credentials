@@ -59,6 +59,7 @@ urlpatterns = oauth2_urlpatterns + [
     re_path(r"^api-auth/", include((oauth2_urlpatterns, "rest_framework"), namespace="rest_framework")),
     re_path(r"^api-docs/$", schema_view.with_ui("swagger", cache_timeout=0), name="api_docs"),
     re_path(r"^auto_auth/$", core_views.AutoAuth.as_view(), name="auto_auth"),
+    re_path(r"^credentials/", include(("credentials.apps.credentials.urls", "credentials"), namespace="credentials")),
     re_path(r"^health/$", core_views.health, name="health"),
     re_path(
         r"^management/", include(("credentials.apps.edx_django_extensions.urls", "management"), namespace="management")
