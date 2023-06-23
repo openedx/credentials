@@ -140,10 +140,8 @@ django-ratelimit==3.0.1
     #   -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-simple-history==3.0.0
-    # via
-    #   -c requirements/common_constraints.txt
-    #   -r requirements/base.txt
+django-simple-history==3.3.0
+    # via -r requirements/base.txt
 django-sortedm2m==3.1.1
     # via -r requirements/base.txt
 django-statici18n==2.3.1
@@ -213,7 +211,7 @@ exceptiongroup==1.1.1
     # via pytest
 factory-boy==3.2.1
     # via -r requirements/test.in
-faker==18.10.1
+faker==18.11.1
     # via factory-boy
 fastavro==1.7.4
     # via
@@ -270,7 +268,7 @@ monotonic==1.6
     #   analytics-python
 mypy-extensions==1.0.0
     # via black
-mysqlclient==2.1.1
+mysqlclient==2.2.0
     # via -r requirements/base.txt
 newrelic==8.8.0
     # via
@@ -308,12 +306,12 @@ pbr==5.11.1
     #   stevedore
 pillow==9.5.0
     # via -r requirements/base.txt
-platformdirs==3.6.0
+platformdirs==3.8.0
     # via
     #   black
     #   pylint
     #   virtualenv
-pluggy==1.0.0
+pluggy==1.2.0
     # via
     #   pytest
     #   tox
