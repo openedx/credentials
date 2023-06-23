@@ -181,8 +181,10 @@ markupsafe==2.1.3
     # via jinja2
 monotonic==1.6
     # via analytics-python
-mysqlclient==2.2.0
-    # via -r requirements/base.in
+mysqlclient==2.1.1
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.in
 newrelic==8.8.0
     # via
     #   -r requirements/base.in
@@ -193,7 +195,7 @@ oauthlib==3.2.2
     #   social-auth-core
 openapi-codec==1.3.2
     # via django-rest-swagger
-openedx-events==8.0.1
+openedx-events==8.2.0
     # via edx-event-bus-kafka
 packaging==23.1
     # via drf-yasg
