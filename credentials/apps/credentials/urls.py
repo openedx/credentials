@@ -1,12 +1,10 @@
 """
 URLs for the credentials views.
 """
-from django.conf.urls import include, url
 from django.urls import re_path
 
 from credentials.apps.credentials import views
 from credentials.apps.credentials.constants import UUID_PATTERN
-from credentials.apps.credentials.rest_api.v1 import urls as credentials_api_v1_urls
 
 
 urlpatterns = [
