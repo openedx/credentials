@@ -274,7 +274,7 @@ mysqlclient==2.1.1
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
-newrelic==8.8.0
+newrelic==8.8.1
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
