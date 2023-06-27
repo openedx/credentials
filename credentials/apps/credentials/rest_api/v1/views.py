@@ -27,7 +27,7 @@ class LearnerCertificateStatusView(APIView):
         CanGetLearnerStatus,
     )
 
-    lms_user_id_schema = openapi.Schema(type=openapi.TYPE_STRING, description="lms_user_id as a string")
+    lms_user_id_schema = openapi.Schema(type=openapi.TYPE_INTEGER, description="lms_user_id")
 
     username_schema = openapi.Schema(type=openapi.TYPE_STRING, description="username")
 
