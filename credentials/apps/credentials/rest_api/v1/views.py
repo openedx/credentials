@@ -1,6 +1,8 @@
 import logging
 
 from django.contrib.auth import get_user_model
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from edx_rest_framework_extensions.auth.jwt.authentication import JwtAuthentication
 from rest_framework import permissions, status
 from rest_framework.authentication import SessionAuthentication
@@ -25,68 +27,77 @@ class LearnerCertificateStatusView(APIView):
         CanGetLearnerStatus,
     )
 
+    lms_user_id_schema = openapi.Schema(type=openapi.TYPE_INTEGER, description="lms_user_id")
+
+    username_schema = openapi.Schema(type=openapi.TYPE_STRING, description="username")
+
+    per_course_grade_schema = openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            "letter_grade": openapi.Schema(type=openapi.TYPE_STRING),
+            "percent_grade": openapi.Schema(type=openapi.FORMAT_DECIMAL),
+            "verified": openapi.Schema(type=openapi.TYPE_BOOLEAN),
+        },
+    )
+    course_run_object_schema = openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            "uuid": openapi.Schema(type=openapi.TYPE_STRING),
+            "key": openapi.Schema(type=openapi.TYPE_STRING),
+            "status": openapi.Schema(type=openapi.TYPE_STRING),
+            "type": openapi.Schema(type=openapi.TYPE_STRING),
+            "certificate_available_date": openapi.Schema(type=openapi.FORMAT_DATE),
+            "grade": per_course_grade_schema,
+        },
+    )
+    per_course_status_schema = openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            "course_uuid": openapi.TYPE_STRING,
+            "course_run": course_run_object_schema,
+        },
+    )
+
+    learner_cert_status_request_schema = openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            "lms_user_id": lms_user_id_schema,
+            "username": username_schema,
+            "courses": openapi.Schema(
+                type=openapi.TYPE_ARRAY, items=openapi.Items(type=openapi.TYPE_STRING), description="array of strings"
+            ),
+            "course_runs": openapi.Schema(
+                type=openapi.TYPE_ARRAY, items=openapi.Items(type=openapi.TYPE_STRING), description="array of strings"
+            ),
+        },
+    )
+
+    learner_cert_status_return_schema = openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            "lms_user_id": lms_user_id_schema,
+            "username": username_schema,
+            "status": openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=course_run_object_schema,
+            ),
+        },
+    )
+
+    learner_cert_status_responses = {
+        status.HTTP_200_OK: learner_cert_status_return_schema,
+    }
+
+    @swagger_auto_schema(
+        request_body=learner_cert_status_request_schema,
+        responses=learner_cert_status_responses,
+    )
     def post(self, request):
         """
-        **POST Parameters**
-
         A POST request must include one of "lms_user_id" or "username",
         and a list of course uuids, course_runs, or a mix of both.
         (or a program uuid, in a future version)
-
-        {
-            "lms_user_id": <lms_id>,
-            "courses": [
-                "course_uuid1",
-                "course_uuid2"
-                ...
-            ],
-            "course_runs": [
-                "course_run_uuid1",
-                "course_run_key2",
-                ...
-            ]
-        }
-
-        **POST Response Values**
-
-        The request will return a 200 with a list of learner cert statuses.
-
-        {
-            "lms_user_id": 3,
-            "username": "edx",
-            "status": [
-                {
-                    "course_uuid": "8759ceb8-7112-4b48-a9b4-8a9a69fdad51",
-                    "course_run": {
-                        "uuid": "0e63eeea-f957-4d38-884a-bf7af5af6155",
-                        "key": "course-v1:edX+TK-100+2T2022"
-                    },
-                    "status": "awarded",
-                    "type": "verified",
-                    "certificate_available_date": null,
-                    "grade": {
-                        "letter_grade": "Pass",
-                        "percent_grade": 75.0,
-                        "verified": true
-                        }
-                },
-                {
-                    "course_uuid": "d81fce24-c0e3-49cc-b375-51a02c79aa9d",
-                    "course_run": {
-                        "uuid": "b4a38fe1-93b6-4fa6-a834-a656bcf9e75c",
-                        "key": "course-v1:edX+CRYPT101+1T2023"
-                    },
-                    "status": "awarded",
-                    "type": "verified",
-                    "certificate_available_date": null,
-                    "grade": {
-                        "letter_grade": "Pass",
-                        "percent_grade": 70.5,
-                        "verified": true
-                        }
-                }
-            ]
-        }"""
+        """
         lms_user_id = request.data.get("lms_user_id")
         username = request.data.get("username")
 
