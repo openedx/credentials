@@ -216,6 +216,8 @@ Query for an individual's users earned certificates for a list of courses or cou
 
 * You must include either ``lms_user_id`` or ``username``.
 * You must include at least one of ``courses`` and ``course_runs``, and you may include a mix of both.
+    * The ``courses`` list should contain a list of course UUIDs.
+    * The ``course_runs`` list should contain a list of course run keys.
  
 **Example Request**
 
@@ -232,7 +234,7 @@ Query for an individual's users earned certificates for a list of courses or cou
             "4ad051fe-1512-11ee-be56-0242ac120002"
         ],
         "course_runs": [
-            "4ad055f0-1512-11ee-be56-0242ac120002"
+            "course-v1:edX+AA302+2T2023a"
         ]
     }
 
