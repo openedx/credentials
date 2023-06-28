@@ -559,3 +559,6 @@ LEARNER_RECORD_MFE_RECORDS_PAGE_URL = ""
 # Plugin Django Apps
 INSTALLED_APPS.extend(get_plugin_apps(PROJECT_TYPE))
 add_plugins(__name__, PROJECT_TYPE, SettingsType.BASE)
+
+# disable indexing on history_date
+SIMPLE_HISTORY_DATE_INDEX = False

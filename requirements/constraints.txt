@@ -36,5 +36,9 @@ analytics-python<=1.4.0
 # APER-2422
 urllib3<2
 
+
+django-simple-history<=3.1.1
+
 # Pinning mysqlclient to version 2.1.1 as newer version was breaking our build. This constraint will be re-evaluted as part of APER-2556
 mysqlclient<=2.1.1
+
