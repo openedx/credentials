@@ -1,19 +1,19 @@
 Credentials API
 ===============
 
-The ``credentials`` resource should be used for all API calls.
-
-+----------------------------------------+--------+---------------------------------+
-| Task                                   | Method | Endpoint                        |
-+========================================+========+=================================+
-| Get a list of credentials              | GET    |  /api/v2/credentials/           |
-+----------------------------------------+--------+---------------------------------+
-| Get a specific credential              | GET    |  /api/v2/credentials/:uuid      |
-+----------------------------------------+--------+---------------------------------+
-| Create a new credential                | POST   |  /api/v2/credentials/           |
-+----------------------------------------+--------+---------------------------------+
-| Update a credential                    | PATCH  |  /api/v2/credentials/:uuid      |
-+----------------------------------------+--------+---------------------------------+
++-------------------------------------------------------------+--------+------------------------------------------+
+| Task                                                        | Method | Endpoint                                 |
++=============================================================+========+==========================================+
+| Get a list of credentials                                   | GET    | /api/v2/credentials/                     |
++-------------------------------------------------------------+--------+------------------------------------------+
+| Get a specific credential                                   | GET    | /api/v2/credentials/:uuid                |
++-------------------------------------------------------------+--------+------------------------------------------+
+| Create a new credential                                     | POST   | /api/v2/credentials/                     |
++-------------------------------------------------------------+--------+------------------------------------------+
+| Update a credential                                         | PATCH  | /api/v2/credentials/:uuid                |
++-------------------------------------------------------------+--------+------------------------------------------+
+| Query for a user's earned certificates for specific courses | POST   | /api/credentials/v1/learner_cert_status/ |
++-------------------------------------------------------------+--------+------------------------------------------+
 
 
 Create a New Credential
@@ -203,6 +203,65 @@ You can filter the returned list of credentials by using the ``program_uuid`` pa
                 "created": "2015-12-17T09:28:35.075376Z",
                 "modified": "2016-01-02T12:58:15.744188Z",
                 "certificate_url": "http://0.0.0.0:8004/credentials/a2810ab0c08443dea9dbfa484fcc82bc/"
+            }
+        ]
+    }
+
+Query for a user's earned certificates for specific courses
+-----------------------------------------------------------
+
+Query for an individual's users earned certificates for a list of courses or course runs.
+
+**Note**:
+
+* You must include either ``lms_user_id`` or ``username``.
+* You must include at least one of ``courses`` and ``course_runs``, and you may include a mix of both.
+    * The ``courses`` list should contain a list of course UUIDs.
+    * The ``course_runs`` list should contain a list of course run keys.
+ 
+**Example Request**
+
+.. code-block:: text
+
+    POST api/credentials/v1/learner_cert_status/
+
+.. code-block:: json
+
+    {
+        "username": "sample_user",
+        "courses": [
+            "4ad04e84-1512-11ee-be56-0242ac120002",
+            "4ad051fe-1512-11ee-be56-0242ac120002"
+        ],
+        "course_runs": [
+            "course-v1:edX+AA302+2T2023a"
+        ]
+    }
+
+**Example Response**
+
+In this example, this user has earned a certificate in only one of the courses requested, so that is the only returned value.
+
+.. code-block:: json
+
+    {
+        "lms_user_id": 3,
+        "username": "sample_user",
+        "status": [
+            {
+            "course_uuid": "4ad04e84-1512-11ee-be56-0242ac120002",
+            "course_run": {
+                "uuid": "4747fefb-6f31-4689-bcfb-8ff32da191f4",
+                "key": "course-v1:edX+AA302+2T2023a"
+                },
+            "status": "awarded",
+            "type": "verified",
+            "certificate_available_date": null,
+            "grade": {
+                "letter_grade": "Pass",
+                "percent_grade": 1,
+                "verified": true
+                }
             }
         ]
     }
