@@ -23,9 +23,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==6.0.0
     # via -r requirements/base.txt
-boto3==1.26.161
+boto3==1.26.165
     # via django-ses
-botocore==1.29.161
+botocore==1.29.165
     # via
     #   boto3
     #   s3transfer
@@ -70,7 +70,7 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==3.2.19
+django==3.2.20
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -275,7 +275,7 @@ pbr==5.11.1
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==9.5.0
+pillow==10.0.0
     # via -r requirements/base.txt
 polib==1.2.0
     # via
@@ -299,6 +299,8 @@ pyjwt[crypto]==2.7.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
+pymemcache==4.0.0
+    # via -r requirements/base.txt
 pymongo==3.13.0
     # via
     #   -r requirements/base.txt
@@ -409,7 +411,7 @@ text-unidecode==1.3
     # via
     #   -r requirements/base.txt
     #   python-slugify
-typing-extensions==4.6.3
+typing-extensions==4.7.1
     # via
     #   -r requirements/base.txt
     #   asgiref
