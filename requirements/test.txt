@@ -209,11 +209,11 @@ edx-toggles==5.0.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
-exceptiongroup==1.1.1
+exceptiongroup==1.1.2
     # via pytest
 factory-boy==3.2.1
     # via -r requirements/test.in
-faker==18.11.1
+faker==18.11.2
     # via factory-boy
 fastavro==1.7.4
     # via
@@ -308,7 +308,7 @@ pbr==5.11.1
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==9.5.0
+pillow==10.0.0
     # via -r requirements/base.txt
 platformdirs==3.8.0
     # via
@@ -493,7 +493,7 @@ tox==3.28.0
     #   -r requirements/test.in
 types-pyyaml==6.0.12.10
     # via responses
-typing-extensions==4.6.3
+typing-extensions==4.7.1
     # via
     #   -r requirements/base.txt
     #   asgiref

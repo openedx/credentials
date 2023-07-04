@@ -43,11 +43,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==2.0.2
     # via -r requirements/dev.txt
-boto3==1.26.161
+boto3==1.27.0
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.29.161
+botocore==1.30.0
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -127,7 +127,7 @@ distro==1.8.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-django==3.2.19
+django==3.2.20
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -317,13 +317,13 @@ edx-toggles==5.0.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-event-bus-kafka
-exceptiongroup==1.1.1
+exceptiongroup==1.1.2
     # via
     #   -r requirements/dev.txt
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==18.11.1
+faker==18.11.2
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -475,7 +475,7 @@ pbr==5.11.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   stevedore
-pillow==9.5.0
+pillow==10.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -734,7 +734,7 @@ types-pyyaml==6.0.12.10
     # via
     #   -r requirements/dev.txt
     #   responses
-typing-extensions==4.6.3
+typing-extensions==4.7.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
