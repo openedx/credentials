@@ -221,7 +221,7 @@ class IssuanceLine(TimeStampedModel):
     @classmethod
     def resolve_issuer(cls):
         """
-        Unconditionally (for now) returns system-level Issier ID.
+        Unconditionally (for now) returns system-level Issuer ID.
         """
         from .utils import get_default_issuer  # pylint: disable=import-outside-toplevel
 
