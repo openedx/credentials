@@ -312,10 +312,8 @@ mypy-extensions==1.0.0
     # via
     #   -r requirements/test.txt
     #   black
-mysqlclient==2.1.1
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/test.txt
+mysqlclient==2.2.0
+    # via -r requirements/test.txt
 newrelic==8.8.1
     # via
     #   -r requirements/test.txt
