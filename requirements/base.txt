@@ -181,10 +181,8 @@ markupsafe==2.1.3
     # via jinja2
 monotonic==1.6
     # via analytics-python
-mysqlclient==2.1.1
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/base.in
+mysqlclient==2.2.0
+    # via -r requirements/base.in
 newrelic==8.8.1
     # via
     #   -r requirements/base.in

@@ -270,10 +270,8 @@ monotonic==1.6
     #   analytics-python
 mypy-extensions==1.0.0
     # via black
-mysqlclient==2.1.1
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/base.txt
+mysqlclient==2.2.0
+    # via -r requirements/base.txt
 newrelic==8.8.1
     # via
     #   -r requirements/base.txt
