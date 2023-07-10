@@ -129,45 +129,34 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
 
         self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
 
-    ## This is here as part of an experiment in code coverage. There appears to be a
-    ## difference in how the code is called and how coverage is calculated.
+    @ddt.data(
+        (IdType.lms_user_id, CredIdType.course_run_uuid, GradeType.grade),
+        (IdType.username, CredIdType.course_run_uuid, GradeType.grade),
+    )
+    @ddt.unpack
+    def test_unknown_user_returns_empty_status(self, id_type, cred_type, grade_type):
+        """An unknown username or lms_user_id should return valid with an empty status.
 
-    # def test_coverage(self):
-    #     data, expected_response = self.create_credential(
-    #         IdType.lms_user_id, CredIdType.course_run_uuid, GradeType.grade
-    #     )
-    #     response = self.call_api(self.user, data)
-    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
-    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
+        Uses the create_credential method, even though it's not really using the
+        credential, in order to avoid replicating the logic of creating the data
+        payload."""
+        data, expected_response = self.create_credential(id_type, cred_type, grade_type)
+        if id_type == IdType.lms_user_id:
+            data["lms_user_id"] = 666
+            data["username"] = None
+        else:
+            data["lms_user_id"] = None
+            data["username"] = "i_am_a_big_faker"
 
-    #     data, expected_response = self.create_credential(
-    #         IdType.lms_user_id, CredIdType.course_run_key, GradeType.no_grade
-    #     )
-    #     response = self.call_api(self.user, data)
-    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
-    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
-
-    #     data, expected_response = self.create_credential(IdType.username, CredIdType.course_run_uuid, GradeType.grade)
-    #     response = self.call_api(self.user, data)
-    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
-    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
-
-    #     data, expected_response = self.create_credential(IdType.username, CredIdType.course_run_key, GradeType.grade)
-    #     response = self.call_api(self.user, data)
-    #     self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
-    #     self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
-
-    def test_unknown_user(self):
-        data, expected_response = self.create_credential()  # pylint: disable=unused-variable
-        data["username"] = "unknown_user"
+        expected_response = {
+            "lms_user_id": data["lms_user_id"],
+            "username": data["username"],
+            "status": [],
+        }
         response = self.call_api(self.user, data)
-        self.assertEqual(response.status_code, 404)
 
-    def test_unknown_lms_id(self):
-        data, expected_response = self.create_credential(IdType.lms_user_id)  # pylint: disable=unused-variable
-        data["lms_user_id"] = 999999
-        response = self.call_api(self.user, data)
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200, msg="Did not get back expected response code")
+        self.assertEqual(response.data, expected_response, msg="Unexpected value returned from query")
 
     def test_lms_and_username(self):
         """Call should fail because only one of username or lms id can be provided."""

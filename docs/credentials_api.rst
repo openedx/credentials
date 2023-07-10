@@ -207,18 +207,21 @@ You can filter the returned list of credentials by using the ``program_uuid`` pa
         ]
     }
 
-Query for a user's earned certificates for specific courses
------------------------------------------------------------
+Query for an individual learner's earned certificates for specific courses
+--------------------------------------------------------------------------
 
-Query for an individual's users earned certificates for a list of courses or course runs.
+Query for an individual learner's earned certificates for a list of courses or course runs.
 
 **Note**:
 
-* You must include either ``lms_user_id`` or ``username``.
+* You must include `exactly one` of ``lms_user_id`` or ``username``.
 * You must include at least one of ``courses`` and ``course_runs``, and you may include a mix of both.
     * The ``courses`` list should contain a list of course UUIDs.
     * The ``course_runs`` list should contain a list of course run keys.
  
+If the ``username`` or ``lms_user_id`` has not earned any certificates, this endpoint
+will return successfully, and the ``status`` object will be empty.
+
 **Example Request**
 
 .. code-block:: text

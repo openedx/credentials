@@ -1,4 +1,5 @@
 import logging
+from typing import Optional
 
 from django.contrib.auth import get_user_model
 from drf_yasg import openapi
@@ -93,13 +94,20 @@ class LearnerCertificateStatusView(APIView):
         responses=learner_cert_status_responses,
     )
     def post(self, request):
+        """Query for earned certificates for a user.
+
+        Query for an individuals user's earned certificates for a list of courses or course runs.
+
+        * You must include _exactly one_ of `lms_user_id` or `username`.
+        * You must include at least one of `courses` and `course_runs`, and you may include a mix of both.
+            * The `courses` list should contain a list of course UUIDs.
+            * The `course_runs` list should contain a list of course run keys.
+
+        If the `username` or `lms_user_id` has not earned any certificates, this endpoint
+        will return successfully, and the `status` object will be empty.
         """
-        A POST request must include one of "lms_user_id" or "username",
-        and a list of course uuids, course_runs, or a mix of both.
-        (or a program uuid, in a future version)
-        """
-        lms_user_id = request.data.get("lms_user_id")
-        username = request.data.get("username")
+        lms_user_id = request.data.get("lms_user_id")  # type: Optional[int]
+        username = request.data.get("username")  # type: Optional[str]
 
         # only one of username or lms_user_id can be used
         if (username and lms_user_id) or not (username or lms_user_id):
@@ -116,17 +124,11 @@ class LearnerCertificateStatusView(APIView):
                 user = User.objects.get(lms_user_id=lms_user_id)
                 username = user.username
         except User.DoesNotExist:
-            # we don't have the user in the system
-            log.warning(
-                f"No user with username {username} or lms_id {lms_user_id} available for learner certificate status."
-            )
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        course_ids = request.data.get("courses")
-
-        course_runs = request.data.get("course_runs")
-
-        courses = get_learner_course_run_status(username, course_ids, course_runs)
+            courses = []
+        else:
+            course_ids = request.data.get("courses")
+            course_runs = request.data.get("course_runs")
+            courses = get_learner_course_run_status(username, course_ids, course_runs)
 
         return Response(
             status=status.HTTP_200_OK,
