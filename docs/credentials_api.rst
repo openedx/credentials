@@ -207,10 +207,10 @@ You can filter the returned list of credentials by using the ``program_uuid`` pa
         ]
     }
 
-Query for a user's earned certificates for specific courses
------------------------------------------------------------
+Query for an individual learner's earned certificates for specific courses
+--------------------------------------------------------------------------
 
-Query for an individuals user's earned certificates for a list of courses or course runs.
+Query for an individual learner's earned certificates for a list of courses or course runs.
 
 **Note**:
 

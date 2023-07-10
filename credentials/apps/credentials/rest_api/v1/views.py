@@ -108,7 +108,6 @@ class LearnerCertificateStatusView(APIView):
         """
         lms_user_id = request.data.get("lms_user_id")  # type: Optional[int]
         username = request.data.get("username")  # type: Optional[str]
-        user_known_to_credentials = False  # type: bool
 
         # only one of username or lms_user_id can be used
         if (username and lms_user_id) or not (username or lms_user_id):
@@ -124,11 +123,9 @@ class LearnerCertificateStatusView(APIView):
             else:
                 user = User.objects.get(lms_user_id=lms_user_id)
                 username = user.username
-            user_known_to_credentials = True
         except User.DoesNotExist:
             courses = []
-
-        if user_known_to_credentials:
+        else:
             course_ids = request.data.get("courses")
             course_runs = request.data.get("course_runs")
             courses = get_learner_course_run_status(username, course_ids, course_runs)
