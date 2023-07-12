@@ -15,7 +15,7 @@ Learner Credential Wallet (LCWallet) is a mobile app available for Android and I
 Usage prerequisites
 ~~~~~~~~~~~~~~~~~~~
 
-LCWallet maintainer (`Digital Credentials Consortium`_) requires verifiable credentials issuer to be whitelisted (included to the trusted issuers list - `community issuer registry`_).
+LCWallet maintainer (`Digital Credentials Consortium`_) requires verifiable credentials issuer to be allow-listed (included to the trusted issuers list - `community issuer registry`_).
 
 .. note::
 
