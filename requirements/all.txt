@@ -267,7 +267,7 @@ edx-auth-backends==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.3.0
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.3.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -324,7 +324,7 @@ exceptiongroup==1.1.2
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==18.13.0
+faker==19.1.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -338,7 +338,7 @@ filelock==3.12.2
     #   -r requirements/dev.txt
     #   tox
     #   virtualenv
-gevent==22.10.2
+gevent==23.7.0
     # via -r requirements/production.txt
 greenlet==2.0.2
     # via
@@ -741,6 +741,7 @@ typing-extensions==4.7.1
     #   asgiref
     #   astroid
     #   black
+    #   faker
     #   pylint
 uritemplate==4.1.1
     # via
