@@ -35,7 +35,7 @@ bcrypt==4.0.1
     # via
     #   -r requirements/dev.txt
     #   paramiko
-black==23.3.0
+black==23.7.0
     # via -r requirements/dev.txt
 bleach==6.0.0
     # via
@@ -43,11 +43,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==2.0.2
     # via -r requirements/dev.txt
-boto3==1.28.1
+boto3==1.28.2
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.31.1
+botocore==1.31.2
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -100,7 +100,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==7.2.7
     # via -r requirements/dev.txt
-cryptography==41.0.1
+cryptography==41.0.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -267,7 +267,7 @@ edx-auth-backends==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.3.0
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.3.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -324,7 +324,7 @@ exceptiongroup==1.1.2
     #   pytest
 factory-boy==3.2.1
     # via -r requirements/dev.txt
-faker==18.13.0
+faker==19.1.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -338,7 +338,7 @@ filelock==3.12.2
     #   -r requirements/dev.txt
     #   tox
     #   virtualenv
-gevent==22.10.2
+gevent==23.7.0
     # via -r requirements/production.txt
 greenlet==2.0.2
     # via
@@ -741,6 +741,7 @@ typing-extensions==4.7.1
     #   asgiref
     #   astroid
     #   black
+    #   faker
     #   pylint
 uritemplate==4.1.1
     # via

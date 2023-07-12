@@ -23,9 +23,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==6.0.0
     # via -r requirements/base.txt
-boto3==1.28.1
+boto3==1.28.2
     # via django-ses
-botocore==1.31.1
+botocore==1.31.2
     # via
     #   boto3
     #   s3transfer
@@ -60,7 +60,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==41.0.1
+cryptography==41.0.2
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -162,7 +162,7 @@ edx-ace==1.6.1
     # via -r requirements/base.txt
 edx-auth-backends==4.1.0
     # via -r requirements/base.txt
-edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.3.0
+edx_credentials_themes @ git+https://github.com/openedx/credentials-themes.git@0.3.1
     # via -r requirements/base.txt
 edx-django-release-util==1.2.0
     # via -r requirements/base.txt
@@ -199,7 +199,7 @@ fastavro==1.8.0
     # via
     #   -r requirements/base.txt
     #   openedx-events
-gevent==22.10.2
+gevent==23.7.0
     # via -r requirements/production.in
 greenlet==2.0.2
     # via gevent
