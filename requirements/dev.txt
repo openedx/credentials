@@ -29,7 +29,7 @@ backoff==1.10.0
     #   analytics-python
 bcrypt==4.0.1
     # via paramiko
-black==23.3.0
+black==23.7.0
     # via -r requirements/test.txt
 bleach==6.0.0
     # via -r requirements/test.txt
@@ -76,7 +76,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==7.2.7
     # via -r requirements/test.txt
-cryptography==41.0.1
+cryptography==41.0.2
     # via
     #   -r requirements/test.txt
     #   paramiko
