@@ -46,6 +46,7 @@ jobs:
         with:
           push: ${{ github.event_name != 'pull_request' }}
           target: base
+          repository: openedx/credentials
           tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
           platforms: linux/amd64,linux/arm64
       
@@ -54,5 +55,6 @@ jobs:
         with:
           push: ${{ github.event_name != 'pull_request' }}
           target: dev
+          repository: openedx/credentials-dev
           tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
           platforms: linux/amd64,linux/arm64
