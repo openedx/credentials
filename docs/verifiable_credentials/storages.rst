@@ -19,7 +19,7 @@ LCWallet maintainer (`Digital Credentials Consortium`_) requires verifiable cred
 
 .. note::
 
-    For development/testing purposes a `Sandbox Registry`_ is available.
+    For development/testing purposes a `Sandbox Registry`_ is available. If you would like to be added to the Sandbox Registry, please open a pull requests directly against that repository, matching the format for existing issuers in `registry.json`
 
 Learner experience
 ~~~~~~~~~~~~~~~~~~
