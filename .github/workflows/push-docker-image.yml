@@ -59,8 +59,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           target: dev          
           repository: openedx/credentials-dev
-          # tags: "openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}","openedx/credentials-dev:${{ github.sha }}"
-          tags: "openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}"
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          tags: |
+            openedx/credentials-dev:latest
+            openedx/credentials-dev:${{ github.sha }}
           platforms: linux/amd64,linux/arm64
