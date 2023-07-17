@@ -80,5 +80,5 @@ urllib3==1.26.16
     # via
     #   -c requirements/constraints.txt
     #   requests
-zipp==3.16.0
+zipp==3.16.2
     # via importlib-metadata
