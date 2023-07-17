@@ -54,7 +54,7 @@ jobs:
       - name: Build and push dev Docker image
         uses: docker/build-push-action@v4
         with:
-          push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ github.event_name == 'pull_request' }}
           target: dev
           repository: openedx/credentials-dev
           tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
