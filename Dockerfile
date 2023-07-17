@@ -15,13 +15,6 @@ RUN apt-get update && \
     gettext \
     git \
     curl
-RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash - && apt-get install -y nodejs  # NOTE: This installs node LTS which is v14 currently
-RUN ln -s /usr/bin/pip3 /usr/bin/pip
-RUN ln -s /usr/bin/python3 /usr/bin/python
-RUN mkdir -p /edx/app/credentials/
+
 WORKDIR /edx/app/credentials
-COPY ./requirements/ /edx/app/credentials/requirements/
-COPY ./package.json /edx/app/credentials/package.json
-COPY ./package-lock.json /edx/app/credentials/package-lock.json
-COPY ./Makefile /edx/app/credentials/Makefile
-RUN make requirements
+
