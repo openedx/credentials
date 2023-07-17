@@ -55,7 +55,11 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: ${{ github.event_name == 'pull_request' }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
           target: dev
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           repository: openedx/credentials-dev
           # tags: "openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}","openedx/credentials-dev:${{ github.sha }}"
           tags: "openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }},${{ github.sha }}"
