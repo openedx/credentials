@@ -61,6 +61,4 @@ jobs:
           repository: openedx/credentials-dev
           # tags: "openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}","openedx/credentials-dev:${{ github.sha }}"
           tags: "openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}"
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
