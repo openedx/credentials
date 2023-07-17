@@ -1,6 +1,7 @@
 name: Build and Push Docker Images
 
 on:
+  pull_request:
   push:
     branches:
       - master
@@ -9,7 +10,7 @@ on:
 jobs:  
   push:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.event_name == 'pull_request'
 
     steps:
       - name: Checkout
@@ -24,7 +25,7 @@ jobs:
         with:
           script: |
             const releasePrefix = 'refs/tags/open-release/';
-            const tagName = context.ref.split(releasePrefix)[1] || 'latest';
+            const tagName = context.ref.split(releasePrefix)[1] || 'latest-test';
             console.log('Will use tag: ' + tagName);
             return tagName;
           result-encoding: string
@@ -41,20 +42,25 @@ jobs:
            username: ${{ secrets.DOCKERHUB_USERNAME }}
            password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build and push base Docker image
-        uses: docker/build-push-action@v4
-        with:
-          push: ${{ github.event_name != 'pull_request' }}
-          target: base
-          repository: openedx/credentials
-          tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
-          platforms: linux/amd64,linux/arm64
+      # - name: Build and push base Docker image
+      #   uses: docker/build-push-action@v4
+      #   with:
+      #     push: ${{ github.event_name != 'pull_request' }}
+      #     target: base
+      #     repository: openedx/credentials
+      #     tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
+      #     platforms: linux/amd64,linux/arm64
       
       - name: Build and push dev Docker image
         uses: docker/build-push-action@v4
         with:
-          push: ${{ github.event_name != 'pull_request' }}
-          target: dev
+          push: ${{ github.event_name == 'pull_request' }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          target: dev          
           repository: openedx/credentials-dev
-          tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
+          # tags: "openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}","openedx/credentials-dev:${{ github.sha }}"
+          tags: "openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}"
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
