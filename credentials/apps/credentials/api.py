@@ -59,7 +59,10 @@ def _update_or_create_credential(username, credential_type, credential_id, statu
     try:
         content_type = ContentType.objects.get_for_model(credential_type)
         credential, created = _UserCredential.objects.update_or_create(
-            username=username, credential_content_type=content_type, credential_id=credential_id, status=status
+            username=username,
+            credential_content_type=content_type,
+            credential_id=credential_id,
+            defaults={"status": status},
         )
     except Exception:  # pylint: disable=broad-exception-caught
         logger.exception(
@@ -90,7 +93,7 @@ def get_course_cert_config(course_run, mode, create=False):
     course_cert_config = None
     try:
         logger.info(f"Attempting to retrieve the course certificate configuration for course run [{course_run.key}]")
-        course_cert_config = _CourseCertificate.objects.get(course_run=course_run)
+        course_cert_config = _CourseCertificate.objects.get(course_id=course_run.key)
     except _CourseCertificate.DoesNotExist:
         logger.error(f"A course certificate configuration could not be found for course run [{course_run.key}]")
     finally:

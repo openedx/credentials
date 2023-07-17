@@ -25,6 +25,12 @@ from credentials.apps.records.models import UserGrade
 log = logging.getLogger(__name__)
 
 
+# NOTE: Although this is v2 and other APIs in this application are v1,
+# the API naming and code layout convention here is not to be used for new
+# endpoints, per:
+# https://openedx.atlassian.net/wiki/spaces/AC/pages/18350757/edX+REST+API+Conventions
+
+
 def credentials_throttle_handler(exc, context):
     """Exception handler for logging messages when an endpoint is throttled."""
     response = exception_handler(exc, context)

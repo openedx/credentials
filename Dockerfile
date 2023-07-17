@@ -1,41 +1,25 @@
 FROM ubuntu:focal as base
 
-# Warning: This file is experimental.
-#
-# Short-term goals:
-# * Be a suitable replacement for the `edxops/credentials` image in devstack (in progress).
-# * Take advantage of Docker caching layers: aim to put commands in order of
-#   increasing cache-busting frequency.
-# * Related to ^, use no Ansible or Paver.
-# Long-term goal:
-# * Be a suitable base for production Credentials images. This may not yet be the case.
-
-# Packages installed:
-# git; Used to pull in particular requirements from github rather than pypi,
+# System requirements
+# - git; Used to pull in particular requirements from github rather than pypi,
 # and to check the sha of the code checkout.
-
-# language-pack-en locales; ubuntu locale support so that system utilities have a consistent
+# - language-pack-en locales; ubuntu locale support so that system utilities have a consistent
 # language and time zone.
-
-# python; ubuntu doesnt ship with python, so this is the python we will use to run the application
-
-# python3-pip; install pip to install application requirements.txt files
-
-# libssl-dev; # mysqlclient wont install without this.
-
-# libmysqlclient-dev; to install header files needed to use native C implementation for
+# - python; ubuntu doesnt ship with python, so this is the python we will use to run the application
+# - python3-pip; install pip to install application requirements.txt files
+# - libssl-dev; # mysqlclient wont install without this.
+# - libmysqlclient-dev; to install header files needed to use native C implementation for
 # MySQL-python for performance gains.
-
-# wget to download a watchman binary archive
-
-# unzip to unzip a watchman binary archive
+# - wget; to download a watchman binary archive
+# - unzip; to unzip a watchman binary archive
+# - pkg-config; mysqlclient>=2.2.0 requires pkg-config (https://github.com/PyMySQL/mysqlclient/issues/620)
 
 # If you add a package here please include a comment above describing what it is used for
 RUN apt-get update && \
 apt-get install -y software-properties-common && \
 apt-add-repository -y ppa:deadsnakes/ppa && apt-get update && \
 apt-get upgrade -qy && apt-get install language-pack-en locales git \
-python3.8-dev python3.8-venv libmysqlclient-dev libssl-dev build-essential wget unzip -qy && \
+python3.8-dev python3.8-venv libmysqlclient-dev libssl-dev build-essential wget unzip pkg-config -qy && \
 rm -rf /var/lib/apt/lists/*
 
 # Create Python env
