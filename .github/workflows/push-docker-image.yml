@@ -42,14 +42,6 @@ jobs:
            username: ${{ secrets.DOCKERHUB_USERNAME }}
            password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # - name: Build and push base Docker image
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     push: ${{ github.event_name != 'pull_request' }}
-      #     target: base
-      #     repository: openedx/credentials
-      #     tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
-      #     platforms: linux/amd64,linux/arm64
       
       - name: Build and push dev Docker image
         uses: docker/build-push-action@v4
