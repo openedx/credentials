@@ -57,10 +57,10 @@ jobs:
           push: ${{ github.event_name == 'pull_request' }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          target: dev
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          target: dev          
           repository: openedx/credentials-dev
           # tags: "openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}","openedx/credentials-dev:${{ github.sha }}"
           tags: "openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }},${{ github.sha }}"
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64
