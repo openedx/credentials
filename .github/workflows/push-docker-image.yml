@@ -58,5 +58,5 @@ jobs:
           target: dev
           repository: openedx/credentials-dev
           # tags: "openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}","openedx/credentials-dev:${{ github.sha }}"
-          tags: ${{ format('openedx/credentials-dev: {0},{1}', steps.get-tag-name.outputs.result, github.sha) }}
+          tags: "openedx/credentials-dev: ${{ steps.get-tag-name.outputs.result }},$ {{ github.sha }}"
           platforms: linux/amd64,linux/arm64
