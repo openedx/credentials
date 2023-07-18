@@ -245,7 +245,7 @@ faker==19.1.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
-fastavro==1.8.0
+fastavro==1.8.1
     # via
     #   -r requirements/test.txt
     #   openedx-events
