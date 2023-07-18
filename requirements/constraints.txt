@@ -37,7 +37,3 @@ analytics-python<=1.4.0
 urllib3<2
 
 django-simple-history<=3.1.1
-
-# The latest release of the edx-i18n-tools library seems appears to have a weird validation bug. Locking to the 0.9.x
-# release for now.
-edx-i18n-tools<1.0.0
