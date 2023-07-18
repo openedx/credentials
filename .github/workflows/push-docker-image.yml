@@ -1,7 +1,6 @@
 name: Build and Push Docker Images
 
 on:
-  pull_request:
   push:
     branches:
       - master
@@ -10,7 +9,7 @@ on:
 jobs:  
   push:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'push'
 
     steps:
       - name: Checkout
@@ -42,21 +41,21 @@ jobs:
            username: ${{ secrets.DOCKERHUB_USERNAME }}
            password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # - name: Build and push base Docker image
-      #   uses: docker/build-push-action@v4
-      #   with:
-      #     push: ${{ github.event_name != 'pull_request' }}
-      #     target: base
-      #     repository: openedx/credentials
-      #     tags: |
-      #       openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}
-      #       openedx/credentials-dev:${{ github.sha }}
-      #     platforms: linux/amd64,linux/arm64
+      - name: Build and push base Docker image
+        uses: docker/build-push-action@v4
+        with:
+          push: ${{ github.event_name != 'pull_request' }}
+          target: base
+          repository: openedx/credentials
+          tags: |
+            openedx/credentials:${{ steps.get-tag-name.outputs.result }}
+            openedx/credentials:${{ github.sha }}
+          platforms: linux/amd64,linux/arm64
       
       - name: Build and push dev Docker image
         uses: docker/build-push-action@v4
         with:
-          push: ${{ github.event_name == 'pull_request' }}
+          push: ${{ github.event_name != 'pull_request' }}
           target: dev          
           repository: openedx/credentials-dev
           tags: |
