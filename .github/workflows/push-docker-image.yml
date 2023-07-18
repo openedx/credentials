@@ -47,7 +47,9 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           target: base
           repository: openedx/credentials
-          tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
+          tags: |
+            openedx/credentials:${{ steps.get-tag-name.outputs.result }}
+            openedx/credentials:${{ github.sha }}
           platforms: linux/amd64,linux/arm64
       
       - name: Build and push dev Docker image
@@ -56,5 +58,7 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           target: dev
           repository: openedx/credentials-dev
-          tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
+          tags: |
+            openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}
+            openedx/credentials-dev:${{ github.sha }}
           platforms: linux/amd64,linux/arm64
