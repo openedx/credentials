@@ -11,10 +11,8 @@ django==3.2.20
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   edx-i18n-tools
-edx-i18n-tools==0.9.2
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/translations.in
+edx-i18n-tools==1.0.0
+    # via -r requirements/translations.in
 path==16.7.1
     # via edx-i18n-tools
 polib==1.2.0

@@ -148,10 +148,8 @@ edx-drf-extensions==8.8.0
     # via -r requirements/base.in
 edx-event-bus-kafka==5.1.0
     # via -r requirements/base.in
-edx-i18n-tools==0.9.2
-    # via
-    #   -c requirements/constraints.txt
-    #   edx-credentials-themes
+edx-i18n-tools==1.0.0
+    # via edx-credentials-themes
 edx-opaque-keys[django]==2.3.0
     # via
     #   -r requirements/base.in
@@ -163,7 +161,7 @@ edx-toggles==5.0.0
     # via
     #   -r requirements/base.in
     #   edx-event-bus-kafka
-fastavro==1.8.0
+fastavro==1.8.1
     # via openedx-events
 idna==3.4
     # via requests

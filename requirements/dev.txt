@@ -216,9 +216,8 @@ edx-drf-extensions==8.8.0
     # via -r requirements/test.txt
 edx-event-bus-kafka==5.1.0
     # via -r requirements/test.txt
-edx-i18n-tools==0.9.2
+edx-i18n-tools==1.0.0
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/dev.in
     #   -r requirements/test.txt
     #   edx-credentials-themes
@@ -245,7 +244,7 @@ faker==19.1.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
-fastavro==1.8.0
+fastavro==1.8.1
     # via
     #   -r requirements/test.txt
     #   openedx-events
