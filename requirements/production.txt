@@ -23,9 +23,9 @@ backoff==1.10.0
     #   analytics-python
 bleach==6.0.0
     # via -r requirements/base.txt
-boto3==1.28.3
+boto3==1.28.4
     # via django-ses
-botocore==1.31.3
+botocore==1.31.4
     # via
     #   boto3
     #   s3transfer
@@ -162,7 +162,7 @@ edx-ace==1.6.1
     # via -r requirements/base.txt
 edx-auth-backends==4.1.0
     # via -r requirements/base.txt
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.3.1
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.3.2
     # via -r requirements/base.txt
 edx-django-release-util==1.2.0
     # via -r requirements/base.txt
@@ -195,7 +195,7 @@ edx-toggles==5.0.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
-fastavro==1.8.0
+fastavro==1.8.1
     # via
     #   -r requirements/base.txt
     #   openedx-events
@@ -203,7 +203,7 @@ gevent==23.7.0
     # via -r requirements/production.in
 greenlet==2.0.2
     # via gevent
-gunicorn==20.1.0
+gunicorn==21.1.0
     # via -r requirements/production.in
 idna==3.4
     # via
@@ -266,6 +266,7 @@ packaging==23.1
     # via
     #   -r requirements/base.txt
     #   drf-yasg
+    #   gunicorn
 path==16.7.1
     # via
     #   -r requirements/base.txt
