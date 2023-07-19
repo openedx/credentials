@@ -5,6 +5,7 @@ TOX = ''
 .PHONY: help clean \
 	production-requirements all-requirements requirements piptools upgrade \
 	quality quality_fix isort isort_check format format_check quality-js \
+	tests js-tests accept \
 	static static.dev static.watch \
 	extract_translations dummy_translations compile_translations fake_translations pull_translations push_translations \
 	detect_changed_source_translations validate_translations check_translations_up_to_date \
@@ -105,6 +106,10 @@ quality-js: ## Run JavaScript linter
 tests: ## Run tests and generate coverage report
 	$(TOX)coverage run -m pytest --ds credentials.settings.test --durations=25
 	$(TOX)coverage report
+	make js-tests
+
+js-tests: ## Run javascript tests
+	npm run test-react
 
 test-karma: ## Run JS tests through Karma & install firefox. This command needs to be ran manually in the devstack container before submitting a pull request. It can not be run in CI as of APER-2136.
 	sudo apt-get update
