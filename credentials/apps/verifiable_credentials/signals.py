@@ -27,5 +27,3 @@ def update_issuance_lines(instance, created, **kwargs):
     # find all related issuance lines and switch status:
     issuance_lines = IssuanceLine.objects.filter(user_credential=user_credential)
     issuance_lines.update(status=user_credential.status)
-
-    # FIXME: invalidate cached status lists

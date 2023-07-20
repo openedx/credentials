@@ -17,7 +17,6 @@ from . import IssuanceException
 logger = logging.getLogger(__name__)
 
 
-# FIXME: cache for `issuer_id` until another revocation happened or timeout
 def issue_status_list(issuer_id):
     """
     Initiate Status List 2021 for Issuer.
