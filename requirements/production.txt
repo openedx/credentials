@@ -70,8 +70,6 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-didkit==0.3.2
-    # via -r requirements/base.txt
 django==3.2.20
     # via
     #   -c requirements/common_constraints.txt
@@ -309,10 +307,6 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pypng==0.20220715.0
-    # via
-    #   -r requirements/base.txt
-    #   qrcode
 python-dateutil==2.8.2
     # via
     #   -r requirements/base.txt
@@ -346,8 +340,6 @@ pyyaml==5.4.1
     #   drf-yasg
     #   edx-django-release-util
     #   edx-i18n-tools
-qrcode==7.4.2
-    # via -r requirements/base.txt
 requests==2.31.0
     # via
     #   -r requirements/base.txt
@@ -421,7 +413,6 @@ typing-extensions==4.7.1
     # via
     #   -r requirements/base.txt
     #   asgiref
-    #   qrcode
 uritemplate==4.1.1
     # via
     #   -r requirements/base.txt
