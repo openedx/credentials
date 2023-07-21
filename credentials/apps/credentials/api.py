@@ -84,7 +84,7 @@ def get_user_credentials_by_content_type(request_username, course_cert_content_t
             )
         )
 
-    return user_credentials
+    return user_credentials.distinct()
 
 
 def get_credential_dates(user_credentials, many):

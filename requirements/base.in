@@ -12,6 +12,7 @@
 analytics-python
 bleach
 coreapi
+didkit
 django
 django-cors-headers
 django-hijack
@@ -44,6 +45,7 @@ pillow
 pygments
 python-memcached
 pytz
+qrcode
 requests
 social-auth-app-django
 xss-utils
