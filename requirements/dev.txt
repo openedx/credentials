@@ -92,6 +92,8 @@ defusedxml==0.7.1
     #   -r requirements/test.txt
     #   python3-openid
     #   social-auth-core
+didkit==0.3.2
+    # via -r requirements/test.txt
 dill==0.3.6
     # via
     #   -r requirements/test.txt
@@ -436,6 +438,10 @@ pynacl==1.5.0
     #   -r requirements/test.txt
     #   edx-django-utils
     #   paramiko
+pypng==0.20220715.0
+    # via
+    #   -r requirements/test.txt
+    #   qrcode
 pyrsistent==0.19.3
     # via jsonschema
 pytest==7.2.2
@@ -480,7 +486,9 @@ pyyaml==5.4.1
     #   edx-django-release-util
     #   edx-i18n-tools
     #   responses
-requests==2.28.2
+qrcode==7.4.2
+    # via -r requirements/test.txt
+requests==2.31.0
     # via
     #   -r requirements/test.txt
     #   analytics-python
@@ -602,6 +610,7 @@ typing-extensions==4.5.0
     #   astroid
     #   black
     #   pylint
+    #   qrcode
 uritemplate==4.1.1
     # via
     #   -r requirements/test.txt
