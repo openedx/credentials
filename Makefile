@@ -4,8 +4,8 @@ TOX = ''
 
 .PHONY: help clean \
 	production-requirements all-requirements requirements piptools upgrade \
-	quality quality_fix isort isort_check format format_check quality-js \
-	tests js-tests accept \
+	quality quality_fix isort isort_check format format_check \
+	tests accept \
 	static static.dev static.watch \
 	extract_translations dummy_translations compile_translations fake_translations pull_translations push_translations \
 	detect_changed_source_translations validate_translations check_translations_up_to_date \
@@ -81,7 +81,7 @@ upgrade: piptools $(COMMON_CONSTRAINTS_TXT)	## update the requirements/*.txt fil
 
 ### Quality commands ###
 
-quality: isort_check quality-js format_check ## Run linters
+quality: isort_check format_check ## Run linters
 	PYTHONPATH=. pylint --django-settings-module=credentials.settings.test --rcfile=pylintrc acceptance_tests credentials *.py
 
 quality_fix: isort format
@@ -98,18 +98,11 @@ format: ## format code
 format_check: ## check that code is formatted correctly
 	black --check .
 
-quality-js: ## Run JavaScript linter
-	npm run lint
-
 ### Testing commands ###
 
 tests: ## Run tests and generate coverage report
 	$(TOX)coverage run -m pytest --ds credentials.settings.test --durations=25
 	$(TOX)coverage report
-	make js-tests
-
-js-tests: ## Run javascript tests
-	npm run test-react
 
 test-karma: ## Run JS tests through Karma & install firefox. This command needs to be ran manually in the devstack container before submitting a pull request. It can not be run in CI as of APER-2136.
 	sudo apt-get update
