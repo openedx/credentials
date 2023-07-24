@@ -6,8 +6,7 @@
       "error",
       {
         "devDependencies": [
-          "config/*.js",
-          "**/*.test.jsx"
+          "config/*.js"
         ]
       }
     ],
@@ -25,7 +24,6 @@
     ]
   },
   "env": {
-    "jest": true,
     "jasmine": true
   },
   "parserOptions": {
