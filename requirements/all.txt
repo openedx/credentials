@@ -130,7 +130,7 @@ distro==1.8.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-django==3.2.19
+django==3.2.20
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
