@@ -1,4 +1,0 @@
-credentials/static/bundles/**/*.js
-credentials/static/jsi18n/**/*.js
-coverage
-node_modules
