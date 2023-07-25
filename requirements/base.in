@@ -12,6 +12,7 @@
 analytics-python
 bleach
 coreapi
+didkit
 django
 django-cors-headers
 django-hijack
@@ -44,10 +45,11 @@ pillow
 pygments
 python-memcached
 pytz
+qrcode
 requests
 social-auth-app-django
 xss-utils
 
 
 # TODO Install in configuration
-git+https://github.com/openedx/credentials-themes.git@0.3.2#egg=edx_credentials_themes==0.3.2
+git+https://github.com/openedx/credentials-themes.git@0.3.3#egg=edx_credentials_themes==0.3.3

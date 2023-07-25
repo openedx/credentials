@@ -5,6 +5,7 @@ import csv
 import datetime
 import io
 import json
+import re
 import urllib.parse
 import uuid
 from unittest.mock import patch
@@ -386,15 +387,10 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
         """
         Verify that the filename in response Content-Disposition is utf-8 encoded
         """
-        filename = "{username}_{program_name}_grades".format(
-            username=self.user.username, program_name=self.program_cert_record.program.title
-        )
-        filename = filename.replace(" ", "_").lower().encode("utf-8")
-        expected = f'attachment; filename="{filename}.csv"'
+        re_expected = r'attachment; filename="test-user_test_program_[0-9a-z]+_grades\.csv"'
 
         response = self.client.get(
             reverse("records:program_record_csv", kwargs={"uuid": self.program_cert_record.uuid.hex})
         )
         actual = response["Content-Disposition"]
-
-        self.assertEqual(actual, expected)
+        self.assertTrue(re.fullmatch(re_expected, actual))
