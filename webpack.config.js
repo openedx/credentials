@@ -24,9 +24,6 @@ module.exports = {
     'openedx.certificate.style-rtl': './credentials/apps/credentials_theme_openedx/static/sass/certificate-rtl.scss',
     sharing: './credentials/static/js/sharing.js',
     analytics: './credentials/static/js/analytics.js',
-    records: './credentials/static/components/RecordsFactory.jsx',
-    programs: './credentials/static/components/ProgramRecordFactory.jsx',
-    masquerading: './credentials/static/components/MasqueradeBannerFactory.jsx',
   },
   output: {
     path: path.resolve('./credentials/static/bundles/'),
