@@ -59,7 +59,7 @@ class VerifiablePresentation(BasePermission):
             result = didkit_verify_presentation(presentation_json, proof_options_json)
             logger.debug("Verifiable presentiation authN result: (%s)", result)
             return True
-        except didkit.DIDKitException:  # pylint: disable=no-member
+        except didkit.DIDKitException:
             logger.exception()
 
         return False
