@@ -22,7 +22,7 @@ from ratelimit.decorators import ratelimit
 from credentials.apps.catalog.models import Pathway, Program
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.models import ProgramCertificate, UserCredential
-from credentials.apps.records.api import get_program_details, get_program_record_data
+from credentials.apps.records.api import get_program_record_data
 from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
