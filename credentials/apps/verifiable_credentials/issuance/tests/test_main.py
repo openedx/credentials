@@ -108,7 +108,7 @@ class MainIssuanceTestCase(SiteMixin, TestCase):
 
     @mock.patch("credentials.apps.verifiable_credentials.issuance.main.didkit_issue_credential")
     def test_sign_failure(self, mock_didkit_issue_credential):
-        mock_didkit_issue_credential.side_effect = didkit.DIDKitException  # pylint: disable=no-member
+        mock_didkit_issue_credential.side_effect = didkit.DIDKitException
         with self.assertRaises(IssuanceException):
             CredentialIssuer(issuance_uuid=self.issuance_line.uuid).sign({})
 
