@@ -25,14 +25,6 @@ module.exports = function (config) {
     // list of files to exclude
     exclude: [],
 
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
-      'credentials/static/js/**/(!StringUtils).js': ['coverage'], // Exclude StringUtils as ES6 not support by Karma Cov
-      'credentials/static/components/**/*.js': ['webpack'],
-      'credentials/static/js/StringUtils.js': ['webpack'], // Explicitly include webpack for StringUtils for Karma
-    },
-
     // enabled plugins
     plugins: [
       'karma-jasmine-jquery-2',
