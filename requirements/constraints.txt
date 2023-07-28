@@ -32,10 +32,6 @@ sphinx<6.0
 # It looks like we should be migrating to the 2.x version of the library (whose name has changed).
 analytics-python<=1.4.0
 
-# Pinning urllib3 to versions < 2.x as this conflicts with boto. This constraint will be re-evaluated as part of
-# APER-2422
-urllib3<2
-
 django-simple-history<=3.1.1
 
 # The latest release of the edx-i18n-tools library seems appears to have a weird validation bug. Locking to the 0.9.x

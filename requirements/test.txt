@@ -101,6 +101,7 @@ distlib==0.3.7
     #   django-hijack
     #   django-statici18n
     #   django-storages
+    #   django-waffle
     #   djangorestframework
     #   drf-jwt
     #   drf-yasg
@@ -152,7 +153,7 @@ django-statici18n==2.3.1
     # via -r requirements/base.txt
 django-storages==1.13.2
     # via -r requirements/base.txt
-django-waffle==3.0.0
+django-waffle==4.0.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -259,7 +260,7 @@ lazy==1.5
     # via bok-choy
 lazy-object-proxy==1.9.0
     # via astroid
-markdown==3.4.3
+markdown==3.4.4
     # via -r requirements/base.txt
 markupsafe==2.1.3
     # via
@@ -275,7 +276,7 @@ mypy-extensions==1.0.0
     # via black
 mysqlclient==2.2.0
     # via -r requirements/base.txt
-newrelic==8.8.1
+newrelic==8.9.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -344,7 +345,7 @@ pyjwt[crypto]==2.8.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.17.4
+pylint==2.17.5
     # via
     #   edx-lint
     #   pylint-celery
@@ -426,7 +427,7 @@ requests-oauthlib==1.3.1
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-responses==0.23.1
+responses==0.23.2
     # via -r requirements/test.in
 sailthru-client==2.2.3
     # via
@@ -492,7 +493,7 @@ tomli==2.0.1
     #   pylint
     #   pytest
     #   tox
-tomlkit==0.11.8
+tomlkit==0.12.1
     # via pylint
 tox==3.28.0
     # via
@@ -514,9 +515,8 @@ uritemplate==4.1.1
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.16
+urllib3==2.0.4
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   requests
     #   responses
