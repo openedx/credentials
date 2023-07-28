@@ -1,5 +1,3 @@
-import React from 'react';
-
 class StringUtils {
   static interpolate(formatString, parameters) {
     return formatString.replace(/{\w+}/g, (parameter) => {
