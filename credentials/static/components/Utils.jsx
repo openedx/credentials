@@ -11,22 +11,6 @@ class StringUtils {
     });
   }
 
-  // This is mostly safe, as i18n_tool will scan for xss attacks in translations
-  static renderDangerousHtml(formatString, parameters) {
-    let htmlString;
-
-    if (typeof parameters === 'undefined') {
-      htmlString = formatString;
-    } else {
-      htmlString = StringUtils.interpolate(formatString, parameters);
-    }
-
-    return (
-      /* eslint-disable react/no-danger */
-      <span dangerouslySetInnerHTML={{ __html: htmlString }} />
-    );
-  }
-
   // Make a human readable string of string items concatenated with ','s and 'and'
   // e.g. 'first, second, third, and last' or 'first and second'
   static formatStringList(items) {
