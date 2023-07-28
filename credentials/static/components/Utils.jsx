@@ -17,8 +17,12 @@ class StringUtils {
     switch (length) {
       case 0:
         return '';
-      default:
+      case 1:
         return items[0];
+      default: {
+        const firstItems = items.slice(0, length - 1).join(', ');
+        return StringUtils.interpolate(gettext('{firstItems}, and {lastItem}'), { firstItems, lastItem: items[length - 1] });
+      }
     }
   }
 }
