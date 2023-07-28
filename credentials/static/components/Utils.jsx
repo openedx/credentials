@@ -19,8 +19,6 @@ class StringUtils {
         return '';
       case 1:
         return items[0];
-      case 2:
-        return StringUtils.interpolate(gettext('{first} and {second}'), { first: items[0], second: items[1] });
       default: {
         const firstItems = items.slice(0, length - 1).join(', ');
         return StringUtils.interpolate(gettext('{firstItems}, and {lastItem}'), { firstItems, lastItem: items[length - 1] });

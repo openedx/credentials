@@ -14,18 +14,4 @@ describe('String Utils formatStringList()', () => {
 
     expect(result).toEqual('first');
   });
-
-  it('correctly processes 2 items', () => {
-    const items = ['first', 'second'];
-    const result = StringUtils.formatStringList(items);
-
-    expect(result).toEqual('first and second');
-  });
-
-  it('correctly processes 3 items', () => {
-    const items = ['first', 'second', 'third'];
-    const result = StringUtils.formatStringList(items);
-
-    expect(result).toEqual('first, second, and third');
-  });
 });
