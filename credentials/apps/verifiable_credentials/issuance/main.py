@@ -106,7 +106,7 @@ class CredentialIssuer:
             verifiable_credential_json = didkit_issue_credential(
                 composed_credential_json, json.dumps(didkit_options), issuer_key
             )
-        except didkit.DIDKitException as exc:  # pylint: disable=no-member
+        except didkit.DIDKitException as exc:  # pylint: disable=no-member, useless-suppression
             logger.exception(err_message)
             raise IssuanceException(detail=f"{err_message} [{exc}]")
         except ValueError as exc:
@@ -128,7 +128,7 @@ class CredentialIssuer:
         try:
             verification_result = didkit_verify_credential(verifiable_credential_json, proof_options)
             logger.debug("Verifiable credential passed verifiacation: (%s)", verification_result)
-        except didkit.DIDKitException as exc:  # pylint: disable=no-member
+        except didkit.DIDKitException as exc:  # pylint: disable=no-member, useless-suppression
             logger.exception(err_message)
             raise IssuanceException(detail=f"{err_message} [{exc}]")
 
