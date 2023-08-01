@@ -15,7 +15,6 @@ coreapi
 didkit
 django
 django-cors-headers
-django-hijack
 django-extensions
 django-filter
 django-ratelimit
