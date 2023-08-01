@@ -4,7 +4,7 @@ Issue verifiable credentials to learners in the Learner Record MFE
 Status
 ------
 
-Proposed
+Accepted
 
 
 Context

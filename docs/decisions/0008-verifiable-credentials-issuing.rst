@@ -4,13 +4,13 @@ Issue verifiable credentials to learners
 Status
 ------
 
-Proposed
+Accepted
 
 
 Context
 -------
 
-Currently, the Credentials Service is used as backend to support courses and programs certificates.
+As of July 2023, the Credentials Service is used as backend to support programs certificates.
 Administrators can configure certificates, and learners can view and share earned certificates with anyone
 to prove their achievements on the Open edX platform.
 However, the sharing options for earned credentials is very limited, also it's hard to verify printed credentials or
@@ -60,23 +60,22 @@ These backends can be used to:
 * build JSON-LD documents based on several VC based standards, e.g., `Verifiable Credentials Data Model v1.1`_,
   `Open Badges v3.0`_, `EBSI Verifiable Credentials`_;
 
-* implement integrations with different verifiable credentials singing services, such as `SpruceID's didkit-python`_, `DCC's sign-and-verify`_, and other open-source and proprietary solutions.
+* implement integrations with different verifiable credentials signing services, such as `SpruceID's didkit-python`_, `DCC's sign-and-verify`_, and other open-source and proprietary solutions.
 
-* issue credentials directly to different mobile and web digital credentials wallets, such as `DCC's Learner Credentials Wallet (LCW)`_,
-  and `MATTR wallet`_
+* issue credentials directly to different mobile and web digital credentials wallets, such as `DCC's Learner Credentials Wallet (LCW)`_.
 
-In addition to the new application, it was decided to implement three initial backends to:
+In addition to the new application, it was decided to implement three initial issuing and composition backends to:
 
-* transform user credentials stored in the Credentials Service to `JSON-LD`_ according to `Open Badges v3.0`_ specification;
+* transform user credentials as programs certificates, that are stored in the Credentials Service to `JSON-LD`_ according to `Open Badges v3.0`_ specification;
 
 * issue verifiable credentials directly to `DCC's Learner Credentials Wallet (LCW)`_;
 
-* sing verifiable credentials with the library `didkit-python`_, the python bindings for the open-source Rust-based `DIDKit`_ library maintained by SpruceID.
+* sign verifiable credentials with the library `didkit-python`_, the python bindings for the open-source Rust-based `DIDKit`_ library maintained by SpruceID.
 
 We want to focus on the implementation of issuing the program certificates in the form of verifiable credentials,
 and eventually support other credentials types that are available in the Credentials Service as well.
 
-The issuer configuration should be set on the site or organization level. Administrator should have an option to enable verifiable credentials generation for some user credentials instances, and disable it for others.
+The issuer configuration would be set on the site or organization level. Administrator would have an option to enable verifiable credentials generation for some user credentials instances, and disable it for others.
 
 Learners will see the list of all earned credentials that can be issued in a form of the verifiable credentials upon learners' request. 
 
