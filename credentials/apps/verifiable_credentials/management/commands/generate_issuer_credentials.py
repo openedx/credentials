@@ -14,8 +14,8 @@ class Command(BaseCommand):
     help = "Generate private key for Issuer (JWK) and a decentralized identifier (DID) based on that key"
 
     def handle(self, *args, **options):
-        key = didkit.generate_ed25519_key()
-        did = didkit.key_to_did(jwk=key, method_pattern="key")
+        key = didkit.generate_ed25519_key()  # pylint: disable=no-member
+        did = didkit.key_to_did(jwk=key, method_pattern="key")  # pylint: disable=no-member
 
         issuer_credentials = {
             "private_key": key,
