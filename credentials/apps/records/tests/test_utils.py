@@ -30,7 +30,6 @@ from credentials.apps.records.utils import (
     _course_credentials_to_course_runs,
     get_credentials,
     get_user_program_data,
-    masquerading_authorized,
     send_updated_emails_for_program,
 )
 
@@ -86,59 +85,6 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
 
         # Check that no email was sent
         self.assertEqual(0, len(mail.outbox))
-
-
-class MasqueradingAuthorizedTests(TestCase):
-    """Tests for masquerading authorization."""
-
-    def setUp(self):
-        super().setUp()
-        self.user = UserFactory()
-        self.staff_user = UserFactory(is_staff=True)
-        self.superuser = UserFactory(is_superuser=True)
-
-    def test_default_authorization(self):
-        """
-        Tests that the correct authorization is given with the default settings.
-
-        For default settings, HIJACK_AUTHORIZE_STAFF = True,
-        HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF = False.
-        """
-        self.assertEqual(masquerading_authorized(self.user, self.user), False)
-        self.assertEqual(masquerading_authorized(self.user, self.staff_user), False)
-        self.assertEqual(masquerading_authorized(self.user, self.superuser), False)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.user), True)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.staff_user), False)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.superuser), False)
-        self.assertEqual(masquerading_authorized(self.superuser, self.user), True)
-        self.assertEqual(masquerading_authorized(self.superuser, self.staff_user), True)
-        self.assertEqual(masquerading_authorized(self.superuser, self.superuser), False)
-
-    @override_settings(HIJACK_AUTHORIZE_STAFF=False, HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF=False)
-    def test_no_staff_authorization(self):
-        """Tests correct authorization when staff can not masquerade."""
-        self.assertEqual(masquerading_authorized(self.user, self.user), False)
-        self.assertEqual(masquerading_authorized(self.user, self.staff_user), False)
-        self.assertEqual(masquerading_authorized(self.user, self.superuser), False)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.user), False)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.staff_user), False)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.superuser), False)
-        self.assertEqual(masquerading_authorized(self.superuser, self.user), True)
-        self.assertEqual(masquerading_authorized(self.superuser, self.staff_user), True)
-        self.assertEqual(masquerading_authorized(self.superuser, self.superuser), False)
-
-    @override_settings(HIJACK_AUTHORIZE_STAFF=True, HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF=True)
-    def test_full_staff_authorization(self):
-        """Tests correct authorization when staff can masquerade as staff."""
-        self.assertEqual(masquerading_authorized(self.user, self.user), False)
-        self.assertEqual(masquerading_authorized(self.user, self.staff_user), False)
-        self.assertEqual(masquerading_authorized(self.user, self.superuser), False)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.user), True)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.staff_user), True)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.superuser), False)
-        self.assertEqual(masquerading_authorized(self.superuser, self.user), True)
-        self.assertEqual(masquerading_authorized(self.superuser, self.staff_user), True)
-        self.assertEqual(masquerading_authorized(self.superuser, self.superuser), False)
 
 
 class CourseCredentialsToCourseRunsTests(SiteMixin, TestCase):

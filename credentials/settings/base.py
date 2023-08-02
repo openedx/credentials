@@ -61,7 +61,6 @@ THIRD_PARTY_APPS = [
     # TODO Set in EXTRA_APPS via configuration
     "edx_credentials_themes",
     "drf_yasg",
-    "hijack",
     "xss_utils",
     "openedx_events",
 ]
@@ -419,18 +418,6 @@ REST_FRAMEWORK = {
 
 # Django-ratelimit Settings
 RATELIMIT_VIEW = "credentials.apps.records.views.rate_limited"
-
-# django-hijack settings
-HIJACK_AUTHORIZE_STAFF = True
-HIJACK_URL_ALLOWED_ATTRIBUTES = (
-    "email",
-    "username",
-)
-# Since we force reload pages when masquerading/hijacking, users don't
-# actually hit this page.  The admin endpoint just acts as a safe
-# follow through for all users to hit in the django-hijack redirect.
-HIJACK_LOGIN_REDIRECT_URL = "/admin/"
-HIJACK_AUTHORIZATION_CHECK = "credentials.apps.records.utils.masquerading_authorized"
 
 # DJANGO DEBUG TOOLBAR CONFIGURATION
 # http://django-debug-toolbar.readthedocs.org/en/latest/installation.html

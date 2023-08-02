@@ -68,7 +68,6 @@ urlpatterns = oauth2_urlpatterns + [
     re_path(r"^program-listing/", ProgramListingView.as_view(), name="program_listing"),
     re_path(r"^favicon\.ico$", FaviconView.as_view(permanent=True)),
     re_path(r"^mock-toggles$", MockToggleStateView.as_view()),
-    re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
 ]
 
 if is_verifiable_credentials_enabled():

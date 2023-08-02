@@ -59,7 +59,6 @@ django==3.2.20
     #   django-crum
     #   django-extensions
     #   django-filter
-    #   django-hijack
     #   django-statici18n
     #   django-storages
     #   django-waffle
@@ -91,10 +90,6 @@ django-extensions==3.2.3
     # via -r requirements/base.in
 django-filter==23.2
     # via -r requirements/base.in
-django-hijack==2.3.0
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/base.in
 django-ratelimit==3.0.1
     # via
     #   -c requirements/constraints.txt

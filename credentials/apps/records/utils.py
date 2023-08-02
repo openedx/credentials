@@ -1,7 +1,6 @@
 import logging
 import urllib
 
-from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.template.defaultfilters import slugify
 from django.urls import reverse
@@ -68,37 +67,6 @@ def send_updated_emails_for_program(request, username, program_certificate):
             },
         )
         ace.send(msg)
-
-
-def masquerading_authorized(masquerader, target):
-    """
-    Checks whether a user has the permissions to masquerade as the target user.
-
-    Overrides django-hijack's default authorization function to prevent
-    superusers from masquerading as other superusers.
-
-    By default only superusers are allowed to masquerade, unless
-    HIJACK_AUTHORIZE_STAFF is enabled in settings.
-
-    By default, staff are not able to masquerade as staff unless
-    HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF is enabled in settings.
-
-    Adapted from:
-    https://github.com/arteria/django-hijack/blob/4dd897761952adf387fb71822e3e76bc3d0deb51/hijack/helpers.py#L77
-    """
-    if target.is_superuser:
-        return False
-
-    if masquerader.is_superuser:
-        return True
-
-    if masquerader.is_staff and getattr(settings, "HIJACK_AUTHORIZE_STAFF", False):
-        if target.is_staff and not getattr(settings, "HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF", False):
-            return False
-
-        return True
-
-    return False
 
 
 def get_credentials(request_username):

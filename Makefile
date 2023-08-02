@@ -106,10 +106,6 @@ quality-js: ## Run JavaScript linter
 tests: ## Run tests and generate coverage report
 	$(TOX)coverage run -m pytest --ds credentials.settings.test --durations=25
 	$(TOX)coverage report
-	make js-tests
-
-js-tests: ## Run javascript tests
-	npm run test-react
 
 test-karma: ## Run JS tests through Karma & install firefox. This command needs to be ran manually in the devstack container before submitting a pull request. It can not be run in CI as of APER-2136.
 	sudo apt-get update
