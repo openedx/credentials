@@ -3,6 +3,7 @@ import uuid
 
 import factory
 
+from credentials.apps.catalog.tests.factories import ProgramFactory
 from credentials.apps.core.tests.factories import SiteFactory
 from credentials.apps.credentials import constants, models
 
@@ -30,7 +31,8 @@ class ProgramCertificateFactory(AbstractCertificateFactory):
         model = models.ProgramCertificate
 
     is_active = True
-    program_uuid = factory.LazyFunction(uuid.uuid4)
+    program = factory.SubFactory(ProgramFactory)
+    program_uuid = factory.SelfAttribute("program.uuid")
 
 
 class UserCredentialFactory(factory.django.DjangoModelFactory):
