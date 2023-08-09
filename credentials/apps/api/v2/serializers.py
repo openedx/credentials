@@ -282,6 +282,13 @@ class UserGradeSerializer(serializers.ModelSerializer):
             course_run=course_run,
             defaults=validated_data,
         )
+
+        logger.info(
+            f"Updated grade for user [{username}] in course [{course_run.key}] with percent_grade "
+            f"[{grade.percent_grade}], letter_grade [{grade.letter_grade}], verified [{grade.verified}], and "
+            f"lms_last_updated_at [{grade.lms_last_updated_at}]"
+        )
+
         return grade
 
 
