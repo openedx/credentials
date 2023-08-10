@@ -550,3 +550,11 @@ add_plugins(__name__, PROJECT_TYPE, SettingsType.BASE)
 
 # disable indexing on history_date
 SIMPLE_HISTORY_DATE_INDEX = False
+
+# Event Bus Settings
+EVENT_BUS_PRODUCER = "edx_event_bus_redis.create_producer"
+EVENT_BUS_CONSUMER = "edx_event_bus_redis.RedisEventConsumer"
+EVENT_BUS_REDIS_CONNECTION_URL = "redis://:password@edx.devstack.redis:6379/"
+EVENT_BUS_TOPIC_PREFIX = "dev"
+
+PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME = "learning-program-certificate-lifecycle"

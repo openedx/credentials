@@ -1,12 +1,23 @@
-""" Issuer classes used to generate user credentials."""
+"""
+Issuer classes used to generate credentials for learners.
+"""
+
 import abc
 import logging
+from datetime import timezone
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
+from openedx_events.learning.data import ProgramCertificateData, ProgramData, UserData, UserPersonalData
+from openedx_events.learning.signals import PROGRAM_CERTIFICATE_AWARDED, PROGRAM_CERTIFICATE_REVOKED
 
 from credentials.apps.api.exceptions import DuplicateAttributeError
+from credentials.apps.credentials.config import (
+    SEND_PROGRAM_CERTIFICATE_AWARDED_SIGNAL,
+    SEND_PROGRAM_CERTIFICATE_REVOKED_SIGNAL,
+)
 from credentials.apps.credentials.constants import UserCredentialStatus
 from credentials.apps.credentials.models import (
     CourseCertificate,
@@ -19,6 +30,7 @@ from credentials.apps.credentials.utils import send_program_certificate_created_
 from credentials.apps.records.utils import send_updated_emails_for_program
 
 
+User = get_user_model()
 logger = logging.getLogger(__name__)
 
 
@@ -105,14 +117,11 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
     @transaction.atomic
     def set_credential_date_override(self, user_credential, date_override=None):
         """
-        Add a date override to the given User Credential, or remove it if there
-        should no longer be one.
+        Add a date override to the given User Credential, or remove it if there should no longer be one.
 
         Arguments:
-            user_credential (AbstractCredential): The credential to associate
-                this date override to
-            date_override (Date): The date override that should be associated
-                with this credential
+            user_credential (AbstractCredential): The credential to associate this date override to
+            date_override (Date): The date override that should be associated with this credential
         """
 
         if date_override and date_override.get("date"):
@@ -124,7 +133,9 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
 
 
 class ProgramCertificateIssuer(AbstractCredentialIssuer):
-    """Issues ProgramCertificates."""
+    """
+    Issues Program Certificates to learners.
+    """
 
     issued_credential_type = ProgramCertificate
 
@@ -140,21 +151,27 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         lms_user_id=None,
     ):
         """
-        Issue a Program Certificate to the user.
+        Issues or updates a Program Certificate to a learner.
 
-        This function is being overriden to provide functionality for sending
-        an updated email to pathway partners
+        This function is overridden to provide additional functionality specific to program certificate generation:
+            * If a learner has shared their program progress through a pathway before earning a (program) certificate,
+            when the certificate is finally awarded we will automatically attempt to send an updated program record
+            email via the pathway.
+            * If enabled, when the learner has earned a program certificate, the system will attempt to send a
+            congratulations email to the learner (a.k.a a "program completion email").
 
-        This action is idempotent. If the user has already earned the
-        credential, a new one WILL NOT be issued. The existing credential
-        WILL be modified.
+        This action is idempotent. If the user has already earned the credential, a new one WILL NOT be issued. The
+        existing credential WILL be modified.
 
         Arguments:
-            credential (AbstractCredential): Type of credential to issue.
-            username (str): username of user for which credential required
-            status (str): status of credential
-            attributes (List[dict]): optional list of attributes that should be associated with the issued credential.
-            request (HttpRequest): request object to build program record absolute uris
+            credential (AbstractCredential): The type of credential to issue
+            username (str): The username of the learner we are granting a credential to
+            status (str): The status of credential (e.g. `awarded`)
+            attributes (List[dict]): Optional. List of attributes that should be associated with the issued credential.
+            date_override (DateTime): Optional. The date that *should* be displayed (over all others) on a credential.
+             Not supported for program certificates.
+            request (HttpRequest): The original request object, used to build program record URI
+            lms_user_id (int): The learner's LMS User Id, used to send emails to the learner via ACE
 
         Returns:
             UserCredential
@@ -167,24 +184,114 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
                 "status": status,
             },
         )
+        # set any additional attributes specific to this program certificate
+        self.set_credential_attributes(user_credential, attributes)
+        # send an updated program progress message if the learner shared their progress before earning their credential
+        self._send_updated_emails_for_program(request, username, credential, created)
+        # send a congratulatory email message to the learner for earning a credential (if program has opted in)
+        self._send_program_completion_email(username, credential, created, lms_user_id)
+        # check to see if we should emit any program credential related events to the event bus
+        self._emit_program_certificate_signal(username, user_credential, status, credential)
 
-        # Send an updated email to a pathway org only if the user has previously sent one
-        # This function call should be moved into some type of task queue
-        # once credentials has that functionality
+        return user_credential
+
+    def _send_updated_emails_for_program(self, request, username, credential, created):
+        """
+        This function is responsible for sending an updated email to a pathway org only if the user has previously
+        shared their program progress through a pathway. Checks if the site configuration has record keeping enabled
+        and, if not, we do not send an email.
+
+        We may want to move this function call to some type of task queue in the future once Credentials supports this
+        functionality.
+
+        Args:
+            request (HttpRequest): The original HttpRequest object
+            username (str): The username of the user associated with the recently generated credential
+            credential (AbstractCredential[ProgramCertificate]): The type of credential used to issue the above user
+             credential
+            created (bool): A boolean describing whether the credential was created (True) or just updated (False)
+        """
         site_config = getattr(credential.site, "siteconfiguration", None)
-        # Add a check to see if records_enabled is True for the site associated with
-        # the credentials. If records is not enabled, we should not send this email
-        if created and site_config and site_config.records_enabled:
+        if site_config and site_config.records_enabled and created:
             send_updated_emails_for_program(request, username, credential)
 
-        # If this is a new ProgramCertificate and the `SEND_EMAIL_ON_PROGRAM_COMPLETION`
-        # feature is enabled then let's send a congratulatory message to the learner
+    def _send_program_completion_email(self, username, credential, created, lms_user_id):
+        """
+        This function is responsible for sending a congratulatory message to a learner when a program certificate is
+        awarded to them. This feature requires that the `SEND_EMAIL_ON_PROGRAM_COMPLETION` setting is enabled AND that
+        the program has opted-in to sending messages upon completion.
+
+        Args:
+            username (str): The username of the user associated with the recently generated credential
+            credential (AbstractCredential[ProgramCertificate]): The type of credential used to issue the above user
+             credential
+            created (bool): A boolean describing whether the credential was created (True) or just updated (False)
+            lms_user_id (int): The learner's LMS User Id, used to send emails to the learner via ACE
+        """
         if created and getattr(settings, "SEND_EMAIL_ON_PROGRAM_COMPLETION", False):
             send_program_certificate_created_message(username, credential, lms_user_id)
 
-        self.set_credential_attributes(user_credential, attributes)
+    def _emit_program_certificate_signal(self, username, user_credential, status, credential):
+        """
+        A utility function of the ProgramCertificate issuer responsible for emitting signals when a program certificate
+        has been awarded or revoked. This is used to emit signals downstream that are responsible for publishing
+        program certificate events to the event bus.
 
-        return user_credential
+        If neither of the program certificate signals are enabled (through the SEND_PROGRAM_CERTIFICATE_AWARDED_SIGNAL
+        and the SEND_PROGRAM_CERTIFICATE_REVOKED_SIGNAL settings) we do nothing.
+
+        Args:
+            username (str): The username of the user associated with the recently generated credential
+            user_credential (UserCredential): A UserCredential instance, specifically a program certificate
+            credential (AbstractCredential[ProgramCertificate]): The type of credential used to issue the above user
+             credential
+            date_override (DateTime): A DateTime describing when the learner's credential is available to view
+        """
+        program_cert_awarded_signal_enabled = SEND_PROGRAM_CERTIFICATE_AWARDED_SIGNAL.is_enabled()
+        program_cert_revoked_signal_enabled = SEND_PROGRAM_CERTIFICATE_REVOKED_SIGNAL.is_enabled()
+        if not program_cert_awarded_signal_enabled and not program_cert_revoked_signal_enabled:
+            # if neither of the signals are enabled we have nothing to do here
+            return
+
+        try:
+            # need to retrieve the learner's User instance in order to retrieve PII data for the event
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            logger.exception(
+                f"Unable to send a program certificate event for user with username [{username}]. No user found "
+                "matching this username"
+            )
+            # if we can't find a user that matches the username, return
+            return
+
+        # pull the program and site through the relationship to the Credential
+        program = credential.program
+        site = credential.site
+
+        # generate the event data
+        time = user_credential.modified.astimezone(timezone.utc)
+        program_certificate_data = ProgramCertificateData(
+            user=UserData(
+                pii=UserPersonalData(username=username, email=user.email, name=user.get_full_name()),
+                id=user.lms_user_id,
+                is_active=user.is_active,
+            ),
+            program=ProgramData(
+                uuid=str(program.uuid),
+                title=program.title,
+                program_type=program.type_slug,
+            ),
+            uuid=str(user_credential.uuid),
+            status=user_credential.status,
+            url=f"https://{site.domain}/credentials/{str(user_credential.uuid).replace('-', '')}/",
+        )
+
+        if status == UserCredentialStatus.AWARDED and program_cert_awarded_signal_enabled:
+            # .. event_implemented_name: PROGRAM_CERTIFICATE_AWARDED
+            PROGRAM_CERTIFICATE_AWARDED.send_event(time=time, program_certificate=program_certificate_data)
+        elif status == UserCredentialStatus.REVOKED and program_cert_revoked_signal_enabled:
+            # .. event_implemented_name: PROGRAM_CERTIFICATE_REVOKED
+            PROGRAM_CERTIFICATE_REVOKED.send_event(time=time, program_certificate=program_certificate_data)
 
 
 class CourseCertificateIssuer(AbstractCredentialIssuer):
