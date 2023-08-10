@@ -19,7 +19,7 @@
     "imports-loader": "4.0.1",
     "mini-css-extract-plugin": "2.7.6",
     "regenerator-runtime": "0.14.0",
-    "sass": "1.64.2",
+    "sass": "1.65.1",
     "sass-loader": "12.6.0",
     "style-loader": "3.3.3",
     "url-loader": "4.1.1",
