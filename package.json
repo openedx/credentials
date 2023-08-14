@@ -9,7 +9,7 @@
     "lint": "eslint --ext .js --ext .jsx ./credentials/static"
   },
   "dependencies": {
-    "@edx/paragon": "19.19.1",
+    "@edx/paragon": "20.46.2",
     "bi-app-sass": "1.1.0",
     "bootstrap": "4.6.1",
     "css-loader": "6.8.1",
