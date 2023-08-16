@@ -11,7 +11,7 @@
   "dependencies": {
     "@edx/paragon": "21.0.0",
     "bi-app-sass": "1.1.0",
-    "bootstrap": "4.6.1",
+    "bootstrap": "4.6.2",
     "css-loader": "6.8.1",
     "css-minimizer-webpack-plugin": "5.0.1",
     "file-loader": "6.2.0",
