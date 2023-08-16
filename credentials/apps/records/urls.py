@@ -9,6 +9,10 @@ from . import views
 urlpatterns = [
     re_path(r"^$", views.RecordsView.as_view(), name="index"),
     re_path(r"^api/", include(("credentials.apps.records.rest_api.urls", "api"), namespace="api")),
+    # NOTE: We need to _keep_ this to ensure Program Dashboard can send the learner directly to the Program Record
+    re_path(
+        rf"^programs/{UUID_PATTERN}/$", views.ProgramRecordView.as_view(), {"is_public": False}, name="private_programs"
+    ),
     # NOTE: We need to _keep_ this to ensure shared public program records continue to work
     re_path(
         rf"^programs/shared/{UUID_PATTERN}/$",
