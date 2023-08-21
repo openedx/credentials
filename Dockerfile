@@ -16,11 +16,11 @@ FROM ubuntu:focal as base
 
 # If you add a package here please include a comment above describing what it is used for
 RUN apt-get update && \
-apt-get install -y software-properties-common && \
-apt-add-repository -y ppa:deadsnakes/ppa && apt-get update && \
-apt-get upgrade -qy && apt-get install language-pack-en locales git \
-python3.8-dev python3.8-venv libmysqlclient-dev libssl-dev build-essential wget unzip pkg-config -qy && \
-rm -rf /var/lib/apt/lists/*
+    apt-get install -y software-properties-common && \
+    apt-add-repository -y ppa:deadsnakes/ppa && apt-get update && \
+    apt-get upgrade -qy && apt-get install language-pack-en locales git \
+    python3.8-dev python3.8-venv libmysqlclient-dev libssl-dev build-essential wget unzip pkg-config -qy && \
+    rm -rf /var/lib/apt/lists/*
 
 # Create Python env
 ENV VIRTUAL_ENV=/edx/app/credentials/venvs/credentials
@@ -30,9 +30,9 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # Create Node env
 RUN pip install nodeenv
 ENV NODE_ENV=/edx/app/credentials/nodeenvs/credentials
-RUN nodeenv $NODE_ENV --node=16.14.0 --prebuilt
+RUN nodeenv $NODE_ENV --node=18.17.1 --prebuilt
 ENV PATH="$NODE_ENV/bin:$PATH"
-RUN npm install -g npm@8.5.3
+RUN npm install -g npm@9.x.x
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
