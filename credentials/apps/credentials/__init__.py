@@ -9,4 +9,3 @@ Note: This is an independent service so please don't use its models and views
 directly in LMS or Studio. Use its APIs for communication between this service
 and edX Platform.
 """
-default_app_config = "credentials.apps.credentials.apps.CredentialsConfig"
