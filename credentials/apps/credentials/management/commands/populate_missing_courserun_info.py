@@ -4,12 +4,17 @@ course_run table.
 """
 
 import logging
+from typing import TYPE_CHECKING
 
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 
-from credentials.apps.catalog.models import CourseRun
+from credentials.apps.catalog.api import get_course_runs_by_course_run_keys
 from credentials.apps.credentials.models import CourseCertificate
+
+
+if TYPE_CHECKING:
+    from credentials.apps.catalog.models import CourseRun
 
 
 logger = logging.getLogger(__name__)
@@ -44,7 +49,7 @@ class Command(BaseCommand):
             if not course_run_key:
                 logger.warning(f"Could not get course_id for CourseCertificate {course_cert.id}")
             try:
-                course_run = CourseRun.objects.get(key=course_run_key)
+                course_run = get_course_runs_by_course_run_keys([course_run_key])[0]
             except ObjectDoesNotExist:
                 # This is fine, and can happen with some frequency
                 count_ignored += 1
@@ -57,23 +62,23 @@ class Command(BaseCommand):
             else:
                 self.update_course_certificate_with_course_run_id(course_cert, course_run, verbosity, dry_run)
 
-        logger.info(
-            f"populate_missing_courserun_info finished! " f"{count_ignored} CourseCertificate(s) safely ignored."
-        )
+        logger.info(f"populate_missing_courserun_info finished! {count_ignored} CourseCertificate(s) safely ignored.")
 
     def update_course_certificate_with_course_run_id(
-        self, course_certificate: CourseCertificate, course_run: CourseRun, verbosity: bool, dry_run: bool
-    ):
+        self,
+        course_certificate: CourseCertificate,
+        course_run: "CourseRun",
+        verbosity: bool,
+        dry_run: bool,
+    ) -> None:
         """Update course_run_id from catalog.CourseRun"""
         if course_run.key:
             course_certificate.course_run = course_run
             dry_run_msg = "(dry run) " if dry_run else ""
             if verbosity:
                 logger.info(
-                    f"{dry_run_msg}updating CourseCertificate "
-                    f"{course_certificate.id} (course_id "
-                    f"{course_certificate.course_id} with course_run_id "
-                    f"{course_run.key}"
+                    f"{dry_run_msg}updating CourseCertificate {course_certificate.id} (course_id "
+                    f"{course_certificate.course_id}) with course_run_id {course_run.key}"
                 )
             # use update_fields to just update this one piece of data
             if not dry_run:

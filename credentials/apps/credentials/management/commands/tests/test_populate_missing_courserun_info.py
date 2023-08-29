@@ -7,12 +7,11 @@ from django.core.management import call_command
 from django.test import TestCase
 
 from credentials.apps.catalog.tests.factories import CourseRunFactory
-from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import CourseCertificate
 from credentials.apps.credentials.tests.factories import CourseCertificateFactory
 
 
-class CourseCertificateCourseRunSyncTests(SiteMixin, TestCase):
+class CourseCertificateCourseRunSyncTests(TestCase):
     def setUp(self):
         """
         Create the error condition:
