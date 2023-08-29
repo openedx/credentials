@@ -212,13 +212,13 @@ exceptiongroup==1.1.3
     # via pytest
 factory-boy==3.3.0
     # via -r requirements/test.in
-faker==19.3.0
+faker==19.3.1
     # via factory-boy
 fastavro==1.8.2
     # via
     #   -r requirements/base.txt
     #   openedx-events
-filelock==3.12.2
+filelock==3.12.3
     # via
     #   tox
     #   virtualenv
@@ -271,7 +271,7 @@ mypy-extensions==1.0.0
     # via black
 mysqlclient==2.2.0
     # via -r requirements/base.txt
-newrelic==8.10.1
+newrelic==9.0.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -284,7 +284,7 @@ openapi-codec==1.3.2
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
-openedx-events==8.5.0
+openedx-events==8.6.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
@@ -312,7 +312,7 @@ platformdirs==3.10.0
     #   black
     #   pylint
     #   virtualenv
-pluggy==1.2.0
+pluggy==1.3.0
     # via
     #   pytest
     #   tox
@@ -504,6 +504,7 @@ typing-extensions==4.7.1
     #   black
     #   edx-opaque-keys
     #   faker
+    #   filelock
     #   pylint
     #   qrcode
 uritemplate==4.1.1
