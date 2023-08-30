@@ -198,6 +198,9 @@ class CourseCertificate(AbstractCertificate):
     .. no_pii: This model has no PII.
     """
 
+    # course_id, despite the name, is a course run key. It is a deprecated
+    # property and will be removed. If you need the value stored in course_id,
+    # get it from course_run.key.
     course_id = models.CharField(max_length=255, validators=[validate_course_key])
     course_run = models.OneToOneField(CourseRun, null=True, on_delete=models.PROTECT)
     certificate_available_date = models.DateTimeField(

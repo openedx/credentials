@@ -1,3 +1,5 @@
+from typing import List
+
 from .data import OrganizationDetails, ProgramDetails
 from .models import CourseRun as _CourseRun, Program as _Program
 
@@ -73,7 +75,7 @@ def _convert_program_to_program_details(
     )
 
 
-def get_course_runs_by_course_run_keys(course_run_keys):
+def get_course_runs_by_course_run_keys(course_run_keys: List[str]) -> List[_CourseRun]:
     """
     Get course runs using given course run keys
 
