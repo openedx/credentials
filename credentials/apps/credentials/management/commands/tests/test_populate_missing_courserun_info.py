@@ -2,6 +2,8 @@
 Tests for the populate_missing_courserun_info management command
 """
 
+from logging import INFO, WARNING
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management import call_command
 from django.test import TestCase
@@ -33,6 +35,16 @@ class CourseCertificateCourseRunSyncTests(TestCase):
 
         course_cert = CourseCertificate.objects.get(course_run=self.course_run)
         self.assertEqual(course_cert.course_id, course_cert.course_run.key)
+
+    def test_when_course_run_not_in_catalog(self):
+        """verify it works when there's the problem course run isn't in the catalog"""
+        course_certificate = CourseCertificateFactory(course_id="I.dont.exist")
+
+        with self.assertLogs(level=INFO):
+            call_command("populate_missing_courserun_info", verbose=True)
+
+        # verify no changes were made
+        self.assertIsNone(course_certificate.course_run)
 
     def test_dry_run(self):
         """verify course_ids were NOT updated"""
