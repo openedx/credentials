@@ -46,21 +46,21 @@ class Command(BaseCommand):
         # objects.raw SQL query.
         for course_cert in course_certificates_without_course_run_id:
             course_run_key = course_cert.course_id
-            if not course_run_key:
-                logger.warning(f"Could not get course_id for CourseCertificate {course_cert.id}")
-            try:
-                course_run = get_course_runs_by_course_run_keys([course_run_key])[0]
-            except ObjectDoesNotExist:
+
+            course_runs = get_course_runs_by_course_run_keys([course_run_key])
+
+            if course_runs:
+                self.update_course_certificate_with_course_run_id(
+                    course_cert,
+                    course_runs[0],
+                    verbosity,
+                    dry_run,
+                )
+            else:
                 # This is fine, and can happen with some frequency
                 count_ignored += 1
                 if verbosity:
                     logger.info(f"No Catalog.CourseRun entry for {course_run_key}")
-            except MultipleObjectsReturned:
-                # This is not fine, and while it's not a bug this process needs
-                # to worry about, we definitely want to know.
-                logger.warning(f"Course run key in Catalog.CourseRun twice: {course_run_key}")
-            else:
-                self.update_course_certificate_with_course_run_id(course_cert, course_run, verbosity, dry_run)
 
         logger.info(f"populate_missing_courserun_info finished! {count_ignored} CourseCertificate(s) safely ignored.")
 
