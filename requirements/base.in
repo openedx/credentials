@@ -40,6 +40,7 @@ edx-toggles
 markdown
 mysqlclient
 newrelic
+openedx-atlas
 pillow
 pygments
 python-memcached
