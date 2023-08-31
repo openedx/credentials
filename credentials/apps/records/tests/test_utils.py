@@ -1,5 +1,5 @@
 import urllib
-from logging import INFO
+from logging import DEBUG
 
 from django.contrib.contenttypes.models import ContentType
 from django.core import mail
@@ -86,7 +86,7 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
         # remover the fixture ProgramCertRecord
         ProgramCertRecord.objects.get(program=self.program, user=self.user).delete()
 
-        with self.assertLogs(level=INFO) as cm:
+        with self.assertLogs(level=DEBUG) as cm:
             send_updated_emails_for_program(self.request, self.USERNAME, self.pc)
         self.assertRegex(cm.output[0], r".*ProgramCertRecord for user_uuid .*, program_uuid .* does not exist")
 
