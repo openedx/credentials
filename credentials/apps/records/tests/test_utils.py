@@ -1,4 +1,5 @@
 import urllib
+from logging import DEBUG
 
 from django.contrib.contenttypes.models import ContentType
 from django.core import mail
@@ -24,6 +25,7 @@ from credentials.apps.credentials.tests.factories import (
     UserCredentialFactory,
 )
 from credentials.apps.records.constants import UserCreditPathwayStatus
+from credentials.apps.records.models import ProgramCertRecord
 from credentials.apps.records.tests.factories import ProgramCertRecordFactory, UserCreditPathwayFactory
 from credentials.apps.records.tests.utils import dump_random_state
 from credentials.apps.records.utils import (
@@ -74,6 +76,22 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
         self.assertIn(self.program.title + " Updated Credit Request for", email.subject)
         self.assertIn(expected_record_link, email.body)
         self.assertIn(expected_csv_link, email.body)
+
+    def test_skip_if_user_has_no_program_certificate(self):
+        """Verify that if the user has no program certificate, we do nothing."""
+        # Mock sending an email to the partner
+        UserCreditPathwayFactory(user=self.user, pathway=self.pathway, status=UserCreditPathwayStatus.SENT)
+        self.assertEqual(0, len(mail.outbox))
+
+        # remover the fixture ProgramCertRecord
+        ProgramCertRecord.objects.get(program=self.program, user=self.user).delete()
+
+        with self.assertLogs(level=DEBUG) as cm:
+            send_updated_emails_for_program(self.request, self.USERNAME, self.pc)
+        self.assertRegex(cm.output[0], r".*ProgramCertRecord for user_uuid .*, program_uuid .* does not exist")
+
+        # Check no other email was sent
+        self.assertEqual(0, len(mail.outbox))
 
     def test_no_previous_email_sent(self):
         """
