@@ -354,6 +354,8 @@ pylint-plugin-utils==0.8.2
     # via
     #   pylint-celery
     #   pylint-django
+pymemcache==4.0.0
+    # via -r requirements/base.txt
 pymongo==3.13.0
     # via
     #   -r requirements/base.txt

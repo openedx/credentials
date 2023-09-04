@@ -6,7 +6,7 @@
 #
 asgiref==3.7.2
     # via django
-django==3.2.20
+django==3.2.21
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
