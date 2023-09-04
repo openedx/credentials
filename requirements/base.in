@@ -43,6 +43,7 @@ newrelic
 pillow
 pygments
 python-memcached
+pymemcache
 pytz
 qrcode
 requests

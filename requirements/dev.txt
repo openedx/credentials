@@ -101,7 +101,7 @@ distlib==0.3.7
     #   virtualenv
 distro==1.8.0
     # via docker-compose
-django==3.2.20
+django==3.2.21
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -411,6 +411,8 @@ pylint-plugin-utils==0.8.2
     #   -r requirements/test.txt
     #   pylint-celery
     #   pylint-django
+pymemcache==4.0.0
+    # via -r requirements/test.txt
 pymongo==3.13.0
     # via
     #   -r requirements/test.txt
