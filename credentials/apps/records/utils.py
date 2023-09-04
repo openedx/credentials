@@ -43,7 +43,7 @@ def send_updated_emails_for_program(request, username, program_certificate):
     try:
         pcr = ProgramCertRecord.objects.get(program=program, user=user)
     except ProgramCertRecord.DoesNotExist:
-        logger.exception("Program Cert Record for user_uuid %s, program_uuid %s does not exist", user.id, program.uuid)
+        logger.debug("ProgramCertRecord for user_uuid %s, program_uuid %s does not exist", user.id, program.uuid)
         return
 
     # Send emails for those already marked as "SENT"
