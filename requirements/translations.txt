@@ -19,7 +19,7 @@ path==16.7.1
     # via edx-i18n-tools
 polib==1.2.0
     # via edx-i18n-tools
-pytz==2023.3
+pytz==2023.3.post1
     # via django
 pyyaml==5.4.1
     # via
