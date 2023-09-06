@@ -1,7 +1,7 @@
 Analytics
 =========
 
-The credentials IDA uses Segment.io to track events.  If you set the ``segment_key`` variable in your site_configuration, a variety of events (segment API calls) will be triggered when navigating through the UI.
+The Credentials IDA uses Segment.io to track events.  If you set the ``segment_key`` variable in your site_configuration, a variety of events (segment API calls) will be triggered when navigating through the UI.
 
 Analytics for legacy/template pages
 ===================================
@@ -22,7 +22,7 @@ For example (from ``templates/_actions.html``):
         <span class="fa fa-facebook" aria-hidden="true"></span>
         <span class="action-label">{% trans 'Share this certificate via Facebook' as tmsg %}{{ tmsg | htmlescape }}</span>
       </button>
-       
+
 
 Analytics for react pages
 =========================

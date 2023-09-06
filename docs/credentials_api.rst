@@ -42,7 +42,7 @@ Create a New Credential
 * The ``username`` and ``credential`` parameters are required.
 * The ``attributes`` parameter is optional.
 * If you use the ``whitelist`` or ``grade`` attributes, you can only change the ``value``
-  parameter. 
+  parameter.
 * If you send a program-based user credential request, you can only provide the
   ``whitelist`` attribute.
 * When creating a user credential for a program, the API also checks to see if an updated email needs to be sent to a credit pathway.  For more information, please consult the Credit Pathways doc.
@@ -218,7 +218,7 @@ Query for an individual learner's earned certificates for a list of courses or c
 * You must include at least one of ``courses`` and ``course_runs``, and you may include a mix of both.
     * The ``courses`` list should contain a list of course UUIDs.
     * The ``course_runs`` list should contain a list of course run keys.
- 
+
 If the ``username`` or ``lms_user_id`` has not earned any certificates, this endpoint
 will return successfully, and the ``status`` object will be empty.
 
