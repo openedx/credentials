@@ -43,6 +43,7 @@ newrelic
 pillow
 pygments
 python-memcached
+pymemcache
 pytz
 qrcode
 requests
@@ -51,4 +52,4 @@ xss-utils
 
 
 # TODO Install in configuration
-git+https://github.com/openedx/credentials-themes.git@0.3.6#egg=edx_credentials_themes==0.3.6
+git+https://github.com/openedx/credentials-themes.git@0.3.8#egg=edx_credentials_themes==0.3.8
