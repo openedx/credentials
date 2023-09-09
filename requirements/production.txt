@@ -74,7 +74,7 @@ defusedxml==0.7.1
     #   social-auth-core
 didkit==0.3.2
     # via -r requirements/base.txt
-django==3.2.20
+django==3.2.21
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
