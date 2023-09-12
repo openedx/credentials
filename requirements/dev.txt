@@ -104,7 +104,7 @@ distlib==0.3.6
     #   virtualenv
 distro==1.8.0
     # via docker-compose
-django==3.2.20
+django==3.2.21
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
