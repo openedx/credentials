@@ -161,7 +161,7 @@ edx-toggles==5.1.0
     # via
     #   -r requirements/base.in
     #   edx-event-bus-kafka
-fastavro==1.8.2
+fastavro==1.8.3
     # via openedx-events
 idna==3.4
     # via requests
