@@ -23,8 +23,16 @@ class ProgramAdmin(admin.ModelAdmin):
     list_display = ("title", "uuid", "type")
     list_filter = ("site",)
     readonly_fields = (
-        "title", "uuid", "type", "course_runs", "site", "course_runs", "authoring_organizations", "type_slug",
-        "total_hours_of_effort", "status"
+        "title",
+        "uuid",
+        "type",
+        "course_runs",
+        "site",
+        "course_runs",
+        "authoring_organizations",
+        "type_slug",
+        "total_hours_of_effort",
+        "status",
     )
     search_fields = ("title", "uuid")
 
