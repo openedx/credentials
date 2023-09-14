@@ -64,6 +64,18 @@ class CredentialFieldTests(SiteMixin, TestCase):
             expected = {"course_run_key": f"No active CourseCertificate exists for course run [{course_run_key}]"}
             self.assertEqual(ex.detail, expected)
 
+    def assert_course_run_key_creation_validation_error_raised(self, course_run_key):
+        try:
+            self.field_instance.to_internal_value({"course_run_key": course_run_key, "mode": "verified"})
+        except ValidationError as ex:
+            expected = {
+                "course_run_key": (
+                    f"CourseCertificate failed to create because the CourseRun {course_run_key} doesn't exist in the "
+                    "catalog"
+                )
+            }
+            self.assertEqual(ex.detail, expected)
+
     def test_to_internal_value_with_empty_program_uuid(self):
         """Verify an error is raised if no program UUID is provided."""
 
@@ -106,6 +118,20 @@ class CredentialFieldTests(SiteMixin, TestCase):
         course_run = CourseRunFactory()
         credential = self.field_instance.to_internal_value({"course_run_key": course_run.key, "mode": "verified"})
         self.assertEqual(credential, CourseCertificate.objects.get(course_id=course_run.key))
+
+    def test_to_internal_value_with_missing_course_run(self):
+        """Verify the method raises an error if the course run is missing."""
+        self.assert_course_run_key_creation_validation_error_raised("fake-run")
+
+    def test_to_internal_value_with_present_course_credential_read_only(self):
+        """Verify the method finds a course credential when read-only."""
+        self.field_instance.read_only = True
+        self.assertEqual(
+            self.field_instance.to_internal_value({"course_run_key": self.course_run.key, "mode": "verified"}),
+            self.course_certificate,
+        )
+
+        self.assert_course_run_key_validation_error_raised("create-me")
 
     def test_to_internal_value_with_created_course_credential_read_only(self):
         """Verify the method refuses to create a course credential when read-only."""

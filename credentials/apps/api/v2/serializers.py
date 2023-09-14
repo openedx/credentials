@@ -78,8 +78,8 @@ class CredentialField(serializers.Field):
             raise ValidationError({"course_run_key": msg})
         else:
             msg = (
-                "CourseCertificate failed to create because the CourseRun %s doesn't exist in the catalog",
-                course_run_key,
+                "CourseCertificate failed to create because the CourseRun %s doesn't exist in the catalog"
+                % course_run_key
             )
             raise ValidationError({"course_run_key": msg})
 
