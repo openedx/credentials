@@ -36,7 +36,13 @@ class CredentialFieldTests(SiteMixin, TestCase):
     def setUp(self):
         super().setUp()
         self.program_certificate = ProgramCertificateFactory(site=self.site)
-        self.course_certificate = CourseCertificateFactory(site=self.site, certificate_type="verified")
+        self.course_run = CourseRunFactory()
+        self.course_certificate = CourseCertificateFactory(
+            site=self.site,
+            certificate_type="verified",
+            course_run=self.course_run,
+            course_id=self.course_run.key,
+        )
         self.field_instance = CredentialField()
         # see: https://github.com/encode/django-rest-framework/blob/3.9.x/rest_framework/fields.py#L610
         # pylint: disable=protected-access
@@ -97,8 +103,9 @@ class CredentialFieldTests(SiteMixin, TestCase):
 
     def test_to_internal_value_with_created_course_credential(self):
         """Verify the method creates a course credential if needed."""
-        credential = self.field_instance.to_internal_value({"course_run_key": "create-me", "mode": "verified"})
-        self.assertEqual(credential, CourseCertificate.objects.get(course_id="create-me"))
+        course_run = CourseRunFactory()
+        credential = self.field_instance.to_internal_value({"course_run_key": course_run.key, "mode": "verified"})
+        self.assertEqual(credential, CourseCertificate.objects.get(course_id=course_run.key))
 
     def test_to_internal_value_with_created_course_credential_read_only(self):
         """Verify the method refuses to create a course credential when read-only."""
@@ -266,7 +273,12 @@ class UserCredentialSerializerTests(TestCase):
 
     def test_course_credential(self):
         request = APIRequestFactory().get("/")
-        course_certificate = CourseCertificateFactory()
+        course_run = CourseRunFactory()
+        course_certificate = CourseCertificateFactory(
+            certificate_type="verified",
+            course_run=course_run,
+            course_id=course_run.key,
+        )
         user_credential = UserCredentialFactory(credential=course_certificate)
         user_credential_attribute = UserCredentialAttributeFactory(user_credential=user_credential)
 

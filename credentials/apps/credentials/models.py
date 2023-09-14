@@ -19,7 +19,7 @@ from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
 from simple_history.models import HistoricalRecords
 
-from credentials.apps.catalog.api import get_program_details_by_uuid
+from credentials.apps.catalog.api import get_course_runs_by_course_run_keys, get_program_details_by_uuid
 from credentials.apps.catalog.models import CourseRun, Program
 from credentials.apps.core.utils import _choices
 from credentials.apps.credentials import constants
@@ -198,8 +198,8 @@ class CourseCertificate(AbstractCertificate):
     .. no_pii: This model has no PII.
     """
 
-    # course_id, despite the name, is a course run key. It is a deprecated
-    # property and will be removed. If you need the value stored in course_id,
+    # course_id is identical to course_run.key. It is a deprecated legacy property.  # For now it is still used as a
+    # convenience accessor and filter but it will be eventually removed. If you need the value stored in course_id,
     # get it from course_run.key.
     course_id = models.CharField(max_length=255, validators=[validate_course_key])
     course_run = models.OneToOneField(CourseRun, null=True, on_delete=models.PROTECT)
@@ -234,7 +234,23 @@ class CourseCertificate(AbstractCertificate):
 
     @cached_property
     def course_key(self):
-        return CourseKey.from_string(self.course_id)
+        return CourseKey.from_string(self.course_run.key)
+
+    def save(self, *args, **kwargs):
+        """Force-create the course_run or sync course_id if missing.
+
+        The course_id can be wrong and need to be synced, because if created by CourseCertificate factory it gets
+        a placeholder value.
+        """
+        if self.course_id and self.course_run is None:
+            course_runs = get_course_runs_by_course_run_keys([self.course_id])
+            # TODO once this is non-nullable make the 0 case raise validation error
+            if course_runs:
+                self.course_run = course_runs[0]
+        if self.course_run and self.course_id != self.course_run.key:
+            self.course_id = self.course_run.key
+
+        super().save(**kwargs)
 
 
 class ProgramCertificate(AbstractCertificate):

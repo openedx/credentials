@@ -310,7 +310,12 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
             percent_grade=0.80,
         )
         self.course_certs = [
-            CourseCertificateFactory(course_id=course_run.key, site=self.site) for course_run in self.course_runs
+            CourseCertificateFactory(
+                course_run=course_run,
+                course_id=course_run.key,
+                site=self.site,
+            )
+            for course_run in self.course_runs
         ]
         self.credential_content_type = ContentType.objects.get(app_label="credentials", model="coursecertificate")
         self.user_credentials = [

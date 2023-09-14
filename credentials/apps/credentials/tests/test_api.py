@@ -43,6 +43,7 @@ class GetCourseCertificatesWithIdsTests(SiteMixin, TestCase):
         self.course_certs = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs
@@ -278,7 +279,7 @@ class UpdateOrCreateCredentialTests(SiteMixin, TestCase):
         self.course = CourseFactory.create(site=self.site)
         self.course_run = CourseRunFactory.create(course=self.course)
         self.course_cert_config = CourseCertificateFactory.create(
-            course_id=self.course.id, course_run=self.course_run, site=self.site
+            course_id=self.course_run.key, course_run=self.course_run, site=self.site
         )
         self.program = ProgramFactory(
             title="TestProgram1", course_runs=[self.course_run], authoring_organizations=[self.org], site=self.site
@@ -463,7 +464,8 @@ class AwardCourseCertificateTests(SiteMixin, TestCase):
         assert credential.username == self.user.username
         assert credential.credential_id == course_cert_config.id
         assert credential.status == "awarded"
-        assert credential.credential_content_type_id == 12  # 12 is the content type for "Course Certificate"
+        # 12 is the content type for "Course Certificate"
+        assert credential.credential_content_type_id == 12
 
     def test_update_existing_cert(self):
         """
@@ -531,7 +533,8 @@ class AwardCourseCertificateTests(SiteMixin, TestCase):
         assert credential.username == self.user.username
         assert credential.credential_id == course_cert_config.id
         assert credential.status == "awarded"
-        assert credential.credential_content_type_id == 12  # 12 is the content type for "Course Certificate"
+        # 12 is the content type for "Course Certificate"
+        assert credential.credential_content_type_id == 12
 
     def test_award_course_cert_no_course_certificate_exception_occurs(self):
         """

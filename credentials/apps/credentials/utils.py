@@ -147,7 +147,7 @@ def _get_program_certificate_visible_date(user_program_credential):
         # Does the user have a course cert for this course run?
         course_run_cert = UserCredential.objects.filter(
             username=user_program_credential.username,
-            course_credentials__course_id=course_run.key,
+            course_credentials__course_run=course_run,
         ).first()
 
         if course_run_cert:

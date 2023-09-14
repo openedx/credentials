@@ -1,5 +1,6 @@
 import json
 from enum import Enum
+from typing import TYPE_CHECKING
 from unittest import mock
 
 import ddt
@@ -12,6 +13,10 @@ from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.tests.factories import CourseCertificateFactory, UserCredentialFactory
 from credentials.apps.records.tests.factories import UserGradeFactory
+
+
+if TYPE_CHECKING:
+    from credentials.apps.credentials.models import CourseCertificate, CourseRun
 
 
 JSON_CONTENT_TYPE = "application/json"
@@ -65,9 +70,9 @@ class LearnerStatusViewTests(JwtMixin, SiteMixin, APITestCase):
         """
         Create the payload for a request and also the expected response.
         """
-        course_run = CourseRunFactory.create()
-        credential = CourseCertificateFactory.create(
-            course_id=course_run.course.id, site=self.site, course_run=course_run
+        course_run: "CourseRun" = CourseRunFactory.create()
+        credential: "CourseCertificate" = CourseCertificateFactory.create(
+            course_id=course_run.course.key, site=self.site, course_run=course_run
         )
         user_credential = UserCredentialFactory(
             credential=credential, credential__site=self.site, username=self.user.username

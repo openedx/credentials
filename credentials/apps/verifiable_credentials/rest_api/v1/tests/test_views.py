@@ -41,6 +41,7 @@ class ProgramCredentialsViewTests(SiteMixin, TestCase):
         self.course_certs = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs
@@ -105,6 +106,7 @@ class InitIssuanceViewTestCase(SiteMixin, TestCase):
         self.course_certs = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs
