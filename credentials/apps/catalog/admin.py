@@ -28,7 +28,6 @@ class ProgramAdmin(admin.ModelAdmin):
         "type",
         "course_runs",
         "site",
-        "course_runs",
         "authoring_organizations",
         "type_slug",
         "total_hours_of_effort",
