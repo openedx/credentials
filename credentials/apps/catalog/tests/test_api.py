@@ -1,4 +1,5 @@
 import uuid
+from typing import TYPE_CHECKING, List
 
 from django.test import TestCase
 
@@ -17,6 +18,10 @@ from credentials.apps.catalog.tests.factories import (
 )
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.tests.factories import CourseCertificateFactory
+
+
+if TYPE_CHECKING:
+    from credentials.apps.credentials.models import CourseCertificate
 
 
 class APITests(TestCase):
@@ -44,7 +49,7 @@ class GetCourseRunsByCourseRunKeysTests(SiteMixin, TestCase):
         super().setUp()
         self.course = CourseFactory.create(site=self.site)
         self.course_runs = CourseRunFactory.create_batch(2, course=self.course)
-        self.course_certs = [
+        self.course_certs: List["CourseCertificate"] = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
                 site=self.site,
@@ -58,12 +63,12 @@ class GetCourseRunsByCourseRunKeysTests(SiteMixin, TestCase):
         assert len(result) == 0
 
     def test_get_course_runs_by_course_run_keys_one(self):
-        course_run_key = [self.course_certs[0].course_id]
+        course_run_key = [self.course_certs[0].course_run.key]
         result = get_course_runs_by_course_run_keys(course_run_key)
         assert result[0] == self.course_runs[0]
 
     def test_get_course_runs_by_course_run_keys_multiple(self):
-        course_run_keys = [course_cert.course_id for course_cert in self.course_certs]
+        course_run_keys = [course_cert.course_run.key for course_cert in self.course_certs]
         result = get_course_runs_by_course_run_keys(course_run_keys)
         assert result[0] == self.course_runs[0]
         assert result[1] == self.course_runs[1]

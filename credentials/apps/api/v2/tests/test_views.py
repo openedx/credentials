@@ -338,7 +338,8 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
     def test_list_type_filtering(self):
         """Verify the endpoint returns data for all UserCredentials for the given type."""
         program_certificate = ProgramCertificateFactory(site=self.site)
-        course_certificate = CourseCertificateFactory(site=self.site)
+        course_run = CourseRunFactory()
+        course_certificate = CourseCertificateFactory(course_id=course_run.key, course_run=course_run, site=self.site)
 
         course_cred = UserCredentialFactory(credential=course_certificate)
         program_cred = UserCredentialFactory(credential=program_certificate)
@@ -358,7 +359,8 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
     def test_list_visible_filtering(self):
         """Verify the endpoint can filter by visible date."""
         program_certificate = ProgramCertificateFactory(site=self.site)
-        course_certificate = CourseCertificateFactory(site=self.site)
+        course_run = CourseRunFactory()
+        course_certificate = CourseCertificateFactory(course_id=course_run.key, course_run=course_run, site=self.site)
 
         course_cred = UserCredentialFactory(credential=course_certificate)
         program_cred = UserCredentialFactory(credential=program_certificate)

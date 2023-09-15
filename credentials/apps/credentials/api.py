@@ -2,6 +2,7 @@
 Python API utility functions exposed by the `credentials` Django app.
 """
 import logging
+from typing import TYPE_CHECKING, Optional
 
 from django.contrib.contenttypes.models import ContentType
 
@@ -13,6 +14,12 @@ from credentials.apps.credentials.models import (
     UserCredential as _UserCredential,
 )
 from credentials.apps.credentials.utils import filter_visible, get_credential_visible_date, get_credential_visible_dates
+
+
+if TYPE_CHECKING:
+    from django.contrib.sites.models import Site
+
+    from credentials.apps.catalog.models import CourseRun
 
 
 logger = logging.getLogger(__name__)
@@ -77,7 +84,7 @@ def _update_or_create_credential(username, credential_type, credential_id, statu
         return credential, created
 
 
-def get_course_cert_config(course_run, mode, create=False):
+def get_course_cert_config(course_run: "CourseRun", mode: str, create: bool = False) -> Optional[_CourseCertificate]:
     """
     A utility function that attempts to retrieve a course certificate configuration from the provided course run
     instance. Optionally attempts to create a course certificate configuration if one does not exist.
@@ -103,7 +110,7 @@ def get_course_cert_config(course_run, mode, create=False):
     return course_cert_config
 
 
-def create_course_cert_config(course_run, site, mode):
+def create_course_cert_config(course_run: "CourseRun", site: "Site", mode: str):
     """
     A utility function that attempts to create a CourseCertificate instance from the provided data.
 
