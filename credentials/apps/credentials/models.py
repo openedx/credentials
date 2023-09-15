@@ -198,7 +198,7 @@ class CourseCertificate(AbstractCertificate):
     .. no_pii: This model has no PII.
     """
 
-    # course_id is identical to course_run.key. It is a deprecated legacy property.  # For now it is still used as a
+    # course_id is identical to course_run.key. It is a deprecated legacy property.  For now it is still used as a
     # convenience accessor and filter but it will be eventually removed. If you need the value stored in course_id,
     # get it from course_run.key.
     course_id = models.CharField(max_length=255, validators=[validate_course_key])
@@ -237,7 +237,7 @@ class CourseCertificate(AbstractCertificate):
         return CourseKey.from_string(self.course_run.key)
 
     def save(self, *args, **kwargs):
-        """Force-create the course_run or sync course_id if missing.
+        """Force-create the course_run property or sync course_id if missing.
 
         The course_id can be wrong and need to be synced, because if created by CourseCertificate factory it gets
         a placeholder value.

@@ -70,16 +70,16 @@ class CredentialField(serializers.Field):
                     },
                 )
             if cert is None or not cert.is_active:
-                msg = "No active CourseCertificate exists for course run [%s]" % (course_run_key)
+                msg = f"No active CourseCertificate exists for course run [{course_run_key}]"
                 raise ValidationError({"course_run_key": msg})
             return cert
         elif self.read_only:
-            msg = "No active CourseCertificate exists for course run [%s]" % (course_run_key)
+            msg = f"No active CourseCertificate exists for course run [{course_run_key}]"
             raise ValidationError({"course_run_key": msg})
         else:
             msg = (
-                "CourseCertificate failed to create because the CourseRun %s doesn't exist in the catalog"
-                % course_run_key
+                f"CourseCertificate failed to create because the CourseRun {course_run_key} doesn't exist "
+                "in the catalog"
             )
             raise ValidationError({"course_run_key": msg})
 
