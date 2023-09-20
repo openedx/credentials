@@ -179,7 +179,6 @@ edx-event-bus-kafka==5.4.0
     # via -r requirements/base.txt
 edx-i18n-tools==0.9.2
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-credentials-themes
 edx-opaque-keys[django]==2.5.0
