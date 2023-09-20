@@ -27,6 +27,10 @@ backoff==1.10.0
     # via
     #   -r requirements/test.txt
     #   analytics-python
+backports-zoneinfo==0.2.1
+    # via
+    #   -r requirements/test.txt
+    #   django
 bcrypt==4.0.1
     # via paramiko
 black==23.9.1
@@ -101,9 +105,8 @@ distlib==0.3.7
     #   virtualenv
 distro==1.8.0
     # via docker-compose
-django==3.2.21
+django==4.2.5
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   django-appconf
     #   django-cors-headers
@@ -455,7 +458,6 @@ python3-openid==3.2.0
 pytz==2023.3.post1
     # via
     #   -r requirements/test.txt
-    #   django
     #   djangorestframework
     #   drf-yasg
 pyyaml==5.4.1

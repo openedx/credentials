@@ -21,6 +21,10 @@ backoff==1.10.0
     # via
     #   -r requirements/base.txt
     #   analytics-python
+backports-zoneinfo==0.2.1
+    # via
+    #   -r requirements/base.txt
+    #   django
 bleach==6.0.0
     # via -r requirements/base.txt
 boto3==1.28.51
@@ -72,9 +76,8 @@ defusedxml==0.7.1
     #   social-auth-core
 didkit==0.3.2
     # via -r requirements/base.txt
-django==3.2.21
+django==4.2.5
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   django-appconf
     #   django-cors-headers
@@ -330,7 +333,6 @@ python3-openid==3.2.0
 pytz==2023.3.post1
     # via
     #   -r requirements/base.txt
-    #   django
     #   django-ses
     #   djangorestframework
     #   drf-yasg

@@ -11,8 +11,6 @@
 # Common constraints for edx repos
 -c common_constraints.txt
 
-Django<4.0
-
 # The update to pyyaml 6.x failed as docker-compose wants <6,>=3.10. Pinning to <6.0. This constraint will be
 # re-evaluated as part of APER-1556.
 pyyaml<6.0

@@ -16,6 +16,8 @@ attrs==23.1.0
     #   openedx-events
 backoff==1.10.0
     # via analytics-python
+backports-zoneinfo==0.2.1
+    # via django
 bleach==6.0.0
     # via -r requirements/base.in
 certifi==2023.7.22
@@ -49,9 +51,8 @@ defusedxml==0.7.1
     #   social-auth-core
 didkit==0.3.2
     # via -r requirements/base.in
-django==3.2.21
+django==4.2.5
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/base.in
     #   django-appconf
     #   django-cors-headers
@@ -239,7 +240,6 @@ python3-openid==3.2.0
 pytz==2023.3.post1
     # via
     #   -r requirements/base.in
-    #   django
     #   djangorestframework
     #   drf-yasg
 pyyaml==5.4.1
