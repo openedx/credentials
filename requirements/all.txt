@@ -133,7 +133,6 @@ distro==1.8.0
     #   docker-compose
 django==3.2.21
     # via
-    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -199,8 +198,9 @@ django-rest-swagger==2.2.0
     #   -r requirements/production.txt
 django-ses==3.5.0
     # via -r requirements/production.txt
-django-simple-history==3.1.1
+django-simple-history==3.0.0
     # via
+    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -606,8 +606,6 @@ pytz==2023.3.post1
     #   django-ses
     #   djangorestframework
     #   drf-yasg
-pywatchman==1.4.1 ; "linux" in sys_platform
-    # via -r requirements/dev.txt
 pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt

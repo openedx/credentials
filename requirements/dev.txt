@@ -103,7 +103,6 @@ distro==1.8.0
     # via docker-compose
 django==3.2.21
     # via
-    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   django-appconf
@@ -154,8 +153,9 @@ django-ratelimit==3.0.1
     #   -r requirements/test.txt
 django-rest-swagger==2.2.0
     # via -r requirements/test.txt
-django-simple-history==3.1.1
+django-simple-history==3.0.0
     # via
+    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
 django-sortedm2m==3.1.1
@@ -458,8 +458,6 @@ pytz==2023.3.post1
     #   django
     #   djangorestframework
     #   drf-yasg
-pywatchman==1.4.1 ; "linux" in sys_platform
-    # via -r requirements/dev.in
 pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt

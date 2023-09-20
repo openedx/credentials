@@ -74,7 +74,6 @@ didkit==0.3.2
     # via -r requirements/base.txt
 django==3.2.21
     # via
-    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   django-appconf
@@ -125,8 +124,9 @@ django-rest-swagger==2.2.0
     # via -r requirements/base.txt
 django-ses==3.5.0
     # via -r requirements/production.in
-django-simple-history==3.1.1
+django-simple-history==3.0.0
     # via
+    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
 django-sortedm2m==3.1.1
