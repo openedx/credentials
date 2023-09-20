@@ -17,10 +17,9 @@ import os
 
 from auth_backends.urls import oauth2_urlpatterns
 from django.conf import settings
-from django.conf.urls import include
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import include, path, re_path
 from django.utils.translation import gettext_lazy as _
 from django.views.defaults import page_not_found
 from drf_yasg import openapi
@@ -51,29 +50,27 @@ schema_view = get_schema_view(
 
 urlpatterns = oauth2_urlpatterns + [
     re_path(r"^admin/", admin.site.urls),
-    re_path(
-        r"^api/credentials/",
+    path(
+        "api/credentials/",
         include(("credentials.apps.credentials.rest_api.urls", "credentials_api"), namespace="credentials_api"),
     ),
-    re_path(r"^api/", include(("credentials.apps.api.urls", "api"), namespace="api")),
-    re_path(r"^api-auth/", include((oauth2_urlpatterns, "rest_framework"), namespace="rest_framework")),
-    re_path(r"^api-docs/$", schema_view.with_ui("swagger", cache_timeout=0), name="api_docs"),
-    re_path(r"^auto_auth/$", core_views.AutoAuth.as_view(), name="auto_auth"),
-    re_path(r"^credentials/", include(("credentials.apps.credentials.urls", "credentials"), namespace="credentials")),
-    re_path(r"^health/$", core_views.health, name="health"),
-    re_path(
-        r"^management/", include(("credentials.apps.edx_django_extensions.urls", "management"), namespace="management")
-    ),
-    re_path(r"^records/", include(("credentials.apps.records.urls", "records"), namespace="records")),
+    path("api/", include(("credentials.apps.api.urls", "api"), namespace="api")),
+    path("api-auth/", include((oauth2_urlpatterns, "rest_framework"), namespace="rest_framework")),
+    path("api-docs/", schema_view.with_ui("swagger", cache_timeout=0), name="api_docs"),
+    path("auto_auth/", core_views.AutoAuth.as_view(), name="auto_auth"),
+    path("credentials/", include(("credentials.apps.credentials.urls", "credentials"), namespace="credentials")),
+    path("health/", core_views.health, name="health"),
+    path("management/", include(("credentials.apps.edx_django_extensions.urls", "management"), namespace="management")),
+    path("records/", include(("credentials.apps.records.urls", "records"), namespace="records")),
     re_path(r"^program-listing/", ProgramListingView.as_view(), name="program_listing"),
     re_path(r"^favicon\.ico$", FaviconView.as_view(permanent=True)),
-    re_path(r"^mock-toggles$", MockToggleStateView.as_view()),
+    path("mock-toggles", MockToggleStateView.as_view()),
 ]
 
 if is_verifiable_credentials_enabled():
     urlpatterns += [
-        re_path(
-            r"^verifiable_credentials/",
+        path(
+            "verifiable_credentials/",
             include(
                 ("credentials.apps.verifiable_credentials.urls", "verifiable_credentials"),
                 namespace="verifiable_credentials",
@@ -92,14 +89,14 @@ handler500 = "credentials.apps.core.views.render_500"
 if settings.DEBUG:  # pragma: no cover
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += [
-        re_path(r"^404/$", page_not_found, name="404"),
-        re_path(r"^500/$", core_views.render_500, name="500"),
+        path("404/", page_not_found, name="404"),
+        path("500/", core_views.render_500, name="500"),
     ]
 
 if settings.DEBUG and os.environ.get("ENABLE_DJANGO_TOOLBAR", False):  # pragma: no cover
     import debug_toolbar
 
-    urlpatterns.append(re_path(r"^__debug__/", include(debug_toolbar.urls)))
+    urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
 
 # Plugin django app urls
 urlpatterns.extend(get_plugin_url_patterns(PROJECT_TYPE))

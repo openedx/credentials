@@ -327,10 +327,10 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
         context = {
             "page": {
                 "path": request.path,
-                "referrer": request.META.get("HTTP_REFERER"),
+                "referrer": request.headers.get("referer"),
                 "url": request.build_absolute_uri(),
             },
-            "userAgent": request.META.get("HTTP_USER_AGENT"),
+            "userAgent": request.headers.get("user-agent"),
         }
 
         # Use the value of 'ajs_anonymous_id' as the anonymous id if the cookie exists, otherwise generate a UUID to

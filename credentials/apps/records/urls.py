@@ -1,5 +1,4 @@
-from django.conf.urls import include
-from django.urls import re_path
+from django.urls import include, path, re_path
 
 from credentials.apps.credentials.constants import UUID_PATTERN
 
@@ -7,8 +6,8 @@ from . import views
 
 
 urlpatterns = [
-    re_path(r"^$", views.RecordsView.as_view(), name="index"),
-    re_path(r"^api/", include(("credentials.apps.records.rest_api.urls", "api"), namespace="api")),
+    path("", views.RecordsView.as_view(), name="index"),
+    path("api/", include(("credentials.apps.records.rest_api.urls", "api"), namespace="api")),
     # NOTE: We need to _keep_ this to ensure Program Dashboard can send the learner directly to the Program Record
     re_path(
         rf"^programs/{UUID_PATTERN}/$", views.ProgramRecordView.as_view(), {"is_public": False}, name="private_programs"

@@ -1,6 +1,6 @@
 from unittest import mock
 
-import django
+import django  # pylint: disable=unused-import
 from django.contrib import messages
 from django.test import TestCase
 from django.urls import reverse
@@ -44,8 +44,7 @@ class ManagementViewTests(SiteMixin, TestCase):
         response = self.client.get(self.path)
 
         expected_code = 302
-        if django.VERSION >= (2, 1):  # Authenticated users are denied access with an HTTP 403 Forbidden response
-            expected_code = 403
+        expected_code = 403
 
         self.assertEqual(response.status_code, expected_code)
 
