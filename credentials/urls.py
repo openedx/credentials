@@ -62,8 +62,8 @@ urlpatterns = oauth2_urlpatterns + [
     path("health/", core_views.health, name="health"),
     path("management/", include(("credentials.apps.edx_django_extensions.urls", "management"), namespace="management")),
     path("records/", include(("credentials.apps.records.urls", "records"), namespace="records")),
-    re_path(r"^program-listing/", ProgramListingView.as_view(), name="program_listing"),
-    re_path(r"^favicon\.ico$", FaviconView.as_view(permanent=True)),
+    path("program-listing/", ProgramListingView.as_view(), name="program_listing"),
+    path("favicon.ico", FaviconView.as_view(permanent=True)),
     path("mock-toggles", MockToggleStateView.as_view()),
 ]
 
