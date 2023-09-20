@@ -1,6 +1,5 @@
 from unittest import mock
 
-import django  # pylint: disable=unused-import
 from django.contrib import messages
 from django.test import TestCase
 from django.urls import reverse
@@ -43,7 +42,6 @@ class ManagementViewTests(SiteMixin, TestCase):
         self.client.login(username=user.username, password=USER_PASSWORD)
         response = self.client.get(self.path)
 
-        expected_code = 302
         expected_code = 403
 
         self.assertEqual(response.status_code, expected_code)

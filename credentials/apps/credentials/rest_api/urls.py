@@ -1,4 +1,4 @@
-from django.urls import include, re_path
+from django.urls import include, path
 
 from credentials.apps.credentials.rest_api.v1 import urls as v1_credentials_api_urls
 
@@ -7,5 +7,5 @@ from credentials.apps.credentials.rest_api.v1 import urls as v1_credentials_api_
 # the API naming and code layout convention here is what we are using, per
 # https://openedx.atlassian.net/wiki/spaces/AC/pages/18350757/edX+REST+API+Conventions
 urlpatterns = [
-    re_path("v1/", include((v1_credentials_api_urls, "v1"), namespace="v1")),
+    path("v1/", include((v1_credentials_api_urls, "v1"), namespace="v1")),
 ]

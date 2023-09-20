@@ -48,7 +48,7 @@ JWT_AUTH.update(
         "JWT_AUDIENCE": SOCIAL_AUTH_EDX_OAUTH2_KEY,
     }
 )
-STATICFILES_STORAGE = None
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 # Verifiable Credentials
 ENABLE_VERIFIABLE_CREDENTIALS = True
