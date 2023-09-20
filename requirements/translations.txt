@@ -10,10 +10,8 @@ backports-zoneinfo==0.2.1
     # via django
 django==4.2.5
     # via edx-i18n-tools
-edx-i18n-tools==0.9.2
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/translations.in
+edx-i18n-tools==1.2.0
+    # via -r requirements/translations.in
 path==16.7.1
     # via edx-i18n-tools
 polib==1.2.0
