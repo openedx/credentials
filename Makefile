@@ -150,8 +150,19 @@ compile_translations: ## Compile translation files, outputting .mo files for eac
 fake_translations: extract_translations dummy_translations compile_translations ## Generate and compile dummy translation files
 
 # This Make target should not be removed since it is relied on by a Jenkins job (`edx-internal/tools-edx-jenkins/translation-jobs.yml`), using `ecommerce-scripts/transifex`.
+ifeq ($(OPENEDX_ATLAS_PULL),)
 pull_translations: ## Pull translations from Transifex
 	tx pull -t -a -f --mode reviewed --minimum-perc=1
+else
+# Experimental: OEP-58 Pulls translations using atlas
+pull_translations:
+	find credentials/conf/locale -mindepth 1 -maxdepth 1 -type d -exec rm -r {} \;
+	atlas pull $(OPENEDX_ATLAS_ARGS) translations/credentials/credentials/conf/locale:credentials/conf/locale
+	python manage.py compilemessages
+
+	@echo "Translations have been pulled via Atlas and compiled."
+	@echo "'make static' or 'make static.dev' is required to update the js i18n files."
+endif
 
 # This Make target should not be removed since it is relied on by a Jenkins job (`edx-internal/tools-edx-jenkins/translation-jobs.yml`), using `ecommerce-scripts/transifex`.
 push_translations: ## Push source translation files (.po) to Transifex
