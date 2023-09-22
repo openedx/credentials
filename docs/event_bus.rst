@@ -8,17 +8,24 @@ For more information on how to start using the Event Bus in your environment, se
 Events Consumed
 ~~~~~~~~~~~~~~~
 
+Before Credentials can consume these events, you must:
+
+* Have the appropriate configuration enabled for the LMS to publish course certificate events to the Event Bus:
+  * for ``CERTIFICATE_CREATED`` events, you must have the ``SEND_CERTIFICATE_CREATED_SIGNAL`` setting enabled in your LMS configuration
+  * for ``CERTIFICATE_REVOKED`` events, you must have the ``SEND_CERTIFICATE_REVOKED_SIGNAL`` setting enabled in your LMS configuration
+* Have the ``EVENT_BUS_REDIS_CONSUMERS_ENABLED`` or the ``EVENT_BUS_KAFKA_CONSUMERS_ENABLED`` setting enabled in your Credentials configuration, depending on the underlying Event Bus implementation used in your Open edX environment.
+
+There is additional configuration required to run the Event Bus in an Open edX environment, this configuration is beyond the scope of this document. Please see `How to start using the Event Bus`_ for more information.
+
 CERTIFICATE_CREATED
 -------------------
 
 The Credentials IDA supports consuming ``CERTIFICATE_CREATED`` events published by the LMS of ``edx-platform``. If configured, this event is fired by the LMS when a (course) certificate is awarded to a learner. Upon successful processing of this event, a (course) credential is created for the learner in Credentials.
 
-Before Credentials can consume these events, you must:
+CERTIFICATE_REVOKED
+-------------------
 
-* Have the ``SEND_CERTIFICATE_CREATED_SIGNAL`` setting enabled in your ``edx-platform`` configuration.
-* Have the ``EVENT_BUS_REDIS_CONSUMERS_ENABLED`` or the ``EVENT_BUS_KAFKA_CONSUMERS_ENABLED`` setting enabled in your Credentials configuration, depending on the underlying Event Bus implementation used in your Open edX environment.
-
-There is additional configuration required to run the Event Bus in an Open edX environment, this configuration is beyond the scope of this document. Please see `How to start using the Event Bus`_ for more information.
+The Credentials IDA supports consuming ``CERTIFICATE_REVOKED`` events published by the LMS of ``edx-platform``. If configured, this event is fired by the LMS when a (course) certificate is revoked from a learner. Upon successful processing of this event, a (course) credential will be revoked from the learner in Credentials.
 
 Events Published
 ~~~~~~~~~~~~~~~~
