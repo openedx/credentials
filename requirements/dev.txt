@@ -12,7 +12,7 @@ asgiref==3.7.2
     # via
     #   -r requirements/test.txt
     #   django
-astroid==2.15.6
+astroid==2.15.7
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -156,7 +156,7 @@ django-ratelimit==3.0.1
     #   -r requirements/test.txt
 django-rest-swagger==2.2.0
     # via -r requirements/test.txt
-django-simple-history==3.0.0
+django-simple-history==3.1.1
     # via
     #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
@@ -215,7 +215,7 @@ edx-django-utils==5.7.0
     #   edx-toggles
 edx-drf-extensions==8.10.0
     # via -r requirements/test.txt
-edx-event-bus-kafka==5.4.0
+edx-event-bus-kafka==5.5.0
     # via -r requirements/test.txt
 edx-i18n-tools==1.2.0
     # via
@@ -224,7 +224,7 @@ edx-i18n-tools==1.2.0
     #   edx-credentials-themes
 edx-lint==5.3.4
     # via -r requirements/test.txt
-edx-opaque-keys[django]==2.5.0
+edx-opaque-keys[django]==2.5.1
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
@@ -241,7 +241,7 @@ exceptiongroup==1.1.3
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/test.txt
-faker==19.6.1
+faker==19.6.2
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -328,7 +328,7 @@ openapi-codec==1.3.2
     # via
     #   -r requirements/test.txt
     #   django-rest-swagger
-openedx-atlas==0.4.4
+openedx-atlas==0.5.0
     # via -r requirements/test.txt
 openedx-events==8.6.0
     # via
@@ -395,7 +395,7 @@ pyjwt[crypto]==2.8.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.17.5
+pylint==2.17.6
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -461,6 +461,8 @@ pytz==2023.3.post1
     #   -r requirements/test.txt
     #   djangorestframework
     #   drf-yasg
+pywatchman==1.4.1 ; "linux" in sys_platform
+    # via -r requirements/dev.in
 pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
@@ -574,7 +576,7 @@ tox==3.28.0
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt
-types-pyyaml==6.0.12.11
+types-pyyaml==6.0.12.12
     # via
     #   -r requirements/test.txt
     #   responses

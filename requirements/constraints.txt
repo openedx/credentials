@@ -31,7 +31,7 @@ analytics-python<=1.4.0
 # APER-2422
 urllib3<2
 
-django-simple-history<=3.1.1
+django-simple-history==3.1.1
 
 # The latest version of `social-auth-app-django` includes a large migration that is causing OOM issues
 social-auth-app-django<5.3.0
