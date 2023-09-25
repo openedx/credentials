@@ -31,11 +31,6 @@ backoff==1.10.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   analytics-python
-backports-zoneinfo==0.2.1
-    # via
-    #   -r requirements/dev.txt
-    #   -r requirements/production.txt
-    #   django
 bcrypt==4.0.1
     # via
     #   -r requirements/dev.txt
@@ -48,11 +43,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==2.0.2
     # via -r requirements/dev.txt
-boto3==1.28.53
+boto3==1.28.54
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.31.53
+botocore==1.31.54
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -136,8 +131,9 @@ distro==1.8.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-django==4.2.5
+django==3.2.21
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-appconf
@@ -204,7 +200,6 @@ django-ses==3.5.0
     # via -r requirements/production.txt
 django-simple-history==3.1.1
     # via
-    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -609,6 +604,7 @@ pytz==2023.3.post1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+    #   django
     #   django-ses
     #   djangorestframework
     #   drf-yasg
