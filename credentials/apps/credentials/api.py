@@ -7,7 +7,6 @@ from typing import TYPE_CHECKING, Optional
 from django.contrib.contenttypes.models import ContentType
 
 from credentials.apps.catalog.api import get_course_runs_by_course_run_keys
-from credentials.apps.credentials.constants import UserCredentialStatus
 from credentials.apps.credentials.models import (
     CourseCertificate as _CourseCertificate,
     ProgramCertificate as _ProgramCertificate,
@@ -17,9 +16,12 @@ from credentials.apps.credentials.utils import filter_visible, get_credential_vi
 
 
 if TYPE_CHECKING:
+    from django.contrib.auth import get_user_model
     from django.contrib.sites.models import Site
 
     from credentials.apps.catalog.models import CourseRun
+
+    User = get_user_model()
 
 
 logger = logging.getLogger(__name__)
@@ -78,8 +80,8 @@ def _update_or_create_credential(username, credential_type, credential_id, statu
         return None, None
     else:
         logger.info(
-            f"Processed credential for user [{username}] with status [{status}]. UUID: [{credential.uuid}], created: "
-            f"[{created}]"
+            f"Processed credential update for user [{username}] with status [{status}]. UUID: [{credential.uuid}], "
+            f"created: [{created}]"
         )
         return credential, created
 
@@ -102,7 +104,7 @@ def get_course_cert_config(course_run: "CourseRun", mode: str, create: bool = Fa
         logger.info(f"Attempting to retrieve the course certificate configuration for course run [{course_run.key}]")
         course_cert_config = _CourseCertificate.objects.get(course_id=course_run.key)
     except _CourseCertificate.DoesNotExist:
-        logger.error(f"A course certificate configuration could not be found for course run [{course_run.key}]")
+        logger.warning(f"A course certificate configuration could not be found for course run [{course_run.key}]")
     finally:
         if not course_cert_config and create:
             course_cert_config = create_course_cert_config(course_run, course_run.course.site, mode)
@@ -232,34 +234,35 @@ def get_credential_dates(user_credentials, many):
         return get_credential_visible_date(user_credentials, use_date_override=True)
 
 
-def award_course_certificate(user, course_run_key, mode):
+def process_course_credential_update(user: "User", course_run_key: str, mode: str, credential_status: str) -> None:
     """
-    A utility function that will attempt to issue a certificate to a user from an event consumed from the event bus.
+    A utility function responsible for creating or updating a course credential associated with a learner. Primarily
+    used when consuming events from the Event Bus.
 
     Args:
-        user (User): The User instance retrieved from event details
-        course_run_key (String): The course run key that the learner earned a certificate in
-        mode (String): The "certificate type" of the certificate. Used if we need to create a new CourseCertificate
+        user (User): The user the credential is being awared to (or revoked from)
+        course_run_key (String): The credential's course run key it is associated with
+        mode (String): The "certificate type" of the credential. This is the _really_ the "mode" of the course run
+         (e.g. "verified", etc.)
+        credential_status (String): The desired status of the credential ("awarded" or "revoked")
     """
     course_run = _get_course_run(course_run_key)
     if course_run:
-        # Check if a (course) certificate configuration exists before we attempt to award the certificate. We cannot
-        # award a (course) credential if this configuration doesn't exist. If one doesn't exist, try to create one on
-        # the fly (this tracks with legacy behavior when awarding certs through the REST API pathway)
+        # Check if a course certificate configuration exists before we attempt to award or revoke the credential. We
+        # cannot process a credential update if this configuration doesn't exist. If one doesn't exist, try to create
+        # one on the fly (this tracks with legacy behavior when awarding credentials through the REST API pathway).
         course_cert_config = get_course_cert_config(course_run, mode, create=True)
         if course_cert_config:
-            _update_or_create_credential(
-                user.username, _CourseCertificate, course_cert_config.id, UserCredentialStatus.AWARDED
-            )
+            _update_or_create_credential(user.username, _CourseCertificate, course_cert_config.id, credential_status)
         else:
             logger.error(
-                f"Error awarding a course certificate to user [{user.id}] in course run [{course_run_key}]. A course "
-                "certificate configuration could not be found or created."
+                f"Error updating credential for user [{user.id}] in course run [{course_run_key}] with status "
+                f"[{credential_status}]. A course certificate configuration could not be found or created."
             )
             return
     else:
         logger.error(
-            f"Error awarding a course certificate to user [{user.id}] in course run [{course_run_key}]. Could not find "
-            f"a course run with key [{course_run_key}]"
+            f"Error updating credential for user [{user.id}] with status [{credential_status}]. A course run could not "
+            f"be found with key [{course_run_key}]."
         )
         return

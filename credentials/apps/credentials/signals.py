@@ -10,12 +10,14 @@ from openedx_events.event_bus import get_producer
 from openedx_events.learning.data import CertificateData
 from openedx_events.learning.signals import (
     CERTIFICATE_CREATED,
+    CERTIFICATE_REVOKED,
     PROGRAM_CERTIFICATE_AWARDED,
     PROGRAM_CERTIFICATE_REVOKED,
 )
 
 from credentials.apps.core.api import get_or_create_user_from_event_data
-from credentials.apps.credentials.api import award_course_certificate
+from credentials.apps.credentials.api import process_course_credential_update
+from credentials.apps.credentials.constants import UserCredentialStatus
 
 
 User = get_user_model()
@@ -23,67 +25,57 @@ logger = logging.getLogger(__name__)
 
 
 @receiver(CERTIFICATE_CREATED)
-def award_certificate_from_event(sender, **kwargs):  # pylint: disable=unused-argument
+@receiver(CERTIFICATE_REVOKED)
+def process_course_credential_event(sender, **kwargs):  # pylint: disable=unused-argument
     """
-    When we get a signal indicating that a certificate was created in the LMS, make sure to award a course certificate
-    UserCredential to the user in Credentials as well.
-
-    Args:
-        kwargs: event data sent with signal
+    Signal receiver for course certificate events consumed from the Event Bus. Depending on the type of event consumed,
+    we will then try to award a credential to (or revoke a credential from) a learner. If the learner doesn't exist in
+    Credentials yet, we will try to create a User instance for them so we don't lose the update (and this tracks with
+    the legacy behavior).
     """
     certificate_data = kwargs.get("certificate", None)
     if not certificate_data or not isinstance(certificate_data, CertificateData):
-        logger.error("Received null or unexpected data type from CERTIFICATE_CREATED signal")
-        return
-
-    course_event_data = certificate_data.course
-    user_event_data = certificate_data.user
-
-    user, __ = get_or_create_user_from_event_data(user_event_data)
-    if user:
-        logger.info(f"Awarding a course certificate to user [{user.id}] in course run [{course_event_data.course_key}]")
-        award_course_certificate(user, str(course_event_data.course_key), certificate_data.mode)
-    else:
         logger.error(
-            f"Failed to award a course certificate to user with (LMS) user id [{user_event_data.id}] in course run "
-            f"[{course_event_data.course_key}]. Could not retrieve or create a user in Credentials associated with the "
-            "given user"
+            "Unable to process course credential event from the Event Bus, the system received a null or unexpected "
+            "CertificateData object."
         )
         return
 
+    event_type = kwargs["signal"].event_type
+    user, __ = get_or_create_user_from_event_data(certificate_data.user)
+    if user:
+        course_run_key = str(certificate_data.course.course_key)
+        mode = certificate_data.mode
+        if event_type == CERTIFICATE_CREATED.event_type:
+            logger.info(f"Awarding a course certificate to user [{user.id}] in course run [{course_run_key}]")
+            process_course_credential_update(user, course_run_key, mode, UserCredentialStatus.AWARDED)
+        elif event_type == CERTIFICATE_REVOKED.event_type:
+            logger.info(f"Revoking a course certificate from user [{user.id}] in course run [{course_run_key}]")
+            process_course_credential_update(user, course_run_key, mode, UserCredentialStatus.REVOKED)
+    else:
+        logger.error(
+            f"Unable to process the `{event_type}` event with UUID {kwargs['metadata'].id}: could not retrieve or "
+            f"create a user with LMS user id [{certificate_data.user.id}]"
+        )
+
 
 @receiver(PROGRAM_CERTIFICATE_AWARDED)
-def listen_for_program_certificate_awarded_event(sender, signal, **kwargs):  # pylint: disable=unused-argument
-    """
-    Receiver for `PROGRAM_CERTIFICATE_AWARDED` events. This function is responsible for extracting required information
-    and passing it to another utility function responsible for publishing program certificate events to the event bus.
-    """
-    _publish_program_certificate_event(PROGRAM_CERTIFICATE_AWARDED, kwargs["program_certificate"], kwargs["metadata"])
-
-
 @receiver(PROGRAM_CERTIFICATE_REVOKED)
-def listen_for_program_certificate_revoked_event(sender, signal, **kwargs):  # pylint: disable=unused-argument
+def listen_for_program_certificate_events(sender, signal, **kwargs):  # pylint: disable=unused-argument
     """
-    Receiver for `PROGRAM_CERTIFICATE_REVOKED` events. This function is responsible for extracting required information
-    and passing it to another utility function responsible for publishing program certificate events to the event bus.
+    Signal receiver for program certificate events that need to be published to the Event Bus.
     """
-    _publish_program_certificate_event(PROGRAM_CERTIFICATE_REVOKED, kwargs["program_certificate"], kwargs["metadata"])
+    program_credential_event_type = None
+    if signal.event_type == PROGRAM_CERTIFICATE_AWARDED.event_type:
+        program_credential_event_type = PROGRAM_CERTIFICATE_AWARDED
+    elif signal.event_type == PROGRAM_CERTIFICATE_REVOKED.event_type:
+        program_credential_event_type = PROGRAM_CERTIFICATE_REVOKED
 
-
-def _publish_program_certificate_event(program_certificate_event_type, event_data, event_metadata):
-    """
-    Publishes Program Certificate lifecycle events to the event bus.
-
-    Args:
-        program_certificate_event_type (OpenEdxPublicSignal): The type of event we are publishing to the event bus
-         (e.g. PROGRAM_CERTIFICATE_AWARDED or PROGRAM_CERTIFICATE_REVOKED)
-        event_data (dict): Learner and credential data extracted from the event signal
-        event_metadata (dict): Event metadata extracted from the event signal
-    """
-    get_producer().send(
-        signal=program_certificate_event_type,
-        topic=getattr(settings, "PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME", ""),
-        event_key_field="program_certificate.program.uuid",
-        event_data={"program_certificate": event_data},
-        event_metadata=event_metadata,
-    )
+    if program_credential_event_type:
+        get_producer().send(
+            signal=program_credential_event_type,
+            topic=getattr(settings, "PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME", ""),
+            event_key_field="program_certificate.program.uuid",
+            event_data={"program_certificate": kwargs["program_certificate"]},
+            event_metadata=kwargs["metadata"],
+        )
