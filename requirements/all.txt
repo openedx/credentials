@@ -14,7 +14,7 @@ asgiref==3.7.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django
-astroid==2.15.6
+astroid==2.15.8
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -43,11 +43,11 @@ bleach==6.0.0
     #   -r requirements/production.txt
 bok-choy==2.0.2
     # via -r requirements/dev.txt
-boto3==1.28.51
+boto3==1.28.54
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.31.51
+botocore==1.31.54
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -199,9 +199,8 @@ django-rest-swagger==2.2.0
     #   -r requirements/production.txt
 django-ses==3.5.0
     # via -r requirements/production.txt
-django-simple-history==3.1.1
+django-simple-history==3.4.0
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 django-sortedm2m==3.1.1
@@ -290,7 +289,7 @@ edx-drf-extensions==8.10.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-event-bus-kafka==5.4.0
+edx-event-bus-kafka==5.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -302,7 +301,7 @@ edx-i18n-tools==0.9.2
     #   edx-credentials-themes
 edx-lint==5.3.4
     # via -r requirements/dev.txt
-edx-opaque-keys[django]==2.5.0
+edx-opaque-keys[django]==2.5.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -323,7 +322,7 @@ exceptiongroup==1.1.3
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/dev.txt
-faker==19.6.1
+faker==19.6.2
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -424,7 +423,7 @@ mysqlclient==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==9.0.0
+newrelic==9.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -442,7 +441,7 @@ openapi-codec==1.3.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-rest-swagger
-openedx-atlas==0.4.4
+openedx-atlas==0.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -526,7 +525,7 @@ pyjwt[crypto]==2.8.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.17.5
+pylint==2.17.6
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -610,8 +609,6 @@ pytz==2023.3.post1
     #   django-ses
     #   djangorestframework
     #   drf-yasg
-pywatchman==1.4.1 ; "linux" in sys_platform
-    # via -r requirements/dev.txt
 pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
@@ -746,7 +743,7 @@ tox==3.28.0
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
-types-pyyaml==6.0.12.11
+types-pyyaml==6.0.12.12
     # via
     #   -r requirements/dev.txt
     #   responses
