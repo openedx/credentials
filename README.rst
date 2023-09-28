@@ -17,11 +17,8 @@ requirements have been installed (`make requirements`)
 
 The exception to this, is commands that run inside their own containers, which currently is only the testing suites ::
 
-  make acceptance_tests_suite
   make quality_and_translations_tests_suite
   make unit_tests_suite
-
-`make accept` requires certain local OS-level packages to be installed (firefox / xbfb), so it's best to run it with the `acceptance_tests_suite` command noted above.
 
 Frontend Development
 --------------------
@@ -41,10 +38,6 @@ container image that mimics the ones that Github Actions uses.
 
 NOTE: The first time you run any of the test suites below, it
 will build the image which will take a few minutes. Following test runs will be quicker.
-
-To run acceptance tests locally ("acceptance_tests" in CI) ::
-
-  make acceptance_tests_suite
 
 To run python and javascript tests locally ("unit_tests" in CI) ::
 
