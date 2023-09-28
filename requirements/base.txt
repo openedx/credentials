@@ -96,10 +96,8 @@ django-ratelimit==3.0.1
     #   -r requirements/base.in
 django-rest-swagger==2.2.0
     # via -r requirements/base.in
-django-simple-history==3.1.1
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/base.in
+django-simple-history==3.4.0
+    # via -r requirements/base.in
 django-sortedm2m==3.1.1
     # via -r requirements/base.in
 django-statici18n==2.4.0
