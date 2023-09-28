@@ -33,13 +33,11 @@ black==23.9.1
     # via -r requirements/test.txt
 bleach==6.0.0
     # via -r requirements/test.txt
-bok-choy==2.0.2
-    # via -r requirements/test.txt
 certifi==2023.7.22
     # via
     #   -r requirements/test.txt
     #   requests
-cffi==1.15.1
+cffi==1.16.0
     # via
     #   -r requirements/test.txt
     #   cryptography
@@ -84,7 +82,7 @@ cryptography==41.0.4
     #   social-auth-core
 ddt==1.6.0
     # via -r requirements/test.txt
-defusedxml==0.7.1
+defusedxml==0.8.0rc1
     # via
     #   -r requirements/test.txt
     #   python3-openid
@@ -283,10 +281,6 @@ jinja2==3.1.2
     #   coreschema
 jsonschema==3.2.0
     # via docker-compose
-lazy==1.6
-    # via
-    #   -r requirements/test.txt
-    #   bok-choy
 lazy-object-proxy==1.9.0
     # via
     #   -r requirements/test.txt
@@ -458,6 +452,8 @@ pytz==2023.3.post1
     #   django
     #   djangorestframework
     #   drf-yasg
+pywatchman==1.4.1 ; "linux" in sys_platform
+    # via -r requirements/dev.in
 pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
@@ -494,10 +490,6 @@ sailthru-client==2.2.3
     # via
     #   -r requirements/test.txt
     #   edx-ace
-selenium==3.141.0
-    # via
-    #   -r requirements/test.txt
-    #   bok-choy
 semantic-version==2.10.0
     # via
     #   -r requirements/test.txt
@@ -597,7 +589,6 @@ urllib3==1.26.16
     #   docker
     #   requests
     #   responses
-    #   selenium
 virtualenv==20.24.5
     # via
     #   -r requirements/test.txt

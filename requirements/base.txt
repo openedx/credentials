@@ -20,7 +20,7 @@ bleach==6.0.0
     # via -r requirements/base.in
 certifi==2023.7.22
     # via requests
-cffi==1.15.1
+cffi==1.16.0
     # via
     #   cryptography
     #   pynacl
@@ -43,7 +43,7 @@ cryptography==41.0.4
     # via
     #   pyjwt
     #   social-auth-core
-defusedxml==0.7.1
+defusedxml==0.8.0rc1
     # via
     #   python3-openid
     #   social-auth-core
