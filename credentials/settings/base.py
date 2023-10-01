@@ -559,4 +559,4 @@ EVENT_BUS_TOPIC_PREFIX = "dev"
 
 PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME = "learning-program-certificate-lifecycle"
 
-CSRF_TRUSTED_ORIGINS_WITH_SCHEME = [] # just for Django 4.2 upgrade
+CSRF_TRUSTED_ORIGINS_WITH_SCHEME = []  # just for Django 4.2 upgrade
