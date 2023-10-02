@@ -17,12 +17,12 @@ from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.api import (
     _get_course_run,
     _update_or_create_credential,
-    award_course_certificate,
     create_course_cert_config,
     get_course_cert_config,
     get_course_certificates_with_ids,
     get_program_certificates_with_ids,
     get_user_credentials_by_content_type,
+    process_course_credential_update,
 )
 from credentials.apps.credentials.data import UserCredentialStatus
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, UserCredential
@@ -43,6 +43,7 @@ class GetCourseCertificatesWithIdsTests(SiteMixin, TestCase):
         self.course_certs = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs
@@ -278,7 +279,7 @@ class UpdateOrCreateCredentialTests(SiteMixin, TestCase):
         self.course = CourseFactory.create(site=self.site)
         self.course_run = CourseRunFactory.create(course=self.course)
         self.course_cert_config = CourseCertificateFactory.create(
-            course_id=self.course.id, course_run=self.course_run, site=self.site
+            course_id=self.course_run.key, course_run=self.course_run, site=self.site
         )
         self.program = ProgramFactory(
             title="TestProgram1", course_runs=[self.course_run], authoring_organizations=[self.org], site=self.site
@@ -308,8 +309,8 @@ class UpdateOrCreateCredentialTests(SiteMixin, TestCase):
                 )
 
         expected_message = (
-            f"Processed credential for user [{self.user.username}] with status [{cert_status}]. UUID: [{cert.uuid}], "
-            f"created: [{created}]"
+            f"Processed credential update for user [{self.user.username}] with status [{cert_status}]. UUID: "
+            f"[{cert.uuid}], created: [{created}]"
         )
 
         assert cert.status == cert_status
@@ -436,9 +437,9 @@ class GetOrCreateCertConfigTests(SiteMixin, TestCase):
             assert message in log.records[index].getMessage()
 
 
-class AwardCourseCertificateTests(SiteMixin, TestCase):
+class ProcessCourseCredentialUpdateTests(SiteMixin, TestCase):
     """
-    Test cases for the `award_course_certificate` utility function.
+    Test cases for the `process_course_credential_update` utility function.
     """
 
     def setUp(self):
@@ -448,22 +449,47 @@ class AwardCourseCertificateTests(SiteMixin, TestCase):
         self.course = CourseFactory.create(site=self.site)
         self.course_run = CourseRunFactory.create(course=self.course)
 
-    def test_award_course_cert(self):
+    def test_award_course_credential(self):
         """
-        Happy path. Verifies that we can award a UserCredential to a learner from event data consumed from the event
-        bus.
+        Happy path. Verifies that we can award a UserCredential to a learner from event data consumed from the Event
+        Bus.
         """
         course_cert_config = CourseCertificateFactory.create(
             course_id=self.course_run.key, course_run=self.course_run, site=self.site
         )
 
-        award_course_certificate(self.user, self.course_run.key, "honor")
+        process_course_credential_update(self.user, self.course_run.key, "honor", "awarded")
         credential = UserCredential.objects.get(username=self.user.username, credential_id=course_cert_config.id)
 
         assert credential.username == self.user.username
         assert credential.credential_id == course_cert_config.id
         assert credential.status == "awarded"
-        assert credential.credential_content_type_id == 12  # 12 is the content type for "Course Certificate"
+        # 12 is the content type for "Course Certificate"
+        assert credential.credential_content_type_id == 12
+
+    def test_revoke_course_credential(self):
+        """
+        Happy path. Verifies that we can revoke a course credential from a user after consuming an event from the Event
+        Bus.
+        """
+        course_credential_content_type = ContentType.objects.get(app_label="credentials", model="coursecertificate")
+        course_cert_config = CourseCertificateFactory.create(
+            course_id=self.course_run.key, course_run=self.course_run, site=self.site
+        )
+        credential = UserCredentialFactory.create(
+            username=self.user.username,
+            credential_content_type=course_credential_content_type,
+            credential=course_cert_config,
+            status=UserCredential.REVOKED,
+        )
+        process_course_credential_update(self.user, self.course_run.key, "honor", "revoked")
+        credential = UserCredential.objects.get(username=self.user.username, credential_id=course_cert_config.id)
+
+        assert credential.username == self.user.username
+        assert credential.credential_id == course_cert_config.id
+        assert credential.status == "revoked"
+        # 12 is the content type for "Course Certificate"
+        assert credential.credential_content_type_id == 12
 
     def test_update_existing_cert(self):
         """
@@ -480,12 +506,12 @@ class AwardCourseCertificateTests(SiteMixin, TestCase):
             status=UserCredential.REVOKED,
         )
         expected_message = (
-            f"Processed credential for user [{self.user.username}] with status [{UserCredential.AWARDED}]. UUID: "
-            f"[{credential.uuid}], created: [False]"
+            f"Processed credential update for user [{self.user.username}] with status [{UserCredential.AWARDED}]. "
+            f"UUID: [{credential.uuid}], created: [False]"
         )
 
         with LogCapture() as logs:
-            award_course_certificate(self.user, self.course_run.key, "honor")
+            process_course_credential_update(self.user, self.course_run.key, "honor", "awarded")
 
         credential = UserCredential.objects.get(
             username=self.user.username,
@@ -501,42 +527,41 @@ class AwardCourseCertificateTests(SiteMixin, TestCase):
 
     def test_award_course_cert_no_course_run(self):
         """
-        This test case verifies the expected behavior of the `award_course_certificate` function if a course run
-        received from an event does not exist in Credentials.
+        This test case verifies the expected behavior of the `process_course_certificate_update` function if a course
+        run received from an event does not exist in Credentials.
         """
         course_run_key = "course-v1:lol-doesnt-exist"
         expected_messages = [
             f"Attempting to retrieve course run with key [{course_run_key}]",
             f"Could not retrieve a course run with key [{course_run_key}]",
-            f"Error awarding a course certificate to user [{self.user.id}] in course run [{course_run_key}]. Could not "
-            f"find a course run with key [{course_run_key}]",
+            f"Error updating credential for user [{self.user.id}] with status [awarded]. A course run could not be "
+            f"found with key [{course_run_key}]",
         ]
 
         with LogCapture() as log:
-            award_course_certificate(self.user, course_run_key, "honor")
+            process_course_credential_update(self.user, course_run_key, "honor", "awarded")
 
         for index, message in enumerate(expected_messages):
             assert message in log.records[index].getMessage()
 
     def test_award_course_cert_no_course_certificate(self):
         """
-        This test case verifies the expected behavior of the `award_course_certificate` function if a course cert
-        configuration doesn't exist for the course run.
+        This test case verifies the expected behavior of the `process_course_certificate_update` function if a course
+        cert configuration doesn't exist for the course run.
         """
-        award_course_certificate(self.user, self.course_run.key, "honor")
-
+        process_course_credential_update(self.user, self.course_run.key, "honor", "awarded")
         course_cert_config = CourseCertificate.objects.get(course_run=self.course_run, certificate_type="honor")
         credential = UserCredential.objects.get(username=self.user.username, credential_id=course_cert_config.id)
-
         assert credential.username == self.user.username
         assert credential.credential_id == course_cert_config.id
         assert credential.status == "awarded"
-        assert credential.credential_content_type_id == 12  # 12 is the content type for "Course Certificate"
+        # 12 is the content type for "Course Certificate"
+        assert credential.credential_content_type_id == 12
 
     def test_award_course_cert_no_course_certificate_exception_occurs(self):
         """
-        This test case verifies the expected behavior of the `award_course_certificate` function if a course cert
-        configuration doesn't exist, but an exception occurs when we try to create it on the fly.
+        This test case verifies the expected behavior of the `process_course_certificate_update` function if a course
+        cert configuration doesn't exist, but an exception occurs when we try to create it on the fly.
         """
         expected_messages = [
             f"Attempting to retrieve course run with key [{self.course_run.key}]",
@@ -544,12 +569,12 @@ class AwardCourseCertificateTests(SiteMixin, TestCase):
             f"A course certificate configuration could not be found for course run [{self.course_run.key}]",
             f"Creating a course certificate configuration for course run [{self.course_run.key}]",
             f"Error occurred creating a CourseCertificate configuration for course run [{self.course_run.key}]",
-            f"Error awarding a course certificate to user [{self.user.id}] in course run [{self.course_run.key}]. "
-            "A course certificate configuration could not be found or created.",
+            f"Error updating credential for user [{self.user.id}] in course run [{self.course_run.key}] with status "
+            "[awarded]. A course certificate configuration could not be found or created.",
         ]
 
         with LogCapture() as log:
-            award_course_certificate(self.user, self.course_run.key, None)
+            process_course_credential_update(self.user, self.course_run.key, None, "awarded")
 
         for index, message in enumerate(expected_messages):
             assert message in log.records[index].getMessage()

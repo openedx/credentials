@@ -1,5 +1,6 @@
 import datetime
 from collections import defaultdict
+from typing import TYPE_CHECKING, List
 
 from django.contrib.contenttypes.models import ContentType
 from django.template.defaultfilters import slugify
@@ -15,6 +16,9 @@ from credentials.apps.credentials.data import UserCredentialStatus
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
 from credentials.apps.records.utils import get_credentials
 
+
+if TYPE_CHECKING:
+    from credentials.apps.credentials.models import CourseRun
 
 COURSE_CERTIFICATE_CONTENT_TYPE = ContentType.objects.filter(app_label="credentials", model="coursecertificate")
 
@@ -141,7 +145,7 @@ def _get_transformed_grade_data(program, user):
     )
     # create a new dictionary, mapping a course-run id (key) to an associated credential
     user_credential_dict = {
-        user_credential.credential.course_id: user_credential for user_credential in course_user_credentials
+        user_credential.credential.course_run.key: user_credential for user_credential in course_user_credentials
     }
     # maps a credential to its visible_date (a date when the certificate becomes viewable)
     visible_dates = get_credential_dates(course_user_credentials, True)
@@ -316,11 +320,14 @@ def get_program_details(request_user, request_site, uuid, is_public):
     }
 
 
-def get_learner_course_run_status(username, course_ids, course_runs):
+def get_learner_course_run_status(username: str, course_ids: List[str], course_runs: List["CourseRun"]):
     """
     Return the status for all of the related course runs related to the courses in
     the course uuid list, plus any course_runs explicitly called out in the course_runs list
     for the given learner.
+
+    Unlike in the context of a UserCredential.course_id, course_id here does literally mean
+    the course.uuid, not course_run.key.
     """
 
     course_credentials, program_credentials = get_credentials(username)  # pylint: disable=unused-variable

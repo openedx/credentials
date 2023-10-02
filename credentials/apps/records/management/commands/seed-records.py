@@ -99,7 +99,11 @@ class Command(BaseCommand):
 
     @staticmethod
     def seed_courses(site, organizations, faker):
-        """Seed two courses per organization"""
+        """Seed two courses per organization
+
+        Unlike in the context of a UserCredential.course_id, course_id here does literally mean
+        the course.uuid, not course_run.key.
+        """
         courses = []
         course_id = 1
 
@@ -241,6 +245,7 @@ class Command(BaseCommand):
         for course_run in course_runs:
             course_certificate, created = CourseCertificate.objects.update_or_create(
                 site=site,
+                course_run=course_run,
                 course_id=course_run.key,
                 defaults={
                     "is_active": True,

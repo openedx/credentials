@@ -5,12 +5,12 @@ TOX = ''
 .PHONY: help clean \
 	production-requirements all-requirements requirements piptools upgrade \
 	quality quality_fix isort isort_check format format_check quality-js \
-	tests js-tests accept \
+	tests js-tests \
 	static static.dev static.watch \
 	extract_translations dummy_translations compile_translations fake_translations pull_translations push_translations \
 	detect_changed_source_translations validate_translations check_translations_up_to_date \
 	check_keywords pii_check coverage \
-	acceptance_tests_suite quality_and_translations_tests_suite unit_tests_suite docs
+	quality_and_translations_tests_suite unit_tests_suite docs
 
 ifdef TOXENV
 TOX := tox -- #to isolate each tox environment if TOXENV is defined
@@ -82,15 +82,15 @@ upgrade: piptools $(COMMON_CONSTRAINTS_TXT)	## update the requirements/*.txt fil
 ### Quality commands ###
 
 quality: isort_check quality-js format_check ## Run linters
-	PYTHONPATH=. pylint --django-settings-module=credentials.settings.test --rcfile=pylintrc acceptance_tests credentials *.py
+	PYTHONPATH=. pylint --django-settings-module=credentials.settings.test --rcfile=pylintrc credentials *.py
 
 quality_fix: isort format
 
 isort: ## Run isort to sort imports in all Python files
-	isort --recursive --atomic acceptance_tests/ credentials/
+	isort --recursive --atomic credentials/
 
 isort_check: ## Check that isort has been run
-	isort --check-only acceptance_tests/ credentials/
+	isort --check-only credentials/
 
 format: ## format code
 	black .
@@ -111,10 +111,6 @@ test-karma: ## Run JS tests through Karma & install firefox. This command needs 
 	sudo apt-get update
 	sudo apt-get install --no-install-recommends -y firefox xvfb
 	xvfb-run $(NODE_BIN)/karma start
-
-# Requires locally installed software (firefox / xvfb). Easiest to run using `acceptance_tests_suite` command at the bottom
-accept: ## Run acceptance tests
-	./acceptance_tests/runtests.sh
 
 ### Frontend commands ###
 static: ## Gather all static assets for production (minimized)
@@ -150,8 +146,19 @@ compile_translations: ## Compile translation files, outputting .mo files for eac
 fake_translations: extract_translations dummy_translations compile_translations ## Generate and compile dummy translation files
 
 # This Make target should not be removed since it is relied on by a Jenkins job (`edx-internal/tools-edx-jenkins/translation-jobs.yml`), using `ecommerce-scripts/transifex`.
+ifeq ($(OPENEDX_ATLAS_PULL),)
 pull_translations: ## Pull translations from Transifex
 	tx pull -t -a -f --mode reviewed --minimum-perc=1
+else
+# Experimental: OEP-58 Pulls translations using atlas
+pull_translations:
+	find credentials/conf/locale -mindepth 1 -maxdepth 1 -type d -exec rm -r {} \;
+	atlas pull $(OPENEDX_ATLAS_ARGS) translations/credentials/credentials/conf/locale:credentials/conf/locale
+	python manage.py compilemessages
+
+	@echo "Translations have been pulled via Atlas and compiled."
+	@echo "'make static' or 'make static.dev' is required to update the js i18n files."
+endif
 
 # This Make target should not be removed since it is relied on by a Jenkins job (`edx-internal/tools-edx-jenkins/translation-jobs.yml`), using `ecommerce-scripts/transifex`.
 push_translations: ## Push source translation files (.po) to Transifex
@@ -181,10 +188,6 @@ coverage:
 
 build_test_image: # Builds Docker image used for testing so devs don't need to install requirements locally (useful for firefox / xvfb)
 	docker build -t credentials:local -f Dockerfile-testing .
-
-# This should be ran locally, not inside of the devstack container
-acceptance_tests_suite: build_test_image
-	docker run -e "TERM=xterm-256color" -v /edx/app/credentials/node_modules/ -v `pwd`:/edx/app/credentials/ --read-only credentials:local bash -c 'cd /edx/app/credentials/ && make static && make accept'
 
 # This should be ran locally, not inside of the devstack container
 quality_and_translations_tests_suite: build_test_image

@@ -4,6 +4,7 @@ Tests for the populate_missing_courserun_info management command
 
 from logging import INFO, WARNING
 
+import pytest
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management import call_command
 from django.test import TestCase
@@ -26,6 +27,9 @@ class CourseCertificateCourseRunSyncTests(TestCase):
         self.course_run = CourseRunFactory()
         self.course_certificate = CourseCertificateFactory(course_id=self.course_run.key)
 
+    @pytest.mark.skip(
+        "It's now impossible to create a test object in this broken state, so no longer usefully testable"
+    )
     def test_update_ids(self):
         """verify ids were updated"""
         with self.assertRaises(ObjectDoesNotExist):
@@ -46,6 +50,9 @@ class CourseCertificateCourseRunSyncTests(TestCase):
         # verify no changes were made
         self.assertIsNone(course_certificate.course_run)
 
+    @pytest.mark.skip(
+        "It's now impossible to create a test object in this broken state, so no longer usefully testable"
+    )
     def test_dry_run(self):
         """verify course_ids were NOT updated"""
         with self.assertRaises(ObjectDoesNotExist):

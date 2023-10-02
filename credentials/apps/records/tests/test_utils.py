@@ -118,6 +118,7 @@ class CourseCredentialsToCourseRunsTests(SiteMixin, TestCase):
         self.course_certs = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs
@@ -157,6 +158,7 @@ class CourseCredentialsToCourseRunsTests(SiteMixin, TestCase):
         self.course_certs2 = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs2
@@ -177,6 +179,7 @@ class CourseCredentialsToCourseRunsTests(SiteMixin, TestCase):
         self.course_certs2 = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs2
@@ -213,6 +216,7 @@ class GetCredentialsTests(SiteMixin, TestCase):
         self.course_certs = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs
@@ -253,10 +257,10 @@ class GetCredentialsTests(SiteMixin, TestCase):
         assert program_results == []
 
     def test_get_credentials_program_only(self):
-        for course_run in self.course_runs:
-            course_run.delete()
         for course_cert in self.course_certs:
             course_cert.delete()
+        for course_run in self.course_runs:
+            course_run.delete()
         course_results, program_results = get_credentials(self.user.username)
         assert course_results == []
         assert program_results[0] == self.program_user_credential
@@ -280,6 +284,7 @@ class GetProgramDataTests(SiteMixin, TestCase):
         self.course_certs = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs

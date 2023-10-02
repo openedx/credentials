@@ -40,6 +40,7 @@ edx-toggles
 markdown
 mysqlclient
 newrelic
+openedx-atlas
 pillow
 pygments
 python-memcached
@@ -52,4 +53,4 @@ xss-utils
 
 
 # TODO Install in configuration
-git+https://github.com/openedx/credentials-themes.git@0.3.8#egg=edx_credentials_themes==0.3.8
+git+https://github.com/openedx/credentials-themes.git@0.3.11#egg=edx_credentials_themes==0.3.11

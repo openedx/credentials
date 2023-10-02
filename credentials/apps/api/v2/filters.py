@@ -16,8 +16,8 @@ class ProgramRelatedFilter(django_filters.Filter):
         except ValidationError:
             return UserCredential.objects.none()
 
-        course_runs = [run.key for run in program.course_runs.all()] if program else []
-        return qs.filter(Q(program_credentials__program_uuid=value) | Q(course_credentials__course_id__in=course_runs))
+        course_runs = program.course_runs.all() if program else []
+        return qs.filter(Q(program_credentials__program_uuid=value) | Q(course_credentials__course_run__in=course_runs))
 
 
 class CredentialTypeFilter(django_filters.Filter):

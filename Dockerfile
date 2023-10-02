@@ -18,7 +18,7 @@ FROM ubuntu:focal as base
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
     apt-add-repository -y ppa:deadsnakes/ppa && apt-get update && \
-    apt-get upgrade -qy && apt-get install language-pack-en locales git \
+    apt-get upgrade -qy && apt-get install language-pack-en locales gettext git \
     python3.8-dev python3.8-venv libmysqlclient-dev libssl-dev build-essential wget unzip pkg-config -qy && \
     rm -rf /var/lib/apt/lists/*
 

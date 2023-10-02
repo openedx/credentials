@@ -11,11 +11,10 @@ To make testing easier, there are a few commands that mirror our suites in CI:
 
 .. code-block:: bash
 
-    $ make acceptance_tests_suite
     $ make unit_tests_suite
     $ make quality_and_translations_tests_suite
 
-This will run acceptance tests, the Python and Javascript tests, and our quality and translation suite, respectively.
+This will run the Python, the Javascript tests, and our quality and translation suite, respectively.
 
 
 Writing Python Tests

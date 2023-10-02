@@ -1,12 +1,13 @@
 import logging
 import urllib
+from typing import TYPE_CHECKING, Any, Dict, List, Tuple
 
 from django.contrib.contenttypes.models import ContentType
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 from edx_ace import Recipient, ace
 
-from credentials.apps.catalog.api import get_course_runs_by_course_run_keys, get_filtered_programs
+from credentials.apps.catalog.api import get_filtered_programs
 from credentials.apps.catalog.data import ProgramStatus
 from credentials.apps.catalog.models import Program
 from credentials.apps.core.models import User
@@ -20,6 +21,11 @@ from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 
+
+if TYPE_CHECKING:
+    from django.contrib.sites.models import Site
+
+    from credentials.apps.credentials.models import UserCredential
 
 logger = logging.getLogger(__name__)
 
@@ -69,7 +75,7 @@ def send_updated_emails_for_program(request, username, program_certificate):
         ace.send(msg)
 
 
-def get_credentials(request_username):
+def get_credentials(request_username: str) -> Tuple[List["UserCredential"], List["UserCredential"]]:
     """
     Returns two lists of credentials: a course list and a program list
 
@@ -123,11 +129,15 @@ def _course_credentials_to_course_runs(request_site, course_credentials):
         x.credential_id for x in course_credentials if x.status == UserCredentialStatus.AWARDED.value
     ]
     course_certificates = get_course_certificates_with_ids(course_credential_ids, request_site)
-    course_run_keys = [course_cert.course_id for course_cert in course_certificates]
-    return get_course_runs_by_course_run_keys(course_run_keys)
+    return [course_cert.course_run for course_cert in course_certificates]
 
 
-def get_user_program_data(request_username, request_site, include_empty_programs=False, include_retired_programs=False):
+def get_user_program_data(
+    request_username: str,
+    request_site: "Site",
+    include_empty_programs: bool = False,
+    include_retired_programs: bool = False,
+) -> List[Dict[str, Any]]:
     """
     Translates a list of Program and UserCredentials (for programs) into context data.
 

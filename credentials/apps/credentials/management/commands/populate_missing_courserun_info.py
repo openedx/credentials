@@ -6,7 +6,6 @@ course_run table.
 import logging
 from typing import TYPE_CHECKING
 
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from django.core.management.base import BaseCommand
 
 from credentials.apps.catalog.api import get_course_runs_by_course_run_keys
