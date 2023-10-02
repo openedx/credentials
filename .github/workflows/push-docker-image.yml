@@ -6,7 +6,7 @@ on:
       - master
     tags:
       - open-release/*
-jobs:
+jobs:  
   push:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
@@ -29,22 +29,36 @@ jobs:
             return tagName;
           result-encoding: string
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+           username: ${{ secrets.DOCKERHUB_USERNAME }}
+           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
       - name: Build and push base Docker image
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v5
         with:
           push: ${{ github.event_name != 'pull_request' }}
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
           target: base
           repository: openedx/credentials
-          tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
-
+          tags: |
+            openedx/credentials:${{ steps.get-tag-name.outputs.result }}
+            openedx/credentials:${{ github.sha }}
+          platforms: linux/amd64,linux/arm64
+      
       - name: Build and push dev Docker image
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v5
         with:
           push: ${{ github.event_name != 'pull_request' }}
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
           target: dev
           repository: openedx/credentials-dev
-          tags: ${{ steps.get-tag-name.outputs.result }},${{ github.sha }}
+          tags: |
+            openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}
+            openedx/credentials-dev:${{ github.sha }}
+          platforms: linux/amd64,linux/arm64

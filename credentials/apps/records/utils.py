@@ -1,13 +1,13 @@
 import logging
 import urllib
+from typing import TYPE_CHECKING, Any, Dict, List, Tuple
 
-from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 from edx_ace import Recipient, ace
 
-from credentials.apps.catalog.api import get_course_runs_by_course_run_keys, get_filtered_programs
+from credentials.apps.catalog.api import get_filtered_programs
 from credentials.apps.catalog.data import ProgramStatus
 from credentials.apps.catalog.models import Program
 from credentials.apps.core.models import User
@@ -21,6 +21,11 @@ from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 
+
+if TYPE_CHECKING:
+    from django.contrib.sites.models import Site
+
+    from credentials.apps.credentials.models import UserCredential
 
 logger = logging.getLogger(__name__)
 
@@ -44,12 +49,11 @@ def send_updated_emails_for_program(request, username, program_certificate):
     try:
         pcr = ProgramCertRecord.objects.get(program=program, user=user)
     except ProgramCertRecord.DoesNotExist:
-        logger.exception("Program Cert Record for user_uuid %s, program_uuid %s does not exist", user.id, program.uuid)
+        logger.debug("ProgramCertRecord for user_uuid %s, program_uuid %s does not exist", user.id, program.uuid)
         return
 
     # Send emails for those already marked as "SENT"
     for user_pathway in user_pathways:
-
         pathway = user_pathway.pathway
         record_path = reverse("records:public_programs", kwargs={"uuid": pcr.uuid.hex})
         record_link = request.build_absolute_uri(record_path)
@@ -71,38 +75,7 @@ def send_updated_emails_for_program(request, username, program_certificate):
         ace.send(msg)
 
 
-def masquerading_authorized(masquerader, target):
-    """
-    Checks whether a user has the permissions to masquerade as the target user.
-
-    Overrides django-hijack's default authorization function to prevent
-    superusers from masquerading as other superusers.
-
-    By default only superusers are allowed to masquerade, unless
-    HIJACK_AUTHORIZE_STAFF is enabled in settings.
-
-    By default, staff are not able to masquerade as staff unless
-    HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF is enabled in settings.
-
-    Adapted from:
-    https://github.com/arteria/django-hijack/blob/4dd897761952adf387fb71822e3e76bc3d0deb51/hijack/helpers.py#L77
-    """
-    if target.is_superuser:
-        return False
-
-    if masquerader.is_superuser:
-        return True
-
-    if masquerader.is_staff and getattr(settings, "HIJACK_AUTHORIZE_STAFF", False):
-        if target.is_staff and not getattr(settings, "HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF", False):
-            return False
-
-        return True
-
-    return False
-
-
-def _get_credentials(request_username):
+def get_credentials(request_username: str) -> Tuple[List["UserCredential"], List["UserCredential"]]:
     """
     Returns two lists of credentials: a course list and a program list
 
@@ -156,11 +129,15 @@ def _course_credentials_to_course_runs(request_site, course_credentials):
         x.credential_id for x in course_credentials if x.status == UserCredentialStatus.AWARDED.value
     ]
     course_certificates = get_course_certificates_with_ids(course_credential_ids, request_site)
-    course_run_keys = [course_cert.course_id for course_cert in course_certificates]
-    return get_course_runs_by_course_run_keys(course_run_keys)
+    return [course_cert.course_run for course_cert in course_certificates]
 
 
-def get_user_program_data(request_username, request_site, include_empty_programs=False, include_retired_programs=False):
+def get_user_program_data(
+    request_username: str,
+    request_site: "Site",
+    include_empty_programs: bool = False,
+    include_retired_programs: bool = False,
+) -> List[Dict[str, Any]]:
     """
     Translates a list of Program and UserCredentials (for programs) into context data.
 
@@ -175,7 +152,7 @@ def get_user_program_data(request_username, request_site, include_empty_programs
         user is enrolled in
     """
     # Get all user credentials
-    course_credentials, program_credentials = _get_credentials(request_username)
+    course_credentials, program_credentials = get_credentials(request_username)
 
     # Get course runs that this user has a credential in
     course_runs = frozenset(_course_credentials_to_course_runs(request_site, course_credentials))

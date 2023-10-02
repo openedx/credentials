@@ -1,10 +1,16 @@
 import datetime
 import uuid
+from typing import TYPE_CHECKING, Optional
 
 import factory
 
+from credentials.apps.catalog.tests.factories import ProgramFactory
 from credentials.apps.core.tests.factories import SiteFactory
 from credentials.apps.credentials import constants, models
+
+
+if TYPE_CHECKING:
+    from credentials.apps.credentials.models import CourseRun
 
 
 PASSWORD = "dummy-password"
@@ -18,10 +24,11 @@ class CourseCertificateFactory(AbstractCertificateFactory):
     class Meta:
         model = models.CourseCertificate
 
-    course_id = factory.Sequence(lambda o: "course-%d" % o)
     certificate_type = constants.CertificateType.HONOR
     is_active = True
     certificate_available_date = None
+    course_run: Optional["CourseRun"] = None
+    course_id = course_run.key if course_run else factory.Sequence(lambda o: "course-%d" % o)
 
 
 class ProgramCertificateFactory(AbstractCertificateFactory):
@@ -29,7 +36,8 @@ class ProgramCertificateFactory(AbstractCertificateFactory):
         model = models.ProgramCertificate
 
     is_active = True
-    program_uuid = factory.LazyFunction(uuid.uuid4)
+    program = factory.SubFactory(ProgramFactory)
+    program_uuid = factory.SelfAttribute("program.uuid")
 
 
 class UserCredentialFactory(factory.django.DjangoModelFactory):

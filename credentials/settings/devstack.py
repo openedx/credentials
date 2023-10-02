@@ -1,5 +1,7 @@
+from edx_django_utils.plugins import add_plugins
 from credentials.settings._debug_toolbar import *
 from credentials.settings.base import *
+from credentials.apps.plugins.constants import PROJECT_TYPE, SettingsType
 from credentials.settings.utils import get_logger_config, str2bool
 
 DEBUG = str2bool(os.environ.get("DEBUG", True))
@@ -14,8 +16,9 @@ LANGUAGE_CODE = os.environ.get("LANGUAGE_CODE", "en")
 
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
+        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
         "LOCATION": os.environ.get("CACHE_LOCATION", "edx.devstack.memcached:11211"),
+        "OPTIONS": {"no_delay": True, "ignore_exc": True, "use_pooling": True},
     }
 }
 
@@ -97,6 +100,7 @@ SEND_EMAIL_ON_PROGRAM_COMPLETION = True
 USE_LEARNER_RECORD_MFE = False
 LEARNER_RECORD_MFE_RECORDS_PAGE_URL = "http://localhost:1990/"
 
+add_plugins(__name__, PROJECT_TYPE, SettingsType.DEVSTACK)
 
 #####################################################################
 # Lastly, see if the developer has any local overrides.

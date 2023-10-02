@@ -113,7 +113,7 @@ class CatalogDataSynchronizer:
         Returns:
             None
         """
-        for (model_type, dataset) in self.existing_data.items():
+        for model_type, dataset in self.existing_data.items():
             removed = self.existing_data_sets[model_type] - self.updated_data_sets[model_type]
             if removed:
                 logger.info(f"Removing the following {model_type} UUIDs: {removed}")

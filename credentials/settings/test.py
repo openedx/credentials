@@ -1,8 +1,10 @@
 import os
 from pathlib import Path as path
 
+from edx_django_utils.plugins import add_plugins
 from credentials.settings.base import *
 from credentials.settings.utils import get_logger_config
+from credentials.apps.plugins.constants import PROJECT_TYPE, SettingsType
 
 INSTALLED_APPS += [
     "credentials.apps.edx_credentials_extensions",
@@ -46,4 +48,36 @@ JWT_AUTH.update(
         "JWT_AUDIENCE": SOCIAL_AUTH_EDX_OAUTH2_KEY,
     }
 )
-STATICFILES_STORAGE = None
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+
+# Verifiable Credentials
+ENABLE_VERIFIABLE_CREDENTIALS = True
+VERIFIABLE_CREDENTIALS = {
+    "DEFAULT_DATA_MODELS": [
+        "credentials.apps.verifiable_credentials.composition.verifiable_credentials.VerifiableCredentialsDataModel",
+        "credentials.apps.verifiable_credentials.composition.open_badges.OpenBadgesDataModel",
+    ],
+    "STATUS_LIST_DATA_MODEL": "credentials.apps.verifiable_credentials.composition.status_list.StatusListDataModel",
+    "DEFAULT_ISSUANCE_REQUEST_SERIALIZER": "credentials.apps.verifiable_credentials.issuance.serializers.IssuanceLineSerializer",  # pylint: disable=line-too-long
+    "DEFAULT_ISSUER": {
+        "ID": "test-issuer-did",
+        "KEY": "test-issuer-key",
+        "NAME": "test-issuer-name",
+    },
+    "STATUS_LIST_LENGTH": 10,
+    "DEFAULT_STORAGES": [
+        "credentials.apps.verifiable_credentials.storages.learner_credential_wallet.LCWallet",
+    ],
+}
+
+add_plugins(__name__, PROJECT_TYPE, SettingsType.TEST)
+
+# Verifiable Credentials
+ENABLE_VERIFIABLE_CREDENTIALS = True
+VERIFIABLE_CREDENTIALS = {
+    "DEFAULT_ISSUER": {
+        "ID": "test-issuer-did",
+        "KEY": "test-issuer-key",
+        "NAME": "test-issuer-name",
+    }
+}

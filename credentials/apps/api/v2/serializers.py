@@ -2,12 +2,14 @@
 Serializers for data manipulated by the credentials service APIs.
 """
 import logging
+from typing import TYPE_CHECKING
 
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.reverse import reverse
 
+import credentials.apps.catalog.api
 from credentials.apps.api.accreditors import Accreditor
 from credentials.apps.catalog.models import CourseRun
 from credentials.apps.credentials.constants import UserCredentialStatus
@@ -21,13 +23,17 @@ from credentials.apps.credentials.models import (
 from credentials.apps.records.models import UserGrade
 
 
+if TYPE_CHECKING:
+    from credentials.apps.credentials.models import AbstractCertificate
+
+
 logger = logging.getLogger(__name__)
 
 
 class CredentialField(serializers.Field):
     """Field identifying the credential type and identifiers."""
 
-    def to_internal_value(self, data):
+    def to_internal_value(self, data) -> "AbstractCertificate":
         site = self.context["request"].site
 
         program_uuid = data.get("program_uuid")
@@ -36,27 +42,23 @@ class CredentialField(serializers.Field):
                 return ProgramCertificate.objects.get(program_uuid=program_uuid, is_active=True)
             except ObjectDoesNotExist:
                 msg = f"No active ProgramCertificate exists for program [{program_uuid}]"
-                logger.exception(msg)
+                logger.error(msg)
                 raise ValidationError({"program_uuid": msg})
 
         course_run_key = data.get("course_run_key")
-        if course_run_key:
+        if not course_run_key:
+            raise ValidationError("Credential identifier is missing.")
+
+        # If we get this far, we necessarily have a course_run_key
+        course_runs = credentials.apps.catalog.api.get_course_runs_by_course_run_keys([course_run_key])
+        if course_runs:
+            course_run = course_runs[0]
             if self.read_only:
                 try:
-                    cert = CourseCertificate.objects.get(course_id=course_run_key, site=site)
+                    cert = CourseCertificate.objects.get(course_run=course_run, site=site)
                 except ObjectDoesNotExist:
                     cert = None
             else:
-                try:
-                    course_run = CourseRun.objects.get(key=course_run_key)
-                except ObjectDoesNotExist:
-                    logger.exception(
-                        "Course run certificate failed to create "
-                        f"because the course run [{course_run_key}] doesn't exist in the catalog"
-                    )
-                    # TODO: course_run is still nullable while we validate the data. Re raise the exception once the
-                    # field is no longer nullable
-                    course_run = None
                 # Create course cert on the fly, but don't upgrade it to active if it's manually been turned off
                 cert, _ = CourseCertificate.objects.get_or_create(
                     course_id=course_run_key,
@@ -67,15 +69,19 @@ class CredentialField(serializers.Field):
                         "certificate_type": data.get("mode"),
                     },
                 )
-
             if cert is None or not cert.is_active:
                 msg = f"No active CourseCertificate exists for course run [{course_run_key}]"
-                logger.exception(msg)
                 raise ValidationError({"course_run_key": msg})
-
             return cert
-
-        raise ValidationError("Credential identifier is missing.")
+        elif self.read_only:
+            msg = f"No active CourseCertificate exists for course run [{course_run_key}]"
+            raise ValidationError({"course_run_key": msg})
+        else:
+            msg = (
+                f"CourseCertificate failed to create because the CourseRun {course_run_key} doesn't exist "
+                "in the catalog"
+            )
+            raise ValidationError({"course_run_key": msg})
 
     def to_representation(self, value):
         """Serialize objects to a according to model content-type."""
@@ -88,7 +94,7 @@ class CredentialField(serializers.Field):
         else:  # course run
             credential = {
                 "type": "course-run",
-                "course_run_key": value.course_id,
+                "course_run_key": value.course_run.key,
                 "mode": value.certificate_type,
             }
 
@@ -115,10 +121,11 @@ class CourseRunField(serializers.Field):
     def to_internal_value(self, data):
         site = self.context["request"].site
         try:
+            # TODO use the catalog API, not direct reference
             return CourseRun.objects.get(key=data, course__site=site)
         except ObjectDoesNotExist:
             msg = f"No CourseRun exists for key [{data}]"
-            logger.exception(msg)
+            logger.error(msg)
             raise ValidationError(msg)
 
     def to_representation(self, value):
@@ -282,6 +289,13 @@ class UserGradeSerializer(serializers.ModelSerializer):
             course_run=course_run,
             defaults=validated_data,
         )
+
+        logger.info(
+            f"Updated grade for user [{username}] in course [{course_run.key}] with percent_grade "
+            f"[{grade.percent_grade}], letter_grade [{grade.letter_grade}], verified [{grade.verified}], and "
+            f"lms_last_updated_at [{grade.lms_last_updated_at}]"
+        )
+
         return grade
 
 
@@ -308,6 +322,7 @@ class CourseCertificateSerializer(serializers.ModelSerializer):
         course_id = validated_data["course_id"]
         course_run = None
         try:
+            # TODO use the catalog API, not direct reference
             course_run = CourseRun.objects.get(key=course_id)
         except ObjectDoesNotExist:
             logger.warning(

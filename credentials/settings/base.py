@@ -5,8 +5,10 @@ from os.path import abspath, dirname, join
 from corsheaders.defaults import default_headers as corsheaders_default_headers
 from django.conf.global_settings import LANGUAGES_BIDI
 from edx_toggles.toggles import WaffleSwitch
+from edx_django_utils.plugins import get_plugin_apps, add_plugins
 
 from credentials.settings.utils import get_logger_config
+from credentials.apps.plugins.constants import PROJECT_TYPE, SettingsType
 
 
 # PATH vars
@@ -59,8 +61,8 @@ THIRD_PARTY_APPS = [
     # TODO Set in EXTRA_APPS via configuration
     "edx_credentials_themes",
     "drf_yasg",
-    "hijack",
     "xss_utils",
+    "openedx_events",
 ]
 
 PROJECT_APPS = [
@@ -71,6 +73,8 @@ PROJECT_APPS = [
     "credentials.apps.edx_django_extensions",
     "credentials.apps.credentials_theme_openedx",
     "credentials.apps.records",
+    "credentials.apps.plugins",
+    "credentials.apps.verifiable_credentials",
 ]
 
 INSTALLED_APPS += THIRD_PARTY_APPS
@@ -98,6 +102,7 @@ MIDDLEWARE = (
     "edx_django_utils.cache.middleware.TieredCacheMiddleware",
     "edx_rest_framework_extensions.middleware.RequestMetricsMiddleware",
     "edx_rest_framework_extensions.auth.jwt.middleware.EnsureJWTAuthSettingsMiddleware",
+    "crum.CurrentRequestUserMiddleware",
 )
 
 # Enable CORS
@@ -414,18 +419,6 @@ REST_FRAMEWORK = {
 # Django-ratelimit Settings
 RATELIMIT_VIEW = "credentials.apps.records.views.rate_limited"
 
-# django-hijack settings
-HIJACK_AUTHORIZE_STAFF = True
-HIJACK_URL_ALLOWED_ATTRIBUTES = (
-    "email",
-    "username",
-)
-# Since we force reload pages when masquerading/hijacking, users don't
-# actually hit this page.  The admin endpoint just acts as a safe
-# follow through for all users to hit in the django-hijack redirect.
-HIJACK_LOGIN_REDIRECT_URL = "/admin/"
-HIJACK_AUTHORIZATION_CHECK = "credentials.apps.records.utils.masquerading_authorized"
-
 # DJANGO DEBUG TOOLBAR CONFIGURATION
 # http://django-debug-toolbar.readthedocs.org/en/latest/installation.html
 if os.environ.get("ENABLE_DJANGO_TOOLBAR", False):
@@ -455,6 +448,7 @@ if os.environ.get("ENABLE_DJANGO_TOOLBAR", False):
 # END DJANGO DEBUG TOOLBAR CONFIGURATION
 
 USERNAME_REPLACEMENT_WORKER = "replace with valid username"
+LEARNER_STATUS_WORKER = "replace with valid username"
 
 CSRF_COOKIE_SECURE = False
 FILE_STORAGE_BACKEND = {}
@@ -494,7 +488,7 @@ SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 # .. toggle_warning: This is a toggle for the feature
 # .. toggle_tickets: MICROBA-521
 SEND_EMAIL_ON_PROGRAM_COMPLETION = False
-ALLOWED_EMAIL_HTML_TAGS = [
+ALLOWED_EMAIL_HTML_TAGS = {
     "a",
     "b",
     "blockquote",
@@ -513,7 +507,7 @@ ALLOWED_EMAIL_HTML_TAGS = [
     "span",
     "strong",
     "ul",
-]
+}
 
 # .. toggle_name: USE_CERTIFICATE_AVAILABLE_DATE
 # .. toggle_implementation: WaffleSwitch
@@ -549,3 +543,18 @@ LOGO_POWERED_BY_OPEN_EDX_URL = "https://edx-cdn.org/v3/prod/open-edx-tag.svg"
 # .. toggle_creation_date: 2021-08-10
 USE_LEARNER_RECORD_MFE = False
 LEARNER_RECORD_MFE_RECORDS_PAGE_URL = ""
+
+# Plugin Django Apps
+INSTALLED_APPS.extend(get_plugin_apps(PROJECT_TYPE))
+add_plugins(__name__, PROJECT_TYPE, SettingsType.BASE)
+
+# disable indexing on history_date
+SIMPLE_HISTORY_DATE_INDEX = False
+
+# Event Bus Settings
+EVENT_BUS_PRODUCER = "edx_event_bus_redis.create_producer"
+EVENT_BUS_CONSUMER = "edx_event_bus_redis.RedisEventConsumer"
+EVENT_BUS_REDIS_CONNECTION_URL = "redis://:password@edx.devstack.redis:6379/"
+EVENT_BUS_TOPIC_PREFIX = "dev"
+
+PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME = "learning-program-certificate-lifecycle"

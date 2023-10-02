@@ -1,5 +1,6 @@
 import datetime
 from collections import defaultdict
+from typing import TYPE_CHECKING, List
 
 from django.contrib.contenttypes.models import ContentType
 from django.template.defaultfilters import slugify
@@ -13,7 +14,11 @@ from credentials.apps.credentials.api import (
 )
 from credentials.apps.credentials.data import UserCredentialStatus
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
+from credentials.apps.records.utils import get_credentials
 
+
+if TYPE_CHECKING:
+    from credentials.apps.credentials.models import CourseRun
 
 COURSE_CERTIFICATE_CONTENT_TYPE = ContentType.objects.filter(app_label="credentials", model="coursecertificate")
 
@@ -140,7 +145,7 @@ def _get_transformed_grade_data(program, user):
     )
     # create a new dictionary, mapping a course-run id (key) to an associated credential
     user_credential_dict = {
-        user_credential.credential.course_id: user_credential for user_credential in course_user_credentials
+        user_credential.credential.course_run.key: user_credential for user_credential in course_user_credentials
     }
     # maps a credential to its visible_date (a date when the certificate becomes viewable)
     visible_dates = get_credential_dates(course_user_credentials, True)
@@ -180,7 +185,7 @@ def _get_transformed_grade_data(program, user):
     transformed_grade_data = []
     added_courses = set()
 
-    # add the course-run grade data to teh response in the order that is maintained by the Program's sorted field
+    # add the course-run grade data to the response in the order that is maintained by the Program's sorted field
     for course_run in program_course_runs:
         course = course_run.course
         grade = highest_attempt_dict.get(course)
@@ -313,3 +318,50 @@ def get_program_details(request_user, request_site, uuid, is_public):
         "uuid": uuid,
         "records_help_url": records_help_url,
     }
+
+
+def get_learner_course_run_status(username: str, course_ids: List[str], course_runs: List["CourseRun"]):
+    """
+    Return the status for all of the related course runs related to the courses in
+    the course uuid list, plus any course_runs explicitly called out in the course_runs list
+    for the given learner.
+
+    Unlike in the context of a UserCredential.course_id, course_id here does literally mean
+    the course.uuid, not course_run.key.
+    """
+
+    course_credentials, program_credentials = get_credentials(username)  # pylint: disable=unused-variable
+
+    courses = []
+    for credential in course_credentials:
+        if (course_ids and (str(credential.credential.course_run.course.uuid) in course_ids)) or (
+            course_runs
+            and (
+                (str(credential.credential.course_run.uuid) in course_runs)
+                or ((str(credential.credential.course_run.key) in course_runs))
+            )
+        ):
+            # we don't always have the grade, so defend for missing it
+            try:
+                grade = UserGrade.objects.get(username=username, course_run=credential.credential.course_run)
+                course_grade = {
+                    "letter_grade": grade.letter_grade,
+                    "percent_grade": grade.percent_grade,
+                    "verified": grade.verified,
+                }
+            except UserGrade.DoesNotExist:
+                course_grade = None
+
+            cred_status = {
+                "course_uuid": str(credential.credential.course_run.course.uuid),
+                "course_run": {
+                    "uuid": str(credential.credential.course_run.uuid),
+                    "key": credential.credential.course_run.key,
+                },
+                "status": credential.status,
+                "type": credential.credential.certificate_type,
+                "certificate_available_date": credential.credential.certificate_available_date,
+                "grade": course_grade,
+            }
+            courses.append(cred_status)
+    return courses

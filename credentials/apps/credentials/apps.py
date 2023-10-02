@@ -19,6 +19,9 @@ class CredentialsConfig(AppConfig):
     verbose_name = "Credentials"
 
     def ready(self):
+        # connect signal handlers for event bus functionality
+        from credentials.apps.credentials import signals  # pylint: disable=unused-import,import-outside-toplevel
+
         required_config_settings = ("CREDENTIALS_SERVICE_USER",)
 
         missing_config_settings = []

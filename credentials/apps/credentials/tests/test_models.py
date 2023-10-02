@@ -227,7 +227,6 @@ class ProgramCompletionEmailConfigurationTests(TestCase):
     )
     @ddt.unpack
     def test_get_email_config_for_program(self, default_exists, program_type_exists, single_program_exists):
-
         if not single_program_exists:
             self.single_program_config.delete()
 

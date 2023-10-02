@@ -4,7 +4,7 @@ Django App Plugin extensions
 Status
 ------
 
-Proposed
+Accepted
 
 
 Context

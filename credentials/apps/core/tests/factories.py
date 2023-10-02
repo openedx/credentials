@@ -14,12 +14,14 @@ class UserFactory(django.DjangoModelFactory):
     class Meta:
         model = User
 
+    lms_user_id = Sequence(lambda n: n)
     username = Sequence(lambda n: "user_%d" % n)
     password = PostGenerationMethodCall("set_password", USER_PASSWORD)
     first_name = Faker("first_name")
     last_name = Faker("last_name")
     full_name = Faker("name")
     email = Faker("safe_email")
+    lms_user_id = Faker("random_int")
     is_staff = False
     is_superuser = False
     is_active = True

@@ -12,9 +12,9 @@
 analytics-python
 bleach
 coreapi
+didkit
 django
 django-cors-headers
-django-hijack
 django-extensions
 django-filter
 django-ratelimit
@@ -33,20 +33,24 @@ edx-django-release-util
 edx-django-sites-extensions
 edx-django-utils
 edx-drf-extensions
+edx-event-bus-kafka
 edx-opaque-keys
 edx-rest-api-client
 edx-toggles
 markdown
 mysqlclient
 newrelic
+openedx-atlas
 pillow
 pygments
 python-memcached
+pymemcache
 pytz
+qrcode
 requests
 social-auth-app-django
 xss-utils
 
 
 # TODO Install in configuration
-git+https://github.com/openedx/credentials-themes.git@0.2.3#egg=edx_credentials_themes==0.2.3
+git+https://github.com/openedx/credentials-themes.git@0.3.11#egg=edx_credentials_themes==0.3.11

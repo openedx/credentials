@@ -1,4 +1,5 @@
 import urllib
+from logging import DEBUG
 
 from django.contrib.contenttypes.models import ContentType
 from django.core import mail
@@ -24,13 +25,13 @@ from credentials.apps.credentials.tests.factories import (
     UserCredentialFactory,
 )
 from credentials.apps.records.constants import UserCreditPathwayStatus
+from credentials.apps.records.models import ProgramCertRecord
 from credentials.apps.records.tests.factories import ProgramCertRecordFactory, UserCreditPathwayFactory
 from credentials.apps.records.tests.utils import dump_random_state
 from credentials.apps.records.utils import (
     _course_credentials_to_course_runs,
-    _get_credentials,
+    get_credentials,
     get_user_program_data,
-    masquerading_authorized,
     send_updated_emails_for_program,
 )
 
@@ -76,6 +77,22 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
         self.assertIn(expected_record_link, email.body)
         self.assertIn(expected_csv_link, email.body)
 
+    def test_skip_if_user_has_no_program_certificate(self):
+        """Verify that if the user has no program certificate, we do nothing."""
+        # Mock sending an email to the partner
+        UserCreditPathwayFactory(user=self.user, pathway=self.pathway, status=UserCreditPathwayStatus.SENT)
+        self.assertEqual(0, len(mail.outbox))
+
+        # remover the fixture ProgramCertRecord
+        ProgramCertRecord.objects.get(program=self.program, user=self.user).delete()
+
+        with self.assertLogs(level=DEBUG) as cm:
+            send_updated_emails_for_program(self.request, self.USERNAME, self.pc)
+        self.assertRegex(cm.output[0], r".*ProgramCertRecord for user_uuid .*, program_uuid .* does not exist")
+
+        # Check no other email was sent
+        self.assertEqual(0, len(mail.outbox))
+
     def test_no_previous_email_sent(self):
         """
         Test that no additional email is sent if the user hasn't previously sent one
@@ -86,59 +103,6 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
 
         # Check that no email was sent
         self.assertEqual(0, len(mail.outbox))
-
-
-class MasqueradingAuthorizedTests(TestCase):
-    """Tests for masquerading authorization."""
-
-    def setUp(self):
-        super().setUp()
-        self.user = UserFactory()
-        self.staff_user = UserFactory(is_staff=True)
-        self.superuser = UserFactory(is_superuser=True)
-
-    def test_default_authorization(self):
-        """
-        Tests that the correct authorization is given with the default settings.
-
-        For default settings, HIJACK_AUTHORIZE_STAFF = True,
-        HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF = False.
-        """
-        self.assertEqual(masquerading_authorized(self.user, self.user), False)
-        self.assertEqual(masquerading_authorized(self.user, self.staff_user), False)
-        self.assertEqual(masquerading_authorized(self.user, self.superuser), False)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.user), True)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.staff_user), False)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.superuser), False)
-        self.assertEqual(masquerading_authorized(self.superuser, self.user), True)
-        self.assertEqual(masquerading_authorized(self.superuser, self.staff_user), True)
-        self.assertEqual(masquerading_authorized(self.superuser, self.superuser), False)
-
-    @override_settings(HIJACK_AUTHORIZE_STAFF=False, HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF=False)
-    def test_no_staff_authorization(self):
-        """Tests correct authorization when staff can not masquerade."""
-        self.assertEqual(masquerading_authorized(self.user, self.user), False)
-        self.assertEqual(masquerading_authorized(self.user, self.staff_user), False)
-        self.assertEqual(masquerading_authorized(self.user, self.superuser), False)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.user), False)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.staff_user), False)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.superuser), False)
-        self.assertEqual(masquerading_authorized(self.superuser, self.user), True)
-        self.assertEqual(masquerading_authorized(self.superuser, self.staff_user), True)
-        self.assertEqual(masquerading_authorized(self.superuser, self.superuser), False)
-
-    @override_settings(HIJACK_AUTHORIZE_STAFF=True, HIJACK_AUTHORIZE_STAFF_TO_HIJACK_STAFF=True)
-    def test_full_staff_authorization(self):
-        """Tests correct authorization when staff can masquerade as staff."""
-        self.assertEqual(masquerading_authorized(self.user, self.user), False)
-        self.assertEqual(masquerading_authorized(self.user, self.staff_user), False)
-        self.assertEqual(masquerading_authorized(self.user, self.superuser), False)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.user), True)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.staff_user), True)
-        self.assertEqual(masquerading_authorized(self.staff_user, self.superuser), False)
-        self.assertEqual(masquerading_authorized(self.superuser, self.user), True)
-        self.assertEqual(masquerading_authorized(self.superuser, self.staff_user), True)
-        self.assertEqual(masquerading_authorized(self.superuser, self.superuser), False)
 
 
 class CourseCredentialsToCourseRunsTests(SiteMixin, TestCase):
@@ -154,6 +118,7 @@ class CourseCredentialsToCourseRunsTests(SiteMixin, TestCase):
         self.course_certs = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs
@@ -193,6 +158,7 @@ class CourseCredentialsToCourseRunsTests(SiteMixin, TestCase):
         self.course_certs2 = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs2
@@ -213,6 +179,7 @@ class CourseCredentialsToCourseRunsTests(SiteMixin, TestCase):
         self.course_certs2 = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs2
@@ -249,6 +216,7 @@ class GetCredentialsTests(SiteMixin, TestCase):
         self.course_certs = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs
@@ -278,27 +246,27 @@ class GetCredentialsTests(SiteMixin, TestCase):
         for course_cert in self.course_certs:
             course_cert.delete()
         self.program_cert.delete()
-        course_results, program_results = _get_credentials(self.user.username)
+        course_results, program_results = get_credentials(self.user.username)
         assert course_results == []
         assert program_results == []
 
     def test_get_credentials_course_only(self):
         self.program_cert.delete()
-        course_results, program_results = _get_credentials(self.user.username)
+        course_results, program_results = get_credentials(self.user.username)
         assert course_results == self.course_user_credentials
         assert program_results == []
 
     def test_get_credentials_program_only(self):
-        for course_run in self.course_runs:
-            course_run.delete()
         for course_cert in self.course_certs:
             course_cert.delete()
-        course_results, program_results = _get_credentials(self.user.username)
+        for course_run in self.course_runs:
+            course_run.delete()
+        course_results, program_results = get_credentials(self.user.username)
         assert course_results == []
         assert program_results[0] == self.program_user_credential
 
     def test_get_credentials_both_course_and_program(self):
-        course_results, program_results = _get_credentials(self.user.username)
+        course_results, program_results = get_credentials(self.user.username)
         assert course_results == self.course_user_credentials
         assert program_results[0] == self.program_user_credential
 
@@ -316,6 +284,7 @@ class GetProgramDataTests(SiteMixin, TestCase):
         self.course_certs = [
             CourseCertificateFactory.create(
                 course_id=course_run.key,
+                course_run=course_run,
                 site=self.site,
             )
             for course_run in self.course_runs

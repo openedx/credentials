@@ -34,7 +34,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["py38"]
-        django-version: ["django32"]
+        django-version: ["django32", "django42"]
         node-version: [ 16.14.0 ]
     steps:
       - uses: actions/checkout@v3
@@ -89,10 +89,10 @@ jobs:
           make static
           make tests
       - name: Run code coverage
-        run: |
-          make coverage
-          pip install codecov
-          codecov
+        uses: codecov/codecov-action@v3
+        with:
+          flags: unittests
+          fail_ci_if_error: true
 
   docs:
     runs-on: ubuntu-latest
