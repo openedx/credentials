@@ -24,7 +24,7 @@
     "style-loader": "3.3.3",
     "url-loader": "4.1.1",
     "webpack": "5.88.2",
-    "webpack-bundle-tracker": "1.8.1"
+    "webpack-bundle-tracker": "2.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.23.0",
