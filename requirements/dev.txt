@@ -42,7 +42,7 @@ cffi==1.16.0
     #   -r requirements/test.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.2.0
+charset-normalizer==3.3.0
     # via
     #   -r requirements/test.txt
     #   requests
@@ -72,7 +72,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==7.3.1
+coverage==7.3.2
     # via -r requirements/test.txt
 cryptography==41.0.4
     # via
@@ -82,7 +82,7 @@ cryptography==41.0.4
     #   social-auth-core
 ddt==1.6.0
     # via -r requirements/test.txt
-defusedxml==0.8.0rc1
+defusedxml==0.8.0rc2
     # via
     #   -r requirements/test.txt
     #   python3-openid
@@ -158,7 +158,7 @@ django-sortedm2m==3.1.1
     # via -r requirements/test.txt
 django-statici18n==2.4.0
     # via -r requirements/test.txt
-django-storages==1.14
+django-storages==1.14.1
     # via -r requirements/test.txt
 django-waffle==4.0.0
     # via
@@ -193,7 +193,7 @@ edx-ace==1.7.0
     # via -r requirements/test.txt
 edx-auth-backends==4.2.0
     # via -r requirements/test.txt
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.3.11
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.3.12
     # via -r requirements/test.txt
 edx-django-release-util==1.3.0
     # via -r requirements/test.txt
@@ -320,11 +320,11 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 openedx-atlas==0.5.0
     # via -r requirements/test.txt
-openedx-events==8.6.0
+openedx-events==8.8.0
     # via
     #   -r requirements/test.txt
     #   edx-event-bus-kafka
-packaging==23.1
+packaging==23.2
     # via
     #   -r requirements/test.txt
     #   black
@@ -348,7 +348,7 @@ pbr==5.11.1
     #   stevedore
 pillow==10.0.1
     # via -r requirements/test.txt
-platformdirs==3.10.0
+platformdirs==3.11.0
     # via
     #   -r requirements/test.txt
     #   black
@@ -385,7 +385,7 @@ pyjwt[crypto]==2.8.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.17.6
+pylint==2.17.7
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -546,7 +546,7 @@ text-unidecode==1.3
     # via
     #   -r requirements/test.txt
     #   python-slugify
-texttable==1.6.7
+texttable==1.7.0
     # via docker-compose
 tomli==2.0.1
     # via
@@ -582,7 +582,7 @@ uritemplate==4.1.1
     #   -r requirements/test.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.16
+urllib3==1.26.17
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
