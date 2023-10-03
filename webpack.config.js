@@ -8,7 +8,7 @@ const isDevstack = (process.env.DJANGO_SETTINGS_MODULE === 'credentials.settings
 // Conditionally add all of the plugins
 function getPlugins() {
   const plugins = [];
-  plugins.push(new BundleTracker({ filename: './webpack-stats.json' }));
+  plugins.push(new BundleTracker({ path: '.', filename: 'webpack-stats.json' }));
   plugins.push(new MiniCssExtractPlugin({ filename: '[name]-[contenthash].css' }));
   return plugins;
 }

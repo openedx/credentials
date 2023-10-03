@@ -72,7 +72,7 @@ Status List API endpoint is crucial for the feature. Once everything is configur
 
 See `Status List API`_ for more details.
 
-4. Issuer registration (Learner Credential Wallet)
+5. Issuer registration (Learner Credential Wallet)
 --------------------------------------------------
 
 This step is specific for the Learner Credential Wallet storage.
