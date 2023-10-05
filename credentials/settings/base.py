@@ -558,3 +558,5 @@ EVENT_BUS_REDIS_CONNECTION_URL = "redis://:password@edx.devstack.redis:6379/"
 EVENT_BUS_TOPIC_PREFIX = "dev"
 
 PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME = "learning-program-certificate-lifecycle"
+
+CSRF_TRUSTED_ORIGINS_WITH_SCHEME = []  # just for Django 4.2 upgrade
