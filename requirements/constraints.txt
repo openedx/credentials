@@ -33,9 +33,6 @@ analytics-python<=1.4.0
 # APER-2422
 urllib3<2
 
-# The latest release of the edx-i18n-tools library seems appears to have a weird validation bug. Locking to the 0.9.x
-# release for now.
-edx-i18n-tools<1.0.0
 
 # The latest version of `social-auth-app-django` includes a large migration that is causing OOM issues
 social-auth-app-django<5.3.0
