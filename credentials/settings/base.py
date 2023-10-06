@@ -226,6 +226,9 @@ LANGUAGES_BIDI = LANGUAGES_BIDI + ["rtl"]
 TIME_ZONE = "UTC"
 TIME_ZONE_CLASS = timezone.utc
 
+# https://docs.djangoproject.com/en/4.2/releases/4.0/#zoneinfo-default-timezone-implementation
+USE_DEPRECATED_PYTZ = True
+
 USE_I18N = True
 
 USE_L10N = True
@@ -233,8 +236,6 @@ USE_L10N = True
 USE_TZ = True
 
 LOCALE_PATHS = (root("conf", "locale"),)
-
-DEFAULT_HASHING_ALGORITHM = "sha1"
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
@@ -558,3 +559,5 @@ EVENT_BUS_REDIS_CONNECTION_URL = "redis://:password@edx.devstack.redis:6379/"
 EVENT_BUS_TOPIC_PREFIX = "dev"
 
 PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME = "learning-program-certificate-lifecycle"
+
+CSRF_TRUSTED_ORIGINS_WITH_SCHEME = []  # just for Django 4.2 upgrade
