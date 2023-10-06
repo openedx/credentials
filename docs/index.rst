@@ -26,4 +26,6 @@ This repository contains the edX Credentials Service, used as the backend to sup
    event_bus
    edx_extensions
    lms_user_id
+   program_completion_emails
    decisions
+
