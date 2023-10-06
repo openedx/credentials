@@ -291,7 +291,7 @@ edx-event-bus-kafka==5.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
--e git+https://github.com/Zeit-Labs/i18n-tools.git@f1ba7936d1c7b97fb060b617686441a6faada370#egg=edx-i18n-tools
+edx-i18n-tools==1.3.0
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
