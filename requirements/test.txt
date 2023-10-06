@@ -25,6 +25,10 @@ backoff==1.10.0
     # via
     #   -r requirements/base.txt
     #   analytics-python
+backports-zoneinfo==0.2.1
+    # via
+    #   -r requirements/base.txt
+    #   django
 black==23.9.1
     # via -r requirements/test.in
 bleach==6.0.0
@@ -38,7 +42,7 @@ cffi==1.16.0
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.2.0
+charset-normalizer==3.3.0
     # via
     #   -r requirements/base.txt
     #   requests
@@ -67,7 +71,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage==7.3.1
+coverage==7.3.2
     # via -r requirements/test.in
 cryptography==41.0.4
     # via
@@ -76,7 +80,7 @@ cryptography==41.0.4
     #   social-auth-core
 ddt==1.6.0
     # via -r requirements/test.in
-defusedxml==0.8.0rc1
+defusedxml==0.8.0rc2
     # via
     #   -r requirements/base.txt
     #   python3-openid
@@ -88,8 +92,6 @@ dill==0.3.7
 distlib==0.3.7
     # via virtualenv
     # via
-    #   -c requirements/common_constraints.txt
-    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   django-appconf
     #   django-cors-headers
@@ -142,7 +144,7 @@ django-sortedm2m==3.1.1
     # via -r requirements/base.txt
 django-statici18n==2.4.0
     # via -r requirements/base.txt
-django-storages==1.14
+django-storages==1.14.1
     # via -r requirements/base.txt
 django-waffle==4.0.0
     # via
@@ -188,7 +190,6 @@ edx-event-bus-kafka==5.5.0
     # via -r requirements/base.txt
 edx-i18n-tools==1.3.0
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-credentials-themes
 edx-lint==5.3.4
@@ -210,7 +211,7 @@ factory-boy==3.3.0
     # via -r requirements/test.in
 faker==19.6.2
     # via factory-boy
-fastavro==1.8.3
+fastavro==1.8.4
     # via
     #   -r requirements/base.txt
     #   openedx-events
@@ -249,6 +250,10 @@ jinja2==3.1.2
     #   coreschema
 lazy-object-proxy==1.9.0
     # via astroid
+lxml==4.9.3
+    # via
+    #   -r requirements/base.txt
+    #   edx-i18n-tools
 markdown==3.4.4
     # via -r requirements/base.txt
 markupsafe==2.1.3
@@ -280,11 +285,11 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 openedx-atlas==0.5.0
     # via -r requirements/base.txt
-openedx-events==8.6.0
+openedx-events==8.9.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
-packaging==23.1
+packaging==23.2
     # via
     #   -r requirements/base.txt
     #   black
@@ -303,7 +308,7 @@ pbr==5.11.1
     #   stevedore
 pillow==10.0.1
     # via -r requirements/base.txt
-platformdirs==3.10.0
+platformdirs==3.11.0
     # via
     #   black
     #   pylint
@@ -336,7 +341,7 @@ pyjwt[crypto]==2.8.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   social-auth-core
-pylint==2.17.6
+pylint==2.17.7
     # via
     #   edx-lint
     #   pylint-celery
@@ -389,7 +394,6 @@ python3-openid==3.2.0
 pytz==2023.3.post1
     # via
     #   -r requirements/base.txt
-    #   django
     #   djangorestframework
     #   drf-yasg
 pyyaml==5.4.1
@@ -506,7 +510,7 @@ uritemplate==4.1.1
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.16
+urllib3==1.26.17
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
