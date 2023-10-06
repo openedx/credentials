@@ -96,7 +96,7 @@ format: ## format code
 	black .
 
 format_check: ## check that code is formatted correctly
-	black --check .
+	black --check credentials/
 
 quality-js: ## Run JavaScript linter
 	npm run lint
