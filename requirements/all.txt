@@ -266,7 +266,7 @@ edx-auth-backends==4.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.3.13
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.3.14
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -286,7 +286,7 @@ edx-django-utils==5.7.0
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.10.0
+edx-drf-extensions==8.11.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
