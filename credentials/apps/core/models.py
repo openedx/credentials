@@ -199,11 +199,14 @@ class User(AbstractUser):
     .. pii_retirement: retained
     """
 
-    full_name = models.CharField(_("Full Name"), max_length=255, blank=True, null=True)
+    full_name = models.CharField(_("Full Name"), max_length=255, blank=True, null=True, db_index=True)
     lms_user_id = models.IntegerField(null=True, db_index=True)
 
     class Meta:
         get_latest_by = "date_joined"
+        indexes = [
+            models.Index(fields=["is_staff", "is_superuser", "is_active"]),
+        ]
 
     def __str__(self):
         return self.username
