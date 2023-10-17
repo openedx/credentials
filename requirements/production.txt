@@ -27,9 +27,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.28.62
+boto3==1.28.64
     # via django-ses
-botocore==1.31.62
+botocore==1.31.64
     # via
     #   boto3
     #   s3transfer
@@ -108,7 +108,7 @@ django-appconf==1.0.5
     # via
     #   -r requirements/base.txt
     #   django-statici18n
-django-cors-headers==4.2.0
+django-cors-headers==4.3.0
     # via -r requirements/base.txt
 django-crum==0.7.9
     # via
@@ -164,7 +164,7 @@ edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0
     # via -r requirements/base.txt
 edx-django-release-util==1.3.0
     # via -r requirements/base.txt
-edx-django-sites-extensions==4.0.1
+edx-django-sites-extensions==4.0.2
     # via -r requirements/base.txt
 edx-django-utils==5.7.0
     # via
@@ -173,7 +173,7 @@ edx-django-utils==5.7.0
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.11.0
+edx-drf-extensions==8.12.0
     # via -r requirements/base.txt
 edx-event-bus-kafka==5.5.0
     # via -r requirements/base.txt
@@ -185,8 +185,9 @@ edx-opaque-keys[django]==2.5.1
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
+    #   edx-opaque-keys
     #   openedx-events
-edx-rest-api-client==5.6.0
+edx-rest-api-client==5.6.1
     # via -r requirements/base.txt
 edx-toggles==5.1.0
     # via
@@ -278,13 +279,13 @@ pbr==5.11.1
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==10.0.1
+pillow==10.1.0
     # via -r requirements/base.txt
 polib==1.2.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-psutil==5.9.5
+psutil==5.9.6
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -301,6 +302,7 @@ pyjwt[crypto]==2.8.0
     #   edx-auth-backends
     #   edx-drf-extensions
     #   edx-rest-api-client
+    #   pyjwt
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.txt
