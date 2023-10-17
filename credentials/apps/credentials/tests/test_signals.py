@@ -6,6 +6,7 @@ from unittest.mock import patch
 from uuid import uuid4
 
 import ddt
+from django.conf import settings
 from django.test import TestCase, override_settings
 from openedx_events.data import EventsMetadata
 from openedx_events.learning.data import (
@@ -202,28 +203,74 @@ class ProgramCertificateEventLifecycleTests(TestCase):
             "metadata": event_metadata,
         }
 
+    @override_settings(SEND_PROGRAM_CERTIFICATE_AWARDED_SIGNAL=True)
     @patch("credentials.apps.credentials.signals.get_producer")
-    @override_settings(PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME="program-cert_publish_unit-test")
-    def test_listen_for_program_certificate_awarded_event(self, mock_producer):
+    def test_listen_for_program_certificate_awarded_event_manual_publish(self, mock_producer):
         event_data = self._setup_event_data(UserCredentialStatus.AWARDED, self.program_certificate_awarded_event_type)
-        listen_for_program_certificate_events(None, PROGRAM_CERTIFICATE_AWARDED, **event_data)
+        expected_message = f"Producing [{self.program_certificate_awarded_event_type}] event via manual send"
+
+        with LogCapture() as log:
+            listen_for_program_certificate_events(None, PROGRAM_CERTIFICATE_AWARDED, **event_data)
 
         data = mock_producer.return_value.send.call_args.kwargs
         assert data["signal"].event_type == PROGRAM_CERTIFICATE_AWARDED.event_type
         assert data["event_data"]["program_certificate"] == event_data["program_certificate"]
-        assert data["topic"] == "program-cert_publish_unit-test"
+        assert data["topic"] == settings.PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME
         assert data["event_key_field"] == "program_certificate.program.uuid"
         assert data["event_metadata"] == event_data["metadata"]
+        assert expected_message in log.records[0].msg
 
+    @override_settings(SEND_PROGRAM_CERTIFICATE_REVOKED_SIGNAL=True)
     @patch("credentials.apps.credentials.signals.get_producer")
-    @override_settings(PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME="program-cert_publish_unit-test")
-    def test_listen_for_program_certificate_revoked_event(self, mock_producer):
+    def test_listen_for_program_certificate_revoked_event_manual_publish(self, mock_producer):
         event_data = self._setup_event_data(UserCredentialStatus.REVOKED, self.program_certificate_revoked_event_type)
-        listen_for_program_certificate_events(None, PROGRAM_CERTIFICATE_REVOKED, **event_data)
+        expected_message = f"Producing [{self.program_certificate_revoked_event_type}] event via manual send"
+
+        with LogCapture() as log:
+            listen_for_program_certificate_events(None, PROGRAM_CERTIFICATE_REVOKED, **event_data)
 
         data = mock_producer.return_value.send.call_args.kwargs
         assert data["signal"].event_type == PROGRAM_CERTIFICATE_REVOKED.event_type
         assert data["event_data"]["program_certificate"] == event_data["program_certificate"]
-        assert data["topic"] == "program-cert_publish_unit-test"
+        assert data["topic"] == settings.PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME
         assert data["event_key_field"] == "program_certificate.program.uuid"
         assert data["event_metadata"] == event_data["metadata"]
+        assert expected_message in log.records[0].msg
+
+    @override_settings(SEND_PROGRAM_CERTIFICATE_AWARDED_SIGNAL=True)
+    @patch("credentials.apps.credentials.signals.get_producer")
+    @patch("credentials.apps.credentials.signals.determine_producer_config_for_signal_and_topic", return_value=True)
+    def test_listen_for_program_certificate_awarded_event_publish_by_config_enabled(
+        self, mock_determine, mock_producer
+    ):
+        event_data = self._setup_event_data(UserCredentialStatus.AWARDED, self.program_certificate_awarded_event_type)
+        expected_message = f"Producing [{self.program_certificate_awarded_event_type}] event via config"
+
+        with LogCapture() as log:
+            listen_for_program_certificate_events(None, PROGRAM_CERTIFICATE_AWARDED, **event_data)
+
+        assert expected_message in log.records[0].msg
+        assert mock_determine.call_args_list[0].args == (
+            PROGRAM_CERTIFICATE_AWARDED,
+            settings.PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME,
+        )
+        assert mock_producer.call_count == 0
+
+    @override_settings(SEND_PROGRAM_CERTIFICATE_REVOKED_SIGNAL=True)
+    @patch("credentials.apps.credentials.signals.get_producer")
+    @patch("credentials.apps.credentials.signals.determine_producer_config_for_signal_and_topic", return_value=True)
+    def test_listen_for_program_certificate_revoked_event_publish_by_config_enabled(
+        self, mock_determine, mock_producer
+    ):
+        event_data = self._setup_event_data(UserCredentialStatus.REVOKED, self.program_certificate_revoked_event_type)
+        expected_message = f"Producing [{self.program_certificate_revoked_event_type}] event via config"
+
+        with LogCapture() as log:
+            listen_for_program_certificate_events(None, PROGRAM_CERTIFICATE_REVOKED, **event_data)
+
+        assert expected_message in log.records[0].msg
+        assert mock_determine.call_args_list[0].args == (
+            PROGRAM_CERTIFICATE_REVOKED,
+            settings.PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME,
+        )
+        assert mock_producer.call_count == 0

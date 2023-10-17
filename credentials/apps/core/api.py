@@ -11,6 +11,24 @@ User = get_user_model()
 logger = logging.getLogger(__name__)
 
 
+def get_user_by_username(username):
+    """
+    Utility function that retrieves a returns a User instance based on a given username. Returns None if a user cannot
+    be found with given username.
+
+    Args:
+        username (String): The username of the User instance we are trying to retrieve
+
+    Returns:
+        The User instance related to the given username, or None if there is no learner associated with the given
+        username.
+    """
+    try:
+        return User.objects.get(username=username)
+    except User.DoesNotExist:
+        return None
+
+
 def get_or_create_user_from_event_data(user_data):
     """
     Utility function to retrieve a User instance while processing event bus events. If the user does not exist, we will
