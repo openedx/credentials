@@ -9,7 +9,7 @@ from django.db.models import Q
 from edx_ace import Recipient, ace
 
 from credentials.apps.catalog.data import ProgramStatus
-from credentials.apps.core.models import User
+from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.messages import ProgramCertificateIssuedMessage
 from credentials.apps.credentials.models import (
     ProgramCompletionEmailConfiguration,
@@ -256,8 +256,14 @@ def send_program_certificate_created_message(username, program_certificate, lms_
     """
     If the learner has earned a Program Certificate then we go ahead and send them an automated email congratulating
     them for their achievement. Emails to learners in credit eligible Programs will contain additional information.
+
+    Args:
+        username (string): The username of the user we will send the email to
+        program_certificate (AbstractCredential[ProgramCertificate]): A ProgramCertificate configuration for a program,
+         used to pull program details used in the program completion email
+        lms_user_id (int): The LMS User Id of the user we will send the email to
     """
-    user = User.objects.get(username=username)
+    user = get_user_by_username(username)
     program_uuid = program_certificate.program_uuid
     program_details = program_certificate.program_details
 
