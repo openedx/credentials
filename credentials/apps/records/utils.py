@@ -10,7 +10,7 @@ from edx_ace import Recipient, ace
 from credentials.apps.catalog.api import get_filtered_programs
 from credentials.apps.catalog.data import ProgramStatus
 from credentials.apps.catalog.models import Program
-from credentials.apps.core.models import User
+from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.api import (
     get_course_certificates_with_ids,
     get_program_certificates_with_ids,
@@ -31,11 +31,19 @@ logger = logging.getLogger(__name__)
 
 
 def send_updated_emails_for_program(request, username, program_certificate):
-    """If the user has previously sent an email to a pathway org, we want to send
-    an updated one when they finish the program.  This function is called from the
-    credentials Program Certificate awarding API"""
+    """
+    If the user has previously sent an email to a pathway org, we want to send an updated one when they finish the
+    program.  This function is called from the credentials Program Certificate awarding API
+
+    Args:
+        request (HttpRequest): The HttpRequest object, used to extract information about the learner's achievement when
+         sending an updated Pathway email
+        username (string): The username of the user we will send on behalf of
+        program_certificate (AbstractCredential[ProgramCertificate]): A ProgramCertificate configuration for a program,
+         used to pull program details used in the updated Pathway program email
+    """
     site = program_certificate.site
-    user = User.objects.get(username=username)
+    user = get_user_by_username(username)
     program_uuid = program_certificate.program_uuid
 
     program = Program.objects.prefetch_related("pathways").get(site=site, uuid=program_uuid)

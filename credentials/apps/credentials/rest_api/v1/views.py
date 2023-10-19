@@ -10,6 +10,7 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.rest_api.v1.permissions import CanGetLearnerStatus
 from credentials.apps.records.api import get_learner_course_run_status
 
@@ -118,8 +119,11 @@ class LearnerCertificateStatusView(APIView):
 
         try:
             if username:
-                user = User.objects.get(username=username)
-                lms_user_id = user.lms_user_id
+                user = get_user_by_username(username)
+                if user:
+                    lms_user_id = user.lms_user_id
+                else:
+                    raise User.DoesNotExist()
             else:
                 user = User.objects.get(lms_user_id=lms_user_id)
                 username = user.username

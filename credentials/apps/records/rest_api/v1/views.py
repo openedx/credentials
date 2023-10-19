@@ -6,6 +6,7 @@ from rest_framework import mixins, status, viewsets
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.response import Response
 
+from credentials.apps.core.api import get_user_by_username
 from credentials.apps.records.api import get_program_details
 from credentials.apps.records.models import ProgramCertRecord
 from credentials.apps.records.rest_api.v1.permissions import CanAccessProgramRecord, IsPublic
@@ -38,21 +39,17 @@ class ProgramRecordsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, vi
         Returns:
             response(dict): Information about the user's enrolled programs
         """
-        # Check for a username query parameter.
-        # If there is one in the request, we will pass it into the `get_user_program_data` function.
-        # If there is no username query parameter, we instead pass the username from the user in the request.
         query_param_username = request.query_params.get("username", "")
         username = request.user.username
-
+        # If the request includes a username in query parameters then this request is being made on behalf of
+        # another user (and likely means this request is coming from the Support Tools MFE). Overwrite the username we
+        # pass to the `get_user_program_data` function with the one pulled out of the query parameters.
         if query_param_username:
-            try:
-                User.objects.get(username=query_param_username)
-            except User.DoesNotExist:
-                log.error(f'A user matching the username "{query_param_username}" does not exist')
-                return Response(status=status.HTTP_404_NOT_FOUND)
-            else:
-                # Overwrite username variable once we know a User with that username exists
+            user = get_user_by_username(query_param_username)
+            if user:
                 username = query_param_username
+            else:
+                return Response(status=status.HTTP_404_NOT_FOUND)
 
         programs = get_user_program_data(
             username, request.site, include_empty_programs=False, include_retired_programs=True
@@ -72,38 +69,32 @@ class ProgramRecordsViewSet(mixins.RetrieveModelMixin, mixins.ListModelMixin, vi
         Returns:
             response(dict): Details about a user's progress in a given program
         """
-        # Query parameters come through as a string and we need to convert it to a boolean
+        # This query parameter comes through as a string and we need to convert it to a boolean
         query_param_is_public = request.query_params.get("is_public", "")
         is_public = query_param_is_public.lower() == "true"
-
-        # Check for a username query parameter.
-        # If there is one in the request, we will fetch the User associated with that username.
-        # This Django User object is passed into the `get_program_details` function.
-        # If there is no username query parameter, we instead pass the user from the request.
+        # check if the request included the `username` query param and extract the user from the request
         query_param_username = request.query_params.get("username", "")
         user = request.user
 
-        try:
-            if query_param_username:
-                try:
-                    searched_user = User.objects.get(username=query_param_username)
-                except User.DoesNotExist:
-                    log.error(f'A user matching the username "{query_param_username}" does not exist')
-                    return Response(status=status.HTTP_404_NOT_FOUND)
-                else:
-                    # Overwrite user variable to be the fetched User
-                    user = searched_user
+        # If the request includes a username in query parameters then this request is being made on behalf of
+        # another user (and likely means this request is coming from the Support Tools MFE). Overwrite the user passed
+        # to the `get_program_details` function with the one pulled out of the query parameters.
+        if query_param_username:
+            query_param_user = get_user_by_username(query_param_username)
+            if query_param_user:
+                user = query_param_user
+            else:
+                return Response(status=status.HTTP_404_NOT_FOUND)
 
+        try:
             program = get_program_details(
                 request_user=user,
                 request_site=request.site,
                 uuid=kwargs["pk"],
                 is_public=is_public,
             )
-
         except ProgramCertRecord.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-
-        serializer = ProgramRecordSerializer(program)
-
-        return Response(serializer.data)
+        else:
+            serializer = ProgramRecordSerializer(program)
+            return Response(serializer.data)

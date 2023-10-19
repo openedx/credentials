@@ -8,7 +8,7 @@ from django.db import transaction
 from faker import Faker
 
 from credentials.apps.catalog.models import Course, CourseRun, Organization, Pathway, Program
-from credentials.apps.core.models import User
+from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.constants import CertificateType
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate, Signatory, UserCredential
 from credentials.apps.records.constants import UserCreditPathwayStatus
@@ -183,7 +183,7 @@ class Command(BaseCommand):
     @staticmethod
     def get_user(username):
         """Get the test user"""
-        return User.objects.get(username=username)
+        return get_user_by_username(username=username)
 
     @staticmethod
     def seed_user_grades(user, course_runs):

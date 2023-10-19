@@ -20,6 +20,7 @@ from edx_ace import Recipient, ace
 from ratelimit.decorators import ratelimit
 
 from credentials.apps.catalog.models import Pathway, Program
+from credentials.apps.core.api import get_user_by_username
 from credentials.apps.core.views import ThemeViewMixin
 from credentials.apps.credentials.models import ProgramCertificate, UserCredential
 from credentials.apps.records.api import get_program_record_data
@@ -251,9 +252,9 @@ class ProgramRecordCreationView(LoginRequiredMixin, RecordsEnabledMixin, View):
         body = json.loads(body_unicode)
 
         username = body["username"]
-        try:
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
+
+        user = get_user_by_username(username)
+        if not user:
             return JsonResponse({"error": "User does not exist"}, status=404)
 
         # verify that the user or an admin is making the request
