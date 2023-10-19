@@ -7,17 +7,13 @@ import logging
 from datetime import timezone
 
 from django.conf import settings
-from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from openedx_events.learning.data import ProgramCertificateData, ProgramData, UserData, UserPersonalData
 from openedx_events.learning.signals import PROGRAM_CERTIFICATE_AWARDED, PROGRAM_CERTIFICATE_REVOKED
 
 from credentials.apps.api.exceptions import DuplicateAttributeError
-from credentials.apps.credentials.config import (
-    SEND_PROGRAM_CERTIFICATE_AWARDED_SIGNAL,
-    SEND_PROGRAM_CERTIFICATE_REVOKED_SIGNAL,
-)
+from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.constants import UserCredentialStatus
 from credentials.apps.credentials.models import (
     CourseCertificate,
@@ -30,7 +26,6 @@ from credentials.apps.credentials.utils import send_program_certificate_created_
 from credentials.apps.records.utils import send_updated_emails_for_program
 
 
-User = get_user_model()
 logger = logging.getLogger(__name__)
 
 
@@ -247,29 +242,18 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
              credential
             date_override (DateTime): A DateTime describing when the learner's credential is available to view
         """
-        program_cert_awarded_signal_enabled = SEND_PROGRAM_CERTIFICATE_AWARDED_SIGNAL.is_enabled()
-        program_cert_revoked_signal_enabled = SEND_PROGRAM_CERTIFICATE_REVOKED_SIGNAL.is_enabled()
-        if not program_cert_awarded_signal_enabled and not program_cert_revoked_signal_enabled:
-            # if neither of the signals are enabled we have nothing to do here
-            return
-
-        try:
-            # need to retrieve the learner's User instance in order to retrieve PII data for the event
-            user = User.objects.get(username=username)
-        except User.DoesNotExist:
-            logger.exception(
+        user = get_user_by_username(username)
+        if not user:
+            logger.warning(
                 f"Unable to send a program certificate event for user with username [{username}]. No user found "
                 "matching this username"
             )
-            # if we can't find a user that matches the username, return
             return
 
         # pull the program and site through the relationship to the Credential
         program = credential.program
         site = credential.site
 
-        # generate the event data
-        time = user_credential.modified.astimezone(timezone.utc)
         program_certificate_data = ProgramCertificateData(
             user=UserData(
                 pii=UserPersonalData(username=username, email=user.email, name=user.get_full_name()),
@@ -286,10 +270,11 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
             url=f"https://{site.domain}/credentials/{str(user_credential.uuid).replace('-', '')}/",
         )
 
-        if status == UserCredentialStatus.AWARDED and program_cert_awarded_signal_enabled:
+        time = user_credential.modified.astimezone(timezone.utc)
+        if status == UserCredentialStatus.AWARDED:
             # .. event_implemented_name: PROGRAM_CERTIFICATE_AWARDED
             PROGRAM_CERTIFICATE_AWARDED.send_event(time=time, program_certificate=program_certificate_data)
-        elif status == UserCredentialStatus.REVOKED and program_cert_revoked_signal_enabled:
+        elif status == UserCredentialStatus.REVOKED:
             # .. event_implemented_name: PROGRAM_CERTIFICATE_REVOKED
             PROGRAM_CERTIFICATE_REVOKED.send_event(time=time, program_certificate=program_certificate_data)
 

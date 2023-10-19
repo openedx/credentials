@@ -281,23 +281,6 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
         mock_call_args = mock_send.mock_calls[0].kwargs
         assert expected_event_data == mock_call_args["program_certificate"]
 
-    @override_settings(SEND_PROGRAM_CERTIFICATE_AWARDED_SIGNAL=False)
-    @mock.patch("credentials.apps.credentials.issuers.PROGRAM_CERTIFICATE_AWARDED.send_event")
-    def test_emit_program_certificate_signal_certificate_awarded_signal_disabled(self, mock_send):
-        """
-        Verify that a `PROGRAM_CERTIFICATE_AWARDED` signal is NOT emit if the `SEND_PROGRAM_CERTIFICATE_AWARDED_SIGNAL`
-        feature flag is disabled.
-        """
-        self.site_config.records_enabled = False
-        self.site_config.save()
-
-        user = UserFactory()
-        self.issuer.issue_credential(self.certificate, user.username)
-        user_credential = UserCredential.objects.get(username=user.username, credential_id=self.certificate.id)
-
-        assert user_credential
-        assert mock_send.call_count == 0
-
     @override_settings(SEND_PROGRAM_CERTIFICATE_REVOKED_SIGNAL=True)
     @mock.patch("credentials.apps.credentials.issuers.PROGRAM_CERTIFICATE_REVOKED.send_event")
     def test_emit_program_certificate_signal_certificate_revoked(self, mock_send):

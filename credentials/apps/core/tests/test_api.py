@@ -6,7 +6,7 @@ from django.test import TestCase
 from openedx_events.learning.data import UserData, UserPersonalData
 from testfixtures import LogCapture
 
-from credentials.apps.core.api import get_or_create_user_from_event_data
+from credentials.apps.core.api import get_or_create_user_from_event_data, get_user_by_username
 from credentials.apps.core.tests.factories import UserFactory
 
 
@@ -16,7 +16,17 @@ class CoreApiTests(TestCase):
     Unit tests for `api.py` functions in the Core Django app
     """
 
-    def test_get_existing_user(self):
+    def test_get_user_by_username(self):
+        user = UserFactory()
+
+        retrieved_user = get_user_by_username(user.username)
+        assert retrieved_user.id == user.id
+
+    def test_get_user_by_username_user_dne(self):
+        retrieved_user = get_user_by_username("mistadobalina")
+        assert retrieved_user is None
+
+    def test_get_existing_user_from_event_data(self):
         """
         Test case to verify the behavior of the `get_or_create_user_from_event_bus_data` function when trying to
         retrieve a user that already exists in the system. Verifies that the user returned is the one we expected.
@@ -40,7 +50,7 @@ class CoreApiTests(TestCase):
         assert returned_user.lms_user_id == user.lms_user_id
         assert returned_user.is_active == user.is_active
 
-    def test_create_new_user(self):
+    def test_create_new_user_from_event_data(self):
         """
         Test case to verify the behavior of the `get_or_create_user_from_event_bus_data` function when trying to
         retrieve a user that doesn't exist in Credentials. Verifies the user creation process.
@@ -60,7 +70,7 @@ class CoreApiTests(TestCase):
         assert user.is_active
 
     @ddt.data(None, True)
-    def test_get_user_no_user_data(self, bad_data):
+    def test_get_user_no_user_data_in_event_data(self, bad_data):
         """
         Test case to verify the behavior of the `get_or_create_user_from_event_bus_data` function when passed unexpected
         data.
