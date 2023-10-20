@@ -584,5 +584,3 @@ EVENT_BUS_PRODUCER_CONFIG = {
         },
     },
 }
-# Will be deprecated and removed as part of https://github.com/openedx/credentials/issues/2241
-PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME = "learning-program-certificate-lifecycle"
