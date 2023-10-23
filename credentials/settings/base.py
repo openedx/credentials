@@ -557,32 +557,38 @@ EVENT_BUS_PRODUCER = "edx_event_bus_redis.create_producer"
 EVENT_BUS_CONSUMER = "edx_event_bus_redis.RedisEventConsumer"
 EVENT_BUS_REDIS_CONNECTION_URL = "redis://:password@edx.devstack.redis:6379/"
 EVENT_BUS_TOPIC_PREFIX = "dev"
-# .. setting_name: SEND_LEARNING_PROGRAM_CERTIFICATE_LIFECYCLE_EVENTS_TO_BUS
-# .. toggle_implementation: SettingToggle
-# .. toggle_default: False
-# .. toggle_description: When True, the system will publish program certificate lifecycle signals to the event bus.
-#    This toggle is used to create the EVENT_BUS_PRODUCER_CONFIG setting.
-# .. toggle_warning: The default may be changed in a later release.
-# .. toggle_use_cases: opt_in
-# .. toggle_creation_date: 2023-10-13
-# .. toggle_tickets: https://github.com/openedx/credentials/issues/2241
-SEND_LEARNING_PROGRAM_CERTIFICATE_LIFECYCLE_EVENTS_TO_BUS = False
 # .. setting_name: EVENT_BUS_PRODUCER_CONFIG
 # .. setting_default: all events disabled
 # .. setting_description: Dictionary of event_types mapped to dictionaries of topic to topic-related configuration.
 EVENT_BUS_PRODUCER_CONFIG = {
+    # .. setting_name: EVENT_BUS_PRODUCER_CONFIG['org.openedx.learning.program.certificate.awarded.v1']
+    #    ['learning-program-certificate-lifecycle']['enabled']
+    # .. toggle_implementation: DjangoSetting
+    # .. toggle_default: False
+    # .. toggle_description: Enables sending PROGRAM_CERTIFICATE_AWARDED events over the event bus.
+    # .. toggle_warning: The default may be changed in a later release.
+    # .. toggle_use_cases: opt_in
+    # .. toggle_creation_date: 2023-10-13
+    # .. toggle_tickets: https://github.com/openedx/credentials/issues/2241
     "org.openedx.learning.program.certificate.awarded.v1": {
         "learning-program-certificate-lifecycle": {
             "event_key_field": "program_certificate.program.uuid",
-            "enabled": SEND_LEARNING_PROGRAM_CERTIFICATE_LIFECYCLE_EVENTS_TO_BUS,
+            "enabled": False,
         },
     },
+    # .. setting_name: EVENT_BUS_PRODUCER_CONFIG['org.openedx.learning.program.certificate.revoked.v1']
+    #    ['learning-program-certificate-lifecycle']['enabled']
+    # .. toggle_implementation: SettingToggle
+    # .. toggle_default: False
+    # .. toggle_description: Enables sending PROGRAM_CERTIFICATE_REVOKED events over the event bus.
+    # .. toggle_warning: The default may be changed in a later release.
+    # .. toggle_use_cases: opt_in
+    # .. toggle_creation_date: 2023-10-13
+    # .. toggle_tickets: https://github.com/openedx/credentials/issues/2241
     "org.openedx.learning.program.certificate.revoked.v1": {
         "learning-program-certificate-lifecycle": {
             "event_key_field": "program_certificate.program.uuid",
-            "enabled": SEND_LEARNING_PROGRAM_CERTIFICATE_LIFECYCLE_EVENTS_TO_BUS,
+            "enabled": False,
         },
     },
 }
-# Will be deprecated and removed as part of https://github.com/openedx/credentials/issues/2241
-PROGRAM_CERTIFICATE_EVENTS_KAFKA_TOPIC_NAME = "learning-program-certificate-lifecycle"
