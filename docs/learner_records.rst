@@ -48,15 +48,6 @@ Enabling Program Records
 Program Record support is enabled by default. Optionally, an Administrator may disable support for the program record
 feature by disabling the ``Enable Learner Records`` checkbox in your site's ``Site Configuration`` (via Django Admin).
 
-To properly enable support for the Learner Record MFE from Credentials, the ``LEARNER_RECORD_MFE_RECORDS_PAGE_URL``
-setting must be set in configuration.
-
-::
-    The following is temporary and leftover from the original implementation of the Learner Record MFE. The Learner
-    Record MFE is a **required** component of the Credentials IDA and in the future its use will be enabled by default.
-
-Additionally, the ``USE_LEARNER_RECORD_MFE`` setting must be enabled.
-
 Creation
 --------
 

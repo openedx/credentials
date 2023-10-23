@@ -81,3 +81,5 @@ VERIFIABLE_CREDENTIALS = {
         "NAME": "test-issuer-name",
     }
 }
+
+LEARNER_RECORD_MFE_RECORDS_PAGE_URL = "http://learner-record-mfe"

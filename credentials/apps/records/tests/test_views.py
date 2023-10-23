@@ -9,6 +9,7 @@ import urllib.parse
 from unittest.mock import patch
 
 import ddt
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core import mail
 from django.test import TestCase
@@ -392,3 +393,53 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
         actual = response["Content-Disposition"]
 
         self.assertTrue(re.fullmatch(re_expected, actual))
+
+
+class LearnerRecordRedirectionTests(SiteMixin, TestCase):
+    """
+    Tests for the RecordsView and ProgramRecordsView views that ensure the system redirects learners' to the Learner
+    Record MFE when making requests to the legacy views.
+    """
+
+    def setUp(self):
+        super().setUp()
+        self.user = UserFactory()
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        self.program = ProgramFactory(site=self.site)
+        self.pathway = PathwayFactory(site=self.site, programs=[self.program])
+        self.pc = ProgramCertificateFactory(site=self.site, program_uuid=self.program.uuid)
+        self.user_credential = UserCredentialFactory(username=self.user.username, credential=self.pc)
+        self.pcr = ProgramCertRecordFactory(user=self.user, program=self.program, uuid=self.program.uuid)
+
+    def test_redirect_on_accessing_record_view(self):
+        """
+        A unit test that ensures that a request to the `RecordsView` view will be redirected to the Learner Record MFE
+        page (based on settings).
+        """
+        response = self.client.get(reverse("records:index"), follow=True)
+        assert response.redirect_chain[-1][0] == settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL
+        assert response.redirect_chain[-1][1] == 302
+
+    def test_redirect_on_accessing_program_record_view_private(self):
+        """
+        A unit test that ensures that a request to the private `ProgramRecordsView` view will be redirected to the
+        appropriate path/url of the Learner Record MFE.
+        """
+        response = self.client.get(
+            reverse("records:private_programs", kwargs={"uuid": self.program.uuid.hex}), follow=True
+        )
+        assert response.redirect_chain[-1][0] == (
+            f"{settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL}/{self.program.uuid.hex}"
+        )
+        assert response.redirect_chain[-1][1] == 302
+
+    def test_redirect_on_accessing_program_record_view_public(self):
+        """
+        A unit test that ensures that a request to the public `ProgramRecordsView` view will be redirected to the
+        appropriate path/url of the Learner Record MFE.
+        """
+        response = self.client.get(reverse("records:public_programs", kwargs={"uuid": self.pcr.uuid.hex}), follow=True)
+        assert response.redirect_chain[-1][0] == (
+            f"{settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL}/shared/{self.pcr.uuid.hex}"
+        )
+        assert response.redirect_chain[-1][1] == 302
