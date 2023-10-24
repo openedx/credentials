@@ -30,7 +30,3 @@ analytics-python<=1.4.0
 # Pinning urllib3 to versions < 2.x as this conflicts with boto. This constraint will be re-evaluated as part of
 # APER-2422
 urllib3<2
-
-
-# The latest version of `social-auth-app-django` includes a large migration that is causing OOM issues
-social-auth-app-django<5.3.0
