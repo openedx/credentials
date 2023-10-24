@@ -26,7 +26,7 @@ cffi==1.16.0
     # via
     #   cryptography
     #   pynacl
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
     # via requests
 click==8.1.7
     # via
@@ -41,7 +41,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==41.0.4
+cryptography==41.0.5
     # via
     #   pyjwt
     #   social-auth-core
@@ -181,7 +181,7 @@ monotonic==1.6
     # via analytics-python
 mysqlclient==2.2.0
     # via -r requirements/base.in
-newrelic==9.1.0
+newrelic==9.1.1
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -283,9 +283,8 @@ six==1.16.0
     #   python-memcached
 slumber==0.7.1
     # via edx-rest-api-client
-social-auth-app-django==5.2.0
+social-auth-app-django==5.4.0
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/base.in
     #   edx-auth-backends
 social-auth-core==4.4.2
@@ -311,7 +310,7 @@ uritemplate==4.1.1
     # via
     #   coreapi
     #   drf-yasg
-urllib3==1.26.17
+urllib3==1.26.18
     # via
     #   -c requirements/constraints.txt
     #   requests
