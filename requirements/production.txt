@@ -27,9 +27,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.28.64
+boto3==1.28.69
     # via django-ses
-botocore==1.31.64
+botocore==1.31.69
     # via
     #   boto3
     #   s3transfer
@@ -42,7 +42,7 @@ cffi==1.16.0
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.3.0
+charset-normalizer==3.3.1
     # via
     #   -r requirements/base.txt
     #   requests
@@ -244,7 +244,7 @@ monotonic==1.6
     #   analytics-python
 mysqlclient==2.2.0
     # via -r requirements/base.txt
-newrelic==9.1.0
+newrelic==9.1.1
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -431,7 +431,7 @@ uritemplate==4.1.1
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.17
+urllib3==1.26.18
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
