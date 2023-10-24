@@ -482,8 +482,9 @@ SOCIAL_AUTH_REDIRECT_IS_HTTPS = False
 # .. toggle_name: SEND_EMAIL_ON_PROGRAM_COMPLETION
 # .. toggle_implementation: SettingToggle
 # .. toggle_default: False
-# .. toggle_description: Toggle to control if we send a congratulatory email to learners after being issued a Program Certificate
-# .. toggle_use_cases: open_edx
+# .. toggle_description: If enabled (and configured), the system will send a congratulatory email to learners upon
+#    being awarded a program certificate.
+# .. toggle_use_cases: opt_in
 # .. toggle_creation_date: 2020-10-08
 # .. toggle_target_removal_date: NA
 # .. toggle_warning: This is a toggle for the feature
@@ -533,16 +534,7 @@ LOGO_WHITE_URL_SVG = "https://edx-cdn.org/v3/default/logo-white.svg"
 FAVICON_URL = "https://edx-cdn.org/v3/default/favicon.ico"
 LOGO_POWERED_BY_OPEN_EDX_URL = "https://edx-cdn.org/v3/prod/open-edx-tag.svg"
 
-# .. toggle_name: USE_LEARNER_RECORD_MFE
-# .. toggle_implementation: DjangoSetting
-# .. toggle_default: False
-# .. toggle_description: Determines if the Credentials IDA should redirect to the Learner Record MFE when navigating
-#   between the program detail page and program list pages.
-# .. toggle_warning: Requires the Learner Record MFE to be deployed in a given environment if toggled to true. Requires
-#   a value to be set for the `LEARNER_RECORD_MFE_RECORDS_PAGE_URL` for navigation to route properly.
-# .. toggle_use_cases: opt_in
-# .. toggle_creation_date: 2021-08-10
-USE_LEARNER_RECORD_MFE = False
+# Learner Record MFE Settings
 LEARNER_RECORD_MFE_RECORDS_PAGE_URL = ""
 
 # Plugin Django Apps

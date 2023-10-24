@@ -89,13 +89,15 @@ class RecordsListBaseView(LoginRequiredMixin, RecordsEnabledMixin, TemplateView,
 
 
 class RecordsView(RecordsListBaseView):
-    # NOTE: We _should_ keep this for redirecting users to the Learner Record MFE to continue to work correctly
-    def get(self, request, *args, **kwargs):
-        # If the Learner Record MFE is enabled, redirect our user to the MFE, otherwise we use the legacy frontend
-        if settings.USE_LEARNER_RECORD_MFE:
-            return HttpResponseRedirect(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL)
+    """
+    The RecordsView view continues to be required after converting our legacy frontend to the Learner Record MFE. This
+    is so we can redirect learners coming from their Learner Profile or the LMS to the Learner Record MFE. This also
+    allows us to redirect users to the new MFE who may have bookmarked or shared their legacy records to others (e.g.
+    through a Credit Pathway).
+    """
 
-        return super().get(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        return HttpResponseRedirect(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL)
 
 
 class ProgramListingView(RecordsListBaseView):
@@ -125,24 +127,25 @@ class ProgramListingView(RecordsListBaseView):
         return super().dispatch(request, *args, **kwargs)
 
 
-# NOTE: To ensure that public program records continue to be redirected to the Learner Record MFE, we _must_ keep the
-# overridden `get` function (even after the Learner Record MFE is the default (only) frontend for the `records` app).
 class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
-    # NOTE: We _must_ keep this to ensure we are redirecting users to the Learner Record MFE when viewing shared public
-    # program records.
-    def get(self, request, *args, **kwargs):
-        # If the Learner Record MFE is enabled, ensure we are redirecting users to the correct route depending on the
-        # privacy level of the program record entity.
-        if settings.USE_LEARNER_RECORD_MFE:
-            is_public = kwargs["is_public"]
-            uuid = kwargs["uuid"]
-            if is_public:
-                url = urllib.parse.urljoin(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL, f"shared/{uuid}")
-            else:
-                url = urllib.parse.urljoin(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL, f"{uuid}")
-            return HttpResponseRedirect(url)
+    """
+    The ProgramRecordView view continues to be required after converting our legacy frontend to the Learner Record MFE.
+    This is so we can redirect learners coming from their Learner Profile or the LMS to the Learner Record MFE. This
+    also allows us to redirect users to the new MFE who may have bookmarked or shared their legacy records to others
+    (e.g. through a Credit Pathway).
+    """
 
-        return super().get(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        uuid = kwargs["uuid"]
+
+        # ensure that we are redirecting users to the correct route depending on the privacy level of the program record
+        is_public = kwargs["is_public"]
+        if is_public:
+            url = urllib.parse.urljoin(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL, f"shared/{uuid}")
+        else:
+            url = urllib.parse.urljoin(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL, f"{uuid}")
+
+        return HttpResponseRedirect(url)
 
 
 @method_decorator(ratelimit(key="user", rate=RECORDS_RATE_LIMIT, method="POST", block=True), name="dispatch")
