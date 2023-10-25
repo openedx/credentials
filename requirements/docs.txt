@@ -38,7 +38,7 @@ packaging==23.2
     # via
     #   pydata-sphinx-theme
     #   sphinx
-pydata-sphinx-theme==0.14.1
+pydata-sphinx-theme==0.14.2
     # via sphinx-book-theme
 pygments==2.16.1
     # via
