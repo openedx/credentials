@@ -522,8 +522,9 @@ slumber==0.7.1
     # via
     #   -r requirements/test.txt
     #   edx-rest-api-client
-social-auth-app-django==5.4.0
+social-auth-app-django==5.2.0
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   edx-auth-backends
 social-auth-core==4.4.2
