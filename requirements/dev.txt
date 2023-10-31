@@ -243,11 +243,11 @@ faker==19.12.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
-fastavro==1.8.4
+fastavro==1.9.0
     # via
     #   -r requirements/test.txt
     #   openedx-events
-filelock==3.12.4
+filelock==3.13.1
     # via
     #   -r requirements/test.txt
     #   tox
@@ -425,13 +425,13 @@ pypng==0.20220715.0
     # via
     #   -r requirements/test.txt
     #   qrcode
-pyrsistent==0.19.3
+pyrsistent==0.20.0
     # via jsonschema
 pytest==7.4.3
     # via
     #   -r requirements/test.txt
     #   pytest-django
-pytest-django==4.5.2
+pytest-django==4.6.0
     # via -r requirements/test.txt
 python-dateutil==2.8.2
     # via
@@ -527,7 +527,7 @@ social-auth-app-django==5.2.0
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   edx-auth-backends
-social-auth-core==4.4.2
+social-auth-core==4.5.0
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
