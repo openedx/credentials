@@ -212,11 +212,11 @@ factory-boy==3.3.0
     # via -r requirements/test.in
 faker==19.12.0
     # via factory-boy
-fastavro==1.8.4
+fastavro==1.9.0
     # via
     #   -r requirements/base.txt
     #   openedx-events
-filelock==3.12.4
+filelock==3.13.1
     # via
     #   tox
     #   virtualenv
@@ -373,7 +373,7 @@ pytest==7.4.3
     # via
     #   -r requirements/test.in
     #   pytest-django
-pytest-django==4.5.2
+pytest-django==4.6.0
     # via -r requirements/test.in
 python-dateutil==2.8.2
     # via
@@ -459,7 +459,7 @@ social-auth-app-django==5.2.0
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.4.2
+social-auth-core==4.5.0
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends

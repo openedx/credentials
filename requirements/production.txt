@@ -27,9 +27,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.28.70
+boto3==1.28.74
     # via django-ses
-botocore==1.31.70
+botocore==1.31.74
     # via
     #   boto3
     #   s3transfer
@@ -193,7 +193,7 @@ edx-toggles==5.1.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
-fastavro==1.8.4
+fastavro==1.9.0
     # via
     #   -r requirements/base.txt
     #   openedx-events
@@ -400,7 +400,7 @@ social-auth-app-django==5.2.0
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.4.2
+social-auth-core==4.5.0
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
