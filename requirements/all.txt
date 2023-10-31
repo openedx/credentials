@@ -46,11 +46,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.28.70
+boto3==1.28.74
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.31.70
+botocore==1.31.74
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -267,7 +267,7 @@ edx-auth-backends==4.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.3.16
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.3.17
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -328,12 +328,12 @@ faker==19.12.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
-fastavro==1.8.4
+fastavro==1.9.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   openedx-events
-filelock==3.12.4
+filelock==3.13.1
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -565,7 +565,7 @@ pypng==0.20220715.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   qrcode
-pyrsistent==0.19.3
+pyrsistent==0.20.0
     # via
     #   -r requirements/dev.txt
     #   jsonschema
@@ -573,7 +573,7 @@ pytest==7.4.3
     # via
     #   -r requirements/dev.txt
     #   pytest-django
-pytest-django==4.5.2
+pytest-django==4.6.0
     # via -r requirements/dev.txt
 python-dateutil==2.8.2
     # via
@@ -694,7 +694,7 @@ social-auth-app-django==5.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-auth-backends
-social-auth-core==4.4.2
+social-auth-core==4.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
