@@ -5,7 +5,9 @@ Issuer classes used to generate credentials for learners.
 import abc
 import logging
 from datetime import timezone
+from uuid import uuid4
 
+from analytics.client import Client as SegmentClient
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
@@ -179,18 +181,24 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
                 "status": status,
             },
         )
+
+        site_config = getattr(credential.site, "siteconfiguration", None)
+        user = get_user_by_username(username)
+
         # set any additional attributes specific to this program certificate
         self.set_credential_attributes(user_credential, attributes)
         # send an updated program progress message if the learner shared their progress before earning their credential
-        self._send_updated_emails_for_program(request, username, credential, created)
+        self._send_updated_emails_for_program(request, site_config, username, credential, created)
         # send a congratulatory email message to the learner for earning a credential (if program has opted in)
         self._send_program_completion_email(username, credential, created, lms_user_id)
-        # check to see if we should emit any program credential related events to the event bus
-        self._emit_program_certificate_signal(username, user_credential, status, credential)
+        # emit any program credential events to the event bus
+        self._emit_program_certificate_signal(user, user_credential, status, credential)
+        # emit a segment event for analytics tracking
+        self._emit_program_certificate_segment_event(request, site_config, user, user_credential, credential, created)
 
         return user_credential
 
-    def _send_updated_emails_for_program(self, request, username, credential, created):
+    def _send_updated_emails_for_program(self, request, site_config, username, credential, created):
         """
         This function is responsible for sending an updated email to a pathway org only if the user has previously
         shared their program progress through a pathway. Checks if the site configuration has record keeping enabled
@@ -206,7 +214,6 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
              credential
             created (bool): A boolean describing whether the credential was created (True) or just updated (False)
         """
-        site_config = getattr(credential.site, "siteconfiguration", None)
         if site_config and site_config.records_enabled and created:
             send_updated_emails_for_program(request, username, credential)
 
@@ -226,7 +233,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         if created and getattr(settings, "SEND_EMAIL_ON_PROGRAM_COMPLETION", False):
             send_program_certificate_created_message(username, credential, lms_user_id)
 
-    def _emit_program_certificate_signal(self, username, user_credential, status, credential):
+    def _emit_program_certificate_signal(self, user, user_credential, status, credential):
         """
         A utility function of the ProgramCertificate issuer responsible for emitting signals when a program certificate
         has been awarded or revoked. This is used to emit signals downstream that are responsible for publishing
@@ -236,17 +243,16 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         and the SEND_PROGRAM_CERTIFICATE_REVOKED_SIGNAL settings) we do nothing.
 
         Args:
-            username (str): The username of the user associated with the recently generated credential
+            user (User): The user (learner) associated with the recently generated credential
             user_credential (UserCredential): A UserCredential instance, specifically a program certificate
             credential (AbstractCredential[ProgramCertificate]): The type of credential used to issue the above user
              credential
             date_override (DateTime): A DateTime describing when the learner's credential is available to view
         """
-        user = get_user_by_username(username)
         if not user:
             logger.warning(
-                f"Unable to send a program certificate event for user with username [{username}]. No user found "
-                "matching this username"
+                f"Unable to send a program certificate event for user with username [{user_credential.username}]. No "
+                "user found matching this username"
             )
             return
 
@@ -256,7 +262,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
 
         program_certificate_data = ProgramCertificateData(
             user=UserData(
-                pii=UserPersonalData(username=username, email=user.email, name=user.get_full_name()),
+                pii=UserPersonalData(username=user.username, email=user.email, name=user.get_full_name()),
                 id=user.lms_user_id,
                 is_active=user.is_active,
             ),
@@ -277,6 +283,67 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         elif status == UserCredentialStatus.REVOKED:
             # .. event_implemented_name: PROGRAM_CERTIFICATE_REVOKED
             PROGRAM_CERTIFICATE_REVOKED.send_event(time=time, program_certificate=program_certificate_data)
+
+    def _emit_program_certificate_segment_event(self, request, site_config, user, user_credential, credential, created):
+        """
+        A utility function used to dispatch a Segment event when a program certificate has been updated. This includes
+        upon initial creation or an update later (revocation, re-awarding).
+
+        Args:
+            request (HttpRequest): The original request object from the credential update request
+            site_config (SiteConfiguration): The site configuration associated with the (program) credential
+            user (User): The user (learner) associated with the recently generated credential
+            user_credential (UserCredential): The recently generated user credential associated with the learner
+            credential (AbstractCredential[ProgramCredential]): The credential issued to the learner, associated with a
+             specific program.
+            created (bool): Boolean describing if this user credential record was created or updated
+        """
+        if not user:
+            logger.warning(
+                f"Unable to send a Segment event for user with username [{user_credential.username}]. No user found "
+                "matching this username"
+            )
+            return
+
+        segment_client = None
+        if site_config and site_config.segment_key:
+            segment_client = SegmentClient(write_key=site_config.segment_key)
+
+        if segment_client:
+            anonymous_id = None
+            if request and request.COOKIES:
+                anonymous_id = request.COOKIES.get("ajs_anonymous_id", str(uuid4()))
+            else:
+                anonymous_id = str(uuid4())
+
+            event_name = "edx.bi.credentials.credential_issuers.program_certificate_updated"
+            if created:
+                event_name = "edx.bi.credentials.credential_issuers.program_certificate_created"
+
+            program = credential.program
+
+            event_properties = {
+                "category": "credentials",
+                "user": {
+                    "username": user.username,
+                    "lms_user_id": user.lms_user_id,
+                },
+                "program": {
+                    "uuid": str(program.uuid),
+                    "title": program.title,
+                    "program_type": program.type_slug,
+                },
+                "uuid": str(user_credential.uuid),
+                "status": user_credential.status,
+                "url": f"https://{credential.site.domain}/credentials/{str(user_credential.uuid).replace('-', '')}/",
+                "timestamp": user_credential.modified,
+            }
+
+            segment_client.track(
+                anonymous_id=anonymous_id,
+                event=event_name,
+                properties=event_properties,
+            )
 
 
 class CourseCertificateIssuer(AbstractCredentialIssuer):

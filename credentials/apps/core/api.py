@@ -49,7 +49,7 @@ def get_or_create_user_from_event_data(user_data):
         # create the user if they don't exist, this follows similar behavior that our JWT authentication implements if
         # a user doesn't exist when we're making network calls across services
         user, created = User.objects.get_or_create(username=user_data.pii.username)
-    except Exception:  # pylint: disable=broad-exception-caught
+    except Exception:
         logger.exception("Error occurred retrieving or creating a user")
         return None, None
 
