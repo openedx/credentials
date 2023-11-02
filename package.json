@@ -39,7 +39,7 @@
     "eslint": "8.52.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-plugin-import": "2.29.0",
-    "eslint-plugin-jsx-a11y": "6.7.1",
+    "eslint-plugin-jsx-a11y": "6.8.0",
     "jasmine-core": "3.99.1",
     "jasmine-jquery": "2.1.1",
     "jquery": "3.7.1",
