@@ -286,8 +286,8 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
 
     def _emit_program_certificate_segment_event(self, request, site_config, user, user_credential, credential, created):
         """
-        A utility function used to dispatch a Segment event when a program certificate has been updated. This includes
-        upon initial creation or an update later (revocation, re-awarding).
+        A utility function used to dispatch a Segment event when a program certificate record has been created or
+        updated.
 
         Args:
             request (HttpRequest): The original request object from the credential update request
@@ -310,18 +310,11 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
             segment_client = SegmentClient(write_key=site_config.segment_key)
 
         if segment_client:
-            anonymous_id = None
-            if request and request.COOKIES:
-                anonymous_id = request.COOKIES.get("ajs_anonymous_id", str(uuid4()))
-            else:
-                anonymous_id = str(uuid4())
-
             event_name = "edx.bi.credentials.credential_issuers.program_certificate_updated"
             if created:
                 event_name = "edx.bi.credentials.credential_issuers.program_certificate_created"
 
             program = credential.program
-
             event_properties = {
                 "category": "credentials",
                 "user": {
@@ -340,7 +333,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
             }
 
             segment_client.track(
-                anonymous_id=anonymous_id,
+                anonymous_id=user.lms_user_id,
                 event=event_name,
                 properties=event_properties,
             )

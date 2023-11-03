@@ -384,6 +384,7 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
         mock_segment_client_method_calls = mock_segment_client.method_calls
         assert len(mock_segment_client_method_calls) == 1
         call_args = mock_segment_client_method_calls[0].kwargs
+        assert call_args["anonymous_id"] == self.user.lms_user_id
         assert call_args["event"] == expected_event_name
         assert call_args["properties"] == expected_event_properties
 
@@ -425,6 +426,7 @@ class ProgramCertificateIssuerTests(CertificateIssuerBase, TestCase):
         mock_segment_client_method_calls = mock_segment_client.method_calls
         assert len(mock_segment_client_method_calls) == 1
         call_args = mock_segment_client_method_calls[0].kwargs
+        assert call_args["anonymous_id"] == self.user.lms_user_id
         assert call_args["event"] == expected_event_name
         assert call_args["properties"] == expected_event_properties
 
