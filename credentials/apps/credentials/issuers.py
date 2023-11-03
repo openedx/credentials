@@ -5,7 +5,6 @@ Issuer classes used to generate credentials for learners.
 import abc
 import logging
 from datetime import timezone
-from uuid import uuid4
 
 from analytics.client import Client as SegmentClient
 from django.conf import settings
