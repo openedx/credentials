@@ -332,7 +332,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
             }
 
             segment_client.track(
-                anonymous_id=user.lms_user_id,
+                user_id=user.lms_user_id,
                 event=event_name,
                 properties=event_properties,
             )
