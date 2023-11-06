@@ -31,6 +31,7 @@ from credentials.apps.records.api import (
     _get_transformed_program_data,
 )
 from credentials.apps.records.constants import UserCreditPathwayStatus
+from credentials.apps.records.models import UserGrade
 from credentials.apps.records.tests.factories import (
     ProgramCertRecordFactory,
     UserCreditPathwayFactory,
@@ -135,7 +136,7 @@ class ApiTests(SiteMixin, TestCase):
         result = _does_awarded_program_cert_exist_for_user(self.program, self.user)
         assert result is False
 
-    def test__get_transformed_learner_data(self):
+    def test_get_transformed_learner_data(self):
         """
         Test that verifies the functionality of the `_get_transformed_learner_data` utility function.
         """
@@ -204,6 +205,30 @@ class ApiTests(SiteMixin, TestCase):
         self._assert_results(expected_highest_attempt_dict, highest_attempt_dict)
         assert float(highest_attempt_dict.get(self.course).percent_grade) == self.grade_high.percent_grade
         assert expected_issue_date == last_updated
+
+    def test_get_transformed_grade_data_missing_grade(self):
+        """
+        Test that verifies the behavior of the `_get_transformed_grade_date` function when a learner has earned a
+        certificate in a course-run but no grade is stored in Credentials.
+        """
+        # remove grades associated with the learner
+        UserGrade.objects.filter(username=self.user.username).delete()
+
+        expected_issue_date = get_credential_dates(self.course_certificiate_credentials[0], False)
+        expected_result = {
+            "name": self.course_runs[0].title,
+            "school": ",".join(self.course.owners.values_list("name", flat=True)),
+            "attempts": 0,
+            "course_id": self.course_runs[0].key,
+            "issue_date": expected_issue_date.isoformat(),
+            "percent_grade": 0.0,
+            "letter_grade": ""
+        }
+
+        result, highest_attempt_dict, last_updated = _get_transformed_grade_data(self.program, self.user)
+        import pdb; pdb.set_trace()
+        self._assert_results(expected_result, result[0])
+        self._assert_results({}, highest_attempt_dict)
 
     def test_get_shared_program_cert_record_data(self):
         """

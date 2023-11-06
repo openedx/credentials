@@ -189,24 +189,37 @@ def _get_transformed_grade_data(program, user):
     for course_run in program_course_runs:
         course = course_run.course
         grade = highest_attempt_dict.get(course)
+        user_credential = user_credential_dict.get(course_run.key, None)
+        
+        issue_date = None
+        if user_credential:
+            issue_date = get_credential_dates(user_credential, False)
 
         # if the learner hasn't taken this course yet, or doesn't have a cert, we want to show empty values
         if grade is None and course not in added_courses:
-            transformed_grade_data.append(
-                {
-                    "name": course.title,
-                    "school": ", ".join(course.owners.values_list("name", flat=True)),
-                    "attempts": 0,
-                    "course_id": "",
-                    "issue_date": "",
-                    "percent_grade": 0.0,
-                    "letter_grade": "",
-                }
-            )
+            grade_data = {
+                "name": course.title,
+                "school": ", ".join(course.owners.values_list("name", flat=True)),
+                "attempts": 0,
+                "course_id": "",
+                "issue_date": "",
+                "percent_grade": 0.0,
+                "letter_grade": "",
+            }
+            # The communication pathway between the LMS and Credentials isn't always reliable. While we may not have a
+            # grade for the learner in a course run, let's check if the learner has earned a Credential. If so, we
+            # update the grade_data dict to reflect this, that way we can represent the status of an earned credential
+            # accurately on their learner record. Previously, if there was no grade available in Credentials, we would
+            # mark the certificate as "Not Earned" and this caused a lot of learner confusion because of conflicting
+            # data between the two systems. The Learner Record frontend requires the "issue_date" to be set in order to
+            # display a course certificate as "earned".
+            if user_credential:
+                grade_data["course_id"] = course_run.key
+                grade_data["issue_date"] = issue_date.isoformat()
+
+            transformed_grade_data.append(grade_data)
             added_courses.add(course)
         elif grade is not None and grade.course_run == course_run:
-            user_credential = user_credential_dict.get(course_run.key)
-            issue_date = get_credential_dates(user_credential, False)
             transformed_grade_data.append(
                 {
                     "name": course_run.title,
