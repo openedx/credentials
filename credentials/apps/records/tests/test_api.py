@@ -88,7 +88,7 @@ class ApiTests(SiteMixin, TestCase):
             percent_grade=1.0,
         )
         # award course certificate to our test user
-        self.course_certificiate_credentials = [
+        self.course_certificate_credentials = [
             UserCredentialFactory.create(
                 username=self.user.username,
                 credential_content_type=self.COURSE_CERTIFICATE_CONTENT_TYPE,
@@ -187,7 +187,7 @@ class ApiTests(SiteMixin, TestCase):
         """
         Test that verifies the functionality of the `_get_transformed_grade_data` utility function.
         """
-        expected_issue_date = get_credential_dates(self.course_certificiate_credentials[1], False)
+        expected_issue_date = get_credential_dates(self.course_certificate_credentials[1], False)
         expected_result = {
             "name": self.course_runs[1].title,
             "school": ",".join(self.course.owners.values_list("name", flat=True)),
@@ -214,7 +214,7 @@ class ApiTests(SiteMixin, TestCase):
         # remove grades associated with the learner
         UserGrade.objects.filter(username=self.user.username).delete()
 
-        expected_issue_date = get_credential_dates(self.course_certificiate_credentials[0], False)
+        expected_issue_date = get_credential_dates(self.course_certificate_credentials[0], False)
         expected_result = {
             "name": self.course_runs[0].title,
             "school": ",".join(self.course.owners.values_list("name", flat=True)),
@@ -225,8 +225,7 @@ class ApiTests(SiteMixin, TestCase):
             "letter_grade": ""
         }
 
-        result, highest_attempt_dict, last_updated = _get_transformed_grade_data(self.program, self.user)
-        import pdb; pdb.set_trace()
+        result, highest_attempt_dict, _ = _get_transformed_grade_data(self.program, self.user)
         self._assert_results(expected_result, result[0])
         self._assert_results({}, highest_attempt_dict)
 
