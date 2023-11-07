@@ -27,9 +27,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.28.74
+boto3==1.28.79
     # via django-ses
-botocore==1.31.74
+botocore==1.31.79
     # via
     #   boto3
     #   s3transfer
@@ -42,7 +42,7 @@ cffi==1.16.0
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.3.1
+charset-normalizer==3.3.2
     # via
     #   -r requirements/base.txt
     #   requests
@@ -76,7 +76,7 @@ defusedxml==0.8.0rc2
     #   social-auth-core
 didkit==0.3.2
     # via -r requirements/base.txt
-django==4.2.6
+django==4.2.7
     # via
     #   -r requirements/base.txt
     #   django-appconf
@@ -166,14 +166,14 @@ edx-django-release-util==1.3.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==4.0.2
     # via -r requirements/base.txt
-edx-django-utils==5.7.0
+edx-django-utils==5.8.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.12.0
+edx-drf-extensions==8.13.0
     # via -r requirements/base.txt
 edx-event-bus-kafka==5.5.0
     # via -r requirements/base.txt
@@ -232,7 +232,7 @@ lxml==4.9.3
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-markdown==3.5
+markdown==3.5.1
     # via -r requirements/base.txt
 markupsafe==2.1.3
     # via
@@ -262,7 +262,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 openedx-atlas==0.5.0
     # via -r requirements/base.txt
-openedx-events==9.0.0
+openedx-events==9.0.1
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
