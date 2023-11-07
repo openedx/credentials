@@ -3,9 +3,11 @@ Tests for the `api.py` file of the Records Django app.
 """
 import datetime
 
+import pytest
 from django.contrib.contenttypes.models import ContentType
 from django.template.defaultfilters import slugify
 from django.test import TestCase
+from waffle.testutils import override_switch
 
 from credentials.apps.catalog.tests.factories import (
     CourseFactory,
@@ -20,6 +22,7 @@ from credentials.apps.credentials.api import get_credential_dates
 from credentials.apps.credentials.tests.factories import (
     CourseCertificateFactory,
     ProgramCertificateFactory,
+    UserCredentialAttributeFactory,
     UserCredentialFactory,
 )
 from credentials.apps.records.api import (
@@ -55,47 +58,67 @@ class ApiTests(SiteMixin, TestCase):
         self.user = UserFactory()
         # create the organization for the program
         self.org = OrganizationFactory.create(name="TestOrg1")
-        # create courses, course-runs, and course certificate configurations for our tests
-        self.course = CourseFactory.create(site=self.site)
-        self.course_runs = CourseRunFactory.create_batch(2, course=self.course)
-        self.course_cert_configs = [
-            CourseCertificateFactory.create(
-                course_id=course_run.key,
-                site=self.site,
-            )
-            for course_run in self.course_runs
-        ]
-        # create program and program certificate configuration for our tests
+        # create a program with two courses, one course having two course runs, second course having one
+        self.course1 = CourseFactory.create(site=self.site)
+        self.course2 = CourseFactory.create(site=self.site)
+        self.course1_courserun1 = CourseRunFactory(course=self.course1)
+        self.course1_courserun2 = CourseRunFactory(course=self.course1)
+        self.course2_courserun1 = CourseRunFactory(course=self.course2)
+        self.program_course_runs = [self.course1_courserun1, self.course1_courserun2, self.course2_courserun1]
         self.program = ProgramFactory(
-            title="TestProgram1",
-            course_runs=[self.course_runs[0], self.course_runs[1]],
+            title="Test Program 1",
+            course_runs=self.program_course_runs,
             authoring_organizations=[self.org],
             site=self.site,
         )
+        # create course certificate configurations so we can grant credentials to the test learner
+        self.course_cert_course1_courserun1 = CourseCertificateFactory(
+            course_id=self.course1_courserun1.key, site=self.site
+        )
+        self.course_cert_course1_courserun2 = CourseCertificateFactory(
+            course_id=self.course1_courserun2.key, site=self.site
+        )
+        self.course_cert_course2_courserun1 = CourseCertificateFactory(
+            course_id=self.course2_courserun1.key, site=self.site
+        )
+        # create program certificate configuration so we can grant a program credential to the test learner
         self.program_cert_config = ProgramCertificateFactory.create(program_uuid=self.program.uuid, site=self.site)
-        # generate some grade data in the course-runs for our test user
-        self.grade_low = UserGradeFactory(
+        # create grade for learner in course-run1 of course1
+        self.course1_courserun1_grade = UserGradeFactory(
             username=self.user.username,
-            course_run=self.course_runs[0],
+            course_run=self.course1_courserun1,
             letter_grade="C",
             percent_grade=0.75,
         )
-        self.grade_high = UserGradeFactory(
+        self.course1_courserun2_grade = UserGradeFactory(
             username=self.user.username,
-            course_run=self.course_runs[1],
+            course_run=self.course1_courserun2,
             letter_grade="A",
             percent_grade=1.0,
         )
-        # award course certificate to our test user
-        self.course_certificiate_credentials = [
-            UserCredentialFactory.create(
-                username=self.user.username,
-                credential_content_type=self.COURSE_CERTIFICATE_CONTENT_TYPE,
-                credential=course_cert_config,
-            )
-            for course_cert_config in self.course_cert_configs
-        ]
-        self.program_certificate_credential = UserCredentialFactory.create(
+        self.course2_courserun1_grade = UserGradeFactory(
+            username=self.user.username,
+            course_run=self.course2_courserun1,
+            letter_grade="B",
+            percent_grade=0.85,
+        )
+        # next, award the course and program credentials to our test learner
+        self.course_credential_course1_courserun1 = UserCredentialFactory.create(
+            username=self.user.username,
+            credential_content_type=self.COURSE_CERTIFICATE_CONTENT_TYPE,
+            credential=self.course_cert_course1_courserun1,
+        )
+        self.course_credential_course1_courserun2 = UserCredentialFactory.create(
+            username=self.user.username,
+            credential_content_type=self.COURSE_CERTIFICATE_CONTENT_TYPE,
+            credential=self.course_cert_course1_courserun2,
+        )
+        self.course_credential_course2_courserun1 = UserCredentialFactory.create(
+            username=self.user.username,
+            credential_content_type=self.COURSE_CERTIFICATE_CONTENT_TYPE,
+            credential=self.course_cert_course2_courserun1,
+        )
+        self.program_credential = UserCredentialFactory.create(
             username=self.user.username,
             credential_content_type=self.PROGRAM_CERTIFICATE_CONTENT_TYPE,
             credential=self.program_cert_config,
@@ -130,7 +153,7 @@ class ApiTests(SiteMixin, TestCase):
         Test that verifies the functionality of the `_does_awarded_program_cert_exist_for_user` utility function when a
         certificate exists for the user.
         """
-        self.program_certificate_credential.revoke()
+        self.program_credential.revoke()
 
         result = _does_awarded_program_cert_exist_for_user(self.program, self.user)
         assert result is False
@@ -184,26 +207,241 @@ class ApiTests(SiteMixin, TestCase):
 
     def test_get_transformed_grade_data(self):
         """
-        Test that verifies the functionality of the `_get_transformed_grade_data` utility function.
+        Test that verifies the functionality of the `_get_transformed_grade_data` utility function. In this scenario we
+        have one program associated with two courses, across three course runs. The test verifies that the grade and
+        dates associated with the learner's achievements are what we would expect.
         """
-        expected_issue_date = get_credential_dates(self.course_certificiate_credentials[1], False)
-        expected_result = {
-            "name": self.course_runs[1].title,
-            "school": ",".join(self.course.owners.values_list("name", flat=True)),
+        expected_issue_date_course1 = get_credential_dates(self.course_credential_course1_courserun2, False)
+        expected_result_course1 = {
+            "name": self.course1_courserun2.title,
+            "school": ",".join(self.course1.owners.values_list("name", flat=True)),
             "attempts": 2,
-            "course_id": self.course_runs[1].key,
-            "issue_date": expected_issue_date.isoformat(),
+            "course_id": self.course1_courserun2.key,
+            "issue_date": expected_issue_date_course1.isoformat(),
             "percent_grade": 1.0,
             "letter_grade": "A",
         }
-
-        expected_highest_attempt_dict = {self.course: self.grade_high}
+        expected_issue_date_course2 = get_credential_dates(self.course_credential_course2_courserun1, False)
+        expected_result_course2 = {
+            "name": self.course2_courserun1.title,
+            "school": ",".join(self.course2.owners.values_list("name", flat=True)),
+            "attempts": 1,
+            "course_id": self.course2_courserun1.key,
+            "issue_date": expected_issue_date_course2.isoformat(),
+            "percent_grade": 0.85,
+            "letter_grade": "B",
+        }
+        expected_highest_attempt_dict = {
+            self.course1: self.course1_courserun2_grade,
+            self.course2: self.course2_courserun1_grade,
+        }
 
         result, highest_attempt_dict, last_updated = _get_transformed_grade_data(self.program, self.user)
-        self._assert_results(expected_result, result[0])
+
+        self._assert_results(expected_result_course1, result[0])
+        self._assert_results(expected_result_course2, result[1])
         self._assert_results(expected_highest_attempt_dict, highest_attempt_dict)
-        assert float(highest_attempt_dict.get(self.course).percent_grade) == self.grade_high.percent_grade
-        assert expected_issue_date == last_updated
+        assert (
+            float(highest_attempt_dict.get(self.course1).percent_grade) == self.course1_courserun2_grade.percent_grade
+        )
+        assert (
+            float(highest_attempt_dict.get(self.course2).percent_grade) == self.course2_courserun1_grade.percent_grade
+        )
+        assert expected_issue_date_course2 == last_updated
+
+    def test_get_transformed_grade_data_has_credential_no_grade(self):
+        """
+        A test that verifies an edge case of the `_get_transformed_data_data` utility function. If the learner has
+        earned a course credential in a course, but there is no grade information available, we should still populate
+        some data about the credential in the returned data. This is import so that the Learner Record MFE can
+        accurately render data about the learner's achievements in their programs.
+        """
+        # delete the grade record for the learner in "course2"
+        self.course2_courserun1_grade.delete()
+
+        expected_issue_date_course1 = get_credential_dates(self.course_credential_course1_courserun2, False)
+        expected_result_course1 = {
+            "name": self.course1_courserun2.title,
+            "school": ",".join(self.course1.owners.values_list("name", flat=True)),
+            "attempts": 2,
+            "course_id": self.course1_courserun2.key,
+            "issue_date": expected_issue_date_course1.isoformat(),
+            "percent_grade": 1.0,
+            "letter_grade": "A",
+        }
+        expected_issue_date_course2 = get_credential_dates(self.course_credential_course2_courserun1, False)
+        expected_result_course2 = {
+            "name": self.course2_courserun1.title,
+            "school": ",".join(self.course2.owners.values_list("name", flat=True)),
+            "attempts": "",
+            "course_id": self.course2_courserun1.key,
+            "issue_date": expected_issue_date_course2.isoformat(),
+            "percent_grade": "",
+            "letter_grade": "",
+        }
+        expected_highest_attempt_dict = {
+            self.course1: self.course1_courserun2_grade,
+        }
+
+        result, highest_attempt_dict, last_updated = _get_transformed_grade_data(self.program, self.user)
+
+        self._assert_results(expected_result_course1, result[0])
+        self._assert_results(expected_result_course2, result[1])
+        self._assert_results(expected_highest_attempt_dict, highest_attempt_dict)
+        assert (
+            float(highest_attempt_dict.get(self.course1).percent_grade) == self.course1_courserun2_grade.percent_grade
+        )
+        # in this case, because of how the logic currently is implemented, we should expect the "last updated" date to
+        # be associated with available grades
+        assert expected_issue_date_course1 == last_updated
+
+    def test_get_transformed_grade_data_no_grade_no_credential(self):
+        """
+        A test that verifies an edge case of the `_get_transformed_grade_data` utility function. If there is no grade
+        nor a credential associated with a learner in a course/course-run of a program, we should include a default
+        result with mostly empty fields.
+        """
+        # delete grade and course credential for learner in "course2"
+        self.course2_courserun1_grade.delete()
+        self.course_credential_course2_courserun1.delete()
+
+        expected_issue_date_course1 = get_credential_dates(self.course_credential_course1_courserun2, False)
+        expected_result_course1 = {
+            "name": self.course1_courserun2.title,
+            "school": ",".join(self.course1.owners.values_list("name", flat=True)),
+            "attempts": 2,
+            "course_id": self.course1_courserun2.key,
+            "issue_date": expected_issue_date_course1.isoformat(),
+            "percent_grade": 1.0,
+            "letter_grade": "A",
+        }
+        expected_result_course2 = {
+            "name": self.course2_courserun1.title,
+            "school": ",".join(self.course2.owners.values_list("name", flat=True)),
+            "attempts": "",
+            "course_id": "",
+            "issue_date": "",
+            "percent_grade": "",
+            "letter_grade": "",
+        }
+        expected_highest_attempt_dict = {
+            self.course1: self.course1_courserun2_grade,
+        }
+
+        result, highest_attempt_dict, last_updated = _get_transformed_grade_data(self.program, self.user)
+
+        self._assert_results(expected_result_course1, result[0])
+        self._assert_results(expected_result_course2, result[1])
+        self._assert_results(expected_highest_attempt_dict, highest_attempt_dict)
+        assert (
+            float(highest_attempt_dict.get(self.course1).percent_grade) == self.course1_courserun2_grade.percent_grade
+        )
+        assert expected_issue_date_course1 == last_updated
+
+    def test_get_transformed_grade_data_earned_credential_with_visible_date(self):
+        """
+        A test that verifies an edge case of the `_get_transformed_grade_data` utility function. If a course credential
+        is associated with a visible date that is set in the future, then it should not be included as part of the
+        results. In this test scenario, we add a "visible date" attribute to the learner's (course) credential instance
+        in "course1_courserun2", and then verify the data that is returned by this function.
+        """
+        UserCredentialAttributeFactory(
+            user_credential=self.course_credential_course1_courserun2,
+            name="visible_date",
+            value="9999-01-01T01:01:01Z",
+        )
+
+        expected_issue_date_course1 = get_credential_dates(self.course_credential_course1_courserun1, False)
+        expected_result_course1 = {
+            "name": self.course1_courserun1.title,
+            "school": ",".join(self.course1.owners.values_list("name", flat=True)),
+            "attempts": 1,
+            "course_id": self.course1_courserun1.key,
+            "issue_date": expected_issue_date_course1.isoformat(),
+            "percent_grade": 0.75,
+            "letter_grade": "C",
+        }
+        expected_issue_date_course2 = get_credential_dates(self.course_credential_course2_courserun1, False)
+        expected_result_course2 = {
+            "name": self.course2_courserun1.title,
+            "school": ",".join(self.course2.owners.values_list("name", flat=True)),
+            "attempts": 1,
+            "course_id": self.course2_courserun1.key,
+            "issue_date": expected_issue_date_course2.isoformat(),
+            "percent_grade": 0.85,
+            "letter_grade": "B",
+        }
+        expected_highest_attempt_dict = {
+            self.course1: self.course1_courserun1_grade,
+            self.course2: self.course2_courserun1_grade,
+        }
+
+        result, highest_attempt_dict, last_updated = _get_transformed_grade_data(self.program, self.user)
+
+        self._assert_results(expected_result_course1, result[0])
+        self._assert_results(expected_result_course2, result[1])
+        self._assert_results(expected_highest_attempt_dict, highest_attempt_dict)
+        assert (
+            float(highest_attempt_dict.get(self.course1).percent_grade) == self.course1_courserun1_grade.percent_grade
+        )
+        assert (
+            float(highest_attempt_dict.get(self.course2).percent_grade) == self.course2_courserun1_grade.percent_grade
+        )
+        assert expected_issue_date_course2 == last_updated
+
+    @pytest.mark.skip(
+        "This test case runs as expected, and overrides the setting desired, when running in isolation. However, it "
+        "fails when running as part of the entire test suite. This test has value if we can figure out what the "
+        "problem is, so I kept it in the codebase for now. It is worth coming back to at some point."
+    )
+    @override_switch("credentials.use_certificate_available_date", active=True)
+    def test_get_transformed_grade_data_earned_credential_with_certificate_available_date(self):
+        """
+        A test that verifies an edge case of the `_get_transformed_grade_data` utility function. If a course credential
+        is associated with a certificate availability date that is set in the future, then it should not be included as
+        part of the results. In this test scenario, we add a certificate available date to the course certificate
+        associated with the "course1_courserun2" course run and then verify the data that is returned by the function.
+        """
+        self.course_cert_course1_courserun2.certificate_available_date = "9999-05-11T03:14:01Z"
+        self.course_cert_course1_courserun2.save()
+
+        expected_issue_date_course1 = get_credential_dates(self.course_credential_course1_courserun1, False)
+        expected_result_course1 = {
+            "name": self.course1_courserun1.title,
+            "school": ",".join(self.course1.owners.values_list("name", flat=True)),
+            "attempts": 1,
+            "course_id": self.course1_courserun1.key,
+            "issue_date": expected_issue_date_course1.isoformat(),
+            "percent_grade": 0.75,
+            "letter_grade": "C",
+        }
+        expected_issue_date_course2 = get_credential_dates(self.course_credential_course2_courserun1, False)
+        expected_result_course2 = {
+            "name": self.course2_courserun1.title,
+            "school": ",".join(self.course2.owners.values_list("name", flat=True)),
+            "attempts": 1,
+            "course_id": self.course2_courserun1.key,
+            "issue_date": expected_issue_date_course2.isoformat(),
+            "percent_grade": 0.85,
+            "letter_grade": "B",
+        }
+        expected_highest_attempt_dict = {
+            self.course1: self.course1_courserun1_grade,
+            self.course2: self.course2_courserun1_grade,
+        }
+
+        result, highest_attempt_dict, last_updated = _get_transformed_grade_data(self.program, self.user)
+
+        self._assert_results(expected_result_course1, result[0])
+        self._assert_results(expected_result_course2, result[1])
+        self._assert_results(expected_highest_attempt_dict, highest_attempt_dict)
+        assert (
+            float(highest_attempt_dict.get(self.course1).percent_grade) == self.course1_courserun1_grade.percent_grade
+        )
+        assert (
+            float(highest_attempt_dict.get(self.course2).percent_grade) == self.course2_courserun1_grade.percent_grade
+        )
+        assert expected_issue_date_course2 == last_updated
 
     def test_get_shared_program_cert_record_data(self):
         """

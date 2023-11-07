@@ -185,28 +185,27 @@ def _get_transformed_grade_data(program, user):
     transformed_grade_data = []
     added_courses = set()
 
-    # add the course-run grade data to the response in the order that is maintained by the Program's sorted field
+    # create a collection of awarded credentials mapped to a *course*, this will help us build responses below and we
+    # need an easy way to know if a learner has earned a course credential in any eligible course runs of a specific
+    # course
+    awarded_course_credential_dict = {
+        user_credential.credential.course_run.course: user_credential
+        for user_credential in course_user_credentials
+        if user_credential.status == UserCredentialStatus.AWARDED.value
+    }
+
+    # Add the credential and grade data to the response in the order that is maintained by the Program's sorted field
     for course_run in program_course_runs:
         course = course_run.course
-        grade = highest_attempt_dict.get(course)
+        grade = highest_attempt_dict.get(course, None)
+        awarded_credential = awarded_course_credential_dict.get(course, None)
+        issue_date = None
+        if awarded_credential:
+            issue_date = get_credential_dates(awarded_credential, False)
 
-        # if the learner hasn't taken this course yet, or doesn't have a cert, we want to show empty values
-        if grade is None and course not in added_courses:
-            transformed_grade_data.append(
-                {
-                    "name": course.title,
-                    "school": ", ".join(course.owners.values_list("name", flat=True)),
-                    "attempts": 0,
-                    "course_id": "",
-                    "issue_date": "",
-                    "percent_grade": 0.0,
-                    "letter_grade": "",
-                }
-            )
-            added_courses.add(course)
-        elif grade is not None and grade.course_run == course_run:
-            user_credential = user_credential_dict.get(course_run.key)
-            issue_date = get_credential_dates(user_credential, False)
+        # Case 1: Learner has earned a credential and grade in a course-run of a course that is associated with this
+        # program
+        if awarded_credential and grade and grade.course_run == course_run and course not in added_courses:
             transformed_grade_data.append(
                 {
                     "name": course_run.title,
@@ -216,6 +215,43 @@ def _get_transformed_grade_data(program, user):
                     "issue_date": issue_date.isoformat(),
                     "percent_grade": float(grade.percent_grade),
                     "letter_grade": grade.letter_grade or _("N/A"),
+                }
+            )
+            added_courses.add(course)
+        # Case 2: Learner has earned a credential in, but we have no record of a grade for, a course-run of a course
+        # that is associated with this program
+        elif awarded_credential and not grade and course not in added_courses:
+            transformed_grade_data.append(
+                {
+                    "name": course_run.title,
+                    "school": ", ".join(course.owners.values_list("name", flat=True)),
+                    "attempts": "",
+                    "course_id": course_run.key,
+                    "issue_date": issue_date.isoformat(),
+                    "percent_grade": "",
+                    "letter_grade": "",
+                }
+            )
+            added_courses.add(course)
+        # Case 3: Learner has a record of a grade in, but has not earned a Credential for, a course run of a course that
+        # is associated with this program. We actually don't have any logic for this case, as we only add grades to the
+        # "highest attempt" dictionary if-and-only-if the learner has earned a course credential in the course. See
+        # lines 177 -> 180 above. This comment is here for informational purposes when another maintainer looks at this
+        # code and thinks "hey, we forgot a case here!". The UI's behavior at this point is the same for Case #3 and
+        # Case #4 below, the grade is not shown and the Credential appears as "not earned".
+        ################################################################################################################
+        # Case 4: learner has no grades associated with, nor earned a course credential in, a course run of a course
+        # associated with this program
+        elif not grade and not awarded_credential and course not in added_courses:
+            transformed_grade_data.append(
+                {
+                    "name": course.title,
+                    "school": ", ".join(course.owners.values_list("name", flat=True)),
+                    "attempts": "",
+                    "course_id": "",
+                    "issue_date": "",
+                    "percent_grade": "",
+                    "letter_grade": "",
                 }
             )
             added_courses.add(course)
