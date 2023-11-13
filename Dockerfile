@@ -16,9 +16,9 @@ FROM ubuntu:focal as base
 
 # If you add a package here please include a comment above describing what it is used for
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y software-properties-common && \
+    apt-get install -y software-properties-common && \
     apt-add-repository -y ppa:deadsnakes/ppa && apt-get update && \
-    apt-get upgrade -qy && apt-get install --no-install-recommends language-pack-en locales gettext git \
+    apt-get upgrade -qy && apt-get install language-pack-en locales gettext git \
     python3.8-dev python3.8-venv libmysqlclient-dev libssl-dev build-essential wget unzip pkg-config -qy && \
     rm -rf /var/lib/apt/lists/*
 
@@ -28,11 +28,11 @@ RUN python3.8 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Create Node env
-RUN pip install --no-cache-dir nodeenv
+RUN pip install nodeenv
 ENV NODE_ENV=/edx/app/credentials/nodeenvs/credentials
 RUN nodeenv $NODE_ENV --node=18.17.1 --prebuilt
 ENV PATH="$NODE_ENV/bin:$PATH"
-RUN npm install -g npm@9.x.x && npm cache clean --force;
+RUN npm install -g npm@9.x.x
 
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -61,8 +61,8 @@ COPY requirements/production.txt /edx/app/credentials/credentials/requirements/p
 COPY requirements/pip_tools.txt /edx/app/credentials/credentials/requirements/pip_tools.txt
 
 # Dependencies are installed as root so they cannot be modified by the application user.
-RUN pip install --no-cache-dir -r requirements/pip_tools.txt
-RUN pip install --no-cache-dir -r requirements/production.txt
+RUN pip install -r requirements/pip_tools.txt
+RUN pip install -r requirements/production.txt
 
 RUN mkdir -p /edx/var/log
 
@@ -71,7 +71,7 @@ RUN mkdir -p /edx/var/log
 COPY . /edx/app/credentials/credentials
 
 # Install dependencies in node_modules directory
-RUN npm install --no-save && npm cache clean --force;
+RUN npm install --no-save
 ENV NODE_BIN=/edx/app/credentials/credentials/node_modules
 ENV PATH="$NODE_BIN/.bin:$PATH"
 # Run webpack
@@ -92,7 +92,7 @@ CMD gunicorn --workers=2 --name credentials -c /edx/app/credentials/credentials/
 FROM base as dev
 USER root
 ENV DJANGO_SETTINGS_MODULE credentials.settings.devstack
-RUN pip install --no-cache-dir -r /edx/app/credentials/credentials/requirements/dev.txt
+RUN pip install -r /edx/app/credentials/credentials/requirements/dev.txt
 
 # Temporary compatibility hack while devstack is supporting
 # both the old `edxops/credentials` image and this image:
