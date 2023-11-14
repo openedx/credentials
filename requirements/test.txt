@@ -29,10 +29,12 @@ backports-zoneinfo==0.2.1
     # via
     #   -r requirements/base.txt
     #   django
-black==23.10.1
+black==23.11.0
     # via -r requirements/test.in
 bleach==6.1.0
     # via -r requirements/base.txt
+cachetools==5.3.2
+    # via tox
 certifi==2023.7.22
     # via
     #   -r requirements/base.txt
@@ -42,6 +44,8 @@ cffi==1.16.0
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
+chardet==5.2.0
+    # via tox
 charset-normalizer==3.3.2
     # via
     #   -r requirements/base.txt
@@ -62,6 +66,8 @@ code-annotations==1.5.0
     #   -r requirements/test.in
     #   edx-lint
     #   edx-toggles
+colorama==0.4.6
+    # via tox
 coreapi==2.3.3
     # via
     #   -r requirements/base.txt
@@ -78,7 +84,7 @@ cryptography==41.0.5
     #   -r requirements/base.txt
     #   pyjwt
     #   social-auth-core
-ddt==1.6.0
+ddt==1.7.0
     # via -r requirements/test.in
 defusedxml==0.8.0rc2
     # via
@@ -210,7 +216,7 @@ exceptiongroup==1.1.3
     # via pytest
 factory-boy==3.3.0
     # via -r requirements/test.in
-faker==19.13.0
+faker==20.0.0
     # via factory-boy
 fastavro==1.9.0
     # via
@@ -269,7 +275,7 @@ mypy-extensions==1.0.0
     # via black
 mysqlclient==2.2.0
     # via -r requirements/base.txt
-newrelic==9.1.1
+newrelic==9.1.2
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -293,6 +299,7 @@ packaging==23.2
     #   -r requirements/base.txt
     #   black
     #   drf-yasg
+    #   pyproject-api
     #   pytest
     #   tox
 path==16.7.1
@@ -309,8 +316,10 @@ pillow==10.1.0
     # via -r requirements/base.txt
 platformdirs==3.11.0
     # via
+    #   -c requirements/common_constraints.txt
     #   black
     #   pylint
+    #   tox
     #   virtualenv
 pluggy==1.3.0
     # via
@@ -324,8 +333,6 @@ psutil==5.9.6
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-py==1.11.0
-    # via tox
 pycparser==2.21
     # via
     #   -r requirements/base.txt
@@ -369,11 +376,13 @@ pypng==0.20220715.0
     # via
     #   -r requirements/base.txt
     #   qrcode
+pyproject-api==1.6.1
+    # via tox
 pytest==7.4.3
     # via
     #   -r requirements/test.in
     #   pytest-django
-pytest-django==4.6.0
+pytest-django==4.7.0
     # via -r requirements/test.in
 python-dateutil==2.8.2
     # via
@@ -449,7 +458,6 @@ six==1.16.0
     #   edx-lint
     #   python-dateutil
     #   python-memcached
-    #   tox
 slumber==0.7.1
     # via
     #   -r requirements/base.txt
@@ -485,14 +493,13 @@ tomli==2.0.1
     # via
     #   black
     #   pylint
+    #   pyproject-api
     #   pytest
     #   tox
 tomlkit==0.12.2
     # via pylint
-tox==3.28.0
-    # via
-    #   -c requirements/common_constraints.txt
-    #   -r requirements/test.in
+tox==4.11.3
+    # via -r requirements/test.in
 typing-extensions==4.8.0
     # via
     #   -r requirements/base.txt
