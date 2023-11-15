@@ -27,9 +27,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.28.79
+boto3==1.28.85
     # via django-ses
-botocore==1.31.79
+botocore==1.31.85
     # via
     #   boto3
     #   s3transfer
@@ -244,7 +244,7 @@ monotonic==1.6
     #   analytics-python
 mysqlclient==2.2.0
     # via -r requirements/base.txt
-newrelic==9.1.1
+newrelic==9.1.2
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
