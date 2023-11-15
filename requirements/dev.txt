@@ -593,9 +593,8 @@ uritemplate==4.1.1
     #   -r requirements/test.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.18
+urllib3==2.1.0
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   docker
     #   requests
