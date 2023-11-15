@@ -6,12 +6,12 @@ import abc
 import logging
 from datetime import timezone
 
-from analytics.client import Client as SegmentClient
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from openedx_events.learning.data import ProgramCertificateData, ProgramData, UserData, UserPersonalData
 from openedx_events.learning.signals import PROGRAM_CERTIFICATE_AWARDED, PROGRAM_CERTIFICATE_REVOKED
+from segment.analytics.client import Client as SegmentClient
 
 from credentials.apps.api.exceptions import DuplicateAttributeError
 from credentials.apps.core.api import get_user_by_username

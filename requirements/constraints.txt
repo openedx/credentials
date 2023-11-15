@@ -23,10 +23,6 @@ django-ratelimit<4.0
 # re-evaluated as part of APER-2220
 sphinx<6.0
 
-# Pinning analytics-python to 1.4.0 to avoid an undocumented update to the project (w/ version number `1.4.post1`?).
-# It looks like we should be migrating to the 2.x version of the library (whose name has changed).
-analytics-python<=1.4.0
-
 # Pinning urllib3 to versions < 2.x as this conflicts with boto. This constraint will be re-evaluated as part of
 # APER-2422
 urllib3<2

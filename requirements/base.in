@@ -9,7 +9,6 @@
 
 -c constraints.txt
 
-analytics-python
 bleach
 coreapi
 didkit
@@ -48,6 +47,7 @@ pymemcache
 pytz
 qrcode
 requests
+segment-analytics-python
 social-auth-app-django
 xss-utils
 

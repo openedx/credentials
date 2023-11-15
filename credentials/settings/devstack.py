@@ -69,7 +69,13 @@ BACKEND_SERVICE_EDX_OAUTH2_PROVIDER_URL = os.environ.get(
     "http://edx.devstack.lms:18000/oauth2",
 )
 
-CORS_ORIGIN_WHITELIST = ("http://localhost:1990", "http://localhost:18450")
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:1990",  # Learner Record MFE
+    "http://localhost:18450",  # Subscriptions IDA
+]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:1990",  # Learner Record MFE
+]
 
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = str2bool(os.environ.get("SOCIAL_AUTH_REDIRECT_IS_HTTPS", False))
 
