@@ -5,7 +5,6 @@ import logging
 import urllib.parse
 from uuid import uuid4
 
-from analytics.client import Client as SegmentClient
 from django import http
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -18,6 +17,7 @@ from django.utils.translation import gettext as _
 from django.views.generic import TemplateView, View
 from edx_ace import Recipient, ace
 from ratelimit.decorators import ratelimit
+from segment.analytics.client import Client as SegmentClient
 
 from credentials.apps.catalog.models import Pathway, Program
 from credentials.apps.core.api import get_user_by_username
