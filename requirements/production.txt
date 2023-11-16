@@ -24,9 +24,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.7.84
+boto3==1.29.1
     # via django-ses
-botocore==1.10.84
+botocore==1.32.1
     # via
     #   boto3
     #   s3transfer
@@ -147,8 +147,6 @@ djangorestframework==3.14.0
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
-docutils==0.20.1
-    # via botocore
 drf-jwt==1.19.2
     # via
     #   -r requirements/base.txt
@@ -223,7 +221,7 @@ jinja2==3.1.2
     #   -r requirements/base.txt
     #   code-annotations
     #   coreschema
-jmespath==0.10.0
+jmespath==1.0.1
     # via
     #   boto3
     #   botocore
@@ -365,7 +363,7 @@ requests-oauthlib==1.3.1
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-s3transfer==0.1.13
+s3transfer==0.7.0
     # via boto3
 sailthru-client==2.2.3
     # via
@@ -431,9 +429,11 @@ uritemplate==4.1.1
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-urllib3==2.1.0
+urllib3==1.26.18
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
+    #   botocore
     #   requests
 webencodings==0.5.1
     # via
