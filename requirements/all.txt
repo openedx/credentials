@@ -197,9 +197,8 @@ django-filter==23.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ratelimit==3.0.1
+django-ratelimit==4.1.0
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 django-rest-swagger==2.2.0

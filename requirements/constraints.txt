@@ -15,10 +15,6 @@
 # re-evaluated as part of APER-1556.
 pyyaml<6.0
 
-# The update to django-ratelimit 4.x failed because of some breaking changes. Pinning to <4.x. This constraint will be
-# re-evaluated as part of APER-2169.
-django-ratelimit<4.0
-
 # Pinning urllib3 to versions < 2.x as this conflicts with boto. This constraint will be re-evaluated as part of
 # APER-2422
 urllib3<2

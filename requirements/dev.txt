@@ -157,10 +157,8 @@ django-extensions==3.2.3
     # via -r requirements/test.txt
 django-filter==23.3
     # via -r requirements/test.txt
-django-ratelimit==3.0.1
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/test.txt
+django-ratelimit==4.1.0
+    # via -r requirements/test.txt
 django-rest-swagger==2.2.0
     # via -r requirements/test.txt
 django-simple-history==3.4.0
