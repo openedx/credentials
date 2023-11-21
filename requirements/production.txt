@@ -24,13 +24,13 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.29.1
+boto3==1.29.4
     # via django-ses
-botocore==1.32.1
+botocore==1.32.4
     # via
     #   boto3
     #   s3transfer
-certifi==2023.7.22
+certifi==2023.11.17
     # via
     #   -r requirements/base.txt
     #   requests
@@ -101,7 +101,7 @@ django==4.2.7
     #   openedx-events
     #   social-auth-app-django
     #   xss-utils
-django-appconf==1.0.5
+django-appconf==1.0.6
     # via
     #   -r requirements/base.txt
     #   django-statici18n
@@ -114,7 +114,7 @@ django-crum==0.7.9
     #   edx-toggles
 django-extensions==3.2.3
     # via -r requirements/base.txt
-django-filter==23.3
+django-filter==23.4
     # via -r requirements/base.txt
 django-ratelimit==4.1.0
     # via -r requirements/base.txt
@@ -239,7 +239,7 @@ monotonic==1.6
     #   segment-analytics-python
 mysqlclient==2.2.0
     # via -r requirements/base.txt
-newrelic==9.1.2
+newrelic==9.2.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -257,7 +257,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 openedx-atlas==0.5.0
     # via -r requirements/base.txt
-openedx-events==9.1.0
+openedx-events==9.2.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
@@ -288,7 +288,7 @@ pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pygments==2.16.1
+pygments==2.17.1
     # via -r requirements/base.txt
 pyjwt[crypto]==2.8.0
     # via
