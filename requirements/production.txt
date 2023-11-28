@@ -24,9 +24,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.29.4
+boto3==1.33.1
     # via django-ses
-botocore==1.32.4
+botocore==1.33.1
     # via
     #   boto3
     #   s3transfer
@@ -61,7 +61,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==41.0.5
+cryptography==41.0.7
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -120,7 +120,7 @@ django-ratelimit==4.1.0
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==3.5.0
+django-ses==3.5.1
     # via -r requirements/production.in
 django-simple-history==3.4.0
     # via -r requirements/base.txt
@@ -161,14 +161,14 @@ edx-django-release-util==1.3.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==4.0.2
     # via -r requirements/base.txt
-edx-django-utils==5.8.0
+edx-django-utils==5.9.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==8.13.1
+edx-drf-extensions==9.0.0
     # via -r requirements/base.txt
 edx-event-bus-kafka==5.5.0
     # via -r requirements/base.txt
@@ -198,7 +198,7 @@ greenlet==3.0.1
     # via gevent
 gunicorn==21.2.0
     # via -r requirements/production.in
-idna==3.4
+idna==3.6
     # via
     #   -r requirements/base.txt
     #   requests
@@ -288,7 +288,7 @@ pycparser==2.21
     # via
     #   -r requirements/base.txt
     #   cffi
-pygments==2.17.1
+pygments==2.17.2
     # via -r requirements/base.txt
 pyjwt[crypto]==2.8.0
     # via
@@ -361,7 +361,7 @@ requests-oauthlib==1.3.1
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-s3transfer==0.7.0
+s3transfer==0.8.0
     # via boto3
 sailthru-client==2.2.3
     # via
