@@ -28,7 +28,7 @@ backports-zoneinfo==0.2.1
     # via
     #   -r requirements/test.txt
     #   django
-bcrypt==4.0.1
+bcrypt==4.1.1
     # via paramiko
 black==23.11.0
     # via -r requirements/test.txt
@@ -112,7 +112,7 @@ distlib==0.3.7
     #   virtualenv
 distro==1.8.0
     # via docker-compose
-django==4.2.7
+django==4.2.8
     # via
     #   -r requirements/test.txt
     #   django-appconf
@@ -155,7 +155,7 @@ django-debug-toolbar==4.2.0
     # via -r requirements/dev.in
 django-extensions==3.2.3
     # via -r requirements/test.txt
-django-filter==23.4
+django-filter==23.5
     # via -r requirements/test.txt
 django-ratelimit==4.1.0
     # via -r requirements/test.txt
@@ -265,7 +265,7 @@ idna==3.6
     # via
     #   -r requirements/test.txt
     #   requests
-importlib-metadata==6.8.0
+importlib-metadata==7.0.0
     # via
     #   -r requirements/test.txt
     #   markdown
@@ -346,7 +346,7 @@ packaging==23.2
     #   tox
 paramiko==3.3.1
     # via docker
-path==16.7.1
+path==16.9.0
     # via
     #   -r requirements/test.txt
     #   edx-i18n-tools
@@ -360,9 +360,8 @@ pbr==6.0.0
     #   stevedore
 pillow==10.1.0
     # via -r requirements/test.txt
-platformdirs==3.11.0
+platformdirs==4.1.0
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt
     #   black
     #   pylint
@@ -537,7 +536,7 @@ social-auth-app-django==5.2.0
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   edx-auth-backends
-social-auth-core==4.5.0
+social-auth-core==4.5.1
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
@@ -598,7 +597,7 @@ urllib3==1.26.18
     #   docker
     #   requests
     #   responses
-virtualenv==20.24.7
+virtualenv==20.25.0
     # via
     #   -r requirements/test.txt
     #   tox

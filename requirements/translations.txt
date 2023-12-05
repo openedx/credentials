@@ -8,13 +8,13 @@ asgiref==3.7.2
     # via django
 backports-zoneinfo==0.2.1
     # via django
-django==4.2.7
+django==4.2.8
     # via edx-i18n-tools
 edx-i18n-tools==1.3.0
     # via -r requirements/translations.in
 lxml==4.9.3
     # via edx-i18n-tools
-path==16.7.1
+path==16.9.0
     # via edx-i18n-tools
 polib==1.2.0
     # via edx-i18n-tools
