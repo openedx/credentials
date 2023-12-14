@@ -268,3 +268,81 @@ In this example, this user has earned a certificate in only one of the courses r
             }
         ]
     }
+
+Query for multiple learners' earned certificates for specific courses
+--------------------------------------------------------------------------
+
+Query for multiple learners' earned certificates for a list of courses or course runs.
+
+**Note**:
+
+For each requested response:
+
+* You must include `exactly one` of ``lms_user_id`` or ``username``.
+* You must include at least one of ``courses`` and ``course_runs``, and you may include a mix of both.
+    * The ``courses`` list should contain a list of course UUIDs.
+    * The ``course_runs`` list should contain a list of course run keys.
+
+If the ``username`` or ``lms_user_id`` has not earned any certificates, the ``status`` object will be empty.
+
+**Example Request**
+
+.. code-block:: text
+
+    POST api/credentials/v1/bulk_learner_cert_status/
+
+.. code-block:: json
+
+    [
+        {
+            "username": "sample_user",
+            "courses": [
+                "4ad04e84-1512-11ee-be56-0242ac120002",
+                "4ad051fe-1512-11ee-be56-0242ac120002"
+            ],
+            "course_runs": [
+                "course-v1:edX+AA302+2T2023a"
+            ]
+        },
+        {
+            "lms_user_id":  8674309,
+            "courses": [
+                "4ad04e84-1513-11ee-be56-0242ac12000f",
+                "4ad051fe-1513-11ee-be56-0242ac12000f"
+            ],
+            "course_runs": [
+                "course-v1:edX+ZZ302+2T2023a"
+            ]
+        }
+    ]
+
+**Example Response**
+
+In this example, the first user has earned a certificate in only one of the courses requested,  and the second user hasn't earned a certificate at
+all, so there is only one return value.
+
+.. code-block:: json
+
+    [
+        {
+            "lms_user_id": 3,
+            "username": "sample_user",
+            "status": [
+                {
+                "course_uuid": "4ad04e84-1512-11ee-be56-0242ac120002",
+                "course_run": {
+                    "uuid": "4747fefb-6f31-4689-bcfb-8ff32da191f4",
+                    "key": "course-v1:edX+AA302+2T2023a"
+                    },
+                "status": "awarded",
+                "type": "verified",
+                "certificate_available_date": null,
+                "grade": {
+                    "letter_grade": "Pass",
+                    "percent_grade": 1,
+                    "verified": true
+                    }
+                }
+            ]
+        }
+    ]

@@ -1,12 +1,15 @@
 import datetime
 from collections import defaultdict
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import BadRequest
 from django.template.defaultfilters import slugify
 from django.utils.translation import gettext as _
 
 from credentials.apps.catalog.api import get_program_and_course_details
+from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.api import (
     get_credential_dates,
     get_user_credentials_by_content_type,
@@ -407,3 +410,48 @@ def get_learner_course_run_status(username: str, course_ids: List[str], course_r
             }
             courses.append(cred_status)
     return courses
+
+
+def single_learner_cert_status(
+    lms_user_id: Optional[int],
+    username: Optional[str],
+    course_ids: Optional[List[str]],
+    course_runs: Optional[List[str]],
+) -> Dict[str, Any]:
+    """Fetches details for earned certificates for a single user.
+
+    * You must include _exactly one_ of `lms_user_id` or `username`.
+    * You must include at least one of `courses` and `course_runs`, and you may include a mix of both.
+        * The `courses` list should contain a list of course UUIDs.
+        * The `course_runs` list should contain a list of course run keys.
+
+    Returns:
+        A dict of an individuals user's earned certificates for a list of courses or course runs.
+
+        If the userhas not earned any certificates, the `status` object will be empty.
+
+    Raises:
+        BadRequest
+    """
+    User = get_user_model()
+
+    # exactly one of username or lms_user_id must be used
+    if (username and lms_user_id) or not (username or lms_user_id):
+        raise BadRequest
+
+    try:
+        if username:
+            user = get_user_by_username(username)
+            if user:
+                lms_user_id = user.lms_user_id
+            else:
+                raise User.DoesNotExist()
+        else:
+            user = User.objects.get(lms_user_id=lms_user_id)
+            username = user.username
+    except User.DoesNotExist:
+        courses = []
+    else:
+        courses = get_learner_course_run_status(username, course_ids, course_runs)
+
+    return {"lms_user_id": lms_user_id, "username": username, "status": courses}
