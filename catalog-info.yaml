@@ -3,7 +3,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: 'Credentials'
+  name: 'credentials'
   description: 'The Open edX Credentials Service, which supports course and program certificates.'
   links:
     - url: 'https://edx-credentials.readthedocs.io/'
