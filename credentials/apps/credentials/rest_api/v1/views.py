@@ -165,10 +165,13 @@ class BulkLearnerCertificateStatusView(APIView):
             * The `courses` list should contain a list of course UUIDs.
             * The `course_runs` list should contain a list of course run keys.
 
-        If the `username` or `lms_user_id` has not earned any certificates, the `status` object will be empty for that user.
+        If the `username` or `lms_user_id` has not earned any certificates, the `status` object will be
+        empty for that user.
 
-        If any individual object in the list describing a user/course is invalid and cannot be resolved to a single learner's identity (e.g. does
-        not include exactly one lms_user_id or username), that object will be skipped and there will be no corresponding entry in the return list.
+        If any individual object in the list describing a user/course is invalid
+        and cannot be resolved to a single learner's identity (e.g. does not
+        include exactly one lms_user_id or username), that object will be
+        skipped and there will be no corresponding entry in the return list.
         """
         request_list = request.data  # type: Optional[List[Dict]]
         response_list = []
