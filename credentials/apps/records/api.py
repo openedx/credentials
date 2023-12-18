@@ -426,9 +426,9 @@ def single_learner_cert_status(
         * The `course_runs` list should contain a list of course run keys.
 
     Returns:
-        A dict of an individuals user's earned certificates for a list of courses or course runs.
+        A dict of an individual user's earned certificates for a list of courses or course runs.
 
-        If the userhas not earned any certificates, the `status` object will be empty.
+        If the user has not earned any certificates, the `status` object will be empty.
 
     Raises:
         BadRequest

@@ -283,7 +283,8 @@ For each requested response:
     * The ``courses`` list should contain a list of course UUIDs.
     * The ``course_runs`` list should contain a list of course run keys.
 
-If the ``username`` or ``lms_user_id`` has not earned any certificates, the ``status`` object will be empty.
+If the ``username`` or ``lms_user_id`` has not earned any certificates (or does not exist in the system),
+the ``status`` object will be empty.
 
 **Example Request**
 
@@ -318,8 +319,9 @@ If the ``username`` or ``lms_user_id`` has not earned any certificates, the ``st
 
 **Example Response**
 
-In this example, the first user has earned a certificate in only one of the courses requested,  and the second user hasn't earned a certificate at
-all, so there is only one return value.
+In this example, the first user has earned a certificate in only one of the
+courses requested, and the second user hasn't earned a certificate at all, so
+only one return value contains a populated status block.
 
 .. code-block:: json
 
@@ -344,5 +346,10 @@ all, so there is only one return value.
                     }
                 }
             ]
+        },
+        {
+            "lms_user_id":  8674309,
+            "username": null,
+            "status": []
         }
     ]
