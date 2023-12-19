@@ -24,9 +24,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.33.12
+boto3==1.34.3
     # via django-ses
-botocore==1.33.12
+botocore==1.34.3
     # via
     #   boto3
     #   s3transfer
@@ -237,7 +237,7 @@ monotonic==1.6
     # via
     #   -r requirements/base.txt
     #   segment-analytics-python
-mysqlclient==2.2.0
+mysqlclient==2.2.1
     # via -r requirements/base.txt
 newrelic==9.3.0
     # via
@@ -280,7 +280,7 @@ polib==1.2.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-psutil==5.9.6
+psutil==5.9.7
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -361,7 +361,7 @@ requests-oauthlib==1.3.1
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-s3transfer==0.8.2
+s3transfer==0.9.0
     # via boto3
 sailthru-client==2.2.3
     # via
