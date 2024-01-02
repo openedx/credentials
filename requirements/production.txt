@@ -9,7 +9,7 @@ asgiref==3.7.2
     #   -r requirements/base.txt
     #   django
     #   django-cors-headers
-attrs==23.1.0
+attrs==23.2.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
@@ -24,9 +24,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.33.12
+boto3==1.34.11
     # via django-ses
-botocore==1.33.12
+botocore==1.34.11
     # via
     #   boto3
     #   s3transfer
@@ -73,7 +73,7 @@ defusedxml==0.8.0rc2
     #   social-auth-core
 didkit==0.3.2
     # via -r requirements/base.txt
-django==4.2.8
+django==4.2.9
     # via
     #   -r requirements/base.txt
     #   django-appconf
@@ -136,7 +136,7 @@ django-waffle==4.1.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==2.0.1
+django-webpack-loader==3.0.0
     # via -r requirements/base.txt
 djangorestframework==3.14.0
     # via
@@ -188,13 +188,13 @@ edx-toggles==5.1.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
-fastavro==1.9.1
+fastavro==1.9.2
     # via
     #   -r requirements/base.txt
     #   openedx-events
 gevent==23.9.1
     # via -r requirements/production.in
-greenlet==3.0.2
+greenlet==3.0.3
     # via gevent
 gunicorn==21.2.0
     # via -r requirements/production.in
@@ -202,7 +202,7 @@ idna==3.6
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-metadata==7.0.0
+importlib-metadata==7.0.1
     # via
     #   -r requirements/base.txt
     #   markdown
@@ -223,7 +223,7 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-lxml==4.9.3
+lxml==5.0.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
@@ -237,7 +237,7 @@ monotonic==1.6
     # via
     #   -r requirements/base.txt
     #   segment-analytics-python
-mysqlclient==2.2.0
+mysqlclient==2.2.1
     # via -r requirements/base.txt
 newrelic==9.3.0
     # via
@@ -274,13 +274,13 @@ pbr==6.0.0
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==10.1.0
+pillow==10.2.0
     # via -r requirements/base.txt
 polib==1.2.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-psutil==5.9.6
+psutil==5.9.7
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -319,7 +319,7 @@ python-dateutil==2.8.2
     #   botocore
     #   edx-ace
     #   segment-analytics-python
-python-memcached==1.59
+python-memcached==1.61
     # via -r requirements/base.txt
 python-slugify==8.0.1
     # via
@@ -361,7 +361,7 @@ requests-oauthlib==1.3.1
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-s3transfer==0.8.2
+s3transfer==0.10.0
     # via boto3
 sailthru-client==2.2.3
     # via
@@ -386,7 +386,6 @@ six==1.16.0
     #   edx-auth-backends
     #   edx-django-release-util
     #   python-dateutil
-    #   python-memcached
 slumber==0.7.1
     # via
     #   -r requirements/base.txt
