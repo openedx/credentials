@@ -53,4 +53,4 @@ xss-utils
 
 
 # TODO Install in configuration
-git+https://github.com/openedx/credentials-themes.git@0.3.22#egg=edx_credentials_themes==0.3.22
+git+https://github.com/openedx/credentials-themes.git@0.3.27#egg=edx_credentials_themes==0.3.27
