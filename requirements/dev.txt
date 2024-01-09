@@ -217,7 +217,7 @@ edx-django-utils==5.9.0
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==9.1.1
+edx-drf-extensions==9.1.2
     # via -r requirements/test.txt
 edx-event-bus-kafka==5.5.0
     # via -r requirements/test.txt
@@ -246,11 +246,11 @@ exceptiongroup==1.2.0
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/test.txt
-faker==22.0.0
+faker==22.1.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
-fastavro==1.9.2
+fastavro==1.9.3
     # via
     #   -r requirements/test.txt
     #   openedx-events
@@ -316,7 +316,7 @@ mypy-extensions==1.0.0
     #   black
 mysqlclient==2.2.1
     # via -r requirements/test.txt
-newrelic==9.3.0
+newrelic==9.4.0
     # via
     #   -r requirements/test.txt
     #   edx-django-utils

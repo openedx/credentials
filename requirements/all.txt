@@ -42,11 +42,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.14
+boto3==1.34.15
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.14
+botocore==1.34.15
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -294,7 +294,7 @@ edx-django-utils==5.9.0
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==9.1.1
+edx-drf-extensions==9.1.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -331,11 +331,11 @@ exceptiongroup==1.2.0
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/dev.txt
-faker==22.0.0
+faker==22.1.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
-fastavro==1.9.2
+fastavro==1.9.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -429,7 +429,7 @@ mysqlclient==2.2.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==9.3.0
+newrelic==9.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt

@@ -24,9 +24,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.14
+boto3==1.34.15
     # via django-ses
-botocore==1.34.14
+botocore==1.34.15
     # via
     #   boto3
     #   s3transfer
@@ -168,7 +168,7 @@ edx-django-utils==5.9.0
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==9.1.1
+edx-drf-extensions==9.1.2
     # via -r requirements/base.txt
 edx-event-bus-kafka==5.5.0
     # via -r requirements/base.txt
@@ -188,7 +188,7 @@ edx-toggles==5.1.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
-fastavro==1.9.2
+fastavro==1.9.3
     # via
     #   -r requirements/base.txt
     #   openedx-events
@@ -239,7 +239,7 @@ monotonic==1.6
     #   segment-analytics-python
 mysqlclient==2.2.1
     # via -r requirements/base.txt
-newrelic==9.3.0
+newrelic==9.4.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
