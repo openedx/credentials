@@ -24,9 +24,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.15
+boto3==1.34.19
     # via django-ses
-botocore==1.34.15
+botocore==1.34.19
     # via
     #   boto3
     #   s3transfer
@@ -214,7 +214,7 @@ itypes==1.2.0
     # via
     #   -r requirements/base.txt
     #   coreapi
-jinja2==3.1.2
+jinja2==3.1.3
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -227,7 +227,7 @@ lxml==5.1.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-markdown==3.5.1
+markdown==3.5.2
     # via -r requirements/base.txt
 markupsafe==2.1.3
     # via
@@ -239,7 +239,7 @@ monotonic==1.6
     #   segment-analytics-python
 mysqlclient==2.2.1
     # via -r requirements/base.txt
-newrelic==9.4.0
+newrelic==9.5.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -319,7 +319,7 @@ python-dateutil==2.8.2
     #   botocore
     #   edx-ace
     #   segment-analytics-python
-python-memcached==1.61
+python-memcached==1.62
     # via -r requirements/base.txt
 python-slugify==8.0.1
     # via
