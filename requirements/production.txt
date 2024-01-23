@@ -24,9 +24,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.19
+boto3==1.34.25
     # via django-ses
-botocore==1.34.19
+botocore==1.34.25
     # via
     #   boto3
     #   s3transfer
@@ -61,7 +61,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==41.0.7
+cryptography==42.0.0
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -136,7 +136,7 @@ django-waffle==4.1.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==3.0.0
+django-webpack-loader==3.0.1
     # via -r requirements/base.txt
 djangorestframework==3.14.0
     # via
@@ -161,7 +161,7 @@ edx-django-release-util==1.3.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==4.0.2
     # via -r requirements/base.txt
-edx-django-utils==5.9.0
+edx-django-utils==5.10.1
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -229,7 +229,7 @@ lxml==5.1.0
     #   edx-i18n-tools
 markdown==3.5.2
     # via -r requirements/base.txt
-markupsafe==2.1.3
+markupsafe==2.1.4
     # via
     #   -r requirements/base.txt
     #   jinja2
@@ -255,7 +255,7 @@ openapi-codec==1.3.2
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
-openedx-atlas==0.5.0
+openedx-atlas==0.6.0
     # via -r requirements/base.txt
 openedx-events==9.2.0
     # via
@@ -280,7 +280,7 @@ polib==1.2.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-psutil==5.9.7
+psutil==5.9.8
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
