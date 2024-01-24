@@ -13,7 +13,6 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core import mail
 from django.test import TestCase
-from django.test.client import Client, RequestFactory
 from django.test.utils import override_settings
 from django.urls import reverse
 
@@ -24,7 +23,7 @@ from credentials.apps.catalog.tests.factories import (
     PathwayFactory,
     ProgramFactory,
 )
-from credentials.apps.core.tests.factories import USER_PASSWORD, SiteConfigurationFactory, UserFactory
+from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.constants import UUID_PATTERN
 from credentials.apps.credentials.models import UserCredential
