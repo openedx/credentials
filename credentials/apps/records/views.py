@@ -3,13 +3,14 @@ import io
 import json
 import logging
 import urllib.parse
+from typing import TYPE_CHECKING, Dict
 from uuid import uuid4
 
 from django import http
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import Http404, HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -32,6 +33,9 @@ from credentials.shared.constants import PathwayType
 
 from .constants import RECORDS_RATE_LIMIT
 
+
+if TYPE_CHECKING:
+    from credentials.apps.core.models import SiteConfiguration
 
 log = logging.getLogger(__name__)
 User = get_user_model()
@@ -300,26 +304,48 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
                 )
             super(ProgramRecordCsvView.SegmentHttpResponse, self).close()
 
-    def get(self, request, *args, **kwargs):
-        site_configuration = request.site.siteconfiguration
+    def get(self, request: HttpRequest, *args, **kwargs):
+        site_configuration = request.site.siteconfiguration  # type: SiteConfiguration
         segment_client = None
 
         program_cert_record = get_object_or_404(ProgramCertRecord, uuid=kwargs.get("uuid"))
-        record = get_program_record_data(
-            program_cert_record.user,
-            program_cert_record.program.uuid,
-            request.site,
-            platform_name=site_configuration.platform_name,
-        )
+        try:
+            record = get_program_record_data(
+                program_cert_record.user,
+                program_cert_record.program.uuid,
+                request.site,
+                platform_name=site_configuration.platform_name,
+            )
+        except Exception as e:
+            log.error(
+                "get_program_record failed for:\n"
+                "   user: {userid}\n"
+                "   program: {program}\n"
+                "   site: {site}\n"
+                "   platform_name: {platform_name}\n".format(
+                    user_id=program_cert_record.user.id,
+                    program=program_cert_record.program.uuid,
+                    site=request.site,
+                    platform_name=site_configuration.platform_name,
+                )
+            )
+            raise
+
+        program = record.get("program", None)  # type: Dict
+        platform_name = record.get("platform_name", None)  # type: str
+        learner = record.get("learner", None)  # type: Dict
+        if not (program and platform_name and learner):
+            log.warn("get_program_record failed to find all program record data: {record}".format(record=record))
+            raise Http404
 
         user_metadata = [
-            ["Program Name", record["program"]["name"]],
-            ["Program Type", record["program"]["type_name"]],
-            ["Platform Provider", record["platform_name"]],
-            ["Authoring Organization(s)", record["program"]["school"]],
-            ["Learner Name", record["learner"]["full_name"]],
-            ["Username", record["learner"]["username"]],
-            ["Email", record["learner"]["email"]],
+            ["Program Name", program.get("name", None)],
+            ["Program Type", program.get("type_name", None)],
+            ["Platform Provider", platform_name],
+            ["Authoring Organization(s)", program.get("school", None)],
+            ["Learner Name", learner.get("full_name", None)],
+            ["Username", learner.get("username", None)],
+            ["Email", learner.get("email", None)],
             [""],
         ]
 
@@ -337,20 +363,22 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
             "userAgent": request.headers.get("user-agent"),
         }
 
-        # Use the value of 'ajs_anonymous_id' as the anonymous id if the cookie exists, otherwise generate a UUID to
-        # use as the anonymous id. See https://segment.com/docs/guides/how-to-guides/collect-pageviews-serverside/.
-        # Without this, the download CSV functionality in development environments is broken due to the
-        # 'ajs_anonymous_id' cookie not existing in the request.
+        # continue gracefully in the absence of segment
+        # 1. Use the value of 'ajs_anonymous_id' as the anonymous id if the cookie exists, otherwise generate a UUID to
+        #    use as the anonymous id. See https://segment.com/docs/guides/how-to-guides/collect-pageviews-serverside/.
+        # 2. If you fail on the segment client call, log the error but continue.
         anonymous_id = request.COOKIES.get("ajs_anonymous_id", str(uuid4()))
-
         if segment_key := site_configuration.segment_key:
             segment_client = SegmentClient(write_key=segment_key)
-            segment_client.track(
-                request.COOKIES.get("ajs_anonymous_id"),
-                context=context,
-                event="edx.bi.credentials.program_record.download_started",
-                properties=properties,
-            )
+            try:
+                segment_client.track(
+                    None,  # anonymous_id,
+                    context=context,
+                    event="edx.bi.credentials.program_record.download_started",
+                    properties=properties,
+                )
+            except AssertionError:
+                log.exception("get_program_record failed calling segment")
 
         string_io = io.StringIO()
         writer = csv.writer(string_io, quoting=csv.QUOTE_ALL)
