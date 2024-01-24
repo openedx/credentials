@@ -319,15 +319,14 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
         except Exception:
             log.error(
                 "get_program_record failed for:\n"
-                "   user: {user_id}\n"
-                "   program: {program}\n"
-                "   site: {site}\n"
-                "   platform_name: {platform_name}\n".format(
-                    user_id=program_cert_record.user.id,
-                    program=program_cert_record.program.uuid,
-                    site=request.site,
-                    platform_name=site_configuration.platform_name,
-                )
+                "   user: %s\n"
+                "   program: %s\n"
+                "   site: %s\n"
+                "   platform_name: %s\n",
+                program_cert_record.user.id,
+                program_cert_record.program.uuid,
+                request.site,
+                site_configuration.platform_name,
             )
             raise
 
@@ -335,7 +334,7 @@ class ProgramRecordCsvView(RecordsEnabledMixin, View):
         platform_name = record.get("platform_name", None)  # type: str
         learner = record.get("learner", None)  # type: Dict
         if not (program and platform_name and learner):
-            log.info("get_program_record failed to find all program record data: {record}".format(record=record))
+            log.info("get_program_record failed to find all program record data: %s", record)
             raise Http404
 
         user_metadata = [
