@@ -11,6 +11,7 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.test import APIRequestFactory, APITestCase
+from testfixtures import LogCapture
 from waffle.testutils import override_switch
 
 from credentials.apps.api.tests.mixins import JwtMixin
@@ -571,6 +572,37 @@ class GradeViewSetTests(SiteMixin, APITestCase):
         grade.refresh_from_db()
         self.assertEqual(grade.letter_grade, "B")
         self.assertDictEqual(response.data, self.serialize_user_grade(grade))
+
+    @ddt.data(True, False)
+    def test_create_with_logging_decorator_enabled(self, decorator_enabled):
+        """
+        A test that verifies expected log messages from Grade views decorated with the `log_incoming_requests`
+        decorator.
+        """
+        expected_log_decorator_enabled = (
+            f"POST request received to endpoint [/api/v2/grades/] from user [{self.user.username}] originating from "
+            f"[Unknown] with data: [{str.encode(json.dumps(self.data))}]"
+        )
+        formatted_grade = "{:.4f}".format(self.data["percent_grade"])
+        expected_logs = [
+            f"Updated grade for user [{self.data['username']}] in course [{self.data['course_run']}] with "
+            f"percent_grade [{formatted_grade}], letter_grade [{self.data['letter_grade']}], verified "
+            f"[{self.data['verified']}], and lms_last_updated_at [None]"
+        ]
+
+        if decorator_enabled:
+            expected_logs.append(expected_log_decorator_enabled)
+
+        self.authenticate_user(self.user)
+        self.add_user_permission(self.user, "add_usergrade")
+
+        with override_switch("api.log_incoming_requests", active=decorator_enabled):
+            with LogCapture() as log:
+                self.client.post(self.list_path, data=json.dumps(self.data), content_type=JSON_CONTENT_TYPE)
+
+        log_messages = [log.msg for log in log.records]
+        for log in expected_logs:
+            assert log in log_messages
 
     @ddt.data("put", "patch")
     def test_update(self, method):

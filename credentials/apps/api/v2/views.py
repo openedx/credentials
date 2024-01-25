@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView, exception_handler
 
+from credentials.apps.api.v2.decorators import log_incoming_request
 from credentials.apps.api.v2.filters import UserCredentialFilter
 from credentials.apps.api.v2.permissions import CanReplaceUsername, UserCredentialPermissions
 from credentials.apps.api.v2.serializers import (
@@ -146,15 +147,18 @@ class GradeViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.Ge
     throttle_scope = "grade_view"
     queryset = UserGrade.objects.all()
 
-    def create(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
+    @log_incoming_request
+    def create(self, request, *args, **kwargs):
         """Create a new grade."""
         return super().create(request, *args, **kwargs)
 
-    def partial_update(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
+    @log_incoming_request
+    def partial_update(self, request, *args, **kwargs):
         """Update a grade."""
         return super().partial_update(request, *args, **kwargs)
 
-    def update(self, request, *args, **kwargs):  # pylint: disable=useless-super-delegation
+    @log_incoming_request
+    def update(self, request, *args, **kwargs):
         """Update a grade."""
         return super().update(request, *args, **kwargs)
 
