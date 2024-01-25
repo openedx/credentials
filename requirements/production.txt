@@ -24,9 +24,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.25
+boto3==1.34.27
     # via django-ses
-botocore==1.34.25
+botocore==1.34.27
     # via
     #   boto3
     #   s3transfer
@@ -61,7 +61,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==42.0.0
+cryptography==42.0.1
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -168,9 +168,9 @@ edx-django-utils==5.10.1
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==9.1.2
+edx-drf-extensions==10.0.0
     # via -r requirements/base.txt
-edx-event-bus-kafka==5.5.0
+edx-event-bus-kafka==5.6.0
     # via -r requirements/base.txt
 edx-i18n-tools==1.3.0
     # via
@@ -257,7 +257,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 openedx-atlas==0.6.0
     # via -r requirements/base.txt
-openedx-events==9.2.0
+openedx-events==9.3.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
@@ -321,7 +321,7 @@ python-dateutil==2.8.2
     #   segment-analytics-python
 python-memcached==1.62
     # via -r requirements/base.txt
-python-slugify==8.0.1
+python-slugify==8.0.2
     # via
     #   -r requirements/base.txt
     #   code-annotations
