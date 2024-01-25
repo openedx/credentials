@@ -289,7 +289,6 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
     def setUp(self):
         super().setUp()
         self.user = UserFactory(username=self.MOCK_USER_DATA["username"])
-        self.client.login(username=self.user.username, password=USER_PASSWORD)
         self.course = CourseFactory(site=self.site)
         self.course_runs = [CourseRunFactory(course=self.course) for _ in range(3)]
         self.user_grade_low = UserGradeFactory(
@@ -393,6 +392,19 @@ class ProgramRecordCsvViewTests(SiteMixin, TestCase):
         actual = response["Content-Disposition"]
 
         self.assertTrue(re.fullmatch(re_expected, actual))
+
+    def test_without_segment(self):
+        """
+        Verify this works without any Segment connection from the browser, even if there is a segment_key
+        for the site.
+        """
+        self.site_configuration.segment_key = "xyzzy"
+        self.site_configuration.save()
+        response = self.client.get(
+            reverse("records:program_record_csv", kwargs={"uuid": self.program_cert_record.uuid.hex})
+        )
+
+        self.assertEqual(200, response.status_code)
 
 
 class LearnerRecordRedirectionTests(SiteMixin, TestCase):
