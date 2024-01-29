@@ -584,3 +584,12 @@ EVENT_BUS_PRODUCER_CONFIG = {
         },
     },
 }
+
+# .. toggle_name: LOG_INCOMING_REQUESTS
+# .. toggle_implementation: WaffleSwitch
+# .. toggle_default: False
+# .. toggle_description: Toggle to control whether we log incoming REST requests through the use of the
+#   `log_incoming_requests` decorator.
+# .. toggle_use_cases: opt_in
+# .. toggle_creation_date: 2024-01-25
+LOG_INCOMING_REQUESTS = WaffleSwitch("api.log_incoming_requests", module_name=__name__)
