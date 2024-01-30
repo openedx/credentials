@@ -1,4 +1,5 @@
 """Models governing integration with the catalog service."""
+
 import logging
 
 from django.contrib.sites.models import Site

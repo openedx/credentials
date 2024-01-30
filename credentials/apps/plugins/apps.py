@@ -4,7 +4,6 @@ Plugins Application Configuration.
 Signal handlers are connected here.
 """
 
-
 from django.apps import AppConfig
 from edx_django_utils.plugins import connect_plugin_receivers
 

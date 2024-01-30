@@ -1,4 +1,5 @@
 """ Creates or updates a Site including SiteConfiguration data. """
+
 import logging
 
 from django.contrib.sites.models import Site

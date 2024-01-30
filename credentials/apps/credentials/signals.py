@@ -1,6 +1,7 @@
 """
 Signal receivers for the `credentials` Django app.
 """
+
 import logging
 
 from django.dispatch import receiver

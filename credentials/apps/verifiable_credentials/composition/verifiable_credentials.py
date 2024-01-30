@@ -3,6 +3,7 @@ Verifiable Credentials v1.1 data model.
 
 See specification: https://www.w3.org/TR/vc-data-model/
 """
+
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 

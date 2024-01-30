@@ -1,6 +1,7 @@
 """
 Custom permissions classes for use with DRF.
 """
+
 from edx_rest_framework_extensions.permissions import get_username_param
 from rest_framework import permissions
 

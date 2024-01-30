@@ -1,6 +1,7 @@
 """
 Custom permissions classes for use with DRF.
 """
+
 from django.http import Http404
 from rest_framework import permissions
 

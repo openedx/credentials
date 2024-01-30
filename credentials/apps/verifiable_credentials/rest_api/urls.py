@@ -1,4 +1,5 @@
 """Root API URLs for verifiable_credentials."""
+
 from django.urls import include, path
 
 

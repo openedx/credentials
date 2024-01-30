@@ -1,6 +1,7 @@
 """
 Tests for the sync_lms_user_ids management command
 """
+
 import json
 
 import responses

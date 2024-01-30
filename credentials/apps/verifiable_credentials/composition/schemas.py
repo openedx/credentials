@@ -1,6 +1,7 @@
 """
 Complementary schemas for verifiable credential composition.
 """
+
 from rest_framework import serializers
 
 

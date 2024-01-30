@@ -1,6 +1,7 @@
 """
 Verifiable credentials specific permissions.
 """
+
 import json
 import logging
 

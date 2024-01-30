@@ -1,6 +1,7 @@
 """
 Tests for the `api.py` file of the Records Django app.
 """
+
 import datetime
 
 from django.conf import settings

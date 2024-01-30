@@ -1,6 +1,7 @@
 """
 Serializers for data manipulated by the credentials service APIs.
 """
+
 import logging
 from typing import TYPE_CHECKING
 

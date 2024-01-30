@@ -1,6 +1,7 @@
 """
 Verifiable Credentials built-in storage backends.
 """
+
 from enum import Enum
 
 from ..settings import vc_settings

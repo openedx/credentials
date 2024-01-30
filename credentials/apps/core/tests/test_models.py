@@ -1,4 +1,5 @@
 """ Tests for core models. """
+
 import json
 from unittest import mock
 

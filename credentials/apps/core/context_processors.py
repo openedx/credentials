@@ -1,4 +1,5 @@
 """ Core context processors. """
+
 from django.conf import settings
 
 

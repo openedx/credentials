@@ -11,6 +11,7 @@ This module provides the `vc_setting` object, that is used to access
 Verifiable Credentials settings, checking for explicit settings first, then falling
 back to the defaults.
 """
+
 import logging
 
 from django.conf import settings

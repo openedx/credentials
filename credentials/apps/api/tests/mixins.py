@@ -1,6 +1,7 @@
 """
 Mixins for Credentials API tests.
 """
+
 import json
 from time import time
 
