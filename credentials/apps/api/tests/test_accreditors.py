@@ -1,6 +1,7 @@
 """
 Tests for the accreditor module.
 """
+
 from unittest.mock import patch
 
 from django.test import TestCase

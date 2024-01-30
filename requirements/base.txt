@@ -136,7 +136,7 @@ edx-django-utils==5.10.1
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==10.0.0
+edx-drf-extensions==10.1.0
     # via -r requirements/base.in
 edx-event-bus-kafka==5.6.0
     # via -r requirements/base.in
@@ -177,7 +177,7 @@ monotonic==1.6
     # via segment-analytics-python
 mysqlclient==2.2.1
     # via -r requirements/base.in
-newrelic==9.5.0
+newrelic==9.6.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -233,7 +233,7 @@ python-slugify==8.0.2
     # via code-annotations
 python3-openid==3.2.0
     # via social-auth-core
-pytz==2023.3.post1
+pytz==2023.4
     # via
     #   -r requirements/base.in
     #   djangorestframework
@@ -284,7 +284,7 @@ social-auth-app-django==5.2.0
     #   -c requirements/constraints.txt
     #   -r requirements/base.in
     #   edx-auth-backends
-social-auth-core==4.5.1
+social-auth-core==4.5.2
     # via
     #   edx-auth-backends
     #   social-auth-app-django

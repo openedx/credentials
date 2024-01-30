@@ -1,6 +1,7 @@
 """
 Verifiable Credentials API v1 views.
 """
+
 import logging
 
 from django.contrib.auth import get_user_model

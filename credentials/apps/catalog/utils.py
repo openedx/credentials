@@ -1,4 +1,5 @@
 """Utilities for integration with the catalog service."""
+
 import logging
 from urllib.parse import urljoin
 

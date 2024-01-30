@@ -1,6 +1,7 @@
 """
 Verifiable credentials renderers.
 """
+
 from rest_framework.renderers import JSONRenderer
 
 

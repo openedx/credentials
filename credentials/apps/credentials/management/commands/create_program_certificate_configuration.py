@@ -1,4 +1,5 @@
 """ Management command to create a program certificate configuration for the demo program """
+
 import logging
 
 from django.contrib.sites.models import Site

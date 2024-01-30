@@ -1,6 +1,7 @@
 """
 Factories for tests of Credentials.
 """
+
 import datetime
 from uuid import uuid4
 

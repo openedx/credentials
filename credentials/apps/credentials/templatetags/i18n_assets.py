@@ -1,6 +1,7 @@
 """
 Template tags and helper functions for creating language tagged files
 """
+
 import logging
 from os.path import splitext
 

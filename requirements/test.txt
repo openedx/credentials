@@ -26,7 +26,7 @@ backports-zoneinfo==0.2.1
     # via
     #   -r requirements/base.txt
     #   django
-black==23.12.1
+black==24.1.1
     # via -r requirements/test.in
 bleach==6.1.0
     # via -r requirements/base.txt
@@ -74,7 +74,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage==7.4.0
+coverage==7.4.1
     # via -r requirements/test.in
 cryptography==42.0.1
     # via
@@ -90,7 +90,7 @@ defusedxml==0.8.0rc2
     #   social-auth-core
 didkit==0.3.2
     # via -r requirements/base.txt
-dill==0.3.7
+dill==0.3.8
     # via pylint
 distlib==0.3.8
     # via virtualenv
@@ -185,7 +185,7 @@ edx-django-utils==5.10.1
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==10.0.0
+edx-drf-extensions==10.1.0
     # via -r requirements/base.txt
 edx-event-bus-kafka==5.6.0
     # via -r requirements/base.txt
@@ -211,7 +211,7 @@ exceptiongroup==1.2.0
     # via pytest
 factory-boy==3.3.0
     # via -r requirements/test.in
-faker==22.5.1
+faker==22.6.0
     # via factory-boy
 fastavro==1.9.3
     # via
@@ -270,7 +270,7 @@ mypy-extensions==1.0.0
     # via black
 mysqlclient==2.2.1
     # via -r requirements/base.txt
-newrelic==9.5.0
+newrelic==9.6.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -372,11 +372,11 @@ pypng==0.20220715.0
     #   qrcode
 pyproject-api==1.6.1
     # via tox
-pytest==7.4.4
+pytest==8.0.0
     # via
     #   -r requirements/test.in
     #   pytest-django
-pytest-django==4.7.0
+pytest-django==4.8.0
     # via -r requirements/test.in
 python-dateutil==2.8.2
     # via
@@ -394,7 +394,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-pytz==2023.3.post1
+pytz==2023.4
     # via
     #   -r requirements/base.txt
     #   djangorestframework
@@ -461,7 +461,7 @@ social-auth-app-django==5.2.0
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.5.1
+social-auth-core==4.5.2
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends

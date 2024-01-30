@@ -1,4 +1,5 @@
 """ Tests for catalog utilities. """
+
 from unittest.mock import MagicMock
 
 from django.test import TestCase

@@ -1,6 +1,7 @@
 """
 Python API utility functions exposed by the `credentials` Django app.
 """
+
 import logging
 from typing import TYPE_CHECKING, Optional
 

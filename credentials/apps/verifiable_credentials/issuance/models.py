@@ -1,6 +1,7 @@
 """
 Verifiable Credentials DB models.
 """
+
 import uuid
 from urllib.parse import urljoin
 

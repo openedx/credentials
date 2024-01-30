@@ -1,6 +1,7 @@
 """
 Factories for tests of Credentials.
 """
+
 from django.contrib.sites.models import Site
 from factory import Faker, PostGenerationMethodCall, Sequence, SubFactory, django, sequence
 

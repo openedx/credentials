@@ -1,6 +1,7 @@
 """
 Tests for the `signals.py` file of the Credentials Django app.
 """
+
 from datetime import datetime, timezone
 from unittest.mock import patch
 from uuid import uuid4

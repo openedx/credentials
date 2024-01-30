@@ -1,6 +1,7 @@
 """
 Models for the records app.
 """
+
 import uuid
 
 from django.core.exceptions import ValidationError

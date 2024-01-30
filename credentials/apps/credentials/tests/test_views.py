@@ -1,6 +1,7 @@
 """
 Tests for credentials rendering views.
 """
+
 import uuid
 from unittest.mock import PropertyMock, patch
 

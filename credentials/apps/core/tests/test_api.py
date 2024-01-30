@@ -1,6 +1,7 @@
 """
 Tests for the Python functions in the Core app's `api.py` file
 """
+
 import ddt
 from django.test import TestCase
 from openedx_events.learning.data import UserData, UserPersonalData

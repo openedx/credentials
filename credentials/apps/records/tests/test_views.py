@@ -1,6 +1,7 @@
 """
 Tests for records rendering views.
 """
+
 import csv
 import io
 import json

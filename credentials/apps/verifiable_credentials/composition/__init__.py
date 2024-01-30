@@ -9,6 +9,7 @@ CredentialDataModel
 |_ OpenBadgesDataModel + StatusList2021EntryMixin
 |_ StatusListDataModel
 """
+
 import inspect
 from collections import OrderedDict
 

@@ -1,6 +1,7 @@
 """
 Verifiable Credentials API v1 URLs.
 """
+
 from django.urls import path
 from rest_framework import routers
 

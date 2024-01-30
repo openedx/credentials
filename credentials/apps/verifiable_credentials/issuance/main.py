@@ -1,6 +1,7 @@
 """
 Issuance line processor.
 """
+
 import json
 import logging
 

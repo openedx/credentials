@@ -1,6 +1,7 @@
 """
 Basic configuration for the credentials app.
 """
+
 import logging
 
 from django.apps import AppConfig
