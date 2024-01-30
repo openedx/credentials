@@ -111,7 +111,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==7.4.1
     # via -r requirements/dev.txt
-cryptography==42.0.1
+cryptography==42.0.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -274,7 +274,7 @@ edx-auth-backends==4.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.3.30
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.3.31
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
