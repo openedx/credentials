@@ -24,9 +24,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.27
+boto3==1.34.30
     # via django-ses
-botocore==1.34.27
+botocore==1.34.30
     # via
     #   boto3
     #   s3transfer
@@ -168,7 +168,7 @@ edx-django-utils==5.10.1
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==10.0.0
+edx-drf-extensions==10.1.0
     # via -r requirements/base.txt
 edx-event-bus-kafka==5.6.0
     # via -r requirements/base.txt
@@ -239,7 +239,7 @@ monotonic==1.6
     #   segment-analytics-python
 mysqlclient==2.2.1
     # via -r requirements/base.txt
-newrelic==9.5.0
+newrelic==9.6.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -329,7 +329,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-pytz==2023.3.post1
+pytz==2023.4
     # via
     #   -r requirements/base.txt
     #   django-ses
@@ -395,7 +395,7 @@ social-auth-app-django==5.2.0
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.5.1
+social-auth-core==4.5.2
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
