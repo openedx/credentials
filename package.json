@@ -42,7 +42,7 @@
     "karma-jasmine": "5.1.0",
     "karma-jasmine-jquery-2": "0.1.1",
     "karma-spec-reporter": "0.0.36",
-    "karma-webpack": "5.0.0",
+    "karma-webpack": "5.0.1",
     "webpack-cli": "5.1.4"
   }
 }
