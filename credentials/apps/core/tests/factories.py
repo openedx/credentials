@@ -4,6 +4,7 @@ Factories for tests of Credentials.
 
 from django.contrib.sites.models import Site
 from factory import Faker, PostGenerationMethodCall, Sequence, SubFactory, django, sequence
+from social_django.models import UserSocialAuth
 
 from credentials.apps.core.models import SiteConfiguration, User
 
@@ -56,3 +57,12 @@ class SiteConfigurationFactory(django.DjangoModelFactory):
     certificate_help_url = Faker("url")
     records_help_url = Faker("url")
     twitter_username = Faker("word")
+
+
+class UserSocialAuthFactory(django.DjangoModelFactory):
+    class Meta:
+        model = UserSocialAuth
+
+    user_id = Faker("random_int")
+    provider = Faker("word")
+    extra_data = Faker("json")
