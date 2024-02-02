@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.23.9",
-    "@babel/eslint-parser": "7.23.9",
+    "@babel/eslint-parser": "7.23.10",
     "@babel/plugin-proposal-object-rest-spread": "7.20.7",
     "@babel/plugin-transform-modules-commonjs": "7.23.3",
     "@babel/plugin-transform-object-assign": "7.23.3",
