@@ -33,8 +33,10 @@ class TruncateUserSocialAuthTest(TestCase):
             mock_now.return_value = long_ago
             self.auth_old = UserSocialAuthFactory(user_id=self.user_old.id, modified=long_ago)
 
-    def test_delete_old_rows(self):
+    @patch("logging.Logger.info")
+    def test_delete_old_rows(self, mock_log):
         """verify that only old auth records are deleted."""
+        expected = "truncate_social_auth deleted 1 rows"
         auth_records = UserSocialAuth.objects.all()
         self.assertEqual(len(auth_records), 2)
 
@@ -43,3 +45,12 @@ class TruncateUserSocialAuthTest(TestCase):
         auth_records = UserSocialAuth.objects.all()
         self.assertEqual(len(auth_records), 1)
         self.assertEqual(auth_records[0], self.auth_young)
+        mock_log.assert_called_once_with(expected)
+
+    @patch("logging.Logger.exception")
+    def test_exception_handling(self, mock_log):
+        """Verify that logging happens if the filter/delete raises an exception"""
+        expected = "truncate_social_auth deleted failed"
+        with patch("social_django.models.UserSocialAuth.objects.filter", side_effect=Exception("Inconceivable!")):
+            call_command("truncate_social_auth")
+            mock_log.assert_called_once_with(expected)

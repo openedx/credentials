@@ -30,9 +30,8 @@ class Command(BaseCommand):
         window_to_keep = timedelta(days=90)
         try:
             deleted = UserSocialAuth.objects.filter(modified__lte=now - window_to_keep).delete()
+            deleted_num = deleted[0]
         except:  # pylint: disable=bare-except
             logger.exception(error_message)
-        try:
-            logger.info(f"truncate_social_auth deleted {deleted[0]} rows")
-        except IndexError:
-            logger.error(error_message)
+            return
+        logger.info(f"truncate_social_auth deleted {deleted_num} rows")
