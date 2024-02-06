@@ -136,7 +136,7 @@ edx-django-utils==5.10.1
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==10.1.0
+edx-drf-extensions==10.2.0
     # via -r requirements/base.in
 edx-event-bus-kafka==5.6.0
     # via -r requirements/base.in
@@ -173,7 +173,7 @@ markdown==3.5.2
     # via -r requirements/base.in
 markupsafe==2.1.5
     # via jinja2
-mysqlclient==2.2.1
+mysqlclient==2.2.3
     # via -r requirements/base.in
 newrelic==9.6.0
     # via
@@ -191,7 +191,7 @@ openedx-events==9.4.0
     # via edx-event-bus-kafka
 packaging==23.2
     # via drf-yasg
-path==16.9.0
+path==16.10.0
     # via edx-i18n-tools
 pbr==6.0.0
     # via stevedore

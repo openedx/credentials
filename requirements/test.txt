@@ -9,7 +9,7 @@ asgiref==3.7.2
     #   -r requirements/base.txt
     #   django
     #   django-cors-headers
-astroid==3.0.2
+astroid==3.0.3
     # via
     #   pylint
     #   pylint-celery
@@ -185,7 +185,7 @@ edx-django-utils==5.10.1
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
-edx-drf-extensions==10.1.0
+edx-drf-extensions==10.2.0
     # via -r requirements/base.txt
 edx-event-bus-kafka==5.6.0
     # via -r requirements/base.txt
@@ -211,7 +211,7 @@ exceptiongroup==1.2.0
     # via pytest
 factory-boy==3.3.0
     # via -r requirements/test.in
-faker==22.6.0
+faker==22.7.0
     # via factory-boy
 fastavro==1.9.3
     # via
@@ -264,7 +264,7 @@ mccabe==0.7.0
     # via pylint
 mypy-extensions==1.0.0
     # via black
-mysqlclient==2.2.1
+mysqlclient==2.2.3
     # via -r requirements/base.txt
 newrelic==9.6.0
     # via
@@ -293,7 +293,7 @@ packaging==23.2
     #   pyproject-api
     #   pytest
     #   tox
-path==16.9.0
+path==16.10.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
