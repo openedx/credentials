@@ -24,9 +24,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.35
+boto3==1.34.36
     # via django-ses
-botocore==1.34.35
+botocore==1.34.36
     # via
     #   boto3
     #   s3transfer
@@ -73,7 +73,7 @@ defusedxml==0.8.0rc2
     #   social-auth-core
 didkit==0.3.2
     # via -r requirements/base.txt
-django==4.2.9
+django==4.2.10
     # via
     #   -r requirements/base.txt
     #   django-appconf
@@ -155,7 +155,7 @@ edx-ace==1.7.0
     # via -r requirements/base.txt
 edx-auth-backends==4.2.0
     # via -r requirements/base.txt
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.0
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.1
     # via -r requirements/base.txt
 edx-django-release-util==1.3.0
     # via -r requirements/base.txt

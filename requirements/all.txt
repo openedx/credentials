@@ -42,11 +42,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.35
+boto3==1.34.36
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.35
+botocore==1.34.36
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -142,7 +142,7 @@ distro==1.9.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-django==4.2.9
+django==4.2.10
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -274,7 +274,7 @@ edx-auth-backends==4.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.0
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
