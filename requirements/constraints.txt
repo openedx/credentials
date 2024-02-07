@@ -18,7 +18,3 @@ pyyaml<6.0
 # Pinning urllib3 to versions < 2.x as this conflicts with boto. This constraint will be re-evaluated as part of
 # APER-2422
 urllib3<2
-
-# social-auth-app-django versions after 5.2.0 has a problematic migration that will cause issues deployments with large
-# `social_auth_usersocialauth` tables
-social-auth-app-django<5.3

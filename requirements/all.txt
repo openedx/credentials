@@ -294,6 +294,7 @@ edx-django-utils==5.10.1
     #   edx-event-bus-kafka
     #   edx-rest-api-client
     #   edx-toggles
+    #   openedx-events
 edx-drf-extensions==10.2.0
     # via
     #   -r requirements/dev.txt
@@ -331,7 +332,7 @@ exceptiongroup==1.2.0
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/dev.txt
-faker==22.7.0
+faker==23.1.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -446,7 +447,7 @@ openedx-atlas==0.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-openedx-events==9.4.0
+openedx-events==9.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -693,9 +694,8 @@ slumber==0.7.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-rest-api-client
-social-auth-app-django==5.2.0
+social-auth-app-django==5.4.0
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-auth-backends
