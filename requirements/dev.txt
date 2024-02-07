@@ -103,7 +103,7 @@ distlib==0.3.7
     #   virtualenv
 distro==1.8.0
     # via docker-compose
-django==4.2.7
+django==4.2.10
     # via
     #   -r requirements/test.txt
     #   django-appconf
