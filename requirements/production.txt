@@ -234,7 +234,6 @@ markupsafe==2.1.5
     # via
     #   -r requirements/base.txt
     #   jinja2
-mysqlclient==2.2.3
     # via -r requirements/base.txt
 newrelic==9.6.0
     # via

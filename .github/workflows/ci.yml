@@ -33,13 +33,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["py38"]
+        python-version: ["py38", "py3.11", "py3.12"]
         django-version: ["django42"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.8"
+          python-version: ${{ matrix.python-version }}
           architecture: x64
       - name: Setup Nodejs Env
         run: echo "NODE_VER=`cat .nvmrc`" >> $GITHUB_ENV

@@ -174,7 +174,6 @@ markdown==3.5.2
     # via -r requirements/base.in
 markupsafe==2.1.5
     # via jinja2
-mysqlclient==2.2.3
     # via -r requirements/base.in
 newrelic==9.6.0
     # via

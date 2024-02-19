@@ -421,7 +421,6 @@ mypy-extensions==1.0.0
     # via
     #   -r requirements/dev.txt
     #   black
-mysqlclient==2.2.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
