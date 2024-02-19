@@ -13,8 +13,12 @@
 
 # The update to pyyaml 6.x failed as docker-compose wants <6,>=3.10. Pinning to <6.0. This constraint will be
 # re-evaluated as part of APER-1556.
-pyyaml<6.0
+
 
 # Pinning urllib3 to versions < 2.x as this conflicts with boto. This constraint will be re-evaluated as part of
 # APER-2422
 urllib3<2
+
+
+# Temporary to Support the python 3.11 Upgrade
+backports.zoneinfo;python_version<"3.9"  # Newer versions have zoneinfo available in the standard library

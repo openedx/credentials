@@ -8,7 +8,7 @@ on:
 
 jobs:
   quality_and_translations_tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -33,13 +33,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["py38"]
+        python-version: ["3.11"]
         django-version: ["django42"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.8"
+          python-version: ${{ matrix.python-version }}
           architecture: x64
       - name: Setup Nodejs Env
         run: echo "NODE_VER=`cat .nvmrc`" >> $GITHUB_ENV
@@ -79,7 +79,13 @@ jobs:
         with:
           node-version: ${{ env.NODE_VER }}
       - name: Install Dependencies
-        run: make requirements
+        run:
+          # if [ "${{ matrix.python-version }}" == "3.8" ]; then
+          #   pip install pyyaml==5.4.1
+          # elif [ "${{ matrix.python-version }}" == "3.11" ]; then
+          #   pip install pyyaml==6.0.1
+          # fi
+          make requirements
       - name: Install Firefox
         run: |
           sudo apt-get update
