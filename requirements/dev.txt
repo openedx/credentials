@@ -30,7 +30,7 @@ backports-zoneinfo==0.2.1
     #   django
 bcrypt==4.1.2
     # via paramiko
-black==24.1.1
+black==24.2.0
     # via -r requirements/test.txt
 bleach==6.1.0
     # via -r requirements/test.txt
@@ -204,7 +204,7 @@ edx-ace==1.7.0
     # via -r requirements/test.txt
 edx-auth-backends==4.2.0
     # via -r requirements/test.txt
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.1
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.2
     # via -r requirements/test.txt
 edx-django-release-util==1.3.0
     # via -r requirements/test.txt
@@ -251,7 +251,7 @@ faker==23.1.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
-fastavro==1.9.3
+fastavro==1.9.4
     # via
     #   -r requirements/test.txt
     #   openedx-events
@@ -311,6 +311,7 @@ mypy-extensions==1.0.0
     # via
     #   -r requirements/test.txt
     #   black
+mysqlclient==2.2.4
     # via -r requirements/test.txt
 newrelic==9.6.0
     # via
@@ -327,7 +328,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 openedx-atlas==0.6.0
     # via -r requirements/test.txt
-openedx-events==9.5.0
+openedx-events==9.5.1
     # via
     #   -r requirements/test.txt
     #   edx-event-bus-kafka
@@ -390,6 +391,7 @@ pyjwt[crypto]==2.8.0
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   pyjwt
+    #   segment-analytics-python
     #   social-auth-core
 pylint==3.0.3
     # via
@@ -448,7 +450,7 @@ python-dotenv==0.21.1
     # via docker-compose
 python-memcached==1.62
     # via -r requirements/test.txt
-python-slugify==8.0.3
+python-slugify==8.0.4
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -493,13 +495,13 @@ requests-oauthlib==1.3.1
     # via
     #   -r requirements/test.txt
     #   social-auth-core
-responses==0.24.1
+responses==0.25.0
     # via -r requirements/test.txt
 sailthru-client==2.2.3
     # via
     #   -r requirements/test.txt
     #   edx-ace
-segment-analytics-python==2.3.0
+segment-analytics-python==2.3.1
     # via -r requirements/test.txt
 semantic-version==2.10.0
     # via
@@ -530,7 +532,7 @@ social-auth-app-django==5.4.0
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
-social-auth-core==4.5.2
+social-auth-core==4.5.3
     # via
     #   -r requirements/test.txt
     #   edx-auth-backends
