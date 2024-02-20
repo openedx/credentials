@@ -24,9 +24,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.40
+boto3==1.34.45
     # via django-ses
-botocore==1.34.40
+botocore==1.34.45
     # via
     #   boto3
     #   s3transfer
@@ -61,7 +61,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==42.0.2
+cryptography==42.0.3
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -181,7 +181,6 @@ edx-opaque-keys[django]==2.5.1
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-    #   edx-opaque-keys
     #   openedx-events
 edx-rest-api-client==5.6.1
     # via -r requirements/base.txt
@@ -254,7 +253,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 openedx-atlas==0.6.0
     # via -r requirements/base.txt
-openedx-events==9.5.1
+openedx-events==9.5.2
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
@@ -294,7 +293,6 @@ pyjwt[crypto]==2.8.0
     #   edx-auth-backends
     #   edx-drf-extensions
     #   edx-rest-api-client
-    #   pyjwt
     #   segment-analytics-python
     #   social-auth-core
 pymemcache==4.0.0
@@ -365,7 +363,7 @@ sailthru-client==2.2.3
     # via
     #   -r requirements/base.txt
     #   edx-ace
-segment-analytics-python==2.3.1
+segment-analytics-python==2.3.2
     # via -r requirements/base.txt
 semantic-version==2.10.0
     # via
@@ -441,7 +439,7 @@ zipp==3.17.0
     #   importlib-metadata
 zope-event==5.0
     # via gevent
-zope-interface==6.1
+zope-interface==6.2
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
