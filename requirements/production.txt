@@ -9,6 +9,7 @@ asgiref==3.7.2
     #   -r requirements/base.txt
     #   django
     #   django-cors-headers
+    #   django-simple-history
 attrs==23.2.0
     # via
     #   -r requirements/base.txt
@@ -24,9 +25,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.45
+boto3==1.34.50
     # via django-ses
-botocore==1.34.45
+botocore==1.34.50
     # via
     #   boto3
     #   s3transfer
@@ -61,7 +62,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==42.0.3
+cryptography==42.0.5
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -122,7 +123,7 @@ django-rest-swagger==2.2.0
     # via -r requirements/base.txt
 django-ses==3.5.2
     # via -r requirements/production.in
-django-simple-history==3.4.0
+django-simple-history==3.5.0
     # via -r requirements/base.txt
 django-sortedm2m==3.1.1
     # via -r requirements/base.txt
@@ -155,7 +156,7 @@ edx-ace==1.7.0
     # via -r requirements/base.txt
 edx-auth-backends==4.2.0
     # via -r requirements/base.txt
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.3
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.4
     # via -r requirements/base.txt
 edx-django-release-util==1.3.0
     # via -r requirements/base.txt
@@ -235,7 +236,7 @@ markupsafe==2.1.5
     #   jinja2
 mysqlclient==2.2.4
     # via -r requirements/base.txt
-newrelic==9.6.0
+newrelic==9.7.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -399,7 +400,7 @@ sqlparse==0.4.4
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==5.1.0
+stevedore==5.2.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -410,7 +411,7 @@ text-unidecode==1.3
     # via
     #   -r requirements/base.txt
     #   python-slugify
-typing-extensions==4.9.0
+typing-extensions==4.10.0
     # via
     #   -r requirements/base.txt
     #   asgiref
