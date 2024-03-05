@@ -8,8 +8,10 @@ asgiref==3.7.2
     # via django
 backports-zoneinfo==0.2.1
     # via django
-django==4.2.10
-    # via edx-i18n-tools
+django==4.2.11
+    # via
+    #   -c requirements/common_constraints.txt
+    #   edx-i18n-tools
 edx-i18n-tools==1.3.0
     # via -r requirements/translations.in
 lxml==5.1.0

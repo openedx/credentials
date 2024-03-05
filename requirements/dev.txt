@@ -113,8 +113,9 @@ distlib==0.3.8
     #   virtualenv
 distro==1.9.0
     # via docker-compose
-django==4.2.10
+django==4.2.11
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt
     #   django-appconf
     #   django-cors-headers
@@ -245,7 +246,7 @@ exceptiongroup==1.2.0
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/test.txt
-faker==23.2.1
+faker==24.0.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -437,7 +438,7 @@ pytest==8.0.2
     #   pytest-django
 pytest-django==4.8.0
     # via -r requirements/test.txt
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via
     #   -r requirements/test.txt
     #   edx-ace
@@ -460,7 +461,7 @@ pytz==2024.1
     #   -r requirements/test.txt
     #   djangorestframework
     #   drf-yasg
-pywatchman==1.4.1 ; "linux" in sys_platform
+pywatchman==2.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.in
 pyyaml==5.4.1
     # via
@@ -546,7 +547,7 @@ stevedore==5.2.0
     #   edx-ace
     #   edx-django-utils
     #   edx-opaque-keys
-testfixtures==8.0.0
+testfixtures==8.1.0
     # via -r requirements/test.txt
 text-unidecode==1.3
     # via
