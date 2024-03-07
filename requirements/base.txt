@@ -50,8 +50,9 @@ defusedxml==0.8.0rc2
     #   social-auth-core
 didkit==0.3.2
     # via -r requirements/base.in
-django==4.2.10
+django==4.2.11
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
     #   django-appconf
     #   django-cors-headers
@@ -223,7 +224,7 @@ pynacl==1.5.0
     # via edx-django-utils
 pypng==0.20220715.0
     # via qrcode
-python-dateutil==2.8.2
+python-dateutil==2.9.0.post0
     # via
     #   edx-ace
     #   segment-analytics-python
