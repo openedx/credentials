@@ -25,9 +25,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.55
+boto3==1.34.57
     # via django-ses
-botocore==1.34.55
+botocore==1.34.57
     # via
     #   boto3
     #   s3transfer
@@ -153,17 +153,17 @@ drf-jwt==1.19.2
     #   edx-drf-extensions
 drf-yasg==1.21.7
     # via -r requirements/base.txt
-edx-ace==1.7.0
+edx-ace==1.8.0
     # via -r requirements/base.txt
 edx-auth-backends==4.2.0
     # via -r requirements/base.txt
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.5
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.6
     # via -r requirements/base.txt
 edx-django-release-util==1.3.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==4.0.2
     # via -r requirements/base.txt
-edx-django-utils==5.10.1
+edx-django-utils==5.11.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -204,7 +204,7 @@ idna==3.6
     # via
     #   -r requirements/base.txt
     #   requests
-importlib-metadata==7.0.1
+importlib-metadata==7.0.2
     # via
     #   -r requirements/base.txt
     #   markdown
