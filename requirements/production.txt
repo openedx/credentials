@@ -25,9 +25,9 @@ backports-zoneinfo==0.2.1
     #   django
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.57
+boto3==1.34.60
     # via django-ses
-botocore==1.34.57
+botocore==1.34.60
     # via
     #   boto3
     #   s3transfer
@@ -116,7 +116,7 @@ django-crum==0.7.9
     #   edx-toggles
 django-extensions==3.2.3
     # via -r requirements/base.txt
-django-filter==23.5
+django-filter==24.1
     # via -r requirements/base.txt
 django-ratelimit==4.1.0
     # via -r requirements/base.txt
@@ -237,7 +237,7 @@ markupsafe==2.1.5
     #   jinja2
 mysqlclient==2.2.4
     # via -r requirements/base.txt
-newrelic==9.7.0
+newrelic==9.7.1
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -259,7 +259,7 @@ openedx-events==9.5.2
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
-packaging==23.2
+packaging==24.0
     # via
     #   -r requirements/base.txt
     #   drf-yasg
@@ -355,7 +355,7 @@ requests==2.31.0
     #   segment-analytics-python
     #   slumber
     #   social-auth-core
-requests-oauthlib==1.3.1
+requests-oauthlib==1.4.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
