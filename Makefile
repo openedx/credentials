@@ -7,7 +7,7 @@ TOX = ''
 	quality quality_fix isort isort_check format format_check quality-js \
 	tests js-tests \
 	static static.dev static.watch \
-	extract_translations dummy_translations compile_translations fake_translations pull_translations push_translations \
+	extract_translations dummy_translations compile_translations fake_translations pull_translations \
 	detect_changed_source_translations validate_translations check_translations_up_to_date \
 	check_keywords pii_check coverage \
 	quality_and_translations_tests_suite unit_tests_suite docs
@@ -144,24 +144,13 @@ compile_translations: ## Compile translation files, outputting .mo files for eac
 
 fake_translations: extract_translations dummy_translations compile_translations ## Generate and compile dummy translation files
 
-# This Make target should not be removed since it is relied on by a Jenkins job (`edx-internal/tools-edx-jenkins/translation-jobs.yml`), using `ecommerce-scripts/transifex`.
-ifeq ($(OPENEDX_ATLAS_PULL),)
-pull_translations: ## Pull translations from Transifex
-	tx pull -t -a -f --mode reviewed --minimum-perc=1
-else
-# Experimental: OEP-58 Pulls translations using atlas
 pull_translations:
 	find credentials/conf/locale -mindepth 1 -maxdepth 1 -type d -exec rm -r {} \;
-	atlas pull $(OPENEDX_ATLAS_ARGS) translations/credentials/credentials/conf/locale:credentials/conf/locale
+	atlas pull $(ATLAS_OPTIONS) translations/credentials/credentials/conf/locale:credentials/conf/locale
 	python manage.py compilemessages
 
 	@echo "Translations have been pulled via Atlas and compiled."
 	@echo "'make static' or 'make static.dev' is required to update the js i18n files."
-endif
-
-# This Make target should not be removed since it is relied on by a Jenkins job (`edx-internal/tools-edx-jenkins/translation-jobs.yml`), using `ecommerce-scripts/transifex`.
-push_translations: ## Push source translation files (.po) to Transifex
-	tx push -s
 
 detect_changed_source_translations: ## Check if translation files are up-to-date
 	cd credentials && i18n_tool changed
