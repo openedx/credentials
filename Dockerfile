@@ -39,6 +39,8 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 ENV DJANGO_SETTINGS_MODULE credentials.settings.production
+ENV OPENEDX_ATLAS_PULL true
+ENV CREDENTIALS_CFG "minimal.yml"
 
 EXPOSE 18150
 RUN useradd -m --shell /bin/false app
@@ -70,6 +72,9 @@ RUN mkdir -p /edx/var/log
 # bust the image cache
 COPY . /edx/app/credentials/credentials
 
+# Fetch the translations into the image once the Makefile's in place
+RUN make pull_translations
+
 # Install dependencies in node_modules directory
 RUN npm install --no-save
 ENV NODE_BIN=/edx/app/credentials/credentials/node_modules
@@ -93,6 +98,7 @@ FROM base as dev
 USER root
 ENV DJANGO_SETTINGS_MODULE credentials.settings.devstack
 RUN pip install -r /edx/app/credentials/credentials/requirements/dev.txt
+RUN make pull_translations
 
 # Temporary compatibility hack while devstack is supporting
 # both the old `edxops/credentials` image and this image:
