@@ -33,21 +33,22 @@ backports-zoneinfo==0.2.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django
+    #   djangorestframework
 bcrypt==4.1.2
     # via
     #   -r requirements/dev.txt
     #   paramiko
-black==24.2.0
+black==24.3.0
     # via -r requirements/dev.txt
 bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.60
+boto3==1.34.65
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.60
+botocore==1.34.65
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -89,7 +90,7 @@ click-log==0.4.0
     # via
     #   -r requirements/dev.txt
     #   edx-lint
-code-annotations==1.6.0
+code-annotations==1.7.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -110,7 +111,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.4.3
+coverage==7.4.4
     # via -r requirements/dev.txt
 cryptography==42.0.5
     # via
@@ -236,7 +237,7 @@ django-webpack-loader==3.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-djangorestframework==3.14.0
+djangorestframework==3.15.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -332,7 +333,7 @@ exceptiongroup==1.2.0
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/dev.txt
-faker==24.1.0
+faker==24.3.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -361,8 +362,9 @@ idna==3.6
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-importlib-metadata==7.0.2
+importlib-metadata==6.11.0
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   markdown
@@ -404,7 +406,7 @@ lxml==5.1.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-i18n-tools
-markdown==3.5.2
+markdown==3.6
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -611,7 +613,6 @@ pytz==2024.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-ses
-    #   djangorestframework
     #   drf-yasg
 pywatchman==2.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.txt
@@ -652,7 +653,7 @@ requests-oauthlib==1.4.0
     #   social-auth-core
 responses==0.25.0
     # via -r requirements/dev.txt
-s3transfer==0.10.0
+s3transfer==0.10.1
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -787,7 +788,7 @@ xss-utils==0.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-zipp==3.17.0
+zipp==3.18.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
