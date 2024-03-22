@@ -45,7 +45,6 @@ requirements: piptools ## Install requirements for local development
 
 piptools:
 	pip install -q -r requirements/pip_tools.txt
-	pip install -q -r requirements/pip.txt
 
 define COMMON_CONSTRAINTS_TEMP_COMMENT
 # This is a temporary solution to override the real common_constraints.txt\n# In edx-lint, until the pyjwt constraint in edx-lint has been removed.\n# See BOM-2721 for more details.\n# Below is the copied and edited version of common_constraints\n
