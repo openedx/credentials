@@ -13,7 +13,8 @@
 
 # The update to pyyaml 6.x failed as docker-compose wants <6,>=3.10. Pinning to <6.0. This constraint will be
 # re-evaluated as part of APER-1556.
-pyyaml<6.0;python_version<"3.9"
+pyyaml==5.4.1;python_version<"3.9"
+pyyaml==6.0.1;python_version<"3.11"
 
 
 # Pinning urllib3 to versions < 2.x as this conflicts with boto. This constraint will be re-evaluated as part of
