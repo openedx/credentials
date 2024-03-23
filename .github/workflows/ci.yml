@@ -79,7 +79,13 @@ jobs:
         with:
           node-version: ${{ env.NODE_VER }}
       - name: Install Dependencies
-        run: make requirements
+        run:
+          make requirements
+          if [ "${{ matrix.python-version }}" == "3.8" ]; then
+            pip install pyyaml<6.0
+          elif [ "${{ matrix.python-version }}" == "3.11" ]; then
+            pip install pyyaml>6.0
+          fi
       - name: Install Firefox
         run: |
           sudo apt-get update
