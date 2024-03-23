@@ -49,8 +49,6 @@ qrcode
 requests
 segment-analytics-python
 social-auth-app-django
-pyyaml>6.0;python_version<"3.11"
-pyyaml<6.0;python_version<"3.9"
 
 
 # TODO Install in configuration
