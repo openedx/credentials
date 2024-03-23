@@ -22,7 +22,7 @@ path==16.10.0
     # via edx-i18n-tools
 polib==1.2.0
     # via edx-i18n-tools
-pyyaml==5.4.1 ; python_version < "3.9"
+pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
     #   edx-i18n-tools
