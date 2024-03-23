@@ -175,6 +175,7 @@ django==4.2.11
     #   edx-toggles
     #   openedx-events
     #   social-auth-app-django
+    #   xss-utils
 django-appconf==1.0.6
     # via
     #   -r requirements/dev.txt
@@ -616,6 +617,7 @@ pytz==2024.1
     #   drf-yasg
 pywatchman==2.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.txt
+pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
@@ -783,6 +785,10 @@ websocket-client==0.59.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
+xss-utils==0.5.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
 zipp==3.18.1
     # via
     #   -r requirements/dev.txt
