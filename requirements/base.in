@@ -49,6 +49,7 @@ qrcode
 requests
 segment-analytics-python
 social-auth-app-django
+xss-utils
 
 
 # TODO Install in configuration
