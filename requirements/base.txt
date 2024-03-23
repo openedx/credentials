@@ -242,7 +242,6 @@ pytz==2024.1
     # via
     #   -r requirements/base.in
     #   drf-yasg
-pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
     #   code-annotations
