@@ -123,6 +123,7 @@ distlib==0.3.8
     #   edx-toggles
     #   openedx-events
     #   social-auth-app-django
+    #   xss-utils
 django-appconf==1.0.6
     # via
     #   -r requirements/base.txt
@@ -519,6 +520,8 @@ webencodings==0.5.1
     # via
     #   -r requirements/base.txt
     #   bleach
+xss-utils==0.5.0
+    # via -r requirements/base.txt
 zipp==3.18.1
     # via
     #   -r requirements/base.txt
