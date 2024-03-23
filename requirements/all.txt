@@ -45,11 +45,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.68
+boto3==1.34.69
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.68
+botocore==1.34.69
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -175,7 +175,6 @@ django==4.2.11
     #   edx-toggles
     #   openedx-events
     #   social-auth-app-django
-    #   xss-utils
 django-appconf==1.0.6
     # via
     #   -r requirements/dev.txt
@@ -238,7 +237,7 @@ django-webpack-loader==3.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-djangorestframework==3.15.0
+djangorestframework==3.15.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -617,7 +616,7 @@ pytz==2024.1
     #   drf-yasg
 pywatchman==2.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.txt
-pyyaml==5.4.1 ; python_version < "3.9"
+pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
@@ -647,7 +646,7 @@ requests==2.31.0
     #   segment-analytics-python
     #   slumber
     #   social-auth-core
-requests-oauthlib==1.4.0
+requests-oauthlib==2.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -744,7 +743,7 @@ tomlkit==0.12.4
     # via
     #   -r requirements/dev.txt
     #   pylint
-tox==4.14.1
+tox==4.14.2
     # via -r requirements/dev.txt
 typing-extensions==4.10.0
     # via
@@ -785,10 +784,6 @@ websocket-client==0.59.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-xss-utils==0.5.0
-    # via
-    #   -r requirements/dev.txt
-    #   -r requirements/production.txt
 zipp==3.18.1
     # via
     #   -r requirements/dev.txt

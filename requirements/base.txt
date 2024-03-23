@@ -80,7 +80,6 @@ django==4.2.11
     #   edx-toggles
     #   openedx-events
     #   social-auth-app-django
-    #   xss-utils
 django-appconf==1.0.6
     # via django-statici18n
 django-cors-headers==4.3.1
@@ -113,7 +112,7 @@ django-waffle==4.1.0
     #   edx-toggles
 django-webpack-loader==3.0.1
     # via -r requirements/base.in
-djangorestframework==3.15.0
+djangorestframework==3.15.1
     # via
     #   -r requirements/base.in
     #   django-rest-swagger
@@ -243,7 +242,7 @@ pytz==2024.1
     # via
     #   -r requirements/base.in
     #   drf-yasg
-pyyaml==5.4.1 ; python_version < "3.9"
+pyyaml==5.4.1
     # via
     #   -c requirements/constraints.txt
     #   code-annotations
@@ -263,7 +262,7 @@ requests==2.31.0
     #   segment-analytics-python
     #   slumber
     #   social-auth-core
-requests-oauthlib==1.4.0
+requests-oauthlib==2.0.0
     # via social-auth-core
 sailthru-client==2.2.3
     # via edx-ace
@@ -317,7 +316,5 @@ urllib3==1.26.18
     #   requests
 webencodings==0.5.1
     # via bleach
-xss-utils==0.5.0
-    # via -r requirements/base.in
 zipp==3.18.1
     # via importlib-metadata
