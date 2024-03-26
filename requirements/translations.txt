@@ -4,10 +4,12 @@
 #
 #    make upgrade
 #
-asgiref==3.7.2
+asgiref==3.8.1
     # via django
-backports-zoneinfo==0.2.1
-    # via django
+backports-zoneinfo==0.2.1 ; python_version < "3.9"
+    # via
+    #   -c requirements/constraints.txt
+    #   django
 django==4.2.11
     # via
     #   -c requirements/common_constraints.txt
@@ -20,10 +22,8 @@ path==16.10.0
     # via edx-i18n-tools
 polib==1.2.0
     # via edx-i18n-tools
-pyyaml==5.4.1
-    # via
-    #   -c requirements/constraints.txt
-    #   edx-i18n-tools
+pyyaml==6.0.1
+    # via edx-i18n-tools
 sqlparse==0.4.4
     # via django
 typing-extensions==4.10.0
