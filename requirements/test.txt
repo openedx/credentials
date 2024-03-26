@@ -215,13 +215,13 @@ exceptiongroup==1.2.0
     # via pytest
 factory-boy==3.3.0
     # via -r requirements/test.in
-faker==24.3.0
+faker==24.4.0
     # via factory-boy
 fastavro==1.9.4
     # via
     #   -r requirements/base.txt
     #   openedx-events
-filelock==3.13.1
+filelock==3.13.3
     # via
     #   tox
     #   virtualenv
@@ -401,7 +401,6 @@ pytz==2024.1
     #   drf-yasg
 pyyaml==6.0.1
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   code-annotations
     #   drf-yasg

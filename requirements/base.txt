@@ -245,7 +245,6 @@ pytz==2024.1
     #   drf-yasg
 pyyaml==6.0.1
     # via
-    #   -c requirements/constraints.txt
     #   code-annotations
     #   drf-yasg
     #   edx-django-release-util

@@ -27,9 +27,9 @@ backports-zoneinfo==0.2.1 ; python_version < "3.9"
     #   djangorestframework
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.69
+boto3==1.34.70
     # via django-ses
-botocore==1.34.69
+botocore==1.34.70
     # via
     #   boto3
     #   s3transfer
@@ -337,7 +337,6 @@ pytz==2024.1
     #   drf-yasg
 pyyaml==6.0.1
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   -r requirements/production.in
     #   code-annotations

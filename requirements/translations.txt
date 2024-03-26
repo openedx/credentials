@@ -23,9 +23,7 @@ path==16.10.0
 polib==1.2.0
     # via edx-i18n-tools
 pyyaml==6.0.1
-    # via
-    #   -c requirements/constraints.txt
-    #   edx-i18n-tools
+    # via edx-i18n-tools
 sqlparse==0.4.4
     # via django
 typing-extensions==4.10.0
