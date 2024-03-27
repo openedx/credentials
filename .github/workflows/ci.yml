@@ -91,7 +91,7 @@ jobs:
           make static
           make tests
       - name: Run code coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           flags: unittests
           fail_ci_if_error: true
