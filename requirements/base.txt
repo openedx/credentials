@@ -90,7 +90,7 @@ django-crum==0.7.9
     #   edx-toggles
 django-extensions==3.2.3
     # via -r requirements/base.in
-django-filter==24.1
+django-filter==24.2
     # via -r requirements/base.in
 django-ratelimit==4.1.0
     # via -r requirements/base.in
@@ -125,15 +125,15 @@ drf-yasg==1.21.7
     # via -r requirements/base.in
 edx-ace==1.8.0
     # via -r requirements/base.in
-edx-auth-backends==4.2.0
+edx-auth-backends==4.3.0
     # via -r requirements/base.in
 edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.8
     # via -r requirements/base.in
-edx-django-release-util==1.3.0
+edx-django-release-util==1.4.0
     # via -r requirements/base.in
 edx-django-sites-extensions==4.0.2
     # via -r requirements/base.in
-edx-django-utils==5.11.0
+edx-django-utils==5.12.0
     # via
     #   -r requirements/base.in
     #   edx-drf-extensions
@@ -141,7 +141,7 @@ edx-django-utils==5.11.0
     #   edx-rest-api-client
     #   edx-toggles
     #   openedx-events
-edx-drf-extensions==10.2.0
+edx-drf-extensions==10.3.0
     # via -r requirements/base.in
 edx-event-bus-kafka==5.6.0
     # via -r requirements/base.in
@@ -174,7 +174,7 @@ jinja2==3.1.3
     # via
     #   code-annotations
     #   coreschema
-lxml==5.1.0
+lxml==5.2.0
     # via edx-i18n-tools
 markdown==3.6
     # via -r requirements/base.in
@@ -182,7 +182,7 @@ markupsafe==2.1.5
     # via jinja2
 mysqlclient==2.2.4
     # via -r requirements/base.in
-newrelic==9.7.1
+newrelic==9.8.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -194,7 +194,7 @@ openapi-codec==1.3.2
     # via django-rest-swagger
 openedx-atlas==0.6.0
     # via -r requirements/base.in
-openedx-events==9.5.2
+openedx-events==9.6.0
     # via edx-event-bus-kafka
 packaging==24.0
     # via drf-yasg
@@ -202,13 +202,13 @@ path==16.10.0
     # via edx-i18n-tools
 pbr==6.0.0
     # via stevedore
-pillow==10.2.0
+pillow==10.3.0
     # via -r requirements/base.in
 polib==1.2.0
     # via edx-i18n-tools
 psutil==5.9.8
     # via edx-django-utils
-pycparser==2.21
+pycparser==2.22
     # via cffi
 pygments==2.17.2
     # via -r requirements/base.in

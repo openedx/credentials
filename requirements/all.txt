@@ -44,11 +44,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.70
+boto3==1.34.75
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.70
+botocore==1.34.75
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -196,7 +196,7 @@ django-extensions==3.2.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-filter==24.1
+django-filter==24.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -272,7 +272,7 @@ edx-ace==1.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-auth-backends==4.2.0
+edx-auth-backends==4.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -280,7 +280,7 @@ edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-release-util==1.3.0
+edx-django-release-util==1.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -288,7 +288,7 @@ edx-django-sites-extensions==4.0.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-utils==5.11.0
+edx-django-utils==5.12.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -297,7 +297,7 @@ edx-django-utils==5.11.0
     #   edx-rest-api-client
     #   edx-toggles
     #   openedx-events
-edx-drf-extensions==10.2.0
+edx-drf-extensions==10.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -401,7 +401,7 @@ jsonschema==3.2.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-lxml==5.1.0
+lxml==5.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -427,7 +427,7 @@ mysqlclient==2.2.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==9.7.1
+newrelic==9.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -449,7 +449,7 @@ openedx-atlas==0.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-openedx-events==9.5.2
+openedx-events==9.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -483,7 +483,7 @@ pbr==6.0.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   stevedore
-pillow==10.2.0
+pillow==10.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -509,7 +509,7 @@ psutil==5.9.8
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-django-utils
-pycparser==2.21
+pycparser==2.22
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
