@@ -174,8 +174,10 @@ jinja2==3.1.3
     # via
     #   code-annotations
     #   coreschema
-lxml==5.2.0
-    # via edx-i18n-tools
+lxml==5.1.1
+    # via
+    #   -c requirements/constraints.txt
+    #   edx-i18n-tools
 markdown==3.6
     # via -r requirements/base.in
 markupsafe==2.1.5
