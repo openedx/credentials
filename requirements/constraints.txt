@@ -18,3 +18,8 @@ pyyaml<6.0
 # Pinning urllib3 to versions < 2.x as this conflicts with boto. This constraint will be re-evaluated as part of
 # APER-2422
 urllib3<2
+
+# Pinning lxml to < 5.2 as edx-i18n-tools package needs to be updated.
+# Release notes: https://pypi.org/project/lxml/5.2.0/
+# Github issue: https://github.com/openedx/i18n-tools/issues/144
+lxml<5.2
