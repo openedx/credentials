@@ -11,7 +11,7 @@
   "dependencies": {
     "@openedx/paragon": "^22.0.0",
     "bi-app-sass": "1.1.0",
-    "css-loader": "6.10.0",
+    "css-loader": "6.11.0",
     "css-minimizer-webpack-plugin": "6.0.0",
     "file-loader": "6.2.0",
     "font-awesome": "4.7.0",
