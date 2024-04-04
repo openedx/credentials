@@ -16,7 +16,7 @@
     "file-loader": "6.2.0",
     "font-awesome": "4.7.0",
     "mini-css-extract-plugin": "2.8.1",
-    "sass": "1.72.0",
+    "sass": "1.74.1",
     "sass-loader": "14.1.1",
     "url-loader": "4.1.1",
     "webpack": "5.91.0",
