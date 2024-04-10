@@ -44,11 +44,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.80
+boto3==1.34.81
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.80
+botocore==1.34.81
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -276,7 +276,7 @@ edx-auth-backends==4.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.8
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.10
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -333,7 +333,7 @@ exceptiongroup==1.2.0
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/dev.txt
-faker==24.7.1
+faker==24.8.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -342,7 +342,7 @@ fastavro==1.9.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   openedx-events
-filelock==3.13.3
+filelock==3.13.4
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -401,11 +401,12 @@ jsonschema==3.2.0
     # via
     #   -r requirements/dev.txt
     #   docker-compose
-lxml==5.1.1
+lxml[html-clean]==5.1.1
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+    #   edx-credentials-themes
     #   edx-i18n-tools
 markdown==3.6
     # via
