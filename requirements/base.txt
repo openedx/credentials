@@ -161,6 +161,8 @@ edx-toggles==5.2.0
     #   edx-event-bus-kafka
 fastavro==1.9.4
     # via openedx-events
+fontawesomefree==6.5.1
+    # via -r requirements/base.in
 idna==3.7
     # via requests
 importlib-metadata==6.11.0

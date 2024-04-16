@@ -124,7 +124,7 @@ django-ratelimit==4.1.0
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==3.5.2
+django-ses==3.6.0
     # via -r requirements/production.in
 django-simple-history==3.5.0
     # via -r requirements/base.txt
@@ -196,6 +196,8 @@ fastavro==1.9.4
     # via
     #   -r requirements/base.txt
     #   openedx-events
+fontawesomefree==6.5.1
+    # via -r requirements/base.txt
 gevent==24.2.1
     # via -r requirements/production.in
 greenlet==3.0.3

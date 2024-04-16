@@ -30,6 +30,8 @@ backports-zoneinfo==0.2.1 ; python_version < "3.9"
     #   -r requirements/test.txt
     #   django
     #   djangorestframework
+bcrypt==4.1.2
+    # via paramiko
 black==24.4.0
     # via -r requirements/test.txt
 bleach==6.1.0
@@ -247,6 +249,8 @@ filelock==3.13.4
     #   -r requirements/test.txt
     #   tox
     #   virtualenv
+fontawesomefree==6.5.1
+    # via -r requirements/test.txt
 httpretty==1.1.4
     # via -r requirements/test.txt
 idna==3.7

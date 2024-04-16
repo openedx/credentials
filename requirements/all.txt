@@ -34,6 +34,10 @@ backports-zoneinfo==0.2.1 ; python_version < "3.9"
     #   -r requirements/production.txt
     #   django
     #   djangorestframework
+bcrypt==4.1.2
+    # via
+    #   -r requirements/dev.txt
+    #   paramiko
 black==24.4.0
     # via -r requirements/dev.txt
 bleach==6.1.0
@@ -199,7 +203,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==3.5.2
+django-ses==3.6.0
     # via -r requirements/production.txt
 django-simple-history==3.5.0
     # via
@@ -324,6 +328,10 @@ filelock==3.13.4
     #   -r requirements/dev.txt
     #   tox
     #   virtualenv
+fontawesomefree==6.5.1
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
 gevent==24.2.1
     # via -r requirements/production.txt
 greenlet==3.0.3
