@@ -5,7 +5,7 @@ Core Admin Module Test Cases
 from django.contrib.admin.sites import AdminSite
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.http import HttpRequest
-from django.test import RequestFactory, TestCase
+from django.test import TestCase
 
 from credentials.apps.core.admin import CustomUserAdmin
 from credentials.apps.core.models import User
@@ -34,7 +34,6 @@ class UsersAdminTestCase(TestCase):
         self.superuser = UserFactory(lms_user_id=3, is_superuser=True, is_staff=True)
         self.user_admin = CustomUserAdmin(self.superuser, AdminSite())
 
-        # self.request = RequestFactory().get("/admin/core/user")
         self.request = HttpRequest()
         self.request.session = "session"
         self.request.user = self.superuser
