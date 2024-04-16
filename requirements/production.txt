@@ -337,8 +337,9 @@ pytz==2024.1
     #   -r requirements/base.txt
     #   django-ses
     #   drf-yasg
-pyyaml==6.0.1
+pyyaml==5.4.1
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   -r requirements/production.in
     #   code-annotations

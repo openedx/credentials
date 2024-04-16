@@ -443,8 +443,9 @@ pytz==2024.1
     #   drf-yasg
 pywatchman==2.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.in
-pyyaml==6.0.1
+pyyaml==5.4.1
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   code-annotations
     #   drf-yasg
