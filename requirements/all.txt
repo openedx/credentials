@@ -34,21 +34,17 @@ backports-zoneinfo==0.2.1 ; python_version < "3.9"
     #   -r requirements/production.txt
     #   django
     #   djangorestframework
-bcrypt==4.1.2
-    # via
-    #   -r requirements/dev.txt
-    #   paramiko
 black==24.4.0
     # via -r requirements/dev.txt
 bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.84
+boto3==1.34.85
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.84
+botocore==1.34.85
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -585,7 +581,7 @@ pytz==2024.1
     #   drf-yasg
 pywatchman==2.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.txt
-pyyaml==5.4.1
+pyyaml==6.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
