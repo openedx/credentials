@@ -199,7 +199,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==3.6.0
+django-ses==3.5.2
     # via -r requirements/production.txt
 django-simple-history==3.5.0
     # via
