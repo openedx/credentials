@@ -19,6 +19,7 @@ attrs==23.2.0
     # via
     #   -r requirements/test.txt
     #   edx-ace
+    #   jsonschema
     #   openedx-events
 backoff==2.2.1
     # via
@@ -26,7 +27,6 @@ backoff==2.2.1
     #   segment-analytics-python
 backports-zoneinfo==0.2.1 ; python_version < "3.9"
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   django
     #   djangorestframework
@@ -92,6 +92,7 @@ coverage==7.4.4
 cryptography==42.0.5
     # via
     #   -r requirements/test.txt
+    #   paramiko
     #   pyjwt
     #   social-auth-core
 ddt==1.7.2
@@ -111,6 +112,8 @@ distlib==0.3.8
     # via
     #   -r requirements/test.txt
     #   virtualenv
+distro==1.9.0
+    # via docker-compose
 django==4.2.11
     # via
     #   -c requirements/common_constraints.txt
@@ -184,6 +187,14 @@ djangorestframework==3.15.1
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
+docker[ssh]==7.0.0
+    # via docker-compose
+docker-compose==1.29.2
+    # via -r requirements/dev.in
+dockerpty==0.4.1
+    # via docker-compose
+docopt==0.6.2
+    # via docker-compose
 drf-jwt==1.19.2
     # via
     #   -r requirements/test.txt
@@ -283,6 +294,8 @@ jinja2==3.1.3
     #   -r requirements/test.txt
     #   code-annotations
     #   coreschema
+jsonschema==3.2.0
+    # via docker-compose
 lxml[html-clean]==5.1.1
     # via
     #   -c requirements/constraints.txt
@@ -328,10 +341,13 @@ packaging==24.0
     # via
     #   -r requirements/test.txt
     #   black
+    #   docker
     #   drf-yasg
     #   pyproject-api
     #   pytest
     #   tox
+paramiko==3.4.0
+    # via docker
 path==16.14.0
     # via
     #   -r requirements/test.txt
@@ -411,6 +427,7 @@ pynacl==1.5.0
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
+    #   paramiko
 pypng==0.20220715.0
     # via
     #   -r requirements/test.txt
@@ -419,6 +436,8 @@ pyproject-api==1.6.1
     # via
     #   -r requirements/test.txt
     #   tox
+pyrsistent==0.20.0
+    # via jsonschema
 pytest==8.1.1
     # via
     #   -r requirements/test.txt
@@ -431,6 +450,8 @@ python-dateutil==2.9.0.post0
     #   edx-ace
     #   faker
     #   segment-analytics-python
+python-dotenv==0.21.1
+    # via docker-compose
 python-memcached==1.62
     # via -r requirements/test.txt
 python-slugify==8.0.4
@@ -447,10 +468,12 @@ pytz==2024.1
     #   drf-yasg
 pywatchman==2.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.in
-pyyaml==6.0.1
+pyyaml==5.4.1
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   code-annotations
+    #   docker-compose
     #   drf-yasg
     #   edx-django-release-util
     #   edx-i18n-tools
@@ -461,6 +484,8 @@ requests==2.31.0
     # via
     #   -r requirements/test.txt
     #   coreapi
+    #   docker
+    #   docker-compose
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   requests-oauthlib
@@ -494,11 +519,14 @@ six==1.16.0
     # via
     #   -r requirements/test.txt
     #   bleach
+    #   dockerpty
     #   edx-ace
     #   edx-auth-backends
     #   edx-django-release-util
     #   edx-lint
+    #   jsonschema
     #   python-dateutil
+    #   websocket-client
 slumber==0.7.1
     # via
     #   -r requirements/test.txt
@@ -530,6 +558,8 @@ text-unidecode==1.3
     # via
     #   -r requirements/test.txt
     #   python-slugify
+texttable==1.7.0
+    # via docker-compose
 tomli==2.0.1
     # via
     #   -r requirements/test.txt
@@ -563,6 +593,7 @@ urllib3==1.26.18
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/test.txt
+    #   docker
     #   requests
     #   responses
 virtualenv==20.25.1
@@ -573,9 +604,14 @@ webencodings==0.5.1
     # via
     #   -r requirements/test.txt
     #   bleach
+websocket-client==0.59.0
+    # via docker-compose
 xss-utils==0.5.0
     # via -r requirements/test.txt
 zipp==3.18.1
     # via
     #   -r requirements/test.txt
     #   importlib-metadata
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools

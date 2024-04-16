@@ -25,7 +25,6 @@ backoff==2.2.1
     #   segment-analytics-python
 backports-zoneinfo==0.2.1 ; python_version < "3.9"
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   django
     #   djangorestframework
@@ -403,8 +402,9 @@ pytz==2024.1
     # via
     #   -r requirements/base.txt
     #   drf-yasg
-pyyaml==6.0.1
+pyyaml==5.4.1
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   code-annotations
     #   drf-yasg
