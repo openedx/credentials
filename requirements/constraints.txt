@@ -15,6 +15,10 @@
 # APER-2422
 urllib3<2
 
+
+# Temporary to Support the python 3.11 Upgrade
+backports.zoneinfo;python_version<"3.9"  # Newer versions have zoneinfo available in the standard library
+
 # Pinning lxml to < 5.2 as edx-i18n-tools package needs to be updated.
 # Release notes: https://pypi.org/project/lxml/5.2.0/
 # Github issue: https://github.com/openedx/i18n-tools/issues/144
