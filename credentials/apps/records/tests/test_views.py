@@ -196,7 +196,7 @@ class ProgramSendTests(SiteMixin, TestCase):
         # Check output and make sure it seems correct
         self.assertEqual(len(mail.outbox), 1)
         email = mail.outbox[0]
-        message = email.Message.as_string()
+        message = str(email.message())
         self.assertIn(self.program.title + " Credit Request for", email.subject)
         self.assertIn(
             self.user.get_full_name() + " would like to apply for credit in the " + self.pathway.name, message
