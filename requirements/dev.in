@@ -11,8 +11,8 @@
 # i18n
 edx-i18n-tools
 
-# for docker devstack
-docker-compose
+# lxml
+lxml[html_clean]
 
 # More efficient checking for runserver reload trigger events
 pywatchman; "linux" in sys_platform

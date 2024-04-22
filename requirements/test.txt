@@ -23,8 +23,9 @@ backoff==2.2.1
     # via
     #   -r requirements/base.txt
     #   segment-analytics-python
-backports-zoneinfo==0.2.1
+backports-zoneinfo==0.2.1 ; python_version < "3.9"
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   django
     #   djangorestframework
@@ -90,8 +91,10 @@ defusedxml==0.8.0rc2
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-didkit==0.3.2
-    # via -r requirements/base.txt
+didkit==0.2.1
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
 dill==0.3.8
     # via pylint
 distlib==0.3.8
@@ -146,7 +149,7 @@ django-simple-history==3.5.0
     # via -r requirements/base.txt
 django-sortedm2m==3.1.1
     # via -r requirements/base.txt
-django-statici18n==2.4.0
+django-statici18n==2.5.0
     # via -r requirements/base.txt
 django-storages==1.14.2
     # via -r requirements/base.txt
@@ -179,7 +182,7 @@ edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0
     # via -r requirements/base.txt
 edx-django-release-util==1.4.0
     # via -r requirements/base.txt
-edx-django-sites-extensions==4.0.2
+edx-django-sites-extensions==4.2.0
     # via -r requirements/base.txt
 edx-django-utils==5.12.0
     # via
@@ -210,11 +213,11 @@ edx-toggles==5.2.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
-exceptiongroup==1.2.0
+exceptiongroup==1.2.1
     # via pytest
 factory-boy==3.3.0
     # via -r requirements/test.in
-faker==24.9.0
+faker==24.11.0
     # via factory-boy
 fastavro==1.9.4
     # via
@@ -256,12 +259,17 @@ jinja2==3.1.3
     #   -r requirements/base.txt
     #   code-annotations
     #   coreschema
-lxml[html-clean]==5.1.1
+lxml[html-clean]==5.2.1
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-credentials-themes
     #   edx-i18n-tools
+    #   lxml-html-clean
+lxml-html-clean==0.1.1
+    # via
+    #   -r requirements/base.txt
+    #   lxml
 markdown==3.6
     # via -r requirements/base.txt
 markupsafe==2.1.5
@@ -274,7 +282,7 @@ mypy-extensions==1.0.0
     # via black
 mysqlclient==2.2.4
     # via -r requirements/base.txt
-newrelic==9.8.0
+newrelic==9.9.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -289,7 +297,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 openedx-atlas==0.6.0
     # via -r requirements/base.txt
-openedx-events==9.9.1
+openedx-events==9.9.2
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
@@ -319,7 +327,7 @@ platformdirs==4.2.0
     #   pylint
     #   tox
     #   virtualenv
-pluggy==1.4.0
+pluggy==1.5.0
     # via
     #   pytest
     #   tox
@@ -402,7 +410,7 @@ pytz==2024.1
     # via
     #   -r requirements/base.txt
     #   drf-yasg
-pyyaml==5.4.1
+pyyaml==6.0.1
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
@@ -517,7 +525,7 @@ urllib3==1.26.18
     #   -r requirements/base.txt
     #   requests
     #   responses
-virtualenv==20.25.1
+virtualenv==20.25.3
     # via tox
 webencodings==0.5.1
     # via

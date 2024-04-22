@@ -11,9 +11,8 @@
 # Common constraints for edx repos
 -c common_constraints.txt
 
-# The update to pyyaml 6.x failed as docker-compose wants <6,>=3.10. Pinning to <6.0. This constraint will be
-# re-evaluated as part of APER-1556.
-pyyaml<6.0
+# need to install version>6.0 with python3.12.2
+pyyaml>6.0
 
 # Pinning urllib3 to versions < 2.x as this conflicts with boto. This constraint will be re-evaluated as part of
 # APER-2422
@@ -22,4 +21,11 @@ urllib3<2
 # Pinning lxml to < 5.2 as edx-i18n-tools package needs to be updated.
 # Release notes: https://pypi.org/project/lxml/5.2.0/
 # Github issue: https://github.com/openedx/i18n-tools/issues/144
-lxml<5.2
+lxml==5.2.1
+
+# newer version of didkit doesn't work with python3.12.2
+didkit==0.2.1
+
+# backports-zoneinfo comes by-default in newer versions of python
+# it gives error while building wheel with python>=3.9
+backports.zoneinfo ; python_version < "3.9"

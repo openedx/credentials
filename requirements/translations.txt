@@ -6,15 +6,17 @@
 #
 asgiref==3.8.1
     # via django
-backports-zoneinfo==0.2.1
-    # via django
+backports-zoneinfo==0.2.1 ; python_version < "3.9"
+    # via
+    #   -c requirements/constraints.txt
+    #   django
 django==4.2.11
     # via
     #   -c requirements/common_constraints.txt
     #   edx-i18n-tools
 edx-i18n-tools==1.5.0
     # via -r requirements/translations.in
-lxml==5.1.1
+lxml==5.2.1
     # via
     #   -c requirements/constraints.txt
     #   edx-i18n-tools
@@ -22,7 +24,7 @@ path==16.14.0
     # via edx-i18n-tools
 polib==1.2.0
     # via edx-i18n-tools
-pyyaml==5.4.1
+pyyaml==6.0.1
     # via
     #   -c requirements/constraints.txt
     #   edx-i18n-tools

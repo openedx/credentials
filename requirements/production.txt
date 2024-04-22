@@ -19,16 +19,17 @@ backoff==2.2.1
     # via
     #   -r requirements/base.txt
     #   segment-analytics-python
-backports-zoneinfo==0.2.1
+backports-zoneinfo==0.2.1 ; python_version < "3.9"
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   django
     #   djangorestframework
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.85
+boto3==1.34.88
     # via django-ses
-botocore==1.34.85
+botocore==1.34.88
     # via
     #   boto3
     #   s3transfer
@@ -73,8 +74,10 @@ defusedxml==0.8.0rc2
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-didkit==0.3.2
-    # via -r requirements/base.txt
+didkit==0.2.1
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
 django==4.2.11
     # via
     #   -c requirements/common_constraints.txt
@@ -123,13 +126,13 @@ django-ratelimit==4.1.0
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==3.6.0
+django-ses==4.0.0
     # via -r requirements/production.in
 django-simple-history==3.5.0
     # via -r requirements/base.txt
 django-sortedm2m==3.1.1
     # via -r requirements/base.txt
-django-statici18n==2.4.0
+django-statici18n==2.5.0
     # via -r requirements/base.txt
 django-storages==1.14.2
     # via -r requirements/base.txt
@@ -162,7 +165,7 @@ edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0
     # via -r requirements/base.txt
 edx-django-release-util==1.4.0
     # via -r requirements/base.txt
-edx-django-sites-extensions==4.0.2
+edx-django-sites-extensions==4.2.0
     # via -r requirements/base.txt
 edx-django-utils==5.12.0
     # via
@@ -201,7 +204,7 @@ gevent==24.2.1
     # via -r requirements/production.in
 greenlet==3.0.3
     # via gevent
-gunicorn==21.2.0
+gunicorn==22.0.0
     # via -r requirements/production.in
 idna==3.7
     # via
@@ -229,12 +232,17 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-lxml[html-clean]==5.1.1
+lxml[html-clean]==5.2.1
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-credentials-themes
     #   edx-i18n-tools
+    #   lxml-html-clean
+lxml-html-clean==0.1.1
+    # via
+    #   -r requirements/base.txt
+    #   lxml
 markdown==3.6
     # via -r requirements/base.txt
 markupsafe==2.1.5
@@ -243,7 +251,7 @@ markupsafe==2.1.5
     #   jinja2
 mysqlclient==2.2.4
     # via -r requirements/base.txt
-newrelic==9.8.0
+newrelic==9.9.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -261,7 +269,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 openedx-atlas==0.6.0
     # via -r requirements/base.txt
-openedx-events==9.9.1
+openedx-events==9.9.2
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
@@ -338,7 +346,7 @@ pytz==2024.1
     #   -r requirements/base.txt
     #   django-ses
     #   drf-yasg
-pyyaml==5.4.1
+pyyaml==6.0.1
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
