@@ -26,9 +26,9 @@ backports-zoneinfo==0.2.1
     #   djangorestframework
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.85
+boto3==1.34.89
     # via django-ses
-botocore==1.34.85
+botocore==1.34.89
     # via
     #   boto3
     #   s3transfer
@@ -123,13 +123,13 @@ django-ratelimit==4.1.0
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==3.6.0
+django-ses==4.0.0
     # via -r requirements/production.in
 django-simple-history==3.5.0
     # via -r requirements/base.txt
 django-sortedm2m==3.1.1
     # via -r requirements/base.txt
-django-statici18n==2.4.0
+django-statici18n==2.5.0
     # via -r requirements/base.txt
 django-storages==1.14.2
     # via -r requirements/base.txt
@@ -162,7 +162,7 @@ edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0
     # via -r requirements/base.txt
 edx-django-release-util==1.4.0
     # via -r requirements/base.txt
-edx-django-sites-extensions==4.0.2
+edx-django-sites-extensions==4.2.0
     # via -r requirements/base.txt
 edx-django-utils==5.12.0
     # via
@@ -180,7 +180,7 @@ edx-i18n-tools==1.5.0
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
-edx-opaque-keys[django]==2.5.1
+edx-opaque-keys[django]==2.8.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -201,7 +201,7 @@ gevent==24.2.1
     # via -r requirements/production.in
 greenlet==3.0.3
     # via gevent
-gunicorn==21.2.0
+gunicorn==22.0.0
     # via -r requirements/production.in
 idna==3.7
     # via
@@ -243,7 +243,7 @@ markupsafe==2.1.5
     #   jinja2
 mysqlclient==2.2.4
     # via -r requirements/base.txt
-newrelic==9.8.0
+newrelic==9.9.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -261,7 +261,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 openedx-atlas==0.6.0
     # via -r requirements/base.txt
-openedx-events==9.9.1
+openedx-events==9.9.2
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
@@ -438,7 +438,7 @@ webencodings==0.5.1
     # via
     #   -r requirements/base.txt
     #   bleach
-xss-utils==0.5.0
+xss-utils==0.6.0
     # via -r requirements/base.txt
 zipp==3.18.1
     # via
