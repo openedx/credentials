@@ -31,10 +31,15 @@ class SocialMediaMixin:
         context = super().get_context_data(**kwargs)
         request = self.request
         self.site_configuration = request.site.siteconfiguration
+        # pylint: disable-next=unused-variable
         tweet_text = _("I completed a course at {platform_name}. Take a look at my certificate:").format(
             platform_name=self.site_configuration.platform_name
         )
-        twitter_url = "https://twitter.com/intent/tweet?text={{ tweet_text|urlencode }}&url={{ share_url|urlencode }}{% if twitter_username %}&via={{ twitter_username }}{% endif %}"
+        twitter_url = (
+            "https://twitter.com/intent/tweet?text={{ tweet_text|urlencode }}"
+            "&url={{ share_url|urlencode }}{% if twitter_username %}&via="
+            "{{ twitter_username }}{% endif %}"
+        )
         context.update(
             {
                 "twitter_username": self.site_configuration.twitter_username,
