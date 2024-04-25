@@ -4,6 +4,7 @@ Models for the credentials service.
 
 import logging
 import uuid
+from typing import TYPE_CHECKING
 
 import bleach
 from django.conf import settings
@@ -25,6 +26,10 @@ from credentials.apps.catalog.models import CourseRun, Program
 from credentials.apps.core.utils import _choices
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.exceptions import NoMatchingProgramException
+
+
+if TYPE_CHECKING:
+    from credentials.apps.catalog.data import ProgramDetails
 
 
 log = logging.getLogger(__name__)
@@ -297,7 +302,7 @@ class ProgramCertificate(AbstractCertificate):
         unique_together = (("site", "program_uuid"),)
 
     @cached_property
-    def program_details(self):
+    def program_details(self) -> "ProgramDetails":
         """Returns details about the program associated with this certificate."""
         program_details = get_program_details_by_uuid(uuid=self.program_uuid, site=self.site)
 

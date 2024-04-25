@@ -34,9 +34,7 @@ def get_program_details_by_uuid(uuid, site):
     return _convert_program_to_program_details(program)
 
 
-def _convert_program_to_program_details(
-    program,
-):
+def _convert_program_to_program_details(program: _Program) -> ProgramDetails:
     """
     Converts a Program (model instance) into a ProgramDetails dataclass.
 
