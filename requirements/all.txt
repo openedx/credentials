@@ -38,17 +38,17 @@ bcrypt==4.1.2
     # via
     #   -r requirements/dev.txt
     #   paramiko
-black==24.4.0
+black==24.4.2
     # via -r requirements/dev.txt
 bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.89
+boto3==1.34.94
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.89
+botocore==1.34.94
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -111,7 +111,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.4.4
+coverage==7.5.0
     # via -r requirements/dev.txt
 cryptography==42.0.5
     # via
@@ -245,6 +245,11 @@ djangorestframework==3.15.1
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
+dnspython==2.6.1
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   pymongo
 docker[ssh]==7.0.0
     # via
     #   -r requirements/dev.txt
@@ -305,14 +310,14 @@ edx-event-bus-kafka==5.7.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-i18n-tools==1.5.0
+edx-i18n-tools==1.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-credentials-themes
 edx-lint==5.3.6
     # via -r requirements/dev.txt
-edx-opaque-keys[django]==2.8.0
+edx-opaque-keys[django]==2.9.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -333,7 +338,7 @@ exceptiongroup==1.2.1
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/dev.txt
-faker==24.11.0
+faker==25.0.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -342,7 +347,7 @@ fastavro==1.9.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   openedx-events
-filelock==3.13.4
+filelock==3.14.0
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -493,7 +498,7 @@ pillow==10.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-platformdirs==4.2.0
+platformdirs==4.2.1
     # via
     #   -r requirements/dev.txt
     #   black
@@ -558,7 +563,7 @@ pymemcache==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pymongo==3.13.0
+pymongo==4.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -582,7 +587,7 @@ pyrsistent==0.20.0
     # via
     #   -r requirements/dev.txt
     #   jsonschema
-pytest==8.1.1
+pytest==8.2.0
     # via
     #   -r requirements/dev.txt
     #   pytest-django
@@ -701,12 +706,12 @@ slumber==0.7.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-rest-api-client
-social-auth-app-django==5.4.0
+social-auth-app-django==5.4.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-auth-backends
-social-auth-core==4.5.3
+social-auth-core==4.5.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -749,7 +754,7 @@ tomlkit==0.12.4
     # via
     #   -r requirements/dev.txt
     #   pylint
-tox==4.14.2
+tox==4.15.0
     # via -r requirements/dev.txt
 typing-extensions==4.11.0
     # via
@@ -759,7 +764,6 @@ typing-extensions==4.11.0
     #   astroid
     #   black
     #   edx-opaque-keys
-    #   faker
     #   pylint
     #   qrcode
 uritemplate==4.1.1
@@ -777,7 +781,7 @@ urllib3==1.26.18
     #   docker
     #   requests
     #   responses
-virtualenv==20.25.3
+virtualenv==20.26.1
     # via
     #   -r requirements/dev.txt
     #   tox
