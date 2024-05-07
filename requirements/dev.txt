@@ -30,7 +30,7 @@ backports-zoneinfo==0.2.1
     #   -r requirements/test.txt
     #   django
     #   djangorestframework
-bcrypt==4.1.2
+bcrypt==4.1.3
     # via paramiko
 black==24.4.2
     # via -r requirements/test.txt
@@ -87,9 +87,9 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==7.5.0
+coverage==7.5.1
     # via -r requirements/test.txt
-cryptography==42.0.5
+cryptography==42.0.7
     # via
     #   -r requirements/test.txt
     #   paramiko
@@ -114,7 +114,7 @@ distlib==0.3.8
     #   virtualenv
 distro==1.9.0
     # via docker-compose
-django==4.2.11
+django==4.2.12
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt
@@ -170,7 +170,7 @@ django-sortedm2m==3.1.1
     # via -r requirements/test.txt
 django-statici18n==2.5.0
     # via -r requirements/test.txt
-django-storages==1.14.2
+django-storages==1.14.3
     # via -r requirements/test.txt
 django-waffle==4.1.0
     # via
@@ -251,7 +251,7 @@ exceptiongroup==1.2.1
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/test.txt
-faker==25.0.0
+faker==25.0.1
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -293,7 +293,7 @@ itypes==1.2.0
     # via
     #   -r requirements/test.txt
     #   coreapi
-jinja2==3.1.3
+jinja2==3.1.4
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -390,7 +390,7 @@ pycparser==2.22
     # via
     #   -r requirements/test.txt
     #   cffi
-pygments==2.17.2
+pygments==2.18.0
     # via -r requirements/test.txt
 pyjwt[crypto]==2.8.0
     # via
