@@ -31,23 +31,11 @@ class SocialMediaMixin:
         context = super().get_context_data(**kwargs)
         request = self.request
         self.site_configuration = request.site.siteconfiguration
-        # pylint: disable-next=unused-variable
-        tweet_text = _("I completed a course at {platform_name}. Take a look at my certificate:").format(
-            platform_name=self.site_configuration.platform_name
-        )
-        twitter_url = (
-            "https://twitter.com/intent/tweet?text={{ tweet_text|urlencode }}"
-            "&url={{ share_url|urlencode }}{% if twitter_username %}&via="
-            "{{ twitter_username }}{% endif %}"
-        )
         context.update(
             {
-                "twitter_username": self.site_configuration.twitter_username,
                 "enable_facebook_sharing": self.site_configuration.enable_facebook_sharing,
                 "enable_linkedin_sharing": self.site_configuration.enable_linkedin_sharing,
                 "enable_twitter_sharing": self.site_configuration.enable_twitter_sharing,
-                "share_url": request.build_absolute_uri,
-                "twitter_url": twitter_url,
             }
         )
         return context
@@ -130,27 +118,62 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
         if user_data.get("use_verified_name_for_certs"):
             credential_name = user_data["verified_name"]
 
+        # Twitter
+        if self.site_configuration.enable_twitter_sharing:
+            tweet_text = _("I completed a course at {platform_name}. Take a look at my certificate:").format(
+                platform_name=self.site_configuration.platform_name
+            )
+            twitter_params = {
+                "text": tweet_text,
+                "url": self.request.build_absolute_uri(),
+            }
+            twitter_username = self.site_configuration.twitter_username or ""  # type: str
+            if twitter_username:
+                twitter_params["via"] = twitter_username
+            twitter_url = "https://twitter.com/intent/tweet?{params}".format(params=urlencode(twitter_params))
+            context.update(
+                {
+                    "twitter_url": twitter_url,
+                }
+            )
+
+        # LinkedIn
         # See https://addtoprofile.linkedin.com/ for documentation on parameters
         # We don't populate the LinkedIn org ID in the catalog app, so use org name.
-        linkedin_params = {
-            "name": program_details.credential_title or program_details.title,
-            "certUrl": self.request.build_absolute_uri(),
-            "certId": user_credential.uuid.hex,
-            "organizationName": org_name_string,
-            "issueYear": visible_date.year,
-            "issueMonth": visible_date.month,
-        }
-        linkedin_url = "https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&{params}".format(
-            params=urlencode(linkedin_params)
-        )
+        if self.site_configuration.enable_linkedin_sharing:
+            linkedin_params = {
+                "name": program_details.credential_title or program_details.title,
+                "certUrl": self.request.build_absolute_uri(),
+                "certId": user_credential.uuid.hex,
+                "organizationName": org_name_string,
+                "issueYear": visible_date.year,
+                "issueMonth": visible_date.month,
+            }
+            linkedin_url = "https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&{params}".format(
+                params=urlencode(linkedin_params)
+            )
+            context.update(
+                {
+                    "linkedin_url": linkedin_url,
+                }
+            )
+
+        # Facebook
         # See https://developers.facebook.com/docs/sharing/reference/share-dialog
         # for documentation on parameters.
-        facebook_params = {
-            "app_id": self.site_configuration.facebook_app_id,
-            "display": "popup",
-            "href": self.request.build_absolute_uri(),
-        }
-        facebook_url = "https://www.facebook.com/dialog/share?{params}".format(params=urlencode(facebook_params))
+        if self.site_configuration.enable_facebook_sharing:
+            facebook_params = {
+                "app_id": self.site_configuration.facebook_app_id,
+                "display": "popup",
+                "href": self.request.build_absolute_uri(),
+            }
+            facebook_url = "https://www.facebook.com/dialog/share?{params}".format(params=urlencode(facebook_params))
+            context.update(
+                {
+                    "facebook_url": facebook_url,
+                }
+            )
+
         context.update(
             {
                 "user_credential": user_credential,
@@ -165,8 +188,6 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
                 "program_name": program_details.title,
                 "credential_title": program_details.credential_title,
                 "org_name_string": org_name_string,
-                "linkedin_url": linkedin_url,
-                "facebook_url": facebook_url,
             }
         )
         if program_details.hours_of_effort:
