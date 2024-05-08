@@ -155,7 +155,10 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         response = self._render_user_credential()
         response_context_data = response.context_data
 
+        # sharing bar
         self.assertContains(response, "Print or share your certificate")
+        self.assertContains(response, "Print this certificate")
+
         self.assertContains(response=response, text=self.PROGRAM_NAME, count=2)
         self.assertNotContains(response=response, text=self.CREDENTIAL_TITLE)
 
@@ -171,6 +174,46 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         self.assert_matching_template_origin(actual_child_templates["credential"], expected_credential_template)
         self.assert_matching_template_origin(actual_child_templates["footer"], "_footer.html")
         self.assert_matching_template_origin(actual_child_templates["header"], "_header.html")
+
+    @ddt.data(
+        (False, False, False),
+        (False, False, True),
+        (False, True, True),
+        (True, True, True),
+        (True, True, False),
+    )
+    @ddt.unpack
+    @responses.activate
+    def test_social_sharing_availability_site(self, facebook_sharing, twitter_sharing, linkedin_sharing):
+        """
+        Verify Facebook, Twitter and LinkedIn sharing availability for sites.
+        """
+        self.site_configuration.enable_facebook_sharing = facebook_sharing
+        self.site_configuration.enable_twitter_sharing = twitter_sharing
+        self.site_configuration.enable_linkedin_sharing = linkedin_sharing
+        self.site_configuration.save()
+
+        response = self._render_user_credential()
+        response_context_data = response.context_data
+
+        assert ("Facebook" in response.content.decode("utf-8")) == facebook_sharing
+        assert ("Tweet" in response.content.decode("utf-8")) == twitter_sharing
+        assert ("LinkedIn" in response.content.decode("utf-8")) == linkedin_sharing
+
+        facebook_url = response_context_data.get("facebook_url", "")
+        twitter_url = response_context_data.get("twitter_url", "")
+        linkedin_url = response_context_data.get("linkedin_url", "")
+        assert bool(facebook_url) == facebook_sharing
+        assert bool(twitter_url) == twitter_sharing
+        assert bool(linkedin_url) == linkedin_sharing
+
+        # Basic sanity checking on the URLs: no template stubs or missing variables
+        assert "={{" not in facebook_url
+        assert "=&" not in facebook_url
+        assert "={{" not in twitter_url
+        assert "=&" not in twitter_url
+        assert "={{" not in linkedin_url
+        assert "=&" not in linkedin_url
 
     @responses.activate
     def test_awarded_with_custom_title(self):
