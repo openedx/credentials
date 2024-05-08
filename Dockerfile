@@ -19,12 +19,12 @@ RUN apt-get update && \
     apt-get install -y software-properties-common && \
     apt-add-repository -y ppa:deadsnakes/ppa && apt-get update && \
     apt-get upgrade -qy && apt-get install language-pack-en locales gettext git \
-    python3.8-dev python3.8-venv libmysqlclient-dev libssl-dev build-essential wget unzip pkg-config -qy && \
+    python3.11-dev python3.11-venv libmysqlclient-dev libssl-dev build-essential wget unzip pkg-config -qy && \
     rm -rf /var/lib/apt/lists/*
 
 # Create Python env
 ENV VIRTUAL_ENV=/edx/app/credentials/venvs/credentials
-RUN python3.8 -m venv $VIRTUAL_ENV
+RUN python3.11 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Create Node env
