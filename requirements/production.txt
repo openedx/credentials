@@ -27,9 +27,9 @@ backports-zoneinfo==0.2.1 ; python_version < "3.9"
     #   djangorestframework
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.104
+boto3==1.34.105
     # via django-ses
-botocore==1.34.104
+botocore==1.34.105
     # via
     #   boto3
     #   s3transfer
@@ -167,7 +167,7 @@ edx-ccx-keys==1.3.0
     # via
     #   -r requirements/base.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.13
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.14
     # via -r requirements/base.txt
 edx-django-release-util==1.4.0
     # via -r requirements/base.txt
