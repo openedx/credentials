@@ -27,9 +27,9 @@ backports-zoneinfo==0.2.1 ; python_version < "3.9"
     #   djangorestframework
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.105
+boto3==1.34.109
     # via django-ses
-botocore==1.34.105
+botocore==1.34.109
     # via
     #   boto3
     #   s3transfer
@@ -450,13 +450,13 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.6.0
     # via -r requirements/base.txt
-zipp==3.18.1
+zipp==3.18.2
     # via
     #   -r requirements/base.txt
     #   importlib-metadata
 zope-event==5.0
     # via gevent
-zope-interface==6.3
+zope-interface==6.4
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:

@@ -10,7 +10,7 @@ asgiref==3.8.1
     #   django
     #   django-cors-headers
     #   django-simple-history
-astroid==3.2.0
+astroid==3.2.2
     # via
     #   pylint
     #   pylint-celery
@@ -323,7 +323,7 @@ pbr==6.0.0
     #   stevedore
 pillow==10.3.0
     # via -r requirements/base.txt
-platformdirs==4.2.1
+platformdirs==4.2.2
     # via
     #   black
     #   pylint
@@ -356,7 +356,7 @@ pyjwt[crypto]==2.8.0
     #   edx-rest-api-client
     #   segment-analytics-python
     #   social-auth-core
-pylint==3.2.0
+pylint==3.2.2
     # via
     #   edx-lint
     #   pylint-celery
@@ -386,7 +386,7 @@ pypng==0.20220715.0
     #   qrcode
 pyproject-api==1.6.1
     # via tox
-pytest==8.2.0
+pytest==8.2.1
     # via
     #   -r requirements/test.in
     #   pytest-django
@@ -534,7 +534,7 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.6.0
     # via -r requirements/base.txt
-zipp==3.18.1
+zipp==3.18.2
     # via
     #   -r requirements/base.txt
     #   importlib-metadata
