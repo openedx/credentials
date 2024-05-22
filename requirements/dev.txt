@@ -206,7 +206,7 @@ edx-django-release-util==1.4.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==4.2.0
     # via -r requirements/test.txt
-edx-django-utils==5.14.0
+edx-django-utils==5.14.1
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions

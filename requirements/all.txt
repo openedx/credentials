@@ -199,7 +199,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==4.0.0
+django-ses==4.1.0
     # via -r requirements/production.txt
 django-simple-history==3.5.0
     # via
@@ -275,7 +275,7 @@ edx-django-sites-extensions==4.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-utils==5.14.0
+edx-django-utils==5.14.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
