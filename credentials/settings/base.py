@@ -88,6 +88,7 @@ MIDDLEWARE = (
     "edx_django_utils.monitoring.CookieMonitoringMiddleware",
     "edx_django_utils.monitoring.CachedCustomMonitoringMiddleware",
     "edx_django_utils.monitoring.MonitoringMemoryMiddleware",
+    "edx_django_utils.monitoring.FrontendMonitoringMiddleware",
     "edx_rest_framework_extensions.auth.jwt.middleware.JwtAuthCookieMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
