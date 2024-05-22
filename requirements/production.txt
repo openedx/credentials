@@ -124,7 +124,7 @@ django-ratelimit==4.1.0
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==4.0.0
+django-ses==4.1.0
     # via -r requirements/production.in
 django-simple-history==3.5.0
     # via -r requirements/base.txt
@@ -173,7 +173,7 @@ edx-django-release-util==1.4.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==4.2.0
     # via -r requirements/base.txt
-edx-django-utils==5.13.0
+edx-django-utils==5.14.1
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
