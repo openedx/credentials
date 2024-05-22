@@ -2,7 +2,7 @@
 # this will run similar to CI in that it is a base Ubuntu image with minimal packages
 # installed on top.
 
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \

@@ -1,4 +1,4 @@
-FROM ubuntu:focal as base
+FROM ubuntu:noble as base
 
 # System requirements
 # - git; Used to pull in particular requirements from github rather than pypi,
