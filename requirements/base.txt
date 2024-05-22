@@ -138,7 +138,7 @@ edx-django-release-util==1.4.0
     # via -r requirements/base.in
 edx-django-sites-extensions==4.2.0
     # via -r requirements/base.in
-edx-django-utils==5.13.0
+edx-django-utils==5.14.0
     # via
     #   -r requirements/base.in
     #   edx-drf-extensions
