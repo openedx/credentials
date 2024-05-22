@@ -329,5 +329,5 @@ webencodings==0.5.1
     # via bleach
 xss-utils==0.6.0
     # via -r requirements/base.in
-zipp==3.18.1
+zipp==3.18.2
     # via importlib-metadata
