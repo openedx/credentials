@@ -168,7 +168,7 @@ class UserCredential(TimeStampedModel):
 
     credential_content_type = models.ForeignKey(
         ContentType,
-        limit_choices_to={"model__in": ("coursecertificate", "programcertificate")},
+        limit_choices_to={"model__in": ("coursecertificate", "programcertificate", "credlybadgetemplate")},
         on_delete=models.CASCADE,
     )
     credential_id = models.PositiveIntegerField()

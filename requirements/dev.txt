@@ -15,6 +15,10 @@ astroid==3.2.2
     #   -r requirements/test.txt
     #   pylint
     #   pylint-celery
+async-timeout==4.0.3
+    # via
+    #   -r requirements/test.txt
+    #   redis
 attrs==23.2.0
     # via
     #   -r requirements/test.txt
@@ -119,6 +123,7 @@ django==4.2.13
     #   django-debug-toolbar
     #   django-extensions
     #   django-filter
+    #   django-model-utils
     #   django-statici18n
     #   django-storages
     #   django-waffle
@@ -133,6 +138,7 @@ django==4.2.13
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-event-bus-kafka
+    #   edx-event-bus-redis
     #   edx-i18n-tools
     #   edx-toggles
     #   openedx-events
@@ -154,6 +160,8 @@ django-debug-toolbar==4.3.0
 django-extensions==3.2.3
     # via -r requirements/test.txt
 django-filter==24.2
+    # via -r requirements/test.txt
+django-model-utils==4.5.1
     # via -r requirements/test.txt
 django-ratelimit==4.1.0
     # via -r requirements/test.txt
@@ -211,12 +219,15 @@ edx-django-utils==5.14.1
     #   -r requirements/test.txt
     #   edx-drf-extensions
     #   edx-event-bus-kafka
+    #   edx-event-bus-redis
     #   edx-rest-api-client
     #   edx-toggles
     #   openedx-events
 edx-drf-extensions==10.3.0
     # via -r requirements/test.txt
 edx-event-bus-kafka==5.7.0
+    # via -r requirements/test.txt
+edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.4.0
     # via -r requirements/test.txt
 edx-i18n-tools==1.6.0
     # via
@@ -237,6 +248,7 @@ edx-toggles==5.2.0
     # via
     #   -r requirements/test.txt
     #   edx-event-bus-kafka
+    #   edx-event-bus-redis
 exceptiongroup==1.2.1
     # via
     #   -r requirements/test.txt
@@ -312,7 +324,7 @@ mypy-extensions==1.0.0
     #   black
 mysqlclient==2.2.4
     # via -r requirements/test.txt
-newrelic==9.9.1
+newrelic==9.10.0
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -331,6 +343,7 @@ openedx-events==9.10.0
     # via
     #   -r requirements/test.txt
     #   edx-event-bus-kafka
+    #   edx-event-bus-redis
 packaging==24.0
     # via
     #   -r requirements/test.txt
@@ -464,6 +477,10 @@ pyyaml==6.0.1
     #   responses
 qrcode==7.4.2
     # via -r requirements/test.txt
+redis==5.0.4
+    # via
+    #   -r requirements/test.txt
+    #   walrus
 requests==2.31.0
     # via
     #   -r requirements/test.txt
@@ -552,7 +569,7 @@ tomlkit==0.12.5
     #   pylint
 tox==4.15.0
     # via -r requirements/test.txt
-typing-extensions==4.11.0
+typing-extensions==4.12.0
     # via
     #   -r requirements/test.txt
     #   asgiref
@@ -576,6 +593,10 @@ virtualenv==20.26.2
     # via
     #   -r requirements/test.txt
     #   tox
+walrus==0.9.3
+    # via
+    #   -r requirements/test.txt
+    #   edx-event-bus-redis
 webencodings==0.5.1
     # via
     #   -r requirements/test.txt
