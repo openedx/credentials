@@ -27,6 +27,7 @@ from drf_yasg.views import get_schema_view
 from edx_django_utils.plugins import get_plugin_url_patterns
 from rest_framework import permissions
 
+from credentials.apps.badges.toggles import is_badges_enabled
 from credentials.apps.core import views as core_views
 from credentials.apps.plugins.constants import PROJECT_TYPE
 from credentials.apps.records.views import ProgramListingView
@@ -76,6 +77,11 @@ if is_verifiable_credentials_enabled():
                 namespace="verifiable_credentials",
             ),
         ),
+    ]
+
+if is_badges_enabled():
+    urlpatterns += [
+        re_path(r"^badges/", include(("credentials.apps.badges.urls", "badges"), namespace="badges")),
     ]
 
 # edx-drf-extensions csrf app

@@ -29,6 +29,9 @@ EMAIL_BACKEND = "django_ses.SESBackend"
 AWS_SES_REGION_NAME = environ.get("AWS_SES_REGION_NAME", "us-east-1")
 AWS_SES_REGION_ENDPOINT = environ.get("AWS_SES_REGION_ENDPOINT", "email.us-east-1.amazonaws.com")
 
+# Inject plugin settings before the configuration file overrides (so it is possible to manage those settings via environment).
+add_plugins(__name__, PROJECT_TYPE, SettingsType.PRODUCTION)
+
 CONFIG_FILE = get_env_setting("CREDENTIALS_CFG")
 with open(CONFIG_FILE, encoding="utf-8") as f:
     config_from_yaml = yaml.safe_load(f)

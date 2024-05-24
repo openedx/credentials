@@ -16,6 +16,11 @@ astroid==3.2.3
     #   -r requirements/dev.txt
     #   pylint
     #   pylint-celery
+async-timeout==4.0.3
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   redis
 attrs==23.2.0
     # via
     #   -r requirements/dev.txt
@@ -139,6 +144,7 @@ django==4.2.14
     #   django-debug-toolbar
     #   django-extensions
     #   django-filter
+    #   django-model-utils
     #   django-ses
     #   django-simple-history
     #   django-statici18n
@@ -157,6 +163,7 @@ django==4.2.14
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-event-bus-kafka
+    #   edx-event-bus-redis
     #   edx-i18n-tools
     #   edx-toggles
     #   openedx-events
@@ -184,6 +191,10 @@ django-extensions==3.2.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 django-filter==24.2
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+django-model-utils==4.5.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -284,6 +295,7 @@ edx-django-utils==5.14.2
     #   edx-ace
     #   edx-drf-extensions
     #   edx-event-bus-kafka
+    #   edx-event-bus-redis
     #   edx-rest-api-client
     #   edx-toggles
     #   openedx-events
@@ -292,6 +304,10 @@ edx-drf-extensions==10.3.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 edx-event-bus-kafka==5.7.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -318,6 +334,11 @@ edx-toggles==5.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-event-bus-kafka
+    #   edx-event-bus-redis
+exceptiongroup==1.2.1
+    # via
+    #   -r requirements/dev.txt
+    #   pytest
 factory-boy==3.3.0
     # via -r requirements/dev.txt
 faker==26.0.0
@@ -440,6 +461,7 @@ openedx-events==9.11.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-event-bus-kafka
+    #   edx-event-bus-redis
 packaging==24.1
     # via
     #   -r requirements/dev.txt
@@ -601,6 +623,11 @@ qrcode==7.4.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+redis==5.0.4
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   walrus
 requests==2.32.3
     # via
     #   -r requirements/dev.txt
@@ -702,7 +729,9 @@ tox==4.16.0
 types-pyyaml==6.0.12.20240311
     # via
     #   -r requirements/dev.txt
-    #   django-stubs
+    #   pylint
+tox==4.15.0
+    # via -r requirements/dev.txt
 typing-extensions==4.12.2
     # via
     #   -r requirements/dev.txt
@@ -730,6 +759,11 @@ virtualenv==20.26.3
     # via
     #   -r requirements/dev.txt
     #   tox
+walrus==0.9.3
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   edx-event-bus-redis
 webencodings==0.5.1
     # via
     #   -r requirements/dev.txt
