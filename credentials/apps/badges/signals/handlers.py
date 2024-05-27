@@ -45,12 +45,14 @@ def handle_badging_event(sender, signal, **kwargs):
 
     process_event(signal, **kwargs)
 
+
 @receiver(BADGE_REQUIREMENT_FULFILLED)
 def handle_requirement_fulfilled(sender, username, **kwargs):  # pylint: disable=unused-argument
     """
     On user's Badge progression (completion).
     """
     BadgeProgress.for_user(username=username, template_id=sender.template.id).progress()
+
 
 @receiver(BADGE_REQUIREMENT_REGRESSED)
 def handle_requirement_regressed(sender, username, **kwargs):  # pylint: disable=unused-argument

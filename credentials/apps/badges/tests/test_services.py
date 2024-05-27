@@ -46,7 +46,7 @@ class BadgeRequirementDiscoveryTestCase(TestCase):
         self.badge_template = BadgeTemplate.objects.create(
             uuid=uuid.uuid4(), name="test_template", state="draft", site=self.site, is_active=True
         )
-        
+
         self.CCX_COURSE_PASSING_EVENT = "org.openedx.learning.ccx.course.passing.status.updated.v1"
 
     def test_discovery_eventtype_related_requirements(self):
@@ -83,7 +83,7 @@ class BadgePenaltyDiscoveryTestCase(TestCase):
         self.badge_template = BadgeTemplate.objects.create(
             uuid=uuid.uuid4(), name="test_template", state="draft", site=self.site, is_active=True
         )
-        
+
         self.CCX_COURSE_PASSING_EVENT = "org.openedx.learning.ccx.course.passing.status.updated.v1"
 
     def test_discovery_eventtype_related_penalties(self):
@@ -138,7 +138,12 @@ class TestProcessPenalties(TestCase):
         )
         self.site = Site.objects.create(domain="test_domain", name="test_name")
         self.badge_template = CredlyBadgeTemplate.objects.create(
-            uuid=uuid.uuid4(), name="test_template", state="draft", site=self.site, is_active=True, organization=self.organization
+            uuid=uuid.uuid4(),
+            name="test_template",
+            state="draft",
+            site=self.site,
+            is_active=True,
+            organization=self.organization,
         )
 
         self.CCX_COURSE_PASSING_EVENT = "org.openedx.learning.ccx.course.passing.status.updated.v1"
@@ -224,9 +229,7 @@ class TestProcessPenalties(TestCase):
         self.assertEqual(Fulfillment.objects.filter(progress=progress, requirement=requirement1).count(), 1)
         self.assertEqual(Fulfillment.objects.filter(progress=progress, requirement=requirement1).count(), 1)
 
-        BadgePenalty.objects.create(
-            template=self.badge_template, event_type=COURSE_PASSING_EVENT
-        ).requirements.set(
+        BadgePenalty.objects.create(template=self.badge_template, event_type=COURSE_PASSING_EVENT).requirements.set(
             (requirement1, requirement2),
         )
         PenaltyDataRule.objects.create(
@@ -379,7 +382,7 @@ class TestProcessRequirements(TestCase):
             organization=self.organization,
             is_active=True,
         )
-        
+
         self.CCX_COURSE_PASSING_EVENT = "org.openedx.learning.ccx.course.passing.status.updated.v1"
         self.user = identify_user(event_type=COURSE_PASSING_EVENT, event_payload=COURSE_PASSING_DATA)
 
@@ -530,7 +533,7 @@ class TestProcessRequirements(TestCase):
             operator="eq",
             value="A",
         )
-        
+
         process_requirements(COURSE_PASSING_EVENT, "test_username", COURSE_PASSING_DATA)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_a).count(), 0)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_b).count(), 0)
@@ -549,7 +552,7 @@ class TestProcessRequirements(TestCase):
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_a).count(), 0)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_b).count(), 1)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_c).count(), 1)
-        
+
         self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
 
     def test_course_a_or_b_and_c_or_d_completion(self):

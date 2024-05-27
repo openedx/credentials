@@ -50,7 +50,7 @@ class BadgeRequirementInline(admin.TabularInline):
         "group",
     )
     readonly_fields = ("rules",)
-    ordering  = ("group",)
+    ordering = ("group",)
     form = BadgeRequirementForm
     formset = BadgeRequirementFormSet
 
@@ -58,15 +58,19 @@ class BadgeRequirementInline(admin.TabularInline):
         """
         Display all data rules for the requirement.
         """
-        return format_html(
-            "<ul>{}</ul>",
-            mark_safe(
-                "".join(
-                    f"<li>{rule.data_path} {rule.OPERATORS[rule.operator]} {rule.value}</li>"
-                    for rule in obj.rules.all()
-                )
-            ),
-        ) if obj.rules.exists() else _("No rules specified.")
+        return (
+            format_html(
+                "<ul>{}</ul>",
+                mark_safe(
+                    "".join(
+                        f"<li>{rule.data_path} {rule.OPERATORS[rule.operator]} {rule.value}</li>"
+                        for rule in obj.rules.all()
+                    )
+                ),
+            )
+            if obj.rules.exists()
+            else _("No rules specified.")
+        )
 
 
 class BadgePenaltyInline(admin.TabularInline):
@@ -94,20 +98,24 @@ class BadgePenaltyInline(admin.TabularInline):
             if template_id:
                 kwargs["queryset"] = BadgeRequirement.objects.filter(template_id=template_id)
         return super().formfield_for_manytomany(db_field, request, **kwargs)
-    
+
     def rules(self, obj):
         """
         Display all data rules for the penalty.
         """
-        return format_html(
-            "<ul>{}</ul>",
-            mark_safe(
-                "".join(
-                    f"<li>{rule.data_path} {rule.OPERATORS[rule.operator]} {rule.value}</li>"
-                    for rule in obj.rules.all()
-                )
-            ),
-        ) if obj.rules.exists() else _("No rules specified.")
+        return (
+            format_html(
+                "<ul>{}</ul>",
+                mark_safe(
+                    "".join(
+                        f"<li>{rule.data_path} {rule.OPERATORS[rule.operator]} {rule.value}</li>"
+                        for rule in obj.rules.all()
+                    )
+                ),
+            )
+            if obj.rules.exists()
+            else _("No rules specified.")
+        )
 
 
 class FulfillmentInline(admin.TabularInline):
@@ -168,7 +176,7 @@ class CredlyOrganizationAdmin(admin.ModelAdmin):
             )
 
         messages.success(request, _("Badge templates were successfully updated."))
-    
+
     @admin.display(description=_("API key"))
     def api_key_hidden(self, obj):
         """
@@ -176,15 +184,15 @@ class CredlyOrganizationAdmin(admin.ModelAdmin):
         """
 
         return _("Pre-configured from the environment.") if obj.is_preconfigured else obj.api_key
-    
+
     def get_fields(self, request, obj=None):
         fields = super().get_fields(request, obj)
-        
+
         if not (obj and obj.is_preconfigured):
             fields = [field for field in fields if field != "api_key_hidden"]
             fields.append("api_key")
         return fields
-    
+
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = super().get_readonly_fields(request, obj)
 

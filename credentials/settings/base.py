@@ -653,7 +653,6 @@ BADGES_CONFIG = {
             "user.pii.username",
             "user.pii.email",
             "user.pii.name",
-
             "course.display_name",
             "course.start",
             "course.end",
