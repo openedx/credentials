@@ -1,5 +1,6 @@
 import uuid
 
+from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
 from django.test import TestCase
 from opaque_keys.edx.keys import CourseKey
@@ -33,6 +34,7 @@ COURSE_PASSING_DATA = CoursePassingStatusData(
         pii=UserPersonalData(username="test_username", email="test_email", name="John Doe"),
     ),
 )
+User = get_user_model()
 
 
 class BadgeRequirementDiscoveryTestCase(TestCase):
@@ -128,14 +130,17 @@ class BadgePenaltyDiscoveryTestCase(TestCase):
 
 class TestProcessPenalties(TestCase):
     def setUp(self):
+        self.user = User.objects.create_user(
+            username="test_username", email="test@example.com", full_name="Test User", lms_user_id=1
+        )
         self.organization = CredlyOrganization.objects.create(
             uuid=uuid.uuid4(), api_key="test-api-key", name="test_organization"
         )
         self.site = Site.objects.create(domain="test_domain", name="test_name")
-        self.badge_template = BadgeTemplate.objects.create(
-            uuid=uuid.uuid4(), name="test_template", state="draft", site=self.site, is_active=True
+        self.badge_template = CredlyBadgeTemplate.objects.create(
+            uuid=uuid.uuid4(), name="test_template", state="draft", site=self.site, is_active=True, organization=self.organization
         )
-        
+
         self.CCX_COURSE_PASSING_EVENT = "org.openedx.learning.ccx.course.passing.status.updated.v1"
 
     def test_process_penalties_all_datarules_success(self):
@@ -265,7 +270,7 @@ class TestProcessPenalties(TestCase):
         )
         process_penalties(COURSE_PASSING_EVENT, "test_username", COURSE_PASSING_DATA)
         self.assertEqual(Fulfillment.objects.filter(progress=progress).count(), 0)
-    
+
     def test_process_one_of_grouped_requirements_penalty(self):
         requirement_a = BadgeRequirement.objects.create(
             template=self.badge_template,
@@ -306,7 +311,7 @@ class TestProcessPenalties(TestCase):
         )
         process_penalties(COURSE_PASSING_EVENT, "test_username", COURSE_PASSING_DATA)
         self.assertEqual(Fulfillment.objects.filter(progress=progress).count(), 1)
-    
+
     def test_process_mixed_penalty(self):
         requirement_a = BadgeRequirement.objects.create(
             template=self.badge_template,
@@ -614,7 +619,7 @@ class TestProcessRequirements(TestCase):
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_c).count(), 1)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_d).count(), 0)
         self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
-    
+
     def tearDown(self):
         BADGE_PROGRESS_COMPLETE.connect(handle_badge_completion)
 
