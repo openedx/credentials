@@ -1,7 +1,6 @@
 import platform
 import sys
 import unittest
-
 from logging.handlers import SysLogHandler
 from os import path
 from unittest.mock import patch

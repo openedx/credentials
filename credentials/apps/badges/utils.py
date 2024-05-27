@@ -1,6 +1,6 @@
-import attr
 import inspect
 
+import attr
 from attrs import asdict
 from django.conf import settings
 from openedx_events.learning.data import UserData

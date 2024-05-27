@@ -6,10 +6,10 @@ from django.contrib import admin, messages
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.management import call_command
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from django.urls import reverse
 
 from credentials.apps.badges.admin_forms import (
     BadgePenaltyForm,
@@ -21,7 +21,6 @@ from credentials.apps.badges.admin_forms import (
     PenaltyDataRuleForm,
     PenaltyDataRuleFormSet,
 )
-
 from credentials.apps.badges.models import (
     BadgePenalty,
     BadgeProgress,

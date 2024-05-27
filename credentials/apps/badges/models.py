@@ -12,12 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from model_utils import Choices
 from model_utils.fields import StatusField
-from openedx_events.learning.data import (
-    BadgeData,
-    BadgeTemplateData,
-    UserData,
-    UserPersonalData,
-)
+from openedx_events.learning.data import BadgeData, BadgeTemplateData, UserData, UserPersonalData
 
 from credentials.apps.badges.credly.utils import get_credly_base_url
 from credentials.apps.badges.signals.signals import (

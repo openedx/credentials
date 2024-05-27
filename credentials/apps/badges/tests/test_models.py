@@ -3,7 +3,7 @@ import uuid
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.test import TestCase
-from openedx_events.learning.data import BadgeData, UserData, UserPersonalData, BadgeTemplateData
+from openedx_events.learning.data import BadgeData, BadgeTemplateData, UserData, UserPersonalData
 
 from credentials.apps.badges.models import (
     BadgeProgress,
