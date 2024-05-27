@@ -1,23 +1,23 @@
 import unittest
-
-from attr import asdict
 from datetime import datetime
-from django.conf import settings
 from unittest.mock import patch
 
+from attr import asdict
 from django.conf import settings
-from openedx_events.learning.data import UserData, UserPersonalData, CourseData, CoursePassingStatusData
 from opaque_keys.edx.keys import CourseKey
+from openedx_events.learning.data import CourseData, CoursePassingStatusData, UserData, UserPersonalData
 
 from credentials.apps.badges.checks import badges_checks
-from credentials.apps.badges.credly.utils import get_credly_base_url, get_credly_api_base_url
-from credentials.apps.badges.utils import ( 
+from credentials.apps.badges.credly.utils import get_credly_api_base_url, get_credly_base_url
+from credentials.apps.badges.utils import (
     credly_check,
     extract_payload,
-    get_event_type_keypaths,
-    get_user_data, keypath,
     get_event_type_attr_type_by_keypath,
+    get_event_type_keypaths,
+    get_user_data,
+    keypath,
 )
+
 
 COURSE_PASSING_EVENT = "org.openedx.learning.course.passing.status.updated.v1"
 

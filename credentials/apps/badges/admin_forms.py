@@ -9,8 +9,15 @@ from model_utils import Choices
 
 from credentials.apps.badges.credly.api_client import CredlyAPIClient
 from credentials.apps.badges.credly.exceptions import CredlyAPIError
-from credentials.apps.badges.models import AbstractDataRule, BadgePenalty, BadgeRequirement, CredlyOrganization, DataRule, PenaltyDataRule
-from credentials.apps.badges.utils import get_event_type_keypaths, get_event_type_attr_type_by_keypath
+from credentials.apps.badges.models import (
+    AbstractDataRule,
+    BadgePenalty,
+    BadgeRequirement,
+    CredlyOrganization,
+    DataRule,
+    PenaltyDataRule,
+)
+from credentials.apps.badges.utils import get_event_type_attr_type_by_keypath, get_event_type_keypaths
 
 
 class CredlyOrganizationAdminForm(forms.ModelForm):

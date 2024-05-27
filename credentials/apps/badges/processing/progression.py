@@ -3,8 +3,9 @@ Badge progression processing.
 """
 
 import logging
-from attrs import asdict
 from typing import List
+
+from attrs import asdict
 
 from credentials.apps.badges.models import BadgeRequirement
 
