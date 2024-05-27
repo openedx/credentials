@@ -46,7 +46,7 @@ class CredlyOrganizationAdminForm(forms.ModelForm):
         if str(uuid) in CredlyOrganization.get_preconfigured_organizations().keys():
             if api_key:
                 raise forms.ValidationError(_("You can't provide an API key for a configured organization."))
-            
+
             api_key = settings.BADGES_CONFIG["credly"]["ORGANIZATIONS"][str(uuid)]
 
         credly_api_client = CredlyAPIClient(uuid, api_key)
@@ -80,6 +80,7 @@ class BadgePenaltyForm(forms.ModelForm):
     """
     Form for BadgePenalty model.
     """
+
     class Meta:
         model = BadgePenalty
         fields = "__all__"
@@ -138,23 +139,28 @@ class DataRuleExtensionsMixin:
 
         if data_path_type == bool and cleaned_data.get("value") not in AbstractDataRule.BOOL_VALUES:
             raise forms.ValidationError(_("Value must be a boolean."))
-        
+
         return cleaned_data
 
 
 class DataRuleFormSet(ParentMixin, forms.BaseInlineFormSet): ...
+
+
 class DataRuleForm(DataRuleExtensionsMixin, forms.ModelForm):
     """
     Form for DataRule model.
     """
+
     class Meta:
         model = DataRule
         fields = "__all__"
-    
+
     data_path = forms.ChoiceField()
 
 
 class BadgeRequirementFormSet(ParentMixin, forms.BaseInlineFormSet): ...
+
+
 class BadgeRequirementForm(forms.ModelForm):
     class Meta:
         model = BadgeRequirement
@@ -166,13 +172,13 @@ class BadgeRequirementForm(forms.ModelForm):
         self.template = parent_instance
         super().__init__(*args, **kwargs)
 
-        self.fields["group"].choices = Choices(
-            *[(chr(i), chr(i)) for i in range(65, 91)]
-        )
+        self.fields["group"].choices = Choices(*[(chr(i), chr(i)) for i in range(65, 91)])
         self.fields["group"].initial = chr(65 + self.template.requirements.count())
 
 
 class PenaltyDataRuleFormSet(ParentMixin, forms.BaseInlineFormSet): ...
+
+
 class PenaltyDataRuleForm(DataRuleExtensionsMixin, forms.ModelForm):
     """
     Form for PenaltyDataRule model.

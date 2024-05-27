@@ -33,9 +33,7 @@ class BadgeSignalReceiverTestCase(TestCase):
         # UserCredential object
         user_credential = CredlyBadge.objects.filter(
             username="test_user",
-            credential_content_type=ContentType.objects.get_for_model(
-                self.badge_template
-            ),
+            credential_content_type=ContentType.objects.get_for_model(self.badge_template),
             credential_id=self.badge_template.id,
         )
 
@@ -44,7 +42,7 @@ class BadgeSignalReceiverTestCase(TestCase):
 
         # Check if user credential status is 'awarded'
         self.assertTrue(user_credential[0].status == "awarded")
-    
+
     def test_regression_signal_emission_and_receiver_execution(self):
         # Emit the signal
         with mock.patch("credentials.apps.badges.issuers.notify_badge_revoked"):
@@ -58,9 +56,7 @@ class BadgeSignalReceiverTestCase(TestCase):
         # UserCredential object
         user_credential = CredlyBadge.objects.filter(
             username="test_user",
-            credential_content_type=ContentType.objects.get_for_model(
-                self.badge_template
-            ),
+            credential_content_type=ContentType.objects.get_for_model(self.badge_template),
             credential_id=self.badge_template.id,
         )
 

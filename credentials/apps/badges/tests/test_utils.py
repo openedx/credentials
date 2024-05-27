@@ -21,6 +21,7 @@ from credentials.apps.badges.utils import (
 
 COURSE_PASSING_EVENT = "org.openedx.learning.course.passing.status.updated.v1"
 
+
 class TestKeypath(unittest.TestCase):
     def test_keypath_exists(self):
         payload = {
@@ -106,9 +107,7 @@ class TestExtractPayload(unittest.TestCase):
         user_data = UserData(
             id=1, is_active=True, pii=UserPersonalData(username="user1", email="user1@example.com ", name="John Doe")
         )
-        course_passing_status = CoursePassingStatusData(
-            is_passing=True, course=self.course_data, user=user_data
-        )
+        course_passing_status = CoursePassingStatusData(is_passing=True, course=self.course_data, user=user_data)
         public_signal_kwargs = {"course_passing_status": course_passing_status}
         result = extract_payload(public_signal_kwargs)
         self.assertIsNotNone(result)
@@ -175,6 +174,7 @@ class TestGetEventTypeKeypaths(unittest.TestCase):
         for ignored_keypath in settings.BADGES_CONFIG.get("rules", {}).get("ignored_keypaths", []):
             self.assertNotIn(ignored_keypath, result)
 
+
 class TestGetCredlyBaseUrl(unittest.TestCase):
     def test_get_credly_base_url_sandbox(self):
         settings.BADGES_CONFIG["credly"] = {
@@ -202,7 +202,7 @@ class TestGetCredlyApiBaseUrl(unittest.TestCase):
             "CREDLY_SANDBOX_API_BASE_URL": "https://sandbox.api.credly.com",
             "USE_SANDBOX": True,
         }
-    
+
         result = get_credly_api_base_url(settings)
         self.assertEqual(result, "https://sandbox.api.credly.com")
 
@@ -221,7 +221,7 @@ class TestGetEventTypeAttrTypeByKeypath(unittest.TestCase):
         keypath = "course.course_key"
         result = get_event_type_attr_type_by_keypath(COURSE_PASSING_EVENT, keypath)
         self.assertEqual(result, CourseKey)
-    
+
     def test_get_event_type_attr_type_by_keypath_bool(self):
         keypath = "is_passing"
         result = get_event_type_attr_type_by_keypath(COURSE_PASSING_EVENT, keypath)

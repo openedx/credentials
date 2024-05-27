@@ -35,7 +35,9 @@ class CredlyOrganization(TimeStampedModel):
     """
 
     uuid = models.UUIDField(unique=True, help_text=_("Put your Credly Organization ID here."))
-    api_key = models.CharField(max_length=255, help_text=_("Credly API shared secret for Credly Organization."), blank=True)
+    api_key = models.CharField(
+        max_length=255, help_text=_("Credly API shared secret for Credly Organization."), blank=True
+    )
     name = models.CharField(
         max_length=255,
         null=True,
@@ -52,14 +54,14 @@ class CredlyOrganization(TimeStampedModel):
         Get all organization IDs.
         """
         return list(cls.objects.values_list("uuid", flat=True))
-    
+
     @classmethod
     def get_preconfigured_organizations(cls):
         """
         Get preconfigured organizations.
         """
         return settings.BADGES_CONFIG["credly"].get("ORGANIZATIONS", {})
-    
+
     @property
     def is_preconfigured(self):
         """
@@ -99,7 +101,7 @@ class BadgeTemplate(AbstractCredential):
         if not self.origin:
             self.origin = self.ORIGIN
             self.save(*args, **kwargs)
-    
+
     @property
     def groups(self):
         return self.requirements.values_list("group", flat=True).distinct()
@@ -327,12 +329,12 @@ class AbstractDataRule(models.Model):
         """
 
         comparison_func = getattr(operator, self.operator, None)
-        
+
         if comparison_func:
             data_value = str(keypath(data, self.data_path))
             return comparison_func(data_value, self._value_to_bool())
         return False
-    
+
     def _value_to_bool(self):
         """
         Converts the value to a boolean or returns the original value if it is not a boolean string.
@@ -410,7 +412,7 @@ class BadgePenalty(models.Model):
         """
         Resets all related requirements for the user.
         """
-        
+
         for requirement in self.requirements.all():
             requirement.reset(username)
 
@@ -482,7 +484,7 @@ class BadgeProgress(models.Model):
 
         if not self.groups:
             return 0.00
-        
+
         true_values = len(list(filter(lambda x: x, self.groups.values())))
         return round(true_values / len(self.groups.keys()), 2)
 
@@ -506,7 +508,7 @@ class BadgeProgress(models.Model):
         Notify about the progress.
         """
         notify_progress_complete(self, self.username, self.template.id)
-    
+
     def regress(self):
         """
         Notify about the regression.
@@ -530,7 +532,7 @@ class Fulfillment(models.Model):
         null=True,
         related_name="fulfillments",
     )
-    group = models.CharField( max_length=255, null=True, blank=True, help_text=_("Group ID for the requirement."))
+    group = models.CharField(max_length=255, null=True, blank=True, help_text=_("Group ID for the requirement."))
 
 
 class CredlyBadge(UserCredential):
@@ -604,5 +606,5 @@ class CredlyBadge(UserCredential):
         """
         Checks if this user credential already has issued (external) Credly badge.
         """
-        
+
         return self.external_uuid and (self.state in self.ISSUING_STATES)

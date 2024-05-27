@@ -46,13 +46,16 @@ class BadgePenaltyFormTestCase(TestCase):
                 self.requirement3,
             ],
         }
-        self.assertEqual(form.clean(), {
-            "template": self.badge_template2,
-            "requirements": [
-                self.requirement2,
-                self.requirement3,
-            ],
-        })
+        self.assertEqual(
+            form.clean(),
+            {
+                "template": self.badge_template2,
+                "requirements": [
+                    self.requirement2,
+                    self.requirement3,
+                ],
+            },
+        )
 
     def test_clean_requirements_different_template(self):
         form = BadgePenaltyForm()
