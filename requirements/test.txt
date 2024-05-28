@@ -77,7 +77,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage==7.5.1
+coverage==7.5.2
     # via -r requirements/test.in
 cryptography==42.0.7
     # via
@@ -143,7 +143,7 @@ django-ratelimit==4.1.0
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-simple-history==3.5.0
+django-simple-history==3.6.0
     # via -r requirements/base.txt
 django-sortedm2m==3.1.1
     # via -r requirements/base.txt
@@ -284,7 +284,7 @@ mypy-extensions==1.0.0
     # via black
 mysqlclient==2.2.4
     # via -r requirements/base.txt
-newrelic==9.9.1
+newrelic==9.10.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -506,7 +506,7 @@ tomlkit==0.12.5
     # via pylint
 tox==4.15.0
     # via -r requirements/test.in
-typing-extensions==4.11.0
+typing-extensions==4.12.0
     # via
     #   -r requirements/base.txt
     #   asgiref
@@ -534,7 +534,7 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.6.0
     # via -r requirements/base.txt
-zipp==3.18.2
+zipp==3.19.0
     # via
     #   -r requirements/base.txt
     #   importlib-metadata

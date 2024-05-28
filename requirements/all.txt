@@ -40,11 +40,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.110
+boto3==1.34.113
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.110
+botocore==1.34.113
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -107,7 +107,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.5.1
+coverage==7.5.2
     # via -r requirements/dev.txt
 cryptography==42.0.7
     # via
@@ -181,7 +181,7 @@ django-crum==0.7.9
     #   -r requirements/production.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==4.3.0
+django-debug-toolbar==4.4.2
     # via -r requirements/dev.txt
 django-extensions==3.2.3
     # via
@@ -201,7 +201,7 @@ django-rest-swagger==2.2.0
     #   -r requirements/production.txt
 django-ses==4.1.0
     # via -r requirements/production.txt
-django-simple-history==3.5.0
+django-simple-history==3.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -417,7 +417,7 @@ mysqlclient==2.2.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==9.9.1
+newrelic==9.10.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -711,7 +711,7 @@ tomlkit==0.12.5
     #   pylint
 tox==4.15.0
     # via -r requirements/dev.txt
-typing-extensions==4.11.0
+typing-extensions==4.12.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -748,7 +748,7 @@ xss-utils==0.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-zipp==3.18.2
+zipp==3.19.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -757,7 +757,7 @@ zope-event==5.0
     # via
     #   -r requirements/production.txt
     #   gevent
-zope-interface==6.4.post0
+zope-interface==6.4.post2
     # via
     #   -r requirements/production.txt
     #   gevent
