@@ -32,5 +32,6 @@ def check_badges_enabled(func):
     def wrapper(*args, **kwargs):
         if is_badges_enabled():
             return func(*args, **kwargs)
+        return None
 
     return wrapper

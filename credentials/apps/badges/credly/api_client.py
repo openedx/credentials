@@ -70,7 +70,7 @@ class CredlyAPIClient:
         """
         url = urljoin(self.base_api_url, url_suffix)
         logger.debug(f"Credly API: {method.upper()} {url}")
-        response = requests.request(method.upper(), url, headers=self._get_headers(), json=data)
+        response = requests.request(method.upper(), url, headers=self._get_headers(), json=data, timeout=10)
         self._raise_for_error(response)
         return response.json()
 

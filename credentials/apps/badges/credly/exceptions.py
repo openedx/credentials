@@ -10,12 +10,8 @@ class CredlyError(BadgesError):
     Credly backend generic error.
     """
 
-    pass
-
 
 class CredlyAPIError(CredlyError):
     """
     Credly API errors.
     """
-
-    pass

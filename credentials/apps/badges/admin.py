@@ -47,10 +47,10 @@ class BadgeRequirementInline(admin.TabularInline):
         "event_type",
         "rules",
         "description",
-        "group",
+        "blend",
     )
     readonly_fields = ("rules",)
-    ordering = ("group",)
+    ordering = ("blend",)
     form = BadgeRequirementForm
     formset = BadgeRequirementFormSet
 
@@ -194,7 +194,7 @@ class CredlyOrganizationAdmin(admin.ModelAdmin):
         return fields
 
     def get_readonly_fields(self, request, obj=None):
-        readonly_fields = super().get_readonly_fields(request, obj)
+        readonly_fields = list(super().get_readonly_fields(request, obj))
 
         if not obj:
             return readonly_fields
@@ -247,7 +247,7 @@ class CredlyBadgeTemplateAdmin(admin.ModelAdmin):
                 "description": _(
                     """
                     WARNING: avoid configuration updates on activated badges.
-                    Active badge templates are continuously processed and learners may already have partial progress on them.
+                    Active badge templates are continuously processed and learners may already have progress on them.
                     Any changes in badge template requirements (including data rules) will affect learners' experience!
                     """
                 ),
@@ -318,10 +318,10 @@ class CredlyBadgeTemplateAdmin(admin.ModelAdmin):
 
     image.short_description = _("icon")
 
-    def save_model(self, request, obj, form, change):  # pylint: disable=unused-argument
+    def save_model(self, request, obj, form, change):
         pass
 
-    def save_formset(self, request, form, formset, change):  # pylint: disable=unused-argument
+    def save_formset(self, request, form, formset, change):
         """
         Check if template is active and has requirements.
         """
@@ -331,7 +331,7 @@ class CredlyBadgeTemplateAdmin(admin.ModelAdmin):
             messages.set_level(request, messages.ERROR)
             messages.error(request, _("Active badge template must have at least one requirement."))
             return HttpResponseRedirect(request.path)
-        form.instance.save()
+        return form.instance.save()
 
 
 class DataRulePenaltyInline(admin.TabularInline):
@@ -368,14 +368,14 @@ class BadgeRequirementAdmin(admin.ModelAdmin):
         "template",
         "event_type",
         "template_link",
-        "group",
+        "blend",
     ]
 
     fields = [
         "template_link",
         "event_type",
         "description",
-        "group",
+        "blend",
     ]
 
     def has_add_permission(self, request):
@@ -454,15 +454,6 @@ class BadgePenaltyAdmin(admin.ModelAdmin):
             if template_id:
                 kwargs["queryset"] = BadgeRequirement.objects.filter(template_id=template_id)
         return super().formfield_for_manytomany(db_field, request, **kwargs)
-
-    def template_link(self, instance):
-        """
-        Interactive link to parent (badge template).
-        """
-        url = reverse("admin:badges_credlybadgetemplate_change", args=[instance.template.pk])
-        return format_html('<a href="{}">{}</a>', url, instance.template)
-
-    template_link.short_description = _("badge template")
 
     def response_change(self, request, obj):
         if "_save" in request.POST:

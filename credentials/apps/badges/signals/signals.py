@@ -71,7 +71,7 @@ def notify_progress_incomplete(sender, username, badge_template_id):
     )
 
 
-def notify_badge_awarded(user_credential):  # pylint: disable=unused-argument
+def notify_badge_awarded(user_credential):
     """
     Emits a public signal about the badge template completion for user.
 
@@ -82,7 +82,7 @@ def notify_badge_awarded(user_credential):  # pylint: disable=unused-argument
     BADGE_AWARDED.send_event(badge=user_credential.as_badge_data())
 
 
-def notify_badge_revoked(user_credential):  # pylint: disable=unused-argument
+def notify_badge_revoked(user_credential):
     """
     Emit public event about badge template regression.
 

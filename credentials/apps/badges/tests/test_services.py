@@ -1,4 +1,5 @@
 import uuid
+from unittest.mock import MagicMock, patch
 
 from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
@@ -6,6 +7,7 @@ from django.test import TestCase
 from opaque_keys.edx.keys import CourseKey
 from openedx_events.learning.data import CourseData, CoursePassingStatusData, UserData, UserPersonalData
 
+from credentials.apps.badges.exceptions import BadgesProcessingError
 from credentials.apps.badges.models import (
     BadgePenalty,
     BadgeProgress,
@@ -17,7 +19,7 @@ from credentials.apps.badges.models import (
     Fulfillment,
     PenaltyDataRule,
 )
-from credentials.apps.badges.processing.generic import identify_user
+from credentials.apps.badges.processing.generic import identify_user, process_event
 from credentials.apps.badges.processing.progression import discover_requirements, process_requirements
 from credentials.apps.badges.processing.regression import discover_penalties, process_penalties
 from credentials.apps.badges.signals import BADGE_PROGRESS_COMPLETE
@@ -279,13 +281,13 @@ class TestProcessPenalties(TestCase):
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="Test course passing award description",
-            group="a_or_b",
+            blend="a_or_b",
         )
         requirement_b = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="Test course passing award description",
-            group="a_or_b",
+            blend="a_or_b",
         )
         DataRule.objects.create(
             requirement=requirement_a,
@@ -320,13 +322,13 @@ class TestProcessPenalties(TestCase):
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="Test course passing award description",
-            group="a_or_b",
+            blend="a_or_b",
         )
         requirement_b = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="Test course passing award description",
-            group="a_or_b",
+            blend="a_or_b",
         )
         requirement_c = BadgeRequirement.objects.create(
             template=self.badge_template,
@@ -418,13 +420,13 @@ class TestProcessRequirements(TestCase):
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="A or B course passing award description",
-            group="a_or_b",
+            blend="a_or_b",
         )
         requirement_b = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="A or B course passing award description",
-            group="a_or_b",
+            blend="a_or_b",
         )
         DataRule.objects.create(
             requirement=requirement_a,
@@ -448,19 +450,19 @@ class TestProcessRequirements(TestCase):
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="A or B or C course passing award description",
-            group="a_or_b_or_c",
+            blend="a_or_b_or_c",
         )
         requirement_b = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="A or B or C course passing award description",
-            group="a_or_b_or_c",
+            blend="a_or_b_or_c",
         )
         requirement_c = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="A or B or C course passing award description",
-            group="a_or_b_or_c",
+            blend="a_or_b_or_c",
         )
         DataRule.objects.create(
             requirement=requirement_a,
@@ -491,7 +493,7 @@ class TestProcessRequirements(TestCase):
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="A or course passing award description",
-            group="a_or",
+            blend="a_or",
         )
         DataRule.objects.create(
             requirement=requirement,
@@ -508,13 +510,13 @@ class TestProcessRequirements(TestCase):
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="A or B course passing award description",
-            group="a_or_b",
+            blend="a_or_b",
         )
         requirement_b = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="A or B course passing award description",
-            group="a_or_b",
+            blend="a_or_b",
         )
         requirement_c = BadgeRequirement.objects.create(
             template=self.badge_template,
@@ -560,25 +562,25 @@ class TestProcessRequirements(TestCase):
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="A or B course passing award description",
-            group="a_or_b",
+            blend="a_or_b",
         )
         requirement_b = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="A or B course passing award description",
-            group="a_or_b",
+            blend="a_or_b",
         )
         requirement_c = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="C or D course passing award description",
-            group="c_or_d",
+            blend="c_or_d",
         )
         requirement_d = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
             description="C or D course passing award description",
-            group="c_or_d",
+            blend="c_or_d",
         )
         DataRule.objects.create(
             requirement=requirement_a,
@@ -631,3 +633,90 @@ class TestIdentifyUser(TestCase):
     def test_identify_user(self):
         username = identify_user(event_type=COURSE_PASSING_EVENT, event_payload=COURSE_PASSING_DATA)
         self.assertEqual(username, "test_username")
+
+    def test_identify_user_not_found(self):
+        event_type = "unknown_event_type"
+        event_payload = None
+
+        with self.assertRaises(BadgesProcessingError) as cm:
+            identify_user(event_type="unknown_event_type", event_payload=event_payload)
+
+        self.assertEqual(
+            str(cm.exception),
+            f"User data cannot be found (got: None): {event_payload}. "
+            f"Does event {event_type} include user data at all?",
+        )
+
+
+def mock_progress_regress(*args, **kwargs):
+    return None
+
+
+class TestProcessEvent(TestCase):
+    def setUp(self):
+        self.organization = CredlyOrganization.objects.create(
+            uuid=uuid.uuid4(), api_key="test_api_key", name="test_organization"
+        )
+        self.site = Site.objects.create(domain="test_domain", name="test_name")
+        self.badge_template = CredlyBadgeTemplate.objects.create(
+            uuid=uuid.uuid4(),
+            name="test_template",
+            state="draft",
+            site=self.site,
+            organization=self.organization,
+            is_active=True,
+        )
+        DataRule.objects.create(
+            requirement=BadgeRequirement.objects.create(template=self.badge_template, event_type=COURSE_PASSING_EVENT),
+            data_path="is_passing",
+            operator="eq",
+            value="True",
+        )
+        PenaltyDataRule.objects.create(
+            penalty=BadgePenalty.objects.create(template=self.badge_template, event_type=COURSE_PASSING_EVENT),
+            data_path="is_passing",
+            operator="eq",
+            value="False",
+        )
+        self.sender = MagicMock()
+        self.sender.event_type = COURSE_PASSING_EVENT
+
+    @patch.object(BadgeProgress, "progress", mock_progress_regress)
+    def test_process_event_passing(self):
+        event_payload = COURSE_PASSING_DATA
+        process_event(sender=self.sender, kwargs=event_payload)
+        self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+
+    def test_process_event_not_passing(self):
+        event_payload = CoursePassingStatusData(
+            is_passing=False,
+            course=CourseData(course_key=CourseKey.from_string("course-v1:edX+DemoX.1+2014"), display_name="A"),
+            user=UserData(
+                id=1,
+                is_active=True,
+                pii=UserPersonalData(username="test_username", email="test_email", name="John Doe"),
+            ),
+        )
+        process_event(sender=self.sender, kwargs=event_payload)
+        self.assertFalse(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+
+    @patch.object(BadgeProgress, "regress", mock_progress_regress)
+    def test_process_event_not_found(self):
+        sender = MagicMock()
+        sender.event_type = "unknown_event_type"
+        event_payload = None
+
+        with patch("credentials.apps.badges.processing.generic.logger.error") as mock_event_not_found:
+            process_event(sender=sender, kwargs=event_payload)
+            mock_event_not_found.assert_called_once()
+
+    def test_process_event_no_user_data(self):
+        event_payload = CoursePassingStatusData(
+            is_passing=True,
+            course=CourseData(course_key=CourseKey.from_string("course-v1:edX+DemoX.1+2014"), display_name="A"),
+            user=None,
+        )
+
+        with patch("credentials.apps.badges.processing.generic.logger.error") as mock_no_user_data:
+            process_event(sender=self.sender, kwargs=event_payload)
+            mock_no_user_data.assert_called_once()

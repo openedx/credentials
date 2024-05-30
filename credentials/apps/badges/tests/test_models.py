@@ -1,11 +1,15 @@
 import uuid
+from unittest.mock import patch
 
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.test import TestCase
+from faker import Faker
 from openedx_events.learning.data import BadgeData, BadgeTemplateData, UserData, UserPersonalData
 
 from credentials.apps.badges.models import (
+    BadgePenalty,
     BadgeProgress,
     BadgeRequirement,
     BadgeTemplate,
@@ -102,7 +106,6 @@ class BadgeRequirementTestCase(TestCase):
             organization=self.organization, uuid=uuid.uuid4(), name="test_template", state="draft", site=self.site
         )
 
-    def test_multiple_requirements_for_badgetemplate(self):
         self.requirement1 = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type="org.openedx.learning.course.passing.status.updated.v1",
@@ -114,41 +117,54 @@ class BadgeRequirementTestCase(TestCase):
             description="Test description",
         )
         self.requirement3 = BadgeRequirement.objects.create(
-            template=self.badge_template,
+            template=self.credlybadge_template,
+            event_type="org.openedx.learning.ccx.course.passing.status.updated.v1",
+            description="Test description",
+        )
+        self.requirement4 = BadgeRequirement.objects.create(
+            template=self.credlybadge_template,
             event_type="org.openedx.learning.ccx.course.passing.status.updated.v1",
             description="Test description",
         )
 
+        self.requirement = BadgeRequirement.objects.create(
+            template=self.badge_template,
+            event_type="org.openedx.learning.course.passing.status.updated.v1",
+            description="Test description",
+        )
+
+    def test_multiple_requirements_for_badgetemplate(self):
         requirements = BadgeRequirement.objects.filter(template=self.badge_template)
 
         self.assertEqual(requirements.count(), 3)
         self.assertIn(self.requirement1, requirements)
         self.assertIn(self.requirement2, requirements)
-        self.assertIn(self.requirement3, requirements)
 
     def test_multiple_requirements_for_credlybadgetemplate(self):
-        self.requirement1 = BadgeRequirement.objects.create(
-            template=self.credlybadge_template,
-            event_type="org.openedx.learning.ccx.course.passing.status.updated.v1",
-            description="Test description",
-        )
-        self.requirement2 = BadgeRequirement.objects.create(
-            template=self.credlybadge_template,
-            event_type="org.openedx.learning.ccx.course.passing.status.updated.v1",
-            description="Test description",
-        )
-        self.requirement3 = BadgeRequirement.objects.create(
-            template=self.credlybadge_template,
-            event_type="org.openedx.learning.course.passing.status.updated.v1",
-            description="Test description",
-        )
-
         requirements = BadgeRequirement.objects.filter(template=self.credlybadge_template)
 
-        self.assertEqual(requirements.count(), 3)
-        self.assertIn(self.requirement1, requirements)
-        self.assertIn(self.requirement2, requirements)
+        self.assertEqual(requirements.count(), 2)
         self.assertIn(self.requirement3, requirements)
+        self.assertIn(self.requirement4, requirements)
+
+    def test_fulfill(self):
+        username = "test_user"
+        template_id = self.badge_template.id
+        progress = BadgeProgress.objects.create(username=username, template=self.badge_template)
+        with patch("credentials.apps.badges.models.notify_requirement_fulfilled") as mock_notify:
+            created = self.requirement.fulfill(username)
+            fulfillment = Fulfillment.objects.get(
+                progress=progress, requirement=self.requirement, blend=self.requirement.blend
+            )
+
+            self.assertTrue(created)
+            self.assertTrue(mock_notify.called)
+            mock_notify.assert_called_with(
+                sender=self.requirement,
+                username=username,
+                badge_template_id=template_id,
+                fulfillment_id=fulfillment.id,
+            )
 
 
 class RequirementFulfillmentCheckTestCase(TestCase):
@@ -184,21 +200,21 @@ class BadgeRequirementGroupTestCase(TestCase):
         self.badge_requirement1 = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type="org.openedx.learning.course.passing.status.updated.v1",
-            group="group1",
+            blend="group1",
         )
         self.badge_requirement2 = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type="org.openedx.learning.ccx.course.passing.status.updated.v1",
-            group="group1",
+            blend="group1",
         )
         self.badge_requirement3 = BadgeRequirement.objects.create(
             template=self.badge_template, event_type="org.openedx.learning.course.passing.status.updated.v1"
         )
 
     def test_requirement_group(self):
-        group = self.badge_template.requirements.filter(group="group1")
-        self.assertEqual(group.count(), 2)
-        self.assertIsNone(self.badge_requirement3.group)
+        groups = self.badge_template.requirements.filter(blend="group1")
+        self.assertEqual(groups.count(), 2)
+        self.assertIsNone(self.badge_requirement3.blend)
 
 
 class BadgeTemplateUserProgressTestCase(TestCase):
@@ -217,19 +233,19 @@ class BadgeTemplateUserProgressTestCase(TestCase):
             template=self.badge_template,
             event_type="org.openedx.learning.course.passing.status.updated.v1",
             description="Test description",
-            group="A",
+            blend="A",
         )
         self.requirement2 = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type="org.openedx.learning.course.passing.status.updated.v1",
             description="Test description",
-            group="B",
+            blend="B",
         )
         self.requirement3 = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type="org.openedx.learning.ccx.course.passing.status.updated.v1",
             description="Test description",
-            group="C",
+            blend="C",
         )
 
     def test_user_progress_success(self):
@@ -297,39 +313,39 @@ class BadgeTemplateRatioTestCase(TestCase):
             template=self.badge_template,
             event_type="org.openedx.learning.course.passing.status.updated.v1",
             description="Test description",
-            group="A",
+            blend="A",
         )
         self.requirement2 = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type="org.openedx.learning.course.passing.status.updated.v1",
             description="Test description",
-            group="B",
+            blend="B",
         )
 
         self.group_requirement1 = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type="org.openedx.learning.course.passing.status.updated.v1",
             description="Test description",
-            group="test-group1",
+            blend="test-group1",
         )
         self.group_requirement2 = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type="org.openedx.learning.course.passing.status.updated.v1",
             description="Test description",
-            group="test-group1",
+            blend="test-group1",
         )
 
         self.group_requirement3 = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type="org.openedx.learning.course.passing.status.updated.v1",
             description="Test description",
-            group="test-group2",
+            blend="test-group2",
         )
         self.group_requirement4 = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type="org.openedx.learning.course.passing.status.updated.v1",
             description="Test description",
-            group="test-group2",
+            blend="test-group2",
         )
         self.progress = BadgeProgress.objects.create(username="test_user", template=self.badge_template)
 
@@ -410,3 +426,117 @@ class CredlyBadgeAsBadgeDataTestCase(TestCase):
         )
         actual_badge_data = self.badge.as_badge_data()
         self.assertEqual(actual_badge_data, expected_badge_data)
+
+
+class BadgePenaltyTestCase(TestCase):
+    def setUp(self):
+        self.fake = Faker()
+        self.badge_template = BadgeTemplate.objects.create(
+            uuid=self.fake.uuid4(),
+            name="test_template",
+            state="draft",
+            site=Site.objects.create(domain="test_domain", name="test_name"),
+            is_active=True,
+        )
+        self.badge_requirement = BadgeRequirement.objects.create(
+            template=self.badge_template,
+            event_type="org.openedx.learning.course.passing.status.updated.v1",
+            description="Test description",
+        )
+        self.badge_penalty = BadgePenalty.objects.create(
+            template=self.badge_template,
+            event_type="org.openedx.learning.student.registration.completed.v1",
+        )
+        self.badge_penalty.requirements.add(self.badge_requirement)
+
+    def test_apply_rules_with_empty_rules(self):
+        data = {"key": "value"}
+        self.assertFalse(self.badge_penalty.apply_rules(data))
+
+    def test_apply_rules_with_non_empty_rules(self):
+        data = {"key": "value"}
+        self.badge_penalty.rules.create(data_path="key", operator="eq", value="value")
+        self.assertTrue(self.badge_penalty.apply_rules(data))
+
+    def test_reset_requirements(self):
+        username = "test-username"
+        with patch("credentials.apps.badges.models.BadgeRequirement.reset") as mock_reset:
+            self.badge_penalty.reset_requirements(username)
+            mock_reset.assert_called_once_with(username)
+
+    def test_is_active(self):
+        self.assertTrue(self.badge_penalty.is_active)
+
+
+class IsGroupFulfilledTestCase(TestCase):
+    def setUp(self):
+        self.site = Site.objects.create(domain="test_domain", name="test_name")
+        self.badge_template = BadgeTemplate.objects.create(
+            uuid=uuid.uuid4(), name="test_template", state="draft", site=self.site
+        )
+        self.badge_requirement1 = BadgeRequirement.objects.create(
+            template=self.badge_template,
+            event_type="org.openedx.learning.course.passing.status.updated.v1",
+            blend="group1",
+        )
+        self.badge_requirement2 = BadgeRequirement.objects.create(
+            template=self.badge_template,
+            event_type="org.openedx.learning.ccx.course.passing.status.updated.v1",
+            blend="group1",
+        )
+        self.badge_requirement3 = BadgeRequirement.objects.create(
+            template=self.badge_template, event_type="org.openedx.learning.course.passing.status.updated.v1"
+        )
+        self.username = "test_user"
+
+    def test_is_group_fulfilled_with_fulfilled_requirements(self):
+        progress = BadgeProgress.objects.create(username=self.username, template=self.badge_template)
+        Fulfillment.objects.create(progress=progress, requirement=self.badge_requirement1)
+
+        is_fulfilled = BadgeRequirement.is_group_fulfilled(
+            group="group1", template=self.badge_template, username=self.username
+        )
+
+        self.assertTrue(is_fulfilled)
+
+    def test_is_group_fulfilled_with_unfulfilled_requirements(self):
+        is_fulfilled = BadgeRequirement.is_group_fulfilled(
+            group="group1", template=self.badge_template, username=self.username
+        )
+
+        self.assertFalse(is_fulfilled)
+
+    def test_is_group_fulfilled_with_invalid_group(self):
+        is_fulfilled = BadgeRequirement.is_group_fulfilled(
+            group="invalid_group", template=self.badge_template, username=self.username
+        )
+
+        self.assertFalse(is_fulfilled)
+
+
+class CredlyOrganizationTestCase(TestCase):
+    def setUp(self):
+        self.fake = Faker()
+        self.uuid = self.fake.uuid4()
+        self.organization = CredlyOrganization.objects.create(
+            uuid=self.uuid, api_key="test-api-key", name="test_organization"
+        )
+
+    def test_str_representation(self):
+        self.assertEqual(str(self.organization), "test_organization")
+
+    def test_get_all_organization_ids(self):
+        organization_ids = [str(uuid) for uuid in CredlyOrganization.get_all_organization_ids()]
+        self.assertEqual(organization_ids, [self.uuid])
+
+    def test_get_preconfigured_organizations(self):
+        preconfigured_organizations = CredlyOrganization.get_preconfigured_organizations()
+        self.assertEqual(preconfigured_organizations, settings.BADGES_CONFIG["credly"].get("ORGANIZATIONS", {}))
+
+    def test_is_preconfigured(self):
+        with patch(
+            "credentials.apps.badges.models.CredlyOrganization.get_preconfigured_organizations"
+        ) as mock_get_preconfigured:
+            mock_get_preconfigured.return_value = {str(self.uuid): "Test Organization"}
+            self.assertTrue(self.organization.is_preconfigured)
+            mock_get_preconfigured.assert_called_once()

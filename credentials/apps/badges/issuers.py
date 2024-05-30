@@ -36,7 +36,7 @@ class BadgeTemplateIssuer(AbstractCredentialIssuer):
         attributes=None,
         date_override=None,
         request=None,
-        lms_user_id=None,  # pylint: disable=unused-argument
+        lms_user_id=None,
     ):
         """
         Issue a credential to the user.
@@ -86,6 +86,15 @@ class BadgeTemplateIssuer(AbstractCredentialIssuer):
         return user_credential
 
     def revoke(self, credential_id, username):
+        """
+        Revokes a badge.
+
+        Changes user credential status to REVOKED, for a given user.
+        Notifies about the revoked badge (public signal).
+
+        Returns: UserCredential
+        """
+
         credential = self.get_credential(credential_id)
         user_credential = self.issue_credential(credential, username, status=UserCredentialStatus.REVOKED)
 
@@ -130,6 +139,10 @@ class CredlyBadgeTemplateIssuer(BadgeTemplateIssuer):
         user_credential.save()
 
     def revoke_credly_badge(self, credential_id, user_credential):
+        """
+        Requests Credly service for external badge revoking based on internal user credential (CredlyBadge).
+        """
+
         credential = self.get_credential(credential_id)
         credly_api = CredlyAPIClient(credential.organization.uuid)
         revoke_data = {
@@ -165,6 +178,16 @@ class CredlyBadgeTemplateIssuer(BadgeTemplateIssuer):
         return credly_badge
 
     def revoke(self, credential_id, username):
+        """
+        Revokes a Credly badge.
+
+        - Changes user credential status to REVOKED, for a given user;
+        - Notifies about the revoked badge (public signal);
+        - Revokes external Credly badge (Credly API);
+
+        Returns: (CredlyBadge) user credential
+        """
+
         user_credential = super().revoke(credential_id, username)
         if user_credential.propagated:
             self.revoke_credly_badge(credential_id, user_credential)

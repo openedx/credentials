@@ -65,6 +65,7 @@ django==4.2.13
     #   django-extensions
     #   django-filter
     #   django-model-utils
+    #   django-simple-history
     #   django-statici18n
     #   django-storages
     #   django-waffle
@@ -103,7 +104,7 @@ django-ratelimit==4.1.0
     # via -r requirements/base.in
 django-rest-swagger==2.2.0
     # via -r requirements/base.in
-django-simple-history==3.5.0
+django-simple-history==3.7.0
     # via -r requirements/base.in
 django-sortedm2m==3.1.1
     # via -r requirements/base.in
@@ -138,7 +139,7 @@ edx-auth-backends==4.3.0
     # via -r requirements/base.in
 edx-ccx-keys==1.3.0
     # via openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.15
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.16
     # via -r requirements/base.in
 edx-django-release-util==1.4.0
     # via -r requirements/base.in
@@ -346,5 +347,5 @@ webencodings==0.5.1
     # via bleach
 xss-utils==0.6.0
     # via -r requirements/base.in
-zipp==3.18.2
+zipp==3.19.0
     # via importlib-metadata

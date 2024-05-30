@@ -41,7 +41,7 @@ class BadgeSignalReceiverTestCase(TestCase):
         self.assertTrue(user_credential.exists())
 
         # Check if user credential status is 'awarded'
-        self.assertTrue(user_credential[0].status == "awarded")
+        self.assertEqual(user_credential[0].status, "awarded")
 
     def test_regression_signal_emission_and_receiver_execution(self):
         # Emit the signal
@@ -64,4 +64,4 @@ class BadgeSignalReceiverTestCase(TestCase):
         self.assertTrue(user_credential.exists())
 
         # Check if user credential status is 'revoked'
-        self.assertTrue(user_credential[0].status == "revoked")
+        self.assertEqual(user_credential[0].status, "revoked")

@@ -36,7 +36,9 @@ class CredlyOrganization(TimeStampedModel):
 
     uuid = models.UUIDField(unique=True, help_text=_("Put your Credly Organization ID here."))
     api_key = models.CharField(
-        max_length=255, help_text=_("Credly API shared secret for Credly Organization."), blank=True
+        max_length=255,
+        help_text=_("Credly API shared secret for Credly Organization."),
+        blank=True,
     )
     name = models.CharField(
         max_length=255,
@@ -104,7 +106,7 @@ class BadgeTemplate(AbstractCredential):
 
     @property
     def groups(self):
-        return self.requirements.values_list("group", flat=True).distinct()
+        return self.requirements.values_list("blend", flat=True).distinct()
 
     @classmethod
     def by_uuid(cls, template_uuid):
@@ -173,17 +175,19 @@ class BadgeRequirement(models.Model):
         max_length=255,
         choices=EVENT_TYPES,
         help_text=_(
-            'Public signal type. Available events are configured in "BADGES_CONFIG" setting. The crucial aspect for event to carry UserData in its payload.'
+            'Public signal type. Available events are configured in "BADGES_CONFIG" setting. '
+            "The crucial aspect for event to carry UserData in its payload."
         ),
     )
     description = models.TextField(null=True, blank=True, help_text=_("Provide more details if needed."))
-    group = models.CharField(
+    blend = models.CharField(
         max_length=255,
         null=True,
         blank=True,
         help_text=_(
-            "Optional. Put requirements into the same arbitrary Group ID to make them interchangeable (OR processing logic applies)."
+            "Optional. Group requirements together using the same Group ID for interchangeable (OR processing logic)."
         ),
+        verbose_name=_("group"),
     )
 
     def __str__(self):
@@ -200,7 +204,7 @@ class BadgeRequirement(models.Model):
         """
         template_id = self.template.id
         progress = BadgeProgress.for_user(username=username, template_id=template_id)
-        fulfillment, created = Fulfillment.objects.get_or_create(progress=progress, requirement=self, group=self.group)
+        fulfillment, created = Fulfillment.objects.get_or_create(progress=progress, requirement=self, blend=self.blend)
 
         if created:
             notify_requirement_fulfilled(
@@ -248,7 +252,7 @@ class BadgeRequirement(models.Model):
         """
 
         progress = BadgeProgress.for_user(username=username, template_id=template.id)
-        requirements = cls.objects.filter(template=template, group=group)
+        requirements = cls.objects.filter(template=template, blend=group)
         fulfilled_requirements = requirements.filter(fulfillments__progress=progress).count()
 
         return fulfilled_requirements > 0
@@ -418,6 +422,10 @@ class BadgePenalty(models.Model):
 
     @property
     def is_active(self):
+        """
+        Checks if the penalty is active.
+        """
+
         return self.template.is_active
 
 
@@ -442,6 +450,9 @@ class PenaltyDataRule(AbstractDataRule):
 
     @property
     def is_active(self):
+        """
+        Checks if the rule is active.
+        """
         return self.penalty.template.is_active
 
 
@@ -490,6 +501,10 @@ class BadgeProgress(models.Model):
 
     @property
     def groups(self):
+        """
+        Returns gorups and their statuses (fulfilled or not).
+        """
+
         return {
             group: BadgeRequirement.is_group_fulfilled(group=group, template=self.template, username=self.username)
             for group in self.template.groups
@@ -516,6 +531,10 @@ class BadgeProgress(models.Model):
         notify_progress_incomplete(self, self.username, self.template.id)
 
     def reset(self):
+        """
+        Resets the progress.
+        """
+
         Fulfillment.objects.filter(progress=self).delete()
 
 
@@ -532,7 +551,13 @@ class Fulfillment(models.Model):
         null=True,
         related_name="fulfillments",
     )
-    group = models.CharField(max_length=255, null=True, blank=True, help_text=_("Group ID for the requirement."))
+    blend = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text=_("Group ID for the requirement."),
+        verbose_name=_("group"),
+    )
 
 
 class CredlyBadge(UserCredential):

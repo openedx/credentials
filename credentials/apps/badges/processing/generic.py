@@ -65,7 +65,10 @@ def identify_user(*, event_type, event_payload):
     user_data = get_user_data(event_payload)
 
     if not user_data:
-        message = f"User data cannot be found (got: {user_data}): {event_payload}. Does event {event_type} include user data at all?"
+        message = (
+            f"User data cannot be found (got: {user_data}): {event_payload}. "
+            f"Does event {event_type} include user data at all?"
+        )
         raise BadgesProcessingError(message)
 
     user, __ = get_or_create_user_from_event_data(user_data)
