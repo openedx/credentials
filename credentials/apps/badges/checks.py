@@ -14,6 +14,7 @@ def badges_checks(*args, **kwargs):
 
     Raises compatibility Errors upon:
         - BADGES_CONFIG['events'] is empty
+        - Credly settings are not properly configured
 
     Returns:
         List of any Errors.

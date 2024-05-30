@@ -21,8 +21,11 @@ class Command(BaseCommand):
         Sync badge templates for a specific organization or all organizations.
 
         Usage:
-            ./manage.py sync_organization_badge_templates --site_id 1
-            ./manage.py sync_organization_badge_templates --site_id 1 --organization_id c117c179-81b1-4f7e-a3a1-e6ae30568c13
+            site_id=1
+            org_id=c117c179-81b1-4f7e-a3a1-e6ae30568c13
+
+            ./manage.py sync_organization_badge_templates --site_id $site_id
+            ./manage.py sync_organization_badge_templates --site_id $site_id --organization_id $org_id
         """
         DEFAULT_SITE_ID = 1
         organizations_to_sync = []
@@ -40,7 +43,8 @@ class Command(BaseCommand):
         else:
             organizations_to_sync = CredlyOrganization.get_all_organization_ids()
             logger.info(
-                f"Organization ID wasn't provided: syncing badge templates for all organizations - {organizations_to_sync}"
+                "Organization ID wasn't provided: syncing badge templates for all organizations - "
+                f"{organizations_to_sync}",
             )
 
         for organization_id in organizations_to_sync:

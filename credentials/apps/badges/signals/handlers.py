@@ -36,7 +36,7 @@ def listen_to_badging_events():
         signal.connect(handle_badging_event, dispatch_uid=event_type)
 
 
-def handle_badging_event(sender, signal, **kwargs):
+def handle_badging_event(sender, signal, **kwargs):  # pylint: disable=unused-argument
     """
     Generic handler for incoming from the Event bus public signals.
     """
@@ -47,7 +47,7 @@ def handle_badging_event(sender, signal, **kwargs):
 
 
 @receiver(BADGE_REQUIREMENT_FULFILLED)
-def handle_requirement_fulfilled(sender, username, **kwargs):  # pylint: disable=unused-argument
+def handle_requirement_fulfilled(sender, username, **kwargs):
     """
     On user's Badge progression (completion).
     """
@@ -55,7 +55,7 @@ def handle_requirement_fulfilled(sender, username, **kwargs):  # pylint: disable
 
 
 @receiver(BADGE_REQUIREMENT_REGRESSED)
-def handle_requirement_regressed(sender, username, **kwargs):  # pylint: disable=unused-argument
+def handle_requirement_regressed(sender, username, **kwargs):
     """
     On user's Badge regression (incompletion).
     """

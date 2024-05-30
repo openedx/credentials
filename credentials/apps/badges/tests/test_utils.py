@@ -135,6 +135,15 @@ class TestBadgesChecks(unittest.TestCase):
         errors = badges_checks()
         self.assertEqual(len(errors), 0)
 
+    @patch("credentials.apps.badges.checks.credly_check")
+    def test_badges_checks_credly_not_configured(self, mock_credly_check):
+        mock_credly_check.return_value = False
+        errors = badges_checks()
+        self.assertEqual(len(errors), 1)
+        self.assertEqual(errors[0].msg, "Credly settings are not properly configured.")
+        self.assertEqual(errors[0].hint, "Make sure all required settings are present in BADGES_CONFIG['credly'].")
+        self.assertEqual(errors[0].id, "badges.E002")
+
 
 class TestCredlyCheck(unittest.TestCase):
     def test_credly_configured(self):
@@ -218,16 +227,16 @@ class TestGetCredlyApiBaseUrl(unittest.TestCase):
 
 class TestGetEventTypeAttrTypeByKeypath(unittest.TestCase):
     def test_get_event_type_attr_type_by_keypath(self):
-        keypath = "course.course_key"
-        result = get_event_type_attr_type_by_keypath(COURSE_PASSING_EVENT, keypath)
+        key_path = "course.course_key"
+        result = get_event_type_attr_type_by_keypath(COURSE_PASSING_EVENT, key_path)
         self.assertEqual(result, CourseKey)
 
     def test_get_event_type_attr_type_by_keypath_bool(self):
-        keypath = "is_passing"
-        result = get_event_type_attr_type_by_keypath(COURSE_PASSING_EVENT, keypath)
+        key_path = "is_passing"
+        result = get_event_type_attr_type_by_keypath(COURSE_PASSING_EVENT, key_path)
         self.assertEqual(result, bool)
 
     def test_get_event_type_attr_type_by_keypath_not_found(self):
-        keypath = "course.id"
-        result = get_event_type_attr_type_by_keypath(COURSE_PASSING_EVENT, keypath)
+        key_path = "course.id"
+        result = get_event_type_attr_type_by_keypath(COURSE_PASSING_EVENT, key_path)
         self.assertIsNone(result)

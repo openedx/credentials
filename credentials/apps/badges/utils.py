@@ -1,4 +1,5 @@
 import inspect
+from typing import Union
 
 import attr
 from attrs import asdict
@@ -29,7 +30,7 @@ def credly_check():
         "CREDLY_SANDBOX_API_BASE_URL",
         "USE_SANDBOX",
     )
-    return all([key in credly_settings.keys() for key in keys])
+    return all(key in credly_settings.keys() for key in keys)
 
 
 def keypath(payload, keys_path):
@@ -100,7 +101,7 @@ def get_user_data(data: attr.s) -> UserData:
     return None
 
 
-def extract_payload(public_signal_kwargs: dict) -> attr.s:
+def extract_payload(public_signal_kwargs: dict) -> Union[None, attr.s]:
     """
     Extracts the event payload from the event data.
 
@@ -113,6 +114,7 @@ def extract_payload(public_signal_kwargs: dict) -> attr.s:
     for value in public_signal_kwargs.values():
         if attr.has(value):
             return value
+    return None
 
 
 def get_event_type_data(event_type: str) -> attr.s:
@@ -169,13 +171,13 @@ def get_event_type_keypaths(event_type: str) -> list:
     return keypaths
 
 
-def get_event_type_attr_type_by_keypath(event_type: str, keypath: str):
+def get_event_type_attr_type_by_keypath(event_type: str, key_path: str):
     """
     Extracts the attribute type for a given keypath in the event type.
 
     Parameters:
         - event_type: The event type to extract dataclass for.
-        - keypath: The keypath to extract attribute type for.
+        - key_path: The keypath to extract attribute type for.
 
     Returns:
         type: The attribute type for the given keypath in the event data.
@@ -184,12 +186,12 @@ def get_event_type_attr_type_by_keypath(event_type: str, keypath: str):
     data = get_event_type_data(event_type)
     data_attrs = attr.fields(data)
 
-    def get_attr_type_by_keypath(data_attrs, keypath):
+    def get_attr_type_by_keypath(data_attrs, key_path):
         """
         Extracts the attribute type for a given keypath in the dataclass.
         """
 
-        keypath_parts = keypath.split(".")
+        keypath_parts = key_path.split(".")
         for attr_ in data_attrs:
             if attr_.name == keypath_parts[0]:
                 if len(keypath_parts) == 1:
@@ -198,4 +200,4 @@ def get_event_type_attr_type_by_keypath(event_type: str, keypath: str):
                     return get_attr_type_by_keypath(attr.fields(attr_.type), ".".join(keypath_parts[1:]))
         return None
 
-    return get_attr_type_by_keypath(data_attrs, keypath)
+    return get_attr_type_by_keypath(data_attrs, key_path)

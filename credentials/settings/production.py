@@ -63,5 +63,3 @@ DB_OVERRIDES = dict(
 
 for override, value in DB_OVERRIDES.items():
     DATABASES["default"][override] = value
-
-add_plugins(__name__, PROJECT_TYPE, SettingsType.PRODUCTION)

@@ -50,7 +50,7 @@ class CredlyOrganizationAdminForm(forms.ModelForm):
             api_key = settings.BADGES_CONFIG["credly"]["ORGANIZATIONS"][str(uuid)]
 
         credly_api_client = CredlyAPIClient(uuid, api_key)
-        self._ensure_organization_exists(credly_api_client)
+        self.ensure_organization_exists(credly_api_client)
 
         return cleaned_data
 
@@ -64,7 +64,7 @@ class CredlyOrganizationAdminForm(forms.ModelForm):
 
         return instance
 
-    def _ensure_organization_exists(self, api_client):
+    def ensure_organization_exists(self, api_client):
         """
         Try to fetch organization data by the configured Credly Organization ID.
         """
@@ -93,7 +93,7 @@ class BadgePenaltyForm(forms.ModelForm):
         requirements = cleaned_data.get("requirements")
 
         if requirements and not all(
-            [requirement.template.id == cleaned_data.get("template").id for requirement in requirements]
+            requirement.template.id == cleaned_data.get("template").id for requirement in requirements
         ):
             raise forms.ValidationError(_("All requirements must belong to the same template."))
         return cleaned_data
@@ -143,7 +143,8 @@ class DataRuleExtensionsMixin:
         return cleaned_data
 
 
-class DataRuleFormSet(ParentMixin, forms.BaseInlineFormSet): ...
+class DataRuleFormSet(ParentMixin, forms.BaseInlineFormSet):
+    pass
 
 
 class DataRuleForm(DataRuleExtensionsMixin, forms.ModelForm):
@@ -158,7 +159,8 @@ class DataRuleForm(DataRuleExtensionsMixin, forms.ModelForm):
     data_path = forms.ChoiceField()
 
 
-class BadgeRequirementFormSet(ParentMixin, forms.BaseInlineFormSet): ...
+class BadgeRequirementFormSet(ParentMixin, forms.BaseInlineFormSet):
+    pass
 
 
 class BadgeRequirementForm(forms.ModelForm):
@@ -166,17 +168,18 @@ class BadgeRequirementForm(forms.ModelForm):
         model = BadgeRequirement
         fields = "__all__"
 
-    group = forms.ChoiceField()
+    blend = forms.ChoiceField()
 
     def __init__(self, *args, parent_instance=None, **kwargs):
         self.template = parent_instance
         super().__init__(*args, **kwargs)
 
-        self.fields["group"].choices = Choices(*[(chr(i), chr(i)) for i in range(65, 91)])
-        self.fields["group"].initial = chr(65 + self.template.requirements.count())
+        self.fields["blend"].choices = Choices(*[(chr(i), chr(i)) for i in range(65, 91)])
+        self.fields["blend"].initial = chr(65 + self.template.requirements.count())
 
 
-class PenaltyDataRuleFormSet(ParentMixin, forms.BaseInlineFormSet): ...
+class PenaltyDataRuleFormSet(ParentMixin, forms.BaseInlineFormSet):
+    pass
 
 
 class PenaltyDataRuleForm(DataRuleExtensionsMixin, forms.ModelForm):

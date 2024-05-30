@@ -60,13 +60,18 @@ class CredlyWebhook(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     @staticmethod
+    def _get_badge_template_from_data(data):
+        badge_template = data.get("data", {}).get("badge_template", {})
+        return badge_template
+
+    @staticmethod
     def handle_badge_template_created_event(request, data):
         """
         Create a new badge template.
         """
-        # TODO: dry it
-        badge_template = data.get("data", {}).get("badge_template", {})
-        owner = data.get("data", {}).get("badge_template", {}).get("owner", {})
+
+        badge_template = CredlyWebhook._get_badge_template_from_data(data)
+        owner = badge_template.get("owner", {})
 
         organization = get_object_or_404(CredlyOrganization, uuid=owner.get("id"))
 
@@ -87,9 +92,9 @@ class CredlyWebhook(APIView):
         """
         Change the badge template.
         """
-        # TODO: dry it
-        badge_template = data.get("data", {}).get("badge_template", {})
-        owner = data.get("data", {}).get("badge_template", {}).get("owner", {})
+
+        badge_template = CredlyWebhook._get_badge_template_from_data(data)
+        owner = badge_template.get("owner", {})
 
         organization = get_object_or_404(CredlyOrganization, uuid=owner.get("id"))
 
@@ -117,6 +122,6 @@ class CredlyWebhook(APIView):
         Deletes the badge template by provided uuid.
         """
         CredlyBadgeTemplate.objects.filter(
-            uuid=data.get("data", {}).get("badge_template", {}).get("id"),
+            uuid=CredlyWebhook._get_badge_template_from_data(data).get("id"),
             site=get_current_site(request),
         ).delete()

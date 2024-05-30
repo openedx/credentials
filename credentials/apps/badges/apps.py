@@ -1,25 +1,15 @@
 from django.apps import AppConfig
 
-from .toggles import check_badges_enabled
+from credentials.apps.badges.toggles import check_badges_enabled
 
 
-class BadgesAppConfig(AppConfig):
-    """
-    Extended application config with additional Badges-specific logic.
-    """
-
-    @property
-    def verbose_name(self):
-        return f"Badges: {self.plugin_label}"
-
-
-class BadgesConfig(BadgesAppConfig):
+class BadgesConfig(AppConfig):
     """
     Core badges application configuration.
     """
 
-    default = True
     name = "credentials.apps.badges"
+    plugin_label = "badges"
     verbose_name = "Badges"
 
     @check_badges_enabled
@@ -29,9 +19,13 @@ class BadgesConfig(BadgesAppConfig):
 
         Performs initial registrations for checks, signals, etc.
         """
-        from . import signals  # pylint: disable=unused-import,import-outside-toplevel
-        from .checks import badges_checks  # pylint: disable=unused-import,import-outside-toplevel
-        from .signals.handlers import listen_to_badging_events
+        from credentials.apps.badges import signals  # pylint: disable=unused-import,import-outside-toplevel
+        from credentials.apps.badges.checks import (  # pylint: disable=unused-import,import-outside-toplevel
+            badges_checks,
+        )
+        from credentials.apps.badges.signals.handlers import (  # pylint: disable=import-outside-toplevel
+            listen_to_badging_events,
+        )
 
         listen_to_badging_events()
 
