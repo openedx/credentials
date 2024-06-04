@@ -34,7 +34,7 @@ bleach==6.1.0
     # via -r requirements/base.txt
 cachetools==5.3.3
     # via tox
-certifi==2024.2.2
+certifi==2024.6.2
     # via
     #   -r requirements/base.txt
     #   requests
@@ -190,7 +190,7 @@ edx-django-release-util==1.4.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==4.2.0
     # via -r requirements/base.txt
-edx-django-utils==5.14.1
+edx-django-utils==5.14.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
@@ -224,7 +224,7 @@ exceptiongroup==1.2.1
     # via pytest
 factory-boy==3.3.0
     # via -r requirements/test.in
-faker==25.3.0
+faker==25.4.0
     # via factory-boy
 fastavro==1.9.4
     # via
@@ -386,7 +386,7 @@ pypng==0.20220715.0
     #   qrcode
 pyproject-api==1.6.1
     # via tox
-pytest==8.2.1
+pytest==8.2.2
     # via
     #   -r requirements/test.in
     #   pytest-django
@@ -506,7 +506,7 @@ tomlkit==0.12.5
     # via pylint
 tox==4.15.0
     # via -r requirements/test.in
-typing-extensions==4.12.0
+typing-extensions==4.12.1
     # via
     #   -r requirements/base.txt
     #   asgiref
@@ -534,7 +534,7 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.6.0
     # via -r requirements/base.txt
-zipp==3.19.0
+zipp==3.19.1
     # via
     #   -r requirements/base.txt
     #   importlib-metadata
