@@ -540,8 +540,43 @@ LOGO_POWERED_BY_OPEN_EDX_URL = "https://edx-cdn.org/v3/prod/open-edx-tag.svg"
 # Learner Record MFE Settings
 LEARNER_RECORD_MFE_RECORDS_PAGE_URL = ""
 
+# Plugin Django Apps
+INSTALLED_APPS.extend(get_plugin_apps(PROJECT_TYPE))
+add_plugins(__name__, PROJECT_TYPE, SettingsType.BASE)
+
+# disable indexing on history_date
+SIMPLE_HISTORY_DATE_INDEX = False
+
 # Badges settings
 BADGES_ENABLED = True
+# .. setting_name: BADGES_CONFIG
+# .. setting_description: Dictionary with badges settings including enabled badge events, processors, collectors, etc.
+BADGES_CONFIG = {
+    # # list of the events that should be available in rules configuration interface:
+    "events": [
+        "org.openedx.learning.course.passing.status.updated.v1",
+        "org.openedx.learning.ccx.course.passing.status.updated.v1",
+    ],
+    "credly": {
+        "CREDLY_BASE_URL": "https://credly.com/",
+        "CREDLY_API_BASE_URL": "https://api.credly.com/v1/",
+        "CREDLY_SANDBOX_BASE_URL": "https://sandbox.credly.com/",
+        "CREDLY_SANDBOX_API_BASE_URL": "https://sandbox-api.credly.com/v1/",
+        "USE_SANDBOX": False,
+    },
+    "rules": {
+        "ignored_keypaths": [
+            "user.id",
+            "user.is_active",
+            "user.pii.username",
+            "user.pii.email",
+            "user.pii.name",
+            "course.display_name",
+            "course.start",
+            "course.end",
+        ],
+    },
+}
 
 # Event Bus Settings
 EVENT_BUS_PRODUCER = "edx_event_bus_redis.create_producer"
@@ -572,24 +607,6 @@ EVENT_BUS_PRODUCER_CONFIG = {
     "org.openedx.learning.badge.revoked.v1": {
         "learning-badges-lifecycle": {"event_key_field": "badge.uuid", "enabled": BADGES_ENABLED},
     },
-}
-
-# Plugin Django Apps
-INSTALLED_APPS.extend(get_plugin_apps(PROJECT_TYPE))
-add_plugins(__name__, PROJECT_TYPE, SettingsType.BASE)
-
-# disable indexing on history_date
-SIMPLE_HISTORY_DATE_INDEX = False
-
-# Event Bus Settings
-EVENT_BUS_PRODUCER = "edx_event_bus_redis.create_producer"
-EVENT_BUS_CONSUMER = "edx_event_bus_redis.RedisEventConsumer"
-EVENT_BUS_REDIS_CONNECTION_URL = "redis://:password@edx.devstack.redis:6379/"
-EVENT_BUS_TOPIC_PREFIX = "dev"
-# .. setting_name: EVENT_BUS_PRODUCER_CONFIG
-# .. setting_default: all events disabled
-# .. setting_description: Dictionary of event_types mapped to dictionaries of topic to topic-related configuration.
-EVENT_BUS_PRODUCER_CONFIG = {
     # .. setting_name: EVENT_BUS_PRODUCER_CONFIG['org.openedx.learning.program.certificate.awarded.v1']
     #    ['learning-program-certificate-lifecycle']['enabled']
     # .. toggle_implementation: DjangoSetting
@@ -630,32 +647,3 @@ EVENT_BUS_PRODUCER_CONFIG = {
 # .. toggle_use_cases: opt_in
 # .. toggle_creation_date: 2024-01-25
 LOG_INCOMING_REQUESTS = WaffleSwitch("api.log_incoming_requests", module_name=__name__)
-# Badges settings
-# .. setting_name: BADGES_CONFIG
-# .. setting_description: Dictionary with badges settings including enabled badge events, processors, collectors, etc.
-BADGES_CONFIG = {
-    # these events become available in rules setup:
-    "events": [
-        "org.openedx.learning.course.passing.status.updated.v1",
-        "org.openedx.learning.ccx.course.passing.status.updated.v1",
-    ],
-    "credly": {
-        "CREDLY_BASE_URL": "https://credly.com/",
-        "CREDLY_API_BASE_URL": "https://api.credly.com/v1/",
-        "CREDLY_SANDBOX_BASE_URL": "https://sandbox.credly.com/",
-        "CREDLY_SANDBOX_API_BASE_URL": "https://sandbox-api.credly.com/v1/",
-        "USE_SANDBOX": False,
-    },
-    "rules": {
-        "ignored_keypaths": [
-            "user.id",
-            "user.is_active",
-            "user.pii.username",
-            "user.pii.email",
-            "user.pii.name",
-            "course.display_name",
-            "course.start",
-            "course.end",
-        ],
-    },
-}
