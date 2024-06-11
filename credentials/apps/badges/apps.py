@@ -9,7 +9,6 @@ class BadgesConfig(AppConfig):
     """
 
     name = "credentials.apps.badges"
-    plugin_label = "badges"
     verbose_name = "Badges"
 
     @check_badges_enabled

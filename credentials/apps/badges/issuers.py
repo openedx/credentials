@@ -25,6 +25,10 @@ class BadgeTemplateIssuer(AbstractCredentialIssuer):
     issued_user_credential_type = UserCredential
 
     def get_credential(self, credential_id):
+        """
+        Get credential by id.
+        """
+
         return self.issued_credential_type.objects.get(id=credential_id)
 
     @transaction.atomic

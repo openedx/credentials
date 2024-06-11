@@ -106,10 +106,18 @@ class BadgeTemplate(AbstractCredential):
 
     @property
     def groups(self):
+        """
+        Returns unique groups for the badge template.
+        """
+
         return self.requirements.values_list("blend", flat=True).distinct()
 
     @classmethod
     def by_uuid(cls, template_uuid):
+        """
+        Returns badge template by UUID.
+        """
+
         return cls.objects.filter(uuid=template_uuid, origin=cls.ORIGIN).first()
 
     def user_progress(self, username: str) -> float:
@@ -266,6 +274,10 @@ class BadgeRequirement(models.Model):
 
     @property
     def is_active(self):
+        """
+        Checks if the requirement is active.
+        """
+
         return self.template.is_active
 
 
@@ -372,6 +384,10 @@ class DataRule(AbstractDataRule):
 
     @property
     def is_active(self):
+        """
+        Checks if the rule is active.
+        """
+
         return self.requirement.template.is_active
 
 
@@ -453,6 +469,7 @@ class PenaltyDataRule(AbstractDataRule):
         """
         Checks if the rule is active.
         """
+
         return self.penalty.template.is_active
 
 
@@ -522,12 +539,14 @@ class BadgeProgress(models.Model):
         """
         Notify about the progress.
         """
+
         notify_progress_complete(self, self.username, self.template.id)
 
     def regress(self):
         """
         Notify about the regression.
         """
+
         notify_progress_incomplete(self, self.username, self.template.id)
 
     def reset(self):
