@@ -548,7 +548,7 @@ add_plugins(__name__, PROJECT_TYPE, SettingsType.BASE)
 SIMPLE_HISTORY_DATE_INDEX = False
 
 # Badges settings
-BADGES_ENABLED = True
+BADGES_ENABLED = False
 # .. setting_name: BADGES_CONFIG
 # .. setting_description: Dictionary with badges settings including enabled badge events, processors, collectors, etc.
 BADGES_CONFIG = {
