@@ -14,10 +14,9 @@ class BadgesConfig(AppConfig):
     @check_badges_enabled
     def ready(self):
         """
-        Activate installed badges plugins if they are enabled.
-
         Performs initial registrations for checks, signals, etc.
         """
+
         from credentials.apps.badges import signals  # pylint: disable=unused-import,import-outside-toplevel
         from credentials.apps.badges.checks import (  # pylint: disable=unused-import,import-outside-toplevel
             badges_checks,
