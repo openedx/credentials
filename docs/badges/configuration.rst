@@ -1,7 +1,11 @@
 Configuration
 =============
 
-The Badges feature is configured via the Credentials admin interface.
+.. note::
+
+    This section provides information on how and where to set up badge templates and organizations.
+
+The Badges feature is configured in the Credentials admin panel.
 
 .. image:: ../_static/images/badges/badges-admin.png
         :alt: Badges administration
@@ -9,25 +13,41 @@ The Badges feature is configured via the Credentials admin interface.
 Credly Organizations
 --------------------
 
-    Multiple Credly Organizations can be configured.
+Multiple Credly Organizations can be configured.
 
 **All communication between Open edX Credentials and Credly service happens on behalf of a Credly Organization.**
 
-Enter "Credly Organizations" list page (`<credentials>/admin/badges/credlyorganization/`) and create a new item:
+Go to the Credly Organization section in the admin panel and create a new item:
 
-- to set the UUID use your Credly Organization identifier;
-- to set the authorization token issue one in the Credly Organization's dashboard;
+1. to set the UUID use your Credly Organization identifier;
+2. to set the authorization token issue one in the Credly Organization's dashboard.
 
 Check: the system pulls the Organization's details and updates its name.
 
-In case of errors check used credentials for the Organization.
+In case of errors check the used credentials for the Organization.
 
 Badge templates
 ---------------
 
-    **Badge template** is another **credential** type. Credly badge template is a kind of a badge template.
+*Credly badge templates* (badge templates for short) are created in the Credly Organization's dashboard and then, if published, they are retrieved by the Credentials via API.
 
-*Credly badge templates* (badge templates for brevity) are created in the Credly Organization's dashboard and then, if published, they are retrieved by the Credentials via API.
+Webhooks
+~~~~~~~~~~~~~~~
+
+.. note::
+
+    Webhooks is a connection with Credly and external platform that allows your server to be notified about events occuring within Credly.
+
+Webhooks are set up on Credly management dashboard as Credly is a main initiator of the syncronization.
+
+You should be able to select an action from the list so that whenever this action happens internally, external platform will be alerted and updated.
+
+Without the syncronization, actions such as:
+
+- Update of the badge template
+- Archivation of the badge template
+
+external platform will not be aware of any changes so it might continue issuing outdated badges.
 
 Synchronization
 ~~~~~~~~~~~~~~~

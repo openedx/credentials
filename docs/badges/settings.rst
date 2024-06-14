@@ -1,11 +1,15 @@
 Settings
 ========
 
+.. note::
+
+    You can find technical details on how to set up proper configurations for badges to be active in this section.
+
 Badges feature settings allow configuration:
 
-- feature availability;
-- event bus public signals subset for badges;
-- the Credly service integration details (URLs, sandbox usage, etc.);
+1. feature availability;
+2. event bus public signals subset for badges;
+3. the Credly service integration details (URLs, sandbox usage, etc.);
 
 
 Feature switch
@@ -84,8 +88,8 @@ Source public signals
 
 Platform's event bus producer configuration was extended with 2 public signals:
 
-- information about the fact someone's course grade was updated (allows course completion recognition);
-- information about the fact someone's CCX course grade was updated (allows CCX course completion recognition);
+1. information about the fact someone’s course grade was updated (allows course completion recognition);
+2. information about the fact someone’s CCX course grade was updated (allows CCX course completion recognition).
 
 .. code-block:: python
 
@@ -112,8 +116,8 @@ Emitted public signals
 
 The Badges feature introduced 2 own event types:
 
-- information about the fact someone has earned a badge;
-- information about the fact someone's badge was revoked;
+1. information about the fact someone has earned a badge;
+2. information about the fact someone's badge was revoked;
 
 .. code-block:: python
 
@@ -131,6 +135,8 @@ The Badges feature introduced 2 own event types:
 
 Consuming workers
 ~~~~~~~~~~~~~~~~~
+
+.. note::
 
     Consumers implementation depends on the used event bus.
 

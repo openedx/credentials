@@ -1,23 +1,24 @@
 Quick Start
 ===========
 
-    Learners *earn* badges based on Open edX platform activity.
+.. note::
+    
+    This section includes brief information about the feature – what to start with; where to set up credentials, etc.
 
+0. Prerequisites – Credly account
+---------------------------------
 
-0. Credly service prerequisites
--------------------------------
+To start using this feature a Credly account is necessary.
 
-Since current Badges version is deeply integrated with the Credly service, Credly account is a prerequisite.
-
-- a **Credly Organization** is expected to be created;
-- 1 or more **badge templates** are expected to be created and activated in the Organization;
-- Credly Organization **authorization token** is issued;
+1. Register on Credly and create your account.
+2. Create Organization in Credly.
+3. Create at least 1 badge template and activate it.
+4. Credly Organization 
 
 1. Enable feature
 -----------------
 
-Badges feature is optional and it is disabled by default.
-So, it must be enabled to be accessible.
+Badges feature is optional and it is disabled by default. So, it must be enabled to be accessible.
 
 .. code-block::
 
@@ -30,50 +31,59 @@ So, it must be enabled to be accessible.
 2. Configure Credly integration
 -------------------------------
 
-    Multiple Credly Organizations can be configured.
+.. note::
 
-Enter the Credentials service admin interface and configure the integration with the Credly service:
+    For detailed information, go to the `Configuration`_ section.
 
-- create a Credly Organization (`<credentials>/admin/badges/credlyorganization/`);
-- set the UUID for the Organization;
-- set the authorization token;
+Go to the Credentials service admin panel and configure the integration with the Credly service:
 
-Check: the system pulls the Organization data and updates its name.
+1. In the admin panel go to <credentials>/admin/badges/credly_organization to add Credly Organization.
+    a. Add UUID (unique identifier) for the Credly organization
+    b. Add the authorization token of the Credly organization.
+
+Please note that UUID and authorization token will be given to you during the creation of the Credly Organization on the Credly side
+
+Check: the system pulls the Organization's data and updates its name.
+
+.. _Configuration: configuration.html
 
 
 3. Synchronize badge templates
 ------------------------------
+    Note: For detailed information, go to the `Configuration`_ section.
 
-From the "Credly Organizations" list, select the Organization(s) you want to use and select ``Sync organization badge templates`` action.
+From the “Credly Organizations” list, select the Organization(s) you want to use and select ``Sync organization badge templates`` action.
 
-The system pulls the list of badge templates from the Credly Organization. Navigate to the "Credly badge templates" list and check newly created templates.
+The system pulls the list of badge templates from the Credly Organization. Navigate to the “Credly badge templates” list and check newly created templates.
+
+.. _Configuration: configuration.html
 
 4. Setup badge requirements
 ---------------------------
 
+.. note::
+
     Requirements describe **what** and **how** must happen on the system to earn a badge.
 
-The crucial part of the badge template configuration is requirements specification.
-At least one requirement must be associated with a badge template.
+The crucial part of the badge template configuration is the requirements specification. At least one requirement must be associated with a badge template.
 
-Enter the first badge template details page and configure its requirement(s):
+Go to the first badge template details page (admin/badges/credly_badge_templates) and add requirements for it:
 
-- find "Badge Requirements" section;
-- add new item and select an event type (what is expected to happen);
-- optionally, put a description;
-- save and navigate to the Requirement details (``Change`` link);
-
-- optionally, specify a data rule(s) in the "Data Rules" section (how exactly it is expected to happen);
-- add new item and describe the rule;
-- select a key path - target payload parameter;
-- select an operator - how to compare the value;
-- enter a value - expected parameter's value;
+1. find the “Badge Requirements” section;
+2. add a new item and select an event type (what is expected to happen);
+    a. optionally, put a description;
+3. save and navigate to the Requirement details (Change link);
+    a. optionally, specify data rules in the “Data Rules” section (how exactly it is expected to happen);
+4. add a new item and describe the rule;
+5. select a key path - specific data element;
+6. select an operator - how to compare the value;
+7. enter a value - expected parameter’s value.
 
 .. note::
 
-    A configuration for the badge template that must be issued on a **specific course completion** looks as following:
-
-    - Requirement:
+    A configuration for the badge template that must be issued on a specific course completion looks as following:
+    
+    - Requirement 1:
         - event type: ``org.openedx.learning.course.passing.status.updated.v1``
         - description: ``On the Demo course completion.``
     - Data rule 1:
@@ -92,43 +102,45 @@ It is possible to put more than one requirement in a badge template.
 
     To active a badge template check the ``is active`` checkbox on its edit page.
 
-Once badge requirements are configured, it should be "enabled" to start "working".
+Once badge requirements are set up, it should be “enabled” to start “working”.
 
-Active badge templates start being taking into account immediately.
+Once enabled, the badge template will be active and ready.
 
 .. warning::
 
-    Configuration updates for active badge template are discouraged since it may cause learners' inconsistent experience.
+    Configuration updates for active badge templates are discouraged since they may cause learners’ inconsistent experience.
 
 6. See users Badge Progress
 ---------------------------
 
-Current badge progress can be seen in the "Badge progress records" section.
+Current badge progress can be seen in the “Badge progress records” section in the Credentials admin panel.
 
-Since badge template can have more than one requirement, there can be partially completed badges.
+Since badge templates can have more than one requirement, there can be partially completed badges.
 
 7. See awarded user credentials
 -------------------------------
 
-Already earned badges are listed in the "Credly badges" list page.
+Already earned badges are listed in the "Credly badges" section of the admin panel.
+
+.. note::
 
     The Credly Badge is an extended version of a user credential record.
 
 Once badge progress is complete (all requirements were *fulfilled*), the system:
 
-- creates internal user credential (CredlyBadge);
-- notifies about the badge awarding (public signal);
-- requests Credly service to issue the badge (API request).
+1. creates internal user credentials (CredlyBadge);
+2. notifies about the badge awarding (public signal);
+3. requests Credly service to issue the badge (API request).
 
 8. See issued Credly badges
 ---------------------------
 
-Earned internal badges (user credentials) propagate to the Credly service.
+Earned internal badges (user credentials) spread to the Credly service.
 
-On a successful Credly badge issuing the CredlyBadge user credential is updated with its requisites:
+On a successful Credly badge issuing, the CredlyBadge user credential is updated with its requisites:
 
-- external UUID;
-- external state;
+1. external UUID;
+2. external state;
 
 The Credly badge is visible in the Credly service.
 
