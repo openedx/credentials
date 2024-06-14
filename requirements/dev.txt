@@ -90,7 +90,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==7.5.3
     # via -r requirements/test.txt
-cryptography==42.0.7
+cryptography==42.0.8
     # via
     #   -r requirements/test.txt
     #   pyjwt
@@ -236,7 +236,7 @@ edx-i18n-tools==1.6.0
     #   edx-credentials-themes
 edx-lint==5.3.6
     # via -r requirements/test.txt
-edx-opaque-keys[django]==2.9.0
+edx-opaque-keys[django]==2.10.0
     # via
     #   -r requirements/test.txt
     #   edx-ccx-keys
@@ -255,7 +255,7 @@ exceptiongroup==1.2.1
     #   pytest
 factory-boy==3.3.0
     # via -r requirements/test.txt
-faker==25.4.0
+faker==25.8.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -337,7 +337,7 @@ openapi-codec==1.3.2
     # via
     #   -r requirements/test.txt
     #   django-rest-swagger
-openedx-atlas==0.6.0
+openedx-atlas==0.6.1
     # via -r requirements/test.txt
 openedx-events==9.10.0
     # via
@@ -401,7 +401,7 @@ pyjwt[crypto]==2.8.0
     #   edx-rest-api-client
     #   segment-analytics-python
     #   social-auth-core
-pylint==3.2.2
+pylint==3.2.3
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -423,7 +423,7 @@ pylint-plugin-utils==0.8.2
     #   pylint-django
 pymemcache==4.0.0
     # via -r requirements/test.txt
-pymongo==4.4.0
+pymongo==4.7.3
     # via
     #   -r requirements/test.txt
     #   edx-opaque-keys
@@ -497,7 +497,7 @@ requests-oauthlib==2.0.0
     # via
     #   -r requirements/test.txt
     #   social-auth-core
-responses==0.25.0
+responses==0.25.2
     # via -r requirements/test.txt
 sailthru-client==2.2.3
     # via
@@ -549,7 +549,7 @@ stevedore==5.2.0
     #   edx-ace
     #   edx-django-utils
     #   edx-opaque-keys
-testfixtures==8.2.0
+testfixtures==8.3.0
     # via -r requirements/test.txt
 text-unidecode==1.3
     # via
@@ -567,9 +567,9 @@ tomlkit==0.12.5
     # via
     #   -r requirements/test.txt
     #   pylint
-tox==4.15.0
+tox==4.15.1
     # via -r requirements/test.txt
-typing-extensions==4.12.1
+typing-extensions==4.12.2
     # via
     #   -r requirements/test.txt
     #   asgiref
@@ -603,7 +603,7 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.6.0
     # via -r requirements/test.txt
-zipp==3.19.1
+zipp==3.19.2
     # via
     #   -r requirements/test.txt
     #   importlib-metadata
