@@ -304,7 +304,7 @@ edx-event-bus-kafka==5.7.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.4.0
+edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -462,7 +462,7 @@ openedx-events==9.10.0
     #   -r requirements/production.txt
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-packaging==24.0
+packaging==24.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt

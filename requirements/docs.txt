@@ -36,7 +36,7 @@ jsx-lexer==2.0.1
     # via -r requirements/docs.in
 markupsafe==2.1.5
     # via jinja2
-packaging==24.0
+packaging==24.1
     # via
     #   pydata-sphinx-theme
     #   sphinx
