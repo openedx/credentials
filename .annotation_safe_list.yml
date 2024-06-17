@@ -16,7 +16,9 @@ auth.Permission:
 badges.BadgePenalty:
   ".. no_pii:": "This model has no PII"
 badges.BadgeProgress:
-  ".. no_pii:": "This model has no PII"
+  ".. pii": "Username"
+  ".. pii_types": other
+  ".. pii_retirement": retained
 badges.BadgeRequirement:
   ".. no_pii:": "This model has no PII"
 badges.CredlyOrganization:
