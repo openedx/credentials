@@ -172,18 +172,5 @@ pii_check: ## Check for PII annotations on all Django models
 coverage:
 	coverage xml
 
-### Local testing suite commands ###
-
-build_test_image: # Builds Docker image used for testing so devs don't need to install requirements locally (useful for firefox / xvfb)
-	docker build -t credentials:local -f Dockerfile-testing .
-
-# This should be ran locally, not inside of the devstack container
-quality_and_translations_tests_suite: build_test_image
-	docker run -e "TERM=xterm-256color" -v /edx/app/credentials/node_modules/ -v `pwd`:/edx/app/credentials/ credentials:local bash -c 'cd /edx/app/credentials/ && make check_translations_up_to_date && make validate_translations && make quality && make check_keywords && make pii_check'
-
-# This should be ran locally, not inside of the devstack container
-unit_tests_suite: build_test_image
-	docker run -e "TERM=xterm-256color" -v /edx/app/credentials/node_modules/ -v `pwd`:/edx/app/credentials/ credentials:local bash -c 'cd /edx/app/credentials/ && make static && make tests && make coverage'
-
 docs:
 	tox -e docs
