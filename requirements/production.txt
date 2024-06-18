@@ -26,9 +26,9 @@ backports-zoneinfo==0.2.1 ; python_version < "3.9"
     #   djangorestframework
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.123
+boto3==1.34.128
     # via django-ses
-botocore==1.34.123
+botocore==1.34.128
     # via
     #   boto3
     #   s3transfer
@@ -253,7 +253,7 @@ markupsafe==2.1.5
     #   jinja2
 mysqlclient==2.2.4
     # via -r requirements/base.txt
-newrelic==9.10.0
+newrelic==9.11.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -438,7 +438,7 @@ uritemplate==4.1.1
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-urllib3==1.26.18
+urllib3==1.26.19
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt

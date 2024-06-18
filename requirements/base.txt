@@ -193,7 +193,7 @@ markupsafe==2.1.5
     # via jinja2
 mysqlclient==2.2.4
     # via -r requirements/base.in
-newrelic==9.10.0
+newrelic==9.11.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -321,7 +321,7 @@ uritemplate==4.1.1
     # via
     #   coreapi
     #   drf-yasg
-urllib3==1.26.18
+urllib3==1.26.19
     # via
     #   -c requirements/constraints.txt
     #   requests
