@@ -9,6 +9,11 @@ asgiref==3.8.1
     #   -r requirements/base.txt
     #   django
     #   django-cors-headers
+    #   django-simple-history
+async-timeout==4.0.3
+    # via
+    #   -r requirements/base.txt
+    #   redis
 attrs==23.2.0
     # via
     #   -r requirements/base.txt
@@ -84,6 +89,7 @@ django==4.2.13
     #   django-crum
     #   django-extensions
     #   django-filter
+    #   django-model-utils
     #   django-ses
     #   django-simple-history
     #   django-statici18n
@@ -100,6 +106,7 @@ django==4.2.13
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-event-bus-kafka
+    #   edx-event-bus-redis
     #   edx-i18n-tools
     #   edx-toggles
     #   openedx-events
@@ -119,6 +126,8 @@ django-crum==0.7.9
 django-extensions==3.2.3
     # via -r requirements/base.txt
 django-filter==24.2
+    # via -r requirements/base.txt
+django-model-utils==4.5.1
     # via -r requirements/base.txt
 django-ratelimit==4.1.0
     # via -r requirements/base.txt
@@ -178,12 +187,15 @@ edx-django-utils==5.14.2
     #   -r requirements/base.txt
     #   edx-drf-extensions
     #   edx-event-bus-kafka
+    #   edx-event-bus-redis
     #   edx-rest-api-client
     #   edx-toggles
     #   openedx-events
 edx-drf-extensions==10.3.0
     # via -r requirements/base.txt
 edx-event-bus-kafka==5.7.0
+    # via -r requirements/base.txt
+edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via -r requirements/base.txt
 edx-i18n-tools==1.6.0
     # via
@@ -201,6 +213,7 @@ edx-toggles==5.2.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
+    #   edx-event-bus-redis
 fastavro==1.9.4
     # via
     #   -r requirements/base.txt
@@ -275,6 +288,7 @@ openedx-events==9.10.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
+    #   edx-event-bus-redis
 packaging==24.1
     # via
     #   -r requirements/base.txt
@@ -358,6 +372,10 @@ pyyaml==6.0.1
     #   edx-i18n-tools
 qrcode==7.4.2
     # via -r requirements/base.txt
+redis==5.0.4
+    # via
+    #   -r requirements/base.txt
+    #   walrus
 requests==2.31.0
     # via
     #   -r requirements/base.txt
@@ -444,6 +462,10 @@ urllib3==1.26.19
     #   -r requirements/base.txt
     #   botocore
     #   requests
+walrus==0.9.3
+    # via
+    #   -r requirements/base.txt
+    #   edx-event-bus-redis
 webencodings==0.5.1
     # via
     #   -r requirements/base.txt
