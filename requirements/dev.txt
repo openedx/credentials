@@ -354,7 +354,7 @@ platformdirs==4.2.2
     #   virtualenv
 pluggy==1.5.0
     # via
-    #   -r requirements/test.txt
+      #   -r requirements/test.txt
     #   pytest
     #   tox
 polib==1.2.0
@@ -566,3 +566,4 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.6.0
     # via -r requirements/test.txt
+  
