@@ -1,4 +1,3 @@
-import datetime
 import textwrap
 from unittest import mock
 
@@ -15,11 +14,7 @@ from credentials.apps.core.tests.factories import USER_PASSWORD, UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.models import ProgramCompletionEmailConfiguration
 from credentials.apps.credentials.tests.factories import ProgramCertificateFactory
-from credentials.apps.credentials.utils import (
-    datetime_from_visible_date,
-    send_program_certificate_created_message,
-    validate_duplicate_attributes,
-)
+from credentials.apps.credentials.utils import send_program_certificate_created_message, validate_duplicate_attributes
 
 
 User = get_user_model()
@@ -46,16 +41,6 @@ class CredentialsUtilsTests(TestCase):
         ]
 
         self.assertFalse(validate_duplicate_attributes(attributes))
-
-    def test_datetime_from_visible_date(self):
-        """Verify that we convert LMS dates correctly."""
-        self.assertIsNone(datetime_from_visible_date(""))
-        self.assertIsNone(datetime_from_visible_date("2018-07-31"))
-        self.assertIsNone(datetime_from_visible_date("2018-07-31T09:32:46+00:00"))  # should be Z for timezone
-        self.assertEqual(
-            datetime_from_visible_date("2018-07-31T09:32:46Z"),
-            datetime.datetime(2018, 7, 31, 9, 32, 46, tzinfo=datetime.timezone.utc),
-        )
 
 
 @override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")

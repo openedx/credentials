@@ -23,7 +23,6 @@ from credentials.apps.credentials.api import get_credential_dates
 from credentials.apps.credentials.tests.factories import (
     CourseCertificateFactory,
     ProgramCertificateFactory,
-    UserCredentialAttributeFactory,
     UserCredentialFactory,
 )
 from credentials.apps.records.api import (
@@ -100,8 +99,12 @@ class ApiTests(SiteMixin, TestCase):
             course_id=self.course3_courserunA.key, site=self.site
         )
         # create program certificate configurations so we can grant program credentials to the test learners
-        self.program1_cert_config = ProgramCertificateFactory.create(program_uuid=self.program1.uuid, site=self.site)
-        self.program2_cert_config = ProgramCertificateFactory.create(program_uuid=self.program2.uuid, site=self.site)
+        self.program1_cert_config = ProgramCertificateFactory.create(
+            program_uuid=self.program1.uuid, site=self.site, program=self.program1
+        )
+        self.program2_cert_config = ProgramCertificateFactory.create(
+            program_uuid=self.program2.uuid, site=self.site, program=self.program2
+        )
         # create grade for learner in course-run1 of course1
         self.course1_courserunA_grade = UserGradeFactory(
             username=self.user.username,
@@ -396,52 +399,6 @@ class ApiTests(SiteMixin, TestCase):
         self._assert_results(expected_result[1], result[1])
         self._assert_results(expected_highest_attempt_dict, highest_attempt_dict)
         assert expected_issue_date_course1 == last_updated
-
-    def test_get_transformed_grade_data_earned_credential_with_visible_date(self):
-        """
-        A test that verifies an edge case of the `_get_transformed_grade_data` utility function. If a course credential
-        is associated with a visible date that is set in the future, then it should not be included as part of the
-        results. In this test scenario, we add a "visible date" attribute to the learner's (course) credential instance
-        in "course1_courserun2", and then verify the data that is returned by this function.
-        """
-        UserCredentialAttributeFactory(
-            user_credential=self.course_credential_course1_courserunB,
-            name="visible_date",
-            value="9999-01-01T01:01:01Z",
-        )
-
-        expected_issue_date_course1 = get_credential_dates(self.course_credential_course1_courserunA, False)
-        expected_issue_date_course2 = get_credential_dates(self.course_credential_course2_courserunA, False)
-        expected_result = [
-            {
-                "name": self.course1.title,
-                "school": ",".join(self.course1.owners.values_list("name", flat=True)),
-                "attempts": 1,
-                "course_id": self.course1_courserunA.key,
-                "issue_date": expected_issue_date_course1.isoformat(),
-                "percent_grade": 0.75,
-                "letter_grade": "C",
-            },
-            {
-                "name": self.course2.title,
-                "school": ",".join(self.course2.owners.values_list("name", flat=True)),
-                "attempts": 1,
-                "course_id": self.course2_courserunA.key,
-                "issue_date": expected_issue_date_course2.isoformat(),
-                "percent_grade": 0.85,
-                "letter_grade": "B",
-            },
-        ]
-        expected_highest_attempt_dict = {
-            self.course1: self.course1_courserunA_grade,
-            self.course2: self.course2_courserunA_grade,
-        }
-
-        result, highest_attempt_dict, last_updated = _get_transformed_grade_data(self.program1, self.user)
-        self._assert_results(expected_result[0], result[0])
-        self._assert_results(expected_result[1], result[1])
-        self._assert_results(expected_highest_attempt_dict, highest_attempt_dict)
-        assert expected_issue_date_course2 == last_updated
 
     @override_waffle_switch(settings.USE_CERTIFICATE_AVAILABLE_DATE, active=True)
     def test_get_transformed_grade_data_earned_credential_with_certificate_available_date(self):

@@ -17,3 +17,5 @@ pywatchman; "linux" in sys_platform
 
 # For local debugging
 django-debug-toolbar
+
+django-stubs                            # Typing stubs for Django, so it works with mypy

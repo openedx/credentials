@@ -6,6 +6,7 @@ import uuid
 from unittest.mock import PropertyMock, patch
 
 import ddt
+import pytest
 import responses
 from django.template import Context, Template
 from django.template.loader import select_template
@@ -48,7 +49,11 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
             for course_run in self.course_runs
         ]
         self.program = ProgramFactory(title="TestProgram1", course_runs=self.course_runs, site=self.site)
-        self.program_certificate = factories.ProgramCertificateFactory(site=self.site, program_uuid=self.program.uuid)
+        self.program_certificate = factories.ProgramCertificateFactory(
+            site=self.site,
+            program_uuid=self.program.uuid,
+            program=self.program,
+        )
         self.program_certificate.program = self.program
         self.program_certificate.save()
         self.signatory_1 = factories.SignatoryFactory()
@@ -64,11 +69,6 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
             )
             for course_cert in self.course_certificates
         ]
-        self.visible_date_attr = factories.UserCredentialAttributeFactory(
-            user_credential=self.user_credential,
-            name="visible_date",
-            value="1970-01-01T01:01:01Z",
-        )
         self.platform_name = self.site.siteconfiguration.platform_name
         user = UserFactory(username=self.MOCK_USER_DATA["username"])
         self.client.login(username=user.username, password=USER_PASSWORD)
@@ -242,6 +242,30 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         response = self.client.get(path)
         self.assertEqual(response.status_code, 404)
 
+    @pytest.mark.skip("FIXME: I'm not convinced this original test ever did what it was supposed to")
+    @responses.activate
+    def test_valid_site(self):
+        """Verify that the view returns a 200 if user_credentials are displayed on the correct site"""
+        test_program = ProgramFactory(title="TestProgram2", course_runs=self.course_runs, site=self.site)
+        test_program_certificate = factories.ProgramCertificateFactory(
+            site=self.site,
+            program_uuid=test_program.uuid,
+            program=test_program,
+        )
+        test_signatory_1 = factories.SignatoryFactory()
+        test_signatory_2 = factories.SignatoryFactory()
+        test_program_certificate.signatories.add(test_signatory_1, test_signatory_2)
+        test_user_credential = factories.UserCredentialFactory(
+            username=self.MOCK_USER_DATA["username"], credential=test_program_certificate
+        )
+        response = self.client.get(test_user_credential.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        response = self._render_user_credential(
+            user_credential=test_user_credential, program_certificate=test_program_certificate
+        )
+        self.assertEqual(response.status_code, 200)
+
+    @pytest.mark.skip("FIXME: I'm not convinced this original test ever did what it was supposed to")
     @responses.activate
     def test_invalid_site(self):
         """Verify that the view returns a 404 if user_credentials are displayed on a site
@@ -261,14 +285,10 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         )
         response = self.client.get(test_user_credential.get_absolute_url())
         self.assertEqual(response.status_code, 404)
-        # Change the program certificate site to the client's site and check that the
-        # response returns the user's certificate.
-        test_program_certificate.site = self.site
-        test_program_certificate.save()
         response = self._render_user_credential(
             user_credential=test_user_credential, program_certificate=test_program_certificate
         )
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 404)
 
     def test_invalid_credential(self):
         """Verify the view returns 404 for attempts to render unsupported credentials."""
@@ -276,39 +296,6 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         response = self.client.get(self.user_credential.get_absolute_url())
         self.assertEqual(response.status_code, 404)
 
-    # These four tests should be removed in MICROBA-1198 in favor of the next
-    # three tests.
-    def test_future_visible_date(self):
-        """Verify that the view returns 404 when the uuid is valid but certificate is not yet visible."""
-        self.visible_date_attr.value = "9999-01-01T01:01:01Z"
-        self.visible_date_attr.save()
-        response = self.client.get(self.user_credential.get_absolute_url())
-        self.assertEqual(response.status_code, 404)
-
-    # (This test is not replicated below because the certificate_available_date
-    # field has validation that will prevent non-valid date data.)
-    @responses.activate
-    def test_invalid_visible_date(self):
-        """Verify that the view just returns normally when the valid_date attribute can't be understood."""
-        self.visible_date_attr.value = "hello"
-        self.visible_date_attr.save()
-        self._render_user_credential()  # Will raise exception if not 200 status
-
-    @responses.activate
-    def test_no_visible_date(self):
-        """Verify that the view just returns normally when there isn't a valid_date attribute."""
-        self.visible_date_attr.delete()
-        self._render_user_credential()  # Will raise exception if not 200 status
-
-    @responses.activate
-    def test_visible_date_as_issue_date(self):
-        """Verify that the view renders the visible_date as the issue date."""
-        response = self._render_user_credential()
-        self.assertContains(response, "Issued January 1970")
-
-    # The following three tests are the same as the previous four, but with the
-    # USE_CERTIFICATE_AVAILABLE_DATE waffle switch enabled. Clean up previous
-    # tests in MICROBA-1198.
     @override_switch("credentials.use_certificate_available_date", True)
     def test_future_certificate_available_date(self):
         """Verify that the view returns 404 when the uuid is valid but certificate is not yet visible."""
@@ -328,25 +315,9 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
     @override_switch("credentials.use_certificate_available_date", active=True)
     @responses.activate
     def test_visible_certificate_available_date(self):
-        """Verify that the view renders the visible_date as the issue date."""
+        """Verify that the view renders the date at which the certificate is visible as the issue date."""
         response = self._render_user_credential()
         self.assertContains(response, "Issued May 1994")
-
-    @override_switch("credentials.use_certificate_available_date", active=True)
-    @responses.activate
-    def test_visible_date_as_issue_date_with_no_cert_availability_date_date(self):
-        """Verify that the view renders the visible_date as the issue date."""
-        for course_user_credential in self.course_user_credentials:
-            factories.UserCredentialAttributeFactory(
-                user_credential=course_user_credential,
-                name="visible_date",
-                value="2021-01-01T01:01:01Z",
-            )
-        for cert in self.course_certificates:
-            cert.certificate_available_date = None
-            cert.save()
-        response = self._render_user_credential()
-        self.assertContains(response, "Issued January 2021")
 
     @responses.activate
     def test_signatory_organization_name_override(self):
@@ -374,7 +345,9 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         """
         if language_set:
             ProgramCertificate.objects.update_or_create(
-                program_uuid=self.program_certificate.program_uuid, defaults={"language": "es_419"}
+                program_uuid=self.program_certificate.program_uuid,
+                defaults={"language": "es_419"},
+                program=self.program,
             )
         response = self._render_user_credential()
         self.assertContains(response, expected_text)

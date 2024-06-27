@@ -1,9 +1,10 @@
 from unittest.mock import patch
 
 import ddt
-from ddt import unpack
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
+from edx_toggles.toggles.testutils import override_waffle_switch
 from testfixtures import LogCapture
 
 from credentials.apps.catalog.tests.factories import (
@@ -139,6 +140,7 @@ class GetProgramCertificatesWithIdsTests(SiteMixin, TestCase):
         assert result[1] == self.program_cert2
 
 
+@override_waffle_switch(settings.USE_CERTIFICATE_AVAILABLE_DATE, active=True)
 class GetUserCredentialsByContentTypeTests(SiteMixin, TestCase):
     def setUp(self):
         super().setUp()
@@ -156,7 +158,9 @@ class GetUserCredentialsByContentTypeTests(SiteMixin, TestCase):
             )
             for course_run in self.course_runs
         ]
-        self.program_cert = ProgramCertificateFactory.create(program_uuid=self.program.uuid, site=self.site)
+        self.program_cert = ProgramCertificateFactory.create(
+            program_uuid=self.program.uuid, site=self.site, program=self.program
+        )
         self.course_credential_content_type = ContentType.objects.get(
             app_label="credentials", model="coursecertificate"
         )
@@ -177,7 +181,18 @@ class GetUserCredentialsByContentTypeTests(SiteMixin, TestCase):
             credential=self.program_cert,
         )
 
-    def test_get_user_credentials_by_content_type_zero(self):
+    def test_get_user_credentials_by_content_type_when_no_valid_types(self):
+        """get_user_credentials_by_content_type returns empty when there's no creds of the type"""
+        course_cert_content_types = ContentType.objects.filter(app_label="credentials", model__in=["goldstar"])
+        for course_user_credential in self.course_user_credentials:
+            course_user_credential.delete()
+        result = get_user_credentials_by_content_type(
+            self.user.username, course_cert_content_types, UserCredentialStatus.AWARDED.value
+        )
+        assert len(result) == 0
+
+    def test_get_user_credentials_by_content_type_when_no_creds(self):
+        """get_user_credentials_by_content_type returns empty when there's no applicable creds"""
         course_cert_content_types = ContentType.objects.filter(
             app_label="credentials", model__in=["coursecertificate", "programcertificate"]
         )
@@ -190,10 +205,8 @@ class GetUserCredentialsByContentTypeTests(SiteMixin, TestCase):
         assert len(result) == 0
 
     def test_get_user_credentials_by_content_type_course_only(self):
-        course_cert_content_types = ContentType.objects.filter(
-            app_label="credentials", model__in=["coursecertificate", "programcertificate"]
-        )
-        self.program_user_credential.delete()
+        """get_user_credentials_by_content_type returns course certificates when asked"""
+        course_cert_content_types = ContentType.objects.filter(app_label="credentials", model__in=["coursecertificate"])
         result = get_user_credentials_by_content_type(
             self.user.username, course_cert_content_types, UserCredentialStatus.AWARDED.value
         )
@@ -202,11 +215,10 @@ class GetUserCredentialsByContentTypeTests(SiteMixin, TestCase):
         assert result[1] == self.course_user_credentials[1]
 
     def test_get_user_credentials_by_content_type_program_only(self):
+        """get_user_credentials_by_content_type returns program certificates when asked"""
         course_cert_content_types = ContentType.objects.filter(
-            app_label="credentials", model__in=["coursecertificate", "programcertificate"]
+            app_label="credentials", model__in=["programcertificate"]
         )
-        for course_user_credential in self.course_user_credentials:
-            course_user_credential.delete()
         result = get_user_credentials_by_content_type(
             self.user.username, course_cert_content_types, UserCredentialStatus.AWARDED.value
         )
@@ -214,6 +226,7 @@ class GetUserCredentialsByContentTypeTests(SiteMixin, TestCase):
         assert result[0] == self.program_user_credential
 
     def test_get_user_credentials_by_content_type_course_and_program(self):
+        """get_user_credentials_by_content_type returns courses and programs when asked"""
         course_cert_content_types = ContentType.objects.filter(
             app_label="credentials", model__in=["coursecertificate", "programcertificate"]
         )
@@ -292,7 +305,7 @@ class UpdateOrCreateCredentialTests(SiteMixin, TestCase):
         [ProgramCertificate, UserCredentialStatus.AWARDED],
         [ProgramCertificate, UserCredentialStatus.REVOKED],
     )
-    @unpack
+    @ddt.unpack
     def test_create_credential(self, credential_type, cert_status):
         """
         Happy path. This test verifies the functionality of the `_update_or_create_credentials` utility function.
