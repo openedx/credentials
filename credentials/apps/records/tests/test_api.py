@@ -400,7 +400,6 @@ class ApiTests(SiteMixin, TestCase):
         self._assert_results(expected_highest_attempt_dict, highest_attempt_dict)
         assert expected_issue_date_course1 == last_updated
 
-    @override_waffle_switch(settings.USE_CERTIFICATE_AVAILABLE_DATE, active=True)
     def test_get_transformed_grade_data_earned_credential_with_certificate_available_date(self):
         """
         A test that verifies an edge case of the `_get_transformed_grade_data` utility function. If a course credential

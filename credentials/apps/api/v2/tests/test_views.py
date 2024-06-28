@@ -356,7 +356,6 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["results"], self.serialize_user_credential([program_cred], many=True))
 
-    @override_switch("credentials.use_certificate_available_date", active=True)
     def test_list_visible_filtering_with_certificate_available_date(self):
         """Verify the endpoint can filter by visible date."""
         course = CourseFactory.create(site=self.site)

@@ -140,7 +140,6 @@ class GetProgramCertificatesWithIdsTests(SiteMixin, TestCase):
         assert result[1] == self.program_cert2
 
 
-@override_waffle_switch(settings.USE_CERTIFICATE_AVAILABLE_DATE, active=True)
 class GetUserCredentialsByContentTypeTests(SiteMixin, TestCase):
     def setUp(self):
         super().setUp()

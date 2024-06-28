@@ -284,7 +284,6 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         response = self.client.get(self.user_credential.get_absolute_url())
         self.assertEqual(response.status_code, 404)
 
-    @override_switch("credentials.use_certificate_available_date", True)
     def test_future_certificate_available_date(self):
         """Verify that the view returns 404 when the uuid is valid but certificate is not yet visible."""
         self.course_certificates[0].certificate_available_date = "9999-05-11T03:14:01Z"
@@ -292,7 +291,6 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         response = self.client.get(self.user_credential.get_absolute_url())
         self.assertEqual(response.status_code, 404)
 
-    @override_switch("credentials.use_certificate_available_date", active=True)
     @responses.activate
     def test_no_certificate_available_date(self):
         """Verify that the view just returns normally when there isn't a valid_date attribute."""
@@ -300,7 +298,6 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         self.course_certificates[0].save()
         self._render_user_credential()  # Will raise exception if not 200 status
 
-    @override_switch("credentials.use_certificate_available_date", active=True)
     @responses.activate
     def test_visible_certificate_available_date(self):
         """Verify that the view renders the date at which the certificate is visible as the issue date."""
