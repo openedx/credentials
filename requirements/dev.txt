@@ -240,7 +240,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-kafka
 factory-boy==3.3.0
     # via -r requirements/test.txt
-faker==25.9.2
+faker==26.0.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -298,10 +298,13 @@ mccabe==0.7.0
     # via
     #   -r requirements/test.txt
     #   pylint
+mypy==1.10.1
+    # via -r requirements/dev.in
 mypy-extensions==1.0.0
     # via
     #   -r requirements/test.txt
     #   black
+    #   mypy
 mysqlclient==2.2.4
     # via -r requirements/test.txt
 newrelic==9.11.0
@@ -354,7 +357,7 @@ platformdirs==4.2.2
     #   virtualenv
 pluggy==1.5.0
     # via
-      #   -r requirements/test.txt
+    #   -r requirements/test.txt
     #   pytest
     #   tox
 polib==1.2.0
@@ -380,7 +383,7 @@ pyjwt[crypto]==2.8.0
     #   edx-rest-api-client
     #   segment-analytics-python
     #   social-auth-core
-pylint==3.2.4
+pylint==3.2.5
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -402,7 +405,7 @@ pylint-plugin-utils==0.8.2
     #   pylint-django
 pymemcache==4.0.0
     # via -r requirements/test.txt
-pymongo==4.7.3
+pymongo==4.8.0
     # via
     #   -r requirements/test.txt
     #   edx-opaque-keys
@@ -544,6 +547,7 @@ typing-extensions==4.12.2
     #   django-stubs
     #   django-stubs-ext
     #   edx-opaque-keys
+    #   mypy
     #   qrcode
 uritemplate==4.1.1
     # via
@@ -566,4 +570,3 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.6.0
     # via -r requirements/test.txt
-  

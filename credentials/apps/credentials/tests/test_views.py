@@ -6,7 +6,6 @@ import uuid
 from unittest.mock import PropertyMock, patch
 
 import ddt
-import pytest
 import responses
 from django.template import Context, Template
 from django.template.loader import select_template
@@ -80,12 +79,14 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         program_certificate=None,
         custom_orgs=None,
         test_user_data=None,
+        expected_status_code=None,
     ):
         """Helper method to render a user certificate."""
         user_credential = user_credential or self.user_credential
         program_certificate = program_certificate or self.program_certificate
         program_uuid = program_certificate.program_uuid
         credential_title = program_certificate.title or self.PROGRAM_NAME
+        expected_status_code = expected_status_code or 200
 
         if custom_orgs:
             organizations = custom_orgs
@@ -113,7 +114,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
             user_data.return_value = test_user_data if test_user_data else self.MOCK_USER_DATA
             mock_program_details.return_value = mocked_program_data
             response = self.client.get(user_credential.get_absolute_url())
-            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.status_code, expected_status_code)
 
         return response
 
@@ -242,13 +243,26 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         response = self.client.get(path)
         self.assertEqual(response.status_code, 404)
 
-    @pytest.mark.skip("FIXME: I'm not convinced this original test ever did what it was supposed to")
+    @ddt.data((200, True), (404, False))
+    @ddt.unpack
     @responses.activate
-    def test_valid_site(self):
-        """Verify that the view returns a 200 if user_credentials are displayed on the correct site"""
-        test_program = ProgramFactory(title="TestProgram2", course_runs=self.course_runs, site=self.site)
+    def test_url_only_renders_on_correct_site(self, expected_return, is_same_site):
+        """Verify that the view only renders an accessible URL if the credentials are from the
+        site being rendered"""
+        if is_same_site:
+            site = self.site
+            course_runs = self.course_runs
+        else:
+            domain = "unused.testsite"
+            site_configuration = SiteConfigurationFactory(
+                site__domain=domain,
+            )
+            site = site_configuration.site
+            course = CourseFactory.create(site=site)
+            course_runs = CourseRunFactory.create_batch(2, course=course)
+        test_program = ProgramFactory(title="TestProgram2", course_runs=course_runs, site=site)
         test_program_certificate = factories.ProgramCertificateFactory(
-            site=self.site,
+            site=site,
             program_uuid=test_program.uuid,
             program=test_program,
         )
@@ -258,37 +272,11 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         test_user_credential = factories.UserCredentialFactory(
             username=self.MOCK_USER_DATA["username"], credential=test_program_certificate
         )
-        response = self.client.get(test_user_credential.get_absolute_url())
-        self.assertEqual(response.status_code, 200)
         response = self._render_user_credential(
-            user_credential=test_user_credential, program_certificate=test_program_certificate
+            user_credential=test_user_credential,
+            expected_status_code=expected_return,
         )
-        self.assertEqual(response.status_code, 200)
-
-    @pytest.mark.skip("FIXME: I'm not convinced this original test ever did what it was supposed to")
-    @responses.activate
-    def test_invalid_site(self):
-        """Verify that the view returns a 404 if user_credentials are displayed on a site
-        they are not associated with.
-        """
-        domain = "unused.testsite"
-        site_configuration = SiteConfigurationFactory(
-            site__domain=domain,
-        )
-        test_site = site_configuration.site
-        test_program_certificate = factories.ProgramCertificateFactory(site=test_site)
-        test_signatory_1 = factories.SignatoryFactory()
-        test_signatory_2 = factories.SignatoryFactory()
-        test_program_certificate.signatories.add(test_signatory_1, test_signatory_2)
-        test_user_credential = factories.UserCredentialFactory(
-            username=self.MOCK_USER_DATA["username"], credential=test_program_certificate
-        )
-        response = self.client.get(test_user_credential.get_absolute_url())
-        self.assertEqual(response.status_code, 404)
-        response = self._render_user_credential(
-            user_credential=test_user_credential, program_certificate=test_program_certificate
-        )
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, expected_return)
 
     def test_invalid_credential(self):
         """Verify the view returns 404 for attempts to render unsupported credentials."""

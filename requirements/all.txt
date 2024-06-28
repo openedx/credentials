@@ -33,11 +33,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.133
+boto3==1.34.135
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.133
+botocore==1.34.135
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -319,7 +319,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-kafka
 factory-boy==3.3.0
     # via -r requirements/dev.txt
-faker==25.9.2
+faker==26.0.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -401,10 +401,13 @@ mccabe==0.7.0
     # via
     #   -r requirements/dev.txt
     #   pylint
+mypy==1.10.1
+    # via -r requirements/dev.txt
 mypy-extensions==1.0.0
     # via
     #   -r requirements/dev.txt
     #   black
+    #   mypy
 mysqlclient==2.2.4
     # via
     #   -r requirements/dev.txt
@@ -505,7 +508,7 @@ pyjwt[crypto]==2.8.0
     #   edx-rest-api-client
     #   segment-analytics-python
     #   social-auth-core
-pylint==3.2.4
+pylint==3.2.5
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -529,7 +532,7 @@ pymemcache==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pymongo==4.7.3
+pymongo==4.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -706,6 +709,7 @@ typing-extensions==4.12.2
     #   django-stubs
     #   django-stubs-ext
     #   edx-opaque-keys
+    #   mypy
     #   qrcode
 uritemplate==4.1.1
     # via
