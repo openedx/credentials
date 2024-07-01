@@ -83,7 +83,7 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
 
     def test_create(self):
         program = ProgramFactory(site=self.site)
-        program_certificate = ProgramCertificateFactory(site=self.site, program_uuid=program.uuid)
+        program_certificate = ProgramCertificateFactory(site=self.site, program_uuid=program.uuid, program=program)
         expected_username = self.user.username
         expected_attribute_name = "fake-name"
         expected_attribute_value = "fake-value"
@@ -356,43 +356,6 @@ class CredentialViewSetTests(SiteMixin, APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["results"], self.serialize_user_credential([program_cred], many=True))
 
-    # This test should be removed in MICROBA-1198 in favor of the next test.
-    def test_list_visible_filtering(self):
-        """Verify the endpoint can filter by visible date."""
-        program_certificate = ProgramCertificateFactory(site=self.site)
-        course_run = CourseRunFactory()
-        course_certificate = CourseCertificateFactory(course_id=course_run.key, course_run=course_run, site=self.site)
-
-        course_cred = UserCredentialFactory(credential=course_certificate)
-        program_cred = UserCredentialFactory(credential=program_certificate)
-
-        UserCredentialAttributeFactory(
-            user_credential=program_cred,
-            name="visible_date",
-            value="9999-01-01T01:01:01Z",
-        )
-
-        self.authenticate_user(self.user)
-        self.add_user_permission(self.user, "view_usercredential")
-
-        both = [course_cred, program_cred]
-
-        response = self.client.get(self.list_path)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["results"], self.serialize_user_credential(both, many=True))
-
-        response = self.client.get(self.list_path + "?only_visible=True")
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["results"], self.serialize_user_credential([course_cred], many=True))
-
-        response = self.client.get(self.list_path + "?only_visible=False")
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["results"], self.serialize_user_credential(both, many=True))
-
-    # The following test is the same as the previous test, but with the
-    # USE_CERTIFICATE_AVAILABLE_DATE waffle switch enabled. Clean up previous
-    # tests in MICROBA-1198.
-    @override_switch("credentials.use_certificate_available_date", active=True)
     def test_list_visible_filtering_with_certificate_available_date(self):
         """Verify the endpoint can filter by visible date."""
         course = CourseFactory.create(site=self.site)

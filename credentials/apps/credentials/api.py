@@ -17,12 +17,9 @@ from credentials.apps.credentials.utils import filter_visible, get_credential_vi
 
 
 if TYPE_CHECKING:
-    from django.contrib.auth import get_user_model
     from django.contrib.sites.models import Site
 
     from credentials.apps.catalog.models import CourseRun
-
-    User = get_user_model()
 
 
 logger = logging.getLogger(__name__)
@@ -235,7 +232,7 @@ def get_credential_dates(user_credentials, many):
         return get_credential_visible_date(user_credentials, use_date_override=True)
 
 
-def process_course_credential_update(user: "User", course_run_key: str, mode: str, credential_status: str) -> None:
+def process_course_credential_update(user, course_run_key: str, mode: str, credential_status: str) -> None:
     """
     A utility function responsible for creating or updating a course credential associated with a learner. Primarily
     used when consuming events from the Event Bus.

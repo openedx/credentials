@@ -2,6 +2,7 @@ import datetime
 import logging
 import textwrap
 from itertools import groupby
+from typing import TYPE_CHECKING, Dict, Optional
 
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -11,12 +12,14 @@ from edx_ace import Recipient, ace
 from credentials.apps.catalog.data import ProgramStatus
 from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.messages import ProgramCertificateIssuedMessage
-from credentials.apps.credentials.models import (
-    ProgramCompletionEmailConfiguration,
-    UserCredential,
-    UserCredentialAttribute,
-)
+from credentials.apps.credentials.models import ProgramCompletionEmailConfiguration, UserCredential
 
+
+if TYPE_CHECKING:
+    from django.db.models import DateTimeField
+    from django.db.models.query import QuerySet
+
+    from credentials.apps.credentials.models import ProgramCertificate
 
 log = logging.getLogger(__name__)
 
@@ -52,43 +55,19 @@ def validate_duplicate_attributes(attributes):
     return True
 
 
-def datetime_from_visible_date(date):
-    """Turn a string version of a datetime, provided to us by the LMS in a particular format it uses for
-    visible_date attributes, and turn it into a datetime object."""
-    try:
-        parsed = datetime.datetime.strptime(date, VISIBLE_DATE_FORMAT)
-        # The timezone is always UTC (as indicated by the Z). It looks like in python3.7, we could
-        # just use %z instead of replacing the tzinfo with a UTC value.
-        return parsed.replace(tzinfo=datetime.timezone.utc)
-    except ValueError as e:
-        log.exception("%s", e)
-        return None
-
-
-# TODO: Refactor this when removing USE_CERTIFICATE_AVAILABLE_DATE toggle:
-# MICROBA-1198
-def filter_visible(qs):
+def filter_visible(qs: "QuerySet") -> "QuerySet":
     """
     Filters a UserCredentials queryset by excluding credentials that aren't
     supposed to be visible yet.
     """
+    visible_course_certs = _filter_visible_course_certificates(qs.filter(course_credentials__isnull=False))
+    visible_program_certs = _filter_visible_program_certificates(qs.filter(program_credentials__isnull=False))
+    visible_certs = visible_course_certs | visible_program_certs
 
-    if settings.USE_CERTIFICATE_AVAILABLE_DATE.is_enabled():
-        visible_course_certs = _filter_visible_course_certificates(qs.filter(course_credentials__isnull=False))
-        visible_program_certs = _filter_visible_program_certificates(qs.filter(program_credentials__isnull=False))
-        visible_certs = visible_course_certs | visible_program_certs
-
-        return visible_certs
-
-    # The visible_date attribute holds a string value, not a datetime one. But we can compare as a string
-    # because the format is so strict - it will still lexically compare as less/greater-than.
-    nowstr = datetime.datetime.now(datetime.timezone.utc).strftime(VISIBLE_DATE_FORMAT)
-    return qs.filter(
-        Q(attributes__name="visible_date", attributes__value__lte=nowstr) | ~Q(attributes__name="visible_date")
-    )
+    return visible_certs
 
 
-def _filter_visible_course_certificates(query_set):
+def _filter_visible_course_certificates(query_set: "QuerySet") -> "QuerySet":
     """
     Filters a UserCredentials queryset by excluding credentials that aren’t
     supposed to be visible yet according to their certificate_available_date.
@@ -107,7 +86,7 @@ def _filter_visible_course_certificates(query_set):
     )
 
 
-def _filter_visible_program_certificates(query_set):
+def _filter_visible_program_certificates(query_set: "QuerySet") -> "QuerySet":
     """
     Filters a UserCredentials queryset by excluding credentials that aren’t
     supposed to be visible yet according to their certificate_available_date.
@@ -120,7 +99,7 @@ def _filter_visible_program_certificates(query_set):
         (QuerySet): A queryset of program UserCredentials that should be visible.
     """
     now = datetime.datetime.now(datetime.timezone.utc)
-    visible_program_cert_ids = []
+    visible_program_cert_ids = []  # type: list[Optional[int]]
     for user_credential in query_set:
         program_visible_date = _get_program_certificate_visible_date(user_credential)
         if program_visible_date and program_visible_date <= now:
@@ -128,7 +107,7 @@ def _filter_visible_program_certificates(query_set):
     return UserCredential.objects.filter(pk__in=visible_program_cert_ids)
 
 
-def _get_program_certificate_visible_date(user_program_credential):
+def _get_program_certificate_visible_date(user_program_credential: UserCredential) -> Optional[datetime.datetime]:
     """
     Finds the program credential visible date by finding the latest associated
     course certificate_available_date. If a course credential has no
@@ -142,7 +121,7 @@ def _get_program_certificate_visible_date(user_program_credential):
         (DateTime or None): The date on which the program credential should be
         visible. (It shouldn’t return None but is technically possible.)
     """
-    last_date = None
+    last_date = None  # type: Optional[datetime.datetime]
     for course_run in user_program_credential.credential.program.course_runs.all():
         # Does the user have a course cert for this course run?
         course_run_cert = UserCredential.objects.filter(
@@ -157,11 +136,11 @@ def _get_program_certificate_visible_date(user_program_credential):
     return last_date
 
 
-def _get_issue_date_for_course_credential(course_run_user_credentials):
+def _get_issue_date_for_course_credential(course_run_user_credentials: UserCredential) -> "DateTimeField":
     """
     Retrieves the issue date for a given course run UserCredential. This method
-    attempts to find the date based on the certificate availability date and
-    the visible date attribute.
+    attempts to find the date based on the certificate availability date
+    and falls back to created date.
 
     Arguments:
         course_run_user_credentials (UserCredential): A Course Run UserCredential
@@ -170,22 +149,13 @@ def _get_issue_date_for_course_credential(course_run_user_credentials):
         datetime: The datetime that the credential should be visible and was issued.
     """
     if course_run_user_credentials.credential.certificate_available_date:
-        date = course_run_user_credentials.credential.certificate_available_date
-    else:
-        try:
-            visible_date = UserCredentialAttribute.objects.prefetch_related("user_credential__credential").get(
-                user_credential=course_run_user_credentials, name="visible_date"
-            )
-            date = datetime_from_visible_date(visible_date.value)
-        except UserCredentialAttribute.DoesNotExist:
-            date = course_run_user_credentials.created
-            log.info(f"UserCredential {course_run_user_credentials.id} does not have a visible_date attribute")
-    return date
+        return course_run_user_credentials.credential.certificate_available_date
+    return course_run_user_credentials.created
 
 
-# TODO: Refactor this when removing USE_CERTIFICATE_AVAILABLE_DATE toggle:
-# MICROBA-1198
-def get_credential_visible_dates(user_credentials, use_date_override=False):
+def get_credential_visible_dates(
+    user_credentials, use_date_override: bool = False
+) -> Dict[UserCredential, "DateTimeField"]:
     """
     Calculates visible date for a collection of UserCredentials.
     Returns a dictionary of {UserCredential: datetime}.
@@ -204,55 +174,42 @@ def get_credential_visible_dates(user_credentials, use_date_override=False):
                 ...
             }
     """
-
-    if settings.USE_CERTIFICATE_AVAILABLE_DATE.is_enabled():
-        visible_date_dict = {}
-
-        for user_credential in user_credentials:
-            date = None
-            # If this is a course credential
-            if user_credential.course_credentials.exists():
-                date = _get_issue_date_for_course_credential(user_credential)
-
-                # Date override only applies to Course Run UserCredential dates
-                # we should reconsider this if we ever decide they should
-                # impact the issue date of Program Certs.
-                if use_date_override:
-                    try:
-                        date = user_credential.date_override.date
-                    except ObjectDoesNotExist:
-                        pass
-
-            # If this is a program credential
-            if user_credential.program_credentials.exists():
-                date = _get_program_certificate_visible_date(user_credential)
-
-            visible_date_dict[user_credential] = date
-
-        return visible_date_dict
-
-    visible_dates = UserCredentialAttribute.objects.prefetch_related("user_credential__credential").filter(
-        user_credential__in=user_credentials, name="visible_date"
-    )
-
-    visible_date_dict = {
-        visible_date.user_credential: datetime_from_visible_date(visible_date.value) for visible_date in visible_dates
-    }
+    visible_date_dict = {}
 
     for user_credential in user_credentials:
-        current = visible_date_dict.get(user_credential)
-        if current is None:
-            visible_date_dict[user_credential] = user_credential.created
+        date = None
+        # If this is a course credential
+        if user_credential.course_credentials.exists():
+            date = _get_issue_date_for_course_credential(user_credential)
+
+            # Date override only applies to Course Run UserCredential dates
+            # we should reconsider this if we ever decide they should
+            # impact the issue date of Program Certs.
+            if use_date_override:
+                try:
+                    date = user_credential.date_override.date
+                except ObjectDoesNotExist:
+                    pass
+
+        # If this is a program credential
+        elif user_credential.program_credentials.exists():
+            date = _get_program_certificate_visible_date(user_credential)
+
+        visible_date_dict[user_credential] = date
 
     return visible_date_dict
 
 
-def get_credential_visible_date(user_credential, use_date_override=False):
+def get_credential_visible_date(
+    user_credential: UserCredential, use_date_override: bool = False
+) -> Dict[UserCredential, "DateTimeField"]:
     """Simpler, one-credential version of get_credential_visible_dates."""
     return get_credential_visible_dates([user_credential], use_date_override)[user_credential]
 
 
-def send_program_certificate_created_message(username, program_certificate, lms_user_id):
+def send_program_certificate_created_message(
+    username: str, program_certificate: "ProgramCertificate", lms_user_id: int
+) -> None:
     """
     If the learner has earned a Program Certificate then we go ahead and send them an automated email congratulating
     them for their achievement. Emails to learners in credit eligible Programs will contain additional information.
