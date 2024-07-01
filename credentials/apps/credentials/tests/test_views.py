@@ -13,7 +13,6 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils.text import slugify
 from faker import Faker
-from waffle.testutils import override_switch
 
 from credentials.apps.catalog.data import OrganizationDetails, ProgramDetails
 from credentials.apps.catalog.tests.factories import CourseFactory, CourseRunFactory, ProgramFactory

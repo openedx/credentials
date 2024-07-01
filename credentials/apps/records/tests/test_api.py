@@ -4,11 +4,9 @@ Tests for the `api.py` file of the Records Django app.
 
 import datetime
 
-from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.template.defaultfilters import slugify
 from django.test import TestCase
-from edx_toggles.toggles.testutils import override_waffle_switch
 
 from credentials.apps.catalog.tests.factories import (
     CourseFactory,

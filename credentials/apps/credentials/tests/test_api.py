@@ -1,10 +1,8 @@
 from unittest.mock import patch
 
 import ddt
-from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
-from edx_toggles.toggles.testutils import override_waffle_switch
 from testfixtures import LogCapture
 
 from credentials.apps.catalog.tests.factories import (
