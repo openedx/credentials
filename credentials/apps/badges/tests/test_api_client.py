@@ -7,7 +7,7 @@ from openedx_events.learning.data import BadgeData, BadgeTemplateData, UserData,
 
 from credentials.apps.badges.credly.api_client import CredlyAPIClient
 from credentials.apps.badges.credly.exceptions import CredlyError
-from credentials.apps.badges.models import CredlyOrganization
+from credentials.apps.badges.models import BadgeTemplate, CredlyOrganization
 
 
 class CredlyApiClientTestCase(TestCase):
@@ -28,6 +28,9 @@ class CredlyApiClientTestCase(TestCase):
                 description="Test Badge Description",
                 image_url="https://test.com/image.png",
             ),
+        )
+        self.organization = CredlyOrganization.objects.create(
+            uuid=fake.uuid4(), api_key="test-api-key", name="test_organization"
         )
 
     def test_get_organization_nonexistent(self):
@@ -97,3 +100,29 @@ class CredlyApiClientTestCase(TestCase):
             result = self.api_client.revoke_badge(badge_id, data)
             mock_perform_request.assert_called_once_with("put", f"badges/{badge_id}/revoke/", data=data)
             self.assertEqual(result, {"badge": "revoked"})
+
+    def test_sync_organization_badge_templates(self):
+        with mock.patch.object(CredlyAPIClient, "fetch_badge_templates") as mock_fetch_badge_templates:
+            mock_fetch_badge_templates.return_value = {
+                "data": [
+                    {
+                        "id": Faker().uuid4(),
+                        "name": "Badge Template 1",
+                        "state": "active",
+                        "description": "Badge Template 1 Description",
+                    },
+                    {
+                        "id": Faker().uuid4(),
+                        "name": "Badge Template 2",
+                        "state": "active",
+                        "description": "Badge Template 2 Description",
+                    },
+                ]
+            }
+            api_client = CredlyAPIClient(self.organization.uuid)
+            result = api_client.sync_organization_badge_templates(1)
+            mock_fetch_badge_templates.assert_called_once()
+            self.assertEqual(result, 2)
+            badge_templates = BadgeTemplate.objects.all()
+            self.assertEqual(badge_templates.count(), 2)
+            self.assertEqual(badge_templates[0].name, "Badge Template 1")

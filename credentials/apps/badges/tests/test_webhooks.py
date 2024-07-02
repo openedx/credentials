@@ -9,10 +9,6 @@ from credentials.apps.badges.credly.webhooks import CredlyWebhook
 from credentials.apps.badges.models import CredlyBadgeTemplate, CredlyOrganization
 
 
-def mocked_handle_event(**kwargs):
-    return "test"
-
-
 def get_organization(self, organization_id):  # pylint: disable=unused-argument
     organization = MagicMock(spec=CredlyOrganization)
     organization.uuid = organization_id
