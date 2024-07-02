@@ -135,3 +135,38 @@ class CredlyBadgeTemplateIssuerTestCase(TestCase):
             # Check if the user credential state is updated to "error"
             user_credential.refresh_from_db()
             self.assertEqual(user_credential.state, "error")
+
+    @patch.object(CredlyAPIClient, "revoke_badge")
+    def test_revoke_credly_badge_success(self, mock_revoke_badge):
+        user_credential = self.issued_user_credential_type.objects.create(
+            username="test_user",
+            credential_content_type=ContentType.objects.get_for_model(self.badge_template),
+            credential_id=self.badge_template.id,
+            state=CredlyBadge.STATES.accepted,
+            uuid=self.fake.uuid4(),
+            external_uuid=self.fake.uuid4(),
+        )
+
+        mock_revoke_badge.return_value = {"data": {"state": "revoked"}}
+
+        self.issuer().revoke_credly_badge(self.badge_template.id, user_credential)
+
+        user_credential.refresh_from_db()
+        self.assertEqual(user_credential.state, "revoked")
+
+    @patch.object(CredlyAPIClient, "revoke_badge", side_effect=CredlyAPIError("Revocation failed"))
+    def test_revoke_credly_badge_failure(self, mock_revoke_badge):
+        user_credential = self.issued_user_credential_type.objects.create(
+            username="test_user",
+            credential_content_type=ContentType.objects.get_for_model(self.badge_template),
+            credential_id=self.badge_template.id,
+            state=CredlyBadge.STATES.accepted,
+            uuid=self.fake.uuid4(),
+            external_uuid=self.fake.uuid4(),
+        )
+
+        with self.assertRaises(CredlyAPIError):
+            self.issuer().revoke_credly_badge(self.badge_template.id, user_credential)
+
+        user_credential.refresh_from_db()
+        self.assertEqual(user_credential.state, "error")
