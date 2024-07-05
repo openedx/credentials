@@ -4,7 +4,7 @@ Main processing logic.
 
 import logging
 
-from credentials.apps.badges.exceptions import BadgesProcessingError, StopEventProcessing
+from credentials.apps.badges.exceptions import BadgesProcessingError
 from credentials.apps.badges.processing.progression import process_requirements
 from credentials.apps.badges.processing.regression import process_penalties
 from credentials.apps.badges.utils import extract_payload, get_user_data
@@ -36,10 +36,6 @@ def process_event(sender, **kwargs):
         # penalties processing
         process_penalties(event_type, username, extract_payload(kwargs))
 
-    except StopEventProcessing:
-        # controlled processing dropping
-        return
-
     except BadgesProcessingError as error:
         logger.error(f"Badges processing error: {error}")
         return
@@ -53,7 +49,8 @@ def identify_user(*, event_type, event_payload):
     or creates a new user based on this data, and then returns the username.
 
     Args:
-        **kwargs: public event keyword arguments containing user identification data.
+        event_type (str): The type of the event.
+        event_payload (dict): The payload of the event.
 
     Returns:
         str: The username of the identified (and created if needed) user.

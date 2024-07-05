@@ -391,6 +391,9 @@ class TestProcessRequirements(TestCase):
         # disconnect BADGE_PROGRESS_COMPLETE signal
         BADGE_PROGRESS_COMPLETE.disconnect(handle_badge_completion)
 
+    def tearDown(self):
+        BADGE_PROGRESS_COMPLETE.connect(handle_badge_completion)
+
     # test cases
     #     A course completion - course A w/o a group;
     #     A or B course completion - courses A, B have the same group value;
@@ -400,6 +403,12 @@ class TestProcessRequirements(TestCase):
     #     (A or B) and (C or D) - courses A, B have the same group value; courses C, D have the same group value;
 
     def test_course_a_completion(self):
+        """
+        Test course A completion.
+
+        A course completion - course A w/o a group.
+        """
+
         requirement = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
@@ -416,6 +425,12 @@ class TestProcessRequirements(TestCase):
         self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
 
     def test_course_a_or_b_completion(self):
+        """
+        Test course A or B completion.
+
+        A or B course completion - courses A, B have the same group value.
+        """
+
         requirement_a = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
@@ -446,6 +461,12 @@ class TestProcessRequirements(TestCase):
         self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
 
     def test_course_a_or_b_or_c_completion(self):
+        """
+        Test course A or B or C completion.
+
+        A or B or C course completion - courses A, B, C have the same group value.
+        """
+
         requirement_a = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
@@ -489,6 +510,12 @@ class TestProcessRequirements(TestCase):
         self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
 
     def test_course_a_or_completion(self):
+        """
+        Test course A or completion.
+
+        A or - courses A is the only course in the group.
+        """
+
         requirement = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
@@ -506,6 +533,12 @@ class TestProcessRequirements(TestCase):
         self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
 
     def test_course_a_or_b_and_c_completion(self):
+        """
+        Test course A or B and C completion.
+
+        (A or B) and C - A, B have the same group value; course C w/o a group.
+        """
+
         requirement_a = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
@@ -558,6 +591,12 @@ class TestProcessRequirements(TestCase):
         self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
 
     def test_course_a_or_b_and_c_or_d_completion(self):
+        """
+        Test course A or B and C or D completion.
+
+        (A or B) and (C or D) - courses A, B have the same group value; courses C, D have the same group value.
+        """
+
         requirement_a = BadgeRequirement.objects.create(
             template=self.badge_template,
             event_type=COURSE_PASSING_EVENT,
@@ -624,9 +663,6 @@ class TestProcessRequirements(TestCase):
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_c).count(), 1)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_d).count(), 0)
         self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
-
-    def tearDown(self):
-        BADGE_PROGRESS_COMPLETE.connect(handle_badge_completion)
 
 
 class TestIdentifyUser(TestCase):

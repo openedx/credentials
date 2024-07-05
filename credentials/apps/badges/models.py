@@ -5,6 +5,7 @@ Badges DB models.
 import logging
 import operator
 import uuid
+from urllib.parse import urljoin
 
 from django.conf import settings
 from django.db import models
@@ -157,7 +158,9 @@ class CredlyBadgeTemplate(BadgeTemplate):
         Build external Credly dashboard URL.
         """
         credly_host_base_url = get_credly_base_url(settings)
-        return f"{credly_host_base_url}mgmt/organizations/{self.organization.uuid}/badges/templates/{self.uuid}/details"
+        return urljoin(
+            credly_host_base_url, f"mgmt/organizations/{self.organization.uuid}/badges/templates/{self.uuid}/details"
+        )
 
 
 class BadgeRequirement(models.Model):
@@ -237,7 +240,7 @@ class BadgeRequirement(models.Model):
             requirement=self,
             progress__username=username,
         ).first()
-        deleted, __ = fulfillment.delete() if fulfillment else (False, 0)
+        deleted = self._delete_fulfillment_if_exists(fulfillment)
         if deleted:
             notify_requirement_regressed(
                 sender=self,
@@ -252,6 +255,17 @@ class BadgeRequirement(models.Model):
         """
 
         return self.fulfillments.filter(progress__username=username, progress__template=self.template).exists()
+
+    def _delete_fulfillment_if_exists(self, fulfillment):
+        """
+        Deletes the fulfillment if it exists.
+        """
+
+        if not fulfillment:
+            return False
+
+        fulfillment.delete()
+        return True
 
     @classmethod
     def is_group_fulfilled(cls, *, group: str, template: BadgeTemplate, username: str) -> bool:
@@ -291,8 +305,6 @@ class AbstractDataRule(models.Model):
     OPERATORS = Choices(
         ("eq", "="),
         ("ne", "!="),
-        # ('lt', '<'),
-        # ('gt', '>'),
     )
 
     TRUE_VALUES = ["True", "true", "Yes", "yes", "+"]
@@ -481,7 +493,7 @@ class BadgeProgress(models.Model):
     - user-centric;
     """
 
-    username = models.CharField(max_length=255)  # index
+    username = models.CharField(max_length=255)
     template = models.ForeignKey(
         BadgeTemplate,
         models.SET_NULL,
@@ -513,8 +525,8 @@ class BadgeProgress(models.Model):
         if not self.groups:
             return 0.00
 
-        true_values = len(list(filter(lambda x: x, self.groups.values())))
-        return round(true_values / len(self.groups.keys()), 2)
+        true_values_count = self._get_groups_true_values_count()
+        return round(true_values_count / len(self.groups.keys()), 2)
 
     @property
     def groups(self):
@@ -555,6 +567,17 @@ class BadgeProgress(models.Model):
         """
 
         Fulfillment.objects.filter(progress=self).delete()
+
+    def _get_groups_true_values_count(self):
+        """
+        Returns the count of groups with fulfilled requirements.
+        """
+
+        result = 0
+        for fulfilled in self.groups.values():
+            if fulfilled:
+                result += 1
+        return result
 
 
 class Fulfillment(models.Model):
