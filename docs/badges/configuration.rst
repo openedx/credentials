@@ -20,11 +20,11 @@ Multiple Credly Organizations can be configured.
 Go to the Credly Organization section in the admin panel and create a new item:
 
 1. to set the UUID use your Credly Organization identifier;
-2. to set the authorization token issue one in the Credly Organization's dashboard.
+2. to set the authorization token, used to sync the Credly Organization.
 
 Check: the system pulls the Organization's details and updates its name.
 
-In case of errors check the used credentials for the Organization.
+In case of errors, check the credentials used for the Organization
 
 Badge templates
 ---------------
@@ -40,14 +40,9 @@ Webhooks
 
 Webhooks are set up on Credly management dashboard as Credly is a main initiator of the syncronization.
 
-You should be able to select an action from the list so that whenever this action happens internally, external platform will be alerted and updated.
+You should be able to select an action from the list so that whenever the specified action occurs internally, the external system is alerted.
 
-Without the syncronization, actions such as:
-
-- Update of the badge template
-- Archivation of the badge template
-
-external platform will not be aware of any changes so it might continue issuing outdated badges.
+Without this synchronization, the external system will not be notified of any significant changes (e.g. a badge template update, or a badge template has been archived) and may incorrectly issue erroneous or outdated badges.
 
 Synchronization
 ~~~~~~~~~~~~~~~
@@ -69,7 +64,7 @@ On success, the system will update the list of Credly badge templates for the Or
 .. image:: ../_static/images/badges/badges-admin-credly-templates-list.png
         :alt: Credly badge templates list
 
-For the usage a badge template must be configured and activated first.
+For a badge template to be considered during the processing it must be configured (to have at least 1 requirement) and activated (enabled) first.
 
 Badge Requirements
 ------------------
@@ -84,7 +79,7 @@ Badge Requirements are listed inline on a badge template detail page.
 .. image:: ../_static/images/badges/badges-admin-template-requirements.png
         :alt: Credly badge template requirements
 
-A badge template can can have multiple requirements. All badge requirements must be *fulfilled* to earn a badge.
+A badge template can have multiple requirements. All badge requirements must be *fulfilled* before the system will issue a badge to a learner.
 
 Event type
 ~~~~~~~~~~
@@ -171,7 +166,7 @@ There could be 0 or more badge penalties configured for a badge template.
 Each badge penalty is *targeted* to 1 or more badge requirements.
 A penalty setup is similar to a badge requirement, but has different effect: it decreases badge progress for a user.
 
-When a penalty has worked all linked badge requirements are "rolled back" (user's progress for such requirements is reset).
+When all penalty rules have been applied, a learner's progress towards a badge is reset.
 
 .. image:: ../_static/images/badges/badges-admin-penalty-rules.png
         :alt: Badge penalty rules edit

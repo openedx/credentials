@@ -78,8 +78,6 @@ On badge progress completion, the system:
 
     The Badges application implements its extended ``UserCredential`` version (the CredlyBadge) to track external issuing state. Once the Credly badge is successfully issued the **CredlyBadge is updated with its UUID and state**.
 
-Badge revoking is optional. Business needs. Configuration. And why.
-
 .. _event types: https://docs.openedx.org/projects/openedx-events/en/latest/
 .. _openedx-events: https://github.com/openedx/openedx-events
 .. _default settings: settings.html#default-settings
@@ -101,4 +99,4 @@ Badges can also be revoked. Its a separete set of rules that need to be set up.
 
 .. _Configuration: configuration.html
 
-When system revokes a badge, the status of a badge will change from awarded to revoked in the admin panel (admim/badges/credly_badges) as the revoke process is synced with external platform. 
+When a learner's badge is revoked by Credly, the Credentials IDA will be notified and will update it's internal records. The status of the badge will change from `awarded` to `revoked` upon successful revocation.
