@@ -204,9 +204,8 @@ class CourseCertificate(AbstractCertificate):
     .. no_pii: This model has no PII.
     """
 
-    # We require signatories on program certificates, However, on course certificate configurations,
-    # not all sites will care. The certificates themselves don't render in the credentials IDA,
-    # and this is cloned data from the system of record.
+    # Not all sites will require signatories in course certificate configurations, but signatories are required in program certificates configurations.
+    # This is cloned data from the system of record, as the course certificates don't render in the Credentials IDA.
     signatories = models.ManyToManyField(Signatory, blank=True)
 
     # course_id is identical to course_run.key. It is a deprecated legacy property.  For now it is still used as a
