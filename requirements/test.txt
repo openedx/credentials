@@ -34,7 +34,7 @@ bleach==6.1.0
     # via -r requirements/base.txt
 cachetools==5.3.3
     # via tox
-certifi==2024.6.2
+certifi==2024.7.4
     # via
     #   -r requirements/base.txt
     #   requests
@@ -149,7 +149,7 @@ django-sortedm2m==3.1.1
     # via -r requirements/base.txt
 django-statici18n==2.5.0
     # via -r requirements/base.txt
-django-storages==1.14.3
+django-storages==1.14.4
     # via -r requirements/base.txt
 django-waffle==4.1.0
     # via
@@ -227,7 +227,7 @@ factory-boy==3.3.0
     # via -r requirements/test.in
 faker==26.0.0
     # via factory-boy
-fastavro==1.9.4
+fastavro==1.9.5
     # via
     #   -r requirements/base.txt
     #   openedx-events
@@ -505,7 +505,7 @@ tomli==2.0.1
     #   tox
 tomlkit==0.12.5
     # via pylint
-tox==4.15.1
+tox==4.16.0
     # via -r requirements/test.in
 typing-extensions==4.12.2
     # via
