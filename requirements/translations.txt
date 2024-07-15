@@ -10,7 +10,7 @@ backports-zoneinfo==0.2.1 ; python_version < "3.9"
     # via
     #   -c requirements/constraints.txt
     #   django
-django==4.2.13
+django==4.2.14
     # via
     #   -c requirements/common_constraints.txt
     #   edx-i18n-tools
