@@ -155,7 +155,7 @@ class CredlyBadgeTemplateIssuerTestCase(TestCase):
         self.assertEqual(user_credential.state, "revoked")
 
     @patch.object(CredlyAPIClient, "revoke_badge", side_effect=CredlyAPIError("Revocation failed"))
-    def test_revoke_credly_badge_failure(self, mock_revoke_badge):
+    def test_revoke_credly_badge_failure(self, mock_revoke_badge):  # type: ignore[unused-argument]
         user_credential = self.issued_user_credential_type.objects.create(
             username="test_user",
             credential_content_type=ContentType.objects.get_for_model(self.badge_template),
