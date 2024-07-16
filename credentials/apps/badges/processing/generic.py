@@ -39,6 +39,7 @@ def process_event(sender, **kwargs):
     except BadgesProcessingError as error:
         logger.error(f"Badges processing error: {error}")
         return None
+    return None
 
 
 def identify_user(*, event_type, event_payload):
