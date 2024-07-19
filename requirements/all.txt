@@ -10,7 +10,6 @@ asgiref==3.8.1
     #   -r requirements/production.txt
     #   django
     #   django-cors-headers
-    #   django-stubs
 astroid==3.2.3
     # via
     #   -r requirements/dev.txt
@@ -45,11 +44,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.144
+boto3==1.34.145
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.144
+botocore==1.34.145
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -156,8 +155,6 @@ django==4.2.14
     #   django-simple-history
     #   django-statici18n
     #   django-storages
-    #   django-stubs
-    #   django-stubs-ext
     #   django-waffle
     #   djangorestframework
     #   drf-jwt
@@ -231,12 +228,6 @@ django-storages==1.14.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-stubs==5.0.2
-    # via -r requirements/dev.txt
-django-stubs-ext==5.0.2
-    # via
-    #   -r requirements/dev.txt
-    #   django-stubs
 django-waffle==4.1.0
     # via
     #   -r requirements/dev.txt
@@ -362,7 +353,7 @@ filelock==3.15.4
     #   -r requirements/dev.txt
     #   tox
     #   virtualenv
-fontawesomefree==6.5.1
+fontawesomefree==6.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -436,8 +427,6 @@ mccabe==0.7.0
     # via
     #   -r requirements/dev.txt
     #   pylint
-mypy==1.10.1
-    # via -r requirements/dev.txt
 mypy-extensions==1.0.0
     # via
     #   -r requirements/dev.txt
@@ -735,8 +724,6 @@ tomli==2.0.1
     # via
     #   -r requirements/dev.txt
     #   black
-    #   django-stubs
-    #   mypy
     #   pylint
     #   pyproject-api
     #   pytest
@@ -747,10 +734,6 @@ tomlkit==0.13.0
     #   pylint
 tox==4.16.0
     # via -r requirements/dev.txt
-types-pyyaml==6.0.12.20240311
-    # via
-    #   -r requirements/dev.txt
-    #   django-stubs
 typing-extensions==4.12.2
     # via
     #   -r requirements/dev.txt
@@ -758,10 +741,7 @@ typing-extensions==4.12.2
     #   asgiref
     #   astroid
     #   black
-    #   django-stubs
-    #   django-stubs-ext
     #   edx-opaque-keys
-    #   mypy
     #   pylint
     #   qrcode
 uritemplate==4.1.1

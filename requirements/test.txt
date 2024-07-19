@@ -247,7 +247,7 @@ filelock==3.15.4
     # via
     #   tox
     #   virtualenv
-fontawesomefree==6.5.1
+fontawesomefree==6.6.0
     # via -r requirements/base.txt
 httpretty==1.1.4
     # via -r requirements/test.in

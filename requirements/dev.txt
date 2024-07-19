@@ -9,7 +9,6 @@ asgiref==3.8.1
     #   -r requirements/test.txt
     #   django
     #   django-cors-headers
-    #   django-stubs
 astroid==3.2.3
     # via
     #   -r requirements/test.txt
@@ -127,8 +126,6 @@ django==4.2.14
     #   django-simple-history
     #   django-statici18n
     #   django-storages
-    #   django-stubs
-    #   django-stubs-ext
     #   django-waffle
     #   djangorestframework
     #   drf-jwt
@@ -178,10 +175,6 @@ django-statici18n==2.5.0
     # via -r requirements/test.txt
 django-storages==1.14.4
     # via -r requirements/test.txt
-django-stubs==5.0.2
-    # via -r requirements/dev.in
-django-stubs-ext==5.0.2
-    # via django-stubs
 django-waffle==4.1.0
     # via
     #   -r requirements/test.txt
@@ -276,7 +269,7 @@ filelock==3.15.4
     #   -r requirements/test.txt
     #   tox
     #   virtualenv
-fontawesomefree==6.5.1
+fontawesomefree==6.6.0
     # via -r requirements/test.txt
 httpretty==1.1.4
     # via -r requirements/test.txt
@@ -326,8 +319,6 @@ mccabe==0.7.0
     # via
     #   -r requirements/test.txt
     #   pylint
-mypy==1.10.1
-    # via -r requirements/dev.in
 mypy-extensions==1.0.0
     # via
     #   -r requirements/test.txt
@@ -568,8 +559,6 @@ tomli==2.0.1
     # via
     #   -r requirements/test.txt
     #   black
-    #   django-stubs
-    #   mypy
     #   pylint
     #   pyproject-api
     #   pytest
@@ -580,18 +569,13 @@ tomlkit==0.13.0
     #   pylint
 tox==4.16.0
     # via -r requirements/test.txt
-types-pyyaml==6.0.12.20240311
-    # via django-stubs
 typing-extensions==4.12.2
     # via
     #   -r requirements/test.txt
     #   asgiref
     #   astroid
     #   black
-    #   django-stubs
-    #   django-stubs-ext
     #   edx-opaque-keys
-    #   mypy
     #   pylint
     #   qrcode
 uritemplate==4.1.1

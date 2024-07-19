@@ -177,7 +177,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 fastavro==1.9.5
     # via openedx-events
-fontawesomefree==6.5.1
+fontawesomefree==6.6.0
     # via -r requirements/base.in
 idna==3.7
     # via requests
