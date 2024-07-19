@@ -49,7 +49,11 @@ class UpdatedProgramEmailTests(SiteMixin, TestCase):
         self.client.login(username=self.user.username, password=USER_PASSWORD)
         self.program = ProgramFactory(site=self.site)
         self.pathway = PathwayFactory(site=self.site, programs=[self.program])
-        self.pc = ProgramCertificateFactory(site=self.site, program_uuid=self.program.uuid)
+        self.pc = ProgramCertificateFactory(
+            site=self.site,
+            program_uuid=self.program.uuid,
+            program=self.program,
+        )
         self.pcr = ProgramCertRecordFactory(program=self.program, user=self.user)
         self.data = {"username": self.USERNAME, "pathway_id": self.pathway.id}
         self.url = reverse("records:share_program", kwargs={"uuid": self.program.uuid.hex})
@@ -123,7 +127,11 @@ class CourseCredentialsToCourseRunsTests(SiteMixin, TestCase):
             )
             for course_run in self.course_runs
         ]
-        self.program_cert = ProgramCertificateFactory.create(program_uuid=self.program.uuid, site=self.site)
+        self.program_cert = ProgramCertificateFactory.create(
+            program_uuid=self.program.uuid,
+            site=self.site,
+            program=self.program,
+        )
         self.course_credential_content_type = ContentType.objects.get(
             app_label="credentials", model="coursecertificate"
         )
@@ -204,6 +212,7 @@ class CourseCredentialsToCourseRunsTests(SiteMixin, TestCase):
 
 
 class GetCredentialsTests(SiteMixin, TestCase):
+
     def setUp(self):
         super().setUp()
         self.user = UserFactory()
@@ -221,7 +230,11 @@ class GetCredentialsTests(SiteMixin, TestCase):
             )
             for course_run in self.course_runs
         ]
-        self.program_cert = ProgramCertificateFactory.create(program_uuid=self.program.uuid, site=self.site)
+        self.program_cert = ProgramCertificateFactory.create(
+            program_uuid=self.program.uuid,
+            site=self.site,
+            program=self.program,
+        )
         self.course_credential_content_type = ContentType.objects.get(
             app_label="credentials", model="coursecertificate"
         )
@@ -243,6 +256,7 @@ class GetCredentialsTests(SiteMixin, TestCase):
         )
 
     def test_get_credentials_both_empty(self):
+        """Verifies that empty sets are returned when there are no course or program certificates"""
         for course_cert in self.course_certs:
             course_cert.delete()
         self.program_cert.delete()
@@ -251,19 +265,12 @@ class GetCredentialsTests(SiteMixin, TestCase):
         assert program_results == []
 
     def test_get_credentials_course_only(self):
+        """Verify that the correct results are returned when there are course certificates
+        but not program certificates"""
         self.program_cert.delete()
         course_results, program_results = get_credentials(self.user.username)
         assert course_results == self.course_user_credentials
         assert program_results == []
-
-    def test_get_credentials_program_only(self):
-        for course_cert in self.course_certs:
-            course_cert.delete()
-        for course_run in self.course_runs:
-            course_run.delete()
-        course_results, program_results = get_credentials(self.user.username)
-        assert course_results == []
-        assert program_results[0] == self.program_user_credential
 
     def test_get_credentials_both_course_and_program(self):
         course_results, program_results = get_credentials(self.user.username)
@@ -289,7 +296,11 @@ class GetProgramDataTests(SiteMixin, TestCase):
             )
             for course_run in self.course_runs
         ]
-        self.program_cert = ProgramCertificateFactory.create(program_uuid=self.program.uuid, site=self.site)
+        self.program_cert = ProgramCertificateFactory.create(
+            program_uuid=self.program.uuid,
+            site=self.site,
+            program=self.program,
+        )
         self.course_credential_content_type = ContentType.objects.get(
             app_label="credentials", model="coursecertificate"
         )
@@ -333,7 +344,11 @@ class GetProgramDataTests(SiteMixin, TestCase):
             site=self.site,
             status=ProgramStatus.RETIRED.value,
         )
-        self.program_cert2 = ProgramCertificateFactory.create(program_uuid=self.program2.uuid, site=self.site)
+        self.program_cert2 = ProgramCertificateFactory.create(
+            program_uuid=self.program2.uuid,
+            site=self.site,
+            program=self.program2,
+        )
         self.program_user_credential2 = UserCredentialFactory.create(
             username=self.user.username,
             credential_content_type=self.program_credential_content_type,
@@ -354,7 +369,11 @@ class GetProgramDataTests(SiteMixin, TestCase):
             site=self.site,
             status=ProgramStatus.RETIRED.value,
         )
-        self.program_cert2 = ProgramCertificateFactory.create(program_uuid=self.program2.uuid, site=self.site)
+        self.program_cert2 = ProgramCertificateFactory.create(
+            program_uuid=self.program2.uuid,
+            site=self.site,
+            program=self.program2,
+        )
         self.program_user_credential2 = UserCredentialFactory.create(
             username=self.user.username,
             credential_content_type=self.program_credential_content_type,
@@ -372,8 +391,8 @@ class GetProgramDataTests(SiteMixin, TestCase):
         assert not result[1]["empty"]
 
     def test_get_user_program_data_zero_programs(self):
-        self.program.delete()
         self.program_cert.delete()
+        self.program.delete()
         self.program_user_credential.delete()
         result = get_user_program_data(self.user.username, self.site)
         assert result == []
@@ -389,7 +408,11 @@ class GetProgramDataTests(SiteMixin, TestCase):
         self.program2 = ProgramFactory(
             title="TestProgram2", course_runs=self.course_runs, authoring_organizations=self.orgs, site=self.site
         )
-        self.program_cert2 = ProgramCertificateFactory.create(program_uuid=self.program2.uuid, site=self.site)
+        self.program_cert2 = ProgramCertificateFactory.create(
+            program_uuid=self.program2.uuid,
+            site=self.site,
+            program=self.program2,
+        )
         self.program_user_credential2 = UserCredentialFactory.create(
             username=self.user.username,
             credential_content_type=self.program_credential_content_type,

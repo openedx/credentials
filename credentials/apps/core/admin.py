@@ -28,7 +28,7 @@ class ChangeUserStatusAdminMixin:
             message = _("1 {model_name} entry was successfully activated.")
         else:
             message = _("{count} {model_name} entries were successfully activated.")
-        message = message.format(count=count, model_name=model_name)  # pylint: disable=no-member
+        message = message.format(count=count, model_name=model_name)
         self.message_user(request, message)
 
     @admin.action(description=_("Deactivate selected entries"))
@@ -42,7 +42,7 @@ class ChangeUserStatusAdminMixin:
             message = _("1 {model_name} entry was successfully deactivated.")
         else:
             message = _("{count} {model_name} entries were successfully deactivated.")
-        message = message.format(count=count, model_name=model_name)  # pylint: disable=no-member
+        message = message.format(count=count, model_name=model_name)
         self.message_user(request, message)
 
     @admin.action(description=_("Add is_staff to selected entries"))
@@ -56,7 +56,7 @@ class ChangeUserStatusAdminMixin:
             message = _("1 {model_name} entry was successfully changed.")
         else:
             message = _("{count} {model_name} entries were successfully changed.")
-        message = message.format(count=count, model_name=model_name)  # pylint: disable=no-member
+        message = message.format(count=count, model_name=model_name)
         self.message_user(request, message)
 
     @admin.action(description=_("Remove is_staff from selected entries"))
@@ -70,7 +70,7 @@ class ChangeUserStatusAdminMixin:
             message = _("1 {model_name} entry was successfully changed.")
         else:
             message = _("{count} {model_name} entries were successfully changed.")
-        message = message.format(count=count, model_name=model_name)  # pylint: disable=no-member
+        message = message.format(count=count, model_name=model_name)
         self.message_user(request, message)
 
     @admin.action(description=_("Add is_superuser to selected entries"))
@@ -84,7 +84,7 @@ class ChangeUserStatusAdminMixin:
             message = _("1 {model_name} entry was successfully changed.")
         else:
             message = _("{count} {model_name} entries were successfully changed.")
-        message = message.format(count=count, model_name=model_name)  # pylint: disable=no-member
+        message = message.format(count=count, model_name=model_name)
         self.message_user(request, message)
 
     @admin.action(description=_("Remove is_superuser from selected entries"))
@@ -103,7 +103,7 @@ class ChangeUserStatusAdminMixin:
             message = _("1 {model_name} entry was successfully changed.")
         else:
             message = _("{count} {model_name} entries were successfully changed.")
-        message = message.format(count=count, model_name=model_name)  # pylint: disable=no-member
+        message = message.format(count=count, model_name=model_name)
         self.message_user(request, message)
         self.message_user(request, WARNING, level=messages.WARNING)
 

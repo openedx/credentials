@@ -335,6 +335,7 @@ class UserCredentialSerializerTests(TestCase):
 
 class CourseCertificateSerializerTests(SiteMixin, TestCase):
     def test_create_course_certificate(self):
+        """We can create a course certificate configuration"""
         course_run = CourseRunFactory()
         course_certificate = CourseCertificateFactory(site=self.site, course_run=course_run)
         Request = namedtuple("Request", ["site"])
@@ -351,7 +352,7 @@ class CourseCertificateSerializerTests(SiteMixin, TestCase):
         self.assertEqual(actual, expected)
 
     def test_missing_course_run(self):
-        # We should be able to create an entry without a course run
+        """We can create a course certificate configuration without a course run"""
         course_certificate = CourseCertificateFactory(site=self.site, course_run=None)
         Request = namedtuple("Request", ["site"])
         actual = CourseCertificateSerializer(course_certificate, context={"request": Request(site=self.site)}).data
@@ -367,8 +368,7 @@ class CourseCertificateSerializerTests(SiteMixin, TestCase):
         self.assertEqual(actual, expected)
 
     def test_create_without_course_run_raises_warning(self):
-        # even though you can create an entry without a course run,
-        # we want to make sure we are logging a warning when it is missing
+        """Creating a course certificate configuration without a course run raises a warning"""
         with self.assertLogs(level=WARNING):
             Request = namedtuple("Request", ["site"])
             CourseCertificateSerializer(context={"request": Request(site=self.site)}).create(
@@ -379,3 +379,24 @@ class CourseCertificateSerializerTests(SiteMixin, TestCase):
                     "certificate_available_date": None,
                 }
             )
+
+    def test_missing_certificate_available_date(self):
+        """We can create a course certificate configuration without a certificate available date"""
+        course_run = CourseRunFactory()
+        course_certificate = CourseCertificateFactory(
+            site=self.site,
+            course_run=course_run,
+            certificate_available_date=None,
+        )
+        Request = namedtuple("Request", ["site"])
+        actual = CourseCertificateSerializer(course_certificate, context={"request": Request(site=self.site)}).data
+        expected = {
+            "id": course_certificate.id,
+            "site": self.site.id,
+            "course_run": course_certificate.course_run.key,
+            "course_id": course_certificate.course_id,
+            "certificate_type": course_certificate.certificate_type,
+            "certificate_available_date": None,
+            "is_active": course_certificate.is_active,
+        }
+        self.assertEqual(actual, expected)

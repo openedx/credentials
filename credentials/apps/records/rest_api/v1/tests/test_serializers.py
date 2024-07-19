@@ -37,7 +37,9 @@ class ProgramRecordsSerializerTests(SiteMixin, TestCase):
             )
             for course_run in self.course_runs
         ]
-        self.program_cert = ProgramCertificateFactory.create(program_uuid=self.program.uuid, site=self.site)
+        self.program_cert = ProgramCertificateFactory.create(
+            program_uuid=self.program.uuid, site=self.site, program=self.program
+        )
         self.course_credential_content_type = ContentType.objects.get(
             app_label="credentials", model="coursecertificate"
         )
@@ -79,6 +81,8 @@ class ProgramRecordsSerializerTests(SiteMixin, TestCase):
         ).data
 
     def test_valid_data_zero_programs(self):
+        """Verify the serializer produces an empty list if there are no programs"""
+        self.program_cert.delete()
         self.program.delete()
         serializer = self.serialize_program_records()
         expected = []
