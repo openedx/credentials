@@ -1,4 +1,8 @@
-# This is a temporary solution to override the real common_constraints.txt\n# In edx-lint, until the pyjwt constraint in edx-lint has been removed.\n# See BOM-2721 for more details.\n# Below is the copied and edited version of common_constraints\n
+# This is a temporary solution to override the real common_constraints.txt
+# In edx-lint, until the pyjwt constraint in edx-lint has been removed.
+# See BOM-2721 for more details.
+# Below is the copied and edited version of common_constraints
+
 # A central location for most common version constraints
 # (across edx repos) for pip-installation.
 #
@@ -18,7 +22,6 @@ Django<5.0
 
 # elasticsearch>=7.14.0 includes breaking changes in it which caused issues in discovery upgrade process.
 # elastic search changelog: https://www.elastic.co/guide/en/enterprise-search/master/release-notes-7.14.0.html
-# See https://github.com/openedx/edx-platform/issues/35126 for more info
 elasticsearch<7.14.0
 
 # django-simple-history>3.0.0 adds indexing and causes a lot of migrations to be affected
@@ -31,10 +34,3 @@ elasticsearch<7.14.0
 # So we need to pin it globally, for now.
 # Ticket for unpinning: https://github.com/openedx/edx-lint/issues/407
 importlib-metadata<7
-
-# Cause: https://github.com/openedx/event-tracking/pull/290
-# event-tracking 2.4.1 upgrades to pymongo 4.4.0 which is not supported on edx-platform.
-# We will pin event-tracking to do not break existing installations
-# This can be unpinned once https://github.com/openedx/edx-platform/issues/34586
-# has been resolved and edx-platform is running with pymongo>=4.4.0
-event-tracking<2.4.1
