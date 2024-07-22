@@ -13,22 +13,6 @@ auth.Group:
   ".. no_pii:": "This model has no PII"
 auth.Permission:
   ".. no_pii:": "This model has no PII"
-badges.BadgePenalty:
-  ".. no_pii:": "This model has no PII"
-badges.BadgeProgress:
-  ".. pii": "Username"
-  ".. pii_types": other
-  ".. pii_retirement": retained
-badges.BadgeRequirement:
-  ".. no_pii:": "This model has no PII"
-badges.CredlyOrganization:
-  ".. no_pii:": "This model has no PII"
-badges.DataRule:
-  ".. no_pii:": "This model has no PII"
-badges.Fulfillment:
-  ".. no_pii:": "This model has no PII"
-badges.PenaltyDataRule:
-  ".. no_pii:": "This model has no PII"
 credentials.HistoricalProgramCompletionEmailConfiguration:
     ".. no_pii:": "This model has no PII"
 contenttypes.ContentType:
