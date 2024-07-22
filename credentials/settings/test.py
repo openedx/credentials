@@ -83,3 +83,6 @@ VERIFIABLE_CREDENTIALS = {
 }
 
 LEARNER_RECORD_MFE_RECORDS_PAGE_URL = "http://learner-record-mfe"
+add_plugins(__name__, PROJECT_TYPE, SettingsType.TEST)
+
+BADGES_CONFIG["credly"]["USE_SANDBOX"] = True
