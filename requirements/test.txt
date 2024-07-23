@@ -9,7 +9,7 @@ asgiref==3.8.1
     #   -r requirements/base.txt
     #   django
     #   django-cors-headers
-astroid==3.2.3
+astroid==3.2.4
     # via
     #   pylint
     #   pylint-celery
@@ -82,7 +82,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==7.6.0
     # via -r requirements/test.in
-cryptography==42.0.8
+cryptography==43.0.0
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -370,7 +370,7 @@ pyjwt[crypto]==2.8.0
     #   edx-rest-api-client
     #   segment-analytics-python
     #   social-auth-core
-pylint==3.2.5
+pylint==3.2.6
     # via
     #   edx-lint
     #   pylint-celery
@@ -400,7 +400,7 @@ pypng==0.20220715.0
     #   qrcode
 pyproject-api==1.7.1
     # via tox
-pytest==8.2.2
+pytest==8.3.1
     # via
     #   -r requirements/test.in
     #   pytest-django
