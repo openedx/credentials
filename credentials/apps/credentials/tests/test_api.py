@@ -464,8 +464,8 @@ class ProcessCourseCredentialUpdateTests(SiteMixin, TestCase):
         assert credential.username == self.user.username
         assert credential.credential_id == course_cert_config.id
         assert credential.status == "awarded"
-        # 12 is the content type for "Course Certificate"
-        assert credential.credential_content_type_id == 12
+        # 22 is the content type for "Course Certificate"
+        assert credential.credential_content_type_id == 22
 
     def test_revoke_course_credential(self):
         """
@@ -488,8 +488,8 @@ class ProcessCourseCredentialUpdateTests(SiteMixin, TestCase):
         assert credential.username == self.user.username
         assert credential.credential_id == course_cert_config.id
         assert credential.status == "revoked"
-        # 12 is the content type for "Course Certificate"
-        assert credential.credential_content_type_id == 12
+        # 22 is the content type for "Course Certificate"
+        assert credential.credential_content_type_id == 22
 
     def test_update_existing_cert(self):
         """
@@ -555,8 +555,8 @@ class ProcessCourseCredentialUpdateTests(SiteMixin, TestCase):
         assert credential.username == self.user.username
         assert credential.credential_id == course_cert_config.id
         assert credential.status == "awarded"
-        # 12 is the content type for "Course Certificate"
-        assert credential.credential_content_type_id == 12
+        # 22 is the content type for "Course Certificate"
+        assert credential.credential_content_type_id == 22
 
     def test_award_course_cert_no_course_certificate_exception_occurs(self):
         """
