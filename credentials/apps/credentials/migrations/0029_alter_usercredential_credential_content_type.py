@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("contenttypes", "0002_remove_content_type_name"),
-        ("credentials", "0029_signatory_not_mandatory"),
+        ("credentials", "0028_alter_historicalprogramcompletionemailconfiguration_options"),
     ]
 
     operations = [
