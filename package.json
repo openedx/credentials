@@ -16,7 +16,7 @@
     "file-loader": "6.2.0",
     "mini-css-extract-plugin": "2.9.0",
     "sass": "1.77.8",
-    "sass-loader": "14.2.1",
+    "sass-loader": "15.0.0",
     "url-loader": "4.1.1",
     "webpack": "5.93.0",
     "webpack-bundle-tracker": "3.1.0"
