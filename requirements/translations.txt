@@ -10,13 +10,13 @@ django==4.2.14
     # via
     #   -c requirements/common_constraints.txt
     #   edx-i18n-tools
-edx-i18n-tools==1.6.0
+edx-i18n-tools==1.6.1
     # via -r requirements/translations.in
 lxml[html-clean,html_clean]==5.1.1
     # via
     #   -c requirements/constraints.txt
     #   edx-i18n-tools
-path==16.14.0
+path==17.0.0
     # via edx-i18n-tools
 polib==1.2.0
     # via edx-i18n-tools

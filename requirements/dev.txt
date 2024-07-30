@@ -168,9 +168,9 @@ django-statici18n==2.5.0
     # via -r requirements/test.txt
 django-storages==1.14.4
     # via -r requirements/test.txt
-django-stubs==5.0.2
+django-stubs==5.0.4
     # via -r requirements/dev.in
-django-stubs-ext==5.0.2
+django-stubs-ext==5.0.4
     # via django-stubs
 django-waffle==4.1.0
     # via
@@ -227,7 +227,7 @@ edx-event-bus-kafka==5.7.0
     # via -r requirements/test.txt
 edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via -r requirements/test.txt
-edx-i18n-tools==1.6.0
+edx-i18n-tools==1.6.1
     # via
     #   -r requirements/dev.in
     #   -r requirements/test.txt
@@ -344,7 +344,7 @@ packaging==24.1
     #   pyproject-api
     #   pytest
     #   tox
-path==16.14.0
+path==17.0.0
     # via
     #   -r requirements/test.txt
     #   edx-i18n-tools
@@ -431,7 +431,7 @@ pyproject-api==1.7.1
     # via
     #   -r requirements/test.txt
     #   tox
-pytest==8.3.1
+pytest==8.3.2
     # via
     #   -r requirements/test.txt
     #   pytest-django
@@ -553,7 +553,7 @@ tomlkit==0.13.0
     #   pylint
 tox==4.16.0
     # via -r requirements/test.txt
-types-pyyaml==6.0.12.20240311
+types-pyyaml==6.0.12.20240724
     # via django-stubs
 typing-extensions==4.12.2
     # via

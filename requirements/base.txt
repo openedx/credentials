@@ -153,7 +153,7 @@ edx-event-bus-kafka==5.7.0
     # via -r requirements/base.in
 edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via -r requirements/base.in
-edx-i18n-tools==1.6.0
+edx-i18n-tools==1.6.1
     # via edx-credentials-themes
 edx-opaque-keys[django]==2.10.0
     # via
@@ -212,7 +212,7 @@ openedx-events==9.11.0
     #   edx-event-bus-redis
 packaging==24.1
     # via drf-yasg
-path==16.14.0
+path==17.0.0
     # via edx-i18n-tools
 pbr==6.0.0
     # via stevedore

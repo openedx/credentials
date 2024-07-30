@@ -204,7 +204,7 @@ edx-event-bus-kafka==5.7.0
     # via -r requirements/base.txt
 edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via -r requirements/base.txt
-edx-i18n-tools==1.6.0
+edx-i18n-tools==1.6.1
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
@@ -308,7 +308,7 @@ packaging==24.1
     #   pyproject-api
     #   pytest
     #   tox
-path==16.14.0
+path==17.0.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
@@ -383,7 +383,7 @@ pypng==0.20220715.0
     #   qrcode
 pyproject-api==1.7.1
     # via tox
-pytest==8.3.1
+pytest==8.3.2
     # via
     #   -r requirements/test.in
     #   pytest-django
