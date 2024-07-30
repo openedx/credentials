@@ -13,6 +13,10 @@ astroid==3.2.4
     # via
     #   pylint
     #   pylint-celery
+async-timeout==4.0.3
+    # via
+    #   -r requirements/base.txt
+    #   redis
 attrs==23.2.0
     # via
     #   -r requirements/base.txt
@@ -182,7 +186,7 @@ edx-ccx-keys==1.3.0
     # via
     #   -r requirements/base.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.17
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.19
     # via -r requirements/base.txt
 edx-django-release-util==1.4.0
     # via -r requirements/base.txt
@@ -204,7 +208,7 @@ edx-event-bus-kafka==5.7.0
     # via -r requirements/base.txt
 edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via -r requirements/base.txt
-edx-i18n-tools==1.6.0
+edx-i18n-tools==1.6.2
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
@@ -308,7 +312,7 @@ packaging==24.1
     #   pyproject-api
     #   pytest
     #   tox
-path==16.14.0
+path==16.16.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
@@ -383,7 +387,7 @@ pypng==0.20220715.0
     #   qrcode
 pyproject-api==1.7.1
     # via tox
-pytest==8.3.1
+pytest==8.3.2
     # via
     #   -r requirements/test.in
     #   pytest-django
@@ -419,7 +423,7 @@ pyyaml==6.0.1
     #   responses
 qrcode==7.4.2
     # via -r requirements/base.txt
-redis==5.0.7
+redis==5.0.8
     # via
     #   -r requirements/base.txt
     #   walrus
