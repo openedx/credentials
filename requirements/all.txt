@@ -16,11 +16,6 @@ astroid==3.2.4
     #   -r requirements/dev.txt
     #   pylint
     #   pylint-celery
-async-timeout==4.0.3
-    # via
-    #   -r requirements/dev.txt
-    #   -r requirements/production.txt
-    #   redis
 attrs==23.2.0
     # via
     #   -r requirements/dev.txt
@@ -38,18 +33,25 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.150
+boto3==1.34.151
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.150
+botocore==1.34.151
     # via
     #   -r requirements/production.txt
     #   boto3
     #   s3transfer
+cachecontrol==0.14.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   firebase-admin
 cachetools==5.4.0
     # via
     #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-auth
     #   tox
 certifi==2024.7.4
     # via
@@ -145,6 +147,7 @@ django==4.2.14
     #   django-extensions
     #   django-filter
     #   django-model-utils
+    #   django-push-notifications
     #   django-ses
     #   django-simple-history
     #   django-statici18n
@@ -198,6 +201,11 @@ django-model-utils==4.5.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+django-push-notifications==3.1.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   edx-ace
 django-ratelimit==4.1.0
     # via
     #   -r requirements/dev.txt
@@ -263,7 +271,7 @@ drf-yasg==1.21.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-ace==1.9.1
+edx-ace==1.10.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -288,7 +296,7 @@ edx-django-sites-extensions==4.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-utils==5.14.2
+edx-django-utils==5.15.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -303,7 +311,7 @@ edx-drf-extensions==10.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-event-bus-kafka==5.7.0
+edx-event-bus-kafka==5.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -337,7 +345,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.0
     # via -r requirements/dev.txt
-faker==26.0.0
+faker==26.1.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -351,18 +359,102 @@ filelock==3.15.4
     #   -r requirements/dev.txt
     #   tox
     #   virtualenv
+firebase-admin==6.5.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   edx-ace
 fontawesomefree==6.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 gevent==24.2.1
     # via -r requirements/production.txt
+google-api-core[grpc]==2.19.1
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   firebase-admin
+    #   google-api-python-client
+    #   google-cloud-core
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-api-python-client==2.139.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   firebase-admin
+google-auth==2.32.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-api-core
+    #   google-api-python-client
+    #   google-auth-httplib2
+    #   google-cloud-core
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-auth-httplib2==0.2.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-api-python-client
+google-cloud-core==2.4.1
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-cloud-firestore==2.17.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   firebase-admin
+google-cloud-storage==2.18.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   firebase-admin
+google-crc32c==1.5.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-cloud-storage
+    #   google-resumable-media
+google-resumable-media==2.7.1
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-cloud-storage
+googleapis-common-protos==1.63.2
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-api-core
+    #   grpcio-status
 greenlet==3.0.3
     # via
     #   -r requirements/production.txt
     #   gevent
+grpcio==1.65.2
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-api-core
+    #   grpcio-status
+grpcio-status==1.62.2
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-api-core
 gunicorn==22.0.0
     # via -r requirements/production.txt
+httplib2==0.22.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-api-python-client
+    #   google-auth-httplib2
 httpretty==1.1.4
     # via -r requirements/dev.txt
 idna==3.7
@@ -419,7 +511,12 @@ mccabe==0.7.0
     # via
     #   -r requirements/dev.txt
     #   pylint
-mypy==1.11.0
+msgpack==1.0.8
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   cachecontrol
+mypy==1.11.1
     # via -r requirements/dev.txt
 mypy-extensions==1.0.0
     # via
@@ -503,11 +600,37 @@ polib==1.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-i18n-tools
+proto-plus==1.24.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-api-core
+    #   google-cloud-firestore
+protobuf==4.25.4
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-api-core
+    #   google-cloud-firestore
+    #   googleapis-common-protos
+    #   grpcio-status
+    #   proto-plus
 psutil==6.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-django-utils
+pyasn1==0.6.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   pyasn1-modules
+    #   rsa
+pyasn1-modules==0.4.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-auth
 pycparser==2.22
     # via
     #   -r requirements/dev.txt
@@ -525,6 +648,7 @@ pyjwt[crypto]==2.8.0
     #   edx-auth-backends
     #   edx-drf-extensions
     #   edx-rest-api-client
+    #   firebase-admin
     #   segment-analytics-python
     #   social-auth-core
 pylint==3.2.6
@@ -561,6 +685,11 @@ pynacl==1.5.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-django-utils
+pyparsing==3.1.2
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   httplib2
 pypng==0.20220715.0
     # via
     #   -r requirements/dev.txt
@@ -628,9 +757,12 @@ requests==2.32.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+    #   cachecontrol
     #   coreapi
     #   edx-drf-extensions
     #   edx-rest-api-client
+    #   google-api-core
+    #   google-cloud-storage
     #   requests-oauthlib
     #   responses
     #   sailthru-client
@@ -644,6 +776,11 @@ requests-oauthlib==2.0.0
     #   social-auth-core
 responses==0.25.3
     # via -r requirements/dev.txt
+rsa==4.9
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   google-auth
 s3transfer==0.10.2
     # via
     #   -r requirements/production.txt
@@ -741,6 +878,7 @@ uritemplate==4.1.1
     #   -r requirements/production.txt
     #   coreapi
     #   drf-yasg
+    #   google-api-python-client
 urllib3==1.26.19
     # via
     #   -c requirements/constraints.txt
