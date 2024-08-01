@@ -8,8 +8,6 @@ asgiref==3.8.1
     # via
     #   django
     #   django-cors-headers
-async-timeout==4.0.3
-    # via redis
 attrs==23.2.0
     # via
     #   edx-ace
@@ -18,6 +16,10 @@ backoff==2.2.1
     # via segment-analytics-python
 bleach==6.1.0
     # via -r requirements/base.in
+cachecontrol==0.14.0
+    # via firebase-admin
+cachetools==5.4.0
+    # via google-auth
 certifi==2024.7.4
     # via requests
 cffi==1.16.0
@@ -59,6 +61,7 @@ django==4.2.14
     #   django-extensions
     #   django-filter
     #   django-model-utils
+    #   django-push-notifications
     #   django-simple-history
     #   django-statici18n
     #   django-storages
@@ -94,6 +97,8 @@ django-filter==24.2
     # via -r requirements/base.in
 django-model-utils==4.5.1
     # via -r requirements/base.in
+django-push-notifications==3.1.0
+    # via edx-ace
 django-ratelimit==4.1.0
     # via -r requirements/base.in
 django-rest-swagger==2.2.0
@@ -127,7 +132,7 @@ drf-jwt==1.19.2
     # via edx-drf-extensions
 drf-yasg==1.21.7
     # via -r requirements/base.in
-edx-ace==1.9.1
+edx-ace==1.10.1
     # via -r requirements/base.in
 edx-auth-backends==4.3.0
     # via -r requirements/base.in
@@ -139,7 +144,7 @@ edx-django-release-util==1.4.0
     # via -r requirements/base.in
 edx-django-sites-extensions==4.2.0
     # via -r requirements/base.in
-edx-django-utils==5.14.2
+edx-django-utils==5.15.0
     # via
     #   -r requirements/base.in
     #   edx-ace
@@ -151,7 +156,7 @@ edx-django-utils==5.14.2
     #   openedx-events
 edx-drf-extensions==10.3.0
     # via -r requirements/base.in
-edx-event-bus-kafka==5.7.0
+edx-event-bus-kafka==5.8.0
     # via -r requirements/base.in
 edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via -r requirements/base.in
@@ -172,8 +177,57 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 fastavro==1.9.5
     # via openedx-events
+firebase-admin==6.5.0
+    # via edx-ace
 fontawesomefree==6.6.0
     # via -r requirements/base.in
+google-api-core[grpc]==2.19.1
+    # via
+    #   firebase-admin
+    #   google-api-python-client
+    #   google-cloud-core
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-api-python-client==2.139.0
+    # via firebase-admin
+google-auth==2.32.0
+    # via
+    #   google-api-core
+    #   google-api-python-client
+    #   google-auth-httplib2
+    #   google-cloud-core
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-auth-httplib2==0.2.0
+    # via google-api-python-client
+google-cloud-core==2.4.1
+    # via
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-cloud-firestore==2.17.0
+    # via firebase-admin
+google-cloud-storage==2.18.0
+    # via firebase-admin
+google-crc32c==1.5.0
+    # via
+    #   google-cloud-storage
+    #   google-resumable-media
+google-resumable-media==2.7.1
+    # via google-cloud-storage
+googleapis-common-protos==1.63.2
+    # via
+    #   google-api-core
+    #   grpcio-status
+grpcio==1.65.2
+    # via
+    #   google-api-core
+    #   grpcio-status
+grpcio-status==1.62.2
+    # via google-api-core
+httplib2==0.22.0
+    # via
+    #   google-api-python-client
+    #   google-auth-httplib2
 idna==3.7
     # via requests
 inflection==0.5.1
@@ -193,6 +247,8 @@ markdown==3.6
     # via -r requirements/base.in
 markupsafe==2.1.5
     # via jinja2
+msgpack==1.0.8
+    # via cachecontrol
 mysqlclient==2.2.4
     # via -r requirements/base.in
 newrelic==9.12.0
@@ -222,8 +278,25 @@ pillow==10.4.0
     # via -r requirements/base.in
 polib==1.2.0
     # via edx-i18n-tools
+proto-plus==1.24.0
+    # via
+    #   google-api-core
+    #   google-cloud-firestore
+protobuf==4.25.4
+    # via
+    #   google-api-core
+    #   google-cloud-firestore
+    #   googleapis-common-protos
+    #   grpcio-status
+    #   proto-plus
 psutil==6.0.0
     # via edx-django-utils
+pyasn1==0.6.0
+    # via
+    #   pyasn1-modules
+    #   rsa
+pyasn1-modules==0.4.0
+    # via google-auth
 pycparser==2.22
     # via cffi
 pygments==2.18.0
@@ -234,6 +307,7 @@ pyjwt[crypto]==2.8.0
     #   edx-auth-backends
     #   edx-drf-extensions
     #   edx-rest-api-client
+    #   firebase-admin
     #   segment-analytics-python
     #   social-auth-core
 pymemcache==4.0.0
@@ -242,6 +316,8 @@ pymongo==4.8.0
     # via edx-opaque-keys
 pynacl==1.5.0
     # via edx-django-utils
+pyparsing==3.1.2
+    # via httplib2
 pypng==0.20220715.0
     # via qrcode
 python-dateutil==2.9.0.post0
@@ -271,9 +347,12 @@ redis==5.0.8
 requests==2.32.3
     # via
     #   -r requirements/base.in
+    #   cachecontrol
     #   coreapi
     #   edx-drf-extensions
     #   edx-rest-api-client
+    #   google-api-core
+    #   google-cloud-storage
     #   requests-oauthlib
     #   sailthru-client
     #   segment-analytics-python
@@ -281,6 +360,8 @@ requests==2.32.3
     #   social-auth-core
 requests-oauthlib==2.0.0
     # via social-auth-core
+rsa==4.9
+    # via google-auth
 sailthru-client==2.2.3
     # via edx-ace
 segment-analytics-python==2.3.2
@@ -327,6 +408,7 @@ uritemplate==4.1.1
     # via
     #   coreapi
     #   drf-yasg
+    #   google-api-python-client
 urllib3==1.26.19
     # via
     #   -c requirements/constraints.txt
