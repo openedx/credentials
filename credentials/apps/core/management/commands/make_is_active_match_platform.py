@@ -2,9 +2,9 @@
 Django management command to make the is_active status on a credentials user
 be True if the user's LMS is_active status is True.
 
-If the credentials user is_active=True we don't need to synchronize because that
+If the credentials user is_active=True but the LMS user is_active=False, we don't need to synchronize because that
 inconsistency is fine. But there can be user problems if they can log in to the
-LMS but the credentials user has been set inactive, so we fix inconsistencies in
+LMS but the credentials user has been set inactive, so we have to fix inconsistencies in
 that one direction.
 """
 
