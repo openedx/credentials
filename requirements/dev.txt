@@ -15,7 +15,7 @@ astroid==3.2.4
     #   -r requirements/test.txt
     #   pylint
     #   pylint-celery
-attrs==23.2.0
+attrs==24.1.0
     # via
     #   -r requirements/test.txt
     #   edx-ace
@@ -24,7 +24,7 @@ backoff==2.2.1
     # via
     #   -r requirements/test.txt
     #   segment-analytics-python
-black==24.4.2
+black==24.8.0
     # via -r requirements/test.txt
 bleach==6.1.0
     # via -r requirements/test.txt
@@ -84,7 +84,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==7.6.0
+coverage==7.6.1
     # via -r requirements/test.txt
 cryptography==43.0.0
     # via
@@ -108,7 +108,7 @@ distlib==0.3.8
     # via
     #   -r requirements/test.txt
     #   virtualenv
-django==4.2.14
+django==4.2.15
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt
@@ -158,7 +158,7 @@ django-debug-toolbar==4.4.6
     # via -r requirements/dev.in
 django-extensions==3.2.3
     # via -r requirements/test.txt
-django-filter==24.2
+django-filter==24.3
     # via -r requirements/test.txt
 django-model-utils==4.5.1
     # via -r requirements/test.txt
@@ -207,7 +207,7 @@ drf-jwt==1.19.2
     #   edx-drf-extensions
 drf-yasg==1.21.7
     # via -r requirements/test.txt
-edx-ace==1.10.1
+edx-ace==1.11.0
     # via -r requirements/test.txt
 edx-auth-backends==4.3.0
     # via -r requirements/test.txt
@@ -233,7 +233,7 @@ edx-django-utils==5.15.0
     #   openedx-events
 edx-drf-extensions==10.3.0
     # via -r requirements/test.txt
-edx-event-bus-kafka==5.8.0
+edx-event-bus-kafka==5.8.1
     # via -r requirements/test.txt
 edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via -r requirements/test.txt
@@ -330,12 +330,12 @@ googleapis-common-protos==1.63.2
     #   -r requirements/test.txt
     #   google-api-core
     #   grpcio-status
-grpcio==1.65.2
+grpcio==1.65.4
     # via
     #   -r requirements/test.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.62.2
+grpcio-status==1.62.3
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -669,7 +669,7 @@ tomlkit==0.13.0
     # via
     #   -r requirements/test.txt
     #   pylint
-tox==4.16.0
+tox==4.17.0
     # via -r requirements/test.txt
 types-pyyaml==6.0.12.20240724
     # via django-stubs
