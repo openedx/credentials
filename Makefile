@@ -10,7 +10,7 @@ TOX = ''
 	extract_translations dummy_translations compile_translations fake_translations pull_translations \
 	detect_changed_source_translations validate_translations check_translations_up_to_date \
 	check_keywords pii_check coverage \
-	quality_and_translations_tests_suite unit_tests_suite docs
+	docs
 
 ifdef TOXENV
 TOX := tox -- #to isolate each tox environment if TOXENV is defined
