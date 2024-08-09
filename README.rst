@@ -18,7 +18,7 @@ Where to run `make` commands
 
 Due to the nature of developing in containers, some commands must be ran inside the container. Currently most commands
 can be ran either inside the container or inside a local virtual environement, once developer requirements have been
-installed (using `make requirements` target).
+installed (using the `make requirements` target).
 
 Frontend Development
 --------------------
