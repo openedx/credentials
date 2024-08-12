@@ -62,7 +62,7 @@ class Command(BaseCommand):
         logger.info(f"using {site_configs.site.domain} for user queries")
 
         # loop over users in batches
-        logger.warning(f"Start processing {count_users} IDs with is_active=True")
+        logger.warning(f"Start processing {count_users} inactive Credentials user accounts")
         for x in range(0, count_users, offset):
             slice_size = min(count_users, x + offset)
             curr_users = inactive_credentials_users[x:slice_size]
@@ -71,7 +71,7 @@ class Command(BaseCommand):
                 if user.username in is_active_statuses and user.is_active != is_active_statuses[user.username]:
                     self.enable_user(user, verbosity, dry_run)
                 else:
-                    logger.error(f"Could not get is_active for user {user.username}")
+                    logger.error(f"Could not get is_active for user with lms_user_id {user.lms_user_id}")
             if x + slice_size < count_users:
                 time.sleep(pause)
 
@@ -82,7 +82,7 @@ class Command(BaseCommand):
         users: List["AbstractUser"],
         site_config: SiteConfiguration,
     ) -> Dict[str, bool]:
-        """Get is_active status for a list of users.
+        """Get is_active status from the LMS for a list of users.
 
         Args:
             users: List of user objects
