@@ -15,7 +15,7 @@ astroid==3.2.4
     #   -r requirements/test.txt
     #   pylint
     #   pylint-celery
-attrs==24.1.0
+attrs==24.2.0
     # via
     #   -r requirements/test.txt
     #   edx-ace
@@ -41,7 +41,7 @@ certifi==2024.7.4
     # via
     #   -r requirements/test.txt
     #   requests
-cffi==1.16.0
+cffi==1.17.0
     # via
     #   -r requirements/test.txt
     #   cryptography
@@ -172,7 +172,7 @@ django-rest-swagger==2.2.0
     # via -r requirements/test.txt
 django-simple-history==3.7.0
     # via -r requirements/test.txt
-django-sortedm2m==3.1.1
+django-sortedm2m==4.0.0
     # via -r requirements/test.txt
 django-statici18n==2.5.0
     # via -r requirements/test.txt
@@ -207,7 +207,7 @@ drf-jwt==1.19.2
     #   edx-drf-extensions
 drf-yasg==1.21.7
     # via -r requirements/test.txt
-edx-ace==1.11.0
+edx-ace==1.11.1
     # via -r requirements/test.txt
 edx-auth-backends==4.3.0
     # via -r requirements/test.txt
@@ -259,7 +259,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.0
     # via -r requirements/test.txt
-faker==26.1.0
+faker==27.0.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -286,11 +286,11 @@ google-api-core[grpc]==2.19.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.139.0
+google-api-python-client==2.140.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
-google-auth==2.32.0
+google-auth==2.33.0
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -308,11 +308,11 @@ google-cloud-core==2.4.1
     #   -r requirements/test.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.17.0
+google-cloud-firestore==2.17.1
     # via
     #   -r requirements/test.txt
     #   firebase-admin
-google-cloud-storage==2.18.0
+google-cloud-storage==2.18.2
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -321,7 +321,7 @@ google-crc32c==1.5.0
     #   -r requirements/test.txt
     #   google-cloud-storage
     #   google-resumable-media
-google-resumable-media==2.7.1
+google-resumable-media==2.7.2
     # via
     #   -r requirements/test.txt
     #   google-cloud-storage
@@ -400,7 +400,7 @@ mypy-extensions==1.0.0
     #   mypy
 mysqlclient==2.2.4
     # via -r requirements/test.txt
-newrelic==9.12.0
+newrelic==9.13.0
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -570,7 +570,7 @@ pytz==2024.1
     #   drf-yasg
 pywatchman==2.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.in
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -669,9 +669,9 @@ tomlkit==0.13.0
     # via
     #   -r requirements/test.txt
     #   pylint
-tox==4.17.0
+tox==4.17.1
     # via -r requirements/test.txt
-types-pyyaml==6.0.12.20240724
+types-pyyaml==6.0.12.20240808
     # via django-stubs
 typing-extensions==4.12.2
     # via
