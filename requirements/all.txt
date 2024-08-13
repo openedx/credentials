@@ -16,7 +16,7 @@ astroid==3.2.4
     #   -r requirements/dev.txt
     #   pylint
     #   pylint-celery
-attrs==24.1.0
+attrs==24.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -33,11 +33,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.154
+boto3==1.34.159
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.154
+botocore==1.34.159
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -58,7 +58,7 @@ certifi==2024.7.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-cffi==1.16.0
+cffi==1.17.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -220,7 +220,7 @@ django-simple-history==3.7.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-sortedm2m==3.1.1
+django-sortedm2m==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -271,7 +271,7 @@ drf-yasg==1.21.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-ace==1.11.0
+edx-ace==1.11.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -345,7 +345,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.0
     # via -r requirements/dev.txt
-faker==26.1.0
+faker==27.0.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -379,12 +379,12 @@ google-api-core[grpc]==2.19.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.139.0
+google-api-python-client==2.140.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-auth==2.32.0
+google-auth==2.33.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -405,12 +405,12 @@ google-cloud-core==2.4.1
     #   -r requirements/production.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.17.0
+google-cloud-firestore==2.17.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-cloud-storage==2.18.0
+google-cloud-storage==2.18.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -421,7 +421,7 @@ google-crc32c==1.5.0
     #   -r requirements/production.txt
     #   google-cloud-storage
     #   google-resumable-media
-google-resumable-media==2.7.1
+google-resumable-media==2.7.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -447,7 +447,7 @@ grpcio-status==1.62.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
-gunicorn==22.0.0
+gunicorn==23.0.0
     # via -r requirements/production.txt
 httplib2==0.22.0
     # via
@@ -527,7 +527,7 @@ mysqlclient==2.2.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==9.12.0
+newrelic==9.13.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -735,7 +735,7 @@ pytz==2024.1
     #   drf-yasg
 pywatchman==2.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.txt
-pyyaml==6.0.1
+pyyaml==6.0.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -857,9 +857,9 @@ tomlkit==0.13.0
     # via
     #   -r requirements/dev.txt
     #   pylint
-tox==4.17.0
+tox==4.17.1
     # via -r requirements/dev.txt
-types-pyyaml==6.0.12.20240724
+types-pyyaml==6.0.12.20240808
     # via
     #   -r requirements/dev.txt
     #   django-stubs
@@ -909,7 +909,7 @@ zope-event==5.0
     # via
     #   -r requirements/production.txt
     #   gevent
-zope-interface==7.0
+zope-interface==7.0.1
     # via
     #   -r requirements/production.txt
     #   gevent
