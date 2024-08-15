@@ -61,4 +61,4 @@ jobs:
           tags: |
             openedx/credentials-dev:${{ steps.get-tag-name.outputs.result }}
             openedx/credentials-dev:${{ github.sha }}
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
