@@ -51,7 +51,6 @@ jobs:
             openedx/credentials:${{ steps.get-tag-name.outputs.result }}
             openedx/credentials:${{ github.sha }}
           platforms: linux/amd64,linux/arm64
-      
       - name: Build and push dev Docker image
         uses: docker/build-push-action@v5
         with:

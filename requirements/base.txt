@@ -51,7 +51,7 @@ defusedxml==0.8.0rc2
     # via
     #   python3-openid
     #   social-auth-core
-didkit==0.3.2
+didkit==0.3.3
     # via -r requirements/base.in
 django==4.2.16
     # via
@@ -165,6 +165,53 @@ fastavro==1.9.4
     # via openedx-events
 fontawesomefree==6.5.1
     # via -r requirements/base.in
+google-api-core[grpc]==2.19.1
+    # via
+    #   firebase-admin
+    #   google-api-python-client
+    #   google-cloud-core
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-api-python-client==2.141.0
+    # via firebase-admin
+google-auth==2.33.0
+    # via
+    #   google-api-core
+    #   google-api-python-client
+    #   google-auth-httplib2
+    #   google-cloud-core
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-auth-httplib2==0.2.0
+    # via google-api-python-client
+google-cloud-core==2.4.1
+    # via
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-cloud-firestore==2.17.2
+    # via firebase-admin
+google-cloud-storage==2.18.2
+    # via firebase-admin
+google-crc32c==1.5.0
+    # via
+    #   google-cloud-storage
+    #   google-resumable-media
+google-resumable-media==2.7.2
+    # via google-cloud-storage
+googleapis-common-protos==1.63.2
+    # via
+    #   google-api-core
+    #   grpcio-status
+grpcio==1.65.4
+    # via
+    #   google-api-core
+    #   grpcio-status
+grpcio-status==1.65.4
+    # via google-api-core
+httplib2==0.22.0
+    # via
+    #   google-api-python-client
+    #   google-auth-httplib2
 idna==3.7
     # via requests
 importlib-metadata==6.11.0
@@ -214,7 +261,18 @@ pillow==10.3.0
     # via -r requirements/base.in
 polib==1.2.0
     # via edx-i18n-tools
-psutil==5.9.8
+proto-plus==1.24.0
+    # via
+    #   google-api-core
+    #   google-cloud-firestore
+protobuf==5.27.3
+    # via
+    #   google-api-core
+    #   google-cloud-firestore
+    #   googleapis-common-protos
+    #   grpcio-status
+    #   proto-plus
+psutil==6.0.0
     # via edx-django-utils
 pycparser==2.22
     # via cffi
@@ -277,7 +335,7 @@ segment-analytics-python==2.3.2
     # via -r requirements/base.in
 semantic-version==2.10.0
     # via edx-drf-extensions
-simplejson==3.19.2
+simplejson==3.19.3
     # via
     #   django-rest-swagger
     #   sailthru-client

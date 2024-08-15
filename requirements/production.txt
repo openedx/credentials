@@ -27,9 +27,9 @@ backports-zoneinfo==0.2.1 ; python_version < "3.9"
     #   djangorestframework
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.99
+boto3==1.34.161
     # via django-ses
-botocore==1.34.99
+botocore==1.34.161
     # via
     #   boto3
     #   s3transfer
@@ -74,7 +74,7 @@ defusedxml==0.8.0rc2
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-didkit==0.3.2
+didkit==0.3.3
     # via -r requirements/base.txt
 django==4.2.16
     # via
@@ -204,9 +204,70 @@ fontawesomefree==6.5.1
     # via -r requirements/base.txt
 gevent==24.2.1
     # via -r requirements/production.in
+google-api-core[grpc]==2.19.1
+    # via
+    #   -r requirements/base.txt
+    #   firebase-admin
+    #   google-api-python-client
+    #   google-cloud-core
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-api-python-client==2.141.0
+    # via
+    #   -r requirements/base.txt
+    #   firebase-admin
+google-auth==2.33.0
+    # via
+    #   -r requirements/base.txt
+    #   google-api-core
+    #   google-api-python-client
+    #   google-auth-httplib2
+    #   google-cloud-core
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-auth-httplib2==0.2.0
+    # via
+    #   -r requirements/base.txt
+    #   google-api-python-client
+google-cloud-core==2.4.1
+    # via
+    #   -r requirements/base.txt
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-cloud-firestore==2.17.2
+    # via
+    #   -r requirements/base.txt
+    #   firebase-admin
+google-cloud-storage==2.18.2
+    # via
+    #   -r requirements/base.txt
+    #   firebase-admin
+google-crc32c==1.5.0
+    # via
+    #   -r requirements/base.txt
+    #   google-cloud-storage
+    #   google-resumable-media
+google-resumable-media==2.7.2
+    # via
+    #   -r requirements/base.txt
+    #   google-cloud-storage
+googleapis-common-protos==1.63.2
+    # via
+    #   -r requirements/base.txt
+    #   google-api-core
+    #   grpcio-status
 greenlet==3.0.3
     # via gevent
-gunicorn==22.0.0
+grpcio==1.65.4
+    # via
+    #   -r requirements/base.txt
+    #   google-api-core
+    #   grpcio-status
+grpcio-status==1.65.4
+    # via
+    #   -r requirements/base.txt
+    #   google-api-core
+gunicorn==23.0.0
     # via -r requirements/production.in
 idna==3.7
     # via
@@ -289,7 +350,20 @@ polib==1.2.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-psutil==5.9.8
+proto-plus==1.24.0
+    # via
+    #   -r requirements/base.txt
+    #   google-api-core
+    #   google-cloud-firestore
+protobuf==5.27.3
+    # via
+    #   -r requirements/base.txt
+    #   google-api-core
+    #   google-cloud-firestore
+    #   googleapis-common-protos
+    #   grpcio-status
+    #   proto-plus
+psutil==6.0.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -380,7 +454,7 @@ semantic-version==2.10.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-simplejson==3.19.2
+simplejson==3.19.3
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
