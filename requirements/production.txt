@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.34.159
+boto3==1.34.161
     # via django-ses
-botocore==1.34.159
+botocore==1.34.161
     # via
     #   boto3
     #   s3transfer
@@ -75,7 +75,7 @@ defusedxml==0.8.0rc2
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-didkit==0.3.2
+didkit==0.3.3
     # via -r requirements/base.txt
 django==4.2.15
     # via
@@ -237,7 +237,7 @@ google-api-core[grpc]==2.19.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.140.0
+google-api-python-client==2.141.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -259,7 +259,7 @@ google-cloud-core==2.4.1
     #   -r requirements/base.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.17.1
+google-cloud-firestore==2.17.2
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -288,7 +288,7 @@ grpcio==1.65.4
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.62.3
+grpcio-status==1.65.4
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -385,7 +385,7 @@ proto-plus==1.24.0
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==4.25.4
+protobuf==5.27.3
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -509,7 +509,7 @@ semantic-version==2.10.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-simplejson==3.19.2
+simplejson==3.19.3
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
