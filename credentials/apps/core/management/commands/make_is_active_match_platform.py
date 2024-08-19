@@ -68,10 +68,10 @@ class Command(BaseCommand):
             curr_users = inactive_credentials_users[x:slice_size]
             is_active_statuses = self.get_is_active(curr_users, site_configs)
             for user in curr_users:
-                if user.username in is_active_statuses and user.is_active != is_active_statuses[user.username]:
-                    self.enable_user(user, verbosity, dry_run)
-                else:
+                if user.username not in is_active_statuses:
                     logger.error(f"Could not get is_active for user with lms_user_id {user.lms_user_id}")
+                elif user.is_active != is_active_statuses[user.username]:
+                    self.enable_user(user, verbosity, dry_run)
             if x + slice_size < count_users:
                 time.sleep(pause)
 
@@ -99,7 +99,7 @@ class Command(BaseCommand):
         if user_response.status_code == 200:
             user_data = user_response.json()
             for user_profile in user_data:
-                user_dict[user_profile["username"]] = user_profile["id"]
+                user_dict[user_profile["username"]] = user_profile["is_active"]
         else:
             logger.error(
                 f"{urljoin(site_config.user_api_url, 'accounts?username=')}[usernames redacted]"
