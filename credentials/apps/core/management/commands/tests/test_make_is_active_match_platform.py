@@ -82,6 +82,21 @@ class IsActiveMatchSyncTests(SiteMixin, TestCase):
         self.assertFalse(user_inactive.is_active)
 
     @responses.activate
+    def test_update_does_nothing_if_learner_missing_on_lms(self):
+        """Test that nothing changes if the learner isn't found on the LMS"""
+        self.mock_access_token_response()
+        self.mock_account_api_response(False, True, status=404)
+
+        UserFactory(username="lms_absent_is_active", is_active=True, id=30)
+        UserFactory(username="lms_absent_is_inactive", is_active=False, id=40)
+        call_command("make_is_active_match_platform", verbose=True)
+
+        user_active = User.objects.get(username="lms_absent_is_active")
+        user_inactive = User.objects.get(username="lms_absent_is_inactive")
+        self.assertTrue(user_active.is_active)
+        self.assertFalse(user_inactive.is_active)
+
+    @responses.activate
     def test_update_site(self):
         """Test that the command works as expected with the site ID given."""
         self.mock_access_token_response()
