@@ -33,11 +33,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.34.161
+boto3==1.35.1
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.34.161
+botocore==1.35.1
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -47,7 +47,7 @@ cachecontrol==0.14.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-cachetools==5.4.0
+cachetools==5.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -343,7 +343,7 @@ edx-toggles==5.2.0
     #   -r requirements/production.txt
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-factory-boy==3.3.0
+factory-boy==3.3.1
     # via -r requirements/dev.txt
 faker==27.0.0
     # via
@@ -384,7 +384,7 @@ google-api-python-client==2.141.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-auth==2.33.0
+google-auth==2.34.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -436,13 +436,13 @@ greenlet==3.0.3
     # via
     #   -r requirements/production.txt
     #   gevent
-grpcio==1.65.4
+grpcio==1.65.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.65.4
+grpcio-status==1.65.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -498,7 +498,7 @@ lxml[html-clean]==5.1.1
     #   -r requirements/production.txt
     #   edx-credentials-themes
     #   edx-i18n-tools
-markdown==3.6
+markdown==3.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
