@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.35.1
+boto3==1.35.6
     # via django-ses
-botocore==1.35.1
+botocore==1.35.6
     # via
     #   boto3
     #   s3transfer
@@ -135,7 +135,7 @@ django-ratelimit==4.1.0
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==4.1.0
+django-ses==4.1.1
     # via -r requirements/production.in
 django-simple-history==3.7.0
     # via -r requirements/base.txt
@@ -237,7 +237,7 @@ google-api-core[grpc]==2.19.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.141.0
+google-api-python-client==2.142.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -259,7 +259,7 @@ google-cloud-core==2.4.1
     #   -r requirements/base.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.17.2
+google-cloud-firestore==2.18.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -276,19 +276,19 @@ google-resumable-media==2.7.2
     # via
     #   -r requirements/base.txt
     #   google-cloud-storage
-googleapis-common-protos==1.63.2
+googleapis-common-protos==1.64.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
 greenlet==3.0.3
     # via gevent
-grpcio==1.65.5
+grpcio==1.66.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.65.5
+grpcio-status==1.66.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -299,7 +299,7 @@ httplib2==0.22.0
     #   -r requirements/base.txt
     #   google-api-python-client
     #   google-auth-httplib2
-idna==3.7
+idna==3.8
     # via
     #   -r requirements/base.txt
     #   requests
@@ -354,9 +354,9 @@ openapi-codec==1.3.2
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
-openedx-atlas==0.6.1
+openedx-atlas==0.6.2
     # via -r requirements/base.txt
-openedx-events==9.11.0
+openedx-events==9.12.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
@@ -370,7 +370,7 @@ path==16.16.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-pbr==6.0.0
+pbr==6.1.0
     # via
     #   -r requirements/base.txt
     #   stevedore
@@ -432,7 +432,7 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pyparsing==3.1.2
+pyparsing==3.1.4
     # via
     #   -r requirements/base.txt
     #   httplib2
@@ -459,7 +459,6 @@ python3-openid==3.2.0
 pytz==2024.1
     # via
     #   -r requirements/base.txt
-    #   django-ses
     #   drf-yasg
 pyyaml==6.0.2
     # via
@@ -540,7 +539,7 @@ sqlparse==0.5.1
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==5.2.0
+stevedore==5.3.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -580,7 +579,7 @@ xss-utils==0.6.0
     # via -r requirements/base.txt
 zope-event==5.0
     # via gevent
-zope-interface==7.0.1
+zope-interface==7.0.2
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
