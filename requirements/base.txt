@@ -20,7 +20,7 @@ cachecontrol==0.14.0
     # via firebase-admin
 cachetools==5.5.0
     # via google-auth
-certifi==2024.7.4
+certifi==2024.8.30
     # via requests
 cffi==1.17.0
     # via
@@ -117,7 +117,7 @@ django-waffle==4.1.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==3.1.0
+django-webpack-loader==3.1.1
     # via -r requirements/base.in
 djangorestframework==3.15.2
     # via
@@ -154,7 +154,7 @@ edx-django-utils==5.15.0
     #   edx-rest-api-client
     #   edx-toggles
     #   openedx-events
-edx-drf-extensions==10.3.0
+edx-drf-extensions==10.4.0
     # via -r requirements/base.in
 edx-event-bus-kafka==5.8.1
     # via -r requirements/base.in
@@ -181,14 +181,14 @@ firebase-admin==6.5.0
     # via edx-ace
 fontawesomefree==6.6.0
     # via -r requirements/base.in
-google-api-core[grpc]==2.19.1
+google-api-core[grpc]==2.19.2
     # via
     #   firebase-admin
     #   google-api-python-client
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.142.0
+google-api-python-client==2.143.0
     # via firebase-admin
 google-auth==2.34.0
     # via
@@ -208,21 +208,21 @@ google-cloud-firestore==2.18.0
     # via firebase-admin
 google-cloud-storage==2.18.2
     # via firebase-admin
-google-crc32c==1.5.0
+google-crc32c==1.6.0
     # via
     #   google-cloud-storage
     #   google-resumable-media
 google-resumable-media==2.7.2
     # via google-cloud-storage
-googleapis-common-protos==1.64.0
+googleapis-common-protos==1.65.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio==1.66.0
+grpcio==1.66.1
     # via
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.66.0
+grpcio-status==1.66.1
     # via google-api-core
 httplib2==0.22.0
     # via
@@ -282,7 +282,7 @@ proto-plus==1.24.0
     # via
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.27.3
+protobuf==5.28.0
     # via
     #   google-api-core
     #   google-cloud-firestore
@@ -409,7 +409,7 @@ uritemplate==4.1.1
     #   coreapi
     #   drf-yasg
     #   google-api-python-client
-urllib3==1.26.19
+urllib3==1.26.20
     # via
     #   -c requirements/constraints.txt
     #   requests
