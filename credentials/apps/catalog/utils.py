@@ -35,7 +35,7 @@ class CatalogDataSynchronizer:
 
         Arguments:
             site (Site): The site that all fetch models should connect to
-            api_client (EdxRestApiClient): The client through which all API calls will be made
+            api_client (ApiClient): The client through which all API calls will be made
             catalog_api_url (str): The full URL root of the catalog API to hit (ex. "https://example.com/api/v1/")
             page_size (int): An optional field to denote the number of results per page to retrieve from the API
 
