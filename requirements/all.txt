@@ -33,11 +33,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.35.15
+boto3==1.35.20
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.35.15
+botocore==1.35.20
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -379,7 +379,7 @@ google-api-core[grpc]==2.19.2
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.144.0
+google-api-python-client==2.145.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -432,7 +432,7 @@ googleapis-common-protos==1.65.0
     #   -r requirements/production.txt
     #   google-api-core
     #   grpcio-status
-greenlet==3.0.3
+greenlet==3.1.0
     # via
     #   -r requirements/production.txt
     #   gevent
@@ -457,7 +457,7 @@ httplib2==0.22.0
     #   google-auth-httplib2
 httpretty==1.1.4
     # via -r requirements/dev.txt
-idna==3.8
+idna==3.10
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -583,7 +583,7 @@ pillow==10.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-platformdirs==4.3.2
+platformdirs==4.3.3
     # via
     #   -r requirements/dev.txt
     #   black
@@ -606,7 +606,7 @@ proto-plus==1.24.0
     #   -r requirements/production.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.28.0
+protobuf==5.28.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -620,13 +620,13 @@ psutil==6.0.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-django-utils
-pyasn1==0.6.0
+pyasn1==0.6.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   pyasn1-modules
     #   rsa
-pyasn1-modules==0.4.0
+pyasn1-modules==0.4.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -727,7 +727,7 @@ python3-openid==3.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   social-auth-core
-pytz==2024.1
+pytz==2024.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -852,7 +852,7 @@ tomlkit==0.13.2
     #   pylint
 tox==4.18.1
     # via -r requirements/dev.txt
-types-pyyaml==6.0.12.20240808
+types-pyyaml==6.0.12.20240917
     # via
     #   -r requirements/dev.txt
     #   django-stubs

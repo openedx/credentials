@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.35.15
+boto3==1.35.20
     # via django-ses
-botocore==1.35.15
+botocore==1.35.20
     # via
     #   boto3
     #   s3transfer
@@ -237,7 +237,7 @@ google-api-core[grpc]==2.19.2
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.144.0
+google-api-python-client==2.145.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -281,7 +281,7 @@ googleapis-common-protos==1.65.0
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-greenlet==3.0.3
+greenlet==3.1.0
     # via gevent
 grpcio==1.66.1
     # via
@@ -299,7 +299,7 @@ httplib2==0.22.0
     #   -r requirements/base.txt
     #   google-api-python-client
     #   google-auth-httplib2
-idna==3.8
+idna==3.10
     # via
     #   -r requirements/base.txt
     #   requests
@@ -385,7 +385,7 @@ proto-plus==1.24.0
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.28.0
+protobuf==5.28.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -397,12 +397,12 @@ psutil==6.0.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pyasn1==0.6.0
+pyasn1==0.6.1
     # via
     #   -r requirements/base.txt
     #   pyasn1-modules
     #   rsa
-pyasn1-modules==0.4.0
+pyasn1-modules==0.4.1
     # via
     #   -r requirements/base.txt
     #   google-auth
@@ -456,7 +456,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-pytz==2024.1
+pytz==2024.2
     # via
     #   -r requirements/base.txt
     #   drf-yasg
