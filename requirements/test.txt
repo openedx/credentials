@@ -261,7 +261,7 @@ google-api-core[grpc]==2.19.2
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.144.0
+google-api-python-client==2.145.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -321,7 +321,7 @@ httplib2==0.22.0
     #   google-auth-httplib2
 httpretty==1.1.4
     # via -r requirements/test.in
-idna==3.8
+idna==3.10
     # via
     #   -r requirements/base.txt
     #   requests
@@ -406,7 +406,7 @@ pbr==6.1.0
     #   stevedore
 pillow==10.4.0
     # via -r requirements/base.txt
-platformdirs==4.3.2
+platformdirs==4.3.3
     # via
     #   black
     #   pylint
@@ -425,7 +425,7 @@ proto-plus==1.24.0
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.28.0
+protobuf==5.28.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -437,12 +437,12 @@ psutil==6.0.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pyasn1==0.6.0
+pyasn1==0.6.1
     # via
     #   -r requirements/base.txt
     #   pyasn1-modules
     #   rsa
-pyasn1-modules==0.4.0
+pyasn1-modules==0.4.1
     # via
     #   -r requirements/base.txt
     #   google-auth
@@ -518,7 +518,7 @@ python3-openid==3.2.0
     # via
     #   -r requirements/base.txt
     #   social-auth-core
-pytz==2024.1
+pytz==2024.2
     # via
     #   -r requirements/base.txt
     #   drf-yasg
