@@ -42,7 +42,7 @@ jobs:
            password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build and push base Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: ${{ github.event_name != 'pull_request' }}
           target: base
@@ -53,7 +53,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
 
       - name: Build and push dev Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: ${{ github.event_name != 'pull_request' }}
           target: dev
