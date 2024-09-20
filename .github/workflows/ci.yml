@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   quality_and_translations_tests:
@@ -62,43 +62,13 @@ jobs:
         run: |
           make static
           make tests
-
-  code_coverage:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["py311"]
-        django-version: ["django42"]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          architecture: x64
-      - name: Setup Nodejs Env
-        run: echo "NODE_VER=`cat .nvmrc`" >> $GITHUB_ENV
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VER }}
-      - name: Install Dependencies
-        run: make requirements
-      - name: Install Firefox
-        run: |
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends -y firefox xvfb
-      - name: Run Tests (required for code cov)
-        env:
-          TOXENV: ${{ matrix.django-version }}
-        run: |
-          make static
-          make tests
       - name: Run code coverage
+        if: matrix.python-version == '3.11' && matrix.django-version == 'django42'
         uses: codecov/codecov-action@v4
         with:
           flags: unittests
           fail_ci_if_error: true
-          token: ${{secrets.CODECOV_TOKEN}}
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   docs:
     runs-on: ubuntu-latest
