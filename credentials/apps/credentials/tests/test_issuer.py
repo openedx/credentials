@@ -49,8 +49,13 @@ class CertificateIssuerBase:
         self.attributes = [{"name": "whitelist_reason", "value": "Reason for whitelisting."}]
 
     def _assert_usercredential_fields(
-        self, user_credential, expected_credential, expected_username, expected_status, expected_attrs
-    ):
+        self,
+        user_credential,
+        expected_credential,
+        expected_username,
+        expected_status,
+        expected_attrs,
+    ):  # pylint: disable=too-many-positional-arguments
         """Verify the fields on a UserCredential object match expectations."""
         self.assertEqual(user_credential.username, expected_username)
         self.assertEqual(user_credential.credential, expected_credential)

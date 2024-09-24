@@ -41,7 +41,7 @@ class BadgeTemplateIssuer(AbstractCredentialIssuer):
         date_override=None,
         request=None,
         lms_user_id=None,
-    ):
+    ):  # pylint: disable=too-many-positional-arguments
         """
         Issue a credential to the user.
 

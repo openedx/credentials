@@ -59,7 +59,7 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
         date_override=None,
         request=None,
         lms_user_id=None,  # pylint: disable=unused-argument
-    ):
+    ):  # pylint: disable=too-many-positional-arguments
         """
         Issue a credential to the user.
 
@@ -145,7 +145,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         date_override=None,
         request=None,
         lms_user_id=None,
-    ):
+    ):  # pylint: disable=too-many-positional-arguments
         """
         Issues or updates a Program Certificate to a learner.
 
@@ -197,7 +197,14 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
 
         return user_credential
 
-    def _send_updated_emails_for_program(self, request, site_config, username, credential, created):
+    def _send_updated_emails_for_program(
+        self,
+        request,
+        site_config,
+        username,
+        credential,
+        created,
+    ):  # pylint: disable=too-many-positional-arguments
         """
         This function is responsible for sending an updated email to a pathway org only if the user has previously
         shared their program progress through a pathway. Checks if the site configuration has record keeping enabled
@@ -283,7 +290,15 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
             # .. event_implemented_name: PROGRAM_CERTIFICATE_REVOKED
             PROGRAM_CERTIFICATE_REVOKED.send_event(time=time, program_certificate=program_certificate_data)
 
-    def _emit_program_certificate_segment_event(self, request, site_config, user, user_credential, credential, created):
+    def _emit_program_certificate_segment_event(
+        self,
+        request,
+        site_config,
+        user,
+        user_credential,
+        credential,
+        created,
+    ):  # pylint: disable=too-many-positional-arguments
         """
         A utility function used to dispatch a Segment event when a program certificate record has been created or
         updated.
