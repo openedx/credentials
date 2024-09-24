@@ -43,7 +43,7 @@ class Accreditor:
         date_override=None,
         request=None,
         lms_user_id=None,
-    ):
+    ):  # pylint: disable=too-many-positional-arguments
         """Issues a credential.
 
         Arguments:

@@ -73,6 +73,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
 
     def _render_user_credential(
         self,
+        *,
         use_proper_logo_url=True,
         user_credential=None,
         program_certificate=None,
