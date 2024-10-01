@@ -100,7 +100,7 @@ defusedxml==0.8.0rc2
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/test.txt
-dill==0.3.8
+dill==0.3.9
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -259,7 +259,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/test.txt
-faker==29.0.0
+faker==30.1.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -286,7 +286,7 @@ google-api-core[grpc]==2.20.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.146.0
+google-api-python-client==2.147.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -308,7 +308,7 @@ google-cloud-core==2.4.1
     #   -r requirements/test.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.18.0
+google-cloud-firestore==2.19.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -330,12 +330,12 @@ googleapis-common-protos==1.65.0
     #   -r requirements/test.txt
     #   google-api-core
     #   grpcio-status
-grpcio==1.66.1
+grpcio==1.66.2
     # via
     #   -r requirements/test.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.66.1
+grpcio-status==1.66.2
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -400,7 +400,7 @@ mypy-extensions==1.0.0
     #   mypy
 mysqlclient==2.2.4
     # via -r requirements/test.txt
-newrelic==9.13.0
+newrelic==10.0.0
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -522,7 +522,7 @@ pylint-plugin-utils==0.8.2
     #   pylint-django
 pymemcache==4.0.0
     # via -r requirements/test.txt
-pymongo==4.9.1
+pymongo==4.10.0
     # via
     #   -r requirements/test.txt
     #   edx-opaque-keys
@@ -534,10 +534,6 @@ pyparsing==3.1.4
     # via
     #   -r requirements/test.txt
     #   httplib2
-pypng==0.20220715.0
-    # via
-    #   -r requirements/test.txt
-    #   qrcode
 pyproject-api==1.8.0
     # via
     #   -r requirements/test.txt
@@ -578,9 +574,9 @@ pyyaml==6.0.2
     #   edx-django-release-util
     #   edx-i18n-tools
     #   responses
-qrcode==7.4.2
+qrcode==8.0
     # via -r requirements/test.txt
-redis==5.0.8
+redis==5.1.0
     # via
     #   -r requirements/test.txt
     #   walrus
@@ -664,7 +660,7 @@ tomlkit==0.13.2
     # via
     #   -r requirements/test.txt
     #   pylint
-tox==4.20.0
+tox==4.21.0
     # via -r requirements/test.txt
 types-pyyaml==6.0.12.20240917
     # via django-stubs
@@ -674,8 +670,8 @@ typing-extensions==4.12.2
     #   django-stubs
     #   django-stubs-ext
     #   edx-opaque-keys
+    #   faker
     #   mypy
-    #   qrcode
 uritemplate==4.1.1
     # via
     #   -r requirements/test.txt
@@ -688,7 +684,7 @@ urllib3==1.26.20
     #   -r requirements/test.txt
     #   requests
     #   responses
-virtualenv==20.26.5
+virtualenv==20.26.6
     # via
     #   -r requirements/test.txt
     #   tox
