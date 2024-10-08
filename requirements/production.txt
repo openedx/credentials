@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.35.30
+boto3==1.35.35
     # via django-ses
-botocore==1.35.30
+botocore==1.35.35
     # via
     #   boto3
     #   s3transfer
@@ -135,7 +135,7 @@ django-ratelimit==4.1.0
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==4.1.1
+django-ses==4.2.0
     # via -r requirements/production.in
 django-simple-history==3.7.0
     # via -r requirements/base.txt
@@ -160,7 +160,7 @@ djangorestframework==3.15.2
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
-dnspython==2.6.1
+dnspython==2.7.0
     # via
     #   -r requirements/base.txt
     #   pymongo
@@ -184,7 +184,7 @@ edx-django-release-util==1.4.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==4.2.0
     # via -r requirements/base.txt
-edx-django-utils==5.15.0
+edx-django-utils==5.16.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
@@ -237,7 +237,7 @@ google-api-core[grpc]==2.20.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.147.0
+google-api-python-client==2.148.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -328,7 +328,7 @@ lxml[html-clean]==5.1.1
     #   edx-i18n-tools
 markdown==3.7
     # via -r requirements/base.txt
-markupsafe==2.1.5
+markupsafe==3.0.0
     # via
     #   -r requirements/base.txt
     #   jinja2
@@ -412,7 +412,7 @@ pycparser==2.22
     #   cffi
 pygments==2.18.0
     # via -r requirements/base.txt
-pyjwt[crypto]==2.8.0
+pyjwt[crypto]==2.9.0
     # via
     #   -r requirements/base.txt
     #   drf-jwt
@@ -424,7 +424,7 @@ pyjwt[crypto]==2.8.0
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.txt
-pymongo==4.10.0
+pymongo==4.10.1
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
@@ -466,7 +466,7 @@ pyyaml==6.0.2
     #   edx-i18n-tools
 qrcode==8.0
     # via -r requirements/base.txt
-redis==5.1.0
+redis==5.1.1
     # via
     #   -r requirements/base.txt
     #   walrus
@@ -497,7 +497,7 @@ sailthru-client==2.2.3
     # via
     #   -r requirements/base.txt
     #   edx-ace
-segment-analytics-python==2.3.2
+segment-analytics-python==2.3.3
     # via -r requirements/base.txt
 semantic-version==2.10.0
     # via
