@@ -126,7 +126,7 @@ djangorestframework==3.15.2
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
-dnspython==2.6.1
+dnspython==2.7.0
     # via pymongo
 drf-jwt==1.19.2
     # via edx-drf-extensions
@@ -144,7 +144,7 @@ edx-django-release-util==1.4.0
     # via -r requirements/base.in
 edx-django-sites-extensions==4.2.0
     # via -r requirements/base.in
-edx-django-utils==5.15.0
+edx-django-utils==5.16.0
     # via
     #   -r requirements/base.in
     #   edx-ace
@@ -188,7 +188,7 @@ google-api-core[grpc]==2.20.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.147.0
+google-api-python-client==2.148.0
     # via firebase-admin
 google-auth==2.35.0
     # via
@@ -245,7 +245,7 @@ lxml[html-clean,html_clean]==5.1.1
     #   edx-i18n-tools
 markdown==3.7
     # via -r requirements/base.in
-markupsafe==2.1.5
+markupsafe==3.0.0
     # via jinja2
 msgpack==1.1.0
     # via cachecontrol
@@ -301,7 +301,7 @@ pycparser==2.22
     # via cffi
 pygments==2.18.0
     # via -r requirements/base.in
-pyjwt[crypto]==2.8.0
+pyjwt[crypto]==2.9.0
     # via
     #   drf-jwt
     #   edx-auth-backends
@@ -312,7 +312,7 @@ pyjwt[crypto]==2.8.0
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.in
-pymongo==4.10.0
+pymongo==4.10.1
     # via edx-opaque-keys
 pynacl==1.5.0
     # via edx-django-utils
@@ -340,7 +340,7 @@ pyyaml==6.0.2
     #   edx-i18n-tools
 qrcode==8.0
     # via -r requirements/base.in
-redis==5.1.0
+redis==5.1.1
     # via walrus
 requests==2.32.3
     # via
@@ -361,7 +361,7 @@ rsa==4.9
     # via google-auth
 sailthru-client==2.2.3
     # via edx-ace
-segment-analytics-python==2.3.2
+segment-analytics-python==2.3.3
     # via -r requirements/base.in
 semantic-version==2.10.0
     # via edx-drf-extensions

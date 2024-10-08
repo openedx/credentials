@@ -11,7 +11,7 @@ asgiref==3.8.1
     #   django
     #   django-cors-headers
     #   django-stubs
-astroid==3.3.4
+astroid==3.3.5
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -27,17 +27,17 @@ backoff==2.2.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   segment-analytics-python
-black==24.8.0
+black==24.10.0
     # via -r requirements/dev.txt
 bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.35.30
+boto3==1.35.35
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.35.30
+botocore==1.35.35
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -214,7 +214,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==4.1.1
+django-ses==4.2.0
     # via -r requirements/production.txt
 django-simple-history==3.7.0
     # via
@@ -257,7 +257,7 @@ djangorestframework==3.15.2
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
-dnspython==2.6.1
+dnspython==2.7.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -296,7 +296,7 @@ edx-django-sites-extensions==4.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-utils==5.15.0
+edx-django-utils==5.16.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -345,7 +345,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/dev.txt
-faker==30.1.0
+faker==30.3.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -379,7 +379,7 @@ google-api-core[grpc]==2.20.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.147.0
+google-api-python-client==2.148.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -502,7 +502,7 @@ markdown==3.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-markupsafe==2.1.5
+markupsafe==3.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -640,7 +640,7 @@ pygments==2.18.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pyjwt[crypto]==2.8.0
+pyjwt[crypto]==2.9.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -675,7 +675,7 @@ pymemcache==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pymongo==4.10.0
+pymongo==4.10.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -742,7 +742,7 @@ qrcode==8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-redis==5.1.0
+redis==5.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -783,7 +783,7 @@ sailthru-client==2.2.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-ace
-segment-analytics-python==2.3.2
+segment-analytics-python==2.3.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -845,7 +845,7 @@ tomlkit==0.13.2
     # via
     #   -r requirements/dev.txt
     #   pylint
-tox==4.21.0
+tox==4.21.2
     # via -r requirements/dev.txt
 types-pyyaml==6.0.12.20240917
     # via

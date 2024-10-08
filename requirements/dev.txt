@@ -10,7 +10,7 @@ asgiref==3.8.1
     #   django
     #   django-cors-headers
     #   django-stubs
-astroid==3.3.4
+astroid==3.3.5
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -24,7 +24,7 @@ backoff==2.2.1
     # via
     #   -r requirements/test.txt
     #   segment-analytics-python
-black==24.8.0
+black==24.10.0
     # via -r requirements/test.txt
 bleach==6.1.0
     # via -r requirements/test.txt
@@ -197,7 +197,7 @@ djangorestframework==3.15.2
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
-dnspython==2.6.1
+dnspython==2.7.0
     # via
     #   -r requirements/test.txt
     #   pymongo
@@ -221,7 +221,7 @@ edx-django-release-util==1.4.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==4.2.0
     # via -r requirements/test.txt
-edx-django-utils==5.15.0
+edx-django-utils==5.16.0
     # via
     #   -r requirements/test.txt
     #   edx-ace
@@ -259,7 +259,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/test.txt
-faker==30.1.0
+faker==30.3.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -286,7 +286,7 @@ google-api-core[grpc]==2.20.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.147.0
+google-api-python-client==2.148.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -379,7 +379,7 @@ lxml[html-clean]==5.1.1
     #   edx-i18n-tools
 markdown==3.7
     # via -r requirements/test.txt
-markupsafe==2.1.5
+markupsafe==3.0.0
     # via
     #   -r requirements/test.txt
     #   jinja2
@@ -490,7 +490,7 @@ pycparser==2.22
     #   cffi
 pygments==2.18.0
     # via -r requirements/test.txt
-pyjwt[crypto]==2.8.0
+pyjwt[crypto]==2.9.0
     # via
     #   -r requirements/test.txt
     #   drf-jwt
@@ -522,7 +522,7 @@ pylint-plugin-utils==0.8.2
     #   pylint-django
 pymemcache==4.0.0
     # via -r requirements/test.txt
-pymongo==4.10.0
+pymongo==4.10.1
     # via
     #   -r requirements/test.txt
     #   edx-opaque-keys
@@ -576,7 +576,7 @@ pyyaml==6.0.2
     #   responses
 qrcode==8.0
     # via -r requirements/test.txt
-redis==5.1.0
+redis==5.1.1
     # via
     #   -r requirements/test.txt
     #   walrus
@@ -608,7 +608,7 @@ sailthru-client==2.2.3
     # via
     #   -r requirements/test.txt
     #   edx-ace
-segment-analytics-python==2.3.2
+segment-analytics-python==2.3.3
     # via -r requirements/test.txt
 semantic-version==2.10.0
     # via
@@ -660,7 +660,7 @@ tomlkit==0.13.2
     # via
     #   -r requirements/test.txt
     #   pylint
-tox==4.21.0
+tox==4.21.2
     # via -r requirements/test.txt
 types-pyyaml==6.0.12.20240917
     # via django-stubs
