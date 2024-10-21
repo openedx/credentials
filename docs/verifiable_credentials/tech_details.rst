@@ -43,7 +43,7 @@ Verifiable Credentials feature has introduced a couple of extra packages.
 didkit-python
 ~~~~~~~~~~~~~
 
-``didkit==0.3.2``
+``didkit==0.3.3``
 
 A tool for verifiable credentials operations (issuance, verification, signing, validation).
 
