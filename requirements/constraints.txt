@@ -23,3 +23,9 @@ backports.zoneinfo;python_version<"3.9"  # Newer versions have zoneinfo availabl
 # Release notes: https://pypi.org/project/lxml/5.2.0/
 # Github issue: https://github.com/openedx/i18n-tools/issues/144
 lxml<5.2
+
+# Pinning edx-django-utils to <6 
+# v6 drops support for python versions <3.12
+# Changelog: https://github.com/openedx/edx-django-utils/blob/master/CHANGELOG.rst#600---2024-10-09
+# Github issue: https://github.com/openedx/credentials/issues/2569
+edx-django-utils<6
