@@ -33,11 +33,11 @@ bleach==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.35.45
+boto3==1.35.50
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.35.45
+botocore==1.35.50
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -177,7 +177,7 @@ django-appconf==1.0.6
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-statici18n
-django-cors-headers==4.5.0
+django-cors-headers==4.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -232,9 +232,9 @@ django-storages==1.14.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-stubs==5.1.0
+django-stubs==5.1.1
     # via -r requirements/dev.txt
-django-stubs-ext==5.1.0
+django-stubs-ext==5.1.1
     # via
     #   -r requirements/dev.txt
     #   django-stubs
@@ -308,11 +308,11 @@ edx-django-utils==5.16.0
     #   edx-rest-api-client
     #   edx-toggles
     #   openedx-events
-edx-drf-extensions==10.4.0
+edx-drf-extensions==10.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-event-bus-kafka==5.8.1
+edx-event-bus-kafka==6.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -325,7 +325,7 @@ edx-i18n-tools==1.6.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-credentials-themes
-edx-lint==5.4.0
+edx-lint==5.4.1
     # via -r requirements/dev.txt
 edx-opaque-keys[django]==2.11.0
     # via
@@ -346,7 +346,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/dev.txt
-faker==30.8.0
+faker==30.8.1
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -371,7 +371,7 @@ fontawesomefree==6.6.0
     #   -r requirements/production.txt
 gevent==24.10.3
     # via -r requirements/production.txt
-google-api-core[grpc]==2.21.0
+google-api-core[grpc]==2.22.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -437,13 +437,13 @@ greenlet==3.1.1
     # via
     #   -r requirements/production.txt
     #   gevent
-grpcio==1.67.0
+grpcio==1.67.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.67.0
+grpcio-status==1.67.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -517,7 +517,7 @@ msgpack==1.1.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cachecontrol
-mypy==1.12.1
+mypy==1.13.0
     # via -r requirements/dev.txt
 mypy-extensions==1.0.0
     # via
@@ -601,13 +601,13 @@ polib==1.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-i18n-tools
-proto-plus==1.24.0
+proto-plus==1.25.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.28.2
+protobuf==5.28.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -743,7 +743,7 @@ qrcode==8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-redis==5.1.1
+redis==5.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -846,7 +846,7 @@ tomlkit==0.13.2
     # via
     #   -r requirements/dev.txt
     #   pylint
-tox==4.23.1
+tox==4.23.2
     # via -r requirements/dev.txt
 types-pyyaml==6.0.12.20240917
     # via
@@ -876,7 +876,7 @@ urllib3==1.26.20
     #   botocore
     #   requests
     #   responses
-virtualenv==20.27.0
+virtualenv==20.27.1
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -898,7 +898,7 @@ zope-event==5.0
     # via
     #   -r requirements/production.txt
     #   gevent
-zope-interface==7.1.0
+zope-interface==7.1.1
     # via
     #   -r requirements/production.txt
     #   gevent
