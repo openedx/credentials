@@ -85,7 +85,7 @@ django==4.2.16
     #   xss-utils
 django-appconf==1.0.6
     # via django-statici18n
-django-cors-headers==4.5.0
+django-cors-headers==4.6.0
     # via -r requirements/base.in
 django-crum==0.7.9
     # via
@@ -155,9 +155,9 @@ edx-django-utils==5.16.0
     #   edx-rest-api-client
     #   edx-toggles
     #   openedx-events
-edx-drf-extensions==10.4.0
+edx-drf-extensions==10.5.0
     # via -r requirements/base.in
-edx-event-bus-kafka==5.8.1
+edx-event-bus-kafka==6.0.0
     # via -r requirements/base.in
 edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via -r requirements/base.in
@@ -182,7 +182,7 @@ firebase-admin==6.5.0
     # via edx-ace
 fontawesomefree==6.6.0
     # via -r requirements/base.in
-google-api-core[grpc]==2.21.0
+google-api-core[grpc]==2.22.0
     # via
     #   firebase-admin
     #   google-api-python-client
@@ -219,11 +219,11 @@ googleapis-common-protos==1.65.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio==1.67.0
+grpcio==1.67.1
     # via
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.67.0
+grpcio-status==1.67.1
     # via google-api-core
 httplib2==0.22.0
     # via
@@ -279,11 +279,11 @@ pillow==11.0.0
     # via -r requirements/base.in
 polib==1.2.0
     # via edx-i18n-tools
-proto-plus==1.24.0
+proto-plus==1.25.0
     # via
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.28.2
+protobuf==5.28.3
     # via
     #   google-api-core
     #   google-cloud-firestore
@@ -341,7 +341,7 @@ pyyaml==6.0.2
     #   edx-i18n-tools
 qrcode==8.0
     # via -r requirements/base.in
-redis==5.1.1
+redis==5.2.0
     # via walrus
 requests==2.32.3
     # via

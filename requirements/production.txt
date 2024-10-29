@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.1.0
     # via -r requirements/base.txt
-boto3==1.35.45
+boto3==1.35.50
     # via django-ses
-botocore==1.35.45
+botocore==1.35.50
     # via
     #   boto3
     #   s3transfer
@@ -114,7 +114,7 @@ django-appconf==1.0.6
     # via
     #   -r requirements/base.txt
     #   django-statici18n
-django-cors-headers==4.5.0
+django-cors-headers==4.6.0
     # via -r requirements/base.txt
 django-crum==0.7.9
     # via
@@ -195,9 +195,9 @@ edx-django-utils==5.16.0
     #   edx-rest-api-client
     #   edx-toggles
     #   openedx-events
-edx-drf-extensions==10.4.0
+edx-drf-extensions==10.5.0
     # via -r requirements/base.txt
-edx-event-bus-kafka==5.8.1
+edx-event-bus-kafka==6.0.0
     # via -r requirements/base.txt
 edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via -r requirements/base.txt
@@ -230,7 +230,7 @@ fontawesomefree==6.6.0
     # via -r requirements/base.txt
 gevent==24.10.3
     # via -r requirements/production.in
-google-api-core[grpc]==2.21.0
+google-api-core[grpc]==2.22.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -284,12 +284,12 @@ googleapis-common-protos==1.65.0
     #   grpcio-status
 greenlet==3.1.1
     # via gevent
-grpcio==1.67.0
+grpcio==1.67.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.67.0
+grpcio-status==1.67.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -381,12 +381,12 @@ polib==1.2.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-proto-plus==1.24.0
+proto-plus==1.25.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.28.2
+protobuf==5.28.3
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -467,7 +467,7 @@ pyyaml==6.0.2
     #   edx-i18n-tools
 qrcode==8.0
     # via -r requirements/base.txt
-redis==5.1.1
+redis==5.2.0
     # via
     #   -r requirements/base.txt
     #   walrus
@@ -570,7 +570,7 @@ xss-utils==0.6.0
     # via -r requirements/base.txt
 zope-event==5.0
     # via gevent
-zope-interface==7.1.0
+zope-interface==7.1.1
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
