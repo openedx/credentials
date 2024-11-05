@@ -18,15 +18,15 @@ backoff==2.2.1
     # via
     #   -r requirements/base.txt
     #   segment-analytics-python
-bleach==6.1.0
+bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.35.50
+boto3==1.35.54
     # via django-ses
-botocore==1.35.50
+botocore==1.35.54
     # via
     #   boto3
     #   s3transfer
-cachecontrol==0.14.0
+cachecontrol==0.14.1
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -238,7 +238,7 @@ google-api-core[grpc]==2.22.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.149.0
+google-api-python-client==2.151.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -512,7 +512,6 @@ simplejson==3.19.3
 six==1.16.0
     # via
     #   -r requirements/base.txt
-    #   bleach
     #   edx-ace
     #   edx-auth-backends
     #   edx-ccx-keys

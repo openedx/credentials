@@ -26,9 +26,9 @@ backoff==2.2.1
     #   segment-analytics-python
 black==24.10.0
     # via -r requirements/test.txt
-bleach==6.1.0
+bleach==6.2.0
     # via -r requirements/test.txt
-cachecontrol==0.14.0
+cachecontrol==0.14.1
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -260,7 +260,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/test.txt
-faker==30.8.1
+faker==30.8.2
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -287,7 +287,7 @@ google-api-core[grpc]==2.22.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.149.0
+google-api-python-client==2.151.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -623,7 +623,6 @@ simplejson==3.19.3
 six==1.16.0
     # via
     #   -r requirements/test.txt
-    #   bleach
     #   edx-ace
     #   edx-auth-backends
     #   edx-ccx-keys
