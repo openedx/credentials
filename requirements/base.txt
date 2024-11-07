@@ -14,9 +14,9 @@ attrs==24.2.0
     #   openedx-events
 backoff==2.2.1
     # via segment-analytics-python
-bleach==6.1.0
+bleach==6.2.0
     # via -r requirements/base.in
-cachecontrol==0.14.0
+cachecontrol==0.14.1
     # via firebase-admin
 cachetools==5.5.0
     # via google-auth
@@ -189,7 +189,7 @@ google-api-core[grpc]==2.22.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.149.0
+google-api-python-client==2.151.0
     # via firebase-admin
 google-auth==2.35.0
     # via
@@ -372,7 +372,6 @@ simplejson==3.19.3
     #   sailthru-client
 six==1.16.0
     # via
-    #   bleach
     #   edx-ace
     #   edx-auth-backends
     #   edx-ccx-keys
