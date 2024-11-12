@@ -273,13 +273,13 @@ filelock==3.16.1
     #   -r requirements/test.txt
     #   tox
     #   virtualenv
-firebase-admin==6.5.0
+firebase-admin==6.6.0
     # via
     #   -r requirements/test.txt
     #   edx-ace
 fontawesomefree==6.6.0
     # via -r requirements/test.txt
-google-api-core[grpc]==2.22.0
+google-api-core[grpc]==2.23.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -291,7 +291,7 @@ google-api-python-client==2.151.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
-google-auth==2.35.0
+google-auth==2.36.0
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -421,7 +421,7 @@ openedx-events==9.15.0
     #   -r requirements/test.txt
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-packaging==24.1
+packaging==24.2
     # via
     #   -r requirements/test.txt
     #   black

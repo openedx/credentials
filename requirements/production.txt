@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.35.54
+boto3==1.35.58
     # via django-ses
-botocore==1.35.54
+botocore==1.35.58
     # via
     #   boto3
     #   s3transfer
@@ -222,15 +222,15 @@ fastavro==1.9.7
     # via
     #   -r requirements/base.txt
     #   openedx-events
-firebase-admin==6.5.0
+firebase-admin==6.6.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
 fontawesomefree==6.6.0
     # via -r requirements/base.txt
-gevent==24.10.3
+gevent==24.11.1
     # via -r requirements/production.in
-google-api-core[grpc]==2.22.0
+google-api-core[grpc]==2.23.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -242,7 +242,7 @@ google-api-python-client==2.151.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-auth==2.35.0
+google-auth==2.36.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -362,7 +362,7 @@ openedx-events==9.15.0
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-packaging==24.1
+packaging==24.2
     # via
     #   -r requirements/base.txt
     #   drf-yasg

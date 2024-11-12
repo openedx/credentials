@@ -178,11 +178,11 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 fastavro==1.9.7
     # via openedx-events
-firebase-admin==6.5.0
+firebase-admin==6.6.0
     # via edx-ace
 fontawesomefree==6.6.0
     # via -r requirements/base.in
-google-api-core[grpc]==2.22.0
+google-api-core[grpc]==2.23.0
     # via
     #   firebase-admin
     #   google-api-python-client
@@ -191,7 +191,7 @@ google-api-core[grpc]==2.22.0
     #   google-cloud-storage
 google-api-python-client==2.151.0
     # via firebase-admin
-google-auth==2.35.0
+google-auth==2.36.0
     # via
     #   google-api-core
     #   google-api-python-client
@@ -269,7 +269,7 @@ openedx-events==9.15.0
     #   -r requirements/base.in
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-packaging==24.1
+packaging==24.2
     # via drf-yasg
 path==16.16.0
     # via edx-i18n-tools
