@@ -260,7 +260,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/test.txt
-faker==30.8.2
+faker==32.1.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -273,13 +273,13 @@ filelock==3.16.1
     #   -r requirements/test.txt
     #   tox
     #   virtualenv
-firebase-admin==6.5.0
+firebase-admin==6.6.0
     # via
     #   -r requirements/test.txt
     #   edx-ace
 fontawesomefree==6.6.0
     # via -r requirements/test.txt
-google-api-core[grpc]==2.22.0
+google-api-core[grpc]==2.23.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -287,11 +287,11 @@ google-api-core[grpc]==2.22.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.151.0
+google-api-python-client==2.152.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
-google-auth==2.35.0
+google-auth==2.36.0
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -326,7 +326,7 @@ google-resumable-media==2.7.2
     # via
     #   -r requirements/test.txt
     #   google-cloud-storage
-googleapis-common-protos==1.65.0
+googleapis-common-protos==1.66.0
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -399,7 +399,7 @@ mypy-extensions==1.0.0
     #   -r requirements/test.txt
     #   black
     #   mypy
-mysqlclient==2.2.5
+mysqlclient==2.2.6
     # via -r requirements/test.txt
 newrelic==10.2.0
     # via
@@ -421,7 +421,7 @@ openedx-events==9.15.0
     #   -r requirements/test.txt
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-packaging==24.1
+packaging==24.2
     # via
     #   -r requirements/test.txt
     #   black
