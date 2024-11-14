@@ -1,3 +1,7 @@
+[project]
+name = "credentials"
+dynamic = ["version"]
+
 [tool.black]
 line-length = 120
 exclude = '(node_modules|private.py|migrations)'
@@ -11,3 +15,6 @@ lines_after_imports = 2
 combine_as_imports = true
 skip = ["migrations", "settings"]
 include_trailing_comma = true
+
+[tool.setuptools]
+packages = ["credentials"]
