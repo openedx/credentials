@@ -7,6 +7,7 @@ edX Credentials Service |Codecov|_
 This repository contains the edX Credentials Service, which supports course and program certificates. This service is a
 replacement for the ``certificates`` app in ``edx-platform``.
 
+
 Credentials can be run as part of devstack_ or Tutor_ (using the tutor_credentials_ plugin).
 
 .. _devstack: https://github.com/openedx/devstack
