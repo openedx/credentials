@@ -32,7 +32,7 @@ from credentials.apps.core import views as core_views
 from credentials.apps.plugins.constants import PROJECT_TYPE
 from credentials.apps.records.views import ProgramListingView
 from credentials.apps.verifiable_credentials.toggles import is_verifiable_credentials_enabled
-from credentials.views import FaviconView, MockToggleStateView
+from credentials.views import FaviconView
 
 
 admin.autodiscover()
@@ -65,7 +65,6 @@ urlpatterns = oauth2_urlpatterns + [
     path("records/", include(("credentials.apps.records.urls", "records"), namespace="records")),
     re_path(r"^program-listing/", ProgramListingView.as_view(), name="program_listing"),
     re_path(r"^favicon\.ico$", FaviconView.as_view(permanent=True)),
-    path("mock-toggles", MockToggleStateView.as_view()),
 ]
 
 if is_verifiable_credentials_enabled():
