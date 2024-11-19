@@ -22,5 +22,5 @@ polib==1.2.0
     # via edx-i18n-tools
 pyyaml==6.0.2
     # via edx-i18n-tools
-sqlparse==0.5.1
+sqlparse==0.5.2
     # via django
