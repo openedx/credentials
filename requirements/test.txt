@@ -60,7 +60,7 @@ click==8.1.7
     #   edx-lint
 click-log==0.4.0
     # via edx-lint
-code-annotations==1.8.0
+code-annotations==1.8.1
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.in
@@ -77,7 +77,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage==7.6.4
+coverage==7.6.7
     # via -r requirements/test.in
 cryptography==43.0.3
     # via
@@ -161,7 +161,7 @@ django-statici18n==2.5.0
     # via -r requirements/base.txt
 django-storages==1.14.4
     # via -r requirements/base.txt
-django-waffle==4.1.0
+django-waffle==4.2.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -238,7 +238,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/test.in
-faker==32.1.0
+faker==33.0.0
     # via factory-boy
 fastavro==1.9.7
     # via
@@ -262,7 +262,7 @@ google-api-core[grpc]==2.23.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.152.0
+google-api-python-client==2.153.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -306,12 +306,12 @@ googleapis-common-protos==1.66.0
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio==1.67.1
+grpcio==1.68.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.67.1
+grpcio-status==1.68.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -367,7 +367,7 @@ mypy-extensions==1.0.0
     # via black
 mysqlclient==2.2.6
     # via -r requirements/base.txt
-newrelic==10.2.0
+newrelic==10.3.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -453,7 +453,7 @@ pycparser==2.22
     #   cffi
 pygments==2.18.0
     # via -r requirements/base.txt
-pyjwt[crypto]==2.9.0
+pyjwt[crypto]==2.10.0
     # via
     #   -r requirements/base.txt
     #   drf-jwt
@@ -590,7 +590,7 @@ social-auth-core==4.5.4
     #   -r requirements/base.txt
     #   edx-auth-backends
     #   social-auth-app-django
-sqlparse==0.5.1
+sqlparse==0.5.2
     # via
     #   -r requirements/base.txt
     #   django

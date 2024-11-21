@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.35.59
+boto3==1.35.64
     # via django-ses
-botocore==1.35.59
+botocore==1.35.64
     # via
     #   boto3
     #   s3transfer
@@ -52,7 +52,7 @@ click==8.1.7
     #   -r requirements/base.txt
     #   code-annotations
     #   edx-django-utils
-code-annotations==1.8.0
+code-annotations==1.8.1
     # via
     #   -r requirements/base.txt
     #   edx-toggles
@@ -145,7 +145,7 @@ django-statici18n==2.5.0
     # via -r requirements/base.txt
 django-storages==1.14.4
     # via -r requirements/base.txt
-django-waffle==4.1.0
+django-waffle==4.2.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -238,7 +238,7 @@ google-api-core[grpc]==2.23.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.152.0
+google-api-python-client==2.153.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -284,12 +284,12 @@ googleapis-common-protos==1.66.0
     #   grpcio-status
 greenlet==3.1.1
     # via gevent
-grpcio==1.67.1
+grpcio==1.68.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.67.1
+grpcio-status==1.68.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -339,7 +339,7 @@ msgpack==1.1.0
     #   cachecontrol
 mysqlclient==2.2.6
     # via -r requirements/base.txt
-newrelic==10.2.0
+newrelic==10.3.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -413,7 +413,7 @@ pycparser==2.22
     #   cffi
 pygments==2.18.0
     # via -r requirements/base.txt
-pyjwt[crypto]==2.9.0
+pyjwt[crypto]==2.10.0
     # via
     #   -r requirements/base.txt
     #   drf-jwt
@@ -526,7 +526,7 @@ social-auth-core==4.5.4
     #   -r requirements/base.txt
     #   edx-auth-backends
     #   social-auth-app-django
-sqlparse==0.5.1
+sqlparse==0.5.2
     # via
     #   -r requirements/base.txt
     #   django

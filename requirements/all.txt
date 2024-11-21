@@ -33,11 +33,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.35.59
+boto3==1.35.64
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.35.59
+botocore==1.35.64
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -86,7 +86,7 @@ click-log==0.4.0
     # via
     #   -r requirements/dev.txt
     #   edx-lint
-code-annotations==1.8.0
+code-annotations==1.8.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -107,7 +107,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.6.4
+coverage==7.6.7
     # via -r requirements/dev.txt
 cryptography==43.0.3
     # via
@@ -238,7 +238,7 @@ django-stubs-ext==5.1.1
     # via
     #   -r requirements/dev.txt
     #   django-stubs
-django-waffle==4.1.0
+django-waffle==4.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -346,7 +346,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/dev.txt
-faker==32.1.0
+faker==33.0.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -380,7 +380,7 @@ google-api-core[grpc]==2.23.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.152.0
+google-api-python-client==2.153.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -437,13 +437,13 @@ greenlet==3.1.1
     # via
     #   -r requirements/production.txt
     #   gevent
-grpcio==1.67.1
+grpcio==1.68.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.67.1
+grpcio-status==1.68.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -528,7 +528,7 @@ mysqlclient==2.2.6
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==10.2.0
+newrelic==10.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -641,7 +641,7 @@ pygments==2.18.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pyjwt[crypto]==2.9.0
+pyjwt[crypto]==2.10.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -820,7 +820,7 @@ social-auth-core==4.5.4
     #   -r requirements/production.txt
     #   edx-auth-backends
     #   social-auth-app-django
-sqlparse==0.5.1
+sqlparse==0.5.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt

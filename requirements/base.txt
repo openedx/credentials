@@ -32,7 +32,7 @@ click==8.1.7
     # via
     #   code-annotations
     #   edx-django-utils
-code-annotations==1.8.0
+code-annotations==1.8.1
     # via edx-toggles
 coreapi==2.3.3
     # via
@@ -111,7 +111,7 @@ django-statici18n==2.5.0
     # via -r requirements/base.in
 django-storages==1.14.4
     # via -r requirements/base.in
-django-waffle==4.1.0
+django-waffle==4.2.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -189,7 +189,7 @@ google-api-core[grpc]==2.23.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.152.0
+google-api-python-client==2.153.0
     # via firebase-admin
 google-auth==2.36.0
     # via
@@ -219,11 +219,11 @@ googleapis-common-protos==1.66.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio==1.67.1
+grpcio==1.68.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.67.1
+grpcio-status==1.68.0
     # via google-api-core
 httplib2==0.22.0
     # via
@@ -252,7 +252,7 @@ msgpack==1.1.0
     # via cachecontrol
 mysqlclient==2.2.6
     # via -r requirements/base.in
-newrelic==10.2.0
+newrelic==10.3.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -302,7 +302,7 @@ pycparser==2.22
     # via cffi
 pygments==2.18.0
     # via -r requirements/base.in
-pyjwt[crypto]==2.9.0
+pyjwt[crypto]==2.10.0
     # via
     #   drf-jwt
     #   edx-auth-backends
@@ -385,7 +385,7 @@ social-auth-core==4.5.4
     # via
     #   edx-auth-backends
     #   social-auth-app-django
-sqlparse==0.5.1
+sqlparse==0.5.2
     # via django
 stevedore==5.3.0
     # via
