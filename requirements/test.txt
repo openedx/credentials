@@ -60,7 +60,7 @@ click==8.1.7
     #   edx-lint
 click-log==0.4.0
     # via edx-lint
-code-annotations==1.8.1
+code-annotations==2.0.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/test.in
@@ -77,7 +77,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage==7.6.7
+coverage==7.6.8
     # via -r requirements/test.in
 cryptography==43.0.3
     # via
@@ -262,7 +262,7 @@ google-api-core[grpc]==2.23.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.153.0
+google-api-python-client==2.154.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -367,7 +367,7 @@ mypy-extensions==1.0.0
     # via black
 mysqlclient==2.2.6
     # via -r requirements/base.txt
-newrelic==10.3.0
+newrelic==10.3.1
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -594,7 +594,7 @@ sqlparse==0.5.2
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==5.3.0
+stevedore==5.4.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -628,7 +628,7 @@ urllib3==1.26.20
     #   -r requirements/base.txt
     #   requests
     #   responses
-virtualenv==20.27.1
+virtualenv==20.28.0
     # via tox
 walrus==0.9.4
     # via
