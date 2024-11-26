@@ -25,7 +25,8 @@ def get_logger_config(
     service_variant: str = "credentials",
     format_string: str = "",
 ):
-    """Return the appropriate logging config dictionary, to be assigned to the LOGGING var in settings.
+    """
+    Return the appropriate logging config dictionary, to be assigned to the LOGGING var in settings.
 
     Arguments:
         log_dir (str): Location for log files
