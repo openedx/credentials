@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.35.64
+boto3==1.35.69
     # via django-ses
-botocore==1.35.64
+botocore==1.35.69
     # via
     #   boto3
     #   s3transfer
@@ -52,7 +52,7 @@ click==8.1.7
     #   -r requirements/base.txt
     #   code-annotations
     #   edx-django-utils
-code-annotations==1.8.1
+code-annotations==2.0.0
     # via
     #   -r requirements/base.txt
     #   edx-toggles
@@ -238,7 +238,7 @@ google-api-core[grpc]==2.23.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.153.0
+google-api-python-client==2.154.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -339,7 +339,7 @@ msgpack==1.1.0
     #   cachecontrol
 mysqlclient==2.2.6
     # via -r requirements/base.txt
-newrelic==10.3.0
+newrelic==10.3.1
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -492,7 +492,7 @@ rsa==4.9
     # via
     #   -r requirements/base.txt
     #   google-auth
-s3transfer==0.10.3
+s3transfer==0.10.4
     # via boto3
 sailthru-client==2.2.3
     # via
@@ -530,7 +530,7 @@ sqlparse==0.5.2
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==5.3.0
+stevedore==5.4.0
     # via
     #   -r requirements/base.txt
     #   code-annotations

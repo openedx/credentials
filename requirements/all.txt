@@ -33,11 +33,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.35.64
+boto3==1.35.69
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.35.64
+botocore==1.35.69
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -86,7 +86,7 @@ click-log==0.4.0
     # via
     #   -r requirements/dev.txt
     #   edx-lint
-code-annotations==1.8.1
+code-annotations==2.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -107,7 +107,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.6.7
+coverage==7.6.8
     # via -r requirements/dev.txt
 cryptography==43.0.3
     # via
@@ -380,7 +380,7 @@ google-api-core[grpc]==2.23.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.153.0
+google-api-python-client==2.154.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -528,7 +528,7 @@ mysqlclient==2.2.6
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==10.3.0
+newrelic==10.3.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -775,7 +775,7 @@ rsa==4.9
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-auth
-s3transfer==0.10.3
+s3transfer==0.10.4
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -826,7 +826,7 @@ sqlparse==0.5.2
     #   -r requirements/production.txt
     #   django
     #   django-debug-toolbar
-stevedore==5.3.0
+stevedore==5.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -875,7 +875,7 @@ urllib3==1.26.20
     #   botocore
     #   requests
     #   responses
-virtualenv==20.27.1
+virtualenv==20.28.0
     # via
     #   -r requirements/dev.txt
     #   tox
