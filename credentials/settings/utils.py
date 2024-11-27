@@ -16,22 +16,30 @@ def get_env_setting(setting):
 
 
 def get_logger_config(
-    log_dir="/var/tmp",
-    logging_env="no_env",
-    edx_filename="edx.log",
-    dev_env=False,
-    debug=False,
-    local_loglevel="INFO",
-    service_variant="credentials",
+    log_dir: str = "/var/tmp",
+    logging_env: str = "no_env",
+    edx_filename: str = "edx.log",
+    dev_env: bool = False,
+    debug: bool = False,
+    local_loglevel: str = "INFO",
+    service_variant: str = "credentials",
+    format_string: str = "",
 ):
     """
-    Return the appropriate logging config dictionary. You should assign the
-    result of this to the LOGGING var in your settings.
+    Return the appropriate logging config dictionary, to be assigned to the LOGGING var in settings.
 
-    If dev_env is set to true logging will not be done via local rsyslogd,
-    instead, application logs will be dropped in log_dir.
+    Arguments:
+        log_dir (str): Location for log files
+        logging_env (str):
+        edx_filename (str): Filename base for logfiles when dev_env is enabled.
+        dev_env (bool): If False logging will use local rsyslogd, if True, application logs will go to log_dir.
+        debug (bool): Debug logging enabled.
+        local_loglevel (str):
+        service_variant (str): Name of the service.
+        format_string (str): Format string for your logfiles.
 
-    "edx_filename" is ignored unless dev_env is set to true since otherwise logging is handled by rsyslogd.
+    Returns:
+        dict(string): Returns a dictionary of config values
     """
 
     # Revert to INFO if an invalid string is passed in
@@ -48,12 +56,16 @@ def get_logger_config(
 
     handlers = ["console"]
 
+    standard_format = (
+        format_string or "%(asctime)s %(levelname)s %(process)d [%(name)s] %(filename)s:%(lineno)d - %(message)s"
+    )
+
     logger_config = {
         "version": 1,
         "disable_existing_loggers": False,
         "formatters": {
             "standard": {
-                "format": "%(asctime)s %(levelname)s %(process)d " "[%(name)s] %(filename)s:%(lineno)d - %(message)s",
+                "format": standard_format,
             },
             "syslog_format": {"format": syslog_format},
             "raw": {"format": "%(message)s"},

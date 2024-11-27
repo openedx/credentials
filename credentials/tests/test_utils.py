@@ -103,6 +103,16 @@ class TestGetLoggerConfig(unittest.TestCase):
         config = get_logger_config()
         self.assertIn("env:no_env", config["formatters"]["syslog_format"]["format"])
 
+    def test_format_string(self):
+        expected_default = "%(asctime)s %(levelname)s %(process)d [%(name)s] %(filename)s:%(lineno)d - %(message)s"
+        expected_configured = "%(message)s for everyone"
+
+        config = get_logger_config()
+        self.assertIn(expected_default, config["formatters"]["standard_format"]["format"])
+
+        config = get_logger_config(format_string=expected_configured)
+        self.assertIn(expected_configured, config["formatters"]["syslog_format"]["format"])
+
     def test_edx_filename(self):
         config = get_logger_config(dev_env=True)
         self.assertIn("/var/tmp/edx.log", config["handlers"]["local"]["filename"])
