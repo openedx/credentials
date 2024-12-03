@@ -622,9 +622,8 @@ uritemplate==4.1.1
     #   coreapi
     #   drf-yasg
     #   google-api-python-client
-urllib3==1.26.20
+urllib3==2.2.3
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   requests
     #   responses
