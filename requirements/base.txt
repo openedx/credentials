@@ -402,10 +402,8 @@ uritemplate==4.1.1
     #   coreapi
     #   drf-yasg
     #   google-api-python-client
-urllib3==1.26.20
-    # via
-    #   -c requirements/constraints.txt
-    #   requests
+urllib3==2.2.3
+    # via requests
 walrus==0.9.4
     # via edx-event-bus-redis
 webencodings==0.5.1

@@ -69,7 +69,5 @@ sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
 typing-extensions==4.12.2
     # via pydata-sphinx-theme
-urllib3==1.26.20
-    # via
-    #   -c requirements/constraints.txt
-    #   requests
+urllib3==2.2.3
+    # via requests
