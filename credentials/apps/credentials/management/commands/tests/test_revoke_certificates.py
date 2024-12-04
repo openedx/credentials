@@ -4,6 +4,7 @@ Tests for the revoke_certificates management command
 
 from django.contrib.contenttypes.models import ContentType
 from django.core.management import call_command
+from django.core.management.base import CommandError
 from django.test import TestCase
 
 from credentials.apps.catalog.tests.factories import (
@@ -14,7 +15,7 @@ from credentials.apps.catalog.tests.factories import (
 )
 from credentials.apps.core.tests.factories import UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
-from credentials.apps.credentials.models import UserCredential
+from credentials.apps.credentials.models import RevokeCertificatesConfig, UserCredential
 from credentials.apps.credentials.tests.factories import (
     CourseCertificateFactory,
     ProgramCertificateFactory,
@@ -169,3 +170,34 @@ class RevokeCertificatesTests(SiteMixin, TestCase):
                 f"--credential_id={self.program_cert.id}",
             )
         self.assertFalse(any(expected_substring in s for s in cm.output))
+
+    def test_invalid_users(self):
+        """verify that the inclusion of invalid user IDs results in a warning"""
+        # pick a subset of users to revoke
+        users_to_revoke = self.users[:2]
+        expected_substring = "The following user IDs don't match existing users"
+
+        with self.assertLogs(level="WARNING") as cm:
+            call_command(
+                "revoke_certificates",
+                "--lms_user_ids",
+                users_to_revoke[0].lms_user_id,
+                users_to_revoke[1].lms_user_id,
+                8675309,
+                f"--credential_id={self.program_cert.id}",
+                "--verbose",
+            )
+        self.assertTrue(any(expected_substring in s for s in cm.output))
+
+    def test_config(self):
+        """Verify the config parser"""
+        users_to_revoke = self.users[:2]
+
+        with self.assertRaisesRegex(CommandError, "RevokeCertificatesConfig is disabled.*"):
+            call_command(
+                "revoke_certificates",
+                "--lms_user_ids",
+                8675309,
+                f"--credential_id={self.program_cert.id}",
+                "--args-from-database",
+            )
