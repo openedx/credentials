@@ -1,8 +1,8 @@
 """Management command to revoke certificates given a certificate ID and a list of users"""
 
-from typing import TYPE_CHECKING
 import logging
 import shlex
+from typing import TYPE_CHECKING
 
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand, CommandError
@@ -12,6 +12,7 @@ from credentials.apps.credentials.models import RevokeCertificatesConfig, UserCr
 
 if TYPE_CHECKING:
     from argparse import ArgumentParser
+
     from django.db.models import QuerySet
 
 
