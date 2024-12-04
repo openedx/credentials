@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # Database-backed configuration
+    "config_models",
 ]
 
 THIRD_PARTY_APPS = [
