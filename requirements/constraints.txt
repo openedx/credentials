@@ -11,11 +11,6 @@
 # Common constraints for edx repos
 -c common_constraints.txt
 
-# Pinning lxml to < 5.2 as edx-i18n-tools package needs to be updated.
-# Release notes: https://pypi.org/project/lxml/5.2.0/
-# Github issue: https://github.com/openedx/i18n-tools/issues/144
-lxml<5.2
-
 # Pinning edx-django-utils to <6
 # v6 drops support for python versions <3.12
 # Changelog: https://github.com/openedx/edx-django-utils/blob/master/CHANGELOG.rst#600---2024-10-09
