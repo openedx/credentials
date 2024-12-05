@@ -29,7 +29,7 @@ class Command(BaseCommand):
 
     Example usage:
 
-    $ ./manage.py revoke_certificates --lms_user_ids 867 5309 925
+    $ ./manage.py revoke_certificates --lms_user_ids 867 5309 925 --credential_id 90210
     """
 
     help = "Revoke certificates for a list of LMS user IDs.  Defaults to program certificates."
