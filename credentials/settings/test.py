@@ -10,7 +10,8 @@ INSTALLED_APPS += [
     "credentials.apps.edx_credentials_extensions",
 ]
 
-LOGGING = get_logger_config(debug=False, dev_env=True, local_loglevel="DEBUG")
+LOGGING_FORMAT_STRING = ""
+LOGGING = get_logger_config(debug=False, dev_env=True, local_loglevel="DEBUG", format_string=LOGGING_FORMAT_STRING)
 ALLOWED_HOSTS = ["*"]
 
 DATABASES = {

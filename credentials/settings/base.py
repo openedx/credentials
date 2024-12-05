@@ -406,7 +406,8 @@ ACE_CHANNEL_TRANSACTIONAL_EMAIL = "django_email"
 ACE_CHANNEL_SAILTHRU_TEMPLATE_NAME = ""  # unused, but required to be set or we see an exception
 
 # Set up logging for development use (logging to stdout)
-LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel="DEBUG")
+LOGGING_FORMAT_STRING = ""
+LOGGING = get_logger_config(debug=DEBUG, dev_env=True, local_loglevel="DEBUG", format_string=LOGGING_FORMAT_STRING)
 
 # DRF Settings
 REST_FRAMEWORK = {
