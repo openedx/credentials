@@ -56,7 +56,8 @@ PROGRAMS_CACHE_TTL = 60
 USER_CACHE_TTL = 60
 
 # LOGGING
-LOGGING = get_logger_config(debug=True, dev_env=True, local_loglevel="DEBUG")
+LOGGING_FORMAT_STRING = ""
+LOGGING = get_logger_config(debug=True, dev_env=True, local_loglevel="DEBUG", format_string=LOGGING_FORMAT_STRING)
 
 #####################################################################
 # Lastly, see if the developer has any local overrides.

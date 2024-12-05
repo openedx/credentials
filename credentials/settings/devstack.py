@@ -8,7 +8,8 @@ DEBUG = str2bool(os.environ.get("DEBUG", True))
 
 ALLOWED_HOSTS = ["*"]
 
-LOGGING = get_logger_config(debug=True, dev_env=True, local_loglevel="DEBUG")
+LOGGING_FORMAT_STRING = ""
+LOGGING = get_logger_config(debug=True, dev_env=True, local_loglevel="DEBUG", format_string=LOGGING_FORMAT_STRING)
 del LOGGING["handlers"]["local"]
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "change-me")
