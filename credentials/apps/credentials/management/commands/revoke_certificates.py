@@ -2,7 +2,7 @@
 
 import logging
 import shlex
-from typing import Any, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand, CommandError

@@ -17,13 +17,13 @@ from credentials.apps.catalog.tests.factories import (
 )
 from credentials.apps.core.tests.factories import UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
+from credentials.apps.credentials.management.commands.revoke_certificates import Command
 from credentials.apps.credentials.models import RevokeCertificatesConfig, UserCredential
 from credentials.apps.credentials.tests.factories import (
     CourseCertificateFactory,
     ProgramCertificateFactory,
     UserCredentialFactory,
 )
-from credentials.apps.credentials.management.commands.revoke_certificates import Command
 
 
 class RevokeCertificatesTests(SiteMixin, TestCase):
