@@ -1,3 +1,4 @@
+from config_models.admin import ConfigurationModelAdmin
 from django.contrib import admin
 from django.db.models import Q
 
@@ -6,6 +7,7 @@ from credentials.apps.credentials.models import (
     CourseCertificate,
     ProgramCertificate,
     ProgramCompletionEmailConfiguration,
+    RevokeCertificatesConfig,
     Signatory,
     UserCredential,
     UserCredentialAttribute,
@@ -113,3 +115,8 @@ class SignatoryAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
 class ProgramCompletionEmailConfigurationAdmin(TimeStampedModelAdminMixin, admin.ModelAdmin):
     list_display = ("identifier", "enabled")
     search_fields = ("identifier",)
+
+
+@admin.register(RevokeCertificatesConfig)
+class RevokeCertificatesConfigAdmin(ConfigurationModelAdmin):
+    pass

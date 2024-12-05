@@ -101,6 +101,7 @@ distlib==0.3.9
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
     #   django-appconf
+    #   django-config-models
     #   django-cors-headers
     #   django-crum
     #   django-extensions
@@ -132,6 +133,8 @@ django-appconf==1.0.6
     # via
     #   -r requirements/base.txt
     #   django-statici18n
+django-config-models==2.7.0
+    # via -r requirements/base.txt
 django-cors-headers==4.6.0
     # via -r requirements/base.txt
 django-crum==0.7.9
@@ -172,6 +175,7 @@ django-webpack-loader==3.1.1
 djangorestframework==3.15.2
     # via
     #   -r requirements/base.txt
+    #   django-config-models
     #   django-rest-swagger
     #   drf-jwt
     #   drf-yasg
@@ -204,6 +208,7 @@ edx-django-utils==5.16.0
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
+    #   django-config-models
     #   edx-ace
     #   edx-drf-extensions
     #   edx-event-bus-kafka
@@ -288,7 +293,7 @@ google-cloud-firestore==2.19.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-cloud-storage==2.18.2
+google-cloud-storage==2.19.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -430,7 +435,7 @@ proto-plus==1.25.0
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.29.0
+protobuf==5.29.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -576,7 +581,7 @@ simplejson==3.19.3
     #   -r requirements/base.txt
     #   django-rest-swagger
     #   sailthru-client
-six==1.16.0
+six==1.17.0
     # via
     #   -r requirements/base.txt
     #   edx-ace

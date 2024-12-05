@@ -7,6 +7,7 @@ import uuid
 from typing import TYPE_CHECKING
 
 import bleach
+from config_models.models import ConfigurationModel
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -427,3 +428,24 @@ class UserCredentialDateOverride(TimeStampedModel):
     date = models.DateTimeField(
         help_text="The date to override a course certificate with. This is set in the LMS Django Admin.",
     )
+
+
+class RevokeCertificatesConfig(ConfigurationModel):
+    """
+    Manages configuration for a run of the revoke_certificates management command.
+
+    .. no_pii:
+    """
+
+    class Meta:
+        app_label = "credentials"
+        verbose_name = "revoke_certificates argument"
+
+    arguments = models.TextField(
+        blank=True,
+        help_text='Arguments for a management command, eg. "--certificate_id 222 --lms_user_ids 867 5309 925".',
+        default="",
+    )
+
+    def __str__(self):
+        return str(self.arguments)

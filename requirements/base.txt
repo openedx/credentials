@@ -51,11 +51,12 @@ defusedxml==0.8.0rc2
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/base.in
-django==4.2.16
+django==4.2.17
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
     #   django-appconf
+    #   django-config-models
     #   django-cors-headers
     #   django-crum
     #   django-extensions
@@ -85,6 +86,8 @@ django==4.2.16
     #   xss-utils
 django-appconf==1.0.6
     # via django-statici18n
+django-config-models==2.7.0
+    # via -r requirements/base.in
 django-cors-headers==4.6.0
     # via -r requirements/base.in
 django-crum==0.7.9
@@ -122,6 +125,7 @@ django-webpack-loader==3.1.1
 djangorestframework==3.15.2
     # via
     #   -r requirements/base.in
+    #   django-config-models
     #   django-rest-swagger
     #   drf-jwt
     #   drf-yasg
@@ -148,6 +152,7 @@ edx-django-utils==5.16.0
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.in
+    #   django-config-models
     #   edx-ace
     #   edx-drf-extensions
     #   edx-event-bus-kafka
@@ -207,7 +212,7 @@ google-cloud-core==2.4.1
     #   google-cloud-storage
 google-cloud-firestore==2.19.0
     # via firebase-admin
-google-cloud-storage==2.18.2
+google-cloud-storage==2.19.0
     # via firebase-admin
 google-crc32c==1.6.0
     # via
@@ -285,7 +290,7 @@ proto-plus==1.25.0
     # via
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.29.0
+protobuf==5.29.1
     # via
     #   google-api-core
     #   google-cloud-firestore
@@ -372,7 +377,7 @@ simplejson==3.19.3
     # via
     #   django-rest-swagger
     #   sailthru-client
-six==1.16.0
+six==1.17.0
     # via
     #   edx-ace
     #   edx-auth-backends
