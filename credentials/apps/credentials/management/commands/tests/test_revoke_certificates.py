@@ -2,6 +2,8 @@
 Tests for the revoke_certificates management command
 """
 
+from unittest import mock
+
 from django.contrib.contenttypes.models import ContentType
 from django.core.management import call_command
 from django.core.management.base import CommandError
@@ -21,6 +23,7 @@ from credentials.apps.credentials.tests.factories import (
     ProgramCertificateFactory,
     UserCredentialFactory,
 )
+from credentials.apps.credentials.management.commands.revoke_certificates import Command
 
 
 class RevokeCertificatesTests(SiteMixin, TestCase):
@@ -77,7 +80,7 @@ class RevokeCertificatesTests(SiteMixin, TestCase):
         users_to_revoke = self.users[:2]
 
         call_command(
-            "revoke_certificates",
+            Command(),
             "--lms_user_ids",
             users_to_revoke[0].lms_user_id,
             users_to_revoke[1].lms_user_id,
@@ -102,7 +105,7 @@ class RevokeCertificatesTests(SiteMixin, TestCase):
         cred_to_revoke = self.course_certs[0]
 
         call_command(
-            "revoke_certificates",
+            Command(),
             "--lms_user_ids",
             users_to_revoke[0].lms_user_id,
             users_to_revoke[1].lms_user_id,
@@ -126,7 +129,7 @@ class RevokeCertificatesTests(SiteMixin, TestCase):
         users_to_revoke = self.users[:2]
 
         call_command(
-            "revoke_certificates",
+            Command(),
             "--lms_user_ids",
             users_to_revoke[0].lms_user_id,
             users_to_revoke[1].lms_user_id,
@@ -146,7 +149,7 @@ class RevokeCertificatesTests(SiteMixin, TestCase):
 
         with self.assertLogs(level="INFO") as cm:
             call_command(
-                "revoke_certificates",
+                Command(),
                 "--lms_user_ids",
                 users_to_revoke[0].lms_user_id,
                 users_to_revoke[1].lms_user_id,
@@ -163,7 +166,7 @@ class RevokeCertificatesTests(SiteMixin, TestCase):
 
         with self.assertLogs(level="INFO") as cm:
             call_command(
-                "revoke_certificates",
+                Command(),
                 "--lms_user_ids",
                 users_to_revoke[0].lms_user_id,
                 users_to_revoke[1].lms_user_id,
@@ -179,7 +182,7 @@ class RevokeCertificatesTests(SiteMixin, TestCase):
 
         with self.assertLogs(level="WARNING") as cm:
             call_command(
-                "revoke_certificates",
+                Command(),
                 "--lms_user_ids",
                 users_to_revoke[0].lms_user_id,
                 users_to_revoke[1].lms_user_id,
@@ -189,15 +192,51 @@ class RevokeCertificatesTests(SiteMixin, TestCase):
             )
         self.assertTrue(any(expected_substring in s for s in cm.output))
 
-    def test_config(self):
-        """Verify the config parser"""
-        users_to_revoke = self.users[:2]
+    def test_validation(self):
+        """Test that the input validators are correct"""
+        # fake user
+        expected = "None of the given lms_user_ids maps to a real user*"
+        with self.assertRaisesRegex(CommandError, expected):
+            call_command(Command(), "--lms_user_ids", "8675309", "--credential_id", "123")
 
+        # real user, doesn't mapped to a real credential
+        expected = "No active certificates match the given criteria"
+        with self.assertRaisesRegex(CommandError, expected):
+            call_command(Command(), "--lms_user_ids", self.users[0].lms_user_id, "--credential_id", "123")
+
+        # missing credential_id
+        expected = "You must specify a credential_id"
+        with self.assertRaisesRegex(CommandError, expected):
+            call_command(Command(), "--lms_user_ids", self.users[0].lms_user_id)
+
+        # missing lms_user_ids
+        expected = "You must specify list of lms_user_ids"
+        with self.assertRaisesRegex(CommandError, expected):
+            call_command(Command(), "--credential_id", "123")
+
+    def test_args_from_database(self):
+        """Correctly parse args from database at the correct times"""
+        # Nothing in the database, should default to disabled
         with self.assertRaisesRegex(CommandError, "RevokeCertificatesConfig is disabled.*"):
-            call_command(
-                "revoke_certificates",
-                "--lms_user_ids",
-                8675309,
-                f"--credential_id={self.program_cert.id}",
-                "--args-from-database",
-            )
+            call_command(Command(), "--lms_user_ids", "8675309", "--credential_id", "123", "--args-from-database")
+
+        # Add a config
+        config = RevokeCertificatesConfig.current()
+        config.arguments = f"--lms_user_ids {self.users[0].lms_user_id} --credential_id 90210"
+        config.enabled = True
+        config.save()
+
+        # Not told to use config, should ignore it
+        with self.assertRaisesRegex(CommandError, "None of the given lms_user_ids maps to a real user*"):
+            call_command(Command(), "--lms_user_ids", "8675309", "--credential_id", "123")
+
+        # Told to use it, and enabled. Should use config in preference of command line
+        with self.assertRaisesRegex(CommandError, "No active certificates match the given criteria"):
+            call_command(Command(), "--lms_user_ids", "8675309", "--credential_id", "123", "--args-from-database")
+
+        config.enabled = False
+        config.save()
+
+        # Explicitly disabled
+        with self.assertRaisesRegex(CommandError, "RevokeCertificatesConfig is disabled.*"):
+            call_command(Command(), "--lms_user_ids", "8675309", "--credential_id", "123", "--args-from-database")

@@ -2,7 +2,7 @@
 
 import logging
 import shlex
-from typing import TYPE_CHECKING
+from typing import Any, TYPE_CHECKING
 
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand, CommandError
@@ -34,7 +34,7 @@ class Command(BaseCommand):
 
     help = "Revoke certificates for a list of LMS user IDs.  Defaults to program certificates."
 
-    def add_arguments(self, parser: "ArgumentParser"):
+    def add_arguments(self, parser: "ArgumentParser") -> None:
         """Arguments for the command."""
         parser.add_argument(
             "--dry-run",
@@ -54,15 +54,13 @@ class Command(BaseCommand):
         parser.add_argument(
             "--lms_user_ids",
             default=None,
-            required=True,
             nargs="+",
-            help="Users for whom this certificate should be revoked",
+            help="Users for whom this certificate should be revoked. Required.",
         )
         parser.add_argument(
             "--credential_id",
             default=None,
-            required=True,
-            help="ID of the certificate to be revoked",
+            help="ID of the certificate to be revoked. Required.",
         )
         parser.add_argument(
             "--credential_type",
@@ -94,7 +92,7 @@ class Command(BaseCommand):
             logger.warning(f"The following user IDs don't match existing users: {missing_users}")
         return users
 
-    def get_args_from_database(self):
+    def get_args_from_database(self) -> dict[str, Any]:
         """Returns an options dictionary from the current NotifyCredentialsConfig model."""
         config = RevokeCertificatesConfig.current()
         if not config.enabled:
@@ -118,6 +116,10 @@ class Command(BaseCommand):
             f"credential_type={credential_type}, lms_user_ids={lms_user_ids}, verbosity={verbosity}"
         )
 
+        # Because we allow args_from_database, we cannot rely on marking arguments as required,
+        # so we validate our arguments here.
+        if not credential_id:
+            raise CommandError("You must specify a credential_id")
         if not lms_user_ids:
             raise CommandError("You must specify list of lms_user_ids")
         users = self.get_usernames_from_lms_user_ids(lms_user_ids)
