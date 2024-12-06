@@ -12,9 +12,6 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["*"]
 
-LOGGING_FORMAT_STRING = ""
-LOGGING = get_logger_config(format_string=LOGGING_FORMAT_STRING)
-
 # Keep track of the names of settings that represent dicts. Instead of overriding the values in base.py,
 # the values read from disk should UPDATE the pre-configured dicts.
 DICT_UPDATE_KEYS = ("JWT_AUTH",)
@@ -49,6 +46,9 @@ with open(CONFIG_FILE, encoding="utf-8") as f:
 
     # Load the files storage backend settings for django storages
     vars().update(FILE_STORAGE_BACKEND)
+
+# make sure this happens after the configuration file overrides so format string can be overridden
+LOGGING = get_logger_config(format_string=LOGGING_FORMAT_STRING)
 
 if "EXTRA_APPS" in locals():
     INSTALLED_APPS += EXTRA_APPS
