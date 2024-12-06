@@ -8,7 +8,7 @@ DEBUG = str2bool(os.environ.get("DEBUG", True))
 
 ALLOWED_HOSTS = ["*"]
 
-LOGGING_FORMAT_STRING = ""
+LOGGING_FORMAT_STRING = os.environ.get("LOGGING_FORMAT_STRING", "")
 LOGGING = get_logger_config(debug=True, dev_env=True, local_loglevel="DEBUG", format_string=LOGGING_FORMAT_STRING)
 del LOGGING["handlers"]["local"]
 

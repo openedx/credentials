@@ -56,7 +56,7 @@ PROGRAMS_CACHE_TTL = 60
 USER_CACHE_TTL = 60
 
 # LOGGING
-LOGGING_FORMAT_STRING = ""
+LOGGING_FORMAT_STRING = os.environ.get("LOGGING_FORMAT_STRING", "")
 LOGGING = get_logger_config(debug=True, dev_env=True, local_loglevel="DEBUG", format_string=LOGGING_FORMAT_STRING)
 
 #####################################################################
