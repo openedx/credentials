@@ -9,7 +9,7 @@ asgiref==3.8.1
     #   -r requirements/base.txt
     #   django
     #   django-cors-headers
-astroid==3.3.5
+astroid==3.3.6
     # via
     #   pylint
     #   pylint-celery
@@ -77,7 +77,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage==7.6.8
+coverage==7.6.9
     # via -r requirements/test.in
 cryptography==44.0.0
     # via
@@ -538,7 +538,7 @@ pyyaml==6.0.2
     #   responses
 qrcode==8.0
     # via -r requirements/base.txt
-redis==5.2.0
+redis==5.2.1
     # via
     #   -r requirements/base.txt
     #   walrus
