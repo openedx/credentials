@@ -30,7 +30,6 @@ from rest_framework import permissions
 from credentials.apps.badges.toggles import is_badges_enabled
 from credentials.apps.core import views as core_views
 from credentials.apps.plugins.constants import PROJECT_TYPE
-from credentials.apps.records.views import ProgramListingView
 from credentials.apps.verifiable_credentials.toggles import is_verifiable_credentials_enabled
 from credentials.views import FaviconView
 
@@ -63,7 +62,6 @@ urlpatterns = oauth2_urlpatterns + [
     path("health/", core_views.health, name="health"),
     path("management/", include(("credentials.apps.edx_django_extensions.urls", "management"), namespace="management")),
     path("records/", include(("credentials.apps.records.urls", "records"), namespace="records")),
-    re_path(r"^program-listing/", ProgramListingView.as_view(), name="program_listing"),
     re_path(r"^favicon\.ico$", FaviconView.as_view(permanent=True)),
 ]
 

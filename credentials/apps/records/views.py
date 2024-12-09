@@ -28,7 +28,6 @@ from credentials.apps.records.api import get_program_record_data
 from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
-from credentials.apps.records.utils import get_user_program_data
 from credentials.shared.constants import PathwayType
 
 from .constants import RECORDS_RATE_LIMIT
@@ -102,33 +101,6 @@ class RecordsView(RecordsListBaseView):
 
     def get(self, request, *args, **kwargs):
         return HttpResponseRedirect(settings.LEARNER_RECORD_MFE_RECORDS_PAGE_URL)
-
-
-class ProgramListingView(RecordsListBaseView):
-    def _get_programs(self):
-        return get_user_program_data(
-            self.request.user.username,
-            self.request.site,
-            include_empty_programs=True,
-            include_retired_programs=False,
-        )
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        context["title"] = _("Program Listing View")
-        context["program_help"] = _(
-            "The following is a list of all active programs for which program records are being generated."
-        )
-
-        return context
-
-    def dispatch(self, request, *args, **kwargs):
-        # Kick out non staff and non superuser users (skipping anonymous users,
-        # because they are redirected to a login screen instead)
-        if not request.user.is_anonymous and not request.user.is_staff and not request.user.is_superuser:
-            raise http.Http404()
-        return super().dispatch(request, *args, **kwargs)
 
 
 class ProgramRecordView(ConditionallyRequireLoginMixin, RecordsEnabledMixin, TemplateView, ThemeViewMixin):
