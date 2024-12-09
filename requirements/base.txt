@@ -348,7 +348,7 @@ pyyaml==6.0.2
     #   edx-i18n-tools
 qrcode==8.0
     # via -r requirements/base.in
-redis==5.2.0
+redis==5.2.1
     # via walrus
 requests==2.32.3
     # via

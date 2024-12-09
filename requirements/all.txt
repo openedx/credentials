@@ -11,7 +11,7 @@ asgiref==3.8.1
     #   django
     #   django-cors-headers
     #   django-stubs
-astroid==3.3.5
+astroid==3.3.6
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -107,7 +107,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.6.8
+coverage==7.6.9
     # via -r requirements/dev.txt
 cryptography==44.0.0
     # via
@@ -755,7 +755,7 @@ qrcode==8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-redis==5.2.0
+redis==5.2.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
