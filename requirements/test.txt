@@ -259,7 +259,7 @@ firebase-admin==6.6.0
     #   edx-ace
 fontawesomefree==6.6.0
     # via -r requirements/base.txt
-google-api-core[grpc]==2.23.0
+google-api-core[grpc]==2.24.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -599,7 +599,7 @@ social-auth-core==4.5.4
     #   -r requirements/base.txt
     #   edx-auth-backends
     #   social-auth-app-django
-sqlparse==0.5.2
+sqlparse==0.5.3
     # via
     #   -r requirements/base.txt
     #   django
