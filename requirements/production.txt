@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.35.76
+boto3==1.35.80
     # via django-ses
-botocore==1.35.76
+botocore==1.35.80
     # via
     #   boto3
     #   s3transfer
@@ -52,7 +52,7 @@ click==8.1.7
     #   -r requirements/base.txt
     #   code-annotations
     #   edx-django-utils
-code-annotations==2.0.0
+code-annotations==2.1.0
     # via
     #   -r requirements/base.txt
     #   edx-toggles
@@ -182,7 +182,7 @@ edx-ccx-keys==2.0.2
     # via
     #   -r requirements/base.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.20
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.25
     # via -r requirements/base.txt
 edx-django-release-util==1.4.0
     # via -r requirements/base.txt
@@ -235,7 +235,7 @@ fontawesomefree==6.6.0
     # via -r requirements/base.txt
 gevent==24.11.1
     # via -r requirements/production.in
-google-api-core[grpc]==2.23.0
+google-api-core[grpc]==2.24.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -243,11 +243,11 @@ google-api-core[grpc]==2.23.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.154.0
+google-api-python-client==2.155.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-auth==2.36.0
+google-auth==2.37.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -348,7 +348,7 @@ msgpack==1.1.0
     #   cachecontrol
 mysqlclient==2.2.6
     # via -r requirements/base.txt
-newrelic==10.3.1
+newrelic==10.4.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -535,7 +535,7 @@ social-auth-core==4.5.4
     #   -r requirements/base.txt
     #   edx-auth-backends
     #   social-auth-app-django
-sqlparse==0.5.2
+sqlparse==0.5.3
     # via
     #   -r requirements/base.txt
     #   django

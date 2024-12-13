@@ -32,7 +32,7 @@ click==8.1.7
     # via
     #   code-annotations
     #   edx-django-utils
-code-annotations==2.0.0
+code-annotations==2.1.0
     # via edx-toggles
 coreapi==2.3.3
     # via
@@ -142,7 +142,7 @@ edx-auth-backends==4.4.0
     # via -r requirements/base.in
 edx-ccx-keys==2.0.2
     # via openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.20
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.25
     # via -r requirements/base.in
 edx-django-release-util==1.4.0
     # via -r requirements/base.in
@@ -187,16 +187,16 @@ firebase-admin==6.6.0
     # via edx-ace
 fontawesomefree==6.6.0
     # via -r requirements/base.in
-google-api-core[grpc]==2.23.0
+google-api-core[grpc]==2.24.0
     # via
     #   firebase-admin
     #   google-api-python-client
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.154.0
+google-api-python-client==2.155.0
     # via firebase-admin
-google-auth==2.36.0
+google-auth==2.37.0
     # via
     #   google-api-core
     #   google-api-python-client
@@ -259,7 +259,7 @@ msgpack==1.1.0
     # via cachecontrol
 mysqlclient==2.2.6
     # via -r requirements/base.in
-newrelic==10.3.1
+newrelic==10.4.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -392,7 +392,7 @@ social-auth-core==4.5.4
     # via
     #   edx-auth-backends
     #   social-auth-app-django
-sqlparse==0.5.2
+sqlparse==0.5.3
     # via django
 stevedore==5.4.0
     # via
