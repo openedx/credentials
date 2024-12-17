@@ -15,7 +15,7 @@ astroid==3.3.6
     #   -r requirements/test.txt
     #   pylint
     #   pylint-celery
-attrs==24.2.0
+attrs==24.3.0
     # via
     #   -r requirements/test.txt
     #   edx-ace
@@ -37,7 +37,7 @@ cachetools==5.5.0
     #   -r requirements/test.txt
     #   google-auth
     #   tox
-certifi==2024.8.30
+certifi==2024.12.14
     # via
     #   -r requirements/test.txt
     #   requests
@@ -66,7 +66,7 @@ click-log==0.4.0
     # via
     #   -r requirements/test.txt
     #   edx-lint
-code-annotations==2.0.0
+code-annotations==2.1.0
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -292,11 +292,11 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.154.0
+google-api-python-client==2.155.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
-google-auth==2.36.0
+google-auth==2.37.0
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -410,7 +410,7 @@ mypy-extensions==1.0.0
     #   mypy
 mysqlclient==2.2.6
     # via -r requirements/test.txt
-newrelic==10.3.1
+newrelic==10.4.0
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
