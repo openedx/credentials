@@ -16,7 +16,7 @@ astroid==3.3.6
     #   -r requirements/dev.txt
     #   pylint
     #   pylint-celery
-attrs==24.2.0
+attrs==24.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -33,11 +33,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.35.77
+boto3==1.35.82
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.35.77
+botocore==1.35.82
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -53,7 +53,7 @@ cachetools==5.5.0
     #   -r requirements/production.txt
     #   google-auth
     #   tox
-certifi==2024.8.30
+certifi==2024.12.14
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -86,7 +86,7 @@ click-log==0.4.0
     # via
     #   -r requirements/dev.txt
     #   edx-lint
-code-annotations==2.0.0
+code-annotations==2.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -219,7 +219,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==4.3.0
+django-ses==4.3.1
     # via -r requirements/production.txt
 django-simple-history==3.7.0
     # via
@@ -387,12 +387,12 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.154.0
+google-api-python-client==2.155.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-auth==2.36.0
+google-auth==2.37.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -540,7 +540,7 @@ mysqlclient==2.2.6
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==10.3.1
+newrelic==10.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
