@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.35.82
+boto3==1.35.87
     # via django-ses
-botocore==1.35.82
+botocore==1.35.87
     # via
     #   boto3
     #   s3transfer
@@ -47,7 +47,7 @@ charset-normalizer==3.4.0
     # via
     #   -r requirements/base.txt
     #   requests
-click==8.1.7
+click==8.1.8
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -223,7 +223,7 @@ edx-toggles==5.2.0
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-fastavro==1.9.7
+fastavro==1.10.0
     # via
     #   -r requirements/base.txt
     #   openedx-events
@@ -243,7 +243,7 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.155.0
+google-api-python-client==2.156.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -317,7 +317,7 @@ itypes==1.2.0
     # via
     #   -r requirements/base.txt
     #   coreapi
-jinja2==3.1.4
+jinja2==3.1.5
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -395,7 +395,7 @@ proto-plus==1.25.0
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.29.1
+protobuf==5.29.2
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -403,7 +403,7 @@ protobuf==5.29.1
     #   googleapis-common-protos
     #   grpcio-status
     #   proto-plus
-psutil==6.1.0
+psutil==6.1.1
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -560,7 +560,7 @@ uritemplate==4.1.1
     #   coreapi
     #   drf-yasg
     #   google-api-python-client
-urllib3==2.2.3
+urllib3==2.3.0
     # via
     #   -r requirements/base.txt
     #   botocore

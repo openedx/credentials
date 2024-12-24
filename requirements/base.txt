@@ -28,7 +28,7 @@ cffi==1.17.1
     #   pynacl
 charset-normalizer==3.4.0
     # via requests
-click==8.1.7
+click==8.1.8
     # via
     #   code-annotations
     #   edx-django-utils
@@ -181,7 +181,7 @@ edx-toggles==5.2.0
     #   -r requirements/base.in
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-fastavro==1.9.7
+fastavro==1.10.0
     # via openedx-events
 firebase-admin==6.6.0
     # via edx-ace
@@ -194,7 +194,7 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.155.0
+google-api-python-client==2.156.0
     # via firebase-admin
 google-auth==2.37.0
     # via
@@ -240,7 +240,7 @@ inflection==0.5.1
     # via drf-yasg
 itypes==1.2.0
     # via coreapi
-jinja2==3.1.4
+jinja2==3.1.5
     # via
     #   code-annotations
     #   coreschema
@@ -290,14 +290,14 @@ proto-plus==1.25.0
     # via
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.29.1
+protobuf==5.29.2
     # via
     #   google-api-core
     #   google-cloud-firestore
     #   googleapis-common-protos
     #   grpcio-status
     #   proto-plus
-psutil==6.1.0
+psutil==6.1.1
     # via edx-django-utils
 pyasn1==0.6.1
     # via
@@ -409,7 +409,7 @@ uritemplate==4.1.1
     #   coreapi
     #   drf-yasg
     #   google-api-python-client
-urllib3==2.2.3
+urllib3==2.3.0
     # via requests
 walrus==0.9.4
     # via edx-event-bus-redis

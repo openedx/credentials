@@ -10,7 +10,7 @@ asgiref==3.8.1
     #   django
     #   django-cors-headers
     #   django-stubs
-astroid==3.3.6
+astroid==3.3.8
     # via
     #   -r requirements/test.txt
     #   pylint
@@ -54,7 +54,7 @@ charset-normalizer==3.4.0
     # via
     #   -r requirements/test.txt
     #   requests
-click==8.1.7
+click==8.1.8
     # via
     #   -r requirements/test.txt
     #   black
@@ -269,7 +269,7 @@ faker==33.1.0
     # via
     #   -r requirements/test.txt
     #   factory-boy
-fastavro==1.9.7
+fastavro==1.10.0
     # via
     #   -r requirements/test.txt
     #   openedx-events
@@ -292,7 +292,7 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.155.0
+google-api-python-client==2.156.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -372,7 +372,7 @@ itypes==1.2.0
     # via
     #   -r requirements/test.txt
     #   coreapi
-jinja2==3.1.4
+jinja2==3.1.5
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -401,7 +401,7 @@ msgpack==1.1.0
     # via
     #   -r requirements/test.txt
     #   cachecontrol
-mypy==1.13.0
+mypy==1.14.0
     # via -r requirements/dev.in
 mypy-extensions==1.0.0
     # via
@@ -473,7 +473,7 @@ proto-plus==1.25.0
     #   -r requirements/test.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.29.1
+protobuf==5.29.2
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -481,7 +481,7 @@ protobuf==5.29.1
     #   googleapis-common-protos
     #   grpcio-status
     #   proto-plus
-psutil==6.1.0
+psutil==6.1.1
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -510,7 +510,7 @@ pyjwt[crypto]==2.10.1
     #   firebase-admin
     #   segment-analytics-python
     #   social-auth-core
-pylint==3.3.2
+pylint==3.3.3
     # via
     #   -r requirements/test.txt
     #   edx-lint
@@ -671,7 +671,7 @@ tomlkit==0.13.2
     #   pylint
 tox==4.23.2
     # via -r requirements/test.txt
-types-pyyaml==6.0.12.20240917
+types-pyyaml==6.0.12.20241221
     # via django-stubs
 typing-extensions==4.12.2
     # via
@@ -687,7 +687,7 @@ uritemplate==4.1.1
     #   coreapi
     #   drf-yasg
     #   google-api-python-client
-urllib3==2.2.3
+urllib3==2.3.0
     # via
     #   -r requirements/test.txt
     #   requests
