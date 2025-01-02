@@ -4,6 +4,7 @@ from unittest import mock
 from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
 from django.urls import reverse
+from ddt import ddt, data, unpack
 from rest_framework import status
 
 from credentials.apps.catalog.tests.factories import (
@@ -22,12 +23,13 @@ from credentials.apps.credentials.tests.factories import (
 from credentials.apps.verifiable_credentials.issuance import IssuanceException
 from credentials.apps.verifiable_credentials.issuance.tests.factories import IssuanceLineFactory
 from credentials.apps.verifiable_credentials.storages.learner_credential_wallet import LCWallet
-from credentials.apps.verifiable_credentials.utils import get_user_program_credentials_data
+from credentials.apps.verifiable_credentials.utils import get_user_credentials_data
 
 
 JSON_CONTENT_TYPE = "application/json"
 
 
+@ddt
 class ProgramCredentialsViewTests(SiteMixin, TestCase):
     def setUp(self):
         super().setUp()
@@ -73,22 +75,43 @@ class ProgramCredentialsViewTests(SiteMixin, TestCase):
 
     def test_deny_unauthenticated_user(self):
         self.client.logout()
-        response = self.client.get("/verifiable_credentials/api/v1/program_credentials/")
+        response = self.client.get("/verifiable_credentials/api/v1/credentials/")
         self.assertEqual(response.status_code, 401)
 
     def test_allow_authenticated_user(self):
         """Verify the endpoint requires an authenticated user."""
         self.client.logout()
         self.client.login(username=self.user.username, password=USER_PASSWORD)
-        response = self.client.get("/verifiable_credentials/api/v1/program_credentials/")
+        response = self.client.get("/verifiable_credentials/api/v1/credentials/")
         self.assertEqual(response.status_code, 200)
 
-    def test_get(self):
+    def test_get_without_query_params(self):
         self.client.login(username=self.user.username, password=USER_PASSWORD)
-        response = self.client.get("/verifiable_credentials/api/v1/program_credentials/")
+        response = self.client.get("/verifiable_credentials/api/v1/credentials/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["program_credentials"], get_user_program_credentials_data(self.user.username))
+        self.assertEqual(response.data["program_credentials"], get_user_credentials_data(self.user.username, "programcertificate"))
+        self.assertEqual(response.data["course_credentials"], get_user_credentials_data(self.user.username, "coursecertificate"))
 
+    @data(
+        ("programcertificate", {"program_credentials": "programcertificate"}, ["course_credentials"]),
+        ("coursecertificate", {"course_credentials": "coursecertificate"}, ["program_credentials"]),
+        ("programcertificate,coursecertificate",
+         {"program_credentials": "programcertificate", "course_credentials": "coursecertificate"}, [])
+    )
+    @unpack
+    def test_get_with_query_params(self, types, expected_data, not_in_keys):
+        self.client.login(username=self.user.username, password=USER_PASSWORD)
+        response = self.client.get(f"/verifiable_credentials/api/v1/credentials/?types={types}")
+        self.assertEqual(response.status_code, 200)
+
+        for key, expected_value in expected_data.items():
+            self.assertEqual(
+                response.data[key], 
+                get_user_credentials_data(self.user.username, expected_value)
+            )
+
+        for key in not_in_keys:
+            self.assertNotIn(key, response.data)
 
 class InitIssuanceViewTestCase(SiteMixin, TestCase):
     url_path = reverse("verifiable_credentials:api:v1:credentials-init")

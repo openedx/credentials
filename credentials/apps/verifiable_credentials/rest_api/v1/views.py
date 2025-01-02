@@ -25,7 +25,7 @@ from credentials.apps.verifiable_credentials.permissions import VerifiablePresen
 from credentials.apps.verifiable_credentials.storages.utils import get_available_storages, get_storage
 from credentials.apps.verifiable_credentials.utils import (
     generate_base64_qr_code,
-    get_user_program_credentials_data,
+    get_user_credentials_data,
     is_valid_uuid,
 )
 
@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
-class ProgramCredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class CredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     authentication_classes = (
         JwtAuthentication,
         SessionAuthentication,
@@ -43,17 +43,33 @@ class ProgramCredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
     permission_classes = (IsAuthenticated,)
 
+    CREDENTIAL_TYPES_MAP = {
+        "programcertificate": "program_credentials",
+        "coursecertificate": "course_credentials",
+    }
+
     def list(self, request, *args, **kwargs):
         """
-        List data for all the user's issued program credentials.
-        GET: /verifiable_credentials/api/v1/program_credentials/
+        List data for all the user's issued credentials.
+        GET: /verifiable_credentials/api/v1/credentials?types=coursecertificate,programcertificate
         Arguments:
             request: A request to control data returned in endpoint response
         Returns:
             response(dict): Information about the user's program credentials
         """
-        program_credentials = get_user_program_credentials_data(request.user.username)
-        return Response({"program_credentials": program_credentials})
+        types = self.request.query_params.get('types')
+        response = {}
+
+        if types:
+            types = types.split(',')
+        else:
+            types = self.CREDENTIAL_TYPES_MAP.keys()
+
+        for type in types:
+            if type in self.CREDENTIAL_TYPES_MAP:
+                response[self.CREDENTIAL_TYPES_MAP[type]] = get_user_credentials_data(request.user.username, type)
+
+        return Response(response)
 
 
 class InitIssuanceView(APIView):

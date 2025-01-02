@@ -9,37 +9,53 @@ from credentials.apps.credentials.api import get_user_credentials_by_content_typ
 from credentials.apps.credentials.data import UserCredentialStatus
 
 
-def get_user_program_credentials_data(username):
+def get_user_credentials_data(username, model):
     """
     Translates a list of UserCredentials (for programs) into context data.
 
     Arguments:
         request_username(str): Username for whom we are getting UserCredential objects for
+        model(str): The model for content type (programcertificate | coursecertificate)
 
     Returns:
         list(dict): A list of dictionaries, each dictionary containing information for a credential that the
         user awarded
     """
-    program_cert_content_type = ContentType.objects.get(app_label="credentials", model="programcertificate")
-    program_credentials = get_user_credentials_by_content_type(
-        username, [program_cert_content_type], UserCredentialStatus.AWARDED.value
+    try:
+        credential_cert_content_type = ContentType.objects.get(app_label="credentials", model=model)
+    except ContentType.DoesNotExist:
+        return []
+
+    credentials = get_user_credentials_by_content_type(
+        username, [credential_cert_content_type], UserCredentialStatus.AWARDED.value
     )
-    return [
-        {
+
+    data = []
+    for credential in credentials:
+        if model == "programcertificate":
+            credential_uuid = credential.credential.program_uuid.hex
+            credential_title = credential.credential.program.title
+            credential_org = ", ".join(
+                credential.credential.program.authoring_organizations.values_list("name", flat=True)
+            )
+        elif model == "coursecertificate":
+            credential_uuid = credential.credential.course_id
+            credential_title = credential.credential.title
+            credential_org = credential.credential.course_key.org
+
+        data.append({
             "uuid": credential.uuid.hex,
             "status": credential.status,
             "username": credential.username,
             "download_url": credential.download_url,
             "credential_id": credential.credential_id,
-            "program_uuid": credential.credential.program_uuid.hex,
-            "program_title": credential.credential.program.title,
-            "program_org": ", ".join(
-                credential.credential.program.authoring_organizations.values_list("name", flat=True)
-            ),
+            "credential_uuid": credential_uuid ,
+            "credential_title": credential_title,
+            "credential_org": credential_org,
             "modified_date": credential.modified.date().isoformat(),
-        }
-        for credential in program_credentials
-    ]
+        })
+
+    return data
 
 
 def generate_base64_qr_code(text):
