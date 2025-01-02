@@ -90,7 +90,9 @@ class GetProgramCertificatesTests(SiteMixin, TestCase):
         assert result[0]["username"] == self.program_user_credential.username
         assert result[0]["download_url"] == self.program_user_credential.download_url
         assert result[0]["credential_id"] == self.program_user_credential.credential_id
-        assert result[0]["credential_uuid"] == str(self.program_user_credential.credential.program_uuid).replace("-", "")
+        assert result[0]["credential_uuid"] == str(self.program_user_credential.credential.program_uuid).replace(
+            "-", ""
+        )
         assert result[0]["credential_title"] == self.program_user_credential.credential.program.title
 
     def test_get_user_program_credentials_data_multiple_programs(self):
@@ -114,7 +116,9 @@ class GetProgramCertificatesTests(SiteMixin, TestCase):
         assert result[0]["username"] == self.program_user_credential.username
         assert result[0]["download_url"] == self.program_user_credential.download_url
         assert result[0]["credential_id"] == self.program_user_credential.credential_id
-        assert result[0]["credential_uuid"] == str(self.program_user_credential.credential.program_uuid).replace("-", "")
+        assert result[0]["credential_uuid"] == str(self.program_user_credential.credential.program_uuid).replace(
+            "-", ""
+        )
         assert result[0]["credential_title"] == self.program_user_credential.credential.program.title
 
         assert result[1]["uuid"] == str(self.program_user_credential2.uuid).replace("-", "")
@@ -122,7 +126,9 @@ class GetProgramCertificatesTests(SiteMixin, TestCase):
         assert result[1]["username"] == self.program_user_credential2.username
         assert result[1]["download_url"] == self.program_user_credential2.download_url
         assert result[1]["credential_id"] == self.program_user_credential2.credential_id
-        assert result[1]["credential_uuid"] == str(self.program_user_credential2.credential.program_uuid).replace("-", "")
+        assert result[1]["credential_uuid"] == str(self.program_user_credential2.credential.program_uuid).replace(
+            "-", ""
+        )
         assert result[1]["credential_title"] == self.program_user_credential2.credential.program.title
 
     def test_get_user_course_credentials_data_zero_courses(self):
@@ -163,6 +169,7 @@ class GetProgramCertificatesTests(SiteMixin, TestCase):
     def test_non_existing_content_type(self):
         result = get_user_credentials_data(self.user.username, "non_existing_content_type")
         assert result == []
+
 
 class TestGenerateBase64QRCode(TestCase):
     def test_correct_output_format(self):

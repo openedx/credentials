@@ -57,17 +57,19 @@ class CredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         Returns:
             response(dict): Information about the user's program credentials
         """
-        types = self.request.query_params.get('types')
+        types = self.request.query_params.get("types")
         response = {}
 
         if types:
-            types = types.split(',')
+            types = types.split(",")
         else:
             types = self.CREDENTIAL_TYPES_MAP.keys()
 
-        for type in types:
-            if type in self.CREDENTIAL_TYPES_MAP:
-                response[self.CREDENTIAL_TYPES_MAP[type]] = get_user_credentials_data(request.user.username, type)
+        for credential_type in types:
+            if credential_type in self.CREDENTIAL_TYPES_MAP:
+                response[self.CREDENTIAL_TYPES_MAP[credential_type]] = get_user_credentials_data(
+                    request.user.username, credential_type
+                )
 
         return Response(response)
 

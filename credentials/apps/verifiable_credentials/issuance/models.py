@@ -17,9 +17,9 @@ from credentials.apps.credentials.models import UserCredential
 from credentials.apps.verifiable_credentials.utils import capitalize_first
 
 from ..composition.utils import get_data_model, get_data_models
+from ..constants import CredentialsType
 from ..settings import vc_settings
 from ..storages.utils import get_storage
-from ..constants import CredentialsType
 
 
 User = get_user_model()
@@ -154,13 +154,15 @@ class IssuanceLine(TimeStampedModel):
                 effort_info=effort_portion,
             )
         elif self.credential_content_type == CredentialsType.COURSE:
-            description = _("{credential_type} is granted on course {course_title} completion offered by {organization}, in collaboration with {platform_name}").format(
+            description = _(
+                "{credential_type} is granted on course {course_title} completion offered by {organization}, in collaboration with {platform_name}"  # pylint: disable=line-too-long
+            ).format(
                 credential_type=self.credential_verbose_type,
                 course_title=getattr(self.course, "title", ""),
                 platform_name=self.platform_name,
                 organization=self.user_credential.credential.course_key.org,
             )
-        return capitalize_first(description)
+        return capitalize_first(description)  # pylint: disable=possibly-used-before-assignment
 
     @property
     def credential_narrative(self):
@@ -185,7 +187,7 @@ class IssuanceLine(TimeStampedModel):
                 organization=self.user_credential.credential.course_key.org,
                 platform_name=self.platform_name,
             )
-        return capitalize_first(narrative)
+        return capitalize_first(narrative)  # pylint: disable=possibly-used-before-assignment
 
     @property
     def credential_content_type(self):

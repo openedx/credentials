@@ -58,9 +58,12 @@ class EducationalOccupationalCredentialSchemaTests(SiteMixin, TestCase):
             credential_content_type=self.program_credential_content_type,
             credential=self.program_cert,
         )
-        self.program_issuance_line = IssuanceLineFactory(user_credential=self.program_user_credential, subject_id="did:key:test")
-        self.course_issuance_line = IssuanceLineFactory(user_credential=self.course_user_credential, subject_id="did:key:test")
-
+        self.program_issuance_line = IssuanceLineFactory(
+            user_credential=self.program_user_credential, subject_id="did:key:test"
+        )
+        self.course_issuance_line = IssuanceLineFactory(
+            user_credential=self.course_user_credential, subject_id="did:key:test"
+        )
 
     def test_to_representation_program(self):
         data = EducationalOccupationalCredentialSchema(self.program_issuance_line).data

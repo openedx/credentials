@@ -43,17 +43,19 @@ def get_user_credentials_data(username, model):
             credential_title = credential.credential.title
             credential_org = credential.credential.course_key.org
 
-        data.append({
-            "uuid": credential.uuid.hex,
-            "status": credential.status,
-            "username": credential.username,
-            "download_url": credential.download_url,
-            "credential_id": credential.credential_id,
-            "credential_uuid": credential_uuid ,
-            "credential_title": credential_title,
-            "credential_org": credential_org,
-            "modified_date": credential.modified.date().isoformat(),
-        })
+        data.append(
+            {
+                "uuid": credential.uuid.hex,
+                "status": credential.status,
+                "username": credential.username,
+                "download_url": credential.download_url,
+                "credential_id": credential.credential_id,
+                "credential_uuid": credential_uuid,  # pylint: disable=possibly-used-before-assignment
+                "credential_title": credential_title,  # pylint: disable=possibly-used-before-assignment
+                "credential_org": credential_org,  # pylint: disable=possibly-used-before-assignment
+                "modified_date": credential.modified.date().isoformat(),
+            }
+        )
 
     return data
 

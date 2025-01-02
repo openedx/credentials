@@ -1,10 +1,10 @@
 import json
 from unittest import mock
 
+from ddt import data, ddt, unpack
 from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
 from django.urls import reverse
-from ddt import ddt, data, unpack
 from rest_framework import status
 
 from credentials.apps.catalog.tests.factories import (
@@ -89,14 +89,21 @@ class ProgramCredentialsViewTests(SiteMixin, TestCase):
         self.client.login(username=self.user.username, password=USER_PASSWORD)
         response = self.client.get("/verifiable_credentials/api/v1/credentials/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["program_credentials"], get_user_credentials_data(self.user.username, "programcertificate"))
-        self.assertEqual(response.data["course_credentials"], get_user_credentials_data(self.user.username, "coursecertificate"))
+        self.assertEqual(
+            response.data["program_credentials"], get_user_credentials_data(self.user.username, "programcertificate")
+        )
+        self.assertEqual(
+            response.data["course_credentials"], get_user_credentials_data(self.user.username, "coursecertificate")
+        )
 
     @data(
         ("programcertificate", {"program_credentials": "programcertificate"}, ["course_credentials"]),
         ("coursecertificate", {"course_credentials": "coursecertificate"}, ["program_credentials"]),
-        ("programcertificate,coursecertificate",
-         {"program_credentials": "programcertificate", "course_credentials": "coursecertificate"}, [])
+        (
+            "programcertificate,coursecertificate",
+            {"program_credentials": "programcertificate", "course_credentials": "coursecertificate"},
+            [],
+        ),
     )
     @unpack
     def test_get_with_query_params(self, types, expected_data, not_in_keys):
@@ -105,13 +112,11 @@ class ProgramCredentialsViewTests(SiteMixin, TestCase):
         self.assertEqual(response.status_code, 200)
 
         for key, expected_value in expected_data.items():
-            self.assertEqual(
-                response.data[key], 
-                get_user_credentials_data(self.user.username, expected_value)
-            )
+            self.assertEqual(response.data[key], get_user_credentials_data(self.user.username, expected_value))
 
         for key in not_in_keys:
             self.assertNotIn(key, response.data)
+
 
 class InitIssuanceViewTestCase(SiteMixin, TestCase):
     url_path = reverse("verifiable_credentials:api:v1:credentials-init")
@@ -240,7 +245,7 @@ class IssueCredentialViewTestCase(SiteMixin, TestCase):
         mock_issue.return_value = {"verifiable_credential": "test"}
 
         url_path = reverse("verifiable_credentials:api:v1:credentials-issue", args=[str(self.issuance_line.uuid)])
-        data = {"holder": "test-holder-id"}
+        data = {"holder": "test-holder-id"}  # pylint: disable=redefined-outer-name
         response = self.client.post(url_path, json.dumps(data), JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data, {"verifiable_credential": "test"})
@@ -249,7 +254,7 @@ class IssueCredentialViewTestCase(SiteMixin, TestCase):
     def test_post_invalid_request_raises_validation_error(self, mock_issue):
         self.authenticate_user(self.user)
         mock_issue.side_effect = IssuanceException(detail="Invalid request.")
-        data = {"holder": "test-holder-id"}
+        data = {"holder": "test-holder-id"}  # pylint: disable=redefined-outer-name
         url_path = reverse("verifiable_credentials:api:v1:credentials-issue", args=[str(self.issuance_line.uuid)])
         response = self.client.post(url_path, json.dumps(data), JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
