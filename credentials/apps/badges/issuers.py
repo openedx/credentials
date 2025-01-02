@@ -2,14 +2,31 @@
 This module provides classes for issuing badge credentials to users.
 """
 
+from datetime import datetime
+
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from django.utils.translation import gettext as _
 
+from credentials.apps.badges.accredible.api_client import AccredibleAPIClient
+from credentials.apps.badges.accredible.data import (
+    AccredibleBadgeData,
+    AccredibleCredential,
+    AccredibleExpireBadgeData,
+    AccredibleExpiredCredential,
+    AccredibleRecipient,
+)
 from credentials.apps.badges.credly.api_client import CredlyAPIClient
 from credentials.apps.badges.credly.data import CredlyBadgeData
-from credentials.apps.badges.credly.exceptions import CredlyAPIError
-from credentials.apps.badges.models import BadgeTemplate, CredlyBadge, CredlyBadgeTemplate, UserCredential
+from credentials.apps.badges.exceptions import BadgeProviderError
+from credentials.apps.badges.models import (
+    AccredibleBadge,
+    AccredibleGroup,
+    BadgeTemplate,
+    CredlyBadge,
+    CredlyBadgeTemplate,
+    UserCredential,
+)
 from credentials.apps.badges.signals.signals import notify_badge_awarded, notify_badge_revoked
 from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.constants import UserCredentialStatus
@@ -133,7 +150,7 @@ class CredlyBadgeTemplateIssuer(BadgeTemplateIssuer):
         try:
             credly_api = CredlyAPIClient(badge_template.organization.uuid)
             response = credly_api.issue_badge(credly_badge_data)
-        except CredlyAPIError:
+        except BadgeProviderError:
             user_credential.state = "error"
             user_credential.save()
             raise
@@ -154,7 +171,7 @@ class CredlyBadgeTemplateIssuer(BadgeTemplateIssuer):
         }
         try:
             response = credly_api.revoke_badge(user_credential.external_uuid, revoke_data)
-        except CredlyAPIError:
+        except BadgeProviderError:
             user_credential.state = "error"
             user_credential.save()
             raise
@@ -195,4 +212,102 @@ class CredlyBadgeTemplateIssuer(BadgeTemplateIssuer):
         user_credential = super().revoke(credential_id, username)
         if user_credential.propagated:
             self.revoke_credly_badge(credential_id, user_credential)
+        return user_credential
+
+
+class AccredibleBadgeTemplateIssuer(BadgeTemplateIssuer):
+    """
+    Issues AccredibleGroup credentials to users.
+    """
+
+    issued_credential_type = AccredibleGroup
+    issued_user_credential_type = AccredibleBadge
+
+    def issue_accredible_badge(self, *, user_credential):
+        """
+        Requests Accredible service for external badge issuing based on internal user credential (AccredibleBadge).
+        """
+
+        user = get_user_by_username(user_credential.username)
+        group = user_credential.credential
+
+        accredible_badge_data = AccredibleBadgeData(
+            credential=AccredibleCredential(
+                recipient=AccredibleRecipient(
+                    name=user.get_full_name() or user.username,
+                    email=user.email,
+                ),
+                group_id=group.id,
+                name=group.name,
+                issued_on=user_credential.created.strftime("%Y-%m-%d %H:%M:%S %z"),
+                complete=True,
+            )
+        )
+
+        try:
+            accredible_api = AccredibleAPIClient(group.api_config.id)
+            response = accredible_api.issue_badge(accredible_badge_data)
+        except BadgeProviderError:
+            user_credential.state = "error"
+            user_credential.save()
+            raise
+
+        user_credential.external_id = response.get("credential").get("id")
+        user_credential.state = AccredibleBadge.STATES.accepted
+        user_credential.save()
+
+    def revoke_accredible_badge(self, credential_id, user_credential):
+        """
+        Requests Accredible service for external badge expiring based on internal user credential (AccredibleBadge).
+        """
+
+        credential = self.get_credential(credential_id)
+        accredible_api_client = AccredibleAPIClient(credential.api_config.id)
+        revoke_badge_data = AccredibleExpireBadgeData(
+            credential=AccredibleExpiredCredential(expired_on=datetime.now().strftime("%Y-%m-%d %H:%M:%S %z"))
+        )
+
+        try:
+            accredible_api_client.revoke_badge(user_credential.external_id, revoke_badge_data)
+        except BadgeProviderError:
+            user_credential.state = "error"
+            user_credential.save()
+            raise
+
+        user_credential.state = AccredibleBadge.STATES.expired
+        user_credential.save()
+
+    def award(self, *, username, credential_id):
+        """
+        Awards a Accredible badge.
+
+        - Creates user credential record for the group, for a given user;
+        - Notifies about the awarded badge (public signal);
+        - Issues external Accredible badge (Accredible API);
+
+        Returns: (AccredibleBadge) user credential
+        """
+
+        accredible_badge = super().award(username=username, credential_id=credential_id)
+
+        # do not issue new badges if the badge was issued already
+        if not accredible_badge.propagated:
+            self.issue_accredible_badge(user_credential=accredible_badge)
+
+        return accredible_badge
+
+    def revoke(self, credential_id, username):
+        """
+        Revokes a Accredible badge.
+
+        - Changes user credential status to REVOKED, for a given user;
+        - Notifies about the revoked badge (public signal);
+        - Expire external Accredible badge (Accredible API);
+
+        Returns: (AccredibleBadge) user credential
+        """
+
+        user_credential = super().revoke(credential_id, username)
+        if user_credential.propagated:
+            self.revoke_accredible_badge(credential_id, user_credential)
         return user_credential

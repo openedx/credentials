@@ -29,6 +29,8 @@ badges.Fulfillment:
   ".. no_pii:": "This model has no PII"
 badges.PenaltyDataRule:
   ".. no_pii:": "This model has no PII"
+badges.AccredibleAPIConfig:
+  ".. no_pii:": "This model has no PII"
 credentials.HistoricalProgramCompletionEmailConfiguration:
     ".. no_pii:": "This model has no PII"
 contenttypes.ContentType:
