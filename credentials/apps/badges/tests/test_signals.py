@@ -28,6 +28,7 @@ class BadgeSignalReceiverTestCase(TestCase):
                     sender=self,
                     username="test_user",
                     badge_template_id=self.badge_template.id,
+                    origin=self.badge_template.origin,
                 )
 
         # UserCredential object
@@ -51,6 +52,7 @@ class BadgeSignalReceiverTestCase(TestCase):
                     sender=self,
                     username="test_user",
                     badge_template_id=self.badge_template.id,
+                    origin=self.badge_template.origin,
                 )
 
         # UserCredential object
