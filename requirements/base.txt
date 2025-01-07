@@ -194,7 +194,7 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.156.0
+google-api-python-client==2.157.0
     # via firebase-admin
 google-auth==2.37.0
     # via
@@ -224,11 +224,11 @@ googleapis-common-protos==1.66.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio==1.68.1
+grpcio==1.69.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.68.1
+grpcio-status==1.69.0
     # via google-api-core
 httplib2==0.22.0
     # via
@@ -282,7 +282,7 @@ path==16.16.0
     # via edx-i18n-tools
 pbr==6.1.0
     # via stevedore
-pillow==11.0.0
+pillow==11.1.0
     # via -r requirements/base.in
 polib==1.2.0
     # via edx-i18n-tools
@@ -307,7 +307,7 @@ pyasn1-modules==0.4.1
     # via google-auth
 pycparser==2.22
     # via cffi
-pygments==2.18.0
+pygments==2.19.1
     # via -r requirements/base.in
 pyjwt[crypto]==2.10.1
     # via
@@ -324,7 +324,7 @@ pymongo==4.10.1
     # via edx-opaque-keys
 pynacl==1.5.0
     # via edx-django-utils
-pyparsing==3.2.0
+pyparsing==3.2.1
     # via httplib2
 python-dateutil==2.9.0.post0
     # via
