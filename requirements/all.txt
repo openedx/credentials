@@ -33,11 +33,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.35.90
+boto3==1.35.93
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.35.90
+botocore==1.35.93
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -353,7 +353,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/dev.txt
-faker==33.1.0
+faker==33.3.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -387,7 +387,7 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.156.0
+google-api-python-client==2.157.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -444,13 +444,13 @@ greenlet==3.1.1
     # via
     #   -r requirements/production.txt
     #   gevent
-grpcio==1.68.1
+grpcio==1.69.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.68.1
+grpcio-status==1.69.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -592,7 +592,7 @@ pbr==6.1.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   stevedore
-pillow==11.0.0
+pillow==11.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -649,7 +649,7 @@ pycparser==2.22
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cffi
-pygments==2.18.0
+pygments==2.19.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -698,7 +698,7 @@ pynacl==1.5.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-django-utils
-pyparsing==3.2.0
+pyparsing==3.2.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -886,7 +886,7 @@ urllib3==2.3.0
     #   botocore
     #   requests
     #   responses
-virtualenv==20.28.0
+virtualenv==20.28.1
     # via
     #   -r requirements/dev.txt
     #   tox

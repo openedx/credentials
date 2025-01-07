@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.35.90
+boto3==1.35.93
     # via django-ses
-botocore==1.35.90
+botocore==1.35.93
     # via
     #   boto3
     #   s3transfer
@@ -243,7 +243,7 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.156.0
+google-api-python-client==2.157.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -289,12 +289,12 @@ googleapis-common-protos==1.66.0
     #   grpcio-status
 greenlet==3.1.1
     # via gevent
-grpcio==1.68.1
+grpcio==1.69.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.68.1
+grpcio-status==1.69.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -384,7 +384,7 @@ pbr==6.1.0
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==11.0.0
+pillow==11.1.0
     # via -r requirements/base.txt
 polib==1.2.0
     # via
@@ -420,7 +420,7 @@ pycparser==2.22
     # via
     #   -r requirements/base.txt
     #   cffi
-pygments==2.18.0
+pygments==2.19.1
     # via -r requirements/base.txt
 pyjwt[crypto]==2.10.1
     # via
@@ -442,7 +442,7 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pyparsing==3.2.0
+pyparsing==3.2.1
     # via
     #   -r requirements/base.txt
     #   httplib2

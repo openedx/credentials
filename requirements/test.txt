@@ -243,7 +243,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/test.in
-faker==33.1.0
+faker==33.3.0
     # via factory-boy
 fastavro==1.10.0
     # via
@@ -267,7 +267,7 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.156.0
+google-api-python-client==2.157.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -311,12 +311,12 @@ googleapis-common-protos==1.66.0
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio==1.68.1
+grpcio==1.69.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.68.1
+grpcio-status==1.69.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -414,7 +414,7 @@ pbr==6.1.0
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==11.0.0
+pillow==11.1.0
     # via -r requirements/base.txt
 platformdirs==4.3.6
     # via
@@ -460,7 +460,7 @@ pycparser==2.22
     # via
     #   -r requirements/base.txt
     #   cffi
-pygments==2.18.0
+pygments==2.19.1
     # via -r requirements/base.txt
 pyjwt[crypto]==2.10.1
     # via
@@ -496,7 +496,7 @@ pynacl==1.5.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pyparsing==3.2.0
+pyparsing==3.2.1
     # via
     #   -r requirements/base.txt
     #   httplib2
@@ -636,7 +636,7 @@ urllib3==2.3.0
     #   -r requirements/base.txt
     #   requests
     #   responses
-virtualenv==20.28.0
+virtualenv==20.28.1
     # via tox
 walrus==0.9.4
     # via
