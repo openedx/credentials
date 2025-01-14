@@ -17,6 +17,7 @@ metadata:
     openedx.org/arch-interest-groups: ""
     # This can be multiple comma-separated projects.
     openedx.org/add-to-projects: "openedx:23"
+    openedx.org/release: "master"
 spec:
   type: 'service'
   lifecycle: 'production'
