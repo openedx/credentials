@@ -28,7 +28,7 @@ black==24.10.0
     # via -r requirements/test.txt
 bleach==6.2.0
     # via -r requirements/test.txt
-cachecontrol==0.14.1
+cachecontrol==0.14.2
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -157,7 +157,7 @@ django-crum==0.7.9
     #   -r requirements/test.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==4.4.6
+django-debug-toolbar==5.0.1
     # via -r requirements/dev.in
 django-extensions==3.2.3
     # via -r requirements/test.txt
@@ -181,9 +181,9 @@ django-statici18n==2.6.0
     # via -r requirements/test.txt
 django-storages==1.14.4
     # via -r requirements/test.txt
-django-stubs==5.1.1
+django-stubs==5.1.2
     # via -r requirements/dev.in
-django-stubs-ext==5.1.1
+django-stubs-ext==5.1.2
     # via django-stubs
 django-waffle==4.2.0
     # via
@@ -265,7 +265,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/test.txt
-faker==33.3.0
+faker==33.3.1
     # via
     #   -r requirements/test.txt
     #   factory-boy
@@ -292,7 +292,7 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.157.0
+google-api-python-client==2.159.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -314,7 +314,7 @@ google-cloud-core==2.4.1
     #   -r requirements/test.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.19.0
+google-cloud-firestore==2.20.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -408,7 +408,7 @@ mypy-extensions==1.0.0
     #   -r requirements/test.txt
     #   black
     #   mypy
-mysqlclient==2.2.6
+mysqlclient==2.2.7
     # via -r requirements/test.txt
 newrelic==10.4.0
     # via
@@ -425,7 +425,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 openedx-atlas==0.6.2
     # via -r requirements/test.txt
-openedx-events==9.15.0
+openedx-events==9.15.1
     # via
     #   -r requirements/test.txt
     #   edx-event-bus-kafka
@@ -473,7 +473,7 @@ proto-plus==1.25.0
     #   -r requirements/test.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.29.2
+protobuf==5.29.3
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -608,7 +608,7 @@ requests-oauthlib==2.0.0
     # via
     #   -r requirements/test.txt
     #   social-auth-core
-responses==0.25.3
+responses==0.25.6
     # via -r requirements/test.txt
 rsa==4.9
     # via
@@ -687,8 +687,9 @@ uritemplate==4.1.1
     #   coreapi
     #   drf-yasg
     #   google-api-python-client
-urllib3==2.3.0
+urllib3==2.2.3
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt
     #   requests
     #   responses
