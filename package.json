@@ -15,7 +15,7 @@
     "css-minimizer-webpack-plugin": "7.0.0",
     "file-loader": "6.2.0",
     "mini-css-extract-plugin": "2.9.2",
-    "sass": "1.83.1",
+    "sass": "1.83.2",
     "sass-loader": "16.0.4",
     "url-loader": "4.1.1",
     "webpack": "5.97.1",
