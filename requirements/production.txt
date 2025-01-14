@@ -20,13 +20,13 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.35.93
+boto3==1.35.98
     # via django-ses
-botocore==1.35.93
+botocore==1.35.98
     # via
     #   boto3
     #   s3transfer
-cachecontrol==0.14.1
+cachecontrol==0.14.2
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -138,7 +138,7 @@ django-ratelimit==4.1.0
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==4.3.1
+django-ses==4.3.2
     # via -r requirements/production.in
 django-simple-history==3.7.0
     # via -r requirements/base.txt
@@ -243,7 +243,7 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.157.0
+google-api-python-client==2.159.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -265,7 +265,7 @@ google-cloud-core==2.4.1
     #   -r requirements/base.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.19.0
+google-cloud-firestore==2.20.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -346,7 +346,7 @@ msgpack==1.1.0
     # via
     #   -r requirements/base.txt
     #   cachecontrol
-mysqlclient==2.2.6
+mysqlclient==2.2.7
     # via -r requirements/base.txt
 newrelic==10.4.0
     # via
@@ -366,7 +366,7 @@ openapi-codec==1.3.2
     #   django-rest-swagger
 openedx-atlas==0.6.2
     # via -r requirements/base.txt
-openedx-events==9.15.0
+openedx-events==9.15.1
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
@@ -395,7 +395,7 @@ proto-plus==1.25.0
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.29.2
+protobuf==5.29.3
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -560,8 +560,9 @@ uritemplate==4.1.1
     #   coreapi
     #   drf-yasg
     #   google-api-python-client
-urllib3==2.3.0
+urllib3==2.2.3
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
     #   botocore
     #   requests

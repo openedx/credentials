@@ -33,16 +33,16 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.35.93
+boto3==1.35.98
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.35.93
+botocore==1.35.98
     # via
     #   -r requirements/production.txt
     #   boto3
     #   s3transfer
-cachecontrol==0.14.1
+cachecontrol==0.14.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -192,7 +192,7 @@ django-crum==0.7.9
     #   -r requirements/production.txt
     #   edx-django-utils
     #   edx-toggles
-django-debug-toolbar==4.4.6
+django-debug-toolbar==5.0.1
     # via -r requirements/dev.txt
 django-extensions==3.2.3
     # via
@@ -219,7 +219,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==4.3.1
+django-ses==4.3.2
     # via -r requirements/production.txt
 django-simple-history==3.7.0
     # via
@@ -237,9 +237,9 @@ django-storages==1.14.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-stubs==5.1.1
+django-stubs==5.1.2
     # via -r requirements/dev.txt
-django-stubs-ext==5.1.1
+django-stubs-ext==5.1.2
     # via
     #   -r requirements/dev.txt
     #   django-stubs
@@ -353,7 +353,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/dev.txt
-faker==33.3.0
+faker==33.3.1
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -387,7 +387,7 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.157.0
+google-api-python-client==2.159.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -413,7 +413,7 @@ google-cloud-core==2.4.1
     #   -r requirements/production.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.19.0
+google-cloud-firestore==2.20.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -536,7 +536,7 @@ mypy-extensions==1.0.0
     #   -r requirements/dev.txt
     #   black
     #   mypy
-mysqlclient==2.2.6
+mysqlclient==2.2.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -562,7 +562,7 @@ openedx-atlas==0.6.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-openedx-events==9.15.0
+openedx-events==9.15.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -619,7 +619,7 @@ proto-plus==1.25.0
     #   -r requirements/production.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.29.2
+protobuf==5.29.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -780,7 +780,7 @@ requests-oauthlib==2.0.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   social-auth-core
-responses==0.25.3
+responses==0.25.6
     # via -r requirements/dev.txt
 rsa==4.9
     # via
@@ -879,8 +879,9 @@ uritemplate==4.1.1
     #   coreapi
     #   drf-yasg
     #   google-api-python-client
-urllib3==2.3.0
+urllib3==2.2.3
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   botocore
