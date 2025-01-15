@@ -21,7 +21,11 @@ from credentials.apps.badges.admin_forms import (
     PenaltyDataRuleForm,
     PenaltyDataRuleFormSet,
 )
+from credentials.apps.badges.exceptions import BadgeProviderError
 from credentials.apps.badges.models import (
+    AccredibleAPIConfig,
+    AccredibleBadge,
+    AccredibleGroup,
     BadgePenalty,
     BadgeProgress,
     BadgeRequirement,
@@ -33,6 +37,12 @@ from credentials.apps.badges.models import (
     PenaltyDataRule,
 )
 from credentials.apps.badges.toggles import is_badges_enabled
+
+
+ADMIN_CHANGE_VIEW_REVERSE_NAMES = {
+    CredlyBadgeTemplate.ORIGIN: "admin:badges_credlybadgetemplate_change",
+    AccredibleGroup.ORIGIN: "admin:badges_accrediblegroup_change",
+}
 
 
 class BadgeRequirementInline(admin.TabularInline):
@@ -385,14 +395,19 @@ class BadgeRequirementAdmin(admin.ModelAdmin):
         """
         Interactive link to parent (badge template).
         """
-        url = reverse("admin:badges_credlybadgetemplate_change", args=[instance.template.pk])
+        reverse_name = ADMIN_CHANGE_VIEW_REVERSE_NAMES.get(instance.template.origin, "admin:index")
+        reverse_args = [] if reverse_name == "admin:index" else [instance.template.pk]
+
+        url = reverse(reverse_name, args=reverse_args)
         return format_html('<a href="{}">{}</a>', url, instance.template)
 
     template_link.short_description = _("badge template")
 
     def response_change(self, request, obj):
         if "_save" in request.POST:
-            return HttpResponseRedirect(reverse("admin:badges_credlybadgetemplate_change", args=[obj.template.pk]))
+            reverse_name = ADMIN_CHANGE_VIEW_REVERSE_NAMES.get(obj.template.origin, "admin:index")
+            reverse_args = [] if reverse_name == "admin:index" else [obj.template.pk]
+            return HttpResponseRedirect(reverse(reverse_name, args=reverse_args))
         return super().response_change(request, obj)
 
 
@@ -442,7 +457,9 @@ class BadgePenaltyAdmin(admin.ModelAdmin):
         """
         Interactive link to parent (badge template).
         """
-        url = reverse("admin:badges_credlybadgetemplate_change", args=[instance.template.pk])
+        reverse_name = ADMIN_CHANGE_VIEW_REVERSE_NAMES.get(instance.template.origin, "admin:index")
+        reverse_args = [] if reverse_name == "admin:index" else [instance.template.pk]
+        url = reverse(reverse_name, args=reverse_args)
         return format_html('<a href="{}">{}</a>', url, instance.template)
 
     template_link.short_description = _("badge template")
@@ -457,7 +474,9 @@ class BadgePenaltyAdmin(admin.ModelAdmin):
 
     def response_change(self, request, obj):
         if "_save" in request.POST:
-            return HttpResponseRedirect(reverse("admin:badges_credlybadgetemplate_change", args=[obj.template.pk]))
+            reverse_name = ADMIN_CHANGE_VIEW_REVERSE_NAMES.get(obj.template.origin, "admin:index")
+            reverse_args = [] if reverse_name == "admin:index" else [obj.template.pk]
+            return HttpResponseRedirect(reverse(reverse_name, args=reverse_args))
         return super().response_change(request, obj)
 
 
@@ -541,6 +560,180 @@ class CredlyBadgeAdmin(admin.ModelAdmin):
         return False
 
 
+class AccredibleAPIConfigAdmin(admin.ModelAdmin):
+    """
+    Accredible API configuration admin setup.
+    """
+
+    list_display = (
+        "id",
+        "name",
+    )
+    actions = ("sync_groups",)
+
+    @admin.action(description="Sync groups")
+    def sync_groups(self, request, queryset):
+        """
+        Sync groups for selected api configs.
+        """
+        site = get_current_site(request)
+        for api_config in queryset:
+            try:
+                call_command(
+                    "sync_accredible_groups",
+                    api_config_id=api_config.id,
+                    site_id=site.id,
+                )
+            except BadgeProviderError as exc:
+                messages.set_level(request, messages.ERROR)
+                messages.error(request, _("Failed to sync groups for API config: {}. {}").format(api_config.name, exc))
+
+        messages.success(request, _("Accredible groups were successfully updated."))
+
+
+class AccredibleBadgeAdmin(admin.ModelAdmin):
+    """
+    Accredible badge admin setup.
+    """
+
+    list_display = (
+        "uuid",
+        "username",
+        "credential",
+        "status",
+        "state",
+        "external_id",
+    )
+    list_filter = (
+        "status",
+        "state",
+    )
+    search_fields = (
+        "username",
+        "external_id",
+    )
+    readonly_fields = (
+        "credential_id",
+        "credential_content_type",
+        "username",
+        "download_url",
+        "state",
+        "uuid",
+        "external_id",
+    )
+
+    def has_add_permission(self, request):
+        return False
+
+
+class AccredibleGroupAdmin(admin.ModelAdmin):
+    """
+    Accredible group admin setup.
+    """
+
+    list_display = (
+        "id",
+        "api_config",
+        "name",
+        "state",
+        "is_active",
+        "image",
+    )
+    list_filter = (
+        "api_config",
+        "is_active",
+        "state",
+    )
+    search_fields = (
+        "name",
+        "id",
+    )
+    readonly_fields = [
+        "state",
+        "origin",
+        "dashboard_link",
+        "image",
+    ]
+    fieldsets = (
+        (
+            "Generic",
+            {
+                "fields": (
+                    "site",
+                    "is_active",
+                ),
+                "description": _(
+                    """
+                    WARNING: avoid configuration updates on activated badges.
+                    Active badge templates are continuously processed and learners may already have progress on them.
+                    Any changes in badge template requirements (including data rules) will affect learners' experience!
+                    """
+                ),
+            },
+        ),
+        (
+            "Badge template",
+            {
+                "fields": (
+                    "name",
+                    "description",
+                    "image",
+                    "origin",
+                )
+            },
+        ),
+        (
+            "Accredible",
+            {
+                "fields": (
+                    "api_config",
+                    "state",
+                    "dashboard_link",
+                ),
+            },
+        ),
+    )
+    inlines = [
+        BadgeRequirementInline,
+        BadgePenaltyInline,
+    ]
+
+    def has_add_permission(self, request):
+        return False
+
+    def dashboard_link(self, obj):
+        url = obj.management_url
+        return format_html("<a href='{url}'>{url}</a>", url=url)
+
+    def delete_model(self, request, obj):
+        """
+        Prevent deletion of active badge templates.
+        """
+        if obj.is_active:
+            messages.set_level(request, messages.ERROR)
+            messages.error(request, _("Active badge template cannot be deleted."))
+            return
+        super().delete_model(request, obj)
+
+    def delete_queryset(self, request, queryset):
+        """
+        Prevent deletion of active badge templates.
+        """
+        if queryset.filter(is_active=True).exists():
+            messages.set_level(request, messages.ERROR)
+            messages.error(request, _("Active badge templates cannot be deleted."))
+            return
+        super().delete_queryset(request, queryset)
+
+    def image(self, obj):
+        """
+        Badge template preview image.
+        """
+        if obj.icon:
+            return format_html('<img src="{}" width="50" height="auto" />', obj.icon)
+        return None
+
+
 # register admin configurations with respect to the feature flag
 if is_badges_enabled():
     admin.site.register(CredlyOrganization, CredlyOrganizationAdmin)
@@ -549,3 +742,6 @@ if is_badges_enabled():
     admin.site.register(BadgeRequirement, BadgeRequirementAdmin)
     admin.site.register(BadgePenalty, BadgePenaltyAdmin)
     admin.site.register(BadgeProgress, BadgeProgressAdmin)
+    admin.site.register(AccredibleAPIConfig, AccredibleAPIConfigAdmin)
+    admin.site.register(AccredibleBadge, AccredibleBadgeAdmin)
+    admin.site.register(AccredibleGroup, AccredibleGroupAdmin)

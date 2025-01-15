@@ -48,7 +48,7 @@ def notify_requirement_regressed(*, sender, username, badge_template_id):
     )
 
 
-def notify_progress_complete(sender, username, badge_template_id):
+def notify_progress_complete(sender, username, badge_template_id, origin):
     """
     Notifies about user's completion on the badge template.
     """
@@ -57,10 +57,11 @@ def notify_progress_complete(sender, username, badge_template_id):
         sender=sender,
         username=username,
         badge_template_id=badge_template_id,
+        origin=origin,
     )
 
 
-def notify_progress_incomplete(sender, username, badge_template_id):
+def notify_progress_incomplete(sender, username, badge_template_id, origin):
     """
     Notifies about user's regression on the badge template.
     """
@@ -68,6 +69,7 @@ def notify_progress_incomplete(sender, username, badge_template_id):
         sender=sender,
         username=username,
         badge_template_id=badge_template_id,
+        origin=origin,
     )
 
 

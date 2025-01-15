@@ -9,8 +9,8 @@ import logging
 from django.dispatch import receiver
 from openedx_events.tooling import OpenEdxPublicSignal, load_all_signals
 
-from credentials.apps.badges.issuers import CredlyBadgeTemplateIssuer
-from credentials.apps.badges.models import BadgeProgress
+from credentials.apps.badges.issuers import AccredibleBadgeTemplateIssuer, CredlyBadgeTemplateIssuer
+from credentials.apps.badges.models import AccredibleGroup, BadgeProgress, CredlyBadgeTemplate
 from credentials.apps.badges.processing.generic import process_event
 from credentials.apps.badges.signals import (
     BADGE_PROGRESS_COMPLETE,
@@ -63,21 +63,31 @@ def handle_requirement_regressed(sender, username, **kwargs):
 
 
 @receiver(BADGE_PROGRESS_COMPLETE)
-def handle_badge_completion(sender, username, badge_template_id, **kwargs):  # pylint: disable=unused-argument
+def handle_badge_completion(sender, username, badge_template_id, origin, **kwargs):  # pylint: disable=unused-argument
     """
-    Fires once ALL requirements for a badge template were marked as "done".
+    Handles the completion of all requirements for a badge template.
 
-    - username
-    - badge template ID
+    Parameters:
+    - username (str): The username of the recipient.
+    - badge_template_id (str): The ID of the completed badge template.
+    - origin (str): The source of the badge template (e.g., credly, accredible).
+
+    Note:
+    - Currently, the appropriate issuer class is selected manually based on the `origin` parameter.
+    - In the future, this will be replaced with a more extensible implementation that supports
+        additional issuers via plugins.
     """
 
     logger.debug("BADGES: progress is complete for %s on the %s", username, badge_template_id)
 
-    CredlyBadgeTemplateIssuer().award(username=username, credential_id=badge_template_id)
+    if origin == CredlyBadgeTemplate.ORIGIN:
+        CredlyBadgeTemplateIssuer().award(username=username, credential_id=badge_template_id)
+    elif origin == AccredibleGroup.ORIGIN:
+        AccredibleBadgeTemplateIssuer().award(username=username, credential_id=badge_template_id)
 
 
 @receiver(BADGE_PROGRESS_INCOMPLETE)
-def handle_badge_regression(sender, username, badge_template_id, **kwargs):  # pylint: disable=unused-argument
+def handle_badge_regression(sender, username, badge_template_id, origin, **kwargs):  # pylint: disable=unused-argument
     """
     On user's Badge regression (incompletion).
 
@@ -85,4 +95,7 @@ def handle_badge_regression(sender, username, badge_template_id, **kwargs):  # p
     - badge template ID
     """
 
-    CredlyBadgeTemplateIssuer().revoke(badge_template_id, username)
+    if origin == CredlyBadgeTemplate.ORIGIN:
+        CredlyBadgeTemplateIssuer().revoke(badge_template_id, username)
+    elif origin == AccredibleGroup.ORIGIN:
+        AccredibleBadgeTemplateIssuer().revoke(badge_template_id, username)
