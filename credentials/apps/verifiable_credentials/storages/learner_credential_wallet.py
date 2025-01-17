@@ -64,5 +64,6 @@ class LCWallet(MobileWallet):
             ),
             "auth_type": "bearer",
             "challenge": issuance_line.uuid,
+            "vp_version": "1.1",
         }
         return f"{cls.DEEP_LINK_URL}?{urlencode(params)}"

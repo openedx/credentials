@@ -11,7 +11,11 @@ from credentials.apps.catalog.tests.factories import (
     ProgramFactory,
 )
 from credentials.apps.core.tests.factories import SiteConfigurationFactory, SiteFactory, UserFactory
-from credentials.apps.credentials.tests.factories import ProgramCertificateFactory, UserCredentialFactory
+from credentials.apps.credentials.tests.factories import (
+    CourseCertificateFactory,
+    ProgramCertificateFactory,
+    UserCredentialFactory,
+)
 from credentials.apps.verifiable_credentials.issuance.tests.factories import IssuanceLineFactory
 
 
@@ -109,10 +113,25 @@ def program_certificate(site, program_setup):
 
 
 @pytest.fixture()
-def user_credential(program_certificate):
+def course_certificate(site, two_course_runs):
+    return CourseCertificateFactory.create(course_id=two_course_runs[0].key, course_run=two_course_runs[0], site=site)
+
+
+@pytest.fixture()
+def program_user_credential(program_certificate):
     return UserCredentialFactory(credential=program_certificate)
 
 
 @pytest.fixture()
-def issuance_line(user_credential):
-    return IssuanceLineFactory(user_credential=user_credential, subject_id="did:key:test")
+def course_user_credential(course_certificate):
+    return UserCredentialFactory(credential=course_certificate)
+
+
+@pytest.fixture()
+def program_issuance_line(program_user_credential):
+    return IssuanceLineFactory(user_credential=program_user_credential, subject_id="did:key:test")
+
+
+@pytest.fixture()
+def course_issuance_line(course_user_credential):
+    return IssuanceLineFactory(user_credential=course_user_credential, subject_id="did:key:test")
