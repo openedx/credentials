@@ -33,11 +33,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.36.2
+boto3==1.36.3
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.36.2
+botocore==1.36.3
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -47,7 +47,7 @@ cachecontrol==0.14.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-cachetools==5.5.0
+cachetools==5.5.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -290,7 +290,7 @@ edx-ccx-keys==2.0.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.20
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.26
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -362,7 +362,7 @@ fastavro==1.10.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   openedx-events
-filelock==3.16.1
+filelock==3.17.0
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -703,7 +703,7 @@ pyparsing==3.2.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   httplib2
-pyproject-api==1.8.0
+pyproject-api==1.9.0
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -857,7 +857,7 @@ tomlkit==0.13.2
     # via
     #   -r requirements/dev.txt
     #   pylint
-tox==4.23.2
+tox==4.24.1
     # via -r requirements/dev.txt
 types-pyyaml==6.0.12.20241230
     # via

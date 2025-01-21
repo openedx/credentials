@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.36.2
+boto3==1.36.3
     # via django-ses
-botocore==1.36.2
+botocore==1.36.3
     # via
     #   boto3
     #   s3transfer
@@ -30,7 +30,7 @@ cachecontrol==0.14.2
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-cachetools==5.5.0
+cachetools==5.5.1
     # via
     #   -r requirements/base.txt
     #   google-auth
@@ -182,7 +182,7 @@ edx-ccx-keys==2.0.2
     # via
     #   -r requirements/base.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.20
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.26
     # via -r requirements/base.txt
 edx-django-release-util==1.4.0
     # via -r requirements/base.txt

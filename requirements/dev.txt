@@ -32,7 +32,7 @@ cachecontrol==0.14.2
     # via
     #   -r requirements/test.txt
     #   firebase-admin
-cachetools==5.5.0
+cachetools==5.5.1
     # via
     #   -r requirements/test.txt
     #   google-auth
@@ -219,7 +219,7 @@ edx-ccx-keys==2.0.2
     # via
     #   -r requirements/test.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.20
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.26
     # via -r requirements/test.txt
 edx-django-release-util==1.4.0
     # via -r requirements/test.txt
@@ -273,7 +273,7 @@ fastavro==1.10.0
     # via
     #   -r requirements/test.txt
     #   openedx-events
-filelock==3.16.1
+filelock==3.17.0
     # via
     #   -r requirements/test.txt
     #   tox
@@ -544,7 +544,7 @@ pyparsing==3.2.1
     # via
     #   -r requirements/test.txt
     #   httplib2
-pyproject-api==1.8.0
+pyproject-api==1.9.0
     # via
     #   -r requirements/test.txt
     #   tox
@@ -669,7 +669,7 @@ tomlkit==0.13.2
     # via
     #   -r requirements/test.txt
     #   pylint
-tox==4.23.2
+tox==4.24.1
     # via -r requirements/test.txt
 types-pyyaml==6.0.12.20241230
     # via django-stubs
