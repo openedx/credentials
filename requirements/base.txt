@@ -32,7 +32,7 @@ click==8.1.8
     # via
     #   code-annotations
     #   edx-django-utils
-code-annotations==2.1.0
+code-annotations==2.2.0
     # via edx-toggles
 coreapi==2.3.3
     # via
@@ -51,7 +51,7 @@ defusedxml==0.8.0rc2
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/base.in
-django==4.2.17
+django==4.2.18
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
@@ -100,7 +100,7 @@ django-filter==24.3
     # via -r requirements/base.in
 django-model-utils==5.0.0
     # via -r requirements/base.in
-django-push-notifications==3.1.0
+django-push-notifications==3.2.0
     # via edx-ace
 django-ratelimit==4.1.0
     # via -r requirements/base.in
@@ -271,7 +271,7 @@ openapi-codec==1.3.2
     # via django-rest-swagger
 openedx-atlas==0.6.2
     # via -r requirements/base.in
-openedx-events==9.15.1
+openedx-events==9.15.2
     # via
     #   -r requirements/base.in
     #   edx-event-bus-kafka

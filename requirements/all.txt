@@ -33,11 +33,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.35.98
+boto3==1.36.2
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.35.98
+botocore==1.36.2
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -86,7 +86,7 @@ click-log==0.4.0
     # via
     #   -r requirements/dev.txt
     #   edx-lint
-code-annotations==2.1.0
+code-annotations==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -135,7 +135,7 @@ distlib==0.3.9
     # via
     #   -r requirements/dev.txt
     #   virtualenv
-django==4.2.17
+django==4.2.18
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
@@ -206,7 +206,7 @@ django-model-utils==5.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-push-notifications==3.1.0
+django-push-notifications==3.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -562,7 +562,7 @@ openedx-atlas==0.6.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-openedx-events==9.15.1
+openedx-events==9.15.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -787,7 +787,7 @@ rsa==4.9
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-auth
-s3transfer==0.10.4
+s3transfer==0.11.1
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -887,7 +887,7 @@ urllib3==2.2.3
     #   botocore
     #   requests
     #   responses
-virtualenv==20.28.1
+virtualenv==20.29.1
     # via
     #   -r requirements/dev.txt
     #   tox
