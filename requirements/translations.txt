@@ -6,7 +6,7 @@
 #
 asgiref==3.8.1
     # via django
-django==4.2.17
+django==4.2.18
     # via
     #   -c requirements/common_constraints.txt
     #   edx-i18n-tools
