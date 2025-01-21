@@ -18,7 +18,7 @@ bleach==6.2.0
     # via -r requirements/base.in
 cachecontrol==0.14.2
     # via firebase-admin
-cachetools==5.5.0
+cachetools==5.5.1
     # via google-auth
 certifi==2024.12.14
     # via requests
@@ -142,7 +142,7 @@ edx-auth-backends==4.4.0
     # via -r requirements/base.in
 edx-ccx-keys==2.0.2
     # via openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.20
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.26
     # via -r requirements/base.in
 edx-django-release-util==1.4.0
     # via -r requirements/base.in
