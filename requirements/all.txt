@@ -16,7 +16,7 @@ astroid==3.3.8
     #   -r requirements/dev.txt
     #   pylint
     #   pylint-celery
-attrs==24.3.0
+attrs==25.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -33,11 +33,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.36.3
+boto3==1.36.7
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.36.3
+botocore==1.36.7
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -221,7 +221,7 @@ django-rest-swagger==2.2.0
     #   -r requirements/production.txt
 django-ses==4.3.2
     # via -r requirements/production.txt
-django-simple-history==3.7.0
+django-simple-history==3.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -332,7 +332,7 @@ edx-i18n-tools==1.6.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-credentials-themes
-edx-lint==5.4.1
+edx-lint==5.6.0
     # via -r requirements/dev.txt
 edx-opaque-keys[django]==2.11.0
     # via
@@ -353,7 +353,7 @@ edx-toggles==5.2.0
     #   edx-event-bus-redis
 factory-boy==3.3.1
     # via -r requirements/dev.txt
-faker==33.3.1
+faker==35.0.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -378,7 +378,7 @@ fontawesomefree==6.6.0
     #   -r requirements/production.txt
 gevent==24.11.1
     # via -r requirements/production.txt
-google-api-core[grpc]==2.24.0
+google-api-core[grpc]==2.24.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -387,12 +387,12 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.159.0
+google-api-python-client==2.160.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-auth==2.37.0
+google-auth==2.38.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -444,13 +444,13 @@ greenlet==3.1.1
     # via
     #   -r requirements/production.txt
     #   gevent
-grpcio==1.69.0
+grpcio==1.70.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.69.0
+grpcio-status==1.70.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -613,7 +613,7 @@ polib==1.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-i18n-tools
-proto-plus==1.25.0
+proto-plus==1.26.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -787,7 +787,7 @@ rsa==4.9
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-auth
-s3transfer==0.11.1
+s3transfer==0.11.2
     # via
     #   -r requirements/production.txt
     #   boto3

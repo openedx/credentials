@@ -8,7 +8,7 @@ asgiref==3.8.1
     # via
     #   django
     #   django-cors-headers
-attrs==24.3.0
+attrs==25.1.0
     # via
     #   edx-ace
     #   openedx-events
@@ -106,7 +106,7 @@ django-ratelimit==4.1.0
     # via -r requirements/base.in
 django-rest-swagger==2.2.0
     # via -r requirements/base.in
-django-simple-history==3.7.0
+django-simple-history==3.8.0
     # via -r requirements/base.in
 django-sortedm2m==4.0.0
     # via -r requirements/base.in
@@ -187,16 +187,16 @@ firebase-admin==6.6.0
     # via edx-ace
 fontawesomefree==6.6.0
     # via -r requirements/base.in
-google-api-core[grpc]==2.24.0
+google-api-core[grpc]==2.24.1
     # via
     #   firebase-admin
     #   google-api-python-client
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.159.0
+google-api-python-client==2.160.0
     # via firebase-admin
-google-auth==2.37.0
+google-auth==2.38.0
     # via
     #   google-api-core
     #   google-api-python-client
@@ -224,11 +224,11 @@ googleapis-common-protos==1.66.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio==1.69.0
+grpcio==1.70.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.69.0
+grpcio-status==1.70.0
     # via google-api-core
 httplib2==0.22.0
     # via
@@ -286,7 +286,7 @@ pillow==11.1.0
     # via -r requirements/base.in
 polib==1.2.0
     # via edx-i18n-tools
-proto-plus==1.25.0
+proto-plus==1.26.0
     # via
     #   google-api-core
     #   google-cloud-firestore

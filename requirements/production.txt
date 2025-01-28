@@ -9,7 +9,7 @@ asgiref==3.8.1
     #   -r requirements/base.txt
     #   django
     #   django-cors-headers
-attrs==24.3.0
+attrs==25.1.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.36.3
+boto3==1.36.7
     # via django-ses
-botocore==1.36.3
+botocore==1.36.7
     # via
     #   boto3
     #   s3transfer
@@ -140,7 +140,7 @@ django-rest-swagger==2.2.0
     # via -r requirements/base.txt
 django-ses==4.3.2
     # via -r requirements/production.in
-django-simple-history==3.7.0
+django-simple-history==3.8.0
     # via -r requirements/base.txt
 django-sortedm2m==4.0.0
     # via -r requirements/base.txt
@@ -235,7 +235,7 @@ fontawesomefree==6.6.0
     # via -r requirements/base.txt
 gevent==24.11.1
     # via -r requirements/production.in
-google-api-core[grpc]==2.24.0
+google-api-core[grpc]==2.24.1
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -243,11 +243,11 @@ google-api-core[grpc]==2.24.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.159.0
+google-api-python-client==2.160.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-auth==2.37.0
+google-auth==2.38.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -289,12 +289,12 @@ googleapis-common-protos==1.66.0
     #   grpcio-status
 greenlet==3.1.1
     # via gevent
-grpcio==1.69.0
+grpcio==1.70.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.69.0
+grpcio-status==1.70.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -390,7 +390,7 @@ polib==1.2.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-proto-plus==1.25.0
+proto-plus==1.26.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -501,7 +501,7 @@ rsa==4.9
     # via
     #   -r requirements/base.txt
     #   google-auth
-s3transfer==0.11.1
+s3transfer==0.11.2
     # via boto3
 sailthru-client==2.2.3
     # via
