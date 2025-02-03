@@ -27,17 +27,17 @@ backoff==2.2.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   segment-analytics-python
-black==24.10.0
+black==25.1.0
     # via -r requirements/dev.txt
 bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.36.7
+boto3==1.36.11
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.36.7
+botocore==1.36.11
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -53,7 +53,7 @@ cachetools==5.5.1
     #   -r requirements/production.txt
     #   google-auth
     #   tox
-certifi==2024.12.14
+certifi==2025.1.31
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -219,7 +219,7 @@ django-rest-swagger==2.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-ses==4.3.2
+django-ses==4.4.0
     # via -r requirements/production.txt
 django-simple-history==3.8.0
     # via
@@ -277,7 +277,7 @@ drf-yasg==1.21.8
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-ace==1.11.3
+edx-ace==1.11.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -351,9 +351,9 @@ edx-toggles==5.2.0
     #   -r requirements/production.txt
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-factory-boy==3.3.1
+factory-boy==3.3.3
     # via -r requirements/dev.txt
-faker==35.0.0
+faker==35.2.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -418,7 +418,7 @@ google-cloud-firestore==2.20.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-cloud-storage==2.19.0
+google-cloud-storage==3.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -479,7 +479,7 @@ iniconfig==2.0.0
     # via
     #   -r requirements/dev.txt
     #   pytest
-isort==5.13.2
+isort==6.0.0
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -540,7 +540,7 @@ mysqlclient==2.2.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==10.4.0
+newrelic==10.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -562,7 +562,7 @@ openedx-atlas==0.6.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-openedx-events==9.15.2
+openedx-events==9.17.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -664,7 +664,7 @@ pyjwt[crypto]==2.10.1
     #   firebase-admin
     #   segment-analytics-python
     #   social-auth-core
-pylint==3.3.3
+pylint==3.3.4
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -688,7 +688,7 @@ pymemcache==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pymongo==4.10.1
+pymongo==4.11
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -735,7 +735,7 @@ python3-openid==3.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   social-auth-core
-pytz==2024.2
+pytz==2025.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
