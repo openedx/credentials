@@ -1,4 +1,4 @@
-""" Generate issuance credentials with didkit."""
+"""Generate issuance credentials with didkit."""
 
 import logging
 from pprint import pprint

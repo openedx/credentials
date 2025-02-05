@@ -1,4 +1,4 @@
-""" Admin configuration for records models. """
+"""Admin configuration for records models."""
 
 from django.contrib import admin
 

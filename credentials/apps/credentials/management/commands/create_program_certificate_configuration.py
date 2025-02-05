@@ -1,4 +1,4 @@
-""" Management command to create a program certificate configuration for the demo program """
+"""Management command to create a program certificate configuration for the demo program"""
 
 import logging
 

@@ -1,4 +1,4 @@
-""" Tests for core models. """
+"""Tests for core models."""
 
 import json
 from unittest import mock

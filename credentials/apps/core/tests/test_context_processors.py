@@ -1,4 +1,4 @@
-""" Context processor tests. """
+"""Context processor tests."""
 
 from django.conf import settings
 from django.test import RequestFactory, TestCase

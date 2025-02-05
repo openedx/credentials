@@ -1,4 +1,4 @@
-""" Constants for the core app. """
+"""Constants for the core app."""
 
 
 class Status:
