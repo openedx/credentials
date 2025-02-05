@@ -1,1 +1,1 @@
-""" Open EdX theme for the Credentials Service. """
+"""Open EdX theme for the Credentials Service."""

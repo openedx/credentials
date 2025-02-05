@@ -1,4 +1,4 @@
-""" Core utils. """
+"""Core utils."""
 
 
 # This function is used by our oauth2 authorization pipeline. See settings/base.py

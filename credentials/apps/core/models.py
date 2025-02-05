@@ -1,4 +1,4 @@
-""" Core models. """
+"""Core models."""
 
 import hashlib
 from urllib.parse import urljoin

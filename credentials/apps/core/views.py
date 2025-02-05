@@ -1,4 +1,4 @@
-""" Core views. """
+"""Core views."""
 
 import logging
 import uuid

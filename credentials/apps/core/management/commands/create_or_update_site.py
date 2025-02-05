@@ -1,4 +1,4 @@
-""" Creates or updates a Site including SiteConfiguration data. """
+"""Creates or updates a Site including SiteConfiguration data."""
 
 import logging
 

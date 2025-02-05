@@ -1,4 +1,4 @@
-""" Tests for catalog models. """
+"""Tests for catalog models."""
 
 from django.test import TestCase
 

@@ -1,4 +1,4 @@
-""" Tests for catalog utilities. """
+"""Tests for catalog utilities."""
 
 from unittest.mock import MagicMock
 

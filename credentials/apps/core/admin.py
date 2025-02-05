@@ -1,4 +1,4 @@
-""" Admin configuration for core models. """
+"""Admin configuration for core models."""
 
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin

@@ -1,4 +1,4 @@
-""" Generate status list. """
+"""Generate status list."""
 
 import json
 import logging

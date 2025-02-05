@@ -1,4 +1,4 @@
-""" Copy catalog data from Discovery. """
+"""Copy catalog data from Discovery."""
 
 import logging
 import sys
