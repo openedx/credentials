@@ -41,7 +41,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==44.0.0
+cryptography==44.0.1
     # via
     #   pyjwt
     #   social-auth-core
@@ -142,7 +142,7 @@ edx-auth-backends==4.4.0
     # via -r requirements/base.in
 edx-ccx-keys==2.0.2
     # via openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.26
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.27
     # via -r requirements/base.in
 edx-django-release-util==1.4.0
     # via -r requirements/base.in

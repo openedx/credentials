@@ -57,4 +57,4 @@ xss-utils
 
 # TODO Install in configuration
 git+https://github.com/openedx/event-bus-redis.git@v0.5.0
-git+https://github.com/openedx/credentials-themes.git@0.4.26#egg=edx_credentials_themes==0.4.26
+git+https://github.com/openedx/credentials-themes.git@0.4.27#egg=edx_credentials_themes==0.4.27
