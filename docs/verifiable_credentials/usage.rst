@@ -1,10 +1,10 @@
 Usage
 =====
 
-The Open edX platform allows students to earn credentials (e.g. course certificates, program certificates). Based on such credentials learners are able to create a digital cryptographically proved peace of data - a verifiable credential.
+The Open edX platform allows students to earn credentials (e.g. course certificates, program certificates). Based on such credentials learners are able to create a digital cryptographically proven piece of data - a verifiable credential.
 
 .. note::
-    Verifiable credentials are aimed for machines.
+    Verifiable credentials are intended for machines.
 
 A single Open edX achievement can be used as a source for numerous verifiable credentials (identical or different data models).
 
@@ -14,8 +14,8 @@ Verifiable credential includes data about:
     - student's unique decentralized identifier (DID);
     - student's arbitrary personal data (optional);
 - what exactly was achieved (credential)
-    - type (program certificate);
-    - title (program name, possibly courses list);
+    - type (program or course certificate);
+    - title (program or course name, possibly courses list);
 - when it happened (timestamp)
     - date and time verifiable credential was created (issued);
     - expiration moment (optionally);

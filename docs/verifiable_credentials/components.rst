@@ -64,7 +64,7 @@ The Verifiable Credentials feature extends the `Learner Record MFE`_ with additi
         :alt: Verifiable Credentials page
 
 1. Once the Verifiable Credentials feature `is enabled <configuration.html>`__ tabs navigation appears
-2. All learner's Open edX credentials (currently, program certificates only) are listed within the page
+2. All learner's Open edX credentials are listed within the page
 3. Achievement card has an action button that allows verifiable credential requesting based on the corresponding Open edX credential
 4. Storages options (experimental)
 

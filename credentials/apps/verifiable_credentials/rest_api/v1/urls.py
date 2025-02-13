@@ -9,7 +9,7 @@ from credentials.apps.verifiable_credentials.rest_api.v1 import views
 
 
 router = routers.DefaultRouter()
-router.register(r"program_credentials", views.ProgramCredentialsViewSet, basename="program_credentials")
+router.register(r"credentials", views.CredentialsViewSet, basename="credentials")
 
 urlpatterns = [
     path(r"credentials/init/", views.InitIssuanceView.as_view(), name="credentials-init"),

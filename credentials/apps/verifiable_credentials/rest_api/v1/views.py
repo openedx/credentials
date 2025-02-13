@@ -25,7 +25,7 @@ from credentials.apps.verifiable_credentials.permissions import VerifiablePresen
 from credentials.apps.verifiable_credentials.storages.utils import get_available_storages, get_storage
 from credentials.apps.verifiable_credentials.utils import (
     generate_base64_qr_code,
-    get_user_program_credentials_data,
+    get_user_credentials_data,
     is_valid_uuid,
 )
 
@@ -35,7 +35,16 @@ logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
-class ProgramCredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class CredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    A view set to list all credentials issued to the authenticated user.
+    Supports filtering by credential type.
+
+    Credential Types:
+        - programcertificate: Credentials associated with a program.
+        - coursecertificate: Credentials associated with a course.
+    """
+
     authentication_classes = (
         JwtAuthentication,
         SessionAuthentication,
@@ -43,17 +52,74 @@ class ProgramCredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
     permission_classes = (IsAuthenticated,)
 
+    CREDENTIAL_TYPES_MAP = {
+        "programcertificate": "program_credentials",
+        "coursecertificate": "course_credentials",
+    }
+
     def list(self, request, *args, **kwargs):
         """
-        List data for all the user's issued program credentials.
-        GET: /verifiable_credentials/api/v1/program_credentials/
+        Retrieve a list of issued credentials for the authenticated user.
+
+        GET: /verifiable_credentials/api/v1/credentials?types=coursecertificate,programcertificate
+
+        Query Parameters:
+            types (str, optional): A comma-separated list of credential types to filter the results.
+                                   Valid types are "programcertificate" and "coursecertificate".
+                                   If not provided, all credential types will be included.
+
         Arguments:
-            request: A request to control data returned in endpoint response
+            request: The HTTP request object containing the query parameters.
+
         Returns:
-            response(dict): Information about the user's program credentials
+            response(dict): A dictionary where each key corresponds to a credential type, and the value
+                            is a list of issued credentials for that type.
+
+        Example Response:
+            {
+                "program_credentials": [
+                    {
+                        "uuid": "4a665745d1ba4dfd8f54b58e822b6585",
+                        "status": "awarded",
+                        "username": "staff",
+                        "download_url": null,
+                        "credential_id": 1,
+                        "credential_uuid": "525756b010aa4c788881141acca72538",  # Program UUID
+                        "credential_title": "Title of a program",
+                        "credential_org": "",
+                        "modified_date": "2024-12-18"
+                    }
+                ],
+                "course_credentials": [
+                    {
+                        "uuid": "5135e99ef1d14bca9135972270ef887b",
+                        "status": "awarded",
+                        "username": "staff",
+                        "download_url": null,
+                        "credential_id": 1,
+                        "credential_uuid": "course-v1:rg+program_course+2024",  # Course ID
+                        "credential_title": "Course cert configuration",
+                        "credential_org": "rg",
+                        "modified_date": "2024-12-18"
+                    }
+                ]
+            }
         """
-        program_credentials = get_user_program_credentials_data(request.user.username)
-        return Response({"program_credentials": program_credentials})
+        types = self.request.query_params.get("types")
+        response = {}
+
+        if types:
+            types = types.split(",")
+        else:
+            types = self.CREDENTIAL_TYPES_MAP.keys()
+
+        for credential_type in types:
+            if credential_type in self.CREDENTIAL_TYPES_MAP:
+                response[self.CREDENTIAL_TYPES_MAP[credential_type]] = get_user_credentials_data(
+                    request.user.username, credential_type
+                )
+
+        return Response(response)
 
 
 class InitIssuanceView(APIView):
