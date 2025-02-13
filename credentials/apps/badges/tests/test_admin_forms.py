@@ -11,7 +11,7 @@ from credentials.apps.badges.admin_forms import (
     DataRuleExtensionsMixin,
     ParentMixin,
 )
-from credentials.apps.badges.credly.exceptions import CredlyAPIError
+from credentials.apps.badges.exceptions import BadgeProviderError
 from credentials.apps.badges.models import BadgeRequirement, BadgeTemplate
 
 
@@ -132,7 +132,7 @@ class BadgePenaltyFormTestCase(TestCase):
         ) as mock_get_orgs:
             mock_get_orgs.return_value = {"test_uuid": "test_org"}
 
-            with self.assertRaises(forms.ValidationError) as cm:
+            with self.assertRaises(BadgeProviderError) as cm:
                 form.clean()
 
             self.assertIn("You specified an invalid authorization token.", str(cm.exception))
@@ -170,13 +170,13 @@ class BadgePenaltyFormTestCase(TestCase):
     def test_ensure_organization_exists_with_error(self):
         form = CredlyOrganizationAdminForm()
         api_client = MagicMock()
-        api_client.fetch_organization.side_effect = CredlyAPIError("API Error")
+        api_client.fetch_organization.side_effect = BadgeProviderError("API Error")
 
-        with self.assertRaises(forms.ValidationError) as cm:
+        with self.assertRaises(BadgeProviderError) as cm:
             form.ensure_organization_exists(api_client)
 
         api_client.fetch_organization.assert_called_once()
-        self.assertEqual(str(cm.exception), "['API Error']")
+        self.assertEqual(str(cm.exception), "API Error")
 
 
 class TestParentMixin(ParentMixin):

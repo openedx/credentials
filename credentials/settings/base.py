@@ -567,6 +567,13 @@ BADGES_CONFIG = {
         "CREDLY_SANDBOX_API_BASE_URL": "https://sandbox-api.credly.com/v1/",
         "USE_SANDBOX": False,
     },
+    "accredible": {
+        "ACCREDIBLE_BASE_URL": "https://dashboard.accredible.com/",
+        "ACCREDIBLE_API_BASE_URL": "https://api.accredible.com/v1/",
+        "ACCREDIBLE_SANDBOX_BASE_URL": "https://sandbox.dashboard.accredible.com/",
+        "ACCREDIBLE_SANDBOX_API_BASE_URL": "https://sandbox.api.accredible.com/v1/",
+        "USE_SANDBOX": False,
+    },
     "rules": {
         "ignored_keypaths": [
             "user.id",

@@ -2,18 +2,27 @@ Quick Start
 ===========
 
 .. note::
-    
+
     This section includes brief information about the feature – what to start with; where to set up credentials, etc.
 
-0. Prerequisites – Credly account
----------------------------------
+Currently Open edX supports two badge services: Credly and Accredible.
 
-To start using this feature a Credly account is necessary.
+0. Prerequisites – service account
+----------------------------------
+
+To start using this feature a Credly or Accredible account is necessary.
+
+For Credly:
 
 1. Register on Credly and create your account.
 2. Create Organization in Credly.
 3. Create at least 1 badge template and activate it.
-4. Credly Organization 
+
+
+For Accredible:
+
+1. Register on Accredible and create your account.
+2. Create at least 1 group.
 
 1. Enable feature
 -----------------
@@ -28,14 +37,17 @@ Badges feature is optional and it is disabled by default. So, it must be enabled
     # Credentials service:
     BADGES_ENABLED = True
 
-2. Configure Credly integration
+2. Configure integration
 -------------------------------
 
 .. note::
 
     For detailed information, go to the `Configuration`_ section.
 
-Go to the Credentials service admin panel and configure the integration with the Credly service:
+Go to the Credentials service admin panel and configure the integration with the service:
+
+Credly
+------
 
 1. In the admin panel go to <credentials>/admin/badges/credly_organization to add Credly Organization.
     a. Add UUID (unique identifier) for the Credly organization
@@ -45,6 +57,14 @@ Please note that UUID and authorization token will be given to you during the cr
 
 Check: the system pulls the Organization's data and updates its name.
 
+Accredible
+-----------
+
+1. Retrieve API Key from Accredible account settings. Go to the Accredible account settings -> Manage API Keys and create a new API Key.
+2. In the admin panel go to ``<credentials>/admin/badges/accredibleapiconfig`` to add Accredible Group.
+    a. Add API Key
+    b. Add name for configuration
+
 .. _Configuration: configuration.html
 
 
@@ -52,9 +72,18 @@ Check: the system pulls the Organization's data and updates its name.
 ------------------------------
     Note: For detailed information, go to the `Configuration`_ section.
 
+Credly
+------
+
 From the “Credly Organizations” list, select the Organization(s) you want to use and select ``Sync organization badge templates`` action.
 
 The system pulls the list of badge templates from the Credly Organization. Navigate to the “Credly badge templates” list and check newly created templates.
+
+Accredible
+----------
+From the Accredible API Configurations list, select the Configuration(s) you want to use and select ``Sync groups`` action.
+
+The system pulls the list of groups from the Accredible account. Navigate to the “Accredible groups” list and check newly created groups.
 
 .. _Configuration: configuration.html
 
@@ -67,7 +96,7 @@ The system pulls the list of badge templates from the Credly Organization. Navig
 
 The crucial part of the badge template configuration is the requirements specification. At least one requirement must be associated with a badge template.
 
-Go to the first badge template details page (admin/badges/credly_badge_templates) and add requirements for it:
+Go to the first badge template details page (admin/badges/credly_badge_templates or admin/badges/accrediblegroup) and add requirements for it:
 
 1. find the “Badge Requirements” section;
 2. add a new item and select an event type (what is expected to happen);
@@ -120,29 +149,30 @@ Since badge templates can have more than one requirement, there can be partially
 7. See awarded user credentials
 -------------------------------
 
-Already earned badges are listed in the "Credly badges" section of the admin panel.
+Already earned badges are listed in the "Credly badges" or "Accredible badges" section of the admin panel.
 
 .. note::
 
-    The Credly Badge is an extended version of a user credential record.
+    This badge is an extended version of a user credential record.
 
 Once badge progress is complete (all requirements were *fulfilled*), the system:
 
-1. creates internal user credentials (CredlyBadge);
+1. creates internal user credentials (CredlyBadge or AccredibleBadge);
 2. notifies about the badge awarding (public signal);
-3. requests Credly service to issue the badge (API request).
+3. requests Credly or Accredible service to issue the badge (API request).
 
-8. See issued Credly badges
+8. See issued badges
 ---------------------------
 
-Earned internal badges (user credentials) spread to the Credly service.
+Earned internal badges (user credentials) spread to the badge service.
 
-On a successful Credly badge issuing, the CredlyBadge user credential is updated with its requisites:
+On a successful badge issuing, the CredlyBadge or AccredibleBadge user credential is updated with its requisites:
 
 1. external UUID;
 2. external state;
 
 The Credly badge is visible in the Credly service.
+The Accredible badge is visible in the Accredible service.
 
 
 9. Badge template withdrawal

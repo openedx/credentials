@@ -100,3 +100,5 @@ Badges can also be revoked. Its a separete set of rules that need to be set up.
 .. _Configuration: configuration.html
 
 When a learner's badge is revoked by Credly, the Credentials IDA will be notified and will update it's internal records. The status of the badge will change from `awarded` to `revoked` upon successful revocation.
+
+The badge cannot be reissued once it has been revoked.

@@ -9,6 +9,9 @@ from faker import Faker
 from openedx_events.learning.data import BadgeData, BadgeTemplateData, UserData, UserPersonalData
 
 from credentials.apps.badges.models import (
+    AccredibleAPIConfig,
+    AccredibleBadge,
+    AccredibleGroup,
     BadgePenalty,
     BadgeProgress,
     BadgeRequirement,
@@ -734,3 +737,84 @@ class PenaltyDataruleIsActiveTestCase(TestCase):
 
         self.requirement.template.is_active = False
         self.assertFalse(self.rule.is_active)
+
+
+class AccredibleGroupTestCase(TestCase):
+    def setUp(self):
+        self.api_config = AccredibleAPIConfig.objects.create(api_key="test-api-key", name="test_config")
+        self.site = Site.objects.create(domain="test_domain", name="test_name")
+        self.group = AccredibleGroup.objects.create(
+            api_config=self.api_config,
+            id=55,
+            name="test_group",
+            site=self.site,
+        )
+
+    def test_management_url(self):
+        credly_host_base_url = "https://example.com/"
+        with patch("credentials.apps.badges.models.get_accredible_base_url") as mock_get_accredible_base_url:
+            mock_get_accredible_base_url.return_value = credly_host_base_url
+            expected_url = f"{credly_host_base_url}issuer/dashboard/group/{self.group.id}/information-and-appearance"
+            self.assertEqual(self.group.management_url, expected_url)
+            mock_get_accredible_base_url.assert_called_with(settings)
+
+
+class AccredibleAPIConfigTestCase(TestCase):
+    def setUp(self):
+        self.api_config = AccredibleAPIConfig.objects.create(
+            api_key="test-api-key",
+            name="test_config",
+        )
+
+    def test_get_all_api_config_ids(self):
+        organization_ids = list(AccredibleAPIConfig.get_all_api_config_ids())
+        self.assertEqual(organization_ids, [self.api_config.id])
+
+
+class AccredibleBadgeAsBadgeDataTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="test_user",
+            email="test@example.com",
+            full_name="Test User",
+            lms_user_id=1,
+        )
+        self.site = Site.objects.create(domain="test_domain", name="test_name")
+        self.credential = BadgeTemplate.objects.create(
+            uuid=uuid.uuid4(),
+            origin="test_origin",
+            name="test_template",
+            description="test_description",
+            icon="test_icon",
+            site=self.site,
+        )
+        self.badge = AccredibleBadge.objects.create(
+            username="test_user",
+            credential_content_type=ContentType.objects.get_for_model(self.credential),
+            credential_id=self.credential.id,
+            state=AccredibleBadge.STATES.created,
+            uuid=uuid.uuid4(),
+        )
+
+    def test_as_badge_data(self):
+        expected_badge_data = BadgeData(
+            uuid=str(self.badge.uuid),
+            user=UserData(
+                pii=UserPersonalData(
+                    username=self.user.username,
+                    email=self.user.email,
+                    name=self.user.get_full_name(),
+                ),
+                id=self.user.lms_user_id,
+                is_active=self.user.is_active,
+            ),
+            template=BadgeTemplateData(
+                uuid=str(self.credential.uuid),
+                origin=self.credential.origin,
+                name=self.credential.name,
+                description=self.credential.description,
+                image_url=str(self.credential.icon),
+            ),
+        )
+        actual_badge_data = self.badge.as_badge_data()
+        self.assertEqual(actual_badge_data, expected_badge_data)

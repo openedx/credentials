@@ -26,11 +26,11 @@ Glossary
 ----
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
     quickstart
     settings
-    configuration
+    configuration/index
     examples
     processing
 
