@@ -9,6 +9,7 @@ from django.template.defaultfilters import slugify
 from django.utils.translation import gettext as _
 
 from credentials.apps.catalog.api import get_program_and_course_details
+from credentials.apps.catalog.data import PathwayStatus
 from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.api import (
     get_credential_dates,
@@ -100,7 +101,13 @@ def _get_transformed_pathway_data(program, user):
     program_pathways_set = frozenset(program_pathways)
 
     user_credit_pathways = (
-        UserCreditPathway.objects.select_related("pathway").filter(user=user, pathway__in=program_pathways_set).all()
+        UserCreditPathway.objects.select_related("pathway")
+        .filter(
+            user=user,
+            pathway__in=program_pathways_set,
+            pathway__status__in=("", PathwayStatus.PUBLISHED),
+        )
+        .all()
     )
     # maps a learner's pathway status to a pathway
     user_credit_pathways_dict = {user_pathway.pathway: user_pathway.status for user_pathway in user_credit_pathways}

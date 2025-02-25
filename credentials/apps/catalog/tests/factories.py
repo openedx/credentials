@@ -10,6 +10,7 @@ from factory.fuzzy import FuzzyDateTime, FuzzyInteger, FuzzyText
 from pytz import UTC
 from slugify import slugify
 
+from credentials.apps.catalog.data import PathwayStatus
 from credentials.apps.catalog.models import Course, CourseRun, Organization, Pathway, Program
 from credentials.apps.core.tests.factories import SiteFactory
 
@@ -90,6 +91,7 @@ class PathwayFactory(factory.django.DjangoModelFactory):
     name = FuzzyText(prefix="Test Pathway ")
     org_name = FuzzyText()
     email = factory.Faker("safe_email")
+    status = PathwayStatus.PUBLISHED
 
     @factory.post_generation
     def programs(self, create, extracted):

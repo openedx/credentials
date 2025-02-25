@@ -332,6 +332,7 @@ class CatalogDataSynchronizer:
                 "name": data["name"],
                 "email": data["email"],
                 "org_name": data["org_name"],
+                "status": data["status"],
                 "pathway_type": data["pathway_type"],
             },
         )
