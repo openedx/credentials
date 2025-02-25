@@ -33,11 +33,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.36.22
+boto3==1.37.0
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.36.22
+botocore==1.37.0
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -47,7 +47,7 @@ cachecontrol==0.14.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-cachetools==5.5.1
+cachetools==5.5.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -273,7 +273,7 @@ drf-jwt==1.19.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-drf-yasg==1.21.8
+drf-yasg==1.21.9
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -407,7 +407,7 @@ google-auth-httplib2==0.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-python-client
-google-cloud-core==2.4.1
+google-cloud-core==2.4.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -434,7 +434,7 @@ google-resumable-media==2.7.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-cloud-storage
-googleapis-common-protos==1.67.0
+googleapis-common-protos==1.68.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -562,7 +562,7 @@ openedx-atlas==0.6.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-openedx-events==9.18.1
+openedx-events==9.18.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -795,7 +795,7 @@ sailthru-client==2.2.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-ace
-segment-analytics-python==2.3.3
+segment-analytics-python==2.3.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -837,7 +837,7 @@ sqlparse==0.5.3
     #   -r requirements/production.txt
     #   django
     #   django-debug-toolbar
-stevedore==5.4.0
+stevedore==5.4.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
