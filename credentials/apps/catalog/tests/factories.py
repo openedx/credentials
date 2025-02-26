@@ -91,7 +91,7 @@ class PathwayFactory(factory.django.DjangoModelFactory):
     name = FuzzyText(prefix="Test Pathway ")
     org_name = FuzzyText()
     email = factory.Faker("safe_email")
-    status = PathwayStatus.PUBLISHED
+    status = PathwayStatus.PUBLISHED.value
 
     @factory.post_generation
     def programs(self, create, extracted):

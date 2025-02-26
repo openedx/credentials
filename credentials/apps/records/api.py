@@ -9,7 +9,6 @@ from django.template.defaultfilters import slugify
 from django.utils.translation import gettext as _
 
 from credentials.apps.catalog.api import get_program_and_course_details
-from credentials.apps.catalog.data import PathwayStatus
 from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.api import (
     get_credential_dates,
@@ -105,7 +104,6 @@ def _get_transformed_pathway_data(program, user):
         .filter(
             user=user,
             pathway__in=program_pathways_set,
-            pathway__status__in=("", PathwayStatus.PUBLISHED),
         )
         .all()
     )

@@ -17,6 +17,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from credentials.apps.catalog.data import PathwayStatus
 from credentials.apps.catalog.tests.factories import (
     CourseFactory,
     CourseRunFactory,
@@ -34,7 +35,6 @@ from credentials.apps.credentials.tests.factories import (
     UserCredentialFactory,
 )
 from credentials.apps.records.constants import UserCreditPathwayStatus
-from credentials.apps.catalog.data import PathwayStatus
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 from credentials.apps.records.tests.factories import (
     ProgramCertRecordFactory,
@@ -211,9 +211,9 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertListEqual([self.pathway.email], email.to)
 
     @ddt.data(
-        (PathwayStatus.PUBLISHED, 200),
-        (PathwayStatus.UNPUBLISHED, 404),
-        (PathwayStatus.RETIRED, 404),
+        (PathwayStatus.PUBLISHED.value, 200),
+        (PathwayStatus.UNPUBLISHED.value, 404),
+        (PathwayStatus.RETIRED.value, 404),
         ("", 200),
     )
     @ddt.unpack
