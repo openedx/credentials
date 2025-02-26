@@ -42,3 +42,9 @@ class ProgramStatus(Enum):
     RETIRED = "retired"
     DELETED = "deleted"
     UNPUBLISHED = "unpublished"
+
+
+class PathwayStatus(Enum):
+    RETIRED = "retired"
+    UNPUBLISHED = "unpublished"
+    PUBLISHED = "published"

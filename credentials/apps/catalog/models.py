@@ -143,6 +143,10 @@ class Pathway(TimeStampedModel):
     email = models.EmailField()
     programs = SortedManyToManyField(Program, related_name="pathways")
 
+    # We're not migration-creating a status of all the old Pathways,
+    # we're just treating them as inherently 'published'.
+    status = models.CharField(max_length=24, null=True, blank=False)
+
     class Meta:
         unique_together = (("site", "uuid"),)
 

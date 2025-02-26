@@ -100,7 +100,12 @@ def _get_transformed_pathway_data(program, user):
     program_pathways_set = frozenset(program_pathways)
 
     user_credit_pathways = (
-        UserCreditPathway.objects.select_related("pathway").filter(user=user, pathway__in=program_pathways_set).all()
+        UserCreditPathway.objects.select_related("pathway")
+        .filter(
+            user=user,
+            pathway__in=program_pathways_set,
+        )
+        .all()
     )
     # maps a learner's pathway status to a pathway
     user_credit_pathways_dict = {user_pathway.pathway: user_pathway.status for user_pathway in user_credit_pathways}

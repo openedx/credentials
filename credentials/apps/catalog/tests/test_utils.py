@@ -52,6 +52,7 @@ class SynchronizerTests(TestCase):
         "name": "First Pathway",
         "org_name": "First Org Name",
         "email": "test@example.com",
+        "status": "published",
         "programs": [FIRST_PROGRAM],
         "pathway_type": PathwayType.INDUSTRY.value,
     }  # Check type is industry since type defaults to credit
@@ -150,6 +151,7 @@ class SynchronizerTests(TestCase):
         # Check pathway
         pathway = Pathway.objects.all().first()
         assert str(pathway.uuid) == self.FIRST_PATHWAY["uuid"]
+        assert pathway.status == self.FIRST_PATHWAY["status"]
         assert list(pathway.programs.all()) == [program]
 
     def test_fetch_data_update(self):
@@ -202,6 +204,7 @@ class SynchronizerTests(TestCase):
         # Check pathway still exists and has updated program
         pathway = Pathway.objects.all().first()
         assert str(pathway.uuid) == self.FIRST_PATHWAY["uuid"]
+        assert pathway.status == self.FIRST_PATHWAY["status"]
         assert list(pathway.programs.all()) == [program]
 
     def test_remove_obsolete_data(self):
