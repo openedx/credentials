@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 
 from django.db import transaction
 
+from credentials.apps.catalog.data import PathwayStatus
 from credentials.apps.catalog.models import Course, CourseRun, Organization, Pathway, Program
 
 
@@ -315,9 +316,11 @@ class CatalogDataSynchronizer:
     @transaction.atomic
     def _parse_pathway(self, data):
         """
-        Creates or updates a pathway and links it to connected programs
+        Creates or updates a pathway and links it to connected programs.
 
-        Assumes that the associated programs were parsed before this is run.
+        * Assumes that the associated programs were parsed before this is run.
+        * Always re-creates the foreign keys between Pathway and Program on modification.
+          If the Pathway is retired or unpublished, no relationship is created
 
         Arguments:
             data (dict): The pathway data pulled from the API
@@ -332,6 +335,7 @@ class CatalogDataSynchronizer:
                 "name": data["name"],
                 "email": data["email"],
                 "org_name": data["org_name"],
+                "status": data["status"],
                 "pathway_type": data["pathway_type"],
             },
         )
@@ -339,8 +343,9 @@ class CatalogDataSynchronizer:
         self.add_item(self.PATHWAY, str(pathway.uuid))
 
         pathway.programs.clear()
-        for program_data in data["programs"]:
-            program = Program.objects.get(site=self.site, uuid=program_data["uuid"])
-            pathway.programs.add(program)
+        if pathway.status in ("", PathwayStatus.PUBLISHED.value):
+            for program_data in data["programs"]:
+                program = Program.objects.get(site=self.site, uuid=program_data["uuid"])
+                pathway.programs.add(program)
 
         return pathway

@@ -20,6 +20,7 @@ from django_ratelimit.decorators import ratelimit
 from edx_ace import Recipient, ace
 from segment.analytics.client import Client as SegmentClient
 
+from credentials.apps.catalog.data import PathwayStatus
 from credentials.apps.catalog.models import Pathway, Program
 from credentials.apps.core.api import get_user_by_username
 from credentials.apps.core.views import ThemeViewMixin
@@ -150,6 +151,7 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
             Pathway,
             id=pathway_id,
             programs__uuid=program_uuid,
+            status__in=(PathwayStatus.PUBLISHED.value, ""),
             pathway_type=PathwayType.CREDIT.value,
         )
         certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)

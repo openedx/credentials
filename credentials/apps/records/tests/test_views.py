@@ -17,6 +17,7 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from credentials.apps.catalog.data import PathwayStatus
 from credentials.apps.catalog.tests.factories import (
     CourseFactory,
     CourseRunFactory,
@@ -105,6 +106,7 @@ class ProgramRecordTests(SiteMixin, TestCase):
         self.assertEqual(url1, url2)
 
 
+@ddt.ddt
 @override_settings(EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend")
 class ProgramSendTests(SiteMixin, TestCase):
     USERNAME = "test-user"
@@ -207,6 +209,20 @@ class ProgramSendTests(SiteMixin, TestCase):
         self.assertEqual(self.site_configuration.partner_from_address, email.from_email)
         self.assertEqual(self.user.email, email.reply_to[0])
         self.assertListEqual([self.pathway.email], email.to)
+
+    @ddt.data(
+        (PathwayStatus.PUBLISHED.value, 200),
+        (PathwayStatus.UNPUBLISHED.value, 404),
+        (PathwayStatus.RETIRED.value, 404),
+        ("", 200),
+    )
+    @ddt.unpack
+    def test_pathway_must_be_published(self, pathway_status, http_status):
+        """Verify a pathway only sends if its status is published or empty"""
+        self.pathway.status = pathway_status
+        self.pathway.save()
+        response = self.post()
+        self.assertEqual(response.status_code, http_status)
 
     def test_email_content_incomplete(self):
         """Verify an email is actually sent"""

@@ -38,9 +38,18 @@ class ProgramAdmin(admin.ModelAdmin):
 
 @admin.register(Pathway)
 class PathwayAdmin(admin.ModelAdmin):
-    list_display = ("name", "org_name", "pathway_type", "email", "uuid")
-    list_filter = ("site",)
-    readonly_fields = ("name", "org_name", "pathway_type", "email", "uuid", "site", "programs")
+    list_display = ("name", "org_name", "pathway_type", "status", "email", "uuid")
+    list_filter = ("site", "status")
+    readonly_fields = (
+        "name",
+        "org_name",
+        "pathway_type",
+        "email",
+        "uuid",
+        "site",
+        "programs",
+        "status",
+    )
     search_fields = ("name", "uuid")
 
 
