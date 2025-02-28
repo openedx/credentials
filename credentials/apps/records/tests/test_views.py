@@ -214,7 +214,6 @@ class ProgramSendTests(SiteMixin, TestCase):
         (PathwayStatus.PUBLISHED.value, 200),
         (PathwayStatus.UNPUBLISHED.value, 404),
         (PathwayStatus.RETIRED.value, 404),
-        ("", 200),
     )
     @ddt.unpack
     def test_pathway_must_be_published(self, pathway_status, http_status):

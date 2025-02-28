@@ -9,7 +9,7 @@ from sortedm2m.fields import SortedManyToManyField
 
 from credentials.shared.constants import PathwayType
 
-from .data import ProgramStatus
+from .data import PathwayStatus, ProgramStatus
 
 
 logger = logging.getLogger(__name__)
@@ -143,9 +143,11 @@ class Pathway(TimeStampedModel):
     email = models.EmailField()
     programs = SortedManyToManyField(Program, related_name="pathways")
 
-    # We're not migration-creating a status of all the old Pathways,
-    # we're just treating them as inherently 'published'.
-    status = models.CharField(max_length=24, null=True, blank=False)
+    status = models.CharField(
+        max_length=24,
+        choices=[(tag.value, tag.value) for tag in PathwayStatus],
+        default=PathwayStatus.PUBLISHED.value,
+    )
 
     class Meta:
         unique_together = (("site", "uuid"),)
