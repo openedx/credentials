@@ -343,7 +343,7 @@ class CatalogDataSynchronizer:
         self.add_item(self.PATHWAY, str(pathway.uuid))
 
         pathway.programs.clear()
-        if pathway.status in ("", PathwayStatus.PUBLISHED.value):
+        if pathway.status == PathwayStatus.PUBLISHED.value:
             for program_data in data["programs"]:
                 program = Program.objects.get(site=self.site, uuid=program_data["uuid"])
                 pathway.programs.add(program)

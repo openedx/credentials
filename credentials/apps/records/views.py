@@ -151,7 +151,7 @@ class ProgramSendView(LoginRequiredMixin, RecordsEnabledMixin, View):
             Pathway,
             id=pathway_id,
             programs__uuid=program_uuid,
-            status__in=(PathwayStatus.PUBLISHED.value, ""),
+            status=PathwayStatus.PUBLISHED.value,
             pathway_type=PathwayType.CREDIT.value,
         )
         certificate = get_object_or_404(ProgramCertificate, program_uuid=program_uuid, site=request.site)
