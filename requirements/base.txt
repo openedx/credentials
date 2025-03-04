@@ -41,7 +41,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==44.0.1
+cryptography==44.0.2
     # via
     #   pyjwt
     #   social-auth-core
@@ -194,7 +194,7 @@ google-api-core[grpc]==2.24.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.161.0
+google-api-python-client==2.162.0
     # via firebase-admin
 google-auth==2.38.0
     # via
@@ -210,9 +210,9 @@ google-cloud-core==2.4.2
     # via
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.20.0
+google-cloud-firestore==2.20.1
     # via firebase-admin
-google-cloud-storage==3.0.0
+google-cloud-storage==3.1.0
     # via firebase-admin
 google-crc32c==1.6.0
     # via
@@ -220,7 +220,7 @@ google-crc32c==1.6.0
     #   google-resumable-media
 google-resumable-media==2.7.2
     # via google-cloud-storage
-googleapis-common-protos==1.68.0
+googleapis-common-protos==1.69.0
     # via
     #   google-api-core
     #   grpcio-status
@@ -320,7 +320,7 @@ pyjwt[crypto]==2.10.1
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.in
-pymongo==4.11.1
+pymongo==4.11.2
     # via edx-opaque-keys
 pynacl==1.5.0
     # via edx-django-utils
@@ -417,7 +417,7 @@ walrus==0.9.4
     # via edx-event-bus-redis
 webencodings==0.5.1
     # via bleach
-xss-utils==0.6.0
+xss-utils==0.7.1
     # via -r requirements/base.in
 
 # The following packages are considered to be unsafe in a requirements file:
