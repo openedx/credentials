@@ -79,7 +79,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==7.6.12
     # via -r requirements/test.in
-cryptography==44.0.1
+cryptography==44.0.2
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -267,7 +267,7 @@ google-api-core[grpc]==2.24.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.161.0
+google-api-python-client==2.162.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -289,11 +289,11 @@ google-cloud-core==2.4.2
     #   -r requirements/base.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.20.0
+google-cloud-firestore==2.20.1
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-cloud-storage==3.0.0
+google-cloud-storage==3.1.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -306,7 +306,7 @@ google-resumable-media==2.7.2
     # via
     #   -r requirements/base.txt
     #   google-cloud-storage
-googleapis-common-protos==1.68.0
+googleapis-common-protos==1.69.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -337,7 +337,7 @@ inflection==0.5.1
     #   drf-yasg
 iniconfig==2.0.0
     # via pytest
-isort==6.0.0
+isort==6.0.1
     # via
     #   -r requirements/test.in
     #   pylint
@@ -488,7 +488,7 @@ pylint-plugin-utils==0.8.2
     #   pylint-django
 pymemcache==4.0.0
     # via -r requirements/base.txt
-pymongo==4.11.1
+pymongo==4.11.2
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
@@ -502,7 +502,7 @@ pyparsing==3.2.1
     #   httplib2
 pyproject-api==1.9.0
     # via tox
-pytest==8.3.4
+pytest==8.3.5
     # via
     #   -r requirements/test.in
     #   pytest-django
@@ -647,7 +647,7 @@ webencodings==0.5.1
     # via
     #   -r requirements/base.txt
     #   bleach
-xss-utils==0.6.0
+xss-utils==0.7.1
     # via -r requirements/base.txt
 
 # The following packages are considered to be unsafe in a requirements file:
