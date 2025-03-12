@@ -22,8 +22,8 @@
     "webpack-bundle-tracker": "3.1.1"
   },
   "devDependencies": {
-    "@babel/core": "7.26.9",
-    "@babel/eslint-parser": "7.26.8",
+    "@babel/core": "7.26.10",
+    "@babel/eslint-parser": "7.26.10",
     "@babel/plugin-proposal-object-rest-spread": "7.20.7",
     "@babel/plugin-transform-modules-commonjs": "7.26.3",
     "@babel/plugin-transform-object-assign": "7.25.9",
