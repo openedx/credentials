@@ -95,7 +95,7 @@ translations using the following steps and commands that are provided in the cre
 
 #. Finally, stage your updated translation files to be committed with the rest of your work.
 
-.. _internationalization coding guidelines: http://edx.readthedocs.io/projects/edx-developer-guide/en/latest/internationalization/i18n.html#internationalization-coding-guidelines
+.. _internationalization coding guidelines: https://docs.openedx.org/en/latest/developers/references/developer_guide/internationalization/i18n.html
 .. _Django internationalization documentation: https://docs.djangoproject.com/en/1.11/topics/i18n
 .. _LANGUAGE_CODE setting: https://docs.djangoproject.com/en/1.11/ref/settings/#language-code
 .. _Django docs for language_code: https://docs.djangoproject.com/en/1.11/topics/i18n/#term-language-code
