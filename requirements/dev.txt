@@ -84,7 +84,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==7.7.1
+coverage==7.8.0
     # via -r requirements/test.txt
 cryptography==44.0.2
     # via
@@ -193,7 +193,7 @@ django-waffle==4.2.0
     #   edx-toggles
 django-webpack-loader==3.1.1
     # via -r requirements/test.txt
-djangorestframework==3.15.2
+djangorestframework==3.16.0
     # via
     #   -r requirements/test.txt
     #   django-config-models
@@ -225,9 +225,8 @@ edx-django-release-util==1.4.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==4.2.0
     # via -r requirements/test.txt
-edx-django-utils==5.16.0
+edx-django-utils==7.2.0
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   django-config-models
     #   edx-ace
@@ -292,7 +291,7 @@ google-api-core[grpc]==2.24.2
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.165.0
+google-api-python-client==2.166.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -322,7 +321,7 @@ google-cloud-storage==3.1.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
-google-crc32c==1.7.0
+google-crc32c==1.7.1
     # via
     #   -r requirements/test.txt
     #   google-cloud-storage
@@ -410,7 +409,7 @@ mypy-extensions==1.0.0
     #   mypy
 mysqlclient==2.2.7
     # via -r requirements/test.txt
-newrelic==10.7.0
+newrelic==10.8.0
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
@@ -490,7 +489,7 @@ pyasn1==0.6.1
     #   -r requirements/test.txt
     #   pyasn1-modules
     #   rsa
-pyasn1-modules==0.4.1
+pyasn1-modules==0.4.2
     # via
     #   -r requirements/test.txt
     #   google-auth
@@ -668,11 +667,11 @@ tomlkit==0.13.2
     # via
     #   -r requirements/test.txt
     #   pylint
-tox==4.24.2
+tox==4.25.0
     # via -r requirements/test.txt
-types-pyyaml==6.0.12.20241230
+types-pyyaml==6.0.12.20250326
     # via django-stubs
-typing-extensions==4.12.2
+typing-extensions==4.13.0
     # via
     #   -r requirements/test.txt
     #   django-stubs
@@ -695,7 +694,7 @@ urllib3==2.2.3
     #   -r requirements/test.txt
     #   requests
     #   responses
-virtualenv==20.29.3
+virtualenv==20.30.0
     # via
     #   -r requirements/test.txt
     #   tox

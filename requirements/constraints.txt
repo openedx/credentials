@@ -10,9 +10,3 @@
 
 # Common constraints for edx repos
 -c common_constraints.txt
-
-# Pinning edx-django-utils to <6
-# v6 drops support for python versions <3.12
-# Changelog: https://github.com/openedx/edx-django-utils/blob/master/CHANGELOG.rst#600---2024-10-09
-# Github issue: https://github.com/openedx/credentials/issues/2569
-edx-django-utils<6
