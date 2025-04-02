@@ -258,7 +258,7 @@ msgpack==1.1.0
     # via cachecontrol
 mysqlclient==2.2.7
     # via -r requirements/base.in
-newrelic==10.8.0
+newrelic==10.8.1
     # via
     #   -r requirements/base.in
     #   edx-django-utils

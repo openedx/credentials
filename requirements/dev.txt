@@ -409,7 +409,7 @@ mypy-extensions==1.0.0
     #   mypy
 mysqlclient==2.2.7
     # via -r requirements/test.txt
-newrelic==10.8.0
+newrelic==10.8.1
     # via
     #   -r requirements/test.txt
     #   edx-django-utils
