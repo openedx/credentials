@@ -112,7 +112,7 @@ django-sortedm2m==4.0.0
     # via -r requirements/base.in
 django-statici18n==2.6.0
     # via -r requirements/base.in
-django-storages==1.14.5
+django-storages==1.14.6
     # via -r requirements/base.in
 django-waffle==4.2.0
     # via
@@ -142,7 +142,7 @@ edx-auth-backends==4.4.0
     # via -r requirements/base.in
 edx-ccx-keys==2.0.2
     # via openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.30
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.31
     # via -r requirements/base.in
 edx-django-release-util==1.4.0
     # via -r requirements/base.in

@@ -179,7 +179,7 @@ django-sortedm2m==4.0.0
     # via -r requirements/test.txt
 django-statici18n==2.6.0
     # via -r requirements/test.txt
-django-storages==1.14.5
+django-storages==1.14.6
     # via -r requirements/test.txt
 django-stubs==5.1.3
     # via -r requirements/dev.in
@@ -219,7 +219,7 @@ edx-ccx-keys==2.0.2
     # via
     #   -r requirements/test.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.30
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.31
     # via -r requirements/test.txt
 edx-django-release-util==1.4.0
     # via -r requirements/test.txt
@@ -551,7 +551,7 @@ pytest==8.3.5
     # via
     #   -r requirements/test.txt
     #   pytest-django
-pytest-django==4.10.0
+pytest-django==4.11.0
     # via -r requirements/test.txt
 python-dateutil==2.9.0.post0
     # via
@@ -669,7 +669,7 @@ tomlkit==0.13.2
     #   pylint
 tox==4.25.0
     # via -r requirements/test.txt
-types-pyyaml==6.0.12.20250326
+types-pyyaml==6.0.12.20250402
     # via django-stubs
 typing-extensions==4.13.0
     # via

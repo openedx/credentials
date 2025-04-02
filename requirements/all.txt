@@ -33,11 +33,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.37.24
+boto3==1.37.25
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.37.24
+botocore==1.37.25
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -233,7 +233,7 @@ django-statici18n==2.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-storages==1.14.5
+django-storages==1.14.6
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -290,7 +290,7 @@ edx-ccx-keys==2.0.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.30
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.31
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -710,7 +710,7 @@ pytest==8.3.5
     # via
     #   -r requirements/dev.txt
     #   pytest-django
-pytest-django==4.10.0
+pytest-django==4.11.0
     # via -r requirements/dev.txt
 python-dateutil==2.9.0.post0
     # via
@@ -857,7 +857,7 @@ tomlkit==0.13.2
     #   pylint
 tox==4.25.0
     # via -r requirements/dev.txt
-types-pyyaml==6.0.12.20250326
+types-pyyaml==6.0.12.20250402
     # via
     #   -r requirements/dev.txt
     #   django-stubs
