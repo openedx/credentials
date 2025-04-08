@@ -12,7 +12,7 @@ django==4.2.20
     #   edx-i18n-tools
 edx-i18n-tools==1.7.0
     # via -r requirements/translations.in
-lxml[html-clean,html_clean]==5.3.1
+lxml[html-clean,html_clean]==5.3.2
     # via
     #   edx-i18n-tools
     #   lxml-html-clean
