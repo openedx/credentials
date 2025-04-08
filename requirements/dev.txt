@@ -159,7 +159,7 @@ django-crum==0.7.9
     #   edx-toggles
 django-debug-toolbar==5.1.0
     # via -r requirements/dev.in
-django-extensions==3.2.3
+django-extensions==4.0
     # via -r requirements/test.txt
 django-filter==25.1
     # via -r requirements/test.txt
@@ -236,7 +236,7 @@ edx-django-utils==7.2.0
     #   edx-rest-api-client
     #   edx-toggles
     #   openedx-events
-edx-drf-extensions==10.5.0
+edx-drf-extensions==10.6.0
     # via -r requirements/test.txt
 edx-event-bus-kafka==6.0.0
     # via -r requirements/test.txt
@@ -376,7 +376,7 @@ jinja2==3.1.6
     #   -r requirements/test.txt
     #   code-annotations
     #   coreschema
-lxml[html-clean]==5.3.1
+lxml[html-clean]==5.3.2
     # via
     #   -r requirements/test.txt
     #   edx-credentials-themes
@@ -422,7 +422,7 @@ openapi-codec==1.3.2
     # via
     #   -r requirements/test.txt
     #   django-rest-swagger
-openedx-atlas==0.6.2
+openedx-atlas==0.7.0
     # via -r requirements/test.txt
 openedx-events==9.20.0
     # via
@@ -531,7 +531,7 @@ pylint-plugin-utils==0.8.2
     #   pylint-django
 pymemcache==4.0.0
     # via -r requirements/test.txt
-pymongo==4.11.3
+pymongo==4.12.0
     # via
     #   -r requirements/test.txt
     #   edx-opaque-keys
@@ -551,7 +551,7 @@ pytest==8.3.5
     # via
     #   -r requirements/test.txt
     #   pytest-django
-pytest-django==4.11.0
+pytest-django==4.11.1
     # via -r requirements/test.txt
 python-dateutil==2.9.0.post0
     # via
@@ -582,7 +582,7 @@ pyyaml==6.0.2
     #   edx-django-release-util
     #   edx-i18n-tools
     #   responses
-qrcode==8.0
+qrcode==8.1
     # via -r requirements/test.txt
 redis==5.2.1
     # via
@@ -671,7 +671,7 @@ tox==4.25.0
     # via -r requirements/test.txt
 types-pyyaml==6.0.12.20250402
     # via django-stubs
-typing-extensions==4.13.0
+typing-extensions==4.13.1
     # via
     #   -r requirements/test.txt
     #   django-stubs
