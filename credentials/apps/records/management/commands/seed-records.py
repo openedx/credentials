@@ -271,7 +271,6 @@ class Command(BaseCommand):
                 credential_id=program_certificate.id,
                 username=user.username,
                 status=UserCredential.AWARDED,
-                download_url="http://localhost:18150/download",
             )
 
             Command.log_action("User Credential for", program_certificate, created)
@@ -283,7 +282,6 @@ class Command(BaseCommand):
                 credential_id=course_certificate.id,
                 username=user.username,
                 status=UserCredential.AWARDED,
-                download_url="http://localhost:18150/download",
             )
 
             Command.log_action("User Credential for Course", course_certificate.course_id, created)

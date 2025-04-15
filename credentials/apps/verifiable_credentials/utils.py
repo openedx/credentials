@@ -51,7 +51,6 @@ def get_user_credentials_data(username, model):
                 "uuid": credential.uuid.hex,
                 "status": credential.status,
                 "username": credential.username,
-                "download_url": credential.download_url,
                 "credential_id": credential.credential_id,
                 "credential_uuid": credential_uuid,  # pylint: disable=possibly-used-before-assignment
                 "credential_title": credential_title,  # pylint: disable=possibly-used-before-assignment

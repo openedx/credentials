@@ -88,7 +88,6 @@ class GetProgramCertificatesTests(SiteMixin, TestCase):
         assert result[0]["uuid"] == str(self.program_user_credential.uuid).replace("-", "")
         assert result[0]["status"] == self.program_user_credential.status
         assert result[0]["username"] == self.program_user_credential.username
-        assert result[0]["download_url"] == self.program_user_credential.download_url
         assert result[0]["credential_id"] == self.program_user_credential.credential_id
         assert result[0]["credential_uuid"] == str(self.program_user_credential.credential.program_uuid).replace(
             "-", ""
@@ -114,7 +113,6 @@ class GetProgramCertificatesTests(SiteMixin, TestCase):
         assert result[0]["uuid"] == str(self.program_user_credential.uuid).replace("-", "")
         assert result[0]["status"] == self.program_user_credential.status
         assert result[0]["username"] == self.program_user_credential.username
-        assert result[0]["download_url"] == self.program_user_credential.download_url
         assert result[0]["credential_id"] == self.program_user_credential.credential_id
         assert result[0]["credential_uuid"] == str(self.program_user_credential.credential.program_uuid).replace(
             "-", ""
@@ -124,7 +122,6 @@ class GetProgramCertificatesTests(SiteMixin, TestCase):
         assert result[1]["uuid"] == str(self.program_user_credential2.uuid).replace("-", "")
         assert result[1]["status"] == self.program_user_credential2.status
         assert result[1]["username"] == self.program_user_credential2.username
-        assert result[1]["download_url"] == self.program_user_credential2.download_url
         assert result[1]["credential_id"] == self.program_user_credential2.credential_id
         assert result[1]["credential_uuid"] == str(self.program_user_credential2.credential.program_uuid).replace(
             "-", ""
@@ -143,7 +140,6 @@ class GetProgramCertificatesTests(SiteMixin, TestCase):
         assert result[0]["uuid"] == str(self.course_user_credentials[0].uuid).replace("-", "")
         assert result[0]["status"] == self.course_user_credentials[0].status
         assert result[0]["username"] == self.course_user_credentials[0].username
-        assert result[0]["download_url"] == self.course_user_credentials[0].download_url
         assert result[0]["credential_id"] == self.course_user_credentials[0].credential_id
         assert result[0]["credential_uuid"] == self.course_user_credentials[0].credential.course_id
         assert result[0]["credential_title"] == self.course.title
@@ -153,7 +149,6 @@ class GetProgramCertificatesTests(SiteMixin, TestCase):
         assert result[0]["uuid"] == str(self.course_user_credentials[0].uuid).replace("-", "")
         assert result[0]["status"] == self.course_user_credentials[0].status
         assert result[0]["username"] == self.course_user_credentials[0].username
-        assert result[0]["download_url"] == self.course_user_credentials[0].download_url
         assert result[0]["credential_id"] == self.course_user_credentials[0].credential_id
         assert result[0]["credential_uuid"] == self.course_user_credentials[0].credential.course_id
         assert result[0]["credential_title"] == self.course.title
@@ -161,7 +156,6 @@ class GetProgramCertificatesTests(SiteMixin, TestCase):
         assert result[1]["uuid"] == str(self.course_user_credentials[1].uuid).replace("-", "")
         assert result[1]["status"] == self.course_user_credentials[1].status
         assert result[1]["username"] == self.course_user_credentials[1].username
-        assert result[1]["download_url"] == self.course_user_credentials[1].download_url
         assert result[1]["credential_id"] == self.course_user_credentials[1].credential_id
         assert result[1]["credential_uuid"] == self.course_user_credentials[1].credential.course_id
         assert result[1]["credential_title"] == self.course.title
