@@ -35,6 +35,8 @@ class CourseCertificateSignalTests(TestCase):
         self.revoked_event_type = "org.openedx.learning.certificate.revoked.v1"
 
     def _setup_event_data(self, event_type):
+        # Stub out a test certificate representation per the data class modeling of the
+        # edx-platform certificates app.
         certificate_data = CertificateData(
             user=UserData(
                 pii=UserPersonalData(
@@ -51,6 +53,7 @@ class CourseCertificateSignalTests(TestCase):
             mode=self.mode,
             grade="1.0",
             current_status="",
+            download_url="http://blah.blah.blah/certificate/1",
             name="hypnofrog",
         )
         event_metadata = EventsMetadata(

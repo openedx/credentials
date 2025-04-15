@@ -47,7 +47,6 @@ class UserCredentialFactory(factory.django.DjangoModelFactory):
     credential = factory.SubFactory(ProgramCertificateFactory)
     username = factory.Sequence(lambda o: "robot%d" % o)
     status = models.UserCredential.AWARDED
-    download_url = factory.Faker("url")
     uuid = factory.LazyFunction(uuid.uuid4)
 
 
