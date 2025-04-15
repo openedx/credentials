@@ -92,7 +92,6 @@ To get information about a specific credential for a single user, use the creden
             "program_uuid": "244af8cb-7cdd-487e-afc0-aa0b6391b1fd"
         },
         "status": "revoked",
-        "download_url": "www.example.com",
         "uuid": "a2810ab0-c084-43de-a9db-fa484fcc82bc",
         "attributes": [
             {
@@ -145,7 +144,6 @@ or ``status`` parameters in the query string.
                     "program_uuid": "244af8cb-7cdd-487e-afc0-aa0b6391b1fd"
                 },
                 "status": "revoked",
-                "download_url": "www.example.com",
                 "uuid": "a2810ab0-c084-43de-a9db-fa484fcc82bc",
                 "attributes": [
                     {
@@ -192,7 +190,6 @@ You can filter the returned list of credentials by using the ``program_uuid`` pa
                     "program_uuid": "244af8cb-7cdd-487e-afc0-aa0b6391b1fd"
                 },
                 "status": "revoked",
-                "download_url": "www.example.com",
                 "uuid": "a2810ab0-c084-43de-a9db-fa484fcc82bc",
                 "attributes": [
                     {

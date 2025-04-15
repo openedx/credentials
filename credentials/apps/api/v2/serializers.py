@@ -164,7 +164,6 @@ class UserCredentialSerializer(serializers.ModelSerializer):
             "username",
             "credential",
             "status",
-            "download_url",
             "uuid",
             "attributes",
             "date_override",
@@ -174,7 +173,6 @@ class UserCredentialSerializer(serializers.ModelSerializer):
         )
         read_only_fields = (
             "username",
-            "download_url",
             "uuid",
             "created",
             "modified",
@@ -237,7 +235,6 @@ class UserCredentialCreationSerializer(serializers.ModelSerializer):
         model = UserCredential
         fields = UserCredentialSerializer.Meta.fields + ("lms_user_id",)
         read_only_fields = (
-            "download_url",
             "uuid",
             "created",
             "modified",

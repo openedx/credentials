@@ -183,9 +183,6 @@ class UserCredential(TimeStampedModel):
         choices=_choices(constants.UserCredentialStatus.AWARDED, constants.UserCredentialStatus.REVOKED),
         default=constants.UserCredentialStatus.AWARDED,
     )
-    download_url = models.CharField(
-        max_length=255, blank=True, null=True, help_text=_("URL at which the credential can be downloaded")
-    )
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     class Meta:

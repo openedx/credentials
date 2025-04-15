@@ -82,7 +82,6 @@ class CredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
                         "uuid": "4a665745d1ba4dfd8f54b58e822b6585",
                         "status": "awarded",
                         "username": "staff",
-                        "download_url": null,
                         "credential_id": 1,
                         "credential_uuid": "525756b010aa4c788881141acca72538",  # Program UUID
                         "credential_title": "Title of a program",
@@ -95,7 +94,6 @@ class CredentialsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
                         "uuid": "5135e99ef1d14bca9135972270ef887b",
                         "status": "awarded",
                         "username": "staff",
-                        "download_url": null,
                         "credential_id": 1,
                         "credential_uuid": "course-v1:rg+program_course+2024",  # Course ID
                         "credential_title": "Course cert configuration",
