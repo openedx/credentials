@@ -33,11 +33,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.37.29
+boto3==1.37.34
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.37.29
+botocore==1.37.34
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -86,7 +86,7 @@ click-log==0.4.0
     # via
     #   -r requirements/dev.txt
     #   edx-lint
-code-annotations==2.2.0
+code-annotations==2.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -178,7 +178,7 @@ django-appconf==1.1.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-statici18n
-django-config-models==2.8.0
+django-config-models==2.9.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -194,7 +194,7 @@ django-crum==0.7.9
     #   edx-toggles
 django-debug-toolbar==5.1.0
     # via -r requirements/dev.txt
-django-extensions==4.0
+django-extensions==4.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -281,7 +281,7 @@ edx-ace==1.11.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-auth-backends==4.4.0
+edx-auth-backends==4.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -302,7 +302,7 @@ edx-django-sites-extensions==4.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-utils==7.2.0
+edx-django-utils==7.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -318,7 +318,7 @@ edx-drf-extensions==10.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-event-bus-kafka==6.0.0
+edx-event-bus-kafka==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -340,7 +340,7 @@ edx-opaque-keys[django]==2.12.0
     #   edx-ccx-keys
     #   edx-drf-extensions
     #   openedx-events
-edx-rest-api-client==6.1.0
+edx-rest-api-client==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -386,12 +386,12 @@ google-api-core[grpc]==2.24.2
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.166.0
+google-api-python-client==2.167.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-auth==2.38.0
+google-auth==2.39.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -433,7 +433,7 @@ google-resumable-media==2.7.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-cloud-storage
-googleapis-common-protos==1.69.2
+googleapis-common-protos==1.70.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -505,12 +505,12 @@ lxml[html-clean]==5.3.2
     #   edx-credentials-themes
     #   edx-i18n-tools
     #   lxml-html-clean
-lxml-html-clean==0.4.1
+lxml-html-clean==0.4.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   lxml
-markdown==3.7
+markdown==3.8
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -539,7 +539,7 @@ mysqlclient==2.2.7
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-newrelic==10.8.1
+newrelic==10.9.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -561,7 +561,7 @@ openedx-atlas==0.7.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-openedx-events==9.20.0
+openedx-events==10.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -591,7 +591,7 @@ pbr==6.1.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   stevedore
-pillow==11.1.0
+pillow==11.2.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -861,7 +861,7 @@ types-pyyaml==6.0.12.20250402
     # via
     #   -r requirements/dev.txt
     #   django-stubs
-typing-extensions==4.13.1
+typing-extensions==4.13.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
