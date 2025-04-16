@@ -93,7 +93,7 @@ defusedxml==0.7.1
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/base.txt
-dill==0.3.9
+dill==0.4.0
     # via pylint
 distlib==0.3.9
     # via virtualenv
@@ -256,8 +256,6 @@ firebase-admin==6.7.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
-fontawesomefree==6.6.0
-    # via -r requirements/base.txt
 google-api-core[grpc]==2.24.2
     # via
     #   -r requirements/base.txt
@@ -560,7 +558,7 @@ requests-oauthlib==2.0.0
     #   social-auth-core
 responses==0.25.7
     # via -r requirements/test.in
-rsa==4.9
+rsa==4.9.1
     # via
     #   -r requirements/base.txt
     #   google-auth

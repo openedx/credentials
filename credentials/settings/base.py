@@ -65,7 +65,6 @@ THIRD_PARTY_APPS = [
     "drf_yasg",
     "xss_utils",
     "openedx_events",
-    "fontawesomefree",
 ]
 
 PROJECT_APPS = [

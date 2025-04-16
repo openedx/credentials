@@ -38,7 +38,6 @@ edx-event-bus-kafka
 edx-opaque-keys
 edx-rest-api-client
 edx-toggles
-fontawesomefree
 markdown
 mysqlclient
 newrelic
