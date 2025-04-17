@@ -184,8 +184,6 @@ fastavro==1.10.0
     # via openedx-events
 firebase-admin==6.7.0
     # via edx-ace
-fontawesomefree==6.6.0
-    # via -r requirements/base.in
 google-api-core[grpc]==2.24.2
     # via
     #   firebase-admin
@@ -364,7 +362,7 @@ requests==2.32.3
     #   social-auth-core
 requests-oauthlib==2.0.0
     # via social-auth-core
-rsa==4.9
+rsa==4.9.1
     # via google-auth
 sailthru-client==2.2.3
     # via edx-ace
