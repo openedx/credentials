@@ -72,6 +72,7 @@ django==4.2.20
     #   drf-yasg
     #   edx-ace
     #   edx-auth-backends
+    #   edx-braze-client
     #   edx-credentials-themes
     #   edx-django-release-util
     #   edx-django-sites-extensions
@@ -136,10 +137,12 @@ drf-jwt==1.19.2
     # via edx-drf-extensions
 drf-yasg==1.21.10
     # via -r requirements/base.in
-edx-ace==1.11.4
+edx-ace==1.12.1
     # via -r requirements/base.in
 edx-auth-backends==4.5.0
     # via -r requirements/base.in
+edx-braze-client==1.0.2
+    # via edx-ace
 edx-ccx-keys==2.0.2
     # via openedx-events
 edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.31
@@ -153,6 +156,7 @@ edx-django-utils==7.4.0
     #   -r requirements/base.in
     #   django-config-models
     #   edx-ace
+    #   edx-braze-client
     #   edx-drf-extensions
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
@@ -207,7 +211,7 @@ google-cloud-core==2.4.3
     # via
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.20.1
+google-cloud-firestore==2.20.2
     # via firebase-admin
 google-cloud-storage==3.1.0
     # via firebase-admin
@@ -273,7 +277,7 @@ openedx-events==10.0.0
     #   -r requirements/base.in
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-packaging==24.2
+packaging==25.0
     # via drf-yasg
 path==16.16.0
     # via edx-i18n-tools
@@ -352,6 +356,7 @@ requests==2.32.3
     #   -r requirements/base.in
     #   cachecontrol
     #   coreapi
+    #   edx-braze-client
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   google-api-core
