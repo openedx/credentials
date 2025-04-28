@@ -33,11 +33,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.37.34
+boto3==1.37.38
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.37.34
+botocore==1.37.38
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -161,6 +161,7 @@ django==4.2.20
     #   drf-yasg
     #   edx-ace
     #   edx-auth-backends
+    #   edx-braze-client
     #   edx-credentials-themes
     #   edx-django-release-util
     #   edx-django-sites-extensions
@@ -277,7 +278,7 @@ drf-yasg==1.21.10
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-ace==1.11.4
+edx-ace==1.12.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -285,6 +286,11 @@ edx-auth-backends==4.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+edx-braze-client==1.0.2
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   edx-ace
 edx-ccx-keys==2.0.2
     # via
     #   -r requirements/dev.txt
@@ -308,6 +314,7 @@ edx-django-utils==7.4.0
     #   -r requirements/production.txt
     #   django-config-models
     #   edx-ace
+    #   edx-braze-client
     #   edx-drf-extensions
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
@@ -371,7 +378,7 @@ firebase-admin==6.7.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-ace
-gevent==24.11.1
+gevent==25.4.1
     # via -r requirements/production.txt
 google-api-core[grpc]==2.24.2
     # via
@@ -408,7 +415,7 @@ google-cloud-core==2.4.3
     #   -r requirements/production.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.20.1
+google-cloud-firestore==2.20.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -563,7 +570,7 @@ openedx-events==10.0.0
     #   -r requirements/production.txt
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-packaging==24.2
+packaging==25.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -760,6 +767,7 @@ requests==2.32.3
     #   -r requirements/production.txt
     #   cachecontrol
     #   coreapi
+    #   edx-braze-client
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   google-api-core
@@ -781,7 +789,7 @@ rsa==4.9.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-auth
-s3transfer==0.11.4
+s3transfer==0.11.5
     # via
     #   -r requirements/production.txt
     #   boto3

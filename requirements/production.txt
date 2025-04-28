@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.37.34
+boto3==1.37.38
     # via django-ses
-botocore==1.37.34
+botocore==1.37.38
     # via
     #   boto3
     #   s3transfer
@@ -99,6 +99,7 @@ django==4.2.20
     #   drf-yasg
     #   edx-ace
     #   edx-auth-backends
+    #   edx-braze-client
     #   edx-credentials-themes
     #   edx-django-release-util
     #   edx-django-sites-extensions
@@ -174,10 +175,14 @@ drf-jwt==1.19.2
     #   edx-drf-extensions
 drf-yasg==1.21.10
     # via -r requirements/base.txt
-edx-ace==1.11.4
+edx-ace==1.12.1
     # via -r requirements/base.txt
 edx-auth-backends==4.5.0
     # via -r requirements/base.txt
+edx-braze-client==1.0.2
+    # via
+    #   -r requirements/base.txt
+    #   edx-ace
 edx-ccx-keys==2.0.2
     # via
     #   -r requirements/base.txt
@@ -193,6 +198,7 @@ edx-django-utils==7.4.0
     #   -r requirements/base.txt
     #   django-config-models
     #   edx-ace
+    #   edx-braze-client
     #   edx-drf-extensions
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
@@ -230,7 +236,7 @@ firebase-admin==6.7.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
-gevent==24.11.1
+gevent==25.4.1
     # via -r requirements/production.in
 google-api-core[grpc]==2.24.2
     # via
@@ -262,7 +268,7 @@ google-cloud-core==2.4.3
     #   -r requirements/base.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.20.1
+google-cloud-firestore==2.20.2
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -368,7 +374,7 @@ openedx-events==10.0.0
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-packaging==24.2
+packaging==25.0
     # via
     #   -r requirements/base.txt
     #   drf-yasg
@@ -482,6 +488,7 @@ requests==2.32.3
     #   -r requirements/base.txt
     #   cachecontrol
     #   coreapi
+    #   edx-braze-client
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   google-api-core
@@ -498,7 +505,7 @@ rsa==4.9.1
     # via
     #   -r requirements/base.txt
     #   google-auth
-s3transfer==0.11.4
+s3transfer==0.11.5
     # via boto3
 sailthru-client==2.2.3
     # via
