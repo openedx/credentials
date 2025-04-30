@@ -20,7 +20,7 @@ cachecontrol==0.14.2
     # via firebase-admin
 cachetools==5.5.2
     # via google-auth
-certifi==2025.1.31
+certifi==2025.4.26
     # via requests
 cffi==1.17.1
     # via
@@ -137,7 +137,7 @@ drf-jwt==1.19.2
     # via edx-drf-extensions
 drf-yasg==1.21.10
     # via -r requirements/base.in
-edx-ace==1.12.1
+edx-ace==1.13.0
     # via -r requirements/base.in
 edx-auth-backends==4.5.0
     # via -r requirements/base.in
@@ -147,9 +147,9 @@ edx-ccx-keys==2.0.2
     # via openedx-events
 edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.31
     # via -r requirements/base.in
-edx-django-release-util==1.4.0
+edx-django-release-util==1.5.0
     # via -r requirements/base.in
-edx-django-sites-extensions==4.2.0
+edx-django-sites-extensions==5.1.0
     # via -r requirements/base.in
 edx-django-utils==7.4.0
     # via
@@ -169,9 +169,9 @@ edx-event-bus-kafka==6.1.0
     # via -r requirements/base.in
 edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via -r requirements/base.in
-edx-i18n-tools==1.7.0
+edx-i18n-tools==1.8.0
     # via edx-credentials-themes
-edx-opaque-keys[django]==2.12.0
+edx-opaque-keys[django]==3.0.0
     # via
     #   -r requirements/base.in
     #   edx-ccx-keys
@@ -186,7 +186,7 @@ edx-toggles==5.3.0
     #   edx-event-bus-redis
 fastavro==1.10.0
     # via openedx-events
-firebase-admin==6.7.0
+firebase-admin==6.8.0
     # via edx-ace
 google-api-core[grpc]==2.24.2
     # via
@@ -195,7 +195,7 @@ google-api-core[grpc]==2.24.2
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.167.0
+google-api-python-client==2.168.0
     # via firebase-admin
 google-auth==2.39.0
     # via
@@ -245,7 +245,7 @@ jinja2==3.1.6
     # via
     #   code-annotations
     #   coreschema
-lxml[html-clean,html_clean]==5.3.2
+lxml[html-clean,html_clean]==5.4.0
     # via
     #   edx-credentials-themes
     #   edx-i18n-tools
@@ -260,7 +260,7 @@ msgpack==1.1.0
     # via cachecontrol
 mysqlclient==2.2.7
     # via -r requirements/base.in
-newrelic==10.9.0
+newrelic==10.10.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -390,7 +390,7 @@ social-auth-app-django==5.4.3
     # via
     #   -r requirements/base.in
     #   edx-auth-backends
-social-auth-core==4.5.6
+social-auth-core==4.6.1
     # via
     #   edx-auth-backends
     #   social-auth-app-django
@@ -419,7 +419,7 @@ walrus==0.9.4
     # via edx-event-bus-redis
 webencodings==0.5.1
     # via bleach
-xss-utils==0.7.1
+xss-utils==0.8.0
     # via -r requirements/base.in
 
 # The following packages are considered to be unsafe in a requirements file:
