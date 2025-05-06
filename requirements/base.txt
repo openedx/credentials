@@ -16,7 +16,7 @@ backoff==2.2.1
     # via segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.in
-cachecontrol==0.14.2
+cachecontrol==0.14.3
     # via firebase-admin
 cachetools==5.5.2
     # via google-auth
@@ -26,7 +26,7 @@ cffi==1.17.1
     # via
     #   cryptography
     #   pynacl
-charset-normalizer==3.4.1
+charset-normalizer==3.4.2
     # via requests
 click==8.1.8
     # via
@@ -41,7 +41,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==44.0.2
+cryptography==44.0.3
     # via
     #   pyjwt
     #   social-auth-core
@@ -72,7 +72,6 @@ django==4.2.20
     #   drf-yasg
     #   edx-ace
     #   edx-auth-backends
-    #   edx-braze-client
     #   edx-credentials-themes
     #   edx-django-release-util
     #   edx-django-sites-extensions
@@ -137,12 +136,10 @@ drf-jwt==1.19.2
     # via edx-drf-extensions
 drf-yasg==1.21.10
     # via -r requirements/base.in
-edx-ace==1.13.0
+edx-ace==1.14.0
     # via -r requirements/base.in
 edx-auth-backends==4.5.0
     # via -r requirements/base.in
-edx-braze-client==1.0.2
-    # via edx-ace
 edx-ccx-keys==2.0.2
     # via openedx-events
 edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.31
@@ -156,7 +153,6 @@ edx-django-utils==7.4.0
     #   -r requirements/base.in
     #   django-config-models
     #   edx-ace
-    #   edx-braze-client
     #   edx-drf-extensions
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
@@ -169,7 +165,7 @@ edx-event-bus-kafka==6.1.0
     # via -r requirements/base.in
 edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via -r requirements/base.in
-edx-i18n-tools==1.8.0
+edx-i18n-tools==1.9.0
     # via edx-credentials-themes
 edx-opaque-keys[django]==3.0.0
     # via
@@ -195,9 +191,9 @@ google-api-core[grpc]==2.24.2
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.168.0
+google-api-python-client==2.169.0
     # via firebase-admin
-google-auth==2.39.0
+google-auth==2.40.0
     # via
     #   google-api-core
     #   google-api-python-client
@@ -260,7 +256,7 @@ msgpack==1.1.0
     # via cachecontrol
 mysqlclient==2.2.7
     # via -r requirements/base.in
-newrelic==10.10.0
+newrelic==10.11.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils
@@ -272,7 +268,7 @@ openapi-codec==1.3.2
     # via django-rest-swagger
 openedx-atlas==0.7.0
     # via -r requirements/base.in
-openedx-events==10.0.0
+openedx-events==10.1.0
     # via
     #   -r requirements/base.in
     #   edx-event-bus-kafka
@@ -321,7 +317,7 @@ pyjwt[crypto]==2.10.1
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.in
-pymongo==4.12.0
+pymongo==4.12.1
     # via edx-opaque-keys
 pynacl==1.5.0
     # via edx-django-utils
@@ -347,16 +343,15 @@ pyyaml==6.0.2
     #   drf-yasg
     #   edx-django-release-util
     #   edx-i18n-tools
-qrcode==8.1
+qrcode==8.2
     # via -r requirements/base.in
-redis==5.2.1
+redis==6.0.0
     # via walrus
 requests==2.32.3
     # via
     #   -r requirements/base.in
     #   cachecontrol
     #   coreapi
-    #   edx-braze-client
     #   edx-drf-extensions
     #   edx-rest-api-client
     #   google-api-core
