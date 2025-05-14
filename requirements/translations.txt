@@ -6,11 +6,11 @@
 #
 asgiref==3.8.1
     # via django
-django==4.2.20
+django==4.2.21
     # via
     #   -c requirements/common_constraints.txt
     #   edx-i18n-tools
-edx-i18n-tools==1.8.0
+edx-i18n-tools==1.9.0
     # via -r requirements/translations.in
 lxml[html-clean,html_clean]==5.4.0
     # via
