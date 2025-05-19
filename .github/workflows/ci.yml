@@ -37,7 +37,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.12"]
-        django-version: ["django42"]
+        django-version: ["django42", "django52"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -63,7 +63,7 @@ jobs:
           make static
           make tests
       - name: Run code coverage
-        if: matrix.python-version == '3.12' && matrix.django-version == 'django42'
+        if: matrix.python-version == '3.12' && matrix.django-version == 'django52'
         uses: codecov/codecov-action@v5
         with:
           flags: unittests

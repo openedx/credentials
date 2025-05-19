@@ -2,9 +2,9 @@ from collections import namedtuple
 from datetime import datetime
 from logging import WARNING
 from uuid import uuid4
+from zoneinfo import ZoneInfo
 
 import ddt
-import pytz
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework.exceptions import ValidationError
@@ -204,7 +204,7 @@ class UserGradeSerializerTests(SiteMixin, TestCase):
         Request = namedtuple("Request", ["site"])
         serializer = UserGradeSerializer(context={"request": Request(site=self.site)})
         updated_at_dt = datetime.now()
-        updated_at_utc = updated_at_dt.replace(tzinfo=pytz.UTC)
+        updated_at_utc = updated_at_dt.replace(tzinfo=ZoneInfo("UTC"))
 
         data = {
             "username": "alice",

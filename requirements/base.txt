@@ -300,8 +300,8 @@ pyasn1-modules==0.4.2
     # via google-auth
 pycparser==2.22
     # via cffi
-pygments==2.19.1
-    # via -r requirements/base.in
+pygments==2.16.1
+    # via ipython
 pyjwt[crypto]==2.10.1
     # via
     #   drf-jwt
@@ -323,23 +323,13 @@ python-dateutil==2.9.0.post0
     # via
     #   edx-ace
     #   segment-analytics-python
-python-memcached==1.62
+python-memcached==1.59
     # via -r requirements/base.in
-python-slugify==8.0.4
-    # via code-annotations
+python-slugify==8.0.1
+    # via -r requirements/base.in
 python3-openid==3.2.0
     # via social-auth-core
-pytz==2025.2
-    # via
-    #   -r requirements/base.in
-    #   drf-yasg
-pyyaml==6.0.2
-    # via
-    #   code-annotations
-    #   drf-yasg
-    #   edx-django-release-util
-    #   edx-i18n-tools
-qrcode==8.2
+qrcode==7.4.2
     # via -r requirements/base.in
 redis==6.2.0
     # via walrus

@@ -230,12 +230,10 @@ LANGUAGES_BIDI = LANGUAGES_BIDI + ["rtl"]
 TIME_ZONE = "UTC"
 TIME_ZONE_CLASS = timezone.utc
 
+# Using zoneinfo from the standard library instead of pytz
 # https://docs.djangoproject.com/en/4.2/releases/4.0/#zoneinfo-default-timezone-implementation
-USE_DEPRECATED_PYTZ = True
 
 USE_I18N = True
-
-USE_L10N = True
 
 USE_TZ = True
 
@@ -422,6 +420,9 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "credentials.apps.api.v2.views.credentials_throttle_handler",
 }
 
+# DRF-YASG Settings
+SWAGGER_USE_COMPAT_RENDERERS = False
+
 # Django-ratelimit Settings
 RATELIMIT_VIEW = "credentials.apps.records.views.rate_limited"
 
@@ -460,7 +461,14 @@ CSRF_COOKIE_SECURE = False
 FILE_STORAGE_BACKEND = {}
 EXTRA_APPS = []
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
+    },
+}
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
