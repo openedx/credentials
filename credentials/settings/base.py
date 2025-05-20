@@ -3,6 +3,7 @@ from datetime import timezone
 from os.path import abspath, dirname, join
 
 from corsheaders.defaults import default_headers as corsheaders_default_headers
+import django
 from django.conf.global_settings import LANGUAGES_BIDI
 from edx_toggles.toggles import WaffleSwitch
 from edx_django_utils.plugins import get_plugin_apps, add_plugins
@@ -230,7 +231,6 @@ LANGUAGES_BIDI = LANGUAGES_BIDI + ["rtl"]
 TIME_ZONE = "UTC"
 TIME_ZONE_CLASS = timezone.utc
 
-# Using zoneinfo from the standard library instead of pytz
 # https://docs.djangoproject.com/en/4.2/releases/4.0/#zoneinfo-default-timezone-implementation
 
 USE_I18N = True
@@ -461,14 +461,25 @@ CSRF_COOKIE_SECURE = False
 FILE_STORAGE_BACKEND = {}
 EXTRA_APPS = []
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
-    },
-}
+
+DEFAULT_FILE_STORAGE_BACKEND = "django.core.files.storage.FileSystemStorage"
+STATICFILES_STORAGE_BACKEND = "django.contrib.staticfiles.storage.StaticFilesStorage"
+
+if django.VERSION >= (4, 2):
+    # Use new STORAGES setting (available from Django 4.2)
+    STORAGES = {
+        "default": {
+            "BACKEND": DEFAULT_FILE_STORAGE_BACKEND,
+        },
+        "staticfiles": {
+            "BACKEND": STATICFILES_STORAGE_BACKEND,
+        },
+    }
+else:
+    # For Django < 4.2 or packages still using legacy settings
+    DEFAULT_FILE_STORAGE = DEFAULT_FILE_STORAGE_BACKEND
+    STATICFILES_STORAGE = STATICFILES_STORAGE_BACKEND
+
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",

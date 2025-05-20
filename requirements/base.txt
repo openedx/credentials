@@ -326,7 +326,7 @@ python-dateutil==2.9.0.post0
 python-memcached==1.59
     # via -r requirements/base.in
 python-slugify==8.0.4
-    # via -r requirements/base.in
+    # via code-annotations
 python3-openid==3.2.0
     # via social-auth-core
 qrcode==7.4.2
