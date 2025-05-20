@@ -1,5 +1,5 @@
-Quick Start
-===========
+Badges Operator Quick Start
+============================
 
 .. note::
 

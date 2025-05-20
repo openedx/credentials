@@ -1,5 +1,5 @@
-Processing
-==========
+Badges Processing
+==================
 
 Incoming events async processing happens in a separate event bus consumer process(es).
 See the Event Bus documentation for details.
