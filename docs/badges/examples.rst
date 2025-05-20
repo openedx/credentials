@@ -1,5 +1,5 @@
-Configuration examples
-======================
+Configuration examples for Badging
+===================================
 
 These examples will show how to configure requirements and ``data rules`` for necessary use cases.
 

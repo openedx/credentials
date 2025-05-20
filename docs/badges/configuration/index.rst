@@ -1,5 +1,5 @@
-Configuration
-=============
+Badging Configuration
+======================
 
 .. toctree::
     :maxdepth: 1

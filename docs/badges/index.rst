@@ -1,17 +1,25 @@
-Badges
-======
+Badges Information
+=======================
 
     The Badges feature allows learners to earn achievements (badges) for their learning activities.
 
 - **Badge Template** is another kind of **credential**.
 - **Badge** is another kind of **user credential**.
 
-Current Badges version is highly integrated with the `Credly (by Pearson)`_ service, but it is fully prepared to be used separately.
+Current Badges version is highly integrated with the `Credly (by Pearson)`_ and `Accredible`_ services, but it is fully prepared to be used separately.
 
-    What is Credly?
+What is Credly?
+---------------
 
-    **Credly** is a end-to-end solution for creating, issuing, and managing digital Credentials. Organizations use **Credly** to recognize their learners' achievements.
-    Users use Credly as a professional board to store badges to visualize their professional success – which courses were completed and when. Badges provide employers and peers concrete evidence of what you had to do to earn your credential and what you're now capable of. Credly also offers labor market insights based on users’ skills. Users can search and apply for job opportunities right through Credly.
+**Credly** is a end-to-end solution for creating, issuing, and managing digital Credentials. Organizations use **Credly** to recognize their learners' achievements.
+Users use Credly as a professional board to store badges to visualize their professional success – which courses were completed and when. Badges provide employers and peers concrete evidence of what you had to do to earn your credential and what you're now capable of. Credly also offers labor market insights based on users’ skills. Users can search and apply for job opportunities right through Credly.
+
+What is Accredible?
+--------------------
+
+**Accredible** allows for the design and issue of verifiable digital badges and
+certificates that showcase acquired skills, earning criteria, and evidence of
+learning. Learn more about Accredible on the `Accredible features page`_.
 
 
 Glossary
@@ -35,3 +43,5 @@ Glossary
     processing
 
 .. _Credly (by Pearson): https://info.credly.com/
+.. _Accredible: https://www.accredible.com/
+.. _Accredible features page: https://www.accredible.com/features

@@ -1,5 +1,5 @@
-Settings
-========
+Badging Settings
+=================
 
 .. note::
 
