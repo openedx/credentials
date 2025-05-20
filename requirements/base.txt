@@ -325,7 +325,7 @@ python-dateutil==2.9.0.post0
     #   segment-analytics-python
 python-memcached==1.59
     # via -r requirements/base.in
-python-slugify==8.0.1
+python-slugify==8.0.4
     # via -r requirements/base.in
 python3-openid==3.2.0
     # via social-auth-core

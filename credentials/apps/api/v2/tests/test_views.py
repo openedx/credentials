@@ -1,14 +1,13 @@
-import datetime
 import json
 from decimal import Decimal
 from unittest import mock
-from zoneinfo import ZoneInfo
 
 import ddt
 from django.contrib.auth.models import Permission
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.timezone import datetime, timezone
 from rest_framework.renderers import JSONRenderer
 from rest_framework.test import APIRequestFactory, APITestCase
 from testfixtures import LogCapture
@@ -597,8 +596,7 @@ class GradeViewSetTests(SiteMixin, APITestCase):
         self.add_user_permission(self.user, "add_usergrade")
 
         # simulate updating the existing record with the new field in the data
-        dt = datetime.datetime.now()
-        last_updated_at = dt.replace(tzinfo=ZoneInfo("UTC"))
+        last_updated_at = datetime.now(timezone.utc)
         data = self.serialize_user_grade(grade)
         data["lms_last_updated_at"] = last_updated_at
         response = self.client.post(self.list_path, data=JSONRenderer().render(data), content_type=JSON_CONTENT_TYPE)

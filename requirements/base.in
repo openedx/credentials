@@ -45,7 +45,6 @@ openedx-events
 pillow
 pygments
 python-memcached
-python-slugify
 pymemcache
 qrcode
 requests
