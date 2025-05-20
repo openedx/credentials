@@ -2,11 +2,10 @@
 Factories for tests of Credentials.
 """
 
-import datetime
 from uuid import uuid4
-from zoneinfo import ZoneInfo
 
 import factory
+from django.utils.timezone import datetime, timezone
 from factory.fuzzy import FuzzyDateTime, FuzzyInteger, FuzzyText
 from slugify import slugify
 
@@ -56,8 +55,8 @@ class CourseRunFactory(factory.django.DjangoModelFactory):
     uuid = factory.LazyFunction(uuid4)
     key = FuzzyText(prefix="course-run-id/", suffix="/fake")
     title_override = None
-    start_date = FuzzyDateTime(datetime.datetime(2014, 1, 1, tzinfo=ZoneInfo("UTC")))
-    end_date = FuzzyDateTime(datetime.datetime(2014, 1, 1, tzinfo=ZoneInfo("UTC"))).end_dt
+    start_date = FuzzyDateTime(datetime(2014, 1, 1, tzinfo=timezone.utc))
+    end_date = FuzzyDateTime(datetime(2014, 1, 1, tzinfo=timezone.utc)).end_dt
 
 
 class ProgramFactory(factory.django.DjangoModelFactory):

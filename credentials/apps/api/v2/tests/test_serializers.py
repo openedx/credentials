@@ -1,12 +1,11 @@
 from collections import namedtuple
-from datetime import datetime
 from logging import WARNING
 from uuid import uuid4
-from zoneinfo import ZoneInfo
 
 import ddt
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.timezone import datetime, timezone
 from rest_framework.exceptions import ValidationError
 from rest_framework.settings import api_settings
 from rest_framework.test import APIRequestFactory
@@ -203,8 +202,7 @@ class UserGradeSerializerTests(SiteMixin, TestCase):
     def test_to_internal_value(self):
         Request = namedtuple("Request", ["site"])
         serializer = UserGradeSerializer(context={"request": Request(site=self.site)})
-        updated_at_dt = datetime.now()
-        updated_at_utc = updated_at_dt.replace(tzinfo=ZoneInfo("UTC"))
+        updated_at_utc = datetime.now(timezone.utc)
 
         data = {
             "username": "alice",
