@@ -41,7 +41,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==44.0.3
+cryptography==45.0.2
     # via
     #   pyjwt
     #   social-auth-core
@@ -120,7 +120,7 @@ django-waffle==4.2.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==3.1.1
+django-webpack-loader==3.2.0
     # via -r requirements/base.in
 djangorestframework==3.16.0
     # via
@@ -180,7 +180,7 @@ edx-toggles==5.3.0
     #   -r requirements/base.in
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-fastavro==1.10.0
+fastavro==1.11.1
     # via openedx-events
 firebase-admin==6.8.0
     # via edx-ace
@@ -317,7 +317,7 @@ pyjwt[crypto]==2.10.1
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.in
-pymongo==4.12.1
+pymongo==4.13.0
     # via edx-opaque-keys
 pynacl==1.5.0
     # via edx-django-utils
