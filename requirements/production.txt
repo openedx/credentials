@@ -20,9 +20,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.38.19
+boto3==1.38.22
     # via django-ses
-botocore==1.38.19
+botocore==1.38.22
     # via
     #   boto3
     #   s3transfer
@@ -47,7 +47,7 @@ charset-normalizer==3.4.2
     # via
     #   -r requirements/base.txt
     #   requests
-click==8.2.0
+click==8.2.1
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -188,7 +188,7 @@ edx-django-release-util==1.5.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==5.1.0
     # via -r requirements/base.txt
-edx-django-utils==7.4.0
+edx-django-utils==8.0.0
     # via
     #   -r requirements/base.txt
     #   django-config-models
@@ -244,7 +244,7 @@ google-api-python-client==2.169.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-auth==2.40.1
+google-auth==2.40.2
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -349,7 +349,6 @@ newrelic==10.12.0
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
-    #   edx-django-utils
 nodeenv==1.9.1
     # via -r requirements/production.in
 oauthlib==3.2.2
@@ -498,7 +497,7 @@ rsa==4.9.1
     # via
     #   -r requirements/base.txt
     #   google-auth
-s3transfer==0.12.0
+s3transfer==0.13.0
     # via boto3
 sailthru-client==2.2.3
     # via
