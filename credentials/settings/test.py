@@ -36,24 +36,14 @@ CACHES = {
 # Local Directories
 TEST_ROOT = path("test_root")
 
-DEFAULT_FILE_STORAGE_BACKEND = "django.core.files.storage.FileSystemStorage"
-STATICFILES_STORAGE_BACKEND = "django.contrib.staticfiles.storage.StaticFilesStorage"
-
-if django.VERSION >= (4, 2):
-    # Use new STORAGES setting (available from Django 4.2)
-    STORAGES = {
-        "default": {
-            "BACKEND": DEFAULT_FILE_STORAGE_BACKEND,
-        },
-        "staticfiles": {
-            "BACKEND": STATICFILES_STORAGE_BACKEND,
-        },
-    }
-else:
-    # For Django < 4.2 or packages still using legacy settings
-    DEFAULT_FILE_STORAGE = DEFAULT_FILE_STORAGE_BACKEND
-    STATICFILES_STORAGE = STATICFILES_STORAGE_BACKEND
-
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 MEDIA_ROOT = str(TEST_ROOT / "uploads")
 MEDIA_URL = "/static/uploads/"
 

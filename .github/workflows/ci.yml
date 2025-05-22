@@ -63,7 +63,7 @@ jobs:
           make static
           make tests
       - name: Run code coverage
-        if: matrix.python-version == '3.12' && matrix.django-version == 'django52'
+        if: matrix.python-version == '3.12' && matrix.django-version == 'django42'
         uses: codecov/codecov-action@v5
         with:
           flags: unittests
