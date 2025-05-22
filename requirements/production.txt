@@ -345,10 +345,6 @@ msgpack==1.1.0
     #   cachecontrol
 mysqlclient==2.2.7
     # via -r requirements/base.txt
-newrelic==10.12.0
-    # via
-    #   -r requirements/base.txt
-    #   -r requirements/production.in
 nodeenv==1.9.1
     # via -r requirements/production.in
 oauthlib==3.2.2
