@@ -54,7 +54,7 @@ charset-normalizer==3.4.2
     # via
     #   -r requirements/test.txt
     #   requests
-click==8.2.0
+click==8.2.1
     # via
     #   -r requirements/test.txt
     #   black
@@ -84,7 +84,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==7.8.0
+coverage==7.8.1
     # via -r requirements/test.txt
 cryptography==45.0.2
     # via
@@ -225,7 +225,7 @@ edx-django-release-util==1.5.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==5.1.0
     # via -r requirements/test.txt
-edx-django-utils==7.4.0
+edx-django-utils==8.0.0
     # via
     #   -r requirements/test.txt
     #   django-config-models
@@ -293,7 +293,7 @@ google-api-python-client==2.169.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
-google-auth==2.40.1
+google-auth==2.40.2
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -407,10 +407,6 @@ mypy-extensions==1.1.0
     #   mypy
 mysqlclient==2.2.7
     # via -r requirements/test.txt
-newrelic==10.12.0
-    # via
-    #   -r requirements/test.txt
-    #   edx-django-utils
 oauthlib==3.2.2
     # via
     #   -r requirements/test.txt

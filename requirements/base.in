@@ -40,7 +40,6 @@ edx-rest-api-client
 edx-toggles
 markdown
 mysqlclient
-newrelic
 openedx-atlas
 openedx-events
 pillow

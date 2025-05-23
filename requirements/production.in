@@ -13,6 +13,5 @@
 django-ses
 gevent
 gunicorn
-newrelic
 nodeenv
 PyYAML
