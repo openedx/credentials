@@ -516,17 +516,6 @@ ALLOWED_EMAIL_HTML_TAGS = {
     "ul",
 }
 
-# .. toggle_name: USE_CERTIFICATE_AVAILABLE_DATE
-# .. toggle_implementation: WaffleSwitch
-# .. toggle_default: False
-# .. toggle_description: Toggle to control use of the certificate_available_date
-#   field during development.
-# .. toggle_use_cases: temporary
-# .. toggle_creation_date: 2021-04-30
-# .. toggle_target_removal_date: 2021-06-01
-# .. toggle_tickets: https://openedx.atlassian.net/browse/MICROBA-1169, https://openedx.atlassian.net/browse/MICROBA-1198 (ticket for removal)
-USE_CERTIFICATE_AVAILABLE_DATE = WaffleSwitch("credentials.use_certificate_available_date", module_name=__name__)
-
 LOGO_TRADEMARK_URL = "https://edx-cdn.org/v3/default/logo-trademark.svg"
 LOGO_TRADEMARK_URL_PNG = "https://edx-cdn.org/v3/default/logo-trademark.png"
 LOGO_TRADEMARK_URL_SVG = "https://edx-cdn.org/v3/default/logo-trademark.svg"
