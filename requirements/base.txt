@@ -41,7 +41,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==45.0.2
+cryptography==45.0.3
     # via
     #   pyjwt
     #   social-auth-core
@@ -191,7 +191,7 @@ google-api-core[grpc]==2.24.2
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.169.0
+google-api-python-client==2.170.0
     # via firebase-admin
 google-auth==2.40.2
     # via

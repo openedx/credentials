@@ -77,9 +77,9 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage==7.8.1
+coverage==7.8.2
     # via -r requirements/test.in
-cryptography==45.0.2
+cryptography==45.0.3
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -264,7 +264,7 @@ google-api-core[grpc]==2.24.2
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.169.0
+google-api-python-client==2.170.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
