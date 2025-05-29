@@ -198,7 +198,7 @@ edx-ccx-keys==2.0.2
     # via
     #   -r requirements/base.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.4.31
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.5.1
     # via -r requirements/base.txt
 edx-django-release-util==1.5.0
     # via -r requirements/base.txt
@@ -428,7 +428,7 @@ proto-plus==1.26.1
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.29.4
+protobuf==5.29.5
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -530,7 +530,7 @@ pyyaml==6.0.2
     #   responses
 qrcode==8.2
     # via -r requirements/base.txt
-redis==6.1.0
+redis==6.2.0
     # via
     #   -r requirements/base.txt
     #   walrus
