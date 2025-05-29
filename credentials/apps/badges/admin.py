@@ -318,6 +318,7 @@ class CredlyBadgeTemplateAdmin(admin.ModelAdmin):
             return
         super().delete_queryset(request, queryset)
 
+    @admin.display(description=_("icon"))
     def image(self, obj):
         """
         Badge template preview image.
@@ -325,8 +326,6 @@ class CredlyBadgeTemplateAdmin(admin.ModelAdmin):
         if obj.icon:
             return format_html('<img src="{}" width="50" height="auto" />', obj.icon)
         return None
-
-    image.short_description = _("icon")
 
     def save_model(self, request, obj, form, change):
         pass
@@ -391,6 +390,7 @@ class BadgeRequirementAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
 
+    @admin.display(description=_("badge template"))
     def template_link(self, instance):
         """
         Interactive link to parent (badge template).
@@ -400,8 +400,6 @@ class BadgeRequirementAdmin(admin.ModelAdmin):
 
         url = reverse(reverse_name, args=reverse_args)
         return format_html('<a href="{}">{}</a>', url, instance.template)
-
-    template_link.short_description = _("badge template")
 
     def response_change(self, request, obj):
         if "_save" in request.POST:
@@ -453,6 +451,7 @@ class BadgePenaltyAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         return False
 
+    @admin.display(description=_("badge template"))
     def template_link(self, instance):
         """
         Interactive link to parent (badge template).
@@ -461,8 +460,6 @@ class BadgePenaltyAdmin(admin.ModelAdmin):
         reverse_args = [] if reverse_name == "admin:index" else [instance.template.pk]
         url = reverse(reverse_name, args=reverse_args)
         return format_html('<a href="{}">{}</a>', url, instance.template)
-
-    template_link.short_description = _("badge template")
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         if db_field.name == "requirements":
