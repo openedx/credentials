@@ -256,7 +256,7 @@ firebase-admin==6.8.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
-google-api-core[grpc]==2.24.2
+google-api-core[grpc]==2.25.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -308,12 +308,12 @@ googleapis-common-protos==1.70.0
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio==1.71.0
+grpcio==1.72.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.71.0
+grpcio-status==1.72.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -428,7 +428,7 @@ proto-plus==1.26.1
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.29.5
+protobuf==6.31.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -454,7 +454,9 @@ pycparser==2.22
     #   -r requirements/base.txt
     #   cffi
 pygments==2.19.1
-    # via -r requirements/base.txt
+    # via
+    #   -r requirements/base.txt
+    #   pytest
 pyjwt[crypto]==2.10.1
     # via
     #   -r requirements/base.txt
@@ -495,7 +497,7 @@ pyparsing==3.2.3
     #   httplib2
 pyproject-api==1.9.1
     # via tox
-pytest==8.3.5
+pytest==8.4.0
     # via
     #   -r requirements/test.in
     #   pytest-django
@@ -612,13 +614,13 @@ tomlkit==0.13.2
     # via pylint
 tox==4.26.0
     # via -r requirements/test.in
-typing-extensions==4.13.2
+typing-extensions==4.14.0
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
 tzdata==2025.2
     # via faker
-uritemplate==4.1.1
+uritemplate==4.2.0
     # via
     #   -r requirements/base.txt
     #   coreapi

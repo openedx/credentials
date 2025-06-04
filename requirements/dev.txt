@@ -281,7 +281,7 @@ firebase-admin==6.8.0
     # via
     #   -r requirements/test.txt
     #   edx-ace
-google-api-core[grpc]==2.24.2
+google-api-core[grpc]==2.25.0
     # via
     #   -r requirements/test.txt
     #   firebase-admin
@@ -333,12 +333,12 @@ googleapis-common-protos==1.70.0
     #   -r requirements/test.txt
     #   google-api-core
     #   grpcio-status
-grpcio==1.71.0
+grpcio==1.72.1
     # via
     #   -r requirements/test.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.71.0
+grpcio-status==1.72.1
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -467,7 +467,7 @@ proto-plus==1.26.1
     #   -r requirements/test.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==5.29.5
+protobuf==6.31.1
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -493,7 +493,9 @@ pycparser==2.22
     #   -r requirements/test.txt
     #   cffi
 pygments==2.19.1
-    # via -r requirements/test.txt
+    # via
+    #   -r requirements/test.txt
+    #   pytest
 pyjwt[crypto]==2.10.1
     # via
     #   -r requirements/test.txt
@@ -542,7 +544,7 @@ pyproject-api==1.9.1
     # via
     #   -r requirements/test.txt
     #   tox
-pytest==8.3.5
+pytest==8.4.0
     # via
     #   -r requirements/test.txt
     #   pytest-django
@@ -567,7 +569,7 @@ pytz==2025.2
     # via
     #   -r requirements/test.txt
     #   drf-yasg
-pywatchman==2.0.0 ; "linux" in sys_platform
+pywatchman==3.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.in
 pyyaml==6.0.2
     # via
@@ -666,7 +668,7 @@ tox==4.26.0
     # via -r requirements/test.txt
 types-pyyaml==6.0.12.20250516
     # via django-stubs
-typing-extensions==4.13.2
+typing-extensions==4.14.0
     # via
     #   -r requirements/test.txt
     #   django-stubs
@@ -677,7 +679,7 @@ tzdata==2025.2
     # via
     #   -r requirements/test.txt
     #   faker
-uritemplate==4.1.1
+uritemplate==4.2.0
     # via
     #   -r requirements/test.txt
     #   coreapi
