@@ -53,7 +53,6 @@ class CourseCertificateSignalTests(TestCase):
             mode=self.mode,
             grade="1.0",
             current_status="",
-            download_url="http://blah.blah.blah/certificate/1",
             name="hypnofrog",
         )
         event_metadata = EventsMetadata(
