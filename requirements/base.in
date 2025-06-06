@@ -46,6 +46,7 @@ pillow
 pygments
 python-memcached
 pymemcache
+pytz
 qrcode
 requests
 segment-analytics-python
