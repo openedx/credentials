@@ -2,12 +2,11 @@
 Factories for tests of Credentials.
 """
 
-import datetime
 from uuid import uuid4
 
 import factory
+from django.utils.timezone import datetime, timezone
 from factory.fuzzy import FuzzyDateTime, FuzzyInteger, FuzzyText
-from pytz import UTC
 from slugify import slugify
 
 from credentials.apps.catalog.data import PathwayStatus
@@ -35,6 +34,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
 class CourseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Course
+        skip_postgeneration_save = True
 
     site = factory.SubFactory(SiteFactory)
     uuid = factory.LazyFunction(uuid4)
@@ -55,13 +55,14 @@ class CourseRunFactory(factory.django.DjangoModelFactory):
     uuid = factory.LazyFunction(uuid4)
     key = FuzzyText(prefix="course-run-id/", suffix="/fake")
     title_override = None
-    start_date = FuzzyDateTime(datetime.datetime(2014, 1, 1, tzinfo=UTC))
-    end_date = FuzzyDateTime(datetime.datetime(2014, 1, 1, tzinfo=UTC)).end_dt
+    start_date = FuzzyDateTime(datetime(2014, 1, 1, tzinfo=timezone.utc))
+    end_date = FuzzyDateTime(datetime(2014, 1, 1, tzinfo=timezone.utc)).end_dt
 
 
 class ProgramFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Program
+        skip_postgeneration_save = True
 
     site = factory.SubFactory(SiteFactory)
     uuid = factory.LazyFunction(uuid4)
