@@ -202,7 +202,7 @@ class UserGradeSerializerTests(SiteMixin, TestCase):
     def test_to_internal_value(self):
         Request = namedtuple("Request", ["site"])
         serializer = UserGradeSerializer(context={"request": Request(site=self.site)})
-        updated_at_utc = datetime.now(timezone.utc)
+        updated_at_utc = timezone.now()
 
         data = {
             "username": "alice",

@@ -596,7 +596,7 @@ class GradeViewSetTests(SiteMixin, APITestCase):
         self.add_user_permission(self.user, "add_usergrade")
 
         # simulate updating the existing record with the new field in the data
-        last_updated_at = datetime.now(timezone.utc)
+        last_updated_at = timezone.now()
         data = self.serialize_user_grade(grade)
         data["lms_last_updated_at"] = last_updated_at
         response = self.client.post(self.list_path, data=JSONRenderer().render(data), content_type=JSON_CONTENT_TYPE)
