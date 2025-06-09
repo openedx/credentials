@@ -7,7 +7,7 @@ from django.contrib.auth.models import Permission
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase
 from django.urls import reverse
-from django.utils.timezone import datetime, timezone
+from django.utils import timezone
 from rest_framework.renderers import JSONRenderer
 from rest_framework.test import APIRequestFactory, APITestCase
 from testfixtures import LogCapture
