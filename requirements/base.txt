@@ -4,6 +4,8 @@
 #
 #    make upgrade
 #
+anyio==4.9.0
+    # via httpx
 asgiref==3.8.1
     # via
     #   django
@@ -21,7 +23,10 @@ cachecontrol==0.14.3
 cachetools==5.5.2
     # via google-auth
 certifi==2025.4.26
-    # via requests
+    # via
+    #   httpcore
+    #   httpx
+    #   requests
 cffi==1.17.1
     # via
     #   cryptography
@@ -41,7 +46,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==45.0.3
+cryptography==45.0.4
     # via
     #   pyjwt
     #   social-auth-core
@@ -51,7 +56,7 @@ defusedxml==0.7.1
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/base.in
-django==4.2.21
+django==4.2.23
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
@@ -182,7 +187,7 @@ edx-toggles==5.3.0
     #   edx-event-bus-redis
 fastavro==1.11.1
     # via openedx-events
-firebase-admin==6.8.0
+firebase-admin==6.9.0
     # via edx-ace
 google-api-core[grpc]==2.25.0
     # via
@@ -191,9 +196,9 @@ google-api-core[grpc]==2.25.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.170.0
+google-api-python-client==2.171.0
     # via firebase-admin
-google-auth==2.40.2
+google-auth==2.40.3
     # via
     #   google-api-core
     #   google-api-python-client
@@ -207,7 +212,7 @@ google-cloud-core==2.4.3
     # via
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.20.2
+google-cloud-firestore==2.21.0
     # via firebase-admin
 google-cloud-storage==3.1.0
     # via firebase-admin
@@ -221,18 +226,33 @@ googleapis-common-protos==1.70.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio==1.72.1
+grpcio==1.73.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.72.1
+grpcio-status==1.73.0
     # via google-api-core
+h11==0.16.0
+    # via httpcore
+h2==4.2.0
+    # via httpx
+hpack==4.1.0
+    # via h2
+httpcore==1.0.9
+    # via httpx
 httplib2==0.22.0
     # via
     #   google-api-python-client
     #   google-auth-httplib2
+httpx[http2]==0.28.1
+    # via firebase-admin
+hyperframe==6.1.0
+    # via h2
 idna==3.10
-    # via requests
+    # via
+    #   anyio
+    #   httpx
+    #   requests
 inflection==0.5.1
     # via drf-yasg
 itypes==1.2.0
@@ -343,7 +363,7 @@ qrcode==8.2
     # via -r requirements/base.in
 redis==6.2.0
     # via walrus
-requests==2.32.3
+requests==2.32.4
     # via
     #   -r requirements/base.in
     #   cachecontrol
@@ -377,6 +397,8 @@ six==1.17.0
     #   edx-ccx-keys
     #   edx-django-release-util
     #   python-dateutil
+sniffio==1.3.1
+    # via anyio
 social-auth-app-django==5.4.3
     # via
     #   -r requirements/base.in
@@ -396,7 +418,9 @@ stevedore==5.4.1
 text-unidecode==1.3
     # via python-slugify
 typing-extensions==4.14.0
-    # via edx-opaque-keys
+    # via
+    #   anyio
+    #   edx-opaque-keys
 uritemplate==4.2.0
     # via
     #   coreapi
