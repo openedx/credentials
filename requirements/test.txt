@@ -4,6 +4,10 @@
 #
 #    make upgrade
 #
+anyio==4.9.0
+    # via
+    #   -r requirements/base.txt
+    #   httpx
 asgiref==3.8.1
     # via
     #   -r requirements/base.txt
@@ -38,6 +42,8 @@ cachetools==5.5.2
 certifi==2025.4.26
     # via
     #   -r requirements/base.txt
+    #   httpcore
+    #   httpx
     #   requests
 cffi==1.17.1
     # via
@@ -79,7 +85,7 @@ coreschema==0.0.4
     #   coreapi
 coverage==7.8.2
     # via -r requirements/test.in
-cryptography==45.0.3
+cryptography==45.0.4
     # via
     #   -r requirements/base.txt
     #   pyjwt
@@ -252,7 +258,7 @@ filelock==3.18.0
     # via
     #   tox
     #   virtualenv
-firebase-admin==6.8.0
+firebase-admin==6.9.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
@@ -264,11 +270,11 @@ google-api-core[grpc]==2.25.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.170.0
+google-api-python-client==2.171.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-auth==2.40.2
+google-auth==2.40.3
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -286,7 +292,7 @@ google-cloud-core==2.4.3
     #   -r requirements/base.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.20.2
+google-cloud-firestore==2.21.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -308,15 +314,31 @@ googleapis-common-protos==1.70.0
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio==1.72.1
+grpcio==1.73.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.72.1
+grpcio-status==1.73.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
+h11==0.16.0
+    # via
+    #   -r requirements/base.txt
+    #   httpcore
+h2==4.2.0
+    # via
+    #   -r requirements/base.txt
+    #   httpx
+hpack==4.1.0
+    # via
+    #   -r requirements/base.txt
+    #   h2
+httpcore==1.0.9
+    # via
+    #   -r requirements/base.txt
+    #   httpx
 httplib2==0.22.0
     # via
     #   -r requirements/base.txt
@@ -324,9 +346,19 @@ httplib2==0.22.0
     #   google-auth-httplib2
 httpretty==1.1.4
     # via -r requirements/test.in
+httpx[http2]==0.28.1
+    # via
+    #   -r requirements/base.txt
+    #   firebase-admin
+hyperframe==6.1.0
+    # via
+    #   -r requirements/base.txt
+    #   h2
 idna==3.10
     # via
     #   -r requirements/base.txt
+    #   anyio
+    #   httpx
     #   requests
 inflection==0.5.1
     # via
@@ -536,7 +568,7 @@ redis==6.2.0
     # via
     #   -r requirements/base.txt
     #   walrus
-requests==2.32.3
+requests==2.32.4
     # via
     #   -r requirements/base.txt
     #   cachecontrol
@@ -584,6 +616,10 @@ six==1.17.0
     #   edx-django-release-util
     #   edx-lint
     #   python-dateutil
+sniffio==1.3.1
+    # via
+    #   -r requirements/base.txt
+    #   anyio
 social-auth-app-django==5.4.3
     # via
     #   -r requirements/base.txt
@@ -610,13 +646,14 @@ text-unidecode==1.3
     # via
     #   -r requirements/base.txt
     #   python-slugify
-tomlkit==0.13.2
+tomlkit==0.13.3
     # via pylint
 tox==4.26.0
     # via -r requirements/test.in
 typing-extensions==4.14.0
     # via
     #   -r requirements/base.txt
+    #   anyio
     #   edx-opaque-keys
 tzdata==2025.2
     # via faker
