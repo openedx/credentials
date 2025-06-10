@@ -61,7 +61,6 @@ class CourseRunFactory(factory.django.DjangoModelFactory):
 class ProgramFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Program
-        skip_postgeneration_save = True
 
     site = factory.SubFactory(SiteFactory)
     uuid = factory.LazyFunction(uuid4)
