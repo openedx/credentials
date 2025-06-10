@@ -34,7 +34,6 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
 class CourseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Course
-        skip_postgeneration_save = True
 
     site = factory.SubFactory(SiteFactory)
     uuid = factory.LazyFunction(uuid4)
