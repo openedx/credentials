@@ -78,7 +78,7 @@ if is_verifiable_credentials_enabled():
 
 if is_badges_enabled():
     urlpatterns += [
-        re_path(r"^badges/", include(("credentials.apps.badges.urls", "badges"), namespace="badges")),
+        path("badges/", include(("credentials.apps.badges.urls", "badges"), namespace="badges")),
     ]
 
 # edx-drf-extensions csrf app
