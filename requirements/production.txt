@@ -24,9 +24,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.38.33
+boto3==1.38.37
     # via django-ses
-botocore==1.38.33
+botocore==1.38.37
     # via
     #   boto3
     #   s3transfer
@@ -38,7 +38,7 @@ cachetools==5.5.2
     # via
     #   -r requirements/base.txt
     #   google-auth
-certifi==2025.4.26
+certifi==2025.6.15
     # via
     #   -r requirements/base.txt
     #   httpcore
@@ -154,13 +154,13 @@ django-statici18n==2.6.0
     # via -r requirements/base.txt
 django-storages==1.14.6
     # via -r requirements/base.txt
-django-waffle==4.2.0
+django-waffle==5.0.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==3.2.0
+django-webpack-loader==3.2.1
     # via -r requirements/base.txt
 djangorestframework==3.16.0
     # via
@@ -238,7 +238,7 @@ firebase-admin==6.9.0
     #   edx-ace
 gevent==25.5.1
     # via -r requirements/production.in
-google-api-core[grpc]==2.25.0
+google-api-core[grpc]==2.25.1
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -246,7 +246,7 @@ google-api-core[grpc]==2.25.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.171.0
+google-api-python-client==2.172.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -371,7 +371,7 @@ markupsafe==3.0.2
     # via
     #   -r requirements/base.txt
     #   jinja2
-msgpack==1.1.0
+msgpack==1.1.1
     # via
     #   -r requirements/base.txt
     #   cachecontrol
@@ -458,7 +458,7 @@ pyjwt[crypto]==2.10.1
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.txt
-pymongo==4.13.0
+pymongo==4.13.2
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys

@@ -22,7 +22,7 @@ cachecontrol==0.14.3
     # via firebase-admin
 cachetools==5.5.2
     # via google-auth
-certifi==2025.4.26
+certifi==2025.6.15
     # via
     #   httpcore
     #   httpx
@@ -119,13 +119,13 @@ django-statici18n==2.6.0
     # via -r requirements/base.in
 django-storages==1.14.6
     # via -r requirements/base.in
-django-waffle==4.2.0
+django-waffle==5.0.0
     # via
     #   -r requirements/base.in
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==3.2.0
+django-webpack-loader==3.2.1
     # via -r requirements/base.in
 djangorestframework==3.16.0
     # via
@@ -189,14 +189,14 @@ fastavro==1.11.1
     # via openedx-events
 firebase-admin==6.9.0
     # via edx-ace
-google-api-core[grpc]==2.25.0
+google-api-core[grpc]==2.25.1
     # via
     #   firebase-admin
     #   google-api-python-client
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.171.0
+google-api-python-client==2.172.0
     # via firebase-admin
 google-auth==2.40.3
     # via
@@ -272,7 +272,7 @@ markdown==3.8
     # via -r requirements/base.in
 markupsafe==3.0.2
     # via jinja2
-msgpack==1.1.0
+msgpack==1.1.1
     # via cachecontrol
 mysqlclient==2.2.7
     # via -r requirements/base.in
@@ -333,7 +333,7 @@ pyjwt[crypto]==2.10.1
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.in
-pymongo==4.13.0
+pymongo==4.13.2
     # via edx-opaque-keys
 pynacl==1.5.0
     # via edx-django-utils
