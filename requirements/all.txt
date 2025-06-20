@@ -38,11 +38,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.38.33
+boto3==1.38.37
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.38.33
+botocore==1.38.37
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -58,7 +58,7 @@ cachetools==5.5.2
     #   -r requirements/production.txt
     #   google-auth
     #   tox
-certifi==2025.4.26
+certifi==2025.6.15
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -114,7 +114,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.8.2
+coverage==7.9.1
     # via -r requirements/dev.txt
 cryptography==45.0.4
     # via
@@ -250,14 +250,14 @@ django-stubs-ext==5.2.0
     # via
     #   -r requirements/dev.txt
     #   django-stubs
-django-waffle==4.2.0
+django-waffle==5.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==3.2.0
+django-webpack-loader==3.2.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -359,7 +359,7 @@ edx-toggles==5.3.0
     #   edx-event-bus-redis
 factory-boy==3.3.3
     # via -r requirements/dev.txt
-faker==37.3.0
+faker==37.4.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -380,7 +380,7 @@ firebase-admin==6.9.0
     #   edx-ace
 gevent==25.5.1
     # via -r requirements/production.txt
-google-api-core[grpc]==2.25.0
+google-api-core[grpc]==2.25.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -389,7 +389,7 @@ google-api-core[grpc]==2.25.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.171.0
+google-api-python-client==2.172.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -558,12 +558,12 @@ mccabe==0.7.0
     # via
     #   -r requirements/dev.txt
     #   pylint
-msgpack==1.1.0
+msgpack==1.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cachecontrol
-mypy==1.16.0
+mypy==1.16.1
     # via -r requirements/dev.txt
 mypy-extensions==1.1.0
     # via
@@ -719,7 +719,7 @@ pymemcache==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pymongo==4.13.0
+pymongo==4.13.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
