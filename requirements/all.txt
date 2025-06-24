@@ -15,7 +15,6 @@ asgiref==3.8.1
     #   -r requirements/production.txt
     #   django
     #   django-cors-headers
-    #   django-stubs
 astroid==3.3.10
     # via
     #   -r requirements/dev.txt
@@ -38,11 +37,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.38.37
+boto3==1.38.42
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.38.37
+botocore==1.38.42
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -228,7 +227,7 @@ django-rest-swagger==2.2.0
     #   -r requirements/production.txt
 django-ses==4.4.0
     # via -r requirements/production.txt
-django-simple-history==3.8.0
+django-simple-history==3.10.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -244,9 +243,9 @@ django-storages==1.14.6
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-stubs==5.2.0
+django-stubs==5.2.1
     # via -r requirements/dev.txt
-django-stubs-ext==5.2.0
+django-stubs-ext==5.2.1
     # via
     #   -r requirements/dev.txt
     #   django-stubs
@@ -288,7 +287,7 @@ edx-ace==1.14.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-auth-backends==4.5.0
+edx-auth-backends==4.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -315,6 +314,7 @@ edx-django-utils==8.0.0
     #   -r requirements/production.txt
     #   django-config-models
     #   edx-ace
+    #   edx-auth-backends
     #   edx-drf-extensions
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
@@ -355,6 +355,7 @@ edx-toggles==5.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+    #   edx-auth-backends
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
 factory-boy==3.3.3
@@ -389,7 +390,7 @@ google-api-core[grpc]==2.25.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.172.0
+google-api-python-client==2.173.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -420,7 +421,7 @@ google-cloud-firestore==2.21.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-cloud-storage==3.1.0
+google-cloud-storage==3.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -545,7 +546,7 @@ lxml-html-clean==0.4.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   lxml
-markdown==3.8
+markdown==3.8.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -576,7 +577,7 @@ mysqlclient==2.2.7
     #   -r requirements/production.txt
 nodeenv==1.9.1
     # via -r requirements/production.txt
-oauthlib==3.2.2
+oauthlib==3.3.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -679,7 +680,7 @@ pycparser==2.22
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cffi
-pygments==2.19.1
+pygments==2.19.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -710,7 +711,7 @@ pylint-django==2.6.1
     # via
     #   -r requirements/dev.txt
     #   edx-lint
-pylint-plugin-utils==0.8.2
+pylint-plugin-utils==0.9.0
     # via
     #   -r requirements/dev.txt
     #   pylint-celery
@@ -738,7 +739,7 @@ pyproject-api==1.9.1
     # via
     #   -r requirements/dev.txt
     #   tox
-pytest==8.4.0
+pytest==8.4.1
     # via
     #   -r requirements/dev.txt
     #   pytest-django
@@ -892,7 +893,7 @@ tomlkit==0.13.3
     # via
     #   -r requirements/dev.txt
     #   pylint
-tox==4.26.0
+tox==4.27.0
     # via -r requirements/dev.txt
 types-pyyaml==6.0.12.20250516
     # via
