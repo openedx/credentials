@@ -24,9 +24,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.38.37
+boto3==1.38.42
     # via django-ses
-botocore==1.38.37
+botocore==1.38.42
     # via
     #   boto3
     #   s3transfer
@@ -146,7 +146,7 @@ django-rest-swagger==2.2.0
     # via -r requirements/base.txt
 django-ses==4.4.0
     # via -r requirements/production.in
-django-simple-history==3.8.0
+django-simple-history==3.10.1
     # via -r requirements/base.txt
 django-sortedm2m==4.0.0
     # via -r requirements/base.txt
@@ -182,7 +182,7 @@ drf-yasg==1.21.10
     # via -r requirements/base.txt
 edx-ace==1.14.0
     # via -r requirements/base.txt
-edx-auth-backends==4.5.0
+edx-auth-backends==4.6.0
     # via -r requirements/base.txt
 edx-ccx-keys==2.0.2
     # via
@@ -199,6 +199,7 @@ edx-django-utils==8.0.0
     #   -r requirements/base.txt
     #   django-config-models
     #   edx-ace
+    #   edx-auth-backends
     #   edx-drf-extensions
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
@@ -226,6 +227,7 @@ edx-rest-api-client==6.2.0
 edx-toggles==5.3.0
     # via
     #   -r requirements/base.txt
+    #   edx-auth-backends
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
 fastavro==1.11.1
@@ -246,7 +248,7 @@ google-api-core[grpc]==2.25.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.172.0
+google-api-python-client==2.173.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -272,7 +274,7 @@ google-cloud-firestore==2.21.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-cloud-storage==3.1.0
+google-cloud-storage==3.1.1
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -365,7 +367,7 @@ lxml-html-clean==0.4.2
     # via
     #   -r requirements/base.txt
     #   lxml
-markdown==3.8
+markdown==3.8.2
     # via -r requirements/base.txt
 markupsafe==3.0.2
     # via
@@ -379,7 +381,7 @@ mysqlclient==2.2.7
     # via -r requirements/base.txt
 nodeenv==1.9.1
     # via -r requirements/production.in
-oauthlib==3.2.2
+oauthlib==3.3.1
     # via
     #   -r requirements/base.txt
     #   requests-oauthlib
@@ -444,7 +446,7 @@ pycparser==2.22
     # via
     #   -r requirements/base.txt
     #   cffi
-pygments==2.19.1
+pygments==2.19.2
     # via -r requirements/base.txt
 pyjwt[crypto]==2.10.1
     # via
