@@ -37,7 +37,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.12"]
-        django-version: ["django42"]
+        django-version: ["django42", "django52"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
