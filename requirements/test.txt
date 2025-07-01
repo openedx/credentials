@@ -196,7 +196,7 @@ drf-jwt==1.19.2
     #   edx-drf-extensions
 drf-yasg==1.21.10
     # via -r requirements/base.txt
-edx-ace==1.14.0
+edx-ace==1.15.0
     # via -r requirements/base.txt
 edx-auth-backends==4.6.0
     # via -r requirements/base.txt
@@ -272,7 +272,7 @@ google-api-core[grpc]==2.25.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.173.0
+google-api-python-client==2.174.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -316,12 +316,12 @@ googleapis-common-protos==1.70.0
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio==1.73.0
+grpcio==1.73.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.73.0
+grpcio-status==1.73.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -381,7 +381,7 @@ jinja2==3.1.6
     #   -r requirements/base.txt
     #   code-annotations
     #   coreschema
-lxml[html-clean]==5.4.0
+lxml[html-clean]==6.0.0
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
@@ -441,7 +441,7 @@ pbr==6.1.1
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==11.2.1
+pillow==11.3.0
     # via -r requirements/base.txt
 platformdirs==4.3.8
     # via
@@ -626,7 +626,7 @@ social-auth-app-django==5.4.3
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.6.1
+social-auth-core==4.7.0
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
