@@ -24,9 +24,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.38.42
+boto3==1.39.0
     # via django-ses
-botocore==1.38.42
+botocore==1.39.0
     # via
     #   boto3
     #   s3transfer
@@ -180,7 +180,7 @@ drf-jwt==1.19.2
     #   edx-drf-extensions
 drf-yasg==1.21.10
     # via -r requirements/base.txt
-edx-ace==1.14.0
+edx-ace==1.15.0
     # via -r requirements/base.txt
 edx-auth-backends==4.6.0
     # via -r requirements/base.txt
@@ -248,7 +248,7 @@ google-api-core[grpc]==2.25.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.173.0
+google-api-python-client==2.174.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -294,12 +294,12 @@ googleapis-common-protos==1.70.0
     #   grpcio-status
 greenlet==3.2.3
     # via gevent
-grpcio==1.73.0
+grpcio==1.73.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.73.0
+grpcio-status==1.73.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -357,7 +357,7 @@ jmespath==1.0.1
     # via
     #   boto3
     #   botocore
-lxml[html-clean]==5.4.0
+lxml[html-clean]==6.0.0
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
@@ -410,7 +410,7 @@ pbr==6.1.1
     # via
     #   -r requirements/base.txt
     #   stevedore
-pillow==11.2.1
+pillow==11.3.0
     # via -r requirements/base.txt
 polib==1.2.0
     # via
@@ -560,7 +560,7 @@ social-auth-app-django==5.4.3
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.6.1
+social-auth-core==4.7.0
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
@@ -607,7 +607,7 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.8.0
     # via -r requirements/base.txt
-zope-event==5.0
+zope-event==5.1
     # via gevent
 zope-interface==7.2
     # via gevent
