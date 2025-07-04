@@ -230,12 +230,8 @@ LANGUAGES_BIDI = LANGUAGES_BIDI + ["rtl"]
 TIME_ZONE = "UTC"
 TIME_ZONE_CLASS = timezone.utc
 
-# https://docs.djangoproject.com/en/4.2/releases/4.0/#zoneinfo-default-timezone-implementation
-USE_DEPRECATED_PYTZ = True
 
 USE_I18N = True
-
-USE_L10N = True
 
 USE_TZ = True
 
