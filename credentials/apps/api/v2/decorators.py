@@ -26,7 +26,7 @@ def log_incoming_request(func):
                 data = request.body
                 logger.info(
                     f"{request.method} request received to endpoint [{request.get_full_path()}] from user "
-                    f"[{request.user.username}] originating from [{request.META.get('HTTP_HOST', 'Unknown')}] "
+                    f"[{request.user.username}] originating from [{request.headers.get('host', 'Unknown')}] "
                     f"with data: [{data}]"
                 )
             except Exception as exc:
