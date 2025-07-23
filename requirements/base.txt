@@ -189,27 +189,20 @@ edx-toggles==5.3.0
     #   edx-event-bus-redis
 fastavro==1.11.1
     # via openedx-events
-firebase-admin==6.9.0
+firebase-admin==7.0.0
     # via edx-ace
 google-api-core[grpc]==2.25.1
     # via
     #   firebase-admin
-    #   google-api-python-client
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-api-python-client==2.176.0
-    # via firebase-admin
 google-auth==2.40.3
     # via
     #   google-api-core
-    #   google-api-python-client
-    #   google-auth-httplib2
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-auth-httplib2==0.2.0
-    # via google-api-python-client
 google-cloud-core==2.4.3
     # via
     #   google-cloud-firestore
@@ -242,10 +235,6 @@ hpack==4.1.0
     # via h2
 httpcore==1.0.9
     # via httpx
-httplib2==0.22.0
-    # via
-    #   google-api-python-client
-    #   google-auth-httplib2
 httpx[http2]==0.28.1
     # via firebase-admin
 hyperframe==6.1.0
@@ -339,8 +328,6 @@ pymongo==4.13.2
     # via edx-opaque-keys
 pynacl==1.5.0
     # via edx-django-utils
-pyparsing==3.2.3
-    # via httplib2
 python-dateutil==2.9.0.post0
     # via
     #   edx-ace
@@ -427,7 +414,6 @@ uritemplate==4.2.0
     # via
     #   coreapi
     #   drf-yasg
-    #   google-api-python-client
 urllib3==2.2.3
     # via
     #   -c requirements/common_constraints.txt
