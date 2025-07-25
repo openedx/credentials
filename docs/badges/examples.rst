@@ -1,3 +1,5 @@
+.. _Configuration examples for Badging:
+
 Configuration examples for Badging
 ===================================
 

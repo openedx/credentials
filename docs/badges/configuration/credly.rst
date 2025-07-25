@@ -117,7 +117,7 @@ Requirements group is fulfilled if any of its requirements is fulfilled.
 .. image:: ../../_static/images/badges/badges-admin-rules-group.png
         :alt: Badge requirement rules group
 
-See `configuration examples`_.
+See :ref:`Configuration examples for Badging`.
 
 Data Rules
 ----------
@@ -153,7 +153,7 @@ All key paths are generated based on the event type specified for the parent Bad
     - payload boolean negative values allowed: ``"false", "False", "no", "No", "-"``;
 
 
-Please, see `configuration examples`_ for clarity.
+Please, see :ref:`Configuration examples for Badging` for clarity.
 
 Badge Penalties
 ---------------
@@ -191,5 +191,4 @@ Credly badge template record includes:
 3. Credly service attributes (state, dashboard link);
 4. Configured requirements;
 
-.. _`configuration examples`: examples.html
 .. _openedx-events: https://github.com/openedx/openedx-events
