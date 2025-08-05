@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-anyio==4.9.0
+anyio==4.10.0
     # via
     #   -r requirements/test.txt
     #   httpx
@@ -40,7 +40,7 @@ cachetools==5.5.2
     #   -r requirements/test.txt
     #   google-auth
     #   tox
-certifi==2025.7.14
+certifi==2025.8.3
     # via
     #   -r requirements/test.txt
     #   httpcore
@@ -89,7 +89,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==7.10.1
+coverage==7.10.2
     # via -r requirements/test.txt
 cryptography==45.0.5
     # via
@@ -271,11 +271,11 @@ edx-toggles==5.4.1
     #   edx-event-bus-redis
 factory-boy==3.3.3
     # via -r requirements/test.txt
-faker==37.4.2
+faker==37.5.3
     # via
     #   -r requirements/test.txt
     #   factory-boy
-fastavro==1.11.1
+fastavro==1.12.0
     # via
     #   -r requirements/test.txt
     #   openedx-events
@@ -284,7 +284,7 @@ filelock==3.18.0
     #   -r requirements/test.txt
     #   tox
     #   virtualenv
-firebase-admin==7.0.0
+firebase-admin==7.1.0
     # via
     #   -r requirements/test.txt
     #   edx-ace
@@ -415,7 +415,7 @@ msgpack==1.1.1
     # via
     #   -r requirements/test.txt
     #   cachecontrol
-mypy==1.17.0
+mypy==1.17.1
     # via -r requirements/dev.in
 mypy-extensions==1.1.0
     # via
@@ -594,7 +594,7 @@ pyyaml==6.0.2
     #   responses
 qrcode==8.2
     # via -r requirements/test.txt
-redis==6.2.0
+redis==6.3.0
     # via
     #   -r requirements/test.txt
     #   walrus
@@ -702,13 +702,12 @@ uritemplate==4.2.0
     #   -r requirements/test.txt
     #   coreapi
     #   drf-yasg
-urllib3==2.2.3
+urllib3==2.5.0
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt
     #   requests
     #   responses
-virtualenv==20.32.0
+virtualenv==20.33.0
     # via
     #   -r requirements/test.txt
     #   tox
