@@ -46,7 +46,9 @@ EMAIL_FILE_PATH = "/tmp/credentials-emails"
 STORAGES["default"]["BACKEND"] = os.environ.get("DEFAULT_FILE_STORAGE", "django.core.files.storage.FileSystemStorage")
 MEDIA_URL = os.environ.get("MEDIA_URL", "/media/")
 
-STORAGES["staticfiles"]["BACKEND"] = os.environ.get("STATICFILES_STORAGE", "django.contrib.staticfiles.storage.StaticFilesStorage")
+STORAGES["staticfiles"]["BACKEND"] = os.environ.get(
+    "STATICFILES_STORAGE", "django.contrib.staticfiles.storage.StaticFilesStorage"
+)
 STATIC_URL = os.environ.get("STATIC_URL", "/static/")
 
 # OAuth2 variables specific to social-auth/SSO login use case.
