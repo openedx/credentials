@@ -147,7 +147,7 @@ edx-auth-backends==4.6.0
     # via -r requirements/base.in
 edx-ccx-keys==2.0.2
     # via openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.5.2
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.5.3
     # via -r requirements/base.in
 edx-django-release-util==1.5.0
     # via -r requirements/base.in
@@ -284,7 +284,7 @@ packaging==25.0
     # via drf-yasg
 path==16.16.0
     # via edx-i18n-tools
-pbr==6.1.1
+pbr==7.0.0
     # via stevedore
 pillow==11.3.0
     # via -r requirements/base.in

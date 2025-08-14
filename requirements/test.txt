@@ -204,7 +204,7 @@ edx-ccx-keys==2.0.2
     # via
     #   -r requirements/base.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.5.2
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.5.3
     # via -r requirements/base.txt
 edx-django-release-util==1.5.0
     # via -r requirements/base.txt
@@ -256,7 +256,7 @@ fastavro==1.12.0
     # via
     #   -r requirements/base.txt
     #   openedx-events
-filelock==3.18.0
+filelock==3.19.1
     # via
     #   tox
     #   virtualenv
@@ -421,7 +421,7 @@ path==16.16.0
     #   edx-i18n-tools
 pathspec==0.12.1
     # via black
-pbr==6.1.1
+pbr==7.0.0
     # via
     #   -r requirements/base.txt
     #   stevedore
@@ -649,7 +649,7 @@ urllib3==2.5.0
     #   -r requirements/base.txt
     #   requests
     #   responses
-virtualenv==20.33.1
+virtualenv==20.34.0
     # via tox
 walrus==0.9.5
     # via
