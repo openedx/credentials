@@ -37,11 +37,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.40.9
+boto3==1.40.10
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.40.9
+botocore==1.40.10
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -296,7 +296,7 @@ edx-ccx-keys==2.0.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.5.3
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.5.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -631,7 +631,7 @@ proto-plus==1.26.1
     #   -r requirements/production.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==6.31.1
+protobuf==6.32.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
