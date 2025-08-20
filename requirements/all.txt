@@ -37,11 +37,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.40.12
+boto3==1.40.13
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.40.12
+botocore==1.40.13
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -296,7 +296,7 @@ edx-ccx-keys==2.0.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.5.4
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.5.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -701,7 +701,7 @@ pymemcache==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pymongo==4.14.0
+pymongo==4.14.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt

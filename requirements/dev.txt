@@ -224,7 +224,7 @@ edx-ccx-keys==2.0.2
     # via
     #   -r requirements/test.txt
     #   openedx-events
-edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.5.4
+edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0.5.5
     # via -r requirements/test.txt
 edx-django-release-util==1.5.0
     # via -r requirements/test.txt
@@ -545,7 +545,7 @@ pylint-plugin-utils==0.9.0
     #   pylint-django
 pymemcache==4.0.0
     # via -r requirements/test.txt
-pymongo==4.14.0
+pymongo==4.14.1
     # via
     #   -r requirements/test.txt
     #   edx-opaque-keys
