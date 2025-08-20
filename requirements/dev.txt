@@ -89,7 +89,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/test.txt
     #   coreapi
-coverage==7.10.3
+coverage==7.10.4
     # via -r requirements/test.txt
 cryptography==45.0.6
     # via
@@ -598,7 +598,7 @@ redis==6.4.0
     # via
     #   -r requirements/test.txt
     #   walrus
-requests==2.32.4
+requests==2.32.5
     # via
     #   -r requirements/test.txt
     #   cachecontrol
