@@ -42,7 +42,18 @@ with open(CONFIG_FILE, encoding="utf-8") as f:
         if value:
             vars()[key].update(value)
 
+    if "DEFAULT_FILE_STORAGE" in config_from_yaml:
+        STORAGES["default"] = {"BACKEND": config_from_yaml.pop("DEFAULT_FILE_STORAGE")}
+        vars().update(STORAGES)
+
+    if "STATICFILES_STORAGE" in config_from_yaml:
+        STORAGES["staticfiles"] = {"BACKEND": config_from_yaml.pop("STATICFILES_STORAGE")}
+        vars().update(STORAGES)
+
     vars().update(config_from_yaml)
+
+    if "DEFAULT_FILE_STORAGE" in FILE_STORAGE_BACKEND:
+        FILE_STORAGE_BACKEND["STORAGES"] = {"default": {"BACKEND": FILE_STORAGE_BACKEND.pop("DEFAULT_FILE_STORAGE")}}
 
     # Load the files storage backend settings for django storages
     vars().update(FILE_STORAGE_BACKEND)
