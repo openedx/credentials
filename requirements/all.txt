@@ -37,11 +37,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.40.13
+boto3==1.40.17
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.40.13
+botocore==1.40.17
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -113,7 +113,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.10.4
+coverage==7.10.5
     # via -r requirements/dev.txt
 cryptography==45.0.6
     # via
@@ -452,7 +452,7 @@ h11==0.16.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   httpcore
-h2==4.2.0
+h2==4.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -515,7 +515,7 @@ jmespath==1.0.1
     #   -r requirements/production.txt
     #   boto3
     #   botocore
-lxml[html-clean]==6.0.0
+lxml[html-clean]==6.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -573,7 +573,7 @@ openedx-atlas==0.7.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-openedx-events==10.4.0
+openedx-events==10.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -599,11 +599,6 @@ pathspec==0.12.1
     #   -r requirements/dev.txt
     #   black
     #   mypy
-pbr==7.0.0
-    # via
-    #   -r requirements/dev.txt
-    #   -r requirements/production.txt
-    #   stevedore
 pillow==11.3.0
     # via
     #   -r requirements/dev.txt
@@ -850,7 +845,7 @@ sqlparse==0.5.3
     #   -r requirements/production.txt
     #   django
     #   django-debug-toolbar
-stevedore==5.4.1
+stevedore==5.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -871,11 +866,11 @@ tomlkit==0.13.3
     #   pylint
 tox==4.27.0
     # via -r requirements/dev.txt
-types-pyyaml==6.0.12.20250809
+types-pyyaml==6.0.12.20250822
     # via
     #   -r requirements/dev.txt
     #   django-stubs
-typing-extensions==4.14.1
+typing-extensions==4.15.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
