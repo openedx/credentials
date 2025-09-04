@@ -43,20 +43,31 @@ with open(CONFIG_FILE, encoding="utf-8") as f:
             vars()[key].update(value)
 
     if "DEFAULT_FILE_STORAGE" in config_from_yaml:
-        STORAGES["default"] = {"BACKEND": config_from_yaml.pop("DEFAULT_FILE_STORAGE")}
-        vars().update(STORAGES)
+        STORAGES["default"] = {
+            "BACKEND": config_from_yaml.pop("DEFAULT_FILE_STORAGE"),
+        }
 
     if "STATICFILES_STORAGE" in config_from_yaml:
-        STORAGES["staticfiles"] = {"BACKEND": config_from_yaml.pop("STATICFILES_STORAGE")}
-        vars().update(STORAGES)
+        STORAGES["staticfiles"] = {
+            "BACKEND": config_from_yaml.pop("STATICFILES_STORAGE"),
+        }
 
     vars().update(config_from_yaml)
 
-    if "DEFAULT_FILE_STORAGE" in FILE_STORAGE_BACKEND:
-        FILE_STORAGE_BACKEND["STORAGES"] = {"default": {"BACKEND": FILE_STORAGE_BACKEND.pop("DEFAULT_FILE_STORAGE")}}
-
     # Load the files storage backend settings for django storages
-    vars().update(FILE_STORAGE_BACKEND)
+    if "DEFAULT_FILE_STORAGE" in FILE_STORAGE_BACKEND:
+        default_file_storage = FILE_STORAGE_BACKEND.pop("DEFAULT_FILE_STORAGE")
+        vars().update(FILE_STORAGE_BACKEND)
+
+        FILE_STORAGE_BACKEND.update(
+            {
+                "STORAGES": {
+                    "default": {"BACKEND": default_file_storage},
+                }
+            }
+        )
+    else:
+        vars().update(FILE_STORAGE_BACKEND)
 
 # make sure this happens after the configuration file overrides so format string can be overridden
 LOGGING = get_logger_config(format_string=LOGGING_FORMAT_STRING)

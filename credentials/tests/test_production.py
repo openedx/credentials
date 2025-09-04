@@ -6,7 +6,7 @@ import types
 
 
 def test_production_storage_from_yaml(monkeypatch):
-    """Test that YAML config correctly populates STORAGES and FILE_STORAGE_BACKEND."""
+    """Test that YAML config correctly populates STORAGES without leaking globals."""
 
     def fake_get_env_setting(key):
         if key == "CREDENTIALS_CFG":

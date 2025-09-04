@@ -43,12 +43,16 @@ INSTALLED_APPS += ["credentials.apps.edx_credentials_extensions"]
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = "/tmp/credentials-emails"
 
-STORAGES["default"]["BACKEND"] = os.environ.get(
-    STORAGES["default"]["BACKEND"], "django.core.files.storage.FileSystemStorage"
-)
-MEDIA_URL = os.environ.get("MEDIA_URL", "/media/")
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
 
-STORAGES["staticfiles"]["BACKEND"] = "django.contrib.staticfiles.storage.StaticFilesStorage"
+MEDIA_URL = os.environ.get("MEDIA_URL", "/media/")
 STATIC_URL = os.environ.get("STATIC_URL", "/static/")
 
 # OAuth2 variables specific to social-auth/SSO login use case.

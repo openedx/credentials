@@ -35,9 +35,16 @@ CACHES = {
 
 # Local Directories
 TEST_ROOT = path("test_root")
-STORAGES["default"]["BACKEND"] = os.environ.get(
-    STORAGES["default"]["BACKEND"], "django.core.files.storage.FileSystemStorage"
-)
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
 MEDIA_ROOT = str(TEST_ROOT / "uploads")
 MEDIA_URL = "/static/uploads/"
 
@@ -51,7 +58,6 @@ JWT_AUTH.update(
         "JWT_AUDIENCE": SOCIAL_AUTH_EDX_OAUTH2_KEY,
     }
 )
-STORAGES["staticfiles"]["BACKEND"] = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 # Verifiable Credentials
 ENABLE_VERIFIABLE_CREDENTIALS = True
