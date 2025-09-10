@@ -188,6 +188,11 @@ class RenderCredential(SocialMediaMixin, ThemeViewMixin, TemplateView):
                 "program_name": program_details.title,
                 "credential_title": program_details.credential_title,
                 "org_name_string": org_name_string,
+                "share_url": self.request.build_absolute_uri(),
+                "share_image_url": program_details.organizations[0].certificate_logo_image_url,
+                "share_text": _("I completed a course at {platform_name}.").format(
+                    platform_name=self.site_configuration.platform_name
+                ),
             }
         )
         if program_details.hours_of_effort:
