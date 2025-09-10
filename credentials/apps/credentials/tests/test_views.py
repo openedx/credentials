@@ -151,6 +151,19 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         self.assertContains(response, "Print or share your certificate")
 
     @responses.activate
+    def test_open_graph_metadata(self):
+        """Verify that the anonymous view contains OpenGraph metadata."""
+        self.client.logout()
+        response = self._render_user_credential()
+
+        self.assertContains(response, "og:url")
+        self.assertContains(response, "og:title")
+        self.assertContains(response, "og:description")
+        self.assertContains(response, '"og:type" content="image/png"')
+        self.assertContains(response, self.user_credential.get_absolute_url())
+        self.assertContains(response, "I completed a course at ")
+
+    @responses.activate
     def test_awarded_with_logged_in_user(self):
         """Verify that the view renders awarded certificates with sharing bar."""
         response = self._render_user_credential()
@@ -160,7 +173,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
         self.assertContains(response, "Print or share your certificate")
         self.assertContains(response, "Print this certificate")
 
-        self.assertContains(response=response, text=self.PROGRAM_NAME, count=2)
+        self.assertContains(response=response, text=self.PROGRAM_NAME, count=3)
         self.assertNotContains(response=response, text=self.CREDENTIAL_TITLE)
 
         self.assertEqual(response_context_data["user_credential"], self.user_credential)
@@ -226,7 +239,7 @@ class RenderCredentialViewTests(SiteMixin, TestCase):
 
         self.assertContains(response, "Print or share your certificate")
         self.assertNotContains(response=response, text=self.PROGRAM_NAME)
-        self.assertContains(response=response, text=self.CREDENTIAL_TITLE, count=2)
+        self.assertContains(response=response, text=self.CREDENTIAL_TITLE, count=3)
 
     def test_revoked(self):
         """Verify that the view returns 404 when the uuid is valid but certificate status
