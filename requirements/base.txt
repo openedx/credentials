@@ -27,7 +27,7 @@ certifi==2025.8.3
     #   httpcore
     #   httpx
     #   requests
-cffi==1.17.1
+cffi==2.0.0
     # via
     #   cryptography
     #   pynacl
@@ -56,7 +56,7 @@ defusedxml==0.7.1
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/base.in
-django==4.2.23
+django==4.2.24
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
@@ -93,7 +93,7 @@ django-appconf==1.1.0
     # via django-statici18n
 django-config-models==2.9.0
     # via -r requirements/base.in
-django-cors-headers==4.7.0
+django-cors-headers==4.8.0
     # via -r requirements/base.in
 django-crum==0.7.9
     # via
@@ -135,7 +135,7 @@ djangorestframework==3.16.1
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
-dnspython==2.7.0
+dnspython==2.8.0
     # via pymongo
 drf-jwt==1.19.2
     # via edx-drf-extensions
@@ -259,7 +259,7 @@ lxml[html-clean]==6.0.1
     #   lxml-html-clean
 lxml-html-clean==0.4.2
     # via lxml
-markdown==3.8.2
+markdown==3.9
     # via -r requirements/base.in
 markupsafe==3.0.2
     # via jinja2
@@ -307,7 +307,7 @@ pyasn1==0.6.1
     #   rsa
 pyasn1-modules==0.4.2
     # via google-auth
-pycparser==2.22
+pycparser==2.23
     # via cffi
 pygments==2.19.2
     # via -r requirements/base.in
