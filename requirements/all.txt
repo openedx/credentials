@@ -37,11 +37,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.40.28
+boto3==1.40.31
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.40.28
+botocore==1.40.31
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -243,9 +243,9 @@ django-storages==1.14.6
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-stubs==5.2.2
+django-stubs==5.2.5
     # via -r requirements/dev.txt
-django-stubs-ext==5.2.2
+django-stubs-ext==5.2.5
     # via
     #   -r requirements/dev.txt
     #   django-stubs
@@ -360,7 +360,7 @@ edx-toggles==5.4.1
     #   edx-event-bus-redis
 factory-boy==3.3.3
     # via -r requirements/dev.txt
-faker==37.6.0
+faker==37.8.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -408,7 +408,7 @@ google-cloud-firestore==2.21.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-cloud-storage==3.3.1
+google-cloud-storage==3.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -434,13 +434,13 @@ greenlet==3.2.4
     # via
     #   -r requirements/production.txt
     #   gevent
-grpcio==1.74.0
+grpcio==1.75.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.74.0
+grpcio-status==1.75.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -545,7 +545,7 @@ msgpack==1.1.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cachecontrol
-mypy==1.17.1
+mypy==1.18.1
     # via -r requirements/dev.txt
 mypy-extensions==1.1.0
     # via
@@ -626,7 +626,7 @@ proto-plus==1.26.1
     #   -r requirements/production.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==6.32.0
+protobuf==6.32.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -701,7 +701,7 @@ pymongo==4.15.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-opaque-keys
-pynacl==1.5.0
+pynacl==1.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -866,7 +866,7 @@ tomlkit==0.13.3
     #   pylint
 tox==4.27.0
     # via -r requirements/dev.txt
-types-pyyaml==6.0.12.20250822
+types-pyyaml==6.0.12.20250915
     # via
     #   -r requirements/dev.txt
     #   django-stubs
@@ -878,6 +878,7 @@ typing-extensions==4.15.0
     #   django-stubs
     #   django-stubs-ext
     #   edx-opaque-keys
+    #   grpcio
     #   mypy
 tzdata==2025.2
     # via
@@ -914,11 +915,11 @@ xss-utils==0.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-zope-event==5.1.1
+zope-event==6.0
     # via
     #   -r requirements/production.txt
     #   gevent
-zope-interface==7.2
+zope-interface==8.0
     # via
     #   -r requirements/production.txt
     #   gevent

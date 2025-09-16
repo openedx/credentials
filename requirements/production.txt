@@ -24,9 +24,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.40.28
+boto3==1.40.31
     # via django-ses
-botocore==1.40.28
+botocore==1.40.31
     # via
     #   boto3
     #   s3transfer
@@ -263,7 +263,7 @@ google-cloud-firestore==2.21.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-cloud-storage==3.3.1
+google-cloud-storage==3.4.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -283,12 +283,12 @@ googleapis-common-protos==1.70.0
     #   grpcio-status
 greenlet==3.2.4
     # via gevent
-grpcio==1.74.0
+grpcio==1.75.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.74.0
+grpcio-status==1.75.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -401,7 +401,7 @@ proto-plus==1.26.1
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==6.32.0
+protobuf==6.32.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -444,7 +444,7 @@ pymongo==4.15.0
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
-pynacl==1.5.0
+pynacl==1.6.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -561,6 +561,7 @@ typing-extensions==4.15.0
     #   -r requirements/base.txt
     #   anyio
     #   edx-opaque-keys
+    #   grpcio
 uritemplate==4.2.0
     # via
     #   -r requirements/base.txt
@@ -581,9 +582,9 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.8.0
     # via -r requirements/base.txt
-zope-event==5.1.1
+zope-event==6.0
     # via gevent
-zope-interface==7.2
+zope-interface==8.0
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:

@@ -209,7 +209,7 @@ google-cloud-core==2.4.3
     #   google-cloud-storage
 google-cloud-firestore==2.21.0
     # via firebase-admin
-google-cloud-storage==3.3.1
+google-cloud-storage==3.4.0
     # via firebase-admin
 google-crc32c==1.7.1
     # via
@@ -221,11 +221,11 @@ googleapis-common-protos==1.70.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio==1.74.0
+grpcio==1.75.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.74.0
+grpcio-status==1.75.0
     # via google-api-core
 h11==0.16.0
     # via httpcore
@@ -292,7 +292,7 @@ proto-plus==1.26.1
     # via
     #   google-api-core
     #   google-cloud-firestore
-protobuf==6.32.0
+protobuf==6.32.1
     # via
     #   google-api-core
     #   google-cloud-firestore
@@ -324,7 +324,7 @@ pymemcache==4.0.0
     # via -r requirements/base.in
 pymongo==4.15.0
     # via edx-opaque-keys
-pynacl==1.5.0
+pynacl==1.6.0
     # via edx-django-utils
 python-dateutil==2.9.0.post0
     # via
@@ -408,6 +408,7 @@ typing-extensions==4.15.0
     # via
     #   anyio
     #   edx-opaque-keys
+    #   grpcio
 uritemplate==4.2.0
     # via
     #   coreapi
