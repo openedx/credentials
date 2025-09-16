@@ -250,7 +250,7 @@ edx-toggles==5.4.1
     #   edx-event-bus-redis
 factory-boy==3.3.3
     # via -r requirements/test.in
-faker==37.6.0
+faker==37.8.0
     # via factory-boy
 fastavro==1.12.0
     # via
@@ -287,7 +287,7 @@ google-cloud-firestore==2.21.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-cloud-storage==3.3.1
+google-cloud-storage==3.4.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -305,12 +305,12 @@ googleapis-common-protos==1.70.0
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio==1.74.0
+grpcio==1.75.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.74.0
+grpcio-status==1.75.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -442,7 +442,7 @@ proto-plus==1.26.1
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==6.32.0
+protobuf==6.32.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -501,7 +501,7 @@ pymongo==4.15.0
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
-pynacl==1.5.0
+pynacl==1.6.0
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -633,6 +633,7 @@ typing-extensions==4.15.0
     #   -r requirements/base.txt
     #   anyio
     #   edx-opaque-keys
+    #   grpcio
 tzdata==2025.2
     # via faker
 uritemplate==4.2.0
