@@ -581,8 +581,6 @@ pytz==2025.2
     # via
     #   -r requirements/test.txt
     #   drf-yasg
-pywatchman==3.0.0 ; "linux" in sys_platform
-    # via -r requirements/dev.in
 pyyaml==6.0.2
     # via
     #   -r requirements/test.txt
