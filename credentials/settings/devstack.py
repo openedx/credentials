@@ -48,7 +48,7 @@ defaultfile_storage = os.environ.get("DEFAULT_FILE_STORAGE", "django.core.files.
 if defaultfile_storage:
     STORAGES["default"]["BACKEND"] = defaultfile_storage
 
-staticfiles_storage = os.environ.get('STATICFILES_STORAGE', 'django.contrib.staticfiles.storage.StaticFilesStorage')
+staticfiles_storage = os.environ.get("STATICFILES_STORAGE", "django.contrib.staticfiles.storage.StaticFilesStorage")
 
 if staticfiles_storage:
     STORAGES["staticfiles"]["BACKEND"] = staticfiles_storage
