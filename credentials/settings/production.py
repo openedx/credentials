@@ -42,32 +42,21 @@ with open(CONFIG_FILE, encoding="utf-8") as f:
         if value:
             vars()[key].update(value)
 
-    if "DEFAULT_FILE_STORAGE" in config_from_yaml:
-        STORAGES["default"] = {
-            "BACKEND": config_from_yaml.pop("DEFAULT_FILE_STORAGE"),
-        }
-
-    if "STATICFILES_STORAGE" in config_from_yaml:
-        STORAGES["staticfiles"] = {
-            "BACKEND": config_from_yaml.pop("STATICFILES_STORAGE"),
-        }
-
     vars().update(config_from_yaml)
 
-    # Load the files storage backend settings for django storages
-    if "DEFAULT_FILE_STORAGE" in FILE_STORAGE_BACKEND:
-        default_file_storage = FILE_STORAGE_BACKEND.pop("DEFAULT_FILE_STORAGE")
-        vars().update(FILE_STORAGE_BACKEND)
+    FILE_STORAGE_BACKEND = config_from_yaml.get("FILE_STORAGE_BACKEND", {})
+    # In django==4.2.24 following line sets the DEFAULT_FILE_STORAGE and other AWS variables as per YAML.
+    default_backend = FILE_STORAGE_BACKEND.pop("DEFAULT_FILE_STORAGE", None)
+    static_backend = FILE_STORAGE_BACKEND.pop("STATICFILES_STORAGE", None)
 
-        FILE_STORAGE_BACKEND.update(
-            {
-                "STORAGES": {
-                    "default": {"BACKEND": default_file_storage},
-                }
-            }
-        )
-    else:
-        vars().update(FILE_STORAGE_BACKEND)
+    # Load the files storage backend settings for django storages
+    vars().update(FILE_STORAGE_BACKEND)
+
+    if default_backend:
+        STORAGES["default"]["BACKEND"] = default_backend
+
+    if static_backend:
+        STORAGES["staticfiles"]["BACKEND"] = static_backend
 
 # make sure this happens after the configuration file overrides so format string can be overridden
 LOGGING = get_logger_config(format_string=LOGGING_FORMAT_STRING)
