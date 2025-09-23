@@ -45,11 +45,11 @@ with open(CONFIG_FILE, encoding="utf-8") as f:
     vars().update(config_from_yaml)
 
     FILE_STORAGE_BACKEND = config_from_yaml.get("FILE_STORAGE_BACKEND", {})
-    # In django==4.2.24 following line sets the DEFAULT_FILE_STORAGE and other AWS variables as per YAML.
     default_backend = FILE_STORAGE_BACKEND.pop("DEFAULT_FILE_STORAGE", None)
     static_backend = FILE_STORAGE_BACKEND.pop("STATICFILES_STORAGE", None)
 
     # Load the files storage backend settings for django storages
+    # In django==4.2.24 following line sets the DEFAULT_FILE_STORAGE and other AWS variables as per YAML.
     vars().update(FILE_STORAGE_BACKEND)
 
     if default_backend:
