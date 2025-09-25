@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-anyio==4.10.0
+anyio==4.11.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -31,17 +31,17 @@ backoff==2.2.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   segment-analytics-python
-black==25.1.0
+black==25.9.0
     # via -r requirements/dev.txt
 bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.40.31
+boto3==1.40.36
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.40.31
+botocore==1.40.36
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -79,7 +79,7 @@ charset-normalizer==3.4.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-click==8.2.1
+click==8.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -113,9 +113,9 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.10.6
+coverage==7.10.7
     # via -r requirements/dev.txt
-cryptography==45.0.7
+cryptography==46.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -188,7 +188,7 @@ django-config-models==2.9.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-cors-headers==4.8.0
+django-cors-headers==4.9.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -379,7 +379,7 @@ firebase-admin==7.1.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-ace
-gevent==25.8.2
+gevent==25.9.1
     # via -r requirements/production.txt
 google-api-core[grpc]==2.25.1
     # via
@@ -515,7 +515,7 @@ jmespath==1.0.1
     #   -r requirements/production.txt
     #   boto3
     #   botocore
-lxml[html-clean]==6.0.1
+lxml[html-clean]==6.0.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -545,7 +545,7 @@ msgpack==1.1.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cachecontrol
-mypy==1.18.1
+mypy==1.18.2
     # via -r requirements/dev.txt
 mypy-extensions==1.1.0
     # via
@@ -635,7 +635,7 @@ protobuf==6.32.1
     #   googleapis-common-protos
     #   grpcio-status
     #   proto-plus
-psutil==7.0.0
+psutil==7.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -696,7 +696,7 @@ pymemcache==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pymongo==4.15.0
+pymongo==4.15.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -737,6 +737,10 @@ python3-openid==3.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   social-auth-core
+pytokens==0.1.10
+    # via
+    #   -r requirements/dev.txt
+    #   black
 pytz==2025.2
     # via
     #   -r requirements/dev.txt
