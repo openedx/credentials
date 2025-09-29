@@ -43,12 +43,12 @@ INSTALLED_APPS += ["credentials.apps.edx_credentials_extensions"]
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = "/tmp/credentials-emails"
 
-defaultfile_storage = os.environ.get("DEFAULT_FILE_STORAGE", "django.core.files.storage.FileSystemStorage")
+defaultfile_storage = os.environ.get("DEFAULT_FILE_STORAGE")
 
 if defaultfile_storage:
     STORAGES["default"]["BACKEND"] = defaultfile_storage
 
-staticfiles_storage = os.environ.get("STATICFILES_STORAGE", "django.contrib.staticfiles.storage.StaticFilesStorage")
+staticfiles_storage = os.environ.get("STATICFILES_STORAGE")
 
 if staticfiles_storage:
     STORAGES["staticfiles"]["BACKEND"] = staticfiles_storage
