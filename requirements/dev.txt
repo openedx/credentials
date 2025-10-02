@@ -8,7 +8,7 @@ anyio==4.11.0
     # via
     #   -r requirements/test.txt
     #   httpx
-asgiref==3.9.1
+asgiref==3.9.2
     # via
     #   -r requirements/test.txt
     #   django
@@ -35,7 +35,7 @@ cachecontrol==0.14.3
     # via
     #   -r requirements/test.txt
     #   firebase-admin
-cachetools==5.5.2
+cachetools==6.2.0
     # via
     #   -r requirements/test.txt
     #   google-auth
@@ -214,7 +214,7 @@ drf-jwt==1.19.2
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-drf-yasg==1.21.10
+drf-yasg==1.21.11
     # via -r requirements/test.txt
 edx-ace==1.15.0
     # via -r requirements/test.txt
@@ -230,7 +230,7 @@ edx-django-release-util==1.5.0
     # via -r requirements/test.txt
 edx-django-sites-extensions==5.1.0
     # via -r requirements/test.txt
-edx-django-utils==8.0.0
+edx-django-utils==8.0.1
     # via
     #   -r requirements/test.txt
     #   django-config-models
@@ -295,7 +295,7 @@ google-api-core[grpc]==2.25.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-auth==2.40.3
+google-auth==2.41.0
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -329,12 +329,12 @@ googleapis-common-protos==1.70.0
     #   -r requirements/test.txt
     #   google-api-core
     #   grpcio-status
-grpcio==1.75.0
+grpcio==1.75.1
     # via
     #   -r requirements/test.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.75.0
+grpcio-status==1.75.1
     # via
     #   -r requirements/test.txt
     #   google-api-core
@@ -403,7 +403,7 @@ lxml-html-clean==0.4.2
     #   lxml
 markdown==3.9
     # via -r requirements/test.txt
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via
     #   -r requirements/test.txt
     #   jinja2
@@ -584,7 +584,7 @@ pytz==2025.2
     #   drf-yasg
 pywatchman==3.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.in
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via
     #   -r requirements/test.txt
     #   code-annotations
@@ -632,7 +632,7 @@ semantic-version==2.10.0
     # via
     #   -r requirements/test.txt
     #   edx-drf-extensions
-simplejson==3.20.1
+simplejson==3.20.2
     # via
     #   -r requirements/test.txt
     #   django-rest-swagger
@@ -681,7 +681,7 @@ tomlkit==0.13.3
     # via
     #   -r requirements/test.txt
     #   pylint
-tox==4.27.0
+tox==4.30.2
     # via -r requirements/test.txt
 types-pyyaml==6.0.12.20250915
     # via django-stubs

@@ -8,7 +8,7 @@ anyio==4.11.0
     # via
     #   -r requirements/base.txt
     #   httpx
-asgiref==3.9.1
+asgiref==3.9.2
     # via
     #   -r requirements/base.txt
     #   django
@@ -24,9 +24,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.40.36
+boto3==1.40.41
     # via django-ses
-botocore==1.40.36
+botocore==1.40.41
     # via
     #   boto3
     #   s3transfer
@@ -34,7 +34,7 @@ cachecontrol==0.14.3
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-cachetools==5.5.2
+cachetools==6.2.0
     # via
     #   -r requirements/base.txt
     #   google-auth
@@ -178,7 +178,7 @@ drf-jwt==1.19.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-drf-yasg==1.21.10
+drf-yasg==1.21.11
     # via -r requirements/base.txt
 edx-ace==1.15.0
     # via -r requirements/base.txt
@@ -194,7 +194,7 @@ edx-django-release-util==1.5.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==5.1.0
     # via -r requirements/base.txt
-edx-django-utils==8.0.0
+edx-django-utils==8.0.1
     # via
     #   -r requirements/base.txt
     #   django-config-models
@@ -247,7 +247,7 @@ google-api-core[grpc]==2.25.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-auth==2.40.3
+google-auth==2.41.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -283,12 +283,12 @@ googleapis-common-protos==1.70.0
     #   grpcio-status
 greenlet==3.2.4
     # via gevent
-grpcio==1.75.0
+grpcio==1.75.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.75.0
+grpcio-status==1.75.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -353,7 +353,7 @@ lxml-html-clean==0.4.2
     #   lxml
 markdown==3.9
     # via -r requirements/base.txt
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via
     #   -r requirements/base.txt
     #   jinja2
@@ -468,7 +468,7 @@ pytz==2025.2
     # via
     #   -r requirements/base.txt
     #   drf-yasg
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -515,7 +515,7 @@ semantic-version==2.10.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-simplejson==3.20.1
+simplejson==3.20.2
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
@@ -584,7 +584,7 @@ xss-utils==0.8.0
     # via -r requirements/base.txt
 zope-event==6.0
     # via gevent
-zope-interface==8.0
+zope-interface==8.0.1
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:

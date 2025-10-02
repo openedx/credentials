@@ -9,7 +9,7 @@ anyio==4.11.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   httpx
-asgiref==3.9.1
+asgiref==3.9.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -37,11 +37,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.40.36
+boto3==1.40.41
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.40.36
+botocore==1.40.41
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -51,7 +51,7 @@ cachecontrol==0.14.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-cachetools==5.5.2
+cachetools==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -279,7 +279,7 @@ drf-jwt==1.19.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-drf-yasg==1.21.10
+drf-yasg==1.21.11
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -308,7 +308,7 @@ edx-django-sites-extensions==5.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-utils==8.0.0
+edx-django-utils==8.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -389,7 +389,7 @@ google-api-core[grpc]==2.25.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-auth==2.40.3
+google-auth==2.41.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -434,13 +434,13 @@ greenlet==3.2.4
     # via
     #   -r requirements/production.txt
     #   gevent
-grpcio==1.75.0
+grpcio==1.75.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.75.0
+grpcio-status==1.75.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -531,7 +531,7 @@ markdown==3.9
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -748,7 +748,7 @@ pytz==2025.2
     #   drf-yasg
 pywatchman==3.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.txt
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -811,7 +811,7 @@ semantic-version==2.10.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-simplejson==3.20.1
+simplejson==3.20.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -868,7 +868,7 @@ tomlkit==0.13.3
     # via
     #   -r requirements/dev.txt
     #   pylint
-tox==4.27.0
+tox==4.30.2
     # via -r requirements/dev.txt
 types-pyyaml==6.0.12.20250915
     # via
@@ -923,7 +923,7 @@ zope-event==6.0
     # via
     #   -r requirements/production.txt
     #   gevent
-zope-interface==8.0
+zope-interface==8.0.1
     # via
     #   -r requirements/production.txt
     #   gevent

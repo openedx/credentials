@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-asgiref==3.9.1
+asgiref==3.9.2
     # via django
 django==4.2.24
     # via
@@ -22,7 +22,7 @@ path==16.16.0
     # via edx-i18n-tools
 polib==1.2.0
     # via edx-i18n-tools
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via edx-i18n-tools
 sqlparse==0.5.3
     # via django
