@@ -56,9 +56,8 @@ defusedxml==0.7.1
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/base.in
-django==4.2.24
+django==5.2.6
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
     #   django-appconf
     #   django-config-models
@@ -388,6 +387,7 @@ sniffio==1.3.1
     # via anyio
 social-auth-app-django==5.4.3
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/base.in
     #   edx-auth-backends
 social-auth-core==4.7.0
