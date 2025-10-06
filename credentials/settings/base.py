@@ -456,14 +456,7 @@ CSRF_COOKIE_SECURE = False
 FILE_STORAGE_BACKEND = {}
 EXTRA_APPS = []
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
-    },
-}
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
@@ -481,7 +474,7 @@ EDX_DRF_EXTENSIONS = {
 }
 API_ROOT = None
 MEDIA_STORAGE_BACKEND = {
-    "STORAGES": STORAGES,
+    "DEFAULT_FILE_STORAGE": "django.core.files.storage.FileSystemStorage",
     "MEDIA_ROOT": MEDIA_ROOT,
     "MEDIA_URL": MEDIA_URL,
 }
