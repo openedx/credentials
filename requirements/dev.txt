@@ -113,9 +113,8 @@ distlib==0.4.0
     # via
     #   -r requirements/test.txt
     #   virtualenv
-django==4.2.24
+django==5.2.6
     # via
-    #   -c requirements/common_constraints.txt
     #   -r requirements/test.txt
     #   django-appconf
     #   django-config-models
@@ -582,8 +581,6 @@ pytz==2025.2
     # via
     #   -r requirements/test.txt
     #   drf-yasg
-pywatchman==3.0.0 ; "linux" in sys_platform
-    # via -r requirements/dev.in
 pyyaml==6.0.2
     # via
     #   -r requirements/test.txt
@@ -652,6 +649,7 @@ sniffio==1.3.1
     #   anyio
 social-auth-app-django==5.4.3
     # via
+    #   -c requirements/constraints.txt
     #   -r requirements/test.txt
     #   edx-auth-backends
 social-auth-core==4.7.0
