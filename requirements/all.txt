@@ -9,7 +9,7 @@ anyio==4.11.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   httpx
-asgiref==3.9.1
+asgiref==3.10.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -20,7 +20,7 @@ astroid==3.3.11
     #   -r requirements/dev.txt
     #   pylint
     #   pylint-celery
-attrs==25.3.0
+attrs==25.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -37,11 +37,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.40.36
+boto3==1.40.46
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.40.36
+botocore==1.40.46
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -51,13 +51,13 @@ cachecontrol==0.14.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-cachetools==5.5.2
+cachetools==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-auth
     #   tox
-certifi==2025.8.3
+certifi==2025.10.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -115,12 +115,11 @@ coreschema==0.0.4
     #   coreapi
 coverage==7.10.7
     # via -r requirements/dev.txt
-cryptography==46.0.1
+cryptography==46.0.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   pyjwt
-    #   social-auth-core
 ddt==1.7.2
     # via -r requirements/dev.txt
 defusedxml==0.7.1
@@ -141,7 +140,7 @@ distlib==0.4.0
     # via
     #   -r requirements/dev.txt
     #   virtualenv
-django==4.2.24
+django==4.2.25
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
@@ -243,9 +242,9 @@ django-storages==1.14.6
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-stubs==5.2.5
+django-stubs==5.2.6
     # via -r requirements/dev.txt
-django-stubs-ext==5.2.5
+django-stubs-ext==5.2.6
     # via
     #   -r requirements/dev.txt
     #   django-stubs
@@ -279,7 +278,7 @@ drf-jwt==1.19.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-drf-yasg==1.21.10
+drf-yasg==1.21.11
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -287,7 +286,7 @@ edx-ace==1.15.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-auth-backends==4.6.0
+edx-auth-backends==4.6.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -308,7 +307,7 @@ edx-django-sites-extensions==5.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-utils==8.0.0
+edx-django-utils==8.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -381,7 +380,7 @@ firebase-admin==7.1.0
     #   edx-ace
 gevent==25.9.1
     # via -r requirements/production.txt
-google-api-core[grpc]==2.25.1
+google-api-core[grpc]==2.25.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -389,7 +388,7 @@ google-api-core[grpc]==2.25.1
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-auth==2.40.3
+google-auth==2.41.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -434,13 +433,13 @@ greenlet==3.2.4
     # via
     #   -r requirements/production.txt
     #   gevent
-grpcio==1.75.0
+grpcio==1.75.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.75.0
+grpcio-status==1.75.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -495,7 +494,7 @@ iniconfig==2.1.0
     # via
     #   -r requirements/dev.txt
     #   pytest
-isort==6.0.1
+isort==6.1.0
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -522,7 +521,7 @@ lxml[html-clean]==6.0.2
     #   edx-credentials-themes
     #   edx-i18n-tools
     #   lxml-html-clean
-lxml-html-clean==0.4.2
+lxml-html-clean==0.4.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -531,7 +530,7 @@ markdown==3.9
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -672,7 +671,7 @@ pyjwt[crypto]==2.10.1
     #   firebase-admin
     #   segment-analytics-python
     #   social-auth-core
-pylint==3.3.8
+pylint==3.3.9
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -696,7 +695,7 @@ pymemcache==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pymongo==4.15.1
+pymongo==4.15.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -748,7 +747,7 @@ pytz==2025.2
     #   drf-yasg
 pywatchman==3.0.0 ; "linux" in sys_platform
     # via -r requirements/dev.txt
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -811,7 +810,7 @@ semantic-version==2.10.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-simplejson==3.20.1
+simplejson==3.20.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -837,7 +836,7 @@ social-auth-app-django==5.4.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-auth-backends
-social-auth-core==4.7.0
+social-auth-core==4.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -868,7 +867,7 @@ tomlkit==0.13.3
     # via
     #   -r requirements/dev.txt
     #   pylint
-tox==4.27.0
+tox==4.30.3
     # via -r requirements/dev.txt
 types-pyyaml==6.0.12.20250915
     # via
@@ -923,7 +922,7 @@ zope-event==6.0
     # via
     #   -r requirements/production.txt
     #   gevent
-zope-interface==8.0
+zope-interface==8.0.1
     # via
     #   -r requirements/production.txt
     #   gevent

@@ -8,12 +8,12 @@ anyio==4.11.0
     # via
     #   -r requirements/base.txt
     #   httpx
-asgiref==3.9.1
+asgiref==3.10.0
     # via
     #   -r requirements/base.txt
     #   django
     #   django-cors-headers
-attrs==25.3.0
+attrs==25.4.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
@@ -24,9 +24,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.2.0
     # via -r requirements/base.txt
-boto3==1.40.36
+boto3==1.40.46
     # via django-ses
-botocore==1.40.36
+botocore==1.40.46
     # via
     #   boto3
     #   s3transfer
@@ -34,11 +34,11 @@ cachecontrol==0.14.3
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-cachetools==5.5.2
+cachetools==6.2.0
     # via
     #   -r requirements/base.txt
     #   google-auth
-certifi==2025.8.3
+certifi==2025.10.5
     # via
     #   -r requirements/base.txt
     #   httpcore
@@ -71,11 +71,10 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==46.0.1
+cryptography==46.0.2
     # via
     #   -r requirements/base.txt
     #   pyjwt
-    #   social-auth-core
 defusedxml==0.7.1
     # via
     #   -r requirements/base.txt
@@ -83,7 +82,7 @@ defusedxml==0.7.1
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/base.txt
-django==4.2.24
+django==4.2.25
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
@@ -178,11 +177,11 @@ drf-jwt==1.19.2
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-drf-yasg==1.21.10
+drf-yasg==1.21.11
     # via -r requirements/base.txt
 edx-ace==1.15.0
     # via -r requirements/base.txt
-edx-auth-backends==4.6.0
+edx-auth-backends==4.6.1
     # via -r requirements/base.txt
 edx-ccx-keys==2.0.2
     # via
@@ -194,7 +193,7 @@ edx-django-release-util==1.5.0
     # via -r requirements/base.txt
 edx-django-sites-extensions==5.1.0
     # via -r requirements/base.txt
-edx-django-utils==8.0.0
+edx-django-utils==8.0.1
     # via
     #   -r requirements/base.txt
     #   django-config-models
@@ -240,14 +239,14 @@ firebase-admin==7.1.0
     #   edx-ace
 gevent==25.9.1
     # via -r requirements/production.in
-google-api-core[grpc]==2.25.1
+google-api-core[grpc]==2.25.2
     # via
     #   -r requirements/base.txt
     #   firebase-admin
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-auth==2.40.3
+google-auth==2.41.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -283,12 +282,12 @@ googleapis-common-protos==1.70.0
     #   grpcio-status
 greenlet==3.2.4
     # via gevent
-grpcio==1.75.0
+grpcio==1.75.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.75.0
+grpcio-status==1.75.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -347,13 +346,13 @@ lxml[html-clean]==6.0.2
     #   edx-credentials-themes
     #   edx-i18n-tools
     #   lxml-html-clean
-lxml-html-clean==0.4.2
+lxml-html-clean==0.4.3
     # via
     #   -r requirements/base.txt
     #   lxml
 markdown==3.9
     # via -r requirements/base.txt
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via
     #   -r requirements/base.txt
     #   jinja2
@@ -440,7 +439,7 @@ pyjwt[crypto]==2.10.1
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.txt
-pymongo==4.15.1
+pymongo==4.15.2
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
@@ -468,7 +467,7 @@ pytz==2025.2
     # via
     #   -r requirements/base.txt
     #   drf-yasg
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -515,7 +514,7 @@ semantic-version==2.10.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-simplejson==3.20.1
+simplejson==3.20.2
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
@@ -536,7 +535,7 @@ social-auth-app-django==5.4.3
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.7.0
+social-auth-core==4.8.0
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
@@ -584,7 +583,7 @@ xss-utils==0.8.0
     # via -r requirements/base.txt
 zope-event==6.0
     # via gevent
-zope-interface==8.0
+zope-interface==8.0.1
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:
