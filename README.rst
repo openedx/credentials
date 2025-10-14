@@ -1,3 +1,5 @@
+This is the master branch, which is not used on this fork.
+
 edX Credentials Service |Codecov|_
 ====================================
 
