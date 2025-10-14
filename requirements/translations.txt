@@ -4,9 +4,9 @@
 #
 #    make upgrade
 #
-asgiref==3.9.1
+asgiref==3.10.0
     # via django
-django==5.2.6
+django==5.2.7
     # via edx-i18n-tools
 edx-i18n-tools==1.9.0
     # via -r requirements/translations.in
@@ -14,13 +14,13 @@ lxml[html-clean]==6.0.2
     # via
     #   edx-i18n-tools
     #   lxml-html-clean
-lxml-html-clean==0.4.2
+lxml-html-clean==0.4.3
     # via lxml
 path==16.16.0
     # via edx-i18n-tools
 polib==1.2.0
     # via edx-i18n-tools
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via edx-i18n-tools
 sqlparse==0.5.3
     # via django
