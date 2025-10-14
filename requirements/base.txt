@@ -6,11 +6,11 @@
 #
 anyio==4.11.0
     # via httpx
-asgiref==3.9.1
+asgiref==3.10.0
     # via
     #   django
     #   django-cors-headers
-attrs==25.3.0
+attrs==25.4.0
     # via
     #   edx-ace
     #   openedx-events
@@ -20,9 +20,9 @@ bleach==6.2.0
     # via -r requirements/base.in
 cachecontrol==0.14.3
     # via firebase-admin
-cachetools==5.5.2
+cachetools==6.2.1
     # via google-auth
-certifi==2025.8.3
+certifi==2025.10.5
     # via
     #   httpcore
     #   httpx
@@ -31,7 +31,7 @@ cffi==2.0.0
     # via
     #   cryptography
     #   pynacl
-charset-normalizer==3.4.3
+charset-normalizer==3.4.4
     # via requests
 click==8.3.0
     # via
@@ -46,17 +46,15 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==46.0.1
-    # via
-    #   pyjwt
-    #   social-auth-core
+cryptography==46.0.2
+    # via pyjwt
 defusedxml==0.7.1
     # via
     #   python3-openid
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/base.in
-django==5.2.6
+django==5.2.7
     # via
     #   -r requirements/base.in
     #   django-appconf
@@ -100,7 +98,7 @@ django-crum==0.7.9
     #   edx-toggles
 django-extensions==4.1
     # via -r requirements/base.in
-django-filter==25.1
+django-filter==25.2
     # via -r requirements/base.in
 django-model-utils==5.0.0
     # via -r requirements/base.in
@@ -138,11 +136,11 @@ dnspython==2.8.0
     # via pymongo
 drf-jwt==1.19.2
     # via edx-drf-extensions
-drf-yasg==1.21.10
+drf-yasg==1.21.11
     # via -r requirements/base.in
 edx-ace==1.15.0
     # via -r requirements/base.in
-edx-auth-backends==4.6.0
+edx-auth-backends==4.6.1
     # via -r requirements/base.in
 edx-ccx-keys==2.0.2
     # via openedx-events
@@ -152,7 +150,7 @@ edx-django-release-util==1.5.0
     # via -r requirements/base.in
 edx-django-sites-extensions==5.1.0
     # via -r requirements/base.in
-edx-django-utils==8.0.0
+edx-django-utils==8.0.1
     # via
     #   -r requirements/base.in
     #   django-config-models
@@ -186,17 +184,17 @@ edx-toggles==5.4.1
     #   edx-auth-backends
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-fastavro==1.12.0
+fastavro==1.12.1
     # via openedx-events
 firebase-admin==7.1.0
     # via edx-ace
-google-api-core[grpc]==2.25.1
+google-api-core[grpc]==2.26.0
     # via
     #   firebase-admin
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-auth==2.40.3
+google-auth==2.41.1
     # via
     #   google-api-core
     #   google-cloud-core
@@ -208,7 +206,7 @@ google-cloud-core==2.4.3
     #   google-cloud-storage
 google-cloud-firestore==2.21.0
     # via firebase-admin
-google-cloud-storage==3.4.0
+google-cloud-storage==3.4.1
     # via firebase-admin
 google-crc32c==1.7.1
     # via
@@ -220,11 +218,11 @@ googleapis-common-protos==1.70.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio==1.75.0
+grpcio==1.75.1
     # via
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.75.0
+grpcio-status==1.75.1
     # via google-api-core
 h11==0.16.0
     # via httpcore
@@ -238,7 +236,7 @@ httpx[http2]==0.28.1
     # via firebase-admin
 hyperframe==6.1.0
     # via h2
-idna==3.10
+idna==3.11
     # via
     #   anyio
     #   httpx
@@ -256,13 +254,13 @@ lxml[html-clean]==6.0.2
     #   edx-credentials-themes
     #   edx-i18n-tools
     #   lxml-html-clean
-lxml-html-clean==0.4.2
+lxml-html-clean==0.4.3
     # via lxml
 markdown==3.9
     # via -r requirements/base.in
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via jinja2
-msgpack==1.1.1
+msgpack==1.1.2
     # via cachecontrol
 mysqlclient==2.2.7
     # via -r requirements/base.in
@@ -321,7 +319,7 @@ pyjwt[crypto]==2.10.1
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.in
-pymongo==4.15.1
+pymongo==4.15.3
     # via edx-opaque-keys
 pynacl==1.6.0
     # via edx-django-utils
@@ -339,7 +337,7 @@ pytz==2025.2
     # via
     #   -r requirements/base.in
     #   drf-yasg
-pyyaml==6.0.2
+pyyaml==6.0.3
     # via
     #   code-annotations
     #   drf-yasg
@@ -372,7 +370,7 @@ segment-analytics-python==2.3.4
     # via -r requirements/base.in
 semantic-version==2.10.0
     # via edx-drf-extensions
-simplejson==3.20.1
+simplejson==3.20.2
     # via
     #   django-rest-swagger
     #   sailthru-client
@@ -390,7 +388,7 @@ social-auth-app-django==5.4.3
     #   -c requirements/constraints.txt
     #   -r requirements/base.in
     #   edx-auth-backends
-social-auth-core==4.7.0
+social-auth-core==4.8.1
     # via
     #   edx-auth-backends
     #   social-auth-app-django
