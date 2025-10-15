@@ -1,15 +1,12 @@
 name: Upgrade Requirements
 
 on:
-  schedule:
-    # will start the job at 13:15 UTC every Tuesday
-    - cron: "15 13 * * 2"
   workflow_dispatch:
     inputs:
       branch:
         description: 'Target branch to create requirements PR against'
         required: true
-        default: 'master'
+        default: 'release-ulmo'
 jobs:
   call-upgrade-python-requirements-workflow:
     uses: openedx/.github/.github/workflows/upgrade-python-requirements.yml@master

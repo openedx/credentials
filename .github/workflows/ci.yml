@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [release-ulmo]
   pull_request:
-    branches: [master]
+    branches: [release-ulmo]
 
 jobs:
   quality_and_translations_tests:
