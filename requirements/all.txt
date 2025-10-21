@@ -37,11 +37,11 @@ bleach==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.40.51
+boto3==1.40.55
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.40.51
+botocore==1.40.55
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -113,9 +113,9 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.10.7
+coverage==7.11.0
     # via -r requirements/dev.txt
-cryptography==46.0.2
+cryptography==46.0.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -422,7 +422,7 @@ google-resumable-media==2.7.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-cloud-storage
-googleapis-common-protos==1.70.0
+googleapis-common-protos==1.71.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -489,7 +489,7 @@ inflection==0.5.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   drf-yasg
-iniconfig==2.1.0
+iniconfig==2.3.0
     # via
     #   -r requirements/dev.txt
     #   pytest
@@ -597,7 +597,7 @@ pathspec==0.12.1
     #   -r requirements/dev.txt
     #   black
     #   mypy
-pillow==11.3.0
+pillow==12.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -624,7 +624,7 @@ proto-plus==1.26.1
     #   -r requirements/production.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==6.32.1
+protobuf==6.33.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -633,7 +633,7 @@ protobuf==6.32.1
     #   googleapis-common-protos
     #   grpcio-status
     #   proto-plus
-psutil==7.1.0
+psutil==7.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -735,7 +735,7 @@ python3-openid==3.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   social-auth-core
-pytokens==0.1.10
+pytokens==0.2.0
     # via
     #   -r requirements/dev.txt
     #   black
