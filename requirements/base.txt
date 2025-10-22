@@ -46,7 +46,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==46.0.2
+cryptography==46.0.3
     # via pyjwt
 defusedxml==0.7.1
     # via
@@ -214,7 +214,7 @@ google-crc32c==1.7.1
     #   google-resumable-media
 google-resumable-media==2.7.2
     # via google-cloud-storage
-googleapis-common-protos==1.70.0
+googleapis-common-protos==1.71.0
     # via
     #   google-api-core
     #   grpcio-status
@@ -281,7 +281,7 @@ packaging==25.0
     # via drf-yasg
 path==16.16.0
     # via edx-i18n-tools
-pillow==11.3.0
+pillow==12.0.0
     # via -r requirements/base.in
 polib==1.2.0
     # via edx-i18n-tools
@@ -289,14 +289,14 @@ proto-plus==1.26.1
     # via
     #   google-api-core
     #   google-cloud-firestore
-protobuf==6.32.1
+protobuf==6.33.0
     # via
     #   google-api-core
     #   google-cloud-firestore
     #   googleapis-common-protos
     #   grpcio-status
     #   proto-plus
-psutil==7.1.0
+psutil==7.1.1
     # via edx-django-utils
 pyasn1==0.6.1
     # via
