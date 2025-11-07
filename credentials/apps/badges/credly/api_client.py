@@ -86,7 +86,29 @@ class CredlyAPIClient(BaseBadgeProviderClient):
         """
         Fetches the badge templates from the Credly API.
         """
-        return self.perform_request("get", f"badge_templates/?filter=state::{CredlyBadgeTemplate.STATES.active}")
+        results = []
+        url = f"badge_templates/?filter=state::{CredlyBadgeTemplate.STATES.active}"
+        response = self.perform_request("get", url)
+        results.extend(response.get("data", []))
+
+        metadata = response.get("metadata", {})
+        total_pages = metadata.get("total_pages", 1)
+        next_page_url = metadata.get("next_page_url")
+
+        # Loop through all remaining pages based on the total_pages value.
+        # For each iteration, fetch data using the 'next_page_url' provided by the API,
+        # append the results to the main list, and update the URL for the next request.
+        # The loop stops when there are no more pages to retrieve.
+        for _ in range(2, total_pages + 1):
+            if not next_page_url:
+                break
+
+            response = self.perform_request("get", next_page_url)
+            results.extend(response.get("data", []))
+
+            next_page_url = response.get("metadata", {}).get("next_page_url")
+
+        return {"data": results}
 
     def fetch_event_information(self, event_id):
         """
