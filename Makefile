@@ -44,6 +44,7 @@ requirements: piptools ## Install requirements for local development
 	pip-sync requirements/dev.txt
 
 piptools:
+	pip install -U 'pip<25.3'
 	pip install -q -r requirements/pip_tools.txt
 
 define COMMON_CONSTRAINTS_TEMP_COMMENT
