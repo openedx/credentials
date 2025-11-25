@@ -1,5 +1,6 @@
 import base64
 import logging
+import time
 from functools import lru_cache
 from urllib.parse import urljoin
 
@@ -102,6 +103,8 @@ class CredlyAPIClient(BaseBadgeProviderClient):
         for _ in range(2, total_pages + 1):
             if not next_page_url:
                 break
+
+            time.sleep(0.2)
 
             response = self.perform_request("get", next_page_url)
             results.extend(response.get("data", []))
