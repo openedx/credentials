@@ -106,9 +106,18 @@ class CredlyAPIClient(BaseBadgeProviderClient):
 
             time.sleep(0.2)
 
-            response = self.perform_request("get", next_page_url)
-            results.extend(response.get("data", []))
+            for attempt in range(3):
+                try:
+                    response = self.perform_request("get", next_page_url)
+                    break
+                except (requests.Timeout, requests.ConnectionError) as exc:
+                    sleep_time = 0.5 * (2 ** attempt)
+                    time.sleep(sleep_time)
 
+                    if attempt == 2:
+                        raise CredlyError(f"Failed to fetch page due to network error: {exc}")
+
+            results.extend(response.get("data", []))
             next_page_url = response.get("metadata", {}).get("next_page_url")
 
         return {"data": results}
