@@ -111,7 +111,7 @@ class CredlyAPIClient(BaseBadgeProviderClient):
                     response = self.perform_request("get", next_page_url)
                     break
                 except (requests.Timeout, requests.ConnectionError) as exc:
-                    sleep_time = 0.5 * (2 ** attempt)
+                    sleep_time = 0.5 * (2**attempt)
                     time.sleep(sleep_time)
 
                     if attempt == 2:
