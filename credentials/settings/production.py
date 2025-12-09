@@ -47,7 +47,7 @@ with open(CONFIG_FILE, encoding="utf-8") as f:
     FILE_STORAGE_BACKEND = config_from_yaml.get("FILE_STORAGE_BACKEND", {})
 
     # Load the files storage backend settings for django storages
-    # In django==4.2.24 following line sets AWS variables as per YAML.
+    # In django==5.2.7 the following line sets AWS variables as per YAML.
     vars().update(FILE_STORAGE_BACKEND)
 
 # make sure this happens after the configuration file overrides so format string can be overridden
