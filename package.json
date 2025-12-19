@@ -21,7 +21,7 @@
     "sass": "1.97.0",
     "sass-loader": "16.0.6",
     "url-loader": "4.1.1",
-    "webpack": "5.104.0",
+    "webpack": "5.104.1",
     "webpack-bundle-tracker": "3.2.3"
   },
   "devDependencies": {
