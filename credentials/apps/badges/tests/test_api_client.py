@@ -71,10 +71,13 @@ class CredlyApiClientTestCase(TestCase):
 
     def test_fetch_badge_templates(self):
         with mock.patch.object(CredlyAPIClient, "perform_request") as mock_perform_request:
-            mock_perform_request.return_value = {"badge_templates": ["template1", "template2"]}
+            mock_perform_request.return_value = {
+                "data": ["template1", "template2"],
+                "metadata": {"total_pages": 1},
+            }
             result = self.api_client.fetch_badge_templates()
             mock_perform_request.assert_called_once_with("get", "badge_templates/?filter=state::active")
-            self.assertEqual(result, {"badge_templates": ["template1", "template2"]})
+            self.assertEqual(result, {"data": ["template1", "template2"]})
 
     def test_fetch_event_information(self):
         event_id = "event123"
