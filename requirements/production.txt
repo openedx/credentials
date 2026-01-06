@@ -4,11 +4,11 @@
 #
 #    make upgrade
 #
-anyio==4.11.0
+anyio==4.12.1
     # via
     #   -r requirements/base.txt
     #   httpx
-asgiref==3.10.0
+asgiref==3.11.0
     # via
     #   -r requirements/base.txt
     #   django
@@ -22,23 +22,23 @@ backoff==2.2.1
     # via
     #   -r requirements/base.txt
     #   segment-analytics-python
-bleach==6.2.0
+bleach==6.3.0
     # via -r requirements/base.txt
-boto3==1.40.55
+boto3==1.42.22
     # via django-ses
-botocore==1.40.55
+botocore==1.42.22
     # via
     #   boto3
     #   s3transfer
-cachecontrol==0.14.3
+cachecontrol==0.14.4
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-cachetools==6.2.1
+cachetools==6.2.4
     # via
     #   -r requirements/base.txt
     #   google-auth
-certifi==2025.10.5
+certifi==2026.1.4
     # via
     #   -r requirements/base.txt
     #   httpcore
@@ -53,7 +53,7 @@ charset-normalizer==3.4.4
     # via
     #   -r requirements/base.txt
     #   requests
-click==8.3.0
+click==8.3.1
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -82,8 +82,9 @@ defusedxml==0.7.1
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/base.txt
-django==5.2.7
+django==5.2.9
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
     #   django-appconf
     #   django-config-models
@@ -115,7 +116,7 @@ django==5.2.7
     #   openedx-events
     #   social-auth-app-django
     #   xss-utils
-django-appconf==1.1.0
+django-appconf==1.2.0
     # via
     #   -r requirements/base.txt
     #   django-statici18n
@@ -134,7 +135,7 @@ django-filter==25.2
     # via -r requirements/base.txt
 django-model-utils==5.0.0
     # via -r requirements/base.txt
-django-push-notifications==3.2.1
+django-push-notifications==3.3.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
@@ -142,9 +143,9 @@ django-ratelimit==4.1.0
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==4.4.0
+django-ses==4.6.0
     # via -r requirements/production.in
-django-simple-history==3.10.1
+django-simple-history==3.11.0
     # via -r requirements/base.txt
 django-sortedm2m==4.0.0
     # via -r requirements/base.txt
@@ -158,7 +159,7 @@ django-waffle==5.0.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==3.2.1
+django-webpack-loader==3.2.3
     # via -r requirements/base.txt
 djangorestframework==3.16.1
     # via
@@ -180,7 +181,7 @@ drf-yasg==1.21.11
     # via -r requirements/base.txt
 edx-ace==1.15.0
     # via -r requirements/base.txt
-edx-auth-backends==4.6.1
+edx-auth-backends==4.6.2
     # via -r requirements/base.txt
 edx-ccx-keys==2.0.2
     # via
@@ -238,55 +239,55 @@ firebase-admin==7.1.0
     #   edx-ace
 gevent==25.9.1
     # via -r requirements/production.in
-google-api-core[grpc]==2.26.0
+google-api-core[grpc]==2.28.1
     # via
     #   -r requirements/base.txt
     #   firebase-admin
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-auth==2.41.1
+google-auth==2.46.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-core==2.4.3
+google-cloud-core==2.5.0
     # via
     #   -r requirements/base.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.21.0
+google-cloud-firestore==2.22.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-cloud-storage==3.4.1
+google-cloud-storage==3.7.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-crc32c==1.7.1
+google-crc32c==1.8.0
     # via
     #   -r requirements/base.txt
     #   google-cloud-storage
     #   google-resumable-media
-google-resumable-media==2.7.2
+google-resumable-media==2.8.0
     # via
     #   -r requirements/base.txt
     #   google-cloud-storage
-googleapis-common-protos==1.71.0
+googleapis-common-protos==1.72.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-greenlet==3.2.4
+greenlet==3.3.0
     # via gevent
-grpcio==1.75.1
+grpcio==1.76.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.75.1
+grpcio-status==1.76.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -349,7 +350,7 @@ lxml-html-clean==0.4.3
     # via
     #   -r requirements/base.txt
     #   lxml
-markdown==3.9
+markdown==3.10
     # via -r requirements/base.txt
 markupsafe==3.0.3
     # via
@@ -361,7 +362,7 @@ msgpack==1.1.2
     #   cachecontrol
 mysqlclient==2.2.7
     # via -r requirements/base.txt
-nodeenv==1.9.1
+nodeenv==1.10.0
     # via -r requirements/production.in
 oauthlib==3.3.1
     # via
@@ -388,18 +389,18 @@ path==16.16.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-pillow==12.0.0
+pillow==12.1.0
     # via -r requirements/base.txt
 polib==1.2.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-proto-plus==1.26.1
+proto-plus==1.27.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==6.33.0
+protobuf==6.33.2
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -407,7 +408,7 @@ protobuf==6.33.0
     #   googleapis-common-protos
     #   grpcio-status
     #   proto-plus
-psutil==7.1.1
+psutil==7.2.1
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -438,11 +439,11 @@ pyjwt[crypto]==2.10.1
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.txt
-pymongo==4.15.3
+pymongo==4.15.5
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
-pynacl==1.6.0
+pynacl==1.6.2
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
@@ -476,7 +477,7 @@ pyyaml==6.0.3
     #   edx-i18n-tools
 qrcode==8.2
     # via -r requirements/base.txt
-redis==6.4.0
+redis==7.1.0
     # via
     #   -r requirements/base.txt
     #   walrus
@@ -501,13 +502,13 @@ rsa==4.9.1
     # via
     #   -r requirements/base.txt
     #   google-auth
-s3transfer==0.14.0
+s3transfer==0.16.0
     # via boto3
 sailthru-client==2.2.3
     # via
     #   -r requirements/base.txt
     #   edx-ace
-segment-analytics-python==2.3.4
+segment-analytics-python==2.3.5
     # via -r requirements/base.txt
 semantic-version==2.10.0
     # via
@@ -526,25 +527,21 @@ six==1.17.0
     #   edx-ccx-keys
     #   edx-django-release-util
     #   python-dateutil
-sniffio==1.3.1
-    # via
-    #   -r requirements/base.txt
-    #   anyio
 social-auth-app-django==5.4.3
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-auth-backends
-social-auth-core==4.8.1
+social-auth-core==4.8.3
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
     #   social-auth-app-django
-sqlparse==0.5.3
+sqlparse==0.5.5
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==5.5.0
+stevedore==5.6.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -566,7 +563,7 @@ uritemplate==4.2.0
     #   -r requirements/base.txt
     #   coreapi
     #   drf-yasg
-urllib3==2.5.0
+urllib3==2.6.2
     # via
     #   -r requirements/base.txt
     #   botocore
@@ -581,9 +578,9 @@ webencodings==0.5.1
     #   bleach
 xss-utils==0.8.0
     # via -r requirements/base.txt
-zope-event==6.0
+zope-event==6.1
     # via gevent
-zope-interface==8.0.1
+zope-interface==8.1.1
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:

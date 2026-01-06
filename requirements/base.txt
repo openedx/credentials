@@ -4,9 +4,9 @@
 #
 #    make upgrade
 #
-anyio==4.11.0
+anyio==4.12.1
     # via httpx
-asgiref==3.10.0
+asgiref==3.11.0
     # via
     #   django
     #   django-cors-headers
@@ -16,13 +16,13 @@ attrs==25.4.0
     #   openedx-events
 backoff==2.2.1
     # via segment-analytics-python
-bleach==6.2.0
+bleach==6.3.0
     # via -r requirements/base.in
-cachecontrol==0.14.3
+cachecontrol==0.14.4
     # via firebase-admin
-cachetools==6.2.1
+cachetools==6.2.4
     # via google-auth
-certifi==2025.10.5
+certifi==2026.1.4
     # via
     #   httpcore
     #   httpx
@@ -33,7 +33,7 @@ cffi==2.0.0
     #   pynacl
 charset-normalizer==3.4.4
     # via requests
-click==8.3.0
+click==8.3.1
     # via
     #   code-annotations
     #   edx-django-utils
@@ -54,8 +54,9 @@ defusedxml==0.7.1
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/base.in
-django==5.2.7
+django==5.2.9
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
     #   django-appconf
     #   django-config-models
@@ -86,7 +87,7 @@ django==5.2.7
     #   openedx-events
     #   social-auth-app-django
     #   xss-utils
-django-appconf==1.1.0
+django-appconf==1.2.0
     # via django-statici18n
 django-config-models==2.9.0
     # via -r requirements/base.in
@@ -102,13 +103,13 @@ django-filter==25.2
     # via -r requirements/base.in
 django-model-utils==5.0.0
     # via -r requirements/base.in
-django-push-notifications==3.2.1
+django-push-notifications==3.3.0
     # via edx-ace
 django-ratelimit==4.1.0
     # via -r requirements/base.in
 django-rest-swagger==2.2.0
     # via -r requirements/base.in
-django-simple-history==3.10.1
+django-simple-history==3.11.0
     # via -r requirements/base.in
 django-sortedm2m==4.0.0
     # via -r requirements/base.in
@@ -122,7 +123,7 @@ django-waffle==5.0.0
     #   edx-django-utils
     #   edx-drf-extensions
     #   edx-toggles
-django-webpack-loader==3.2.1
+django-webpack-loader==3.2.3
     # via -r requirements/base.in
 djangorestframework==3.16.1
     # via
@@ -140,7 +141,7 @@ drf-yasg==1.21.11
     # via -r requirements/base.in
 edx-ace==1.15.0
     # via -r requirements/base.in
-edx-auth-backends==4.6.1
+edx-auth-backends==4.6.2
     # via -r requirements/base.in
 edx-ccx-keys==2.0.2
     # via openedx-events
@@ -188,41 +189,41 @@ fastavro==1.12.1
     # via openedx-events
 firebase-admin==7.1.0
     # via edx-ace
-google-api-core[grpc]==2.26.0
+google-api-core[grpc]==2.28.1
     # via
     #   firebase-admin
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-auth==2.41.1
+google-auth==2.46.0
     # via
     #   google-api-core
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-core==2.4.3
+google-cloud-core==2.5.0
     # via
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.21.0
+google-cloud-firestore==2.22.0
     # via firebase-admin
-google-cloud-storage==3.4.1
+google-cloud-storage==3.7.0
     # via firebase-admin
-google-crc32c==1.7.1
+google-crc32c==1.8.0
     # via
     #   google-cloud-storage
     #   google-resumable-media
-google-resumable-media==2.7.2
+google-resumable-media==2.8.0
     # via google-cloud-storage
-googleapis-common-protos==1.71.0
+googleapis-common-protos==1.72.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio==1.75.1
+grpcio==1.76.0
     # via
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.75.1
+grpcio-status==1.76.0
     # via google-api-core
 h11==0.16.0
     # via httpcore
@@ -256,7 +257,7 @@ lxml[html-clean]==6.0.2
     #   lxml-html-clean
 lxml-html-clean==0.4.3
     # via lxml
-markdown==3.9
+markdown==3.10
     # via -r requirements/base.in
 markupsafe==3.0.3
     # via jinja2
@@ -281,22 +282,22 @@ packaging==25.0
     # via drf-yasg
 path==16.16.0
     # via edx-i18n-tools
-pillow==12.0.0
+pillow==12.1.0
     # via -r requirements/base.in
 polib==1.2.0
     # via edx-i18n-tools
-proto-plus==1.26.1
+proto-plus==1.27.0
     # via
     #   google-api-core
     #   google-cloud-firestore
-protobuf==6.33.0
+protobuf==6.33.2
     # via
     #   google-api-core
     #   google-cloud-firestore
     #   googleapis-common-protos
     #   grpcio-status
     #   proto-plus
-psutil==7.1.1
+psutil==7.2.1
     # via edx-django-utils
 pyasn1==0.6.1
     # via
@@ -319,9 +320,9 @@ pyjwt[crypto]==2.10.1
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.in
-pymongo==4.15.3
+pymongo==4.15.5
     # via edx-opaque-keys
-pynacl==1.6.0
+pynacl==1.6.2
     # via edx-django-utils
 python-dateutil==2.9.0.post0
     # via
@@ -345,7 +346,7 @@ pyyaml==6.0.3
     #   edx-i18n-tools
 qrcode==8.2
     # via -r requirements/base.in
-redis==6.4.0
+redis==7.1.0
     # via walrus
 requests==2.32.5
     # via
@@ -366,7 +367,7 @@ rsa==4.9.1
     # via google-auth
 sailthru-client==2.2.3
     # via edx-ace
-segment-analytics-python==2.3.4
+segment-analytics-python==2.3.5
     # via -r requirements/base.in
 semantic-version==2.10.0
     # via edx-drf-extensions
@@ -381,20 +382,18 @@ six==1.17.0
     #   edx-ccx-keys
     #   edx-django-release-util
     #   python-dateutil
-sniffio==1.3.1
-    # via anyio
 social-auth-app-django==5.4.3
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.in
     #   edx-auth-backends
-social-auth-core==4.8.1
+social-auth-core==4.8.3
     # via
     #   edx-auth-backends
     #   social-auth-app-django
-sqlparse==0.5.3
+sqlparse==0.5.5
     # via django
-stevedore==5.5.0
+stevedore==5.6.0
     # via
     #   code-annotations
     #   edx-ace
@@ -411,7 +410,7 @@ uritemplate==4.2.0
     # via
     #   coreapi
     #   drf-yasg
-urllib3==2.5.0
+urllib3==2.6.2
     # via requests
 walrus==0.9.5
     # via edx-event-bus-redis
