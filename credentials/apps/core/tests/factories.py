@@ -65,4 +65,5 @@ class UserSocialAuthFactory(django.DjangoModelFactory):
 
     user_id = Faker("random_int")
     provider = Faker("word")
+    uid = Faker("uuid4")
     extra_data = Faker("json")
