@@ -147,7 +147,8 @@ fake_translations: extract_translations dummy_translations compile_translations 
 
 pull_translations:
 	find credentials/conf/locale -mindepth 1 -maxdepth 1 -type d -exec rm -r {} \;
-	atlas pull $(ATLAS_OPTIONS) translations/credentials/credentials/conf/locale:credentials/conf/locale
+	atlas pull $(ATLAS_OPTIONS) translations/credentials/credentials/conf/locale:credentials/conf/locale \
+		$(ATLAS_EXTRA_SOURCES)
 	python manage.py compilemessages
 
 	@echo "Translations have been pulled via Atlas and compiled."
