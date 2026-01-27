@@ -4,10 +4,12 @@
 #
 #    make upgrade
 #
-asgiref==3.10.0
+asgiref==3.11.0
     # via django
-django==5.2.7
-    # via edx-i18n-tools
+django==5.2.10
+    # via
+    #   -c requirements/common_constraints.txt
+    #   edx-i18n-tools
 edx-i18n-tools==1.9.0
     # via -r requirements/translations.in
 lxml[html-clean]==6.0.2
@@ -22,5 +24,5 @@ polib==1.2.0
     # via edx-i18n-tools
 pyyaml==6.0.3
     # via edx-i18n-tools
-sqlparse==0.5.3
+sqlparse==0.5.5
     # via django
