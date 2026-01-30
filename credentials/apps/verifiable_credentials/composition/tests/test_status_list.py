@@ -25,7 +25,9 @@ class StatusListCompositionTestCase(TestCase):
     def test_regenerate_encoded_status_sequence(self, mock_get_revoked_indices):
         mock_get_revoked_indices.return_value = [1, 3, 5]
         result = regenerate_encoded_status_sequence("test")
-        decoded_data = base64.b64decode(result)
+        # Add padding back for urlsafe_b64decode
+        padded_result = result + "=" * (-len(result) % 4)
+        decoded_data = base64.urlsafe_b64decode(padded_result)
         decompressed_data = gzip.decompress(decoded_data)
         status_list = bytearray(decompressed_data)
 
