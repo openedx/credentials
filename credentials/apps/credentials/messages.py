@@ -2,7 +2,6 @@ import logging
 
 from edx_ace import MessageType
 
-
 log = logging.getLogger(__name__)
 
 

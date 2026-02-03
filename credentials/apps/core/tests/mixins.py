@@ -8,7 +8,6 @@ from edx_django_utils.cache import TieredCache
 
 from credentials.apps.core.tests.factories import SiteConfigurationFactory
 
-
 JSON = "application/json"
 
 

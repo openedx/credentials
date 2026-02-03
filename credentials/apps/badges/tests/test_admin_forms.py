@@ -14,7 +14,6 @@ from credentials.apps.badges.admin_forms import (
 from credentials.apps.badges.exceptions import BadgeProviderError
 from credentials.apps.badges.models import BadgeRequirement, BadgeTemplate
 
-
 COURSE_PASSING_EVENT = "org.openedx.learning.course.passing.status.updated.v1"
 
 

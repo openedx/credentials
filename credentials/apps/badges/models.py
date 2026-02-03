@@ -27,7 +27,6 @@ from credentials.apps.badges.utils import keypath
 from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.models import AbstractCredential, UserCredential
 
-
 logger = logging.getLogger(__name__)
 
 

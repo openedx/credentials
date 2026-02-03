@@ -3,7 +3,6 @@ from django.conf import settings
 from django.test import TestCase
 from testfixtures import LogCapture
 
-
 LOGGER_NAME = "credentials.apps.credentials.apps"
 
 

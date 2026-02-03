@@ -13,7 +13,6 @@ from credentials.apps.credentials.issuers import CourseCertificateIssuer, Progra
 from credentials.apps.credentials.models import CourseCertificate, ProgramCertificate
 from credentials.apps.credentials.tests.factories import CourseCertificateFactory, ProgramCertificateFactory
 
-
 LOGGER_NAME = "credentials.apps.api.accreditors"
 
 

@@ -14,7 +14,6 @@ from credentials.apps.badges.credly.exceptions import CredlyError
 from credentials.apps.badges.credly.utils import get_credly_api_base_url
 from credentials.apps.badges.models import CredlyBadgeTemplate, CredlyOrganization
 
-
 logger = logging.getLogger(__name__)
 
 

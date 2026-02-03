@@ -8,7 +8,6 @@ from django.conf import settings
 from django.core import cache as django_cache
 from django.core.management import call_command
 
-
 preload_app = True
 timeout = 300
 bind = "0.0.0.0:18150"

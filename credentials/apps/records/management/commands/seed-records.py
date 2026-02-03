@@ -16,7 +16,6 @@ from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 from credentials.settings.base import TIME_ZONE_CLASS
 from credentials.shared.constants import PathwayType
 
-
 logger = logging.getLogger(__name__)
 
 

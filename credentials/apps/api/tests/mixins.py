@@ -14,7 +14,6 @@ from credentials.apps.api.v2.serializers import UserCredentialSerializer
 from credentials.apps.core.constants import Role
 from credentials.apps.core.tests.factories import UserFactory
 
-
 JWT_AUTH = "JWT_AUTH"
 
 

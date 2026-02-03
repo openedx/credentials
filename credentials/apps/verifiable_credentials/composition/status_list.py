@@ -7,7 +7,6 @@ from rest_framework import serializers
 from ..settings import vc_settings
 from . import CredentialDataModel
 
-
 STATUS_LIST_PURPOSE = "revocation"
 
 

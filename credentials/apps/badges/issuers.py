@@ -32,7 +32,6 @@ from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.constants import UserCredentialStatus
 from credentials.apps.credentials.issuers import AbstractCredentialIssuer
 
-
 REVOCATION_STATES = {
     CredlyBadge: CredlyBadge.STATES.revoked,
     AccredibleBadge: AccredibleBadge.STATES.expired,

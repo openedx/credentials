@@ -7,7 +7,6 @@ from django.core.management import BaseCommand
 
 from credentials.apps.verifiable_credentials.issuance.status_list import issue_status_list
 
-
 logger = logging.getLogger(__name__)
 
 

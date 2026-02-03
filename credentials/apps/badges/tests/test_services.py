@@ -25,7 +25,6 @@ from credentials.apps.badges.processing.regression import discover_penalties, pr
 from credentials.apps.badges.signals import BADGE_PROGRESS_COMPLETE
 from credentials.apps.badges.signals.handlers import handle_badge_completion
 
-
 COURSE_PASSING_EVENT = "org.openedx.learning.course.passing.status.updated.v1"
 COURSE_PASSING_DATA = CoursePassingStatusData(
     is_passing=True,

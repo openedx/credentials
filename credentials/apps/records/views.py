@@ -33,7 +33,6 @@ from credentials.shared.constants import PathwayType
 
 from .constants import RECORDS_RATE_LIMIT
 
-
 if TYPE_CHECKING:
     from credentials.apps.core.models import SiteConfiguration
 

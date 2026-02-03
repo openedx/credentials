@@ -28,7 +28,6 @@ from credentials.apps.core.utils import _choices
 from credentials.apps.credentials import constants
 from credentials.apps.credentials.exceptions import NoMatchingProgramException
 
-
 if TYPE_CHECKING:
     from credentials.apps.catalog.data import ProgramDetails
 

@@ -20,7 +20,6 @@ from credentials.apps.badges.signals import (
 )
 from credentials.apps.badges.utils import get_badging_event_types
 
-
 logger = logging.getLogger(__name__)
 
 

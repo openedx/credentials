@@ -12,7 +12,6 @@ from django.test import TestCase
 from credentials.apps.core.tests.factories import UserFactory
 from credentials.apps.core.tests.mixins import SiteMixin
 
-
 User = get_user_model()
 
 JSON = "application/json"

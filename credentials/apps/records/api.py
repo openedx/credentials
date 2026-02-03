@@ -19,7 +19,6 @@ from credentials.apps.credentials.data import UserCredentialStatus
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway, UserGrade
 from credentials.apps.records.utils import get_credentials
 
-
 if TYPE_CHECKING:
     from credentials.apps.credentials.models import CourseRun
 

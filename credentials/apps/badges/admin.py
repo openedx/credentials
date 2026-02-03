@@ -38,7 +38,6 @@ from credentials.apps.badges.models import (
 )
 from credentials.apps.badges.toggles import is_badges_enabled
 
-
 ADMIN_CHANGE_VIEW_REVERSE_NAMES = {
     CredlyBadgeTemplate.ORIGIN: "admin:badges_credlybadgetemplate_change",
     AccredibleGroup.ORIGIN: "admin:badges_accrediblegroup_change",
@@ -254,13 +253,11 @@ class CredlyBadgeTemplateAdmin(admin.ModelAdmin):
                     "site",
                     "is_active",
                 ),
-                "description": _(
-                    """
+                "description": _("""
                     WARNING: avoid configuration updates on activated badges.
                     Active badge templates are continuously processed and learners may already have progress on them.
                     Any changes in badge template requirements (including data rules) will affect learners' experience!
-                    """
-                ),
+                    """),
             },
         ),
         (
@@ -657,13 +654,11 @@ class AccredibleGroupAdmin(admin.ModelAdmin):
                     "site",
                     "is_active",
                 ),
-                "description": _(
-                    """
+                "description": _("""
                     WARNING: avoid configuration updates on activated badges.
                     Active badge templates are continuously processed and learners may already have progress on them.
                     Any changes in badge template requirements (including data rules) will affect learners' experience!
-                    """
-                ),
+                    """),
             },
         ),
         (

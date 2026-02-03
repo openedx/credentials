@@ -10,7 +10,6 @@ from edx_django_utils.plugins import get_plugin_apps, add_plugins
 from credentials.settings.utils import get_logger_config
 from credentials.apps.plugins.constants import PROJECT_TYPE, SettingsType
 
-
 # PATH vars
 
 here = lambda *x: join(abspath(dirname(__file__)), *x)

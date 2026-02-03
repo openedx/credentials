@@ -43,7 +43,6 @@ from credentials.apps.records.tests.factories import (
 )
 from credentials.apps.records.tests.utils import dump_random_state
 
-
 JSON_CONTENT_TYPE = "application/json"
 
 

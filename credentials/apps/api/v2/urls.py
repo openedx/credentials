@@ -3,7 +3,6 @@ from rest_framework.routers import DefaultRouter
 
 from credentials.apps.api.v2 import views
 
-
 # NOTE: Although this is v2 and other APIs in this application are v1,
 # the API naming and code layout convention here is not to be used for new
 # endpoints, per:

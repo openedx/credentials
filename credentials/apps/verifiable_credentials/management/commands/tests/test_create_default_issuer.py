@@ -5,7 +5,6 @@ from django.test import TestCase, override_settings
 
 from ..create_default_issuer import Command as CreateDefaultIssuerCommand
 
-
 logger = logging.getLogger(__name__)
 
 

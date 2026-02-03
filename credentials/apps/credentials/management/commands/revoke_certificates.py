@@ -9,7 +9,6 @@ from django.core.management.base import BaseCommand, CommandError
 
 from credentials.apps.credentials.models import RevokeCertificatesConfig, UserCredential
 
-
 if TYPE_CHECKING:
     from argparse import ArgumentParser
 

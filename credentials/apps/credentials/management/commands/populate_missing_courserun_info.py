@@ -11,7 +11,6 @@ from django.core.management.base import BaseCommand
 from credentials.apps.catalog.api import get_course_runs_by_course_run_keys
 from credentials.apps.credentials.models import CourseCertificate
 
-
 if TYPE_CHECKING:
     from credentials.apps.catalog.models import CourseRun
 

@@ -9,7 +9,6 @@ from django.core.management import BaseCommand
 from credentials.apps.catalog.utils import CatalogDataSynchronizer
 from credentials.apps.core.models import SiteConfiguration
 
-
 logger = logging.getLogger(__name__)
 
 

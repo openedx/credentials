@@ -25,7 +25,6 @@ from credentials.apps.verifiable_credentials.issuance.tests.factories import Iss
 from credentials.apps.verifiable_credentials.storages.learner_credential_wallet import LCWallet
 from credentials.apps.verifiable_credentials.utils import get_user_credentials_data
 
-
 JSON_CONTENT_TYPE = "application/json"
 
 

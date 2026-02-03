@@ -7,7 +7,6 @@ contain namespaces for the active versions of the API.
 
 from django.urls import include, path
 
-
 urlpatterns = [
     path("v2/", include(("credentials.apps.api.v2.urls", "v2"), namespace="v2")),
 ]

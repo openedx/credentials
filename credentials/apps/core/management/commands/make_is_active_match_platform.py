@@ -18,7 +18,6 @@ from django.core.management.base import BaseCommand
 
 from credentials.apps.core.models import SiteConfiguration
 
-
 if TYPE_CHECKING:
     from django.contrib.auth.models import AbstractUser
 

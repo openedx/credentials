@@ -23,7 +23,6 @@ from credentials.apps.credentials.models import (
 )
 from credentials.apps.records.models import UserGrade
 
-
 if TYPE_CHECKING:
     from credentials.apps.credentials.models import AbstractCertificate
 

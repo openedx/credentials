@@ -4,7 +4,6 @@ from credentials.apps.credentials.constants import UUID_PATTERN
 
 from . import views
 
-
 urlpatterns = [
     path("", views.RecordsView.as_view(), name="index"),
     path("api/", include(("credentials.apps.records.rest_api.urls", "api"), namespace="api")),

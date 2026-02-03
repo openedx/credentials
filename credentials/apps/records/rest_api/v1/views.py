@@ -13,7 +13,6 @@ from credentials.apps.records.rest_api.v1.permissions import CanAccessProgramRec
 from credentials.apps.records.rest_api.v1.serializers import ProgramRecordSerializer, ProgramSerializer
 from credentials.apps.records.utils import get_user_program_data
 
-
 User = get_user_model()
 log = logging.getLogger(__name__)
 

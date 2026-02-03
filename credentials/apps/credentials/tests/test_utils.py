@@ -16,7 +16,6 @@ from credentials.apps.credentials.models import ProgramCompletionEmailConfigurat
 from credentials.apps.credentials.tests.factories import ProgramCertificateFactory
 from credentials.apps.credentials.utils import send_program_certificate_created_message, validate_duplicate_attributes
 
-
 User = get_user_model()
 
 

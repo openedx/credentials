@@ -29,7 +29,6 @@ from credentials.apps.verifiable_credentials.utils import (
     is_valid_uuid,
 )
 
-
 logger = logging.getLogger(__name__)
 
 User = get_user_model()
@@ -170,10 +169,8 @@ class InitIssuanceView(APIView):
         storage = get_storage(storage_id)
         if not storage:
             available_storages_ids = [storage.ID for storage in get_available_storages()]
-            msg = _(
-                "Provided storage backend ({storage_id}) isn't active. \
-                Storages: {active_storages}"
-            ).format(storage_id=storage_id, active_storages=available_storages_ids)
+            msg = _("Provided storage backend ({storage_id}) isn't active. \
+                Storages: {active_storages}").format(storage_id=storage_id, active_storages=available_storages_ids)
             logger.exception(msg)
             raise NotFound({"storage_id": msg})
 

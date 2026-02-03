@@ -7,7 +7,6 @@ from django.core.management import BaseCommand, CommandError
 
 from credentials.apps.core.models import SiteConfiguration
 
-
 logger = logging.getLogger(__name__)
 
 

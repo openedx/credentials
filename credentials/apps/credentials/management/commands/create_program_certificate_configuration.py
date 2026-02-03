@@ -8,7 +8,6 @@ from django.core.management.base import BaseCommand, CommandError
 from credentials.apps.catalog.models import Program
 from credentials.apps.credentials.models import ProgramCertificate
 
-
 logger = logging.getLogger(__name__)
 
 

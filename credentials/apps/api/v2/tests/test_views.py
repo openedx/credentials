@@ -33,7 +33,6 @@ from credentials.apps.credentials.tests.factories import (
 from credentials.apps.records.models import UserGrade
 from credentials.apps.records.tests.factories import UserGradeFactory
 
-
 JSON_CONTENT_TYPE = "application/json"
 LOGGER_NAME = "credentials.apps.credentials.issuers"
 LOGGER_NAME_SERIALIZER = "credentials.apps.api.v2.serializers"

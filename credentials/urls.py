@@ -33,7 +33,6 @@ from credentials.apps.plugins.constants import PROJECT_TYPE
 from credentials.apps.verifiable_credentials.toggles import is_verifiable_credentials_enabled
 from credentials.views import FaviconView
 
-
 admin.autodiscover()
 admin.site.site_header = _("Credentials Administration")
 admin.site.site_title = admin.site.site_header

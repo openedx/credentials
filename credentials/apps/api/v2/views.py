@@ -22,7 +22,6 @@ from credentials.apps.api.v2.serializers import (
 from credentials.apps.credentials.models import CourseCertificate, UserCredential
 from credentials.apps.records.models import UserGrade
 
-
 log = logging.getLogger(__name__)
 
 

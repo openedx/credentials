@@ -4,7 +4,6 @@ Badges app toggles.
 
 from edx_toggles.toggles import SettingToggle
 
-
 # .. toggle_name: BADGES_ENABLED
 # .. toggle_implementation: DjangoSetting
 # .. toggle_default: False

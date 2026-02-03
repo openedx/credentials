@@ -21,7 +21,6 @@ from credentials.apps.records.constants import UserCreditPathwayStatus
 from credentials.apps.records.messages import ProgramCreditRequest
 from credentials.apps.records.models import ProgramCertRecord, UserCreditPathway
 
-
 if TYPE_CHECKING:
     from django.contrib.sites.models import Site
 

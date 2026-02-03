@@ -27,7 +27,6 @@ from credentials.apps.credentials.tests.factories import (
     UserCredentialFactory,
 )
 
-
 User = get_user_model()
 LOGGER_NAME = "credentials.apps.credentials.issuers"
 

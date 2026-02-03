@@ -13,7 +13,6 @@ from credentials.apps.verifiable_credentials.toggles import (
     is_verifiable_credentials_enabled,
 )
 
-
 logger = logging.getLogger(__name__)
 
 

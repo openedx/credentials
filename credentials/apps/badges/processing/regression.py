@@ -9,7 +9,6 @@ from attrs import asdict
 
 from credentials.apps.badges.models import BadgePenalty
 
-
 logger = logging.getLogger(__name__)
 
 
