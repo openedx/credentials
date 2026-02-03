@@ -10,8 +10,3 @@
 
 # Common constraints for edx repos
 -c common_constraints.txt
-
-
-# greater versions are breaking 2 tests which need further investigation.
-# https://github.com/openedx/credentials/issues/2873
-social-auth-app-django<=5.4.3
