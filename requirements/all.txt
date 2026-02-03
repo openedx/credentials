@@ -34,6 +34,7 @@ backoff==2.2.1
 black==26.1.0
     # via -r requirements/dev.txt
 bleach==6.3.0
+bleach==6.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -46,6 +47,7 @@ botocore==1.42.40
     #   -r requirements/production.txt
     #   boto3
     #   s3transfer
+cachecontrol==0.14.4
 cachecontrol==0.14.4
     # via
     #   -r requirements/dev.txt
@@ -77,6 +79,7 @@ charset-normalizer==3.4.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
+click==8.3.1
 click==8.3.1
     # via
     #   -r requirements/dev.txt
@@ -142,6 +145,7 @@ distlib==0.4.0
 django==5.2.11
     # via
     #   -c requirements/common_constraints.txt
+    #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-appconf
@@ -178,6 +182,7 @@ django==5.2.11
     #   social-auth-app-django
     #   xss-utils
 django-appconf==1.2.0
+django-appconf==1.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -210,6 +215,7 @@ django-model-utils==5.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+django-push-notifications==3.3.0
 django-push-notifications==3.3.0
     # via
     #   -r requirements/dev.txt
@@ -285,6 +291,7 @@ edx-ace==1.15.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+edx-auth-backends==4.6.2
 edx-auth-backends==4.6.2
     # via
     #   -r requirements/dev.txt
@@ -396,6 +403,7 @@ google-auth==2.48.0
     #   google-cloud-firestore
     #   google-cloud-storage
 google-cloud-core==2.5.0
+google-cloud-core==2.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -418,10 +426,12 @@ google-crc32c==1.8.0
     #   google-cloud-storage
     #   google-resumable-media
 google-resumable-media==2.8.0
+google-resumable-media==2.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-cloud-storage
+googleapis-common-protos==1.72.0
 googleapis-common-protos==1.72.0
     # via
     #   -r requirements/dev.txt
@@ -433,11 +443,13 @@ greenlet==3.3.1
     #   -r requirements/production.txt
     #   gevent
 grpcio==1.76.0
+grpcio==1.76.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
     #   grpcio-status
+grpcio-status==1.76.0
 grpcio-status==1.76.0
     # via
     #   -r requirements/dev.txt
@@ -764,6 +776,7 @@ qrcode==8.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
 redis==7.1.0
+redis==7.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -796,6 +809,7 @@ rsa==4.9.1
     #   -r requirements/production.txt
     #   google-auth
 s3transfer==0.16.0
+s3transfer==0.16.0
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -804,6 +818,7 @@ sailthru-client==2.2.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-ace
+segment-analytics-python==2.3.5
 segment-analytics-python==2.3.5
     # via
     #   -r requirements/dev.txt
@@ -831,7 +846,6 @@ six==1.17.0
     #   python-dateutil
 social-auth-app-django==5.4.3
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-auth-backends
@@ -848,6 +862,7 @@ sqlparse==0.5.5
     #   django
     #   django-debug-toolbar
 stevedore==5.6.0
+stevedore==5.6.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -855,6 +870,7 @@ stevedore==5.6.0
     #   edx-ace
     #   edx-django-utils
     #   edx-opaque-keys
+testfixtures==10.0.0
 testfixtures==10.0.0
     # via -r requirements/dev.txt
 text-unidecode==1.3
@@ -913,6 +929,7 @@ xss-utils==0.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+zope-event==6.1
 zope-event==6.1
     # via
     #   -r requirements/production.txt

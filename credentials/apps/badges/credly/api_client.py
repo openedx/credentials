@@ -1,5 +1,6 @@
 import base64
 import logging
+import time
 from functools import lru_cache
 from urllib.parse import urljoin
 
@@ -85,7 +86,40 @@ class CredlyAPIClient(BaseBadgeProviderClient):
         """
         Fetches the badge templates from the Credly API.
         """
-        return self.perform_request("get", f"badge_templates/?filter=state::{CredlyBadgeTemplate.STATES.active}")
+        results = []
+        url = f"badge_templates/?filter=state::{CredlyBadgeTemplate.STATES.active}"
+        response = self.perform_request("get", url)
+        results.extend(response.get("data", []))
+
+        metadata = response.get("metadata", {})
+        total_pages = metadata.get("total_pages", 1)
+        next_page_url = metadata.get("next_page_url")
+
+        # Loop through all remaining pages based on the total_pages value.
+        # For each iteration, fetch data using the 'next_page_url' provided by the API,
+        # append the results to the main list, and update the URL for the next request.
+        # The loop stops when there are no more pages to retrieve.
+        for _ in range(2, total_pages + 1):
+            if not next_page_url:
+                break
+
+            time.sleep(0.2)
+
+            for attempt in range(3):
+                try:
+                    response = self.perform_request("get", next_page_url)
+                    break
+                except (requests.Timeout, requests.ConnectionError) as exc:
+                    sleep_time = 0.5 * (2**attempt)
+                    time.sleep(sleep_time)
+
+                    if attempt == 2:
+                        raise CredlyError(f"Failed to fetch page due to network error: {exc}")
+
+            results.extend(response.get("data", []))
+            next_page_url = response.get("metadata", {}).get("next_page_url")
+
+        return {"data": results}
 
     def fetch_event_information(self, event_id):
         """

@@ -154,5 +154,5 @@ def regenerate_encoded_status_sequence(issuer_id):
         status_list[index] = 1
 
     gzip_data = gzip.compress(status_list)
-    base64_data = base64.b64encode(gzip_data)
+    base64_data = base64.urlsafe_b64encode(gzip_data).rstrip(b"=")
     return base64_data.decode("utf-8")
