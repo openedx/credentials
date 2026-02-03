@@ -9,7 +9,7 @@ anyio==4.12.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   httpx
-asgiref==3.11.0
+asgiref==3.11.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -37,11 +37,11 @@ bleach==6.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.42.35
+boto3==1.42.40
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.42.35
+botocore==1.42.40
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -51,7 +51,7 @@ cachecontrol==0.14.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-cachetools==6.2.5
+cachetools==7.0.0
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -111,9 +111,9 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.13.2
+coverage==7.13.3
     # via -r requirements/dev.txt
-cryptography==46.0.3
+cryptography==46.0.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -139,7 +139,7 @@ distlib==0.4.0
     # via
     #   -r requirements/dev.txt
     #   virtualenv
-django==5.2.10
+django==5.2.11
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
@@ -406,7 +406,7 @@ google-cloud-firestore==2.23.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-cloud-storage==3.8.0
+google-cloud-storage==3.9.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -443,7 +443,7 @@ grpcio-status==1.76.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
-gunicorn==24.1.1
+gunicorn==25.0.1
     # via -r requirements/production.txt
 h11==0.16.0
     # via
@@ -622,13 +622,13 @@ polib==1.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-i18n-tools
-proto-plus==1.27.0
+proto-plus==1.27.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==6.33.4
+protobuf==6.33.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -637,7 +637,7 @@ protobuf==6.33.4
     #   googleapis-common-protos
     #   grpcio-status
     #   proto-plus
-psutil==7.2.1
+psutil==7.2.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -739,7 +739,7 @@ python3-openid==3.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   social-auth-core
-pytokens==0.4.0
+pytokens==0.4.1
     # via
     #   -r requirements/dev.txt
     #   black

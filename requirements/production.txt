@@ -8,7 +8,7 @@ anyio==4.12.1
     # via
     #   -r requirements/base.txt
     #   httpx
-asgiref==3.11.0
+asgiref==3.11.1
     # via
     #   -r requirements/base.txt
     #   django
@@ -24,9 +24,9 @@ backoff==2.2.1
     #   segment-analytics-python
 bleach==6.3.0
     # via -r requirements/base.txt
-boto3==1.42.35
+boto3==1.42.40
     # via django-ses
-botocore==1.42.35
+botocore==1.42.40
     # via
     #   boto3
     #   s3transfer
@@ -67,7 +67,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-cryptography==46.0.3
+cryptography==46.0.4
     # via
     #   -r requirements/base.txt
     #   google-auth
@@ -79,7 +79,7 @@ defusedxml==0.7.1
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/base.txt
-django==5.2.10
+django==5.2.11
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
@@ -259,7 +259,7 @@ google-cloud-firestore==2.23.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-cloud-storage==3.8.0
+google-cloud-storage==3.9.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -288,7 +288,7 @@ grpcio-status==1.76.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
-gunicorn==24.1.1
+gunicorn==25.0.1
     # via -r requirements/production.in
 h11==0.16.0
     # via
@@ -392,12 +392,12 @@ polib==1.2.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
-proto-plus==1.27.0
+proto-plus==1.27.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
-protobuf==6.33.4
+protobuf==6.33.5
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -405,7 +405,7 @@ protobuf==6.33.4
     #   googleapis-common-protos
     #   grpcio-status
     #   proto-plus
-psutil==7.2.1
+psutil==7.2.2
     # via
     #   -r requirements/base.txt
     #   edx-django-utils

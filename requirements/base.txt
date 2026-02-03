@@ -6,7 +6,7 @@
 #
 anyio==4.12.1
     # via httpx
-asgiref==3.11.0
+asgiref==3.11.1
     # via
     #   django
     #   django-cors-headers
@@ -44,7 +44,7 @@ coreapi==2.3.3
     #   openapi-codec
 coreschema==0.0.4
     # via coreapi
-cryptography==46.0.3
+cryptography==46.0.4
     # via
     #   google-auth
     #   pyjwt
@@ -54,7 +54,7 @@ defusedxml==0.7.1
     #   social-auth-core
 didkit==0.3.3
     # via -r requirements/base.in
-django==5.2.10
+django==5.2.11
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.in
@@ -207,7 +207,7 @@ google-cloud-core==2.5.0
     #   google-cloud-storage
 google-cloud-firestore==2.23.0
     # via firebase-admin
-google-cloud-storage==3.8.0
+google-cloud-storage==3.9.0
     # via firebase-admin
 google-crc32c==1.8.0
     # via
@@ -286,18 +286,18 @@ pillow==12.1.0
     # via -r requirements/base.in
 polib==1.2.0
     # via edx-i18n-tools
-proto-plus==1.27.0
+proto-plus==1.27.1
     # via
     #   google-api-core
     #   google-cloud-firestore
-protobuf==6.33.4
+protobuf==6.33.5
     # via
     #   google-api-core
     #   google-cloud-firestore
     #   googleapis-common-protos
     #   grpcio-status
     #   proto-plus
-psutil==7.2.1
+psutil==7.2.2
     # via edx-django-utils
 pyasn1==0.6.2
     # via
