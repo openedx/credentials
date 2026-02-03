@@ -18,7 +18,6 @@ from credentials.apps.catalog.tests.factories import (
 )
 from credentials.apps.credentials.models import ProgramCertificate
 
-
 COMMAND = "create_program_certificate_configuration"
 
 

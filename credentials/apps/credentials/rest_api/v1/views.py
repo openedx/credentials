@@ -13,7 +13,6 @@ from rest_framework.views import APIView
 from credentials.apps.credentials.rest_api.v1.permissions import CanGetLearnerStatus
 from credentials.apps.records.api import single_learner_cert_status
 
-
 log = logging.getLogger(__name__)
 
 

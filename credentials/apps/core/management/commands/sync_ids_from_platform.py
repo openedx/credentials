@@ -11,7 +11,6 @@ from django.core.management.base import BaseCommand
 
 from credentials.apps.core.models import SiteConfiguration
 
-
 logger = logging.getLogger(__name__)
 User = get_user_model()
 

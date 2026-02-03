@@ -18,7 +18,6 @@ from ..settings import vc_settings
 from ..storages.utils import get_storage
 from .models import IssuanceLine
 
-
 logger = logging.getLogger(__name__)
 
 

@@ -2,6 +2,7 @@
 """
 Pytest: Verifiable Credentials base testing config/fixtures.
 """
+
 import pytest
 
 from credentials.apps.catalog.tests.factories import (
@@ -17,7 +18,6 @@ from credentials.apps.credentials.tests.factories import (
     UserCredentialFactory,
 )
 from credentials.apps.verifiable_credentials.issuance.tests.factories import IssuanceLineFactory
-
 
 TEST_ISSUER_CONFIG = {
     "ID": "test-issuer-did",

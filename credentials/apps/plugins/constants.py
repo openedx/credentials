@@ -8,7 +8,6 @@ from edx_django_utils.plugins import PluginSettings  # pylint: disable=unused-im
 from edx_django_utils.plugins import PluginSignals  # pylint: disable=unused-import
 from edx_django_utils.plugins import PluginURLs  # pylint: disable=unused-import
 
-
 PROJECT_TYPE = "credentials.djangoapp"
 
 

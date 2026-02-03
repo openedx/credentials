@@ -19,7 +19,6 @@ from credentials.apps.catalog.tests.factories import (
 from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.tests.factories import CourseCertificateFactory
 
-
 if TYPE_CHECKING:
     from credentials.apps.credentials.models import CourseCertificate
 

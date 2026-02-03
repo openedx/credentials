@@ -20,7 +20,6 @@ from credentials.apps.badges.models import (
 )
 from credentials.apps.credentials.constants import UserCredentialStatus
 
-
 User = get_user_model()
 
 

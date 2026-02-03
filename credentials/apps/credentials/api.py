@@ -15,7 +15,6 @@ from credentials.apps.credentials.models import (
 )
 from credentials.apps.credentials.utils import filter_visible, get_credential_visible_date, get_credential_visible_dates
 
-
 if TYPE_CHECKING:
     from django.contrib.sites.models import Site
 

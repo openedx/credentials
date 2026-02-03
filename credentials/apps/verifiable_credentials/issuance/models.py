@@ -21,7 +21,6 @@ from ..constants import CredentialsType
 from ..settings import vc_settings
 from ..storages.utils import get_storage
 
-
 User = get_user_model()
 
 

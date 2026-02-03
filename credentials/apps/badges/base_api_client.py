@@ -7,7 +7,6 @@ from requests.exceptions import HTTPError
 
 from .exceptions import BadgeProviderError
 
-
 logger = logging.getLogger(__name__)
 
 

@@ -5,7 +5,6 @@ from credentials.apps.credentials.rest_api.v1.views import (
     LearnerCertificateStatusView,
 )
 
-
 urlpatterns = [
     path(
         "learner_cert_status/",

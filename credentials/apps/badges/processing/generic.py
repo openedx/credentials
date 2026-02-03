@@ -10,7 +10,6 @@ from credentials.apps.badges.processing.regression import process_penalties
 from credentials.apps.badges.utils import extract_payload, get_user_data
 from credentials.apps.core.api import get_or_create_user_from_event_data
 
-
 logger = logging.getLogger(__name__)
 
 

@@ -9,7 +9,6 @@ from django.contrib.auth.models import Group
 
 from credentials.apps.core.constants import Role
 
-
 logger = logging.getLogger(__name__)
 
 

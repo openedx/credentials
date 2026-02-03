@@ -11,7 +11,6 @@ from credentials.shared.constants import PathwayType
 
 from .data import PathwayStatus, ProgramStatus
 
-
 logger = logging.getLogger(__name__)
 
 

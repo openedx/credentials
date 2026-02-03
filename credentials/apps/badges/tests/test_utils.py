@@ -18,7 +18,6 @@ from credentials.apps.badges.utils import (
     keypath,
 )
 
-
 COURSE_PASSING_EVENT = "org.openedx.learning.course.passing.status.updated.v1"
 
 

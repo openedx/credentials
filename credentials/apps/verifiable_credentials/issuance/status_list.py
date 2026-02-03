@@ -13,7 +13,6 @@ from ..issuance.main import CredentialIssuer
 from ..settings import vc_settings
 from . import IssuanceException
 
-
 logger = logging.getLogger(__name__)
 
 

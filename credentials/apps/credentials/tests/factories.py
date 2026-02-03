@@ -8,7 +8,6 @@ from credentials.apps.catalog.tests.factories import ProgramFactory
 from credentials.apps.core.tests.factories import SiteFactory
 from credentials.apps.credentials import constants, models
 
-
 if TYPE_CHECKING:
     from credentials.apps.credentials.models import CourseRun
 

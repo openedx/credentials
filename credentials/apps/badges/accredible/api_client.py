@@ -10,7 +10,6 @@ from credentials.apps.badges.accredible.utils import get_accredible_api_base_url
 from credentials.apps.badges.base_api_client import BaseBadgeProviderClient
 from credentials.apps.badges.models import AccredibleAPIConfig, AccredibleGroup
 
-
 logger = logging.getLogger(__name__)
 
 

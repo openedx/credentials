@@ -8,7 +8,6 @@ from django.db import transaction
 from credentials.apps.catalog.data import PathwayStatus
 from credentials.apps.catalog.models import Course, CourseRun, Organization, Pathway, Program
 
-
 logger = logging.getLogger(__name__)
 
 

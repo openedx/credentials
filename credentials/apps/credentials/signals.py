@@ -12,7 +12,6 @@ from credentials.apps.core.api import get_or_create_user_from_event_data
 from credentials.apps.credentials.api import process_course_credential_update
 from credentials.apps.credentials.constants import UserCredentialStatus
 
-
 logger = logging.getLogger(__name__)
 
 

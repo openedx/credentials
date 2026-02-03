@@ -15,7 +15,6 @@ from edx_django_utils.monitoring import ignore_transaction
 
 from credentials.apps.core.constants import Status
 
-
 logger = logging.getLogger(__name__)
 User = get_user_model()
 

@@ -12,7 +12,6 @@ from social_django.models import UserSocialAuth
 
 from credentials.apps.core.tests.factories import UserFactory, UserSocialAuthFactory
 
-
 User = get_user_model()
 
 JSON = "application/json"

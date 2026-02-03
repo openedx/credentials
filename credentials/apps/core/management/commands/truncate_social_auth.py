@@ -15,7 +15,6 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from social_django.models import UserSocialAuth
 
-
 logger = logging.getLogger(__name__)
 User = get_user_model()
 

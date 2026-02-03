@@ -7,7 +7,6 @@ import logging
 from django.contrib.auth import get_user_model
 from openedx_events.learning.data import UserData
 
-
 User = get_user_model()
 logger = logging.getLogger(__name__)
 

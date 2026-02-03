@@ -6,7 +6,6 @@ from django.core.cache import cache
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView
 
-
 logger = logging.getLogger(__name__)
 
 

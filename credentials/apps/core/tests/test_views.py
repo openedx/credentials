@@ -14,7 +14,6 @@ from django.urls import clear_url_caches, reverse
 from credentials.apps.core.constants import Status
 from credentials.apps.core.tests.mixins import SiteMixin
 
-
 User = get_user_model()
 
 

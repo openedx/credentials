@@ -8,7 +8,6 @@ from social_django.models import UserSocialAuth
 
 from credentials.apps.core.models import SiteConfiguration, User
 
-
 USER_PASSWORD = "password"
 
 

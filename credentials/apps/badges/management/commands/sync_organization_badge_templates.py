@@ -5,7 +5,6 @@ from django.core.management.base import BaseCommand
 from credentials.apps.badges.credly.api_client import CredlyAPIClient
 from credentials.apps.badges.models import CredlyOrganization
 
-
 logger = logging.getLogger(__name__)
 
 

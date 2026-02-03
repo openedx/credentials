@@ -8,7 +8,6 @@ from credentials.apps.verifiable_credentials.issuance.main import CredentialIssu
 from .. import IssuanceException
 from ..status_list import issue_status_list
 
-
 LOGGER_NAME = "credentials.apps.verifiable_credentials.issuance.status_list"
 
 

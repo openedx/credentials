@@ -9,7 +9,6 @@ from rest_framework.views import APIView
 from ..models import CredlyBadgeTemplate, CredlyOrganization
 from .api_client import CredlyAPIClient
 
-
 logger = logging.getLogger(__name__)
 
 

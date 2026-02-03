@@ -6,7 +6,6 @@ from django.test import RequestFactory, TestCase
 from credentials.apps.core.context_processors import core
 from credentials.apps.core.tests import factories
 
-
 LANGUAGE_CODE = "en"
 
 

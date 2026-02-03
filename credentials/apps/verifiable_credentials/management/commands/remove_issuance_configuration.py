@@ -8,7 +8,6 @@ from django.core.management import BaseCommand
 
 from credentials.apps.verifiable_credentials.issuance.models import IssuanceConfiguration
 
-
 logger = logging.getLogger(__name__)
 
 

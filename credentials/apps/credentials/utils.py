@@ -14,7 +14,6 @@ from credentials.apps.core.api import get_user_by_username
 from credentials.apps.credentials.messages import ProgramCertificateIssuedMessage
 from credentials.apps.credentials.models import ProgramCompletionEmailConfiguration, UserCredential
 
-
 if TYPE_CHECKING:
     from django.db.models import DateTimeField
     from django.db.models.query import QuerySet

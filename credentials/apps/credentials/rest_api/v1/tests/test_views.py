@@ -14,7 +14,6 @@ from credentials.apps.core.tests.mixins import SiteMixin
 from credentials.apps.credentials.tests.factories import CourseCertificateFactory, UserCredentialFactory
 from credentials.apps.records.tests.factories import UserGradeFactory
 
-
 if TYPE_CHECKING:
     from credentials.apps.core.models import User
     from credentials.apps.credentials.models import CourseCertificate, CourseRun

@@ -11,7 +11,6 @@ from django.template import TemplateDoesNotExist
 from django.template.loader import select_template
 from django.utils.translation import get_language
 
-
 register = template.Library()
 logger = logging.getLogger(__name__)
 

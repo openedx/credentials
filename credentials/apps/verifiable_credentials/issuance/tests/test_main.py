@@ -27,7 +27,6 @@ from credentials.apps.verifiable_credentials.storages.learner_credential_wallet 
 
 from .. import IssuanceException
 
-
 LOGGER_NAME = "credentials.apps.verifiable_credentials.issuance.main"
 
 

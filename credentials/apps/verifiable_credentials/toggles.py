@@ -4,7 +4,6 @@ Toggles for verifiable_credentials app.
 
 from edx_toggles.toggles import SettingToggle
 
-
 # .. toggle_name: ENABLE_VERIFIABLE_CREDENTIALS
 # .. toggle_implementation: DjangoSetting
 # .. toggle_default: False
