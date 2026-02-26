@@ -18,7 +18,7 @@ class AchievementSchema(serializers.Serializer):  # pylint: disable=abstract-met
 
     TYPE = "Achievement"
 
-    id = serializers.CharField(source="user_credential.uuid")
+    id = serializers.UUIDField(source="user_credential.uuid", format="urn")
     type = serializers.CharField(default=TYPE)
     name = serializers.CharField(source="credential_name")
     description = serializers.CharField(source="credential_description")

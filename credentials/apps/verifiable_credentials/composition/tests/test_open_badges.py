@@ -82,7 +82,7 @@ class TestOpenBadgesDataModel:
         """
         Credential Subject Achievement `id` property.
         """
-        expected_id = str(program_issuance_line.user_credential.uuid)
+        expected_id = f"urn:uuid:{program_issuance_line.user_credential.uuid}"
 
         composed_obv3 = OpenBadgesDataModel(program_issuance_line).data
 
