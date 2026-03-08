@@ -38,7 +38,7 @@ Since any requirement is associated with a single event type, all relevant requi
 2. active badge templates;
 
 Each requirement's rules are checked against the event payload.
-Requirement processing is dropped as soon as the system recognizes not applying rules.
+Requirement processing is skipped as soon as any rule doesn't match.
 
 
 Progress update
@@ -72,7 +72,7 @@ On badge progress completion, the system:
 
 1. creates an *internal* user credential record for the learner;
 2. notifies (public signal) about new badge awarded;
-3. tries to issue an *external* Credly badge for the learner;
+3. tries to issue an *external* badge for the learner;
 
 .. note::
 
@@ -85,9 +85,9 @@ On badge progress completion, the system:
 Badge revocation
 ----------------
 
-Badges can also be revoked. Its a separete set of rules that need to be set up.
+Badges can also be revoked. It's a separate set of rules that need to be set up.
 
-1. Go to Badge Penalties section in admin panel (admin/badges/badge_pentalties).
+1. Go to Badge Penalties section in admin panel (admin/badges/badge_penalties).
 
 .. image:: ../_static/images/badges/badges-admin-penalty-rules.png
         :alt: Badge penalties
@@ -99,6 +99,6 @@ Badges can also be revoked. Its a separete set of rules that need to be set up.
 
 .. _Configuration: configuration.html
 
-When a learner's badge is revoked by Credly, the Credentials IDA will be notified and will update it's internal records. The status of the badge will change from `awarded` to `revoked` upon successful revocation.
+When a learner's badge is revoked by Credly, the Credentials IDA will be notified and will update its internal records. The status of the badge will change from `awarded` to `revoked` upon successful revocation.
 
 The badge cannot be reissued once it has been revoked.

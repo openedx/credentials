@@ -46,7 +46,7 @@ Both `data models`_ and `storages`_ may be implemented as Credentials IDA instal
 
 .. note::
 
-    For storage plugin example, please, see the `openedx-wallet`_ training storage (by the `Raccoon Gang`_) .
+    For storage plugin example, please, see the `openedx-wallet`_ training storage (by the `Raccoon Gang`_).
 
 .. _Verifiable Credentials Data Model v1.1: https://www.w3.org/TR/vc-data-model-1.1/
 .. _Open Badges Specification v3.0: https://1edtech.github.io/openbadges-specification/ob_v3p0.html
@@ -59,6 +59,6 @@ Both `data models`_ and `storages`_ may be implemented as Credentials IDA instal
 .. _Learner Credential Wallet: https://lcw.app
 .. _DRF: https://www.django-rest-framework.org/
 .. _Status List v2021: components.html#status-list-api
-.. _VC1.1 model: https://github.com/openedx/credentials/tree/master/credentials/apps/verifiable_credentials/composition/verifiable_credentials.py
-.. _OB3.0 model: https://github.com/openedx/credentials/tree/master/credentials/apps/verifiable_credentials/composition/open_badges.py
+.. _VC1.1 model: https://github.com/openedx/credentials/blob/master/credentials/apps/verifiable_credentials/composition/verifiable_credentials.py
+.. _OB3.0 model: https://github.com/openedx/credentials/blob/master/credentials/apps/verifiable_credentials/composition/open_badges.py
 .. _openedx-wallet: https://github.com/raccoongang/openedx-wallet

@@ -11,7 +11,7 @@ Current Badges version is highly integrated with the `Credly (by Pearson)`_ and 
 What is Credly?
 ---------------
 
-**Credly** is a end-to-end solution for creating, issuing, and managing digital Credentials. Organizations use **Credly** to recognize their learners' achievements.
+**Credly** is an end-to-end solution for creating, issuing, and managing digital Credentials. Organizations use **Credly** to recognize their learners' achievements.
 Learners can store badges in their Credly profile to visualize their professional success - which courses were completed and when.
 
 Badges provide employers and peers concrete evidence of what learners have

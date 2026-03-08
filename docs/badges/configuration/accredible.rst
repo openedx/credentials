@@ -15,7 +15,7 @@ Accredible API Configurations
 
 Multiple Accredible API Configurations can be configured.
 
-**All communication between Open edX Credentials and Accredible service happens on behalf of a Accredible API config.**
+**All communication between Open edX Credentials and Accredible service happens on behalf of an Accredible API config.**
 
 Go to the Accredible API Configs section in the admin panel and create a new item:
 
@@ -160,7 +160,7 @@ Configured group can be activated:
 - navigate to the group detail page;
 - check ``Is active`` checkbox;
 
-    Activated groups starts "working" immediately.
+    Activated groups start "working" immediately.
 
 Accredible group record includes:
 

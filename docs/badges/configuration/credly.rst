@@ -36,9 +36,9 @@ Webhooks
 
 .. note::
 
-    Webhooks is a connection with Credly and external platform that allows your server to be notified about events occuring within Credly.
+    Webhooks is a connection with Credly and external platform that allows your server to be notified about events occurring within Credly.
 
-Webhooks are set up on Credly management dashboard as Credly is a main initiator of the syncronization.
+Webhooks are set up on Credly management dashboard as Credly is a main initiator of the synchronization.
 
 You should be able to select an action from the list so that whenever the specified action occurs internally, the external system is alerted.
 

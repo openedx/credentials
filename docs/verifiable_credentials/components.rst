@@ -50,7 +50,7 @@ Issuance Line
 Issuance line has its unique identifier and additionally includes this information:
 
 1. **User Credential** - related Open edX achievement (e.g. "Program Certificate")
-2. **Issuer ID** - issuer's which signs this verifiable credential
+2. **Issuer ID** - issuer which signs this verifiable credential
 3. **Storage ID** - a storage backend (digital wallet) which will keep a verifiable credential
 4. **Processing status** - if a verifiable credential was successfully uploaded to storage
 5. **Status list info** - indicates if a verifiable credential still valid and unique status index within an Issuer's status list
@@ -74,7 +74,7 @@ The Verifiable Credentials feature extends the `Learner Record MFE`_ with additi
 Status List API
 ---------------
 
-There are a plenty of reasons verifiable credential may be already invalid, inactive or disposed:
+There are plenty of reasons verifiable credential may be already invalid, inactive or disposed:
 
 - revocation
 - implicit expiration

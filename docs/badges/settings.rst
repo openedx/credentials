@@ -174,7 +174,7 @@ To **consume** (pull) those messages a consumer process is required.
 Redis Streams
 #############
 
-When the Redis Streams event bus is used, the ``<preffix>-learning-badges-lifecycle`` stream is used for messages transport.
+When the Redis Streams event bus is used, the ``<prefix>-learning-badges-lifecycle`` stream is used for messages transport.
 
 For producing and consuming a single package (broker) is used - event-bus-redis_.
 

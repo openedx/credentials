@@ -1,7 +1,7 @@
 Storages
 ========
 
-Currently there is the only digital wallet is supported for production.
+Currently only one digital wallet is supported for production.
 
 Learner Credential Wallet
 -------------------------
@@ -19,7 +19,7 @@ LCWallet maintainer (`Digital Credentials Consortium`_) requires verifiable cred
 
 .. note::
 
-    For development/testing purposes a `Sandbox Registry`_ is available. If you would like to be added to the Sandbox Registry, please open a pull requests directly against that repository, matching the format for existing issuers in `registry.json`
+    For development/testing purposes a `Sandbox Registry`_ is available. If you would like to be added to the Sandbox Registry, please open a pull request directly against that repository, matching the format for existing issuers in `registry.json`
 
 Learner experience
 ~~~~~~~~~~~~~~~~~~
