@@ -43,7 +43,7 @@ See `Management commands`_ for more details.
 3. Issuer credentials setup
 ---------------------------
 
-Generated issuer credentials we'll use to update automatically generated with stub values Issuance Configuration.
+Use the generated credentials to replace the stub values in the auto-created Issuance Configuration.
 
 Enter Credentials Administration interface and find "VERIFIABLE CREDENTIALS" section (`/admin/verifiable_credentials/issuanceconfiguration/`).
 

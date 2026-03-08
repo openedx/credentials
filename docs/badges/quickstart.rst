@@ -129,7 +129,7 @@ It is possible to put more than one requirement in a badge template.
 5. Activate configured badge templates
 --------------------------------------
 
-    To active a badge template check the ``is active`` checkbox on its edit page.
+    To activate a badge template check the ``is active`` checkbox on its edit page.
 
 Once badge requirements are set up, it should be “enabled” to start “working”.
 

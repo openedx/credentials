@@ -163,7 +163,7 @@ Issuer configuration helpers
 
     root@credentials:/edx/app/credentials/credentials# ./manage.py create_default_issuer
 
-Initial Issuance configuration is created based on VERIFIABLE_CREDENTIALS[DEFAULT_ISSUER] via data migration during the first deployment. Helper allows manually repeat that is needed (Additional configurations can be created from django admin interface).
+Initial Issuance configuration is created based on VERIFIABLE_CREDENTIALS[DEFAULT_ISSUER] via data migration during the first deployment. This helper allows repeating the process manually if needed (Additional configurations can be created from django admin interface).
 
 **Remove Issuance Configuration based on Issuer ID.**
 
