@@ -17,7 +17,7 @@ Events flow
 
 Here is how everything happens.
 
-.. image:: ../_static/images/verifiable_credentials-issuance-sequence.png
+.. image:: ../../_static/images/verifiable_credentials-issuance-sequence.png
         :alt: Verifiable Credentials issuance sequence diagram
 
 - 1 - Learner navigates to the Learner Record MFE, enters the Verifiable Credentials page.

@@ -55,7 +55,7 @@ Once all rules of the processed requirement apply, the system:
 1. ensures there is the badge progress record for the learner;
 2. marks the requirement as fulfilled for the learner;
 
-.. image:: ../_static/images/badges/badges-admin-progress-records.png
+.. image:: ../../_static/images/badges/badges-admin-progress-records.png
         :alt: Badge progress records
 
 If a Badge Progress is recognized as completed (all requirements for the badge template are fulfilled), the system initiates the awarding process.
@@ -89,7 +89,7 @@ Badges can also be revoked. It's a separate set of rules that need to be set up.
 
 1. Go to Badge Penalties section in admin panel (admin/badges/badge_penalties).
 
-.. image:: ../_static/images/badges/badges-admin-penalty-rules.png
+.. image:: ../../_static/images/badges/badges-admin-penalty-rules.png
         :alt: Badge penalties
 
 2. Select a certain requirement that was previously set up to link penalty

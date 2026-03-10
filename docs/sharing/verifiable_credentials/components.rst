@@ -27,12 +27,12 @@ Application section includes:
 - a list of available issuers
 - a list of initiated issuance lines
 
-.. image:: ../_static/images/verifiable_credentials-admin-section.png
+.. image:: ../../_static/images/verifiable_credentials-admin-section.png
         :alt: Admin section
 
 Currently, only a single Issuer configuration can be active in a moment of time:
 
-.. image:: ../_static/images/verifiable_credentials-issuer-configuration.png
+.. image:: ../../_static/images/verifiable_credentials-issuer-configuration.png
         :alt: Issuance Configurations
 
 Issuance configuration describes an Issuer - Organization/University/School on behalf of which verifiable credentials are created. Issuer's ID becomes a part of a verifiable credential and a cryptographic proof is generated with the help of Issuer's private key. Each Issuer has a verbose name. It can be deactivated (checkbox).
@@ -44,7 +44,7 @@ Issuance configuration describes an Issuer - Organization/University/School on b
 Issuance Line
     Each request for a verifiable credential issuance initiates a separate Issuance Line. It tracks verifiable credential processing life cycle and keeps a connection with a source Open edX user achievement.
 
-.. image:: ../_static/images/verifiable_credentials-issuance-lines.png
+.. image:: ../../_static/images/verifiable_credentials-issuance-lines.png
         :alt: Issuance Lines
 
 Issuance line has its unique identifier and additionally includes this information:
@@ -60,7 +60,7 @@ Learner Record Microfrontend
 
 The Verifiable Credentials feature extends the `Learner Record MFE`_ with additional UI. An extra "Verifiable Credentials" page (tab) becomes available.
 
-.. image:: ../_static/images/verifiable_credentials-learner-record-mfe.png
+.. image:: ../../_static/images/verifiable_credentials-learner-record-mfe.png
         :alt: Verifiable Credentials page
 
 1. Once the Verifiable Credentials feature `is enabled <configuration.html>`__ tabs navigation appears
