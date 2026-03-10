@@ -12,20 +12,19 @@ This repository contains the Open edX Credentials Service, used as the backend t
 
    overview
    getting_started
-   asset_pipeline
-   testing
-   internationalization
-   theming
    credentials_admin
    learner_records
    configuring_certificates
-   verifiable_credentials/overview
+   sharing/index
+   asset_pipeline
+   theming
    pathways
    analytics
+   testing
+   internationalization
    credentials_api
    event_bus
    edx_extensions
    lms_user_id
    program_completion_emails
    decisions
-   badges/index

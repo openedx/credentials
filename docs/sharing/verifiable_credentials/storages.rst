@@ -30,13 +30,13 @@ This explains a generic usage flow for learners.
 
 #. Once installed there is initial one-time setup guide.
 
-    .. image:: ../_static/images/verifiable_credentials-lcw-setup1.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-setup1.png
         :alt: Learner Credential Wallet setup step 1
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-setup2.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-setup2.png
         :alt: Learner Credential Wallet setup step 2
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-setup3.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-setup3.png
         :alt: Learner Credential Wallet setup step 3
         :width: 30%
 
@@ -44,37 +44,37 @@ This explains a generic usage flow for learners.
 
 #. On the next step learners are asked for QR code scanning - that's where the LCWallet app starts its flow. Learners use :guilabel:`Scan QR code` option in the mobile application.
 
-    .. image:: ../_static/images/verifiable_credentials-lcw-home-empty.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-home-empty.png
         :alt: Learner Credential Wallet empty
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-add-credential.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-add-credential.png
         :alt: Learner Credential Wallet add credential
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-qrcode-scanner.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-qrcode-scanner.png
         :alt: Learner Credential Wallet QR code scanner
         :width: 30%
 
 #. LCWallet processes QR code, communicates with the Open edX Platform and gets new verifiable credential. If everything is correct, now digital wallet holds the verifiable credential for the given Open edX credential (program certificate).
 
-    .. image:: ../_static/images/verifiable_credentials-lcw-accept-credential.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-accept-credential.png
         :alt: Learner Credential Wallet accept credential
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-credential-preview.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-credential-preview.png
         :alt: Learner Credential Wallet credential preview
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-verification-status.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-verification-status.png
         :alt: Learner Credential Wallet credential status
         :width: 30%
 
 #. From this point learners are free to share their achievements in different ways
 
-    .. image:: ../_static/images/verifiable_credentials-lcw-share.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-share.png
         :alt: Learner Credential Wallet share credential
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-share-public-link.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-share-public-link.png
         :alt: Learner Credential Wallet share credential with public link
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-share-public-link-created.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-share-public-link-created.png
         :alt: Learner Credential Wallet shared with public link credential
         :width: 30%
 

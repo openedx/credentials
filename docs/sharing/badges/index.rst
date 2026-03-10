@@ -1,5 +1,5 @@
-Badges Information
-=======================
+Digital Badges
+==============
 
     The Badges feature allows learners to earn achievements (badges) for their learning activities.
 
