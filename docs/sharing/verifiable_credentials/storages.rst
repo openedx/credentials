@@ -1,7 +1,9 @@
+.. _vc-storages-page:
+
 Storages
 ========
 
-Currently there is the only digital wallet is supported for production.
+Currently only one digital wallet is supported for production.
 
 Learner Credential Wallet
 -------------------------
@@ -12,6 +14,8 @@ Learner Credential Wallet
 
 Learner Credential Wallet (LCWallet) is a mobile app available for Android and IOS devices.
 
+.. _vc-usage-prerequisites:
+
 Usage prerequisites
 ~~~~~~~~~~~~~~~~~~~
 
@@ -19,7 +23,7 @@ LCWallet maintainer (`Digital Credentials Consortium`_) requires verifiable cred
 
 .. note::
 
-    For development/testing purposes a `Sandbox Registry`_ is available. If you would like to be added to the Sandbox Registry, please open a pull requests directly against that repository, matching the format for existing issuers in `registry.json`
+    For development/testing purposes a `Sandbox Registry`_ is available. If you would like to be added to the Sandbox Registry, please open a pull request directly against that repository, matching the format for existing issuers in `registry.json`
 
 Learner experience
 ~~~~~~~~~~~~~~~~~~
@@ -30,51 +34,51 @@ This explains a generic usage flow for learners.
 
 #. Once installed there is initial one-time setup guide.
 
-    .. image:: ../_static/images/verifiable_credentials-lcw-setup1.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-setup1.png
         :alt: Learner Credential Wallet setup step 1
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-setup2.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-setup2.png
         :alt: Learner Credential Wallet setup step 2
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-setup3.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-setup3.png
         :alt: Learner Credential Wallet setup step 3
         :width: 30%
 
-#. Learners navigate Learner Record MFE interface (`Verifiable Credentials tab`_) and claim for a verifiable credential issuance (clicking a :guilabel:`Create` button).
+#. Learners navigate Learner Record MFE interface (:ref:`Verifiable Credentials tab <vc-learner-record-mfe>`) and claim for a verifiable credential issuance (clicking a :guilabel:`Create` button).
 
 #. On the next step learners are asked for QR code scanning - that's where the LCWallet app starts its flow. Learners use :guilabel:`Scan QR code` option in the mobile application.
 
-    .. image:: ../_static/images/verifiable_credentials-lcw-home-empty.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-home-empty.png
         :alt: Learner Credential Wallet empty
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-add-credential.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-add-credential.png
         :alt: Learner Credential Wallet add credential
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-qrcode-scanner.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-qrcode-scanner.png
         :alt: Learner Credential Wallet QR code scanner
         :width: 30%
 
 #. LCWallet processes QR code, communicates with the Open edX Platform and gets new verifiable credential. If everything is correct, now digital wallet holds the verifiable credential for the given Open edX credential (program certificate).
 
-    .. image:: ../_static/images/verifiable_credentials-lcw-accept-credential.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-accept-credential.png
         :alt: Learner Credential Wallet accept credential
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-credential-preview.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-credential-preview.png
         :alt: Learner Credential Wallet credential preview
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-verification-status.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-verification-status.png
         :alt: Learner Credential Wallet credential status
         :width: 30%
 
 #. From this point learners are free to share their achievements in different ways
 
-    .. image:: ../_static/images/verifiable_credentials-lcw-share.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-share.png
         :alt: Learner Credential Wallet share credential
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-share-public-link.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-share-public-link.png
         :alt: Learner Credential Wallet share credential with public link
         :width: 30%
-    .. image:: ../_static/images/verifiable_credentials-lcw-share-public-link-created.png
+    .. image:: ../../_static/images/verifiable_credentials-lcw-share-public-link-created.png
         :alt: Learner Credential Wallet shared with public link credential
         :width: 30%
 
@@ -151,5 +155,4 @@ Additionally, you can install the `openedx-wallet`_ POC for investigation/onboar
 .. _Digital Credentials Consortium: https://digitalcredentials.mit.edu/
 .. _community issuer registry: https://github.com/digitalcredentials/community-registry
 .. _`Sandbox Registry`: https://github.com/digitalcredentials/sandbox-registry
-.. _`Verifiable Credentials tab`: components.html#learner-record-microfrontend
 .. _openedx-wallet: https://github.com/raccoongang/openedx-wallet
