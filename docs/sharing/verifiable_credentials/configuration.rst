@@ -1,3 +1,5 @@
+.. _vc-configuration:
+
 Configuration
 =============
 
@@ -6,18 +8,18 @@ Verifiable Credentials feature is optional. It is disabled by default.
 Learner Record micro-frontend
 -----------------------------
 
-The most of configuration is related to the Credentials IDA (`verifiable_credentials` app), but there are few UI-related settings.
+Most configuration is related to the Credentials IDA (``verifiable_credentials`` app), but there are a few UI-related settings.
 
 ``ENABLE_VERIFIABLE_CREDENTIALS`` (boolean) - enables feature appearance (extra routes)
 
-``SUPPORT_URL_VERIFIABLE_CREDENTIALS`` (URL string) - footer support link
+``SUPPORT_URL_VERIFIABLE_CREDENTIALS`` (URL string) - footer support link. Note: this setting belongs to the Learner Record MFE (frontend-app-learner-record), not the Credentials IDA.
+
+The feature introduces its own set of default settings which are namespaced in the VERIFIABLE_CREDENTIALS setting, like this:
 
 Verifiable Credentials application
 ----------------------------------
 
 ``ENABLE_VERIFIABLE_CREDENTIALS`` (boolean) - main feature flag
-
-The feature introduces its own set of default settings which are namespaced in the VERIFIABLE_CREDENTIALS setting, like this:
 
 .. code-block:: python
 
@@ -71,7 +73,7 @@ There is a set of built-in predefined settings:
 Default data models
 -------------------
 
-Deployment configuration can override `data models set`_ with the respect of the following restrictions:
+Deployment configuration can override the :ref:`data models set <vc-data-models>` with respect to the following restrictions:
 
 - there always must be at least 1 data model available
 - each storage is pre-configured to use some data model which must be available
@@ -79,7 +81,7 @@ Deployment configuration can override `data models set`_ with the respect of the
 Default storages
 ----------------
 
-Deployment configuration can override `storages set`_ with the respect of the following restrictions:
+Deployment configuration can override the :ref:`storages set <vc-storages>` with respect to the following restrictions:
 
 - there always must be at least 1 storage available
 
@@ -88,9 +90,9 @@ Default issuer
 --------------
 
 .. note::
-    Currently, there is only a single active issuer (system-wide) available So, all verifiable credentials are created (issued) on behalf of this Issuer.
+    Currently, there is only a single active issuer (system-wide) available. All verifiable credentials are created (issued) on behalf of this Issuer.
 
-There is the `Issuance Configuration`_ database model, which initial record is created based on these settings.
+There is the :ref:`Issuance Configuration <vc-administration-site>` database model, which initial record is created based on these settings.
 
 NAME
 ~~~~
@@ -138,19 +140,23 @@ Other settings are available for advanced tweaks but usually are not meant to be
 - Default issuance request serializer (incoming issuance request parsing)
 - Default renderer (outgoing verifiable credential presentation)
 
+.. _vc-management-commands:
+
 Management commands
 -------------------
 
 There are a couple of service commands available for the verifiable_credentials application.
 
+.. _vc-issuer-credentials-helper:
+
 Issuer credentials helper
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Generates private key for Issuer (JWK) and a decentralized identifier (DID) based on that key.**
+**Generates a new private key for Issuer (JWK) and a decentralized identifier (DID) based on that key.**
 
 .. code-block:: sh
 
-    root@credentials:/edx/app/credentials/credentials# ./manage.py generate_issuer_credentials
+    ./manage.py generate_issuer_credentials
     >> {'did': 'did:key:z6MkgdiV7pVPCapM8oUwfhxBwYZgh8dXkHkJykSAc4DHKD7X',
  'private_key': '{"kty":"OKP","crv":"Ed25519","x":"IGUT8E_aRNzLqouWO4zdeZ6l4CEXsVmJDOpOQS69m7o","d":"vn8xgdO5Ki3zlvRNc2nUqcj50Ise1Vl1tlbs9DUL-hg"}'}
 
@@ -163,15 +169,18 @@ Issuer configuration helpers
 
     root@credentials:/edx/app/credentials/credentials# ./manage.py create_default_issuer
 
-Initial Issuance configuration is created based on VERIFIABLE_CREDENTIALS[DEFAULT_ISSUER] via data migration during the first deployment. This helper allows repeating the process manually if needed (Additional configurations can be created from django admin interface).
+Initial Issuance configuration is created based on VERIFIABLE_CREDENTIALS[DEFAULT_ISSUER] via data migration during the first deployment. This helper allows repeating the process
+manually if needed (Additional configurations can be created from django admin interface).
 
 **Remove Issuance Configuration based on Issuer ID.**
 
 .. code-block:: sh
 
-    root@credentials:/edx/app/credentials/credentials# ./manage.py remove_issuance_configuration did:key:z6MkgdiV7pVPCapM8oUwfhxBwYZgh8dXkHkJykSAc4DHKD7X
+    ./manage.py remove_issuance_configuration did:key:<UNIQUE_DID_KEY>
 
 Issuance configuration delete operation is forbidden in admin interface (only deactivation is available). This tool allows to cleanup configurations list if needed.
+
+.. _vc-status-list-helper:
 
 Status List helper
 ~~~~~~~~~~~~~~~~~~
@@ -180,13 +189,10 @@ Status List helper
 
 .. code-block:: sh
 
-    root@credentials:/edx/app/credentials/credentials# ./manage.py generate_status_list did:key:z6MkgdiV7pVPCapM8oUwfhxBwYZgh8dXkHkJykSAc4DHKD7X
+    ./manage.py generate_status_list did:key:<UNIQUE_DID_KEY>
 
 Allows Status List verifiable credential generation (for a given Issuer ID).
 
-.. _data models set: extensibility.html#data-models
-.. _storages set: extensibility.html#storages
 .. _didkit: https://pypi.org/project/didkit/
 .. _example: https://github.com/spruceid/didkit-python/blob/main/examples/python_django/didkit_django/issue_credential.py#L12
 .. _related specs : https://w3c.github.io/vc-status-list-2021/#revocation-bitstring-length
-.. _Issuance Configuration: components.html#administration-site

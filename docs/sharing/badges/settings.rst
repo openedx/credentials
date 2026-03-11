@@ -1,200 +1,237 @@
+.. _badges-settings:
+
 Badging Settings
 =================
 
-.. note::
+These settings control the Badges feature: availability, event subscriptions, and provider integration (Credly, Accredible).
 
-    You can find technical details on how to set up proper configurations for badges to be active in this section.
+.. tip::
 
-Badges feature settings allow configuration:
+   The `tutor-contrib-badges`_ plugin configures all required settings automatically. The reference below is for manual or customized deployments.
 
-1. feature availability;
-2. event bus public signals subset for badges;
-3. the Credly service integration details (URLs, sandbox usage, etc.);
-4. the Accredible service integration details (URLs, sandbox usage, etc.);
-
-You can use tutor plugin to setup all needed configurations:
-
-https://github.com/raccoongang/tutor-contrib-badges
+.. _tutor-contrib-badges: https://github.com/raccoongang/tutor-contrib-badges
 
 
-Feature switch
+Feature Switch
 --------------
 
-The Badges feature is under a feature switch (disabled by default).
-
-To enable the feature, update these settings as follows:
+The Badges feature is disabled by default. Enable it in both services.
 
 .. code-block:: python
 
-    # Platform services settings:
-    FEATURES["BADGES_ENABLED"] = True
+   # Platform (LMS) settings:
+   FEATURES["BADGES_ENABLED"] = True
 
-    # Credentials service settings:
-    BADGES_ENABLED = True
+   # Credentials service settings:
+   BADGES_ENABLED = True
 
 
-Default settings
-----------------
+``BADGES_CONFIG`` Reference
+----------------------------
 
-The feature has its configuration:
-
-.. code-block:: python
-
-    # Credentials settings:
-    BADGES_CONFIG = {
-        # these events become available in requirements/penalties setup:
-        "events": [
-            "org.openedx.learning.course.passing.status.updated.v1",
-            "org.openedx.learning.ccx.course.passing.status.updated.v1",
-        ],
-        # Credly integration:
-        "credly": {
-            "CREDLY_BASE_URL": "https://credly.com/",
-            "CREDLY_API_BASE_URL": "https://api.credly.com/v1/",
-            "CREDLY_SANDBOX_BASE_URL": "https://sandbox.credly.com/",
-            "CREDLY_SANDBOX_API_BASE_URL": "https://sandbox-api.credly.com/v1/",
-            "USE_SANDBOX": False,
-        },
-        # Accredible integration:
-        "accredible": {
-            "ACCREDIBLE_BASE_URL": "https://dashboard.accredible.com/",
-            "ACCREDIBLE_API_BASE_URL": "https://api.accredible.com/v1/",
-            "ACCREDIBLE_SANDBOX_BASE_URL": "https://sandbox.dashboard.accredible.com/",
-            "ACCREDIBLE_SANDBOX_API_BASE_URL": "https://sandbox.api.accredible.com/v1/",
-            "USE_SANDBOX": False,
-        },
-
-        # requirements data rules:
-        "rules": {
-            "ignored_keypaths": [
-                "user.id",
-                "user.is_active",
-                "user.pii.username",
-                "user.pii.email",
-                "user.pii.name",
-            ],
-        },
-    }
-
-- ``events`` - explicit event bus signals list (only events with PII user data in payload are applicable).
-- ``credly`` - Credly integration details.
-- ``accredible`` - Accredible integration details.
-- ``rules.ignored_keypaths`` - event payload paths to exclude from data rule options (see: Configuration_).
-
-Credly integration
-~~~~~~~~~~~~~~~~~~
-
-- USE_SANDBOX - enables Credly sandbox usage (development, testing);
-- CREDLY_BASE_URL - Credly service host URL;
-- CREDLY_API_BASE_URL - Credly API host URL;
-- CREDLY_SANDBOX_BASE_URL - Credly sandbox host URL;
-- CREDLY_SANDBOX_API_BASE_URL - Credly sandbox API host URL;
-
-Accredible integration
-~~~~~~~~~~~~~~~~~~~~~~
-- USE_SANDBOX - enables Accredible sandbox usage (development, testing);
-- ACCREDIBLE_BASE_URL - Accredible service host URL;
-- ACCREDIBLE_API_BASE_URL - Accredible API host URL;
-- ACCREDIBLE_SANDBOX_BASE_URL - Accredible sandbox host URL;
-
-Event bus settings
-------------------
-
-    ``learning-badges-lifecycle`` is the event bus topic for all Badges related events.
-
-The Badges feature has updated event bus producer configurations for the Platform and the Credentials services.
-
-Source public signals
-~~~~~~~~~~~~~~~~~~~~~
-
-Platform's event bus producer configuration was extended with 2 public signals:
-
-1. information about the fact someone’s course grade was updated (allows course completion recognition);
-2. information about the fact someone’s CCX course grade was updated (allows CCX course completion recognition).
+``BADGES_CONFIG`` is the main configuration dictionary for the Credentials service. Below are the defaults - override only what you need.
 
 .. code-block:: python
 
-    # Platform services settings:
-    EVENT_BUS_PRODUCER_CONFIG = {
-        ...
+   BADGES_CONFIG = {
+       "events": [
+           "org.openedx.learning.course.passing.status.updated.v1",
+           "org.openedx.learning.ccx.course.passing.status.updated.v1",
+       ],
+       "credly": {
+           "CREDLY_BASE_URL": "https://credly.com/",
+           "CREDLY_API_BASE_URL": "https://api.credly.com/v1/",
+           "CREDLY_SANDBOX_BASE_URL": "https://sandbox.credly.com/",
+           "CREDLY_SANDBOX_API_BASE_URL": "https://sandbox-api.credly.com/v1/",
+           "USE_SANDBOX": False,
+       },
+       "accredible": {
+           "ACCREDIBLE_BASE_URL": "https://dashboard.accredible.com/",
+           "ACCREDIBLE_API_BASE_URL": "https://api.accredible.com/v1/",
+           "ACCREDIBLE_SANDBOX_BASE_URL": "https://sandbox.dashboard.accredible.com/",
+           "ACCREDIBLE_SANDBOX_API_BASE_URL": "https://sandbox.api.accredible.com/v1/",
+           "USE_SANDBOX": False,
+       },
+       "rules": {
+           "ignored_keypaths": [
+               "user.id",
+               "user.is_active",
+               "user.pii.username",
+               "user.pii.email",
+               "user.pii.name",
+               "course.display_name",
+               "course.start",
+               "course.end",
+           ],
+       },
+   }
 
-        "org.openedx.learning.course.passing.status.updated.v1": {
-            "learning-badges-lifecycle": {
-                "event_key_field": "course_passing_status.course.course_key",
-                "enabled": _should_send_learning_badge_events,
-            },
-        },
-        "org.openedx.learning.ccx.course.passing.status.updated.v1": {
-            "learning-badges-lifecycle": {
-                "event_key_field": "course_passing_status.course.course_key",
-                "enabled": _should_send_learning_badge_events,
-            },
-        },
-    }
+Top-level keys
+~~~~~~~~~~~~~~
 
-Emitted public signals
-~~~~~~~~~~~~~~~~~~~~~~
+.. list-table::
+   :header-rows: 1
+   :widths: 25 75
 
-The Badges feature introduced 2 own event types:
+   * - Key
+     - Description
+   * - ``events``
+     - Event bus signals available for requirements and penalties. Only events whose payload includes learner PII (``UserData``) are applicable.
+   * - ``credly``
+     - Credly provider URLs and sandbox toggle (see below).
+   * - ``accredible``
+     - Accredible provider URLs and sandbox toggle (see below).
+   * - ``rules.ignored_keypaths``
+     - Event payload paths excluded from data rule options in the admin UI (see :ref:`badges-configuration`).
 
-1. information about the fact someone has earned a badge;
-2. information about the fact someone's badge was revoked;
+Credly Settings
+~~~~~~~~~~~~~~~
 
-.. code-block:: python
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
 
-    # Credentials service settings:
-    EVENT_BUS_PRODUCER_CONFIG = {
-        ...
+   * - Setting
+     - Description
+   * - ``USE_SANDBOX``
+     - Use Credly sandbox environment for development and testing.
+   * - ``CREDLY_BASE_URL``
+     - Credly production host URL.
+   * - ``CREDLY_API_BASE_URL``
+     - Credly production API URL.
+   * - ``CREDLY_SANDBOX_BASE_URL``
+     - Credly sandbox host URL.
+   * - ``CREDLY_SANDBOX_API_BASE_URL``
+     - Credly sandbox API URL.
 
-        "org.openedx.learning.badge.awarded.v1": {
-            "learning-badges-lifecycle": {"event_key_field": "badge.uuid", "enabled": True },
-        },
-        "org.openedx.learning.badge.revoked.v1": {
-            "learning-badges-lifecycle": {"event_key_field": "badge.uuid", "enabled": True },
-        },
-    }
+Accredible Settings
+~~~~~~~~~~~~~~~~~~~
 
-Consuming workers
-~~~~~~~~~~~~~~~~~
+.. list-table::
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Setting
+     - Description
+   * - ``USE_SANDBOX``
+     - Use Accredible sandbox environment for development and testing.
+   * - ``ACCREDIBLE_BASE_URL``
+     - Accredible production host URL.
+   * - ``ACCREDIBLE_API_BASE_URL``
+     - Accredible production API URL.
+   * - ``ACCREDIBLE_SANDBOX_BASE_URL``
+     - Accredible sandbox host URL.
+   * - ``ACCREDIBLE_SANDBOX_API_BASE_URL``
+     - Accredible sandbox API URL.
+
+
+Event Bus Configuration
+-----------------------
 
 .. note::
 
-    Consumers implementation depends on the used event bus.
+   If you use the `tutor-contrib-badges`_ plugin, event bus configuration is handled automatically. This section is for custom deployments.
 
-Event bus options:
+All badge-related events use the ``learning-badges-lifecycle`` topic.
 
-- Redis Streams
-- Kafka
-- ...
+Source Signals (Platform)
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Credentials and the Platform services **produce** (push) their public signals as messages to the stream.
+The Platform (LMS) produces two signals that trigger badge processing.
 
-To **consume** (pull) those messages a consumer process is required.
+.. list-table::
+   :header-rows: 1
+   :widths: 55 45
 
-Redis Streams
-#############
+   * - Signal
+     - Purpose
+   * - ``org.openedx.learning.course.passing.status.updated.v1``
+     - Course grade updated - enables course completion recognition.
+   * - ``org.openedx.learning.ccx.course.passing.status.updated.v1``
+     - CCX course grade updated - enables CCX course completion recognition.
 
-When the Redis Streams event bus is used, the ``<prefix>-learning-badges-lifecycle`` stream is used for messages transport.
+.. code-block:: python
 
-For producing and consuming a single package (broker) is used - event-bus-redis_.
+   # Platform (LMS) settings:
+   EVENT_BUS_PRODUCER_CONFIG = {
+       ...
+       "org.openedx.learning.course.passing.status.updated.v1": {
+           "learning-badges-lifecycle": {
+               "event_key_field": "course_passing_status.course.course_key",
+               "enabled": _should_send_learning_badge_events,
+           },
+       },
+       "org.openedx.learning.ccx.course.passing.status.updated.v1": {
+           "learning-badges-lifecycle": {
+               "event_key_field": "course_passing_status.course.course_key",
+               "enabled": _should_send_learning_badge_events,
+           },
+       },
+   }
 
-"Event Bus Redis" is implemented as a Django application and provides a Django management command for consuming messages
-(see all details in the package's README).
+Emitted Signals (Credentials)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Credentials service emits two signals after badge processing completes.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 55 45
+
+   * - Signal
+     - Purpose
+   * - ``org.openedx.learning.badge.awarded.v1``
+     - A badge was awarded to a learner.
+   * - ``org.openedx.learning.badge.revoked.v1``
+     - A badge was revoked from a learner.
+
+.. code-block:: python
+
+   # Credentials service settings:
+   EVENT_BUS_PRODUCER_CONFIG = {
+       ...
+       "org.openedx.learning.badge.awarded.v1": {
+           "learning-badges-lifecycle": {
+               "event_key_field": "badge.uuid",
+               "enabled": BADGES_ENABLED,
+           },
+       },
+       "org.openedx.learning.badge.revoked.v1": {
+           "learning-badges-lifecycle": {
+               "event_key_field": "badge.uuid",
+               "enabled": BADGES_ENABLED,
+           },
+       },
+   }
+
+These signals are only produced when ``BADGES_ENABLED`` is ``True``.
+
+Consumer Setup
+~~~~~~~~~~~~~~
+
+The consumer implementation depends on your event bus backend (Redis Streams, Kafka, etc.).
+
+Both the Credentials and Platform services **produce** messages to the event stream. A separate **consumer** process pulls and handles those messages.
+
+**Redis Streams** - uses the event-bus-redis_ package, which provides a Django management command.
 
 .. code-block:: bash
 
-    # Credentials service consumer example:
-    /edx/app/credentials/credentials/manage.py consume_events -t learning-badges-lifecycle -g credentials_dev --extra={"consumer_name":"credentials_dev.consumer1"}
+   # Credentials service consumer (required for badge processing):
+   ./manage.py consume_events \
+       -t learning-badges-lifecycle \
+       -g credentials_dev \
+       --extra='{"consumer_name": "credentials_dev.consumer1"}'
 
-    # LMS service consumer example:
-    /edx/app/edxapp/edx-platform/manage.py lms consume_events -t learning-badges-lifecycle -g lms_dev --extra={"consumer_name":"lms_dev.consumer1"}
+   # LMS consumer (optional - only if LMS needs badge award/revoke notifications):
+   ./manage.py lms consume_events \
+       -t learning-badges-lifecycle \
+       -g lms_dev \
+       --extra='{"consumer_name": "lms_dev.consumer1"}'
 
-.. note::
+.. important::
 
-    **Credentials event bus consumer** is crucial for the Badges feature, since it is responsible for all incoming events processing.
-
-    **LMS event bus consumer** is only required if LMS wants to receive information about badges processing results (awarding/revocation).
+   The **Credentials consumer** is required - it processes all incoming badge events. The **LMS consumer** is optional and only needed if LMS should react to badge award or revocation signals.
 
 
-.. _Configuration: configuration.html
 .. _event-bus-redis: https://github.com/openedx/event-bus-redis

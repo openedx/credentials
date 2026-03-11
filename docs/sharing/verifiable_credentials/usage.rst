@@ -4,7 +4,7 @@ Usage
 The Open edX platform allows students to earn credentials (e.g. course certificates, program certificates). Based on such credentials learners are able to create a digital cryptographically proven piece of data - a verifiable credential.
 
 .. note::
-    Verifiable credentials are intended for machines.
+    Verifiable credentials are machine-verifiable, meaning they can be automatically validated by software without human intervention.
 
 A single Open edX achievement can be used as a source for numerous verifiable credentials (identical or different data models).
 
@@ -40,7 +40,7 @@ The general usage flow is the following:
 - **Interested Party verifies** a verifiable credential's status - checks if it wasn't tampered in any way; checks if it still has valid status (not expired, not revoked);
 
 .. note::
-    Please, see the `Learner Record micro-frontend`_ for details.
+    Please, see the :ref:`Learner Record micro-frontend <vc-learner-record-mfe>` for details.
 
 Administrators
 --------------
@@ -48,14 +48,11 @@ Administrators
 The Open edX users with administrator rights are able to manage/monitor the Verifiable Credentials application within the Credentials IDA admin site.
 
 .. note::
-    Please, see the `Verifiable Credentials application`_ for details.
+    Please, see the :ref:`Verifiable Credentials application <vc-application>` for details.
 
 Relying Parties
 ---------------
 
-Third-parties whom a verifiable credential is presented want to ensure the current status of such artifact. That's where the `Status List`_ mechanism comes into play.
+Third parties to whom a verifiable credential is presented want to ensure the current status of such artifact. That's where the :ref:`Status List <vc-status-list-api>` mechanism comes into play.
 
 
-.. _Learner Record micro-frontend: components.html#learner-record-microfrontend
-.. _Verifiable Credentials application: components.html#verifiable-credentials-application
-.. _Status List: components.html#status-list-api
