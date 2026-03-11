@@ -1,7 +1,9 @@
+.. _badges-processing:
+
 Badges Processing
 ==================
 
-Incoming events async processing happens in a separate event bus consumer process(es).
+Incoming events are processed asynchronously in a separate event bus consumer process.
 See the Event Bus documentation for details.
 
 
@@ -12,8 +14,8 @@ Events subscription
 
     Only explicitly configured `event types`_ take part in the processing.
 
-See Badges `default settings`_ for the default set of supported events.
-Though, it is expected that any public signal from the `openedx-events`_ library can extend this set with a single requirement: its payload includes a learner PII (UserData object).
+See Badges `default settings`_ for the default set of supported events. Though, it is expected that any public signal from the `openedx-events`_ library can extend this set with a single
+requirement: its payload includes a learner PII (UserData object).
 
 
 Learner identification
@@ -48,7 +50,7 @@ Current learners' badge progress is stored in the ``Badge Progress`` record.
 
 .. note::
 
-    Since badge templates can have more than one requirement, the system should track intermediate progresses as well.
+    Badge templates can have more than one requirement, so the system tracks intermediate progress.
 
 Once all rules of the processed requirement apply, the system:
 
@@ -76,29 +78,21 @@ On badge progress completion, the system:
 
 .. note::
 
-    The Badges application implements its extended ``UserCredential`` version (the CredlyBadge) to track external issuing state. Once the Credly badge is successfully issued the **CredlyBadge is updated with its UUID and state**.
+    The Badges application implements extended ``UserCredential`` versions (CredlyBadge and AccredibleBadge) to track external issuing state. Once a badge is successfully issued, the corresponding record is updated with its external UUID and state.
 
 .. _event types: https://docs.openedx.org/projects/openedx-events/en/latest/
 .. _openedx-events: https://github.com/openedx/openedx-events
-.. _default settings: settings.html#default-settings
+.. _default settings: settings.html
 
 Badge revocation
 ----------------
 
-Badges can also be revoked. It's a separate set of rules that need to be set up.
+Badges can be revoked through badge penalties - rules that reset progress when a requirement is no longer fulfilled. See the :ref:`badges-configuration` section for penalty setup.
 
-1. Go to Badge Penalties section in admin panel (admin/badges/badge_penalties).
+Each penalty is linked to a specific requirement. When the penalty conditions match, the system resets the learner's progress for that requirement.
 
-.. image:: ../../_static/images/badges/badges-admin-penalty-rules.png
-        :alt: Badge penalties
+When a badge is revoked, the system updates its internal records.
+For Credly, status changes from ``awarded`` to ``revoked``.
+For Accredible, status changes from ``awarded`` to ``expired``.
 
-2. Select a certain requirement that was previously set up to link penalty
-    a. To know how to set up badge template requirements, go to the `Configuration`_ section.
-
-3. Note that all penalties have to be linked to a certain requirement, so that when that requirement is not fulfilled, system would know when to revoke the badge.
-
-.. _Configuration: configuration.html
-
-When a learner's badge is revoked by Credly, the Credentials IDA will be notified and will update its internal records. The status of the badge will change from `awarded` to `revoked` upon successful revocation.
-
-The badge cannot be reissued once it has been revoked.
+A badge cannot be reissued once revoked.

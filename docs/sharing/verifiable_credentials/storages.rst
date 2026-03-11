@@ -1,3 +1,5 @@
+.. _vc-storages-page:
+
 Storages
 ========
 
@@ -11,6 +13,8 @@ Learner Credential Wallet
     Learner Credential Wallet is an open source mobile wallet developed by the Digital Credentials Consortium, a network of leading international universities designing an open infrastructure for academic credentials.
 
 Learner Credential Wallet (LCWallet) is a mobile app available for Android and IOS devices.
+
+.. _vc-usage-prerequisites:
 
 Usage prerequisites
 ~~~~~~~~~~~~~~~~~~~
@@ -40,7 +44,7 @@ This explains a generic usage flow for learners.
         :alt: Learner Credential Wallet setup step 3
         :width: 30%
 
-#. Learners navigate Learner Record MFE interface (`Verifiable Credentials tab`_) and claim for a verifiable credential issuance (clicking a :guilabel:`Create` button).
+#. Learners navigate Learner Record MFE interface (:ref:`Verifiable Credentials tab <vc-learner-record-mfe>`) and claim for a verifiable credential issuance (clicking a :guilabel:`Create` button).
 
 #. On the next step learners are asked for QR code scanning - that's where the LCWallet app starts its flow. Learners use :guilabel:`Scan QR code` option in the mobile application.
 
@@ -151,5 +155,4 @@ Additionally, you can install the `openedx-wallet`_ POC for investigation/onboar
 .. _Digital Credentials Consortium: https://digitalcredentials.mit.edu/
 .. _community issuer registry: https://github.com/digitalcredentials/community-registry
 .. _`Sandbox Registry`: https://github.com/digitalcredentials/sandbox-registry
-.. _`Verifiable Credentials tab`: components.html#learner-record-microfrontend
 .. _openedx-wallet: https://github.com/raccoongang/openedx-wallet
