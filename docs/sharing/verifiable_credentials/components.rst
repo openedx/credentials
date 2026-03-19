@@ -3,24 +3,32 @@
 Components
 ==========
 
+The Credentials service contains four main components: **Credentials Core**
+manages certificates, **Digital Badges Issuer** handles badge lifecycle with
+external platforms, **Verifiable Credentials Issuer** signs W3C credentials,
+and the **Learner Record MFE** provides the learner-facing UI.
+
+.. figure:: ../../_static/images/sharing/credential_sharing_components.png
+    :alt: Component diagram showing Credentials service internals: Credentials Core, Digital Badges Issuer, Learner Record MFE, and Verifiable Credentials Issuer.
+
 The Verifiable Credentials feature includes the following parts:
 
-- **Verifiable Credentials application** (`credentials.apps.verifiable_credentials` within the Open edX Credentials IDA);
-- **Learner Record MFE** (`frontend-app-learner-record` micro-frontend);
-- third-party plugins (see :ref:`vc-extensibility`)
-- digital wallets (see :ref:`vc-storages-page`)
+- **Verifiable Credentials application** (``credentials.apps.verifiable_credentials`` within the Open edX Credentials IDA);
+- **Learner Record MFE** (``frontend-app-learner-record`` micro-frontend);
+- third-party plugins (see :ref:`vc-extensibility`);
+- digital wallets (see :ref:`vc-storages-page`).
 
 .. _vc-application:
 
 Verifiable Credentials application
 ----------------------------------
 
-The core backend logic and all related API are encapsulated in the `Verifiable Credentials application`_.
+The core backend logic and all related APIs are encapsulated in the `Verifiable Credentials application`_.
 
 Once the Verifiable Credentials feature :ref:`is enabled <vc-configuration>`:
 
 1. Admin site "Verifiable Credentials" section becomes available in the Credentials IDA.
-2. Extra urls become available in the Credentials IDA.
+2. Extra URLs become available in the Credentials IDA.
 3. Extra API endpoints become available within the Credentials IDA.
 
 .. _vc-administration-site:
@@ -28,35 +36,40 @@ Once the Verifiable Credentials feature :ref:`is enabled <vc-configuration>`:
 Administration site
 ~~~~~~~~~~~~~~~~~~~
 
-Application section includes:
+The application section includes:
 
 - a list of available issuers
 - a list of initiated issuance lines
 
-.. image:: ../../_static/images/verifiable_credentials-admin-section.png
+.. figure:: ../../_static/images/verifiable_credentials-admin-section.png
         :alt: Admin section
 
-Currently, only a single Issuer configuration can be active in a moment of time:
+Currently, only a single Issuer configuration can be active at a time:
 
-.. image:: ../../_static/images/verifiable_credentials-issuer-configuration.png
+.. figure:: ../../_static/images/verifiable_credentials-issuer-configuration.png
         :alt: Issuance Configurations
 
-Issuance configuration describes an Issuer - Organization/University/School on behalf of which verifiable credentials are created. Issuer's ID becomes a part of a verifiable
-credential and a cryptographic proof is generated with the help of Issuer's private key. Each Issuer has a verbose name. It can be deactivated (checkbox).
+An issuance configuration describes an Issuer - the Organization/University/School
+on behalf of which verifiable credentials are created. The Issuer's ID is embedded
+in each verifiable credential, and a cryptographic proof is generated using the
+Issuer's private key. Each Issuer has a display name and can be deactivated via
+its checkbox.
 
 .. note::
-    Private key itself is a secret that is generated with the help of a cryptographic software.
-    Issuer ID must be a `decentralized identifier`_ created based on a private key.
+    The private key is a secret generated using cryptographic software.
+    The Issuer ID must be a `decentralized identifier`_ derived from that private key.
 
 Issuance Line
-    Each request for a verifiable credential issuance initiates a separate Issuance Line. It tracks verifiable credential processing life cycle and keeps a connection with a source Open edX user achievement.
+    Each request for a verifiable credential initiates a separate Issuance Line.
+    It tracks the verifiable credential processing lifecycle and maintains a link
+    to the source Open edX user achievement.
 
-.. image:: ../../_static/images/verifiable_credentials-issuance-lines.png
+.. figure:: ../../_static/images/verifiable_credentials-issuance-lines.png
         :alt: Issuance Lines
 
-Issuance line has its unique identifier and additionally includes this information:
+Each issuance line has a unique identifier and includes the following information:
 
-1. **User Credential** - related Open edX achievement (e.g. "Program Certificate")
+1. **User Credential** - related Open edX achievement (e.g. "Program Certificate" or "Course Certificate")
 2. **Issuer ID** - issuer which signs this verifiable credential
 3. **Storage ID** - a storage backend (digital wallet) which will keep a verifiable credential
 4. **Processing status** - if a verifiable credential was successfully uploaded to storage
@@ -68,20 +81,27 @@ Issuance line has its unique identifier and additionally includes this informati
 .. _vc-learner-record-mfe:
 
 Learner Record Microfrontend
------------------------------
+----------------------------
 
-The Verifiable Credentials feature extends the `Learner Record MFE`_ with additional UI. An extra "Verifiable Credentials" page (tab) becomes available.
+The Verifiable Credentials feature extends the `Learner Record MFE`_ with additional
+UI. An extra "Verifiable Credentials" page (tab) becomes available.
 
-.. image:: ../../_static/images/verifiable_credentials-learner-record-mfe.png
+.. figure:: ../../_static/images/verifiable_credentials-learner-record-mfe.png
         :alt: Verifiable Credentials page
 
-1. Once the Verifiable Credentials feature :ref:`is enabled <vc-configuration>` tabs navigation appears
-2. All learner's Open edX credentials are listed within the page
-3. Achievement card has an action button that allows verifiable credential requesting based on the corresponding Open edX credential
-4. Storages options (experimental)
+1. Once the Verifiable Credentials feature :ref:`is enabled <vc-configuration>`,
+   tab navigation appears.
+2. All of the learner's Open edX credentials (both course and program
+   certificates) are listed on the page.
+3. Each achievement card has an action button that lets the learner request a
+   verifiable credential based on the corresponding Open edX credential.
+4. Storage options (experimental).
 
 .. note::
-    Currently, a single (built-in) storage backend is implemented out of the box (`Learner Credential Wallet`_). In this case the only storage option is available by default, so "Create" action button won't have a dropdown. Additional storages appear under the "Create with" dropdown automatically once configured.
+    Currently, a single (built-in) storage backend is available out of the box
+    (`Learner Credential Wallet`_). Because only one storage option exists by
+    default, the "Create" button does not show a dropdown. Additional storages
+    appear under a "Create with" dropdown automatically once configured.
 
 .. _vc-status-list-api:
 
@@ -99,7 +119,10 @@ Open edX maintains status for internal credentials ("awarded", "revoked").
 .. note::
     Once a Program Certificate X is revoked - **all** verifiable credentials which were issued based on that achievement must become revoked as well.
 
-Public Status List API allows instant verifiable credentials checks. Each issuer maintains its own statuses sequence. Every issued verifiable credential takes a unique position in that sequence.
+The public Status List API allows instant verifiable credential checks. This endpoint
+is intentionally public (unauthenticated) so that relying parties can verify credential
+status without credentials of their own. Each issuer maintains its own status sequence.
+Every issued verifiable credential occupies a unique position in that sequence.
 
 .. code-block:: sh
 
@@ -182,4 +205,4 @@ Also see related :ref:`management command <vc-status-list-helper>`
 .. _Learner Record MFE: https://github.com/openedx/frontend-app-learner-record
 .. _decentralized identifier: https://en.wikipedia.org/wiki/Decentralized_identifier
 .. _Learner Credential Wallet: https://lcw.app/
-.. _Privacy Considerations: https://w3c.github.io/vc-status-list-2021/#privacy-considerations
+.. _Privacy Considerations: https://www.w3.org/community/reports/credentials/CG-FINAL-vc-status-list-2021-20230102/#privacy-considerations

@@ -10,7 +10,7 @@ Each badge template needs at least one requirement and must be activated before 
 
    Accredible uses the term "group" for what Credly calls a "badge template." This section uses "badge template" as the generic term for both.
 
-.. image:: ../../../_static/images/badges/badges-admin.png
+.. figure:: ../../../_static/images/badges/badges-admin.png
    :alt: Badges administration
 
 Provider Setup
@@ -34,7 +34,7 @@ At least one requirement must be associated with a badge template.
 
 Badge requirements are listed inline on the badge template detail page.
 
-.. image:: ../../../_static/images/badges/badges-admin-template-requirements.png
+.. figure:: ../../../_static/images/badges/badges-admin-template-requirements.png
    :alt: Badge template requirements
 
 A badge template can have multiple requirements.
@@ -49,7 +49,7 @@ Each requirement has the following fields.
 - **Description** - an optional human-readable reminder about the requirement's purpose.
 - **Group** - by default each requirement belongs to its own group. You can assign two or more requirements to the same group - the group is fulfilled when *any* of its requirements is fulfilled ("OR" logic inside a group).
 
-.. image:: ../../../_static/images/badges/badges-admin-rules-group.png
+.. figure:: ../../../_static/images/badges/badges-admin-rules-group.png
    :alt: Badge requirement rules group
 
 .. note::
@@ -70,13 +70,13 @@ To add or edit a data rule:
 #. Navigate to the badge requirement detail page (use the ``Change`` inline link).
 #. Find the "Data Rules" section and add a new item.
 
-.. image:: ../../../_static/images/badges/badges-admin-requirement-rules.png
+.. figure:: ../../../_static/images/badges/badges-admin-requirement-rules.png
    :alt: Badge requirement rules edit
 
 Each data rule describes a single expected payload value.
 Key paths are generated from the event type of the parent requirement.
 
-.. image:: ../../../_static/images/badges/badges-admin-data-rules.png
+.. figure:: ../../../_static/images/badges/badges-admin-data-rules.png
    :alt: Badge requirement data rules
 
 .. list-table::
@@ -106,7 +106,7 @@ Each penalty targets one or more badge requirements.
 A penalty uses the same structure as a requirement, but *decreases* progress instead of advancing it.
 When all penalty rules match, the learner's progress toward the badge resets.
 
-.. image:: ../../../_static/images/badges/badges-admin-penalty-rules.png
+.. figure:: ../../../_static/images/badges/badges-admin-penalty-rules.png
    :alt: Badge penalty rules edit
 
 .. _badges-configuration-activation:
@@ -123,7 +123,7 @@ After configuring requirements, activate the badge template:
 
    An activated badge template starts working immediately.
 
-.. image:: ../../../_static/images/badges/badges-admin-template-details.png
+.. figure:: ../../../_static/images/badges/badges-admin-template-details.png
    :alt: Badge template detail page
 
 .. list-table::

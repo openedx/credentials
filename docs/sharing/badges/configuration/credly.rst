@@ -46,7 +46,7 @@ To synchronize Credly badge templates for an Organization:
 #. Select the Organization.
 #. Use the ``Sync organization badge templates`` action.
 
-.. image:: ../../../_static/images/badges/badges-admin-credly-templates-sync.png
+.. figure:: ../../../_static/images/badges/badges-admin-credly-templates-sync.png
    :alt: Credly badge templates synchronization
 
 On success, the system updates the list of badge templates for that Organization.
@@ -54,7 +54,7 @@ On success, the system updates the list of badge templates for that Organization
 - Only badge templates with ``active`` state are pulled.
 - New badge template records are created inactive (disabled).
 
-.. image:: ../../../_static/images/badges/badges-admin-credly-templates-list.png
+.. figure:: ../../../_static/images/badges/badges-admin-credly-templates-list.png
    :alt: Credly badge templates list
 
 Configure requirements (see :ref:`badges-configuration-requirements`) and activate the template (see :ref:`badges-configuration-activation`) before it takes effect.

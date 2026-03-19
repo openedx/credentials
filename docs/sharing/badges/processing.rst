@@ -57,7 +57,7 @@ Once all rules of the processed requirement apply, the system:
 1. ensures there is the badge progress record for the learner;
 2. marks the requirement as fulfilled for the learner;
 
-.. image:: ../../_static/images/badges/badges-admin-progress-records.png
+.. figure:: ../../_static/images/badges/badges-admin-progress-records.png
         :alt: Badge progress records
 
 If a Badge Progress is recognized as completed (all requirements for the badge template are fulfilled), the system initiates the awarding process.
