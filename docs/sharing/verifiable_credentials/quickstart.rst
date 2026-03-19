@@ -1,18 +1,19 @@
 .. _vc-quickstart:
 
 Quick Start
-===================================
+===========
 
 .. contents:: Steps
     :local:
     :class: no-bullets
 
-This guide outlines initial preparations for the Verifiable Credentials feature.
+This guide walks through the initial setup for the Verifiable Credentials
+feature.
 
 1. Feature activation
 ---------------------
 
-Since Verifiable Credentials feature is optional, it must be enabled to be accessible.
+The Verifiable Credentials feature is optional and must be explicitly enabled.
 
 .. code::
 
@@ -24,7 +25,10 @@ See :ref:`vc-configuration` for more details.
 2. Issuer credentials generation
 --------------------------------
 
-Once enabled, the Verifiable Credentials feature has reasonable defaults. The only additional step needed is the issuer_ credentials setup. Unless you already have an appropriate issuer key and issuer ID, you need to generate them:
+Once enabled, the Verifiable Credentials feature has reasonable defaults. The
+only additional step needed is the issuer_ credentials setup. Unless you
+already have an appropriate issuer key and issuer ID, you need to generate
+them:
 
 .. code::
 
@@ -45,9 +49,12 @@ See :ref:`vc-management-commands` for more details.
 3. Issuer credentials setup
 ---------------------------
 
-Use the generated credentials to replace the stub values in the auto-created Issuance Configuration.
+Use the generated credentials to replace the stub values in the auto-created
+Issuance Configuration.
 
-Enter Credentials Administration interface and find "VERIFIABLE CREDENTIALS" section (``/admin/verifiable_credentials/issuanceconfiguration/``).
+Open the Credentials Administration interface and find the "VERIFIABLE
+CREDENTIALS" section
+(``/admin/verifiable_credentials/issuanceconfiguration/``).
 
 .. code::
 
@@ -65,7 +72,8 @@ See :ref:`vc-administration-site` for more details.
 4. Ensure status list is accessible
 -----------------------------------
 
-Status List API endpoint is crucial for the feature. Once everything is configured correctly it must be publicly available:
+The Status List API endpoint is crucial for the feature. Once everything is
+configured correctly, it must be publicly available:
 
 .. code::
 

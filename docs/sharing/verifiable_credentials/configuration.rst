@@ -3,18 +3,31 @@
 Configuration
 =============
 
-Verifiable Credentials feature is optional. It is disabled by default.
+The Verifiable Credentials feature is optional. It is disabled by default.
+
+.. _vc-activation:
+
+Conditional activation
+----------------------
+
+The ``verifiable_credentials`` app is always in ``INSTALLED_APPS``, but its URL routes, signals, and system checks
+only activate when ``ENABLE_VERIFIABLE_CREDENTIALS`` is set to ``True``. After changing this setting, restart the
+Credentials service for the change to take effect.
 
 Learner Record micro-frontend
 -----------------------------
 
-Most configuration is related to the Credentials IDA (``verifiable_credentials`` app), but there are a few UI-related settings.
+Most configuration belongs to the Credentials IDA (``verifiable_credentials`` app),
+but there are a few UI-related settings.
 
 ``ENABLE_VERIFIABLE_CREDENTIALS`` (boolean) - enables feature appearance (extra routes)
 
-``SUPPORT_URL_VERIFIABLE_CREDENTIALS`` (URL string) - footer support link. Note: this setting belongs to the Learner Record MFE (frontend-app-learner-record), not the Credentials IDA.
+``SUPPORT_URL_VERIFIABLE_CREDENTIALS`` (URL string) - footer support link.
+Note: this setting belongs to the Learner Record MFE
+(frontend-app-learner-record), not the Credentials IDA.
 
-The feature introduces its own set of default settings which are namespaced in the VERIFIABLE_CREDENTIALS setting, like this:
+The feature introduces its own set of default settings, namespaced under the
+``VERIFIABLE_CREDENTIALS`` setting:
 
 Verifiable Credentials application
 ----------------------------------
@@ -35,11 +48,11 @@ Verifiable Credentials application
         },
     }
 
-Such configuration overrides the corresponding built-in settings:
+This configuration overrides the corresponding built-in settings:
 
-1. Data models list narrowed down to a single specification
-2. Status list length extended to 50K positions
-3. Default issuer configured with concrete credentials
+1. Data models list narrowed down to a single specification.
+2. Status list length extended to 50K positions.
+3. Default issuer configured with concrete credentials.
 
 Built-in values
 ---------------
@@ -92,7 +105,14 @@ Default issuer
 .. note::
     Currently, there is only a single active issuer (system-wide) available. All verifiable credentials are created (issued) on behalf of this Issuer.
 
-There is the :ref:`Issuance Configuration <vc-administration-site>` database model, which initial record is created based on these settings.
+Multiple ``IssuanceConfiguration`` records can coexist. The last enabled record is the active issuer.
+
+.. important::
+    The admin interface prevents disabling the last enabled configuration. To remove a configuration entirely,
+    use the :ref:`remove_issuance_configuration <vc-management-commands>` management command.
+
+The :ref:`Issuance Configuration <vc-administration-site>` database model's initial
+record is created based on these settings.
 
 NAME
 ~~~~
@@ -102,7 +122,9 @@ Verbose issuer name (it is placed into each verifiable credential).
 KEY
 ~~~
 
-A private secret key (JWK) which is used for verifiable credentials issuance (proof/digital signature generation). It can be generated with the help of the `didkit`_ Python (Rust) library.
+A private secret key (JWK) used for verifiable credential issuance (proof/digital
+signature generation). It can be generated using the `didkit`_ Python (Rust)
+library.
 
 ID
 ~~
@@ -117,7 +139,12 @@ Length
 
 ``STATUS_LIST_LENGTH`` - default = 10000 (16KB)
 
-Possibly, the only status list settings to configure. A status sequence positions count (how many issued verifiable credentials statuses are included). See `related specs`_ for details.
+The number of positions in the status sequence (how many issued verifiable credential
+statuses can be tracked). Each issuer has a monotonically increasing status index
+capped by this value (enforced by a ``unique_together`` constraint on ``issuer_id``
+and ``status_index``). This is effectively a per-issuer credential cap. To issue more
+credentials, increase this setting or create additional issuers. See `related specs`_
+for details.
 
 Storage
 ~~~~~~~
@@ -145,14 +172,16 @@ Other settings are available for advanced tweaks but usually are not meant to be
 Management commands
 -------------------
 
-There are a couple of service commands available for the verifiable_credentials application.
+The following management commands are available for the ``verifiable_credentials``
+application.
 
 .. _vc-issuer-credentials-helper:
 
 Issuer credentials helper
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Generates a new private key for Issuer (JWK) and a decentralized identifier (DID) based on that key.**
+**Generates a new private key (JWK) for an Issuer and a decentralized identifier
+(DID) based on that key.**
 
 .. code-block:: sh
 
@@ -169,8 +198,10 @@ Issuer configuration helpers
 
     root@credentials:/edx/app/credentials/credentials# ./manage.py create_default_issuer
 
-Initial Issuance configuration is created based on VERIFIABLE_CREDENTIALS[DEFAULT_ISSUER] via data migration during the first deployment. This helper allows repeating the process
-manually if needed (Additional configurations can be created from django admin interface).
+The initial Issuance configuration is created based on
+``VERIFIABLE_CREDENTIALS[DEFAULT_ISSUER]`` via data migration during the first
+deployment. This helper allows repeating the process manually if needed. Additional
+configurations can be created from the Django admin interface.
 
 **Remove Issuance Configuration based on Issuer ID.**
 
@@ -178,7 +209,8 @@ manually if needed (Additional configurations can be created from django admin i
 
     ./manage.py remove_issuance_configuration did:key:<UNIQUE_DID_KEY>
 
-Issuance configuration delete operation is forbidden in admin interface (only deactivation is available). This tool allows to cleanup configurations list if needed.
+This management command removes an issuer configuration. The admin interface only
+allows deactivation, not deletion.
 
 .. _vc-status-list-helper:
 
@@ -191,8 +223,9 @@ Status List helper
 
     ./manage.py generate_status_list did:key:<UNIQUE_DID_KEY>
 
-Allows Status List verifiable credential generation (for a given Issuer ID).
+Generates a signed Status List 2021 credential for a given Issuer ID. Useful for debugging revocation status or
+verifying the status list is correctly formed.
 
 .. _didkit: https://pypi.org/project/didkit/
 .. _example: https://github.com/spruceid/didkit-python/blob/main/examples/python_django/didkit_django/issue_credential.py#L12
-.. _related specs : https://w3c.github.io/vc-status-list-2021/#revocation-bitstring-length
+.. _related specs: https://www.w3.org/community/reports/credentials/CG-FINAL-vc-status-list-2021-20230102/#revocation-bitstring-length

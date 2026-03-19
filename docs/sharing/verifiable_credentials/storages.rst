@@ -3,36 +3,45 @@
 Storages
 ========
 
-Currently only one digital wallet is supported for production.
+Currently, only one digital wallet is supported for production.
 
 Learner Credential Wallet
 -------------------------
 
-`Official web-site`_:
+`Official website`_:
 
-    Learner Credential Wallet is an open source mobile wallet developed by the Digital Credentials Consortium, a network of leading international universities designing an open infrastructure for academic credentials.
+    Learner Credential Wallet is an open source mobile wallet developed by the
+    Digital Credentials Consortium, a network of leading international
+    universities designing an open infrastructure for academic credentials.
 
-Learner Credential Wallet (LCWallet) is a mobile app available for Android and IOS devices.
+Learner Credential Wallet (LCWallet) is a mobile app available for Android
+and iOS devices.
 
 .. _vc-usage-prerequisites:
 
 Usage prerequisites
 ~~~~~~~~~~~~~~~~~~~
 
-LCWallet maintainer (`Digital Credentials Consortium`_) requires verifiable credentials issuer to be allow-listed (included to the trusted issuers list - `community issuer registry`_).
+The LCWallet maintainer (`Digital Credentials Consortium`_) requires the
+verifiable credentials issuer to be allow-listed (included in the trusted
+issuers list - `community issuer registry`_).
 
 .. note::
 
-    For development/testing purposes a `Sandbox Registry`_ is available. If you would like to be added to the Sandbox Registry, please open a pull request directly against that repository, matching the format for existing issuers in `registry.json`
+    For development/testing purposes a `Sandbox Registry`_ is available. If
+    you would like to be added to the Sandbox Registry, please open a pull
+    request directly against that repository, matching the format for existing
+    issuers in ``registry.json``.
 
 Learner experience
 ~~~~~~~~~~~~~~~~~~
 
-This explains a generic usage flow for learners.
+This explains the generic usage flow for learners.
 
-#. Learners have to download and install the official application (Google Play or App Store, we'll use Android version for examples).
+#. Learners download and install the official application (Google Play or App
+   Store; the Android version is used for examples below).
 
-#. Once installed there is initial one-time setup guide.
+#. Once installed, there is an initial one-time setup guide.
 
     .. image:: ../../_static/images/verifiable_credentials-lcw-setup1.png
         :alt: Learner Credential Wallet setup step 1
@@ -44,9 +53,13 @@ This explains a generic usage flow for learners.
         :alt: Learner Credential Wallet setup step 3
         :width: 30%
 
-#. Learners navigate Learner Record MFE interface (:ref:`Verifiable Credentials tab <vc-learner-record-mfe>`) and claim for a verifiable credential issuance (clicking a :guilabel:`Create` button).
+#. Learners navigate to the Learner Record MFE interface
+   (:ref:`Verifiable Credentials tab <vc-learner-record-mfe>`) and request a
+   verifiable credential by clicking the :guilabel:`Create` button.
 
-#. On the next step learners are asked for QR code scanning - that's where the LCWallet app starts its flow. Learners use :guilabel:`Scan QR code` option in the mobile application.
+#. Learners are then asked to scan a QR code - this is where the LCWallet app
+   starts its flow. Learners use the :guilabel:`Scan QR code` option in the
+   mobile application.
 
     .. image:: ../../_static/images/verifiable_credentials-lcw-home-empty.png
         :alt: Learner Credential Wallet empty
@@ -58,7 +71,10 @@ This explains a generic usage flow for learners.
         :alt: Learner Credential Wallet QR code scanner
         :width: 30%
 
-#. LCWallet processes QR code, communicates with the Open edX Platform and gets new verifiable credential. If everything is correct, now digital wallet holds the verifiable credential for the given Open edX credential (program certificate).
+#. LCWallet processes the QR code, communicates with the Open edX platform,
+   and retrieves the new verifiable credential. If everything is correct, the
+   digital wallet now holds the verifiable credential for the given Open edX
+   credential (course or program certificate).
 
     .. image:: ../../_static/images/verifiable_credentials-lcw-accept-credential.png
         :alt: Learner Credential Wallet accept credential
@@ -70,7 +86,8 @@ This explains a generic usage flow for learners.
         :alt: Learner Credential Wallet credential status
         :width: 30%
 
-#. From this point learners are free to share their achievements in different ways
+#. From this point, learners are free to share their achievements in different
+   ways.
 
     .. image:: ../../_static/images/verifiable_credentials-lcw-share.png
         :alt: Learner Credential Wallet share credential
@@ -82,9 +99,41 @@ This explains a generic usage flow for learners.
         :alt: Learner Credential Wallet shared with public link credential
         :width: 30%
 
+.. _vc-wallet-deeplink-protocol:
+
+Deeplink protocol
+~~~~~~~~~~~~~~~~~
+
+The LCWallet storage backend constructs deeplinks using the ``dccrequest://``
+scheme. The full deeplink format is:
+
+.. code-block:: text
+
+    dccrequest://request?issuer={id}&vc_request_url={url}&auth_type=bearer&challenge={uuid}&vp_version=1.1
+
+The end-to-end flow works as follows.
+
+#. The learner clicks :guilabel:`Create` in the Learner Record MFE.
+#. The backend creates an ``IssuanceLine`` and returns a deeplink URL and
+   QR code.
+#. The learner scans the QR code or clicks the deeplink, which opens the
+   wallet app.
+#. The wallet constructs a Verifiable Presentation (VP) using the
+   ``challenge`` parameter as proof of authorization.
+#. The wallet POSTs the VP to ``/credentials/issue/<uuid>/``.
+#. The backend verifies the VP, signs the credential, and returns it to
+   the wallet.
+
+.. note::
+    The issuance endpoint accepts dual authentication: standard JWT/Session
+    auth or a Verifiable Presentation with
+    ``proofPurpose: "authentication"`` and a ``challenge`` matching the
+    ``IssuanceLine.uuid``. The VP signature is verified via ``didkit``.
+
+Example verifiable presentation:
+
 .. code::
 
-    # an example of a verifiable presentation being shared:
     {
     "@context": [
         "https://www.w3.org/2018/credentials/v1"
@@ -149,9 +198,11 @@ This explains a generic usage flow for learners.
 Other options
 -------------
 
-Additionally, you can install the `openedx-wallet`_ POC for investigation/onboarding purposes.  This wallet is not recommended for production deployment.
+Additionally, you can install the `openedx-wallet`_ POC for
+investigation/onboarding purposes. This wallet is not recommended for
+production deployment.
 
-.. _Official web-site: https://lcw.app/
+.. _Official website: https://lcw.app/
 .. _Digital Credentials Consortium: https://digitalcredentials.mit.edu/
 .. _community issuer registry: https://github.com/digitalcredentials/community-registry
 .. _`Sandbox Registry`: https://github.com/digitalcredentials/sandbox-registry

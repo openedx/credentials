@@ -32,7 +32,7 @@ To synchronize Accredible groups for an API Configuration:
 #. Select the API Config.
 #. Use the ``Sync groups`` action.
 
-.. image:: ../../../_static/images/badges/badges-admin-groups-sync.png
+.. figure:: ../../../_static/images/badges/badges-admin-groups-sync.png
    :alt: Accredible groups synchronization
 
 On success, the system updates the list of Accredible groups.

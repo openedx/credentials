@@ -23,6 +23,25 @@ Who Benefits
   seconds. No phone calls, no email chains - just a standard verification check
   against a public :ref:`Status List <vc-status-list-api>`.
 
+Architecture
+------------
+
+Three roles interact with the credential sharing system: **Site Admins**
+configure badge templates and VC issuing, **Learners** earn and request
+credentials, and **Verifiers** (employers, institutions) check their validity.
+Credentials flow to external Digital Wallets and Digital Badge Platforms.
+
+.. figure:: ../../_static/images/sharing/credential_sharing_system_context.png
+    :alt: System context diagram showing Open edX credential sharing with actors (Site Admin, Learner, Verifier) and external systems (Digital Wallet, Digital Badge Platform).
+
+Inside the platform, the openedx-platform (LMS) publishes certificate events
+to the Event Bus, which routes them to the Credentials service for processing.
+From there, badges are issued to external providers and verifiable credentials
+are delivered to learner wallets.
+
+.. figure:: ../../_static/images/sharing/credential_sharing_containers.png
+    :alt: Container diagram showing Open edX internals involved in credential sharing: openedx-platform, Event Bus, edX Credentials service, and external integrations.
+
 How It Works in Open edX
 ------------------------
 
@@ -68,8 +87,10 @@ digital wallet backends. Both can be extended through plugins - see
     components
     configuration
     extensibility
+    composition
     storages
     tech_details
+    api_reference
 
 .. _Verifiable Credentials: https://en.wikipedia.org/wiki/Verifiable_credentials
 .. _W3C Verifiable Credentials Data Model: https://www.w3.org/TR/vc-data-model-1.1/

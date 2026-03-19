@@ -1,24 +1,34 @@
+.. _vc-tech-details:
+
 Implementation Details
 ======================
 
-The following may clarify implicit internal details.
+This section covers internal details that may help with debugging,
+customization, or deeper understanding of the feature.
 
 Prerequisites
 -------------
 
-Required initial activities.
+The following conditions must be met before verifiable credentials can be
+issued.
 
-1. Before the main feature flag (settings) is enabled the verifiable_credentials app won't register its urlconf, admin.
-2. Default built-in configuration is almost self-contained - the only required step is to configure Issuer's credentials (see :ref:`management command helper <vc-issuer-credentials-helper>`). If Issuer is configured in
-   deployment environment from the start, those settings are used during the app data migration, otherwise manual Issuance Configuration edit is needed (Credentials admin site).
-3. There can be a list of Issuance Configuration records, but only the last enabled is taken into account in current implementation.
+1. The ``verifiable_credentials`` app does not register its URL configuration
+   or admin views until the main feature flag is enabled.
+2. The default built-in configuration is almost self-contained - the only
+   required step is to configure the Issuer's credentials (see
+   :ref:`management command helper <vc-issuer-credentials-helper>`). If the
+   Issuer is configured in the deployment environment from the start, those
+   settings are used during the app data migration; otherwise, a manual
+   Issuance Configuration edit is needed (Credentials admin site).
+3. Multiple Issuance Configuration records can exist, but only the last
+   enabled record is used.
 
 Events flow
 -----------
 
-Here is how everything happens.
+The following diagram illustrates the end-to-end issuance sequence.
 
-.. image:: ../../_static/images/verifiable_credentials-issuance-sequence.png
+.. figure:: ../../_static/images/verifiable_credentials-issuance-sequence.png
         :alt: Verifiable Credentials issuance sequence diagram
 
 - 1 - Learner navigates to the Learner Record MFE, enters the Verifiable Credentials page.
@@ -27,8 +37,8 @@ Here is how everything happens.
 - Learner chooses their credential (program certificate) to issue verifiable credential for.
 - 6,7 - Learner initiates an issuance (standard case: single storage, experimental case: many storages).
 - 8 - Issuance Line is created with given context (storage + program certificate).
-- 9 - all pre-requisites are evaluated and deep-link/QR-code generated.
-- Learner sees a modal dialog with deep-link/QR-code to proceed with a mobile wallet app.
+- 9 - all pre-requisites are evaluated and deep-link/QR code generated.
+- Learner sees a modal dialog with deep-link/QR code to proceed with a mobile wallet app.
 - 10,11 - Learner interacts with a dialog data (clicks/scans).
 - 12 - Learner navigates to a mobile wallet app.
 - 13 - mobile wallet app requests verifiable credential from an issuance API endpoint (on behalf of a Learner).
@@ -36,22 +46,30 @@ Here is how everything happens.
 - 14 - well-formed verifiable credential returned to a mobile wallet app.
 - Mobile app verifies given verifiable credential (validates structure, signature, status info).
 
-New dependencies
-----------------
+Credential signing
+------------------
 
-Verifiable Credentials feature has introduced a couple of extra packages.
+All credentials are signed using the **Ed25519Signature2020** proof suite exclusively.
 
-didkit-python
-~~~~~~~~~~~~~
+VP authentication
+-----------------
 
-``didkit==0.3.3``
+The ``IssueCredentialView`` accepts dual authentication: standard JWT/Session auth **or** a Verifiable Presentation
+with ``proofPurpose: "authentication"`` and a ``challenge`` matching the ``IssuanceLine.uuid``. The VP signature is
+verified via ``didkit``.
 
-A tool for verifiable credentials operations (issuance, verification, signing, validation).
+Signal-based status sync
+------------------------
 
-qrcode
-~~~~~~
+When a ``UserCredential`` status changes (e.g. revocation), all related ``IssuanceLine`` records are automatically
+updated via a Django ``post_save`` signal. This ensures verifiable credentials reflect the current status of the
+underlying Open edX achievement. In the case of revocation, the updated status is reflected in the issuer's
+:ref:`Status List <vc-status-list-api>`, allowing relying parties to detect revoked credentials during
+verification.
 
-``qrcode==8.2``
+Synchronous didkit operations
+-----------------------------
 
-We generate mobile deep-link QR-codes on a backend.
+All ``didkit`` cryptographic operations are async functions wrapped with ``async_to_sync``. Each issuance blocks a
+Django worker thread during signing. Consider this when sizing your deployment for high-volume issuance.
 
