@@ -130,7 +130,7 @@ defusedxml==0.7.1
     #   -r requirements/production.txt
     #   python3-openid
     #   social-auth-core
-didkit==0.3.3
+openedx-didkit==0.3.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
