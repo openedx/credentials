@@ -73,3 +73,35 @@ Synchronous didkit operations
 All ``didkit`` cryptographic operations are async functions wrapped with ``async_to_sync``. Each issuance blocks a
 Django worker thread during signing. Consider this when sizing your deployment for high-volume issuance.
 
+Technology choices
+------------------
+
+openedx-didkit
+~~~~~~~~~~~~~~
+
+The cryptographic core is `openedx-didkit`_, a fork of the original `DidKit`_ library by SpruceID with added
+Verifiable Credentials v2 support. It is Rust-based and integrated into Python via PyO3 bindings.
+
+.. _openedx-didkit: https://github.com/openedx/openedx-didkit
+.. _DidKit: https://github.com/spruceid/didkit
+
+Status List 2021
+~~~~~~~~~~~~~~~~
+
+Revocation tracking uses the `Status List 2021`_ specification - a simple bitstring where each issued
+credential occupies one bit position. This approach was chosen over blockchain-based solutions for its
+simplicity and because the status list is served as a standard API endpoint from the Credentials service
+(see :ref:`vc-status-list-api`).
+
+.. _Status List 2021: https://www.w3.org/TR/2023/WD-vc-status-list-20230427/
+
+OpenBadges v3.0
+~~~~~~~~~~~~~~~
+
+The default data model is `Open Badges v3.0`_, a specification designed specifically for educational
+achievements. It aligns with both VC Data Model v1.1 and v2.0, making credentials interoperable with
+the broader verifiable credentials ecosystem while retaining education-specific semantics (achievements,
+criteria, evidence).
+
+.. _Open Badges v3.0: https://www.imsglobal.org/spec/ob/v3p0/
+

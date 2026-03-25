@@ -30,10 +30,10 @@ only additional step needed is the issuer_ credentials setup. Unless you
 already have an appropriate issuer key and issuer ID, you need to generate
 them:
 
-.. code::
+.. code-block:: sh
 
-    # use management command:
-    root@credentials:/edx/app/credentials/credentials# ./manage.py generate_issuer_credentials
+    # Run in the Credentials service:
+    ./manage.py generate_issuer_credentials
     >> {
         'did': 'did:key:z6MkgdiV7pVPCapM8oUwfhxBwYZgh8dXkHkJykSAc4DHKD7X',
         'private_key': '{"kty":"OKP","crv":"Ed25519","x":"IGUT8E_aRNzLqouWO4zdeZ6l4CEXsVmJDOpOQS69m7o","d":"vn8xgdO5Ki3zlvRNc2nUqcj50Ise1Vl1tlbs9DUL"}'

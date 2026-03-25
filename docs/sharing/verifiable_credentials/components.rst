@@ -9,7 +9,7 @@ external platforms, **Verifiable Credentials Issuer** signs W3C credentials,
 and the **Learner Record MFE** provides the learner-facing UI.
 
 .. figure:: ../../_static/images/sharing/credential_sharing_components.png
-    :alt: Component diagram showing Credentials service internals: Credentials Core, Digital Badges Issuer, Learner Record MFE, and Verifiable Credentials Issuer.
+   :alt: C4 Component diagram showing Credentials service internals: Credentials Core, Digital Badges Issuer, Verifiable Credentials Issuer, Learner Record MFE, and their interactions with external systems.
 
 The Verifiable Credentials feature includes the following parts:
 

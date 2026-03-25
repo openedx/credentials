@@ -16,7 +16,7 @@ workspace "Credential Sharing" {
 
         openedX = softwareSystem "Open edX" {
             edxPlatform = container "openedx-platform" "LMS and course management" "Python/Django"
-            eventBus = container "Event Bus" "Asynchronous message transport (Redis Streams or Kafka)" "" "Queue"
+            eventBus = container "Event Bus" "Redis Streams or Kafka" "" "Queue"
             credentialsService = container "edX Credentials" "Stores learner achievements, issues credentials" "Python/Django" {
                 credentialsCore = component "Credentials Core" "Manages course and program certificates" "Django"
                 digitalBadgesIssuer = component "Digital Badges Issuer" "Processes badge requirements, issues badges to external platforms" "Django"
@@ -35,19 +35,18 @@ workspace "Credential Sharing" {
         # --- Event Bus flows ---
 
         # LMS produces events consumed by Credentials
-        edxPlatform -> eventBus "Publishes CERTIFICATE_CREATED, course passing status events"
-        eventBus -> credentialsCore "Delivers certificate events" "CERTIFICATE_CREATED, CERTIFICATE_REVOKED"
+        edxPlatform -> eventBus "Publishes certificate and course passing status events" "openedx-events"
+        eventBus -> credentialsCore "Delivers certificate and course grades events" "openedx-events"
         eventBus -> digitalBadgesIssuer "Delivers badge-related events" "learning-badges-lifecycle topic"
 
         # Credentials produces events back to the bus
-        digitalBadgesIssuer -> eventBus "Publishes BADGE_AWARDED, BADGE_REVOKED"
+        digitalBadgesIssuer -> eventBus "Publishes badges lifecycle events" "openedx-events"
 
         # --- Internal flows ---
 
-        credentialsCore -> credentialsDB "Reads from and writes to" "Django ORM"
-        digitalBadgesIssuer -> credentialsDB "Reads from and writes to" "Django ORM"
-        verifiableCredentialsIssuer -> credentialsDB "Reads from and writes to" "Django ORM"
-        edxPlatform -> credentialsDB "Does not access directly"
+        credentialsCore -> credentialsDB "Uses" "Django ORM"
+        digitalBadgesIssuer -> credentialsDB "Uses" "Django ORM"
+        verifiableCredentialsIssuer -> credentialsDB "Uses" "Django ORM"
 
         # --- External integrations ---
 
@@ -57,10 +56,12 @@ workspace "Credential Sharing" {
         # Verifiable Credentials
         vcIssuerMFE -> verifiableCredentialsIssuer "Initiates VC issuance"
         verifiableCredentialsIssuer -> digitalWallet "Sends signed verifiable credential"
-        digitalWallet -> verifiableCredentialsIssuer "Requests VC via callback" "HTTP"
+        digitalWallet -> verifiableCredentialsIssuer "Sends issuance request" "HTTP"
 
         # Verification
         verifier -> verifiableCredentialsIssuer "Checks credential revocation status" "StatusList2021 API"
+        verifier -> digitalBadgePlatform "Checks badge revocation status" ""
+
     }
 
     views {
@@ -110,5 +111,7 @@ workspace "Credential Sharing" {
             }
         }
     }
-
+      configuration {
+        scope softwaresystem
+    }
 }

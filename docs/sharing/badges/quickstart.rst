@@ -1,11 +1,13 @@
-Badges Operator Quick Start
-===========================
-
-Currently Open edX supports two badge services: Credly and Accredible.
+Quick Start
+===========
 
 .. note::
 
-   Both providers use the same concept - a **badge template** defines the badge design and awarding rules. Credly calls these "badge templates"; Accredible calls them "groups." This guide uses "badge template" as the generic term.
+   Open edX supports two badge providers: Credly and Accredible. Both use the same concept - a **badge template** defines the badge design and awarding rules. Credly calls these "badge templates"; Accredible calls them "groups." This guide uses "badge template" as the generic term.
+
+.. contents:: Steps
+    :local:
+    :class: no-bullets
 
 Prerequisites
 -------------
@@ -14,128 +16,108 @@ To start using this feature a Credly or Accredible account is necessary.
 
 For Credly:
 
-1. Register on Credly and create your account.
-2. Create Organization in Credly.
-3. Create at least 1 badge template and activate it.
-
+#. Register on Credly and create your account.
+#. Create Organization in Credly.
+#. Create at least 1 badge template and activate it.
 
 For Accredible:
 
-1. Register on Accredible and create your account.
-2. Create at least 1 group.
+#. Register on Accredible and create your account.
+#. Create at least 1 group.
 
-Enable feature
---------------
+1. Enable badges
+----------------
 
-Badges feature is optional and disabled by default. It must be enabled to be accessible.
+Badges feature is optional and disabled by default. Enable it in both services.
 
 .. code-block:: python
 
-    # LMS service:
+    # openedx-platform (LMS) settings:
     FEATURES["BADGES_ENABLED"] = True
 
-    # Credentials service:
+    # Credentials service settings:
     BADGES_ENABLED = True
 
-Configure integration
----------------------
-
-.. note::
-
-    For detailed information, go to the :ref:`badges-configuration` section.
-
-Go to the Credentials service admin panel and configure the integration with the service:
-
-Credly
-~~~~~~
-
-1. In the admin panel go to ``<credentials>/admin/badges/credlyorganization/`` to add Credly Organization.
-
-   a. Add UUID (unique identifier) for the Credly organization
-   b. Add the authorization token of the Credly organization.
-
-UUID and authorization token are provided when you create the Credly Organization on the Credly side.
-
-Check: the system pulls the Organization's data and updates its name.
-
-Accredible
-~~~~~~~~~~
-
-1. Retrieve API Key from Accredible account settings. Go to the Accredible account settings -> Manage API Keys and create a new API Key.
-2. In the admin panel go to ``<credentials>/admin/badges/accredibleapiconfig`` to add Accredible Group.
-
-   a. Add API Key
-   b. Add name for configuration
-
-
-Synchronize badge templates
----------------------------
-
-.. note::
-
-    For detailed information, go to the :ref:`badges-configuration` section.
-
-Credly
-~~~~~~
-
-From the "Credly Organizations" list, select the Organization(s) you want to use and select ``Sync organization badge templates`` action.
-
-The system pulls the list of badge templates from the Credly Organization. Navigate to the "Credly badge templates" list and check newly created templates.
-
-Accredible
-~~~~~~~~~~
-
-From the Accredible API Configurations list, select the Configuration(s) you want to use and select ``Sync groups`` action.
-
-The system pulls the list of groups from the Accredible account. Navigate to the "Accredible groups" list and check newly created groups.
-
-Setup badge requirements
+2. Configure integration
 ------------------------
 
-.. note::
+Go to the Credentials service admin panel and configure the integration.
 
-    Requirements describe **what** and **how** must happen on the system to earn a badge.
+For **Credly**:
 
-The crucial part of the badge template configuration is the requirements specification. At least one requirement must be associated with a badge template.
+#. Go to ``<credentials>/admin/badges/credlyorganization/`` to add Credly Organization.
 
-Go to the first badge template details page (``admin/badges/credlybadgetemplate/`` or ``admin/badges/accrediblegroup/``) and add requirements for it:
+   a. Add UUID (unique identifier) for the Credly organization.
+   b. Add the authorization token of the Credly organization.
 
-1. find the "Badge Requirements" section;
-2. add a new item and select an event type (what is expected to happen);
+#. Verify the system pulls the Organization's data and updates its name.
 
-   a. optionally, put a description;
+For **Accredible**:
 
-3. save and navigate to the Requirement details (Change link);
+#. Retrieve API Key from Accredible account settings (Manage API Keys).
+#. Go to ``<credentials>/admin/badges/accredibleapiconfig/`` to add Accredible configuration.
 
-   a. optionally, specify data rules in the "Data Rules" section (how exactly it is expected to happen);
+   a. Add API Key.
+   b. Add name for configuration.
 
-4. add a new item and describe the rule;
-5. select a key path - specific data element;
-6. select an operator - how to compare the value;
-7. enter a value - expected parameter's value.
+See :ref:`badges-configuration` for details.
 
-.. note::
+3. Synchronize badge templates
+------------------------------
 
-    A configuration for the badge template that must be issued on a specific course completion looks as following:
+For **Credly**:
 
-    - Requirement 1:
-        - event type: ``org.openedx.learning.course.passing.status.updated.v1``
-        - description: ``On the Demo course completion.``
-    - Data rule 1:
-        - key path: ``course.course_key``
-        - operator: ``equals``
-        - value: ``course-v1:edX+DemoX+Demo_Course``
-    - Data rule 2:
-        - key path: ``is_passing``
-        - operator: ``equals``
-        - value: ``true``
+#. From the "Credly Organizations" list, select the Organization(s) you want to use.
+#. Run the ``Sync organization badge templates`` action.
+#. Navigate to the "Credly badge templates" list and verify the newly created templates.
 
-A badge template can have more than one requirement.
+For **Accredible**:
 
-Activate configured badge templates
-------------------------------------
+#. From the "Accredible API Configurations" list, select the Configuration(s) you want to use.
+#. Run the ``Sync groups`` action.
+#. Navigate to the "Accredible groups" list and verify the newly created groups.
 
-To activate a badge template, check the ``is active`` checkbox on its edit page.
+4. Setup badge requirements
+---------------------------
+
+Requirements describe what and how something must happen on the system to
+earn a badge. At least one requirement must be associated with a badge
+template. In the Credentials admin panel, open the badge template details
+page:
+
+#. Find the "Badge Requirements" section.
+#. Add a new item and select an event type (what is expected to happen).
+
+   - Optionally, add a description.
+
+#. Save and navigate to the Requirement details page (use the "Change" link in the admin).
+
+   - Optionally, specify data rules in the "Data Rules" section:
+
+#. Select a key path (specific data element).
+#. Select an operator (how to compare the value).
+#. Enter a value (expected parameter's value).
+
+A badge template can have more than one requirement. For example, a badge
+template issued on a specific course completion:
+
+- Requirement 1:
+    - event type: ``org.openedx.learning.course.passing.status.updated.v1``
+    - description: ``On the Demo course completion.``
+- Data rule 1:
+    - key path: ``course.course_key``
+    - operator: ``equals``
+    - value: ``course-v1:edX+DemoX+Demo_Course``
+- Data rule 2:
+    - key path: ``is_passing``
+    - operator: ``equals``
+    - value: ``true``
+
+5. Activate badge templates
+---------------------------
+
+#. In the Credentials admin panel, navigate to the badge template edit page.
+#. Check the ``is active`` checkbox.
 
 .. warning::
 

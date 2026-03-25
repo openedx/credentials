@@ -21,7 +21,7 @@ If errors occur, verify the credentials used for the API Config.
 Groups
 ------
 
-*Accredible groups* (the Accredible equivalent of badge templates) are created in the Accredible dashboard, then retrieved by the Credentials service via API.
+Accredible groups (the Accredible equivalent of badge templates) are created in the Accredible dashboard, then retrieved by the Credentials service via API.
 
 Synchronization
 ~~~~~~~~~~~~~~~

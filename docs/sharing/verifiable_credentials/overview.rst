@@ -10,37 +10,50 @@ tamper-proof data object that any party can verify instantly, without contacting
 the issuer. The `W3C Verifiable Credentials Data Model`_ and related
 specifications define the standard.
 
-Who Benefits
-------------
+Credentials ecosystem
+---------------------
 
-- **Learners** receive portable, privacy-preserving proof of their achievements.
-  They store VCs in a digital wallet and share them with anyone - employers,
-  other institutions, professional networks - on their own terms.
-- **Operators** (institutions, universities) issue VCs from their Open edX
-  platform. The cryptographic signature ties each credential back to the issuer,
-  strengthening the institution's brand and trust.
-- **Relying parties** (employers, admissions offices) verify a credential in
-  seconds. No phone calls, no email chains - just a standard verification check
-  against a public :ref:`Status List <vc-status-list-api>`.
+Three roles participate in the learner credentials ecosystem:
 
-Architecture
-------------
+- **Learner** - holds portable, privacy-preserving proof of achievements
+  in a digital wallet and shares them with employers, institutions, or
+  professional networks.
+- **Issuer** - creates and signs credentials. The cryptographic signature
+  ties each credential back to the issuing organization, making
+  authenticity independently verifiable.
+- **Verifier** - validates a credential's signature and revocation status
+  without contacting the issuer directly, using a public
+  :ref:`Status List <vc-status-list-api>`.
 
-Three roles interact with the credential sharing system: **Site Admins**
-configure badge templates and VC issuing, **Learners** earn and request
-credentials, and **Verifiers** (employers, institutions) check their validity.
-Credentials flow to external Digital Wallets and Digital Badge Platforms.
 
-.. figure:: ../../_static/images/sharing/credential_sharing_system_context.png
-    :alt: System context diagram showing Open edX credential sharing with actors (Site Admin, Learner, Verifier) and external systems (Digital Wallet, Digital Badge Platform).
+Verifiable credentials lifecycle
+--------------------------------
 
-Inside the platform, the openedx-platform (LMS) publishes certificate events
-to the Event Bus, which routes them to the Credentials service for processing.
-From there, badges are issued to external providers and verifiable credentials
-are delivered to learner wallets.
+The W3C VC specification defines a standard lifecycle with three participants:
 
-.. figure:: ../../_static/images/sharing/credential_sharing_containers.png
-    :alt: Container diagram showing Open edX internals involved in credential sharing: openedx-platform, Event Bus, edX Credentials service, and external integrations.
+- **Issuer** (``did:web:domain.university.org``) - creates and signs
+  verifiable credentials, can revoke them.
+- **Holder** (``did:key:[unique-id]``) - receives, stores, and transfers
+  VCs. Presents a VC or a Verifiable Presentation (VP) to verifiers.
+- **Verifier** - checks the credential's signature and consults a
+  Verifiable Data Registry (e.g. the issuer's Status List) to confirm the
+  credential has not been revoked or expired.
+
+.. figure:: ../../_static/images/sharing/vc_lifecycle.png
+   :alt: Verifiable credentials lifecycle diagram showing Issuer, Holders, and Verifiers interacting through Issue VC, Transfer, Present VC or VP, Check Status, Revoke VC, and Verify flows via a Verifiable Data Registry.
+
+Decentralized identifiers (DIDs)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Both issuers and holders are identified by
+`Decentralized Identifiers (DIDs) <https://www.w3.org/TR/did-core/>`_.
+A DID follows the format ``did:[method]:[unique-uri]``. Common methods include:
+
+- ``did:key`` - self-contained, no external resolution needed. Used for learner (holder) identifiers.
+- ``did:web`` - resolved via the issuer's domain over HTTPS. Used for institutional issuers.
+- ``did:ethr`` - resolved via Ethereum blockchain.
+
+A DID resolves to a **DID Document** containing the public key material needed to verify signatures.
 
 How It Works in Open edX
 ------------------------
@@ -48,20 +61,25 @@ How It Works in Open edX
 The Verifiable Credentials feature is optional. Once enabled, it extends the
 Credentials service and Learner Record micro-frontend.
 
-The typical flow looks like this.
+A single Open edX achievement can be used as a source for multiple verifiable
+credentials, each using a different data model if needed. The typical flow
+looks like this.
 
 #. A learner earns an Open edX credential (course or program certificate).
 #. The learner visits the Learner Record page and requests a verifiable
-   credential.
-#. The platform signs the credential using the configured issuer's private key
-   and uploads it to the learner's digital wallet.
+   credential. The platform generates a deep link or QR code.
+#. The learner scans the QR code or follows the deep link to open their
+   digital wallet app.
+#. The digital wallet sends an issuance request back to the platform. The
+   platform signs the credential using the configured issuer's private key
+   and returns it to the wallet.
 #. The learner can now present the VC to any relying party.
 #. The relying party verifies the signature and checks the issuer's public
    status list to confirm the credential is still valid (not expired or
    revoked).
 
-Operator Experience
--------------------
+Setup
+-----
 
 Setting up VCs involves a few steps.
 
@@ -83,7 +101,6 @@ digital wallet backends. Both can be extended through plugins - see
     :maxdepth: 1
 
     quickstart
-    usage
     components
     configuration
     extensibility
