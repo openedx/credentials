@@ -195,11 +195,11 @@ Example verifiable presentation:
     ]
     }
 
-Other options
--------------
+Development wallet
+------------------
 
-Additionally, you can install the `openedx-wallet`_ POC for
-investigation/onboarding purposes. This wallet is not recommended for
+The `openedx-wallet`_ is a proof-of-concept wallet for
+investigation and onboarding purposes. It is not recommended for
 production deployment.
 
 .. _Official website: https://lcw.app/

@@ -4,19 +4,25 @@ Managing Badges
 Synchronizing Badge Templates
 -----------------------------
 
-Badge templates (Credly) and groups (Accredible) are created on
-the provider's side and then pulled into the Credentials service
-through a sync action in the admin panel.
+Badge templates (Credly) and groups (Accredible) are created on the
+provider's side and then pulled into the Credentials service through a
+sync action in the admin panel.
 
-For **Credly**: select one or more organizations on the "Credly
-Organizations" list page and run the ``Sync organization badge
-templates`` action. Only badge templates with ``active`` state on
-Credly are pulled. See :ref:`badges-credly-configuration` for
-details.
+For **Credly**:
 
-For **Accredible**: select one or more configurations on the
-"Accredible API Configs" list page and run the ``Sync groups``
-action. See :ref:`badges-accredible-configuration` for details.
+#. Select one or more organizations on the "Credly Organizations" list page.
+#. Run the ``Sync organization badge templates`` action.
+
+Only badge templates with ``active`` state on Credly are pulled.
+See :ref:`badges-credly-configuration` for details.
+
+For **Accredible**:
+
+#. Select one or more configurations on the "Accredible API Configs" list
+   page.
+#. Run the ``Sync groups`` action.
+
+See :ref:`badges-accredible-configuration` for details.
 
 .. note::
 
@@ -37,7 +43,7 @@ details on how progress is tracked.
 Awarded Credentials
 -------------------
 
-Earned badges are listed in the "Credly badges" or "Accredible badges" section of the admin panel.
+Earned badges are listed in the provider-specific section of the admin panel.
 
 .. note::
 
@@ -49,25 +55,24 @@ full awarding pipeline.
 
 The system:
 
-1. creates an internal user credential (CredlyBadge or AccredibleBadge);
-2. notifies about the badge awarding (public signal);
-3. requests the Credly or Accredible service to issue the badge (API request).
+#. Creates an internal user credential record for the learner.
+#. Emits a public signal about the badge award.
+#. Sends an API request to the badge provider to issue the badge externally.
 
 Issued Badges
 -------------
 
-After a badge is awarded internally, the system sends an API
-request to Credly or Accredible to issue the badge on their
-platform.
+After a badge is awarded internally, the system sends an API request to
+the badge provider to issue the badge on their platform.
 
-On successful issuing, the badge record in the admin panel is
-updated with:
+On successful issuing, the badge record in the admin panel is updated with:
 
-1. **external UUID** - the identifier assigned by Credly or Accredible;
-2. **external state** - the badge status on the provider's side (e.g. ``accepted``).
+#. **external UUID** - the identifier assigned by the provider.
+#. **external state** - the badge status on the provider's side
+   (e.g. ``accepted``).
 
-The issued badge then appears in the provider's dashboard (Credly
-or Accredible) and is visible to the learner.
+The issued badge then appears in the provider's dashboard and is visible
+to the learner.
 
 Badge Template Withdrawal
 -------------------------

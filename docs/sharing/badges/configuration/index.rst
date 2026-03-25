@@ -3,12 +3,8 @@
 Badging Configuration
 =====================
 
-Badge templates, requirements, rules, and penallties are configured in the Credentials admin panel.
+Badge templates, requirements, rules, and penalties are configured in the Credentials admin panel.
 Each badge template needs at least one requirement and must be activated before it takes effect.
-
-.. note::
-
-   Accredible uses the term "group" for what Credly calls a "badge template." This section uses "badge template" as the generic term for both.
 
 .. figure:: ../../../_static/images/badges/badges-admin.png
    :alt: Badges administration
@@ -23,6 +19,7 @@ Provider setup (organization credentials, template synchronization) differs per 
 
    credly
    accredible
+   examples
 
 .. _badges-configuration-requirements:
 
@@ -90,7 +87,14 @@ Key paths are generated from the event type of the parent requirement.
    * - **Operator**
      - Comparison operation: ``"="`` (equals) or ``"!="`` (not equals).
    * - **Expected value**
-     - The value to compare against. Boolean positives: ``"true"``, ``"True"``, ``"yes"``, ``"Yes"``, ``"+"``. Boolean negatives: ``"false"``, ``"False"``, ``"no"``, ``"No"``, ``"-"``.
+     - The value to compare against.
+
+.. note::
+
+   For boolean fields, the following string values are accepted:
+
+   - **True:** ``"true"``, ``"True"``, ``"yes"``, ``"Yes"``, ``"+"``
+   - **False:** ``"false"``, ``"False"``, ``"no"``, ``"No"``, ``"-"``
 
 See :ref:`Configuration examples for Badging` for details.
 

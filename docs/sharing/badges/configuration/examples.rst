@@ -1,5 +1,3 @@
-:orphan:
-
 .. _Configuration examples for Badging:
 
 Configuration Examples

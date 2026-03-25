@@ -22,7 +22,7 @@ If errors occur, verify the credentials used for the Organization.
 Badge Templates
 ---------------
 
-*Credly badge templates* are created in the Credly Organization's dashboard.
+Credly badge templates are created in the Credly Organization's dashboard.
 Once published, they are retrieved by the Credentials service via API.
 
 Webhooks
@@ -32,7 +32,7 @@ Webhooks
 
    Webhooks connect Credly with an external platform so your server is notified about events within Credly.
 
-Webhooks are set up on the Credly management dashboard — Credly initiates the synchronization.
+Webhooks are set up on the Credly management dashboard. Credly initiates the synchronization.
 
 Select an action from the list so that whenever the specified action occurs, your system is notified.
 Without this synchronization, the external system will not learn about changes (e.g. a template update or archival) and may issue outdated badges.
@@ -49,7 +49,7 @@ To synchronize Credly badge templates for an Organization:
 .. figure:: ../../../_static/images/badges/badges-admin-credly-templates-sync.png
    :alt: Credly badge templates synchronization
 
-On success, the system updates the list of badge templates for that Organization.
+On success, the system fetches all active badge templates from the Credly Organization (pagination is handled automatically).
 
 - Only badge templates with ``active`` state are pulled.
 - New badge template records are created inactive (disabled).

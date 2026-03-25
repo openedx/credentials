@@ -19,7 +19,7 @@ The Badges feature is disabled by default. Enable it in both services.
 
 .. code-block:: python
 
-   # Platform (LMS) settings:
+   # openedx-platform (LMS) settings:
    FEATURES["BADGES_ENABLED"] = True
 
    # Credentials service settings:
@@ -29,7 +29,7 @@ The Badges feature is disabled by default. Enable it in both services.
 ``BADGES_CONFIG`` Reference
 ----------------------------
 
-``BADGES_CONFIG`` is the main configuration dictionary for the Credentials service. Below are the defaults - override only what you need.
+``BADGES_CONFIG`` is the main configuration dictionary for the Credentials service.
 
 .. code-block:: python
 
@@ -128,16 +128,16 @@ Accredible Settings
 Event Bus Configuration
 -----------------------
 
-.. note::
+.. tip::
 
    If you use the `tutor-contrib-badges`_ plugin, event bus configuration is handled automatically. This section is for custom deployments.
 
 All badge-related events use the ``learning-badges-lifecycle`` topic.
 
-Source Signals (Platform)
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Source Signals (LMS)
+~~~~~~~~~~~~~~~~~~~~
 
-The Platform (LMS) produces two signals that trigger badge processing.
+The LMS produces two signals that trigger badge processing.
 
 .. list-table::
    :header-rows: 1
@@ -152,7 +152,7 @@ The Platform (LMS) produces two signals that trigger badge processing.
 
 .. code-block:: python
 
-   # Platform (LMS) settings:
+   # openedx-platform (LMS) settings:
    EVENT_BUS_PRODUCER_CONFIG = {
        ...
        "org.openedx.learning.course.passing.status.updated.v1": {
@@ -211,19 +211,19 @@ Consumer Setup
 
 The consumer implementation depends on your event bus backend (Redis Streams, Kafka, etc.).
 
-Both the Credentials and Platform services **produce** messages to the event stream. A separate **consumer** process pulls and handles those messages.
+Both the Credentials and LMS services **produce** messages to the event stream. A separate **consumer** process pulls and handles those messages.
 
 **Redis Streams** - uses the event-bus-redis_ package, which provides a Django management command.
 
 .. code-block:: bash
 
-   # Credentials service consumer (required for badge processing):
+   # Run in the Credentials service (required for badge processing):
    ./manage.py consume_events \
        -t learning-badges-lifecycle \
        -g credentials_dev \
        --extra='{"consumer_name": "credentials_dev.consumer1"}'
 
-   # LMS consumer (optional - only if LMS needs badge award/revoke notifications):
+   # Run in the openedx-platform (LMS) (optional - only if LMS needs badge award/revoke notifications):
    ./manage.py lms consume_events \
        -t learning-badges-lifecycle \
        -g lms_dev \
