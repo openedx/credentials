@@ -429,6 +429,128 @@ class UserCredentialDateOverride(TimeStampedModel):
     )
 
 
+class ProgramCertificateTemplate(TimeStampedModel):
+    """
+    Stores custom Django template HTML for program certificates.
+
+    Allows per-program, per-type, and per-organization certificate template
+    customization via Django admin without touching files or rebuilding images.
+    Gated by the ``credentials.custom_program_certificate_templates`` waffle switch.
+
+    Selection priority (most specific first):
+      1. program_certificate + organization  — exact program, specific org
+      2. program_certificate only            — exact program, any org
+      3. program_type + organization         — any program of this type, specific org
+      4. program_type only                   — any program of this type, any org
+
+    The first active match wins. Falls back to file-based templates if no match.
+
+    .. no_pii:
+    """
+
+    program_certificate = models.ForeignKey(
+        "ProgramCertificate",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="custom_templates",
+        help_text="If set, applies only to this specific program certificate.",
+    )
+    organization = models.ForeignKey(
+        "catalog.Organization",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="certificate_templates",
+        help_text="If set, applies only to programs from this organization.",
+    )
+    template = models.TextField(
+        help_text=(
+            "Django template HTML. Must extend 'credentials/programs/base.html'. "
+            "Override blocks: accomplishment_summary, accomplishment_stamp_title, "
+            "background_watermark, background_logo, platform_logo."
+        ),
+    )
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["-created"]
+        verbose_name = "Program Certificate Template"
+        verbose_name_plural = "Program Certificate Templates"
+
+    def __str__(self):
+        parts = []
+        if self.program_certificate_id:
+            parts.append(f"program={self.program_certificate.program_uuid}")
+        if self.organization_id:
+            parts.append(f"org={self.organization.key}")
+        return f"ProgramCertificateTemplate({', '.join(parts) or 'default'})"
+
+
+def get_custom_program_certificate_template(program_certificate, org_keys):
+    """
+    Return the most specific active ProgramCertificateTemplate, or None.
+
+    Selection priority:
+      1. exact program_certificate + org match
+      2. exact program_certificate, any org
+    """
+    if not program_certificate:
+        return None
+    qs = ProgramCertificateTemplate.objects.filter(is_active=True)
+    org_qs = qs.filter(organization__key__in=org_keys) if org_keys else qs.none()
+
+    candidates = [
+        org_qs.filter(program_certificate=program_certificate).first(),
+        qs.filter(program_certificate=program_certificate, organization=None).first(),
+    ]
+    return next((c for c in candidates if c is not None), None)
+
+
+def certificate_asset_path(instance, filename):
+    """Returns upload path for certificate assets: certificate_assets/<slug>/<filename>."""
+    return f"certificate_assets/{instance.slug}/{filename}"
+
+
+class CertificateAsset(TimeStampedModel):
+    """
+    Stores uploadable assets (images, CSS, fonts) for use in DB-backed program
+    certificate templates.
+
+    Reference an asset inside a ``ProgramCertificateTemplate`` using the
+    ``certificate_asset_url`` template tag::
+
+        {% load certificate_assets %}
+        <img src="{% certificate_asset_url 'fbr-logo' %}">
+
+    .. no_pii:
+    """
+
+    description = models.TextField(
+        help_text="Human-readable description of this asset (e.g. 'FBR Pakistan org logo – PNG 200×200').",
+    )
+    asset = models.FileField(
+        upload_to=certificate_asset_path,
+        help_text="Upload an image (PNG/SVG/JPG), CSS file, or font file (TTF/WOFF/WOFF2).",
+    )
+    slug = models.SlugField(
+        max_length=100,
+        unique=True,
+        help_text=(
+            "Unique identifier used to reference this asset in templates via "
+            "{% certificate_asset_url 'your-slug' %}."
+        ),
+    )
+
+    class Meta:
+        ordering = ["slug"]
+        verbose_name = "Certificate Asset"
+        verbose_name_plural = "Certificate Assets"
+
+    def __str__(self):
+        return f"CertificateAsset({self.slug})"
+
+
 class RevokeCertificatesConfig(ConfigurationModel):
     """
     Manages configuration for a run of the revoke_certificates management command.
