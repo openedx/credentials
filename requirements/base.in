@@ -11,7 +11,7 @@
 
 bleach
 coreapi
-didkit
+openedx-didkit
 django
 django-config-models                # Configuration models for Django allowing config management with auditing
 django-cors-headers

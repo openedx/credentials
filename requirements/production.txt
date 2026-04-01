@@ -75,7 +75,7 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-didkit==0.3.3
+openedx-didkit==0.3.5
     # via -r requirements/base.txt
 django==4.2.20
     # via
