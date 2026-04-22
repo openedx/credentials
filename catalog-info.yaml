@@ -21,4 +21,4 @@ metadata:
 spec:
   type: 'service'
   lifecycle: 'production'
-  owner: 2U-aperture
+  owner: user:jajjibhai008
