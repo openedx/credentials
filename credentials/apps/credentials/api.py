@@ -70,7 +70,7 @@ def _update_or_create_credential(username, credential_type, credential_id, statu
             credential_id=credential_id,
             defaults={"status": status},
         )
-    except Exception:
+    except Exception:  # pylint: disable=broad-exception-caught
         logger.exception(
             f"Error occurred processing a credential with credential_id [{credential_id}] for user [{username}]"
         )
@@ -128,7 +128,7 @@ def create_course_cert_config(course_run: "CourseRun", site: "Site", mode: str):
         course_cert_config = _CourseCertificate.objects.create(
             course_id=course_run.key, course_run=course_run, site=site, is_active=True, certificate_type=mode
         )
-    except Exception:
+    except Exception:  # pylint: disable=broad-exception-caught
         logger.exception(f"Error occurred creating a CourseCertificate configuration for course run [{course_run.key}]")
 
     return course_cert_config

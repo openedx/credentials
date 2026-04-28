@@ -4,7 +4,7 @@ import time
 from functools import lru_cache
 from urllib.parse import urljoin
 
-import requests  # pylint: disable=unused-import
+import requests
 from attrs import asdict
 from django.conf import settings
 from django.contrib.sites.models import Site
