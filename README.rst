@@ -1,20 +1,38 @@
-edX Credentials Service |Codecov|_
-====================================
+============================
+Open edX Credentials Service
+============================
 
-.. |Codecov| image:: http://codecov.io/github/edx/credentials/coverage.svg?branch=master
-.. _Codecov: http://codecov.io/github/edx/credentials?branch=master
+| |status-badge| |license-badge| |CI| |Codecov|
 
-This repository contains the edX Credentials Service, which supports course and program certificates. This service is a
-replacement for the ``certificates`` app in ``edx-platform``.
+.. |CI| image:: https://github.com/openedx/credentials/actions/workflows/ci.yml/badge.svg
+    :target: https://github.com/openedx/credentials/actions?query=workflow%3ACI
+    :alt: Test suite status
 
-Credentials can be run as part of devstack_ or Tutor_ (using the tutor_credentials_ plugin).
+.. |Codecov| image:: https://codecov.io/github/openedx/credentials/coverage.svg?branch=master
+    :target: https://codecov.io/github/openedx/credentials?branch=master
+    :alt: Code coverage
 
-.. _devstack: https://github.com/openedx/devstack
+.. |status-badge| image:: https://img.shields.io/badge/Status-Maintained-brightgreen
+    :alt: Maintained
+
+.. |license-badge| image:: https://img.shields.io/github/license/openedx/credentials.svg
+    :target: https://github.com/openedx/credentials/blob/master/LICENSE
+    :alt: License
+
+Purpose
+=======
+
+This repository contains the Open edX Credentials Service, which supports course and program certificates.
+This service is an extension to `openedx-platform`_ providing a set of unique features in the credentials domain such as Badges, Verifiable Credentials, Learning Records, and Program Certificates.
+
+The easiest way to run Credentials service is by using Tutor_, the community-supported, Docker-based Open edX distribution, by installing the tutor_credentials_ plugin.
+
+.. _openedx-platform: https://github.com/openedx/openedx-platform/tree/master
 .. _tutor: https://docs.tutor.edly.io/
 .. _tutor_credentials: https://github.com/overhangio/tutor-credentials
 
 Where to run `make` commands
---------------------------
+----------------------------
 
 Due to the nature of developing in containers, some commands must be ran inside the container. Currently most commands
 can be ran either inside the container or inside a local virtual environement, once developer requirements have been
@@ -102,3 +120,4 @@ Our real-time conversations are on Slack_.
 
 .. _`discussion forums`: https://discuss.openedx.org
 .. _Slack: http://openedx.slack.com/
+

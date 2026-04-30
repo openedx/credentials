@@ -1,0 +1,208 @@
+.. _vc-components:
+
+Components
+==========
+
+The Credentials service contains four main components: **Credentials Core**
+manages certificates, **Digital Badges Issuer** handles badge lifecycle with
+external platforms, **Verifiable Credentials Issuer** signs W3C credentials,
+and the **Learner Record MFE** provides the learner-facing UI.
+
+.. figure:: ../../_static/images/sharing/credential_sharing_components.png
+   :alt: C4 Component diagram showing Credentials service internals: Credentials Core, Digital Badges Issuer, Verifiable Credentials Issuer, Learner Record MFE, and their interactions with external systems.
+
+The Verifiable Credentials feature includes the following parts:
+
+- **Verifiable Credentials application** (``credentials.apps.verifiable_credentials`` within the Open edX Credentials IDA);
+- **Learner Record MFE** (``frontend-app-learner-record`` micro-frontend);
+- third-party plugins (see :ref:`vc-extensibility`);
+- digital wallets (see :ref:`vc-storages-page`).
+
+.. _vc-application:
+
+Verifiable Credentials application
+----------------------------------
+
+The core backend logic and all related APIs are encapsulated in the `Verifiable Credentials application`_.
+
+Once the Verifiable Credentials feature :ref:`is enabled <vc-configuration>`:
+
+1. Admin site "Verifiable Credentials" section becomes available in the Credentials IDA.
+2. Extra URLs become available in the Credentials IDA.
+3. Extra API endpoints become available within the Credentials IDA.
+
+.. _vc-administration-site:
+
+Administration site
+~~~~~~~~~~~~~~~~~~~
+
+The application section includes:
+
+- a list of available issuers
+- a list of initiated issuance lines
+
+.. figure:: ../../_static/images/verifiable_credentials-admin-section.png
+        :alt: Admin section
+
+Currently, only a single Issuer configuration can be active at a time:
+
+.. figure:: ../../_static/images/verifiable_credentials-issuer-configuration.png
+        :alt: Issuance Configurations
+
+An issuance configuration describes an Issuer - the Organization/University/School
+on behalf of which verifiable credentials are created. The Issuer's ID is embedded
+in each verifiable credential, and a cryptographic proof is generated using the
+Issuer's private key. Each Issuer has a display name and can be deactivated via
+its checkbox.
+
+.. note::
+    The private key is a secret generated using cryptographic software.
+    The Issuer ID must be a `decentralized identifier`_ derived from that private key.
+
+Issuance Line
+    Each request for a verifiable credential initiates a separate Issuance Line.
+    It tracks the verifiable credential processing lifecycle and maintains a link
+    to the source Open edX user achievement.
+
+.. figure:: ../../_static/images/verifiable_credentials-issuance-lines.png
+        :alt: Issuance Lines
+
+Each issuance line has a unique identifier and includes the following information:
+
+1. **User Credential** - related Open edX achievement (e.g. "Program Certificate" or "Course Certificate")
+2. **Issuer ID** - issuer which signs this verifiable credential
+3. **Storage ID** - a storage backend (digital wallet) which will keep a verifiable credential
+4. **Processing status** - if a verifiable credential was successfully uploaded to storage
+5. **Status list info** - indicates if a verifiable credential is still valid and unique status index within an Issuer's status list
+6. **Subject ID** - verifiable credential subject DID
+7. **Data model ID** - verifiable credential specification to use
+8. **Expiration date** - optional expiration timestamp for the verifiable credential
+
+.. _vc-learner-record-mfe:
+
+Learner Record Microfrontend
+----------------------------
+
+The Verifiable Credentials feature extends the `Learner Record MFE`_ with additional
+UI. An extra "Verifiable Credentials" page (tab) becomes available.
+
+.. figure:: ../../_static/images/verifiable_credentials-learner-record-mfe.png
+        :alt: Verifiable Credentials page
+
+1. Once the Verifiable Credentials feature :ref:`is enabled <vc-configuration>`,
+   tab navigation appears.
+2. All of the learner's Open edX credentials (both course and program
+   certificates) are listed on the page.
+3. Each achievement card has an action button that lets the learner request a
+   verifiable credential based on the corresponding Open edX credential.
+4. Storage options (experimental).
+
+.. note::
+    Currently, a single (built-in) storage backend is available out of the box
+    (`Learner Credential Wallet`_). Because only one storage option exists by
+    default, the "Create" button does not show a dropdown. Additional storages
+    appear under a "Create with" dropdown automatically once configured.
+
+.. _vc-status-list-api:
+
+Status List API
+---------------
+
+There are several reasons a verifiable credential may already be invalid, inactive, or disposed:
+
+- revocation
+- implicit expiration
+- other status changes
+
+Open edX maintains status for internal credentials ("awarded", "revoked").
+
+.. note::
+    Once a Program Certificate X is revoked - **all** verifiable credentials which were issued based on that achievement must become revoked as well.
+
+The public Status List API allows instant verifiable credential checks. This endpoint
+is intentionally public (unauthenticated) so that relying parties can verify credential
+status without credentials of their own. Each issuer maintains its own status sequence.
+Every issued verifiable credential occupies a unique position in that sequence.
+
+.. code-block:: sh
+
+    # Status List API endpoint:
+    GET <credentials-ida-host>/verifiable_credentials/api/v1/status-list/2021/v1/<issuer-id>/
+
+    # Example:
+    https://credentials.example.com/verifiable_credentials/api/v1/status-list/2021/v1/did:key:z6MkkePoGJV8CQJJULSHHUEv71okD9PsrqXnZpNQuoUfb3id/
+
+A full set of status-related information is baked into a verifiable credential:
+
+- where to find status list API endpoint
+- what's the exact status position in a sequence
+
+.. note::
+    See Status List v2021 approach `Privacy Considerations`_
+
+Status List example
+~~~~~~~~~~~~~~~~~~~
+
+Status List itself is a verifiable credential. But it serves a different purpose.
+
+.. code-block:: sh
+
+    # specific Issuer's status list:
+
+    {
+    "@context": [
+        "https://www.w3.org/2018/credentials/v1",
+        "https://w3id.org/security/suites/ed25519-2020/v1",
+        "https://w3id.org/vc/status-list/2021/v1"
+    ],
+    "id": "https://credentials.example.com/verifiable_credentials/api/v1/status-list/2021/v1/did:key:z6MkkePoGJV8CQJJULSHHUEv71okD9PsrqXnZpNQuoUfb3id/",
+    "type": [
+        "VerifiableCredential",
+        "StatusList2021Credential"
+    ],
+    "credentialSubject": {
+        "id": "https://credentials.example.com/verifiable_credentials/api/v1/status-list/2021/v1/did:key:z6MkkePoGJV8CQJJULSHHUEv71okD9PsrqXnZpNQuoUfb3id/#list",
+        "type": "StatusList2021",
+        "encodedList": "H4sIAJzSq2QC/+3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAODfAC7KO00QJwAA",
+        "statusPurpose": "revocation"
+    },
+    "issuer": {
+        "id": "did:key:z6MkkePoGJV8CQJJULSHHUEv71okD9PsrqXnZpNQuoUfb3id"
+    },
+    "issuanceDate": "2023-05-16T20:33:39Z",
+    "proof": {
+        "type": "Ed25519Signature2020",
+        "proofPurpose": "assertionMethod",
+        "proofValue": "z2qgpEUHecAxtRNuRXqPavaLwq2cfTzLSykFa8FPEVxvuPxBkfHdqo17XTpA2q9wR7CYwBjsfDBXT2amXAZbRqdPz",
+        "verificationMethod": "did:key:z6MkkePoGJV8CQJJULSHHUEv71okD9PsrqXnZpNQuoUfb3id#z6MkkePoGJV8CQJJULSHHUEv71okD9PsrqXnZpNQuoUfb3id",
+        "created": "2023-07-10T09:42:52.259Z"
+    },
+    "issued": "2023-05-16T20:33:39Z",
+    "validFrom": "2023-05-16T20:33:39Z"
+    }
+
+Status Entry example
+~~~~~~~~~~~~~~~~~~~~
+
+Every verifiable credential carries its status list "registration" info.
+
+.. code-block:: sh
+
+    # specific verifiable credential status section:
+
+    "credentialStatus": {
+        "id": "https://credentials.example.com/verifiable_credentials/api/v1/status-list/2021/v1/did:key:z6MkkePoGJV8CQJJULSHHUEv71okD9PsrqXnZpNQuoUfb3id/#15",
+        "type": "StatusList2021Entry",
+        "statusListCredential": "https://credentials.example.com/verifiable_credentials/api/v1/status-list/2021/v1/did:key:z6MkkePoGJV8CQJJULSHHUEv71okD9PsrqXnZpNQuoUfb3id/",
+        "statusPurpose": "revocation",
+        "statusListIndex": "15"
+    },
+
+Also see related :ref:`management command <vc-status-list-helper>`
+
+
+.. _Verifiable Credentials application: https://github.com/openedx/credentials/tree/master/credentials/apps/verifiable_credentials
+.. _Learner Record MFE: https://github.com/openedx/frontend-app-learner-record
+.. _decentralized identifier: https://en.wikipedia.org/wiki/Decentralized_identifier
+.. _Learner Credential Wallet: https://lcw.app/
+.. _Privacy Considerations: https://www.w3.org/community/reports/credentials/CG-FINAL-vc-status-list-2021-20230102/#privacy-considerations
