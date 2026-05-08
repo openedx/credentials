@@ -8,12 +8,12 @@ Before you can synchronize or activate badges in Open edX Credentials, you must 
 
 For **Credly**:
 
-- Create and publish badge templates in your Credly organization first.
+- Create and publish badge templates in your Credly organization first. For provider-side setup details, see `Credly Knowledge Base <https://support.credly.com/hc/en-us>`_.
 - Then configure the organization in Open edX Credentials and synchronize templates. See :ref:`badges-credly-configuration`.
 
 For **Accredible**:
 
-- Create groups in Accredible first.
+- Create groups in Accredible first. For provider-side setup details, see `Accredible Help Center <https://help.accredible.com/>`_.
 - Then configure the API connection in Open edX Credentials and synchronize groups. See :ref:`badges-accredible-configuration`.
 
 Synchronizing Badge Templates
@@ -29,7 +29,7 @@ For **Credly**:
    .. figure:: ../../_static/images/badges/badges-admin-credly-templates-sync.png
       :alt: Credly Organizations admin list showing the sync badge templates action.
 
-Only badge templates with ``active`` state on Credly are pulled. See :ref:`badges-credly-configuration` for webhook setup and full sync details.
+Only badge templates with ``active`` state on Credly are pulled. You can also configure Credly webhooks so template changes on the Credly side are synchronized automatically instead of waiting for the next manual sync. See :ref:`badges-credly-configuration` for webhook setup and full sync details.
 
 For **Accredible**:
 
