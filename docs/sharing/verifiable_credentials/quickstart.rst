@@ -118,7 +118,7 @@ For additional management commands, see :ref:`vc-management-commands`.
 Use the generated credentials to replace the stub values in the auto-created
 Issuance Configuration.
 
-#. In the Credentials admin panel, navigate to ``<credentials-host>/admin/verifiable_credentials/issuanceconfiguration/``.
+#. In the Credentials admin panel, navigate to ``https://<your-credentials-host>/admin/verifiable_credentials/issuanceconfiguration/``.
 #. Open the auto-created Issuance Configuration entry.
 
    .. figure:: ../../_static/images/verifiable_credentials-issuer-configuration.png
@@ -145,7 +145,7 @@ configured correctly, it must be publicly available:
 .. code::
 
     # each issuer maintains its own Status List; <issuer-did> is the ``did`` value from step 1:
-    <credentials-host>/verifiable_credentials/api/v1/status-list/2021/v1/<issuer-did>/
+    https://<your-credentials-host>/verifiable_credentials/api/v1/status-list/2021/v1/<issuer-did>/
 
 For endpoint details and response format, see :ref:`vc-status-list-api`.
 

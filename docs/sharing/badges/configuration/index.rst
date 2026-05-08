@@ -29,8 +29,8 @@ Badge Templates
 ---------------
 
 Credentials stores provider-side badge definitions as badge templates.
-Credly exposes them as badge templates at ``<credentials-host>/admin/badges/credlybadgetemplate/``.
-Accredible exposes the equivalent records as groups at ``<credentials-host>/admin/badges/accrediblegroup/``.
+Credly exposes them as badge templates at ``https://<your-credentials-host>/admin/badges/credlybadgetemplate/``.
+Accredible exposes the equivalent records as groups at ``https://<your-credentials-host>/admin/badges/accrediblegroup/``.
 
 Open the template or group record to review and update badge configuration.
 This detail page is where you manage provider-specific attributes, requirements, penalties, and activation state.
@@ -137,11 +137,11 @@ Multiple data rules on one requirement all must match (AND logic).
 Data rules do not link requirements together - each rule set applies only to its own requirement's incoming event.
 
 Data rules are configured on the badge requirement detail page, not on the badge template page.
-The requirement detail page is opened from the inline requirements list on a badge template or group record, and the direct admin URL pattern is ``<credentials-host>/admin/badges/badgerequirement/<id>/change/``.
+The requirement detail page is opened from the inline requirements list on a badge template or group record, and the direct admin URL pattern is ``https://<your-credentials-host>/admin/badges/badgerequirement/<id>/change/``.
 
 To add or edit a data rule:
 
-#. Navigate to ``<credentials-host>/admin/badges/credlybadgetemplate/`` or ``<credentials-host>/admin/badges/accrediblegroup/`` and open the template or group you want to configure.
+#. Navigate to ``https://<your-credentials-host>/admin/badges/credlybadgetemplate/`` or ``https://<your-credentials-host>/admin/badges/accrediblegroup/`` and open the template or group you want to configure.
 #. In the inline requirements list, use the ``Change`` link for the requirement you want to edit.
 #. On the requirement detail page, find the "Data Rules" section and add a new item.
 
@@ -194,8 +194,8 @@ For details on how this leads to badge revocation during processing, see :ref:`b
 Penalties are optional. A badge template can have zero or more penalties.
 
 Configure penalties on the badge template or group detail page through the inline penalty records.
-Open the template record from ``<credentials-host>/admin/badges/credlybadgetemplate/`` or the group record from ``<credentials-host>/admin/badges/accrediblegroup/``, then use the inline penalty records.
-Penalty detail pages use the admin URL pattern ``<credentials-host>/admin/badges/badgepenalty/<id>/change/``.
+Open the template record from ``https://<your-credentials-host>/admin/badges/credlybadgetemplate/`` or the group record from ``https://<your-credentials-host>/admin/badges/accrediblegroup/``, then use the inline penalty records.
+Penalty detail pages use the admin URL pattern ``https://<your-credentials-host>/admin/badges/badgepenalty/<id>/change/``.
 
 A penalty is configured with an :ref:`event type <badges-configuration-requirements>`, its own :ref:`data rules <badges-configuration-data-rules>`, and one or more linked :ref:`badge requirements <badges-configuration-requirements>`.
 When an incoming event matches all of the penalty's data rules, the linked requirements are reset for that learner.
@@ -218,7 +218,7 @@ Activation and Deactivation
 
 Use the badge template or group detail page to activate or deactivate badge processing for a template.
 
-#. Navigate to ``<credentials-host>/admin/badges/credlybadgetemplate/`` or ``<credentials-host>/admin/badges/accrediblegroup/``.
+#. Navigate to ``https://<your-credentials-host>/admin/badges/credlybadgetemplate/`` or ``https://<your-credentials-host>/admin/badges/accrediblegroup/``.
 
    .. figure:: ../../../_static/images/badges/badges-admin-credly-templates-list.png
       :alt: Badge templates list page in the Credentials admin.

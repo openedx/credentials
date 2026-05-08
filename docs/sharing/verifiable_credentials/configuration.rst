@@ -166,7 +166,7 @@ Use the generated values as follows:
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Creates an Issuance Configuration from ``VERIFIABLE_CREDENTIALS[DEFAULT_ISSUER]``
-settings at ``<credentials-host>/admin/verifiable_credentials/issuanceconfiguration/``.
+settings at ``https://<your-credentials-host>/admin/verifiable_credentials/issuanceconfiguration/``.
 A default configuration is created automatically during the first
 deployment via data migration. Use this command to re-create it if needed.
 

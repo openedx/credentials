@@ -8,10 +8,10 @@ Accredible Configuration
 Accredible API Configurations
 -----------------------------
 
-Multiple Accredible API Configurations can be configured.
-Each API configuration stores the credentials that Open edX Credentials uses to sync groups and issue badges for an Accredible account.
+Multiple Accredible API Configurations can be configured in the Open edX platform.
+Each API configuration stores the credentials that the Open edX Credentials service uses to sync groups and issue badges for an Accredible account.
 
-To configure an Accredible account in Open edX Credentials, navigate to ``<credentials-host>/admin/badges/accredibleapiconfig/`` and add a new configuration:
+To configure an Accredible account in Open edX Credentials, navigate to ``https://<your-credentials-host>/admin/badges/accredibleapiconfig/`` and add a new configuration:
 
 #. Set the **name** for the config.
 #. Set the **API key** used to sync the Accredible account.
@@ -34,7 +34,7 @@ Synchronization
 Synchronization imports current groups from your Accredible account into Open edX Credentials so you can configure requirements, penalties, and activation state locally.
 Run it after you create, rename, or remove groups in the Accredible dashboard, and before you start configuring those groups in Open edX Credentials.
 
-#. Navigate to ``<credentials-host>/admin/badges/accredibleapiconfig/`` and check the checkbox for the Accredible API configuration you want to synchronize.
+#. Navigate to ``https://<your-credentials-host>/admin/badges/accredibleapiconfig/`` and check the checkbox for the Accredible API configuration you want to synchronize.
 #. Run the ``Sync groups`` action.
 
 .. figure:: ../../../_static/images/badges/badges-admin-groups-sync.png

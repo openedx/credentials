@@ -87,7 +87,7 @@ For **Credly**:
 #. Register on `Credly <https://info.credly.com/>`_ and create your organization.
 #. Create at least one badge template and publish it.
 #. Retrieve your organization UUID and `API key <https://credlyissuer.zendesk.com/hc/en-us/articles/28143019451035-Auth-tokens-for-authorization>`_.
-#. In the Credentials admin panel, navigate to ``<credentials-host>/admin/badges/credlyorganization/`` and add a new organization.
+#. In the Credentials admin panel, navigate to ``https://<your-credentials-host>/admin/badges/credlyorganization/`` and add a new organization.
 
    a. Set the **UUID** to your Credly organization identifier.
    b. Set the **API key** used to authenticate with the Credly organization.
@@ -103,7 +103,7 @@ For **Accredible**:
 #. Register on `Accredible <https://www.accredible.com/>`_ and create your account.
 #. Create at least one group.
 #. Retrieve your `API key <https://help.accredible.com/s/article/how-do-i-find-my-integration-api-key?language=en_US>`_ from account settings.
-#. In the Credentials admin panel, navigate to ``<credentials-host>/admin/badges/accredibleapiconfig/`` and add a new configuration.
+#. In the Credentials admin panel, navigate to ``https://<your-credentials-host>/admin/badges/accredibleapiconfig/`` and add a new configuration.
 
    a. Set the **API key** from your Accredible account.
    b. Set a **name** for the configuration.
@@ -140,25 +140,25 @@ Synchronization imports badge templates from your provider into the Credentials 
 
 For **Credly**:
 
-#. Navigate to ``<credentials-host>/admin/badges/credlyorganization/`` and select the organization(s) you want to use.
+#. Navigate to ``https://<your-credentials-host>/admin/badges/credlyorganization/`` and select the organization(s) you want to use.
 #. Run the ``Sync organization badge templates`` action.
 
    .. figure:: ../../_static/images/badges/badges-admin-credly-templates-sync.png
       :alt: Credly Organizations admin list showing the sync badge templates action.
 
-#. Navigate to ``<credentials-host>/admin/badges/credlybadgetemplate/`` and verify the newly created templates.
+#. Navigate to ``https://<your-credentials-host>/admin/badges/credlybadgetemplate/`` and verify the newly created templates.
 
 See :ref:`badges-credly-configuration` for details on template synchronization and webhook setup.
 
 For **Accredible**:
 
-#. Navigate to ``<credentials-host>/admin/badges/accredibleapiconfig/`` and select the configuration(s) you want to use.
+#. Navigate to ``https://<your-credentials-host>/admin/badges/accredibleapiconfig/`` and select the configuration(s) you want to use.
 #. Run the ``Sync groups`` action.
 
    .. figure:: ../../_static/images/badges/badges-admin-groups-sync.png
       :alt: Accredible API Configs admin list showing the sync groups action.
 
-#. Navigate to ``<credentials-host>/admin/badges/accrediblegroup/`` and verify the newly created groups.
+#. Navigate to ``https://<your-credentials-host>/admin/badges/accrediblegroup/`` and verify the newly created groups.
 
 See :ref:`badges-accredible-configuration` for details on group synchronization.
 
@@ -167,7 +167,7 @@ See :ref:`badges-accredible-configuration` for details on group synchronization.
 
 Requirements define what must happen for a learner to earn a badge. At least one requirement must be associated with a badge template.
 
-In the Credentials admin panel, open the badge template or group record you want to configure from ``<credentials-host>/admin/badges/credlybadgetemplate/`` or ``<credentials-host>/admin/badges/accrediblegroup/``:
+In the Credentials admin panel, open the badge template or group record you want to configure from ``https://<your-credentials-host>/admin/badges/credlybadgetemplate/`` or ``https://<your-credentials-host>/admin/badges/accrediblegroup/``:
 
 .. figure:: ../../_static/images/badges/badges-admin-template-requirements.png
    :alt: Badge template detail page showing the inline list of badge requirements.
@@ -177,7 +177,7 @@ In the Credentials admin panel, open the badge template or group record you want
 
    - Optionally, add a description.
 
-#. Save and navigate to the requirement detail page by using the ``Change`` link in the inline requirements list. Requirement detail pages use the admin URL pattern ``<credentials-host>/admin/badges/badgerequirement/<id>/change/``.
+#. Save and navigate to the requirement detail page by using the ``Change`` link in the inline requirements list. Requirement detail pages use the admin URL pattern ``https://<your-credentials-host>/admin/badges/badgerequirement/<id>/change/``.
 
    - Optionally, specify data rules in the "Data Rules" section:
 
@@ -214,7 +214,7 @@ template issued on a specific course completion:
 5. Activate badge templates
 ---------------------------
 
-#. Navigate to ``<credentials-host>/admin/badges/credlybadgetemplate/`` or ``<credentials-host>/admin/badges/accrediblegroup/``.
+#. Navigate to ``https://<your-credentials-host>/admin/badges/credlybadgetemplate/`` or ``https://<your-credentials-host>/admin/badges/accrediblegroup/``.
 
    .. figure:: ../../_static/images/badges/badges-admin-credly-templates-list.png
       :alt: Badge templates list page in the Credentials admin.

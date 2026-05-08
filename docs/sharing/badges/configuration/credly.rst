@@ -11,7 +11,7 @@ Credly Organizations
 Multiple Credly Organizations can be configured.
 Each Credly Organization record stores the credentials and organization identifier that Open edX Credentials uses to sync badge templates and issue badges for that Credly organization.
 
-To configure a Credly organization in Open edX Credentials, navigate to ``<credentials-host>/admin/badges/credlyorganization/`` and add a new organization:
+To configure a Credly organization in Open edX Credentials, navigate to ``https://<your-credentials-host>/admin/badges/credlyorganization/`` and add a new organization:
 
 #. Set the **UUID** to your Credly Organization identifier.
 #. Set the **API key** used to authenticate with the Credly Organization.
@@ -36,7 +36,7 @@ Webhooks keep Open edX Credentials in sync with changes made in your Credly orga
 
 Configure a webhook in the Credly management dashboard to point to your Credentials service:
 
-``<credentials-base-url>/badges/credly/webhook/``
+``https://<your-credentials-host>/badges/credly/webhook/``
 
 For Credly-side webhook setup steps, see `Manage webhooks <https://docs.credly.com/docs/manage-webhooks>`_.
 
@@ -51,7 +51,7 @@ Synchronization
 
 To synchronize Credly badge templates for an Organization:
 
-#. Navigate to ``<credentials-host>/admin/badges/credlyorganization/`` and select the Organization.
+#. Navigate to ``https://<your-credentials-host>/admin/badges/credlyorganization/`` and select the Organization.
 #. Run the ``Sync organization badge templates`` action.
 
 .. figure:: ../../../_static/images/badges/badges-admin-credly-templates-sync.png
@@ -64,7 +64,7 @@ New badge template records in Open edX Credentials are created inactive (disable
 .. figure:: ../../../_static/images/badges/badges-admin-credly-templates-list.png
    :alt: Credly badge templates admin list showing the template records available after a successful sync.
 
-Use the badge templates list at ``<credentials-host>/admin/badges/credlybadgetemplate/`` to confirm the expected active templates were imported before you configure requirements.
+Use the badge templates list at ``https://<your-credentials-host>/admin/badges/credlybadgetemplate/`` to confirm the expected active templates were imported before you configure requirements.
 
 Configure requirements (see :ref:`badges-configuration-requirements`) and activate the template (see :ref:`badges-configuration-activation`) before it takes effect.
 

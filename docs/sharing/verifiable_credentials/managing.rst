@@ -6,14 +6,14 @@ Managing Verifiable Credentials
 Monitoring issuance lines
 -------------------------
 
-Track issuance activity at ``<credentials-host>/admin/verifiable_credentials/issuanceline/``. Each record shows the processing status, storage backend, and linked Open edX credential.
+Track issuance activity at ``https://<your-credentials-host>/admin/verifiable_credentials/issuanceline/``. Each record shows the processing status, storage backend, and linked Open edX credential.
 
 Filter by processing status to identify failed issuances that may need investigation.
 
 Managing issuers
 ----------------
 
-Multiple ``IssuanceConfiguration`` records can exist at ``<credentials-host>/admin/verifiable_credentials/issuanceconfiguration/``, but only the last enabled record is the active issuer.
+Multiple ``IssuanceConfiguration`` records can exist at ``https://<your-credentials-host>/admin/verifiable_credentials/issuanceconfiguration/``, but only the last enabled record is the active issuer.
 
 - To rotate issuer credentials, create a new configuration with updated keys and enable it.
 - The admin interface prevents disabling the last enabled configuration. Use the ``remove_issuance_configuration`` management command to delete one entirely. See :ref:`vc-management-commands`.

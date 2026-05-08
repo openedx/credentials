@@ -45,7 +45,7 @@ Progress tracking
 
 Current learner badge progress is stored in ``Badge Progress`` records.
 Badge templates can have more than one requirement, so the system tracks intermediate progress before a badge is issued.
-You can review progress records in the Credentials admin at ``<credentials-host>/admin/badges/badgeprogress/``.
+You can review progress records in the Credentials admin at ``https://<your-credentials-host>/admin/badges/badgeprogress/``.
 
 When a requirement's rules match the incoming event, the system ensures there is a badge progress record for the learner and marks that requirement as fulfilled.
 

@@ -37,8 +37,8 @@ Administration site
 
 In the Django admin, the **Verifiable Credentials** section includes these main pages:
 
-- **Issuance Configurations** at ``<credentials-host>/admin/verifiable_credentials/issuanceconfiguration/`` for managing issuer records.
-- **Issuance Lines** at ``<credentials-host>/admin/verifiable_credentials/issuanceline/`` for reviewing individual verifiable credential issuance requests.
+- **Issuance Configurations** at ``https://<your-credentials-host>/admin/verifiable_credentials/issuanceconfiguration/`` for managing issuer records.
+- **Issuance Lines** at ``https://<your-credentials-host>/admin/verifiable_credentials/issuanceline/`` for reviewing individual verifiable credential issuance requests.
 
 .. figure:: ../../_static/images/verifiable_credentials-admin-section.png
         :alt: Credentials admin section highlighting where you manage verifiable credential settings in Django admin.
@@ -102,7 +102,7 @@ more details, see :ref:`vc-status-list-api`, :ref:`vc-tech-details`, and the
 .. code-block:: sh
 
     # Status List API endpoint:
-    GET <credentials-ida-host>/verifiable_credentials/api/v1/status-list/2021/v1/<issuer-id>/
+    GET https://<your-credentials-host>/verifiable_credentials/api/v1/status-list/2021/v1/<issuer-id>/
 
     # Example:
     https://credentials.example.com/verifiable_credentials/api/v1/status-list/2021/v1/did:key:z6MkkePoGJV8CQJJULSHHUEv71okD9PsrqXnZpNQuoUfb3id/
