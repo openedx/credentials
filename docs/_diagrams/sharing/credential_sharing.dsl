@@ -15,9 +15,9 @@ workspace "Credential Sharing" {
         digitalBadgePlatform = softwareSystem "Digital Badge Platform" "Credly, Accredible" "Existing System"
 
         openedX = softwareSystem "Open edX" {
-            edxPlatform = container "openedx-platform" "LMS and course management" "Python/Django"
+            openedxPlatform = container "Open edX Platform" "LMS and course management" "Python/Django"
             eventBus = container "Event Bus" "Redis Streams or Kafka" "" "Queue"
-            credentialsService = container "edX Credentials" "Stores learner achievements, issues credentials" "Python/Django" {
+            credentialsService = container "Open edX Credentials" "Stores learner achievements, issues credentials" "Python/Django" {
                 credentialsCore = component "Credentials Core" "Manages course and program certificates" "Django"
                 digitalBadgesIssuer = component "Digital Badges Issuer" "Processes badge requirements, issues badges to external platforms" "Django"
                 verifiableCredentialsIssuer = component "Verifiable Credentials Issuer" "Issues W3C Verifiable Credentials, signs with didkit (Ed25519)" "Django"
@@ -29,13 +29,13 @@ workspace "Credential Sharing" {
         # --- Actors ---
 
         siteAdmin -> credentialsCore "Configures badge templates and VC settings" "Admin panel"
-        learner -> edxPlatform "Completes courses and assignments"
+        learner -> openedxPlatform "Completes courses and assignments"
         learner -> vcIssuerMFE "Requests verifiable credential"
 
         # --- Event Bus flows ---
 
         # LMS produces events consumed by Credentials
-        edxPlatform -> eventBus "Publishes certificate and course passing status events" "openedx-events"
+        openedxPlatform -> eventBus "Publishes certificate and course passing status events" "openedx-events"
         eventBus -> credentialsCore "Delivers certificate and course grades events" "openedx-events"
         eventBus -> digitalBadgesIssuer "Delivers badge-related events" "learning-badges-lifecycle topic"
 
@@ -83,25 +83,25 @@ workspace "Credential Sharing" {
         styles {
             element "Person" {
                 color "#ffffff"
-                background "#08427b"
+                background "#0b3d91"
                 fontSize 22
                 shape Person
             }
             element "Software System" {
-                background "#1168bd"
+                background "#005a9c"
                 color "#ffffff"
             }
             element "Existing System" {
-                background "#999999"
+                background "#4a4a4a"
                 color "#ffffff"
             }
             element "Container" {
-                background "#438dd5"
+                background "#2b7bbb"
                 color "#ffffff"
             }
             element "Component" {
-                background "#85bbf0"
-                color "#000000"
+                background "#dbeafe"
+                color "#111111"
             }
             element "Database" {
                 shape Cylinder
