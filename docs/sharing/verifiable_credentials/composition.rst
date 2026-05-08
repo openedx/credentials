@@ -180,3 +180,14 @@ issuance. This index determines the credential's position in the issuer's
 Status List bitstring. When a credential is revoked, the bit at that index
 is flipped to 1 and the Status List is regenerated (gzip-compressed, then
 base64url-encoded).
+
+.. seealso::
+
+   :ref:`vc-data-models`
+      Available data model specifications and how to extend them.
+
+   `Open Badges Specification v3.0 <https://1edtech.github.io/openbadges-specification/ob_v3p0.html>`_
+      The default data model specification.
+
+   `W3C Verifiable Credentials Data Model v1.1 <https://www.w3.org/TR/vc-data-model-1.1/>`_
+      The base specification for verifiable credential structure.

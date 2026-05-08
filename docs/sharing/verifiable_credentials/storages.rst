@@ -3,7 +3,7 @@
 Storages
 ========
 
-Currently, only one digital wallet is supported for production.
+The built-in production storage backend is the Learner Credential Wallet (LCWallet). Open edX also includes the ``openedx-wallet`` development wallet for debugging and onboarding. Additional wallets can be added through plugins - see :ref:`vc-extensibility`.
 
 Learner Credential Wallet
 -------------------------
@@ -28,15 +28,10 @@ issuers list - `community issuer registry`_).
 
 .. note::
 
-    For development/testing purposes a `Sandbox Registry`_ is available. If
-    you would like to be added to the Sandbox Registry, please open a pull
-    request directly against that repository, matching the format for existing
-    issuers in ``registry.json``.
+    For development and testing, a `Sandbox Registry`_ is available. To be added to the Sandbox Registry, open a pull request directly against that repository and match the format of existing issuers in ``registry.json``.
 
 Learner experience
 ~~~~~~~~~~~~~~~~~~
-
-This explains the generic usage flow for learners.
 
 #. Learners download and install the official application (Google Play or App
    Store; the Android version is used for examples below).
@@ -44,13 +39,13 @@ This explains the generic usage flow for learners.
 #. Once installed, there is an initial one-time setup guide.
 
     .. image:: ../../_static/images/verifiable_credentials-lcw-setup1.png
-        :alt: Learner Credential Wallet setup step 1
+        :alt: Learner Credential Wallet welcome screen prompting the learner to begin wallet setup.
         :width: 30%
     .. image:: ../../_static/images/verifiable_credentials-lcw-setup2.png
-        :alt: Learner Credential Wallet setup step 2
+        :alt: Learner Credential Wallet setup screen explaining how credentials are stored and verified in the app.
         :width: 30%
     .. image:: ../../_static/images/verifiable_credentials-lcw-setup3.png
-        :alt: Learner Credential Wallet setup step 3
+        :alt: Learner Credential Wallet final setup screen confirming the learner can finish onboarding and open the wallet.
         :width: 30%
 
 #. Learners navigate to the Learner Record MFE interface
@@ -62,13 +57,13 @@ This explains the generic usage flow for learners.
    mobile application.
 
     .. image:: ../../_static/images/verifiable_credentials-lcw-home-empty.png
-        :alt: Learner Credential Wallet empty
+        :alt: Learner Credential Wallet home screen with no saved credentials yet.
         :width: 30%
     .. image:: ../../_static/images/verifiable_credentials-lcw-add-credential.png
-        :alt: Learner Credential Wallet add credential
+        :alt: Learner Credential Wallet add-credential screen where the learner chooses to scan a QR code.
         :width: 30%
     .. image:: ../../_static/images/verifiable_credentials-lcw-qrcode-scanner.png
-        :alt: Learner Credential Wallet QR code scanner
+        :alt: Wallet QR-code scanner view used to scan the credential issuance link from Open edX.
         :width: 30%
 
 #. LCWallet processes the QR code, communicates with the Open edX platform,
@@ -77,26 +72,26 @@ This explains the generic usage flow for learners.
    credential (course or program certificate).
 
     .. image:: ../../_static/images/verifiable_credentials-lcw-accept-credential.png
-        :alt: Learner Credential Wallet accept credential
+        :alt: Learner Credential Wallet review screen asking the learner to accept the incoming credential.
         :width: 30%
     .. image:: ../../_static/images/verifiable_credentials-lcw-credential-preview.png
-        :alt: Learner Credential Wallet credential preview
+        :alt: Learner Credential Wallet credential detail screen previewing the stored credential contents.
         :width: 30%
     .. image:: ../../_static/images/verifiable_credentials-lcw-verification-status.png
-        :alt: Learner Credential Wallet credential status
+        :alt: Learner Credential Wallet status screen showing the stored credential as successfully verified.
         :width: 30%
 
 #. From this point, learners are free to share their achievements in different
    ways.
 
     .. image:: ../../_static/images/verifiable_credentials-lcw-share.png
-        :alt: Learner Credential Wallet share credential
+        :alt: Learner Credential Wallet sharing menu for a stored credential.
         :width: 30%
     .. image:: ../../_static/images/verifiable_credentials-lcw-share-public-link.png
-        :alt: Learner Credential Wallet share credential with public link
+        :alt: Learner Credential Wallet public-link sharing screen for the selected credential.
         :width: 30%
     .. image:: ../../_static/images/verifiable_credentials-lcw-share-public-link-created.png
-        :alt: Learner Credential Wallet shared with public link credential
+        :alt: Wallet confirmation screen showing that a public sharing link has been created for the selected credential.
         :width: 30%
 
 .. _vc-wallet-deeplink-protocol:
@@ -198,9 +193,7 @@ Example verifiable presentation:
 Development wallet
 ------------------
 
-The `openedx-wallet`_ is a proof-of-concept wallet for
-investigation and onboarding purposes. It is not recommended for
-production deployment.
+The `openedx-wallet`_ is a proof-of-concept wallet for debugging, investigation, and onboarding. It is not recommended for production deployment.
 
 .. _Official website: https://lcw.app/
 .. _Digital Credentials Consortium: https://digitalcredentials.mit.edu/

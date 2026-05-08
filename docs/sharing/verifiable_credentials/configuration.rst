@@ -5,6 +5,12 @@ Configuration
 
 The Verifiable Credentials feature is optional. It is disabled by default.
 
+.. note::
+
+   If you are using Tutor, start with :ref:`vc-quickstart` for installation and setup. The quick start covers the ``tutor-credentials`` and ``tutor-contrib-badges`` plugins, feature flags, and the initial issuer setup flow.
+
+   Use this page for manual configuration, overrides, and detailed settings reference.
+
 .. _vc-activation:
 
 Conditional activation
@@ -17,7 +23,12 @@ Credentials service for the change to take effect.
 Learner Record MFE settings
 ---------------------------
 
-The `Learner Record MFE <https://github.com/openedx/frontend-app-learner-record>`_ uses environment variables configured in its ``.env`` file:
+The `Learner Record MFE <https://github.com/openedx/frontend-app-learner-record>`_ uses environment variables configured in its ``.env`` file.
+
+.. note::
+
+   In Tutor deployments, the Learner Record MFE is typically provided by the ``tutor-mfe`` plugin, and the Credentials service is provided by the ``tutor-credentials`` plugin.
+   If you are using ``tutor-contrib-badges``, it configures the required verifiable credentials feature flags automatically as part of the setup described in :ref:`vc-quickstart`.
 
 ``ENABLE_VERIFIABLE_CREDENTIALS`` - enables the verifiable credentials UI routes.
 
@@ -40,7 +51,7 @@ The feature introduces its own set of default settings, namespaced under the
         "STATUS_LIST_LENGTH": 50000,
         "DEFAULT_ISSUER": {
             "NAME": "The University of the Digital Future",
-            "KEY": '{"kty":"OKP","crv":"Ed25519","x":"IGUT8E_aRNzLqouWO4zdeZ6l4CEXsVmJDOpOQS69m7o","d":"vn8xgdO5Ki3zlvRNc2nUqcj50Ise1Vl1tlbs9DUL-hg"}',
+            "KEY": '{"kty":"OKP","crv":"Ed25519","x":"IGUT8E_aRNzLqouWO4zdeZ6l4CEXsVmJDOpOQS69m7o","d":"vn8xgdO5Ki3zlvRNc2nUqcj50Ise1Vl1tlbs9DUL"}',
             "ID": "did:key:z6MkgdiV7pVPCapM8oUwfhxBwYZgh8dXkHkJykSAc4DHKD7X",
         },
     }
@@ -141,17 +152,25 @@ issuer.
 .. code-block:: sh
 
     ./manage.py generate_issuer_credentials
-    >> {
-        'did': 'did:key:z6MkgdiV7pVPCapM8oUwfhxBwYZgh8dXkHkJykSAc4DHKD7X',
-        'private_key': '{"kty":"OKP","crv":"Ed25519","x":"IGUT8E_aRNzLqouWO4zdeZ6l4CEXsVmJDOpOQS69m7o","d":"vn8xgdO5Ki3zlvRNc2nUqcj50Ise1Vl1tlbs9DUL-hg"}'
-       }
+
+Use the generated values as follows:
+
+- Set **Issuer id** to the generated ``did`` value.
+- Set **Issuer key** to the generated ``private_key`` value.
+
+.. warning::
+
+   Treat ``private_key`` as a secret. Store it securely, do not commit it to version control, and do not expose it in logs or screenshots.
 
 ``create_default_issuer``
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Creates an Issuance Configuration from ``VERIFIABLE_CREDENTIALS[DEFAULT_ISSUER]``
-settings. A default configuration is created automatically during the first
+settings at ``<credentials-host>/admin/verifiable_credentials/issuanceconfiguration/``.
+A default configuration is created automatically during the first
 deployment via data migration. Use this command to re-create it if needed.
+
+This command creates a new issuer configuration record from the current ``DEFAULT_ISSUER`` settings.
 
 .. code-block:: sh
 
@@ -162,6 +181,8 @@ deployment via data migration. Use this command to re-create it if needed.
 
 Removes an issuer configuration by its DID. The admin interface only allows
 deactivation, not deletion.
+
+This command permanently deletes the matching ``IssuanceConfiguration`` record.
 
 .. code-block:: sh
 
@@ -175,7 +196,23 @@ deactivation, not deletion.
 Generates a signed Status List 2021 credential for a given issuer. Useful for
 debugging revocation status or verifying the status list is correctly formed.
 
+This command prints the signed Status List 2021 credential for the specified issuer.
+
 .. code-block:: sh
 
     ./manage.py generate_status_list did:key:<UNIQUE_DID_KEY>
+
+.. seealso::
+
+   :ref:`vc-quickstart`
+      Step-by-step setup including issuer credential generation (step 2) and configuration (step 3).
+
+   `W3C Verifiable Credentials Data Model v1.1 <https://www.w3.org/TR/vc-data-model-1.1/>`_
+      The specification that defines the verifiable credential structure and lifecycle.
+
+   `W3C Decentralized Identifiers (DIDs) v1.0 <https://www.w3.org/TR/did-core/>`_
+      The specification for issuer and holder identifiers.
+
+   `Status List 2021 <https://www.w3.org/community/reports/credentials/CG-FINAL-vc-status-list-2021-20230102/>`_
+      The specification for credential revocation tracking.
 

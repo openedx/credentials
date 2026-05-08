@@ -17,7 +17,7 @@ See available options on the :ref:`Storages page <vc-storages-page>`.
 
 .. note::
 
-    For a storage plugin example, see the `openedx-wallet`_ dummy internal storage (by `Raccoon Gang`_).
+    For a storage plugin example intended for development purposes, see the `openedx-wallet`_ dummy internal storage (by `Raccoon Gang`_).
 
 .. _vc-data-models:
 
@@ -64,4 +64,15 @@ See full specification in the `Verifiable Credential Status List v2021`_ communi
 .. _VC1.1 model: https://github.com/openedx/credentials/blob/master/credentials/apps/verifiable_credentials/composition/verifiable_credentials.py
 .. _OB3.0 model: https://github.com/openedx/credentials/blob/master/credentials/apps/verifiable_credentials/composition/open_badges.py
 .. _OB3.0.1 model: https://github.com/openedx/credentials/blob/master/credentials/apps/verifiable_credentials/composition/open_badges.py
+.. seealso::
+
+   `Open Badges Specification v3.0 <https://1edtech.github.io/openbadges-specification/ob_v3p0.html>`_
+      The default data model specification for educational achievements.
+
+   `W3C Verifiable Credentials Data Model v1.1 <https://www.w3.org/TR/vc-data-model-1.1/>`_
+      The base specification for verifiable credential structure.
+
+   `Status List 2021 <https://www.w3.org/community/reports/credentials/CG-FINAL-vc-status-list-2021-20230102/>`_
+      The specification for credential revocation tracking via bitstring status lists.
+
 .. _openedx-wallet: https://github.com/raccoongang/openedx-wallet

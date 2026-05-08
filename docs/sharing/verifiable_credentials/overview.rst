@@ -10,17 +10,20 @@ tamper-proof data object that any party can verify instantly, without contacting
 the issuer. The `W3C Verifiable Credentials Data Model`_ and related
 specifications define the standard.
 
+If you want to install and configure this feature, start with the :ref:`Quick Start <vc-quickstart>` guide.
+If you want to understand the main concepts and architecture first, continue with this overview and the linked reference pages.
+
 Credentials ecosystem
 ---------------------
 
-Three roles participate in the learner credentials ecosystem:
+Three roles participate in the learner credentials ecosystem. For a broader standards-based description, see the `W3C VC ecosystem overview <https://www.w3.org/TR/vc-overview/#ecosystem-overview>`_.
 
 - **Learner** - holds portable, privacy-preserving proof of achievements
   in a digital wallet and shares them with employers, institutions, or
-  professional networks.
+  professional networks. For supported wallets, see :ref:`vc-storages-page`.
 - **Issuer** - creates and signs credentials. The cryptographic signature
   ties each credential back to the issuing organization, making
-  authenticity independently verifiable.
+  authenticity independently verifiable. For issuer setup, see :ref:`vc-configuration`.
 - **Verifier** - validates a credential's signature and revocation status
   without contacting the issuer directly, using a public
   :ref:`Status List <vc-status-list-api>`.
@@ -40,7 +43,9 @@ The W3C VC specification defines a standard lifecycle with three participants:
   credential has not been revoked or expired.
 
 .. figure:: ../../_static/images/sharing/vc_lifecycle.png
-   :alt: Verifiable credentials lifecycle diagram showing Issuer, Holders, and Verifiers interacting through Issue VC, Transfer, Present VC or VP, Check Status, Revoke VC, and Verify flows via a Verifiable Data Registry.
+   :alt: Verifiable credentials lifecycle showing an issuer creating and revoking credentials, holders storing and presenting them, and verifiers checking status through the issuer's public registry.
+
+This lifecycle highlights the three core phases: issuance to the holder, presentation to a verifier, and independent status checking after issuance.
 
 Decentralized identifiers (DIDs)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,13 +58,18 @@ A DID follows the format ``did:[method]:[unique-uri]``. Common methods include:
 - ``did:web`` - resolved via the issuer's domain over HTTPS. Used for institutional issuers.
 - ``did:ethr`` - resolved via Ethereum blockchain.
 
-A DID resolves to a **DID Document** containing the public key material needed to verify signatures.
+A DID resolves to a **DID Document** containing the public key material needed to verify signatures. For implementation details on how Open edX uses DIDs, see :ref:`vc-tech-details`.
 
 How It Works in Open edX
 ------------------------
 
 The Verifiable Credentials feature is optional. Once enabled, it extends the
 Credentials service and Learner Record micro-frontend.
+
+Open edX Credentials provides the issuance mechanism: it prepares the credential,
+signs it with the configured issuer key, and exposes the APIs needed by the
+wallet flow. The issuer itself is the organization or entity represented by the
+configured issuer DID and issuer name.
 
 A single Open edX achievement can be used as a source for multiple verifiable
 credentials, each using a different data model if needed. The typical flow
@@ -78,22 +88,20 @@ looks like this.
    status list to confirm the credential is still valid (not expired or
    revoked).
 
-Setup
------
+See :ref:`vc-components` for the main system components, :ref:`vc-status-list-api` for status verification, and :ref:`vc-storages-page` for wallet behavior and learner flow.
 
-Setting up VCs involves a few steps.
+The feature supports multiple verifiable credential specifications. For supported data formats and their extensibility model, see :ref:`vc-extensibility`. The built-in production wallet integration is LCWallet. For storage details, including the development wallet, see :ref:`vc-storages-page`.
 
-#. Enable the feature flag (``ENABLE_VERIFIABLE_CREDENTIALS``).
-#. Generate issuer credentials (a decentralized identifier and private key).
-#. Configure the issuer in the Credentials admin site.
-#. Ensure the Status List API endpoint is publicly accessible.
+.. seealso::
 
-See the :ref:`Quick Start <vc-quickstart>` guide for detailed instructions.
+   :ref:`vc-quickstart`
+      Installation and first-time setup for verifiable credentials.
 
-The feature supports multiple verifiable credential specifications
-(Open Badges v3.0, v3.0.1, and the W3C VC Data Model v1.1) and multiple
-digital wallet backends. Both can be extended through plugins - see
-:ref:`vc-extensibility` for details.
+   `W3C Verifiable Credentials Overview <https://www.w3.org/TR/vc-overview/>`_
+      Standards background for the VC ecosystem, lifecycle, and trust model.
+
+   `W3C Decentralized Identifiers (DID) v1.0 <https://www.w3.org/TR/did-core/>`_
+      Core specification for decentralized identifiers and DID documents.
 
 ----
 
@@ -103,6 +111,7 @@ digital wallet backends. Both can be extended through plugins - see
     quickstart
     components
     configuration
+    managing
     extensibility
     composition
     storages

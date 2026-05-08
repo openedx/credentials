@@ -3,13 +3,12 @@
 Components
 ==========
 
-The Credentials service contains four main components: **Credentials Core**
-manages certificates, **Digital Badges Issuer** handles badge lifecycle with
-external platforms, **Verifiable Credentials Issuer** signs W3C credentials,
-and the **Learner Record MFE** provides the learner-facing UI.
+This page explains the main Open edX components involved in verifiable credential issuance, delivery, and verification.
+
+The diagram below provides a C4 component view of how the verifiable credentials feature fits into the broader Credentials service and learner-facing flow.
 
 .. figure:: ../../_static/images/sharing/credential_sharing_components.png
-   :alt: C4 Component diagram showing Credentials service internals: Credentials Core, Digital Badges Issuer, Verifiable Credentials Issuer, Learner Record MFE, and their interactions with external systems.
+   :alt: Component view of the Credentials service showing the credentials core, digital badges issuer, verifiable credentials issuer, and learner record MFE.
 
 The Verifiable Credentials feature includes the following parts:
 
@@ -25,35 +24,34 @@ Verifiable Credentials application
 
 The core backend logic and all related APIs are encapsulated in the `Verifiable Credentials application`_.
 
-Once the Verifiable Credentials feature :ref:`is enabled <vc-configuration>`:
+Once the Verifiable Credentials feature :ref:`is enabled <vc-configuration>`, the Credentials IDA exposes additional functionality:
 
-1. Admin site "Verifiable Credentials" section becomes available in the Credentials IDA.
-2. Extra URLs become available in the Credentials IDA.
-3. Extra API endpoints become available within the Credentials IDA.
+1. The **Verifiable Credentials** section appears in the Django admin.
+2. Verifiable credentials URLs are added to the service.
+3. Verifiable credentials API endpoints become available. See :ref:`vc-api-reference`.
 
 .. _vc-administration-site:
 
 Administration site
 ~~~~~~~~~~~~~~~~~~~
 
-The application section includes:
+In the Django admin, the **Verifiable Credentials** section includes these main pages:
 
-- a list of available issuers
-- a list of initiated issuance lines
+- **Issuance Configurations** at ``<credentials-host>/admin/verifiable_credentials/issuanceconfiguration/`` for managing issuer records.
+- **Issuance Lines** at ``<credentials-host>/admin/verifiable_credentials/issuanceline/`` for reviewing individual verifiable credential issuance requests.
 
 .. figure:: ../../_static/images/verifiable_credentials-admin-section.png
-        :alt: Admin section
+        :alt: Credentials admin section highlighting where you manage verifiable credential settings in Django admin.
 
-Currently, only a single Issuer configuration can be active at a time:
+Issuance Configuration
+    An issuance configuration describes an Issuer - the Organization/University/School
+    on behalf of which verifiable credentials are created. The Issuer's ID is embedded
+    in each verifiable credential, and a cryptographic proof is generated using the
+    Issuer's private key. Each Issuer has a display name and can be deactivated via
+    its checkbox. Only a single Issuer configuration can be active at a time.
 
 .. figure:: ../../_static/images/verifiable_credentials-issuer-configuration.png
-        :alt: Issuance Configurations
-
-An issuance configuration describes an Issuer - the Organization/University/School
-on behalf of which verifiable credentials are created. The Issuer's ID is embedded
-in each verifiable credential, and a cryptographic proof is generated using the
-Issuer's private key. Each Issuer has a display name and can be deactivated via
-its checkbox.
+        :alt: Issuer configuration form in Django admin, showing the active verifiable credential issuer record and its editable settings.
 
 .. note::
     The private key is a secret generated using cryptographic software.
@@ -65,48 +63,26 @@ Issuance Line
     to the source Open edX user achievement.
 
 .. figure:: ../../_static/images/verifiable_credentials-issuance-lines.png
-        :alt: Issuance Lines
+        :alt: Issuance line records in Django admin, showing each verifiable credential request and its processing state.
 
-Each issuance line has a unique identifier and includes the following information:
+Each issuance line has a unique identifier `UUID` and includes the following information:
 
 1. **User Credential** - related Open edX achievement (e.g. "Program Certificate" or "Course Certificate")
 2. **Issuer ID** - issuer which signs this verifiable credential
 3. **Storage ID** - a storage backend (digital wallet) which will keep a verifiable credential
 4. **Processing status** - if a verifiable credential was successfully uploaded to storage
 5. **Status list info** - indicates if a verifiable credential is still valid and unique status index within an Issuer's status list
-6. **Subject ID** - verifiable credential subject DID
-7. **Data model ID** - verifiable credential specification to use
-8. **Expiration date** - optional expiration timestamp for the verifiable credential
 
-.. _vc-learner-record-mfe:
+Additionally every issuance line stores the following fields for debug purposes:
 
-Learner Record Microfrontend
-----------------------------
-
-The Verifiable Credentials feature extends the `Learner Record MFE`_ with additional
-UI. An extra "Verifiable Credentials" page (tab) becomes available.
-
-.. figure:: ../../_static/images/verifiable_credentials-learner-record-mfe.png
-        :alt: Verifiable Credentials page
-
-1. Once the Verifiable Credentials feature :ref:`is enabled <vc-configuration>`,
-   tab navigation appears.
-2. All of the learner's Open edX credentials (both course and program
-   certificates) are listed on the page.
-3. Each achievement card has an action button that lets the learner request a
-   verifiable credential based on the corresponding Open edX credential.
-4. Storage options (experimental).
-
-.. note::
-    Currently, a single (built-in) storage backend is available out of the box
-    (`Learner Credential Wallet`_). Because only one storage option exists by
-    default, the "Create" button does not show a dropdown. Additional storages
-    appear under a "Create with" dropdown automatically once configured.
+- **Subject ID** - verifiable credential subject DID
+- **Data model ID** - verifiable credential specification to use
+- **Expiration date** - optional expiration timestamp for the verifiable credential
 
 .. _vc-status-list-api:
 
 Status List API
----------------
+~~~~~~~~~~~~~~~
 
 There are several reasons a verifiable credential may already be invalid, inactive, or disposed:
 
@@ -116,13 +92,12 @@ There are several reasons a verifiable credential may already be invalid, inacti
 
 Open edX maintains status for internal credentials ("awarded", "revoked").
 
-.. note::
-    Once a Program Certificate X is revoked - **all** verifiable credentials which were issued based on that achievement must become revoked as well.
-
 The public Status List API allows instant verifiable credential checks. This endpoint
 is intentionally public (unauthenticated) so that relying parties can verify credential
-status without credentials of their own. Each issuer maintains its own status sequence.
-Every issued verifiable credential occupies a unique position in that sequence.
+status without credentials of their own. Each issuer maintains its own status sequence,
+and every issued verifiable credential occupies a unique position in that sequence. For
+more details, see :ref:`vc-status-list-api`, :ref:`vc-tech-details`, and the
+:ref:`generate_status_list management command <vc-status-list-helper>`.
 
 .. code-block:: sh
 
@@ -132,16 +107,13 @@ Every issued verifiable credential occupies a unique position in that sequence.
     # Example:
     https://credentials.example.com/verifiable_credentials/api/v1/status-list/2021/v1/did:key:z6MkkePoGJV8CQJJULSHHUEv71okD9PsrqXnZpNQuoUfb3id/
 
-A full set of status-related information is baked into a verifiable credential:
-
-- where to find status list API endpoint
-- what's the exact status position in a sequence
-
-.. note::
-    See Status List v2021 approach `Privacy Considerations`_
+Each verifiable credential includes the information needed to locate the issuer's
+Status List API endpoint and identify the credential's exact position in that issuer's
+status sequence. For privacy implications of the Status List 2021 approach, see
+`Privacy Considerations`_.
 
 Status List example
-~~~~~~~~~~~~~~~~~~~
+...................
 
 Status List itself is a verifiable credential. But it serves a different purpose.
 
@@ -182,7 +154,7 @@ Status List itself is a verifiable credential. But it serves a different purpose
     }
 
 Status Entry example
-~~~~~~~~~~~~~~~~~~~~
+....................
 
 Every verifiable credential carries its status list "registration" info.
 
@@ -198,8 +170,42 @@ Every verifiable credential carries its status list "registration" info.
         "statusListIndex": "15"
     },
 
-Also see related :ref:`management command <vc-status-list-helper>`
+For debugging and verification, see the :ref:`generate_status_list management command <vc-status-list-helper>`.
 
+.. _vc-learner-record-mfe:
+
+Learner Record Microfrontend
+----------------------------
+
+The Verifiable Credentials feature extends the `Learner Record MFE`_ with additional
+UI. An extra "Verifiable Credentials" page (tab) becomes available.
+
+.. figure:: ../../_static/images/verifiable_credentials-learner-record-mfe.png
+        :alt: Learner Record page with the Verifiable Credentials tab, listed achievements, and create actions for requesting a credential.
+
+The numbered markers on the screenshot correspond to UI elements:
+
+1. **Verifiable Credentials tab** - appears once the feature :ref:`is enabled <vc-configuration>`.
+2. **Credential list** - all learner's Open edX credentials (both course and program certificates).
+3. **Create action** - lets the learner request a verifiable credential for the corresponding achievement.
+4. **Storage options** (experimental).
+
+.. note::
+    Currently, a single (built-in) storage backend is available out of the box
+    (`Learner Credential Wallet`_). Because only one storage option exists by
+    default, the "Create" button does not show a dropdown. Additional storages
+    appear under a "Create with" dropdown automatically once configured.
+
+.. seealso::
+
+   :ref:`vc-managing`
+      Managing issuers, issuance lines, and revocation behavior.
+
+   :ref:`vc-configuration`
+      Feature flags, issuer settings, and management commands.
+
+   :ref:`vc-tech-details`
+      Internal implementation details for debugging and customization.
 
 .. _Verifiable Credentials application: https://github.com/openedx/credentials/tree/master/credentials/apps/verifiable_credentials
 .. _Learner Record MFE: https://github.com/openedx/frontend-app-learner-record

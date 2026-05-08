@@ -6,30 +6,13 @@ Implementation Details
 This section covers internal details that may help with debugging,
 customization, or deeper understanding of the feature.
 
-Prerequisites
--------------
-
-The following conditions must be met before verifiable credentials can be
-issued.
-
-1. The ``verifiable_credentials`` app does not register its URL configuration
-   or admin views until the main feature flag is enabled.
-2. The default built-in configuration is almost self-contained - the only
-   required step is to configure the Issuer's credentials (see
-   :ref:`management command helper <vc-issuer-credentials-helper>`). If the
-   Issuer is configured in the deployment environment from the start, those
-   settings are used during the app data migration; otherwise, a manual
-   Issuance Configuration edit is needed (Credentials admin site).
-3. Multiple Issuance Configuration records can exist, but only the last
-   enabled record is used.
-
 Events flow
 -----------
 
 The following diagram illustrates the end-to-end issuance sequence.
 
 .. figure:: ../../_static/images/verifiable_credentials-issuance-sequence.png
-        :alt: Verifiable Credentials issuance sequence diagram
+        :alt: End-to-end verifiable credential issuance sequence, from the learner starting in Learner Record to the wallet requesting, receiving, and verifying the signed credential.
 
 - 1 - Learner navigates to the Learner Record MFE, enters the Verifiable Credentials page.
 - 2,3 - Frontend fetches all Learner's credentials (program certificates).
