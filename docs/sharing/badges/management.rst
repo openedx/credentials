@@ -1,28 +1,45 @@
 Managing Badges
 ===============
 
-Synchronizing Badge Templates
------------------------------
+Creating Provider-Side Badge Definitions
+----------------------------------------
 
-Badge templates (Credly) and groups (Accredible) are created on the
-provider's side and then pulled into the Credentials service through a
-sync action in the admin panel.
+Before you can synchronize or activate badges in Open edX Credentials, you must create the provider-side badge definitions in Credly or Accredible.
 
 For **Credly**:
 
-#. Select one or more organizations on the "Credly Organizations" list page.
-#. Run the ``Sync organization badge templates`` action.
-
-Only badge templates with ``active`` state on Credly are pulled.
-See :ref:`badges-credly-configuration` for details.
+- Create and publish badge templates in your Credly organization first.
+- Then configure the organization in Open edX Credentials and synchronize templates. See :ref:`badges-credly-configuration`.
 
 For **Accredible**:
 
-#. Select one or more configurations on the "Accredible API Configs" list
-   page.
+- Create groups in Accredible first.
+- Then configure the API connection in Open edX Credentials and synchronize groups. See :ref:`badges-accredible-configuration`.
+
+Synchronizing Badge Templates
+-----------------------------
+
+Badge templates (Credly) and groups (Accredible) are created on the provider's side and then pulled into Open edX Credentials through a sync action in the admin panel.
+
+For **Credly**:
+
+#. Navigate to ``<credentials-host>/admin/badges/credlyorganization/`` and select one or more organizations.
+#. Run the ``Sync organization badge templates`` action.
+
+   .. figure:: ../../_static/images/badges/badges-admin-credly-templates-sync.png
+      :alt: Credly Organizations admin list showing the sync badge templates action.
+
+Only badge templates with ``active`` state on Credly are pulled. See :ref:`badges-credly-configuration` for webhook setup and full sync details.
+
+For **Accredible**:
+
+#. Navigate to ``<credentials-host>/admin/badges/accredibleapiconfig/`` and select one or more configurations.
 #. Run the ``Sync groups`` action.
 
-See :ref:`badges-accredible-configuration` for details.
+   .. figure:: ../../_static/images/badges/badges-admin-groups-sync.png
+      :alt: Accredible API Configs admin list showing the sync groups action.
+
+See :ref:`badges-accredible-configuration` for full sync details.
 
 .. note::
 
@@ -33,8 +50,7 @@ See :ref:`badges-accredible-configuration` for details.
 Badge Progress
 --------------
 
-Current badge progress is visible in the "Badge progress records"
-section of the Credentials admin panel.
+Current badge progress is visible at ``<credentials-host>/admin/badges/badgeprogress/`` in the Credentials admin.
 
 Badge templates can have more than one requirement, so there can
 be partially completed badges. See :ref:`badges-processing` for
@@ -43,11 +59,7 @@ details on how progress is tracked.
 Awarded Credentials
 -------------------
 
-Earned badges are listed in the provider-specific section of the admin panel.
-
-.. note::
-
-    Each badge is an extended version of a user credential record.
+Earned badges are listed at ``<credentials-host>/admin/badges/credlybadge/`` for Credly and ``<credentials-host>/admin/badges/accrediblebadge/`` for Accredible.
 
 Once badge progress is complete (all requirements are *fulfilled*),
 the system awards the badge. See :ref:`badges-processing` for the
@@ -65,24 +77,32 @@ Issued Badges
 After a badge is awarded internally, the system sends an API request to
 the badge provider to issue the badge on their platform.
 
-On successful issuing, the badge record in the admin panel is updated with:
+On successful issuing, the badge record in ``<credentials-host>/admin/badges/credlybadge/`` or ``<credentials-host>/admin/badges/accrediblebadge/`` is updated with:
 
-#. **external UUID** - the identifier assigned by the provider.
-#. **external state** - the badge status on the provider's side
-   (e.g. ``accepted``).
+#. **External identifier** - the identifier assigned by the provider (UUID for Credly, integer ID for Accredible).
+#. **External state** - the badge status on the provider's side (e.g. ``accepted``).
 
 The issued badge then appears in the provider's dashboard and is visible
 to the learner.
 
-Badge Template Withdrawal
--------------------------
+Deactivation
+------------
 
-Deactivate a badge template by unchecking the ``is active`` checkbox
-on its edit page. See :ref:`badges-configuration` for activation details.
+Deactivating a badge template stops future processing for that template. Already issued badges are retained.
 
-Inactive badge templates are ignored during processing.
+Deactivate a badge template by opening the record from ``<credentials-host>/admin/badges/credlybadgetemplate/`` or ``<credentials-host>/admin/badges/accrediblegroup/``, unchecking ``Is active``, and clicking **Save**.
+
+Inactive badge templates are ignored during event processing. To reactivate, check ``Is active`` again and save - processing resumes for new events immediately.
+
+See :ref:`badges-configuration-activation` for activation details.
 
 .. seealso::
+
+   `Credly Knowledge Base <https://support.credly.com/hc/en-us>`_
+      Provider-side setup and management for Credly badge templates.
+
+   `Accredible Help Center <https://help.accredible.com/>`_
+      Provider-side setup and management for Accredible groups.
 
    :ref:`badges-configuration`
       Configure badge templates, requirements, and data rules.

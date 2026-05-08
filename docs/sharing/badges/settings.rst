@@ -5,9 +5,13 @@ Badging Settings
 
 These settings control the Badges feature: availability, event subscriptions, and provider integration (Credly, Accredible).
 
-.. tip::
+.. note::
 
-   The `tutor-contrib-badges`_ plugin configures all required settings automatically. The reference below is for manual or customized deployments.
+   If you are using Tutor, the `tutor-contrib-badges`_ plugin configures all required settings automatically. See :ref:`badges-quickstart` for installation steps and the `tutor-contrib-badges README <https://github.com/raccoongang/tutor-contrib-badges#readme>`_ for plugin-specific configuration options.
+
+   You can usually skip the rest of this page for a standard Tutor installation. Come back to it for manual overrides, troubleshooting, or custom event-bus and provider configuration.
+
+   If you need help with a customized setup, use the plugin documentation above and ask on the `Open edX discussion forum <https://discuss.openedx.org/>`_.
 
 .. _tutor-contrib-badges: https://github.com/raccoongang/tutor-contrib-badges
 
@@ -24,6 +28,10 @@ The Badges feature is disabled by default. Enable it in both services.
 
    # Credentials service settings:
    BADGES_ENABLED = True
+
+In the LMS, ``BADGES_ENABLED`` gates **sending** badge-related events to the event bus.
+In the Credentials service, ``BADGES_ENABLED`` gates **receiving** and processing those events.
+Both must be enabled for badges to work.
 
 
 ``BADGES_CONFIG`` Reference
@@ -76,7 +84,7 @@ Top-level keys
    * - Key
      - Description
    * - ``events``
-     - Event bus signals available for requirements and penalties. Only events whose payload includes learner PII (``UserData``) are applicable.
+     - Event bus signals available for requirements and penalties. Only events whose payload includes learner PII (``UserData``) are applicable. See `openedx-events`_ for the public event definitions used by Open edX.
    * - ``credly``
      - Credly provider URLs and sandbox toggle (see below).
    * - ``accredible``
@@ -125,19 +133,19 @@ Accredible Settings
      - Accredible sandbox API URL.
 
 
+.. _badges-event-bus-configuration:
+
 Event Bus Configuration
 -----------------------
 
-.. tip::
-
-   If you use the `tutor-contrib-badges`_ plugin, event bus configuration is handled automatically. This section is for custom deployments.
+As noted above, the `tutor-contrib-badges`_ plugin handles this configuration automatically.
 
 All badge-related events use the ``learning-badges-lifecycle`` topic.
 
 Source Signals (LMS)
 ~~~~~~~~~~~~~~~~~~~~
 
-The LMS produces two signals that trigger badge processing.
+By default, badge processing is configured to use these two LMS signals.
 
 .. list-table::
    :header-rows: 1
@@ -163,7 +171,7 @@ The LMS produces two signals that trigger badge processing.
        },
        "org.openedx.learning.ccx.course.passing.status.updated.v1": {
            "learning-badges-lifecycle": {
-               "event_key_field": "course_passing_status.course.course_key",
+               "event_key_field": "course_passing_status.course.ccx_course_key",
                "enabled": _should_send_learning_badge_events,
            },
        },
@@ -206,6 +214,8 @@ The Credentials service emits two signals after badge processing completes.
 
 These signals are only produced when ``BADGES_ENABLED`` is ``True``.
 
+.. _badges-consumer-setup:
+
 Consumer Setup
 ~~~~~~~~~~~~~~
 
@@ -231,7 +241,8 @@ Both the Credentials and LMS services **produce** messages to the event stream. 
 
 .. important::
 
-   The **Credentials consumer** is required - it processes all incoming badge events. The **LMS consumer** is optional and only needed if LMS should react to badge award or revocation signals.
+   The **Credentials consumer** must be running for badges to work. The **LMS consumer** is optional and only needed if LMS should react to badge award or revocation signals.
 
 
+.. _openedx-events: https://github.com/openedx/openedx-events
 .. _event-bus-redis: https://github.com/openedx/event-bus-redis

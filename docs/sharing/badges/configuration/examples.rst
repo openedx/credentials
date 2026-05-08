@@ -3,16 +3,32 @@
 Configuration Examples
 ======================
 
-These examples show how to configure requirements and data rules for common use cases.
+These examples show how to configure badge :ref:`requirements <badges-configuration-requirements>` and :ref:`data rules <badges-configuration-data-rules>` for common use cases.
+Each example lists the fields as they appear on the requirement and data rule forms in the Credentials admin.
 
-.. note::
+The following screenshots show the admin forms used in the examples below.
 
-    Requirements in the **same group** use OR logic - any one of them fulfills the group.
-    Requirements in **different groups** use AND logic - all groups must be fulfilled.
-    Any of the following examples can be combined for more specific use cases.
+.. figure:: ../../../_static/images/badges/badges-admin-template-requirements.png
+   :alt: Badge template detail page showing the inline list of badge requirements.
+
+   Use this form to add or review requirement records for a badge template. For field descriptions and requirement behavior, see :ref:`badges-configuration-requirements`.
+
+.. figure:: ../../../_static/images/badges/badges-admin-rules-group.png
+   :alt: Badge requirement form showing the Group field.
+
+   Use the Group field when a requirement should be evaluated together with other requirements by OR logic. For grouping rules and examples, see :ref:`badges-configuration-groups`.
+
+.. figure:: ../../../_static/images/badges/badges-admin-data-rules.png
+   :alt: Badge requirement form showing the Data Rules section.
+
+   Use this form to configure event fields, group assignment, and data rules for a requirement. For data rule fields and matching behavior, see :ref:`badges-configuration-data-rules`.
+
 
 Course Completion
 -----------------
+
+The examples below show common ways to configure badge requirements for course-completion and CCX-completion events.
+Use them as starting points when you want to issue badges based on passing status, specific course keys, or combinations of course and CCX requirements.
 
 ANY COURSE GRADE Update
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -35,7 +51,7 @@ ANY COURSE Completion
     b. description: ``On any (not CCX) course completion.``
     c. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
 
 
@@ -49,12 +65,12 @@ ANY COURSE Completion EXCEPT a Specific Course
     b. description: ``On any course completion, but not the "Demo" course.``
     c. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
     d. **Data rule 2**:
         i. key path: ``course.course_key``
-        ii. operator: ``not equals``
-        iii. value: ``course-v1:edX+DemoX+Demo_Course``
+        ii. operator: ``"!=" (not equals)``
+        iii. value: ``course-v1:OpenedX+DemoX+Demo_Course``
 
 
 SPECIFIC COURSE Completion
@@ -67,13 +83,12 @@ SPECIFIC COURSE Completion
     b. description: ``On the Demo course completion.``
     c. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
     d. **Data rule 2**:
         i. key path: ``course.course_key``
-        ii. operator: ``equals``
-        iii. value: ``course-v1:edX+DemoX+Demo_Course``
-
+        ii. operator: ``"=" (equals)``
+        iii. value: ``course-v1:OpenedX+DemoX+Demo_Course``
 
 MULTIPLE SPECIFIC COURSES Completion
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -87,12 +102,12 @@ MULTIPLE SPECIFIC COURSES Completion
     c. group: ``A``
     d. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
     e. **Data rule 2**:
         i. key path: ``course.course_key``
-        ii. operator: ``equals``
-        iii. value: ``course-v1:edX+DemoX+Demo_Course``
+        ii. operator: ``"=" (equals)``
+        iii. value: ``course-v1:OpenedX+DemoX+Demo_Course``
 
 - **Requirement 2**:
     a. event type: ``org.openedx.learning.course.passing.status.updated.v1``
@@ -100,12 +115,12 @@ MULTIPLE SPECIFIC COURSES Completion
     c. group: ``B``
     d. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
     e. **Data rule 2**:
         i. key path: ``course.course_key``
-        ii. operator: ``equals``
-        iii. value: ``course-v1:edX+DemoX+OTHER_Course``
+        ii. operator: ``"=" (equals)``
+        iii. value: ``course-v1:OpenedX+DemoX+OTHER_Course``
 
 
 ONE OF MULTIPLE SPECIFIC COURSES Completion
@@ -120,12 +135,12 @@ ONE OF MULTIPLE SPECIFIC COURSES Completion
     c. group: ``A``
     d. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
     e. **Data rule 2**:
         i. key path: ``course.course_key``
-        ii. operator: ``equals``
-        iii. value: ``course-v1:edX+DemoX+Demo_Course``
+        ii. operator: ``"=" (equals)``
+        iii. value: ``course-v1:OpenedX+DemoX+Demo_Course``
 
 - **Requirement 2**:
     a. event type: ``org.openedx.learning.course.passing.status.updated.v1``
@@ -133,12 +148,12 @@ ONE OF MULTIPLE SPECIFIC COURSES Completion
     c. group: ``A``
     d. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
     e. **Data rule 2**:
         i. key path: ``course.course_key``
-        ii. operator: ``equals``
-        iii. value: ``course-v1:edX+DemoX+OTHER_Course``
+        ii. operator: ``"=" (equals)``
+        iii. value: ``course-v1:OpenedX+DemoX+OTHER_Course``
 
 
 CCX Course Completion
@@ -155,7 +170,7 @@ ANY CCX Course Completion
     b. description: ``On any CCX course completion.``
     c. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
 
 
@@ -169,12 +184,12 @@ SPECIFIC CCX Course Completion
     b. description: ``On the Demo CCX1 course completion.``
     c. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
     d. **Data rule 2**:
         i. key path: ``course.ccx_course_key``
-        ii. operator: ``equals``
-        iii. value: ``ccx-v1:edX+DemoX+Demo_Course+ccx@1``
+        ii. operator: ``"=" (equals)``
+        iii. value: ``ccx-v1:OpenedX+DemoX+Demo_Course+ccx@1``
 
 ANY CCX Course Completion on a Specific Master Course
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -186,12 +201,12 @@ ANY CCX Course Completion on a Specific Master Course
     b. description: ``On any Demo CCX course completion.``
     c. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
     d. **Data rule 2**:
         i. key path: ``course.master_course_key``
-        ii. operator: ``equals``
-        iii. value: ``course-v1:edX+DemoX+Demo_Course``
+        ii. operator: ``"=" (equals)``
+        iii. value: ``course-v1:OpenedX+DemoX+Demo_Course``
 
 ANY CCX Course Completion on a Specific Master Course Except a Specific CCX Course
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -203,16 +218,16 @@ ANY CCX Course Completion on a Specific Master Course Except a Specific CCX Cour
     b. description: ``On any Demo CCX course completion.``
     c. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
     d. **Data rule 2**:
         i. key path: ``course.master_course_key``
-        ii. operator: ``equals``
-        iii. value: ``course-v1:edX+DemoX+Demo_Course``
+        ii. operator: ``"=" (equals)``
+        iii. value: ``course-v1:OpenedX+DemoX+Demo_Course``
     e. **Data rule 3**:
         i. key path: ``course.ccx_course_key``
-        ii. operator: ``not equals``
-        iii. value: ``ccx-v1:edX+DemoX+Demo_Course+ccx@2``
+        ii. operator: ``"!=" (not equals)``
+        iii. value: ``ccx-v1:OpenedX+DemoX+Demo_Course+ccx@2``
 
 
 Specific Master Course OR Any of Its CCX Courses Except a Specific CCX Course
@@ -226,12 +241,12 @@ Specific Master Course OR Any of Its CCX Courses Except a Specific CCX Course
     c. group: ``A``
     d. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
     e. **Data rule 2**:
         i. key path: ``course.course_key``
-        ii. operator: ``equals``
-        iii. value: ``course-v1:edX+DemoX+Demo_Course``
+        ii. operator: ``"=" (equals)``
+        iii. value: ``course-v1:OpenedX+DemoX+Demo_Course``
 
 - **Requirement 2**:
     a. event type: ``org.openedx.learning.ccx.course.passing.status.updated.v1``
@@ -239,16 +254,16 @@ Specific Master Course OR Any of Its CCX Courses Except a Specific CCX Course
     c. group: ``A``
     d. **Data rule 1**:
         i. key path: ``is_passing``
-        ii. operator: ``equals``
+        ii. operator: ``"=" (equals)``
         iii. value: ``true``
     e. **Data rule 2**:
         i. key path: ``course.master_course_key``
-        ii. operator: ``equals``
-        iii. value: ``course-v1:edX+DemoX+Demo_Course``
+        ii. operator: ``"=" (equals)``
+        iii. value: ``course-v1:OpenedX+DemoX+Demo_Course``
     f. **Data rule 3**:
         i. key path: ``course.ccx_course_key``
-        ii. operator: ``not equals``
-        iii. value: ``ccx-v1:edX+DemoX+Demo_Course+ccx@3``
+        ii. operator: ``"!=" (not equals)``
+        iii. value: ``ccx-v1:OpenedX+DemoX+Demo_Course+ccx@3``
 
 -----
 
