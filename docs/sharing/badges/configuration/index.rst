@@ -137,8 +137,8 @@ Data Rules
 ----------
 
 Data rules are configured on the :ref:`Badge Requirement <badges-configuration-requirements>` detail page.
-They narrow a single badge requirement by constraining what event payload values count as a match.
-Multiple data rules on one requirement all must match (AND logic).
+They allow you to combine multiple conditions for a single badge requirement.
+All data rules on that requirement must match (AND logic).
 Data rules do not link requirements together - each rule set applies only to its own requirement's incoming event.
 
 To add or edit a data rule:
