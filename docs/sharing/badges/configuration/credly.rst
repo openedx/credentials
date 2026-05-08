@@ -38,7 +38,7 @@ Configure a webhook in the Credly management dashboard to point to your Credenti
 
 ``https://<your-credentials-host>/badges/credly/webhook/``
 
-For Credly-side webhook setup steps, see `Manage webhooks <https://docs.credly.com/docs/manage-webhooks>`_.
+For Credly-side webhook setup details, see `Create a webhook callback URL <https://docs.credly.com/browse/reference/post_webhook-callback-url>`_.
 
 Open edX Credentials handles the following Credly webhook event types:
 

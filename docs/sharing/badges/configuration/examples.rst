@@ -6,7 +6,7 @@ Configuration Examples
 These examples show how to configure badge :ref:`requirements <badges-configuration-requirements>` and :ref:`data rules <badges-configuration-data-rules>` for common use cases.
 Each example lists the fields as they appear on the requirement and data rule forms in the Credentials admin.
 
-The following screenshots show the admin forms used in the examples below.
+The screenshots below show the Django admin forms where you configure the requirements, groups, and data rules used in the examples on this page.
 
 .. figure:: ../../../_static/images/badges/badges-admin-template-requirements.png
    :alt: Badge template detail page showing the inline list of badge requirements.

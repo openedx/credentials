@@ -3,7 +3,7 @@
 Badging Configuration
 =====================
 
-Badge templates, requirements, data rules, and penalties are configured in the Badges section of the Credentials administration panel.
+Badge templates, requirements, data rules, and penalties are configured in the Badges section of the Credentials administration panel of your Open edX instance.
 Each badge template needs at least one requirement and must be activated before it takes effect.
 
 The screenshot below shows the main admin entry point where you access provider records, badge templates, requirements, penalties, and issued badge data.
@@ -31,6 +31,8 @@ Badge Templates
 Credentials stores provider-side badge definitions as badge templates.
 Credly exposes them as badge templates at ``https://<your-credentials-host>/admin/badges/credlybadgetemplate/``.
 Accredible exposes the equivalent records as groups at ``https://<your-credentials-host>/admin/badges/accrediblegroup/``.
+
+Badge templates and groups cannot be created manually in the Open edX Credentials administration panel. You must first synchronize them from the external provider. See :ref:`badges-credly-configuration` or :ref:`badges-accredible-configuration`.
 
 Open the template or group record to review and update badge configuration.
 This detail page is where you manage provider-specific attributes, requirements, penalties, and activation state.
@@ -65,7 +67,8 @@ Badge Requirements
 ------------------
 
 Requirements describe what must happen for a learner to earn a badge.
-At least one requirement must be associated with a badge template.
+At least one requirement must be associated with a :ref:`Badge Template <badges-configuration-templates>`.
+A :ref:`Badge Template <badges-configuration-templates>` detail page includes the inline requirements section where you add and edit requirements.
 A badge template can have multiple requirements, and **all requirements** must be fulfilled before the system issues a badge.
 The badge template must be activated before it takes effect.
 
@@ -98,7 +101,8 @@ Each requirement has the following fields.
 Badge Requirement Groups
 ------------------------
 
-Each requirement has a **Group** field. In the admin, you select one of the available group values from ``A`` to ``Z``. New requirements default to the next available letter.
+Each :ref:`Badge Requirement <badges-configuration-requirements>` has a **Group** field.
+On the badge requirement detail page, you select one of the available group values from ``A`` to ``Z``. New requirements default to the next available letter.
 
 Requirements in the same group use OR logic - fulfilling any one of them fulfills the group.
 Requirements in different groups use AND logic - all groups must be fulfilled before the badge is issued.
@@ -132,12 +136,10 @@ For more grouping examples, see :ref:`Configuration examples for Badging`.
 Data Rules
 ----------
 
-Data rules narrow a single badge requirement by constraining what event payload values count as a match.
+Data rules are configured on the :ref:`Badge Requirement <badges-configuration-requirements>` detail page.
+They narrow a single badge requirement by constraining what event payload values count as a match.
 Multiple data rules on one requirement all must match (AND logic).
 Data rules do not link requirements together - each rule set applies only to its own requirement's incoming event.
-
-Data rules are configured on the badge requirement detail page, not on the badge template page.
-The requirement detail page is opened from the inline requirements list on a badge template or group record, and the direct admin URL pattern is ``https://<your-credentials-host>/admin/badges/badgerequirement/<id>/change/``.
 
 To add or edit a data rule:
 
@@ -187,7 +189,8 @@ For complete requirement and data rule configurations, see :ref:`Configuration e
 Badge Penalties
 ---------------
 
-Badge penalties reset learner progress when a specific event occurs.
+Badge penalties are configured on the :ref:`Badge Template <badges-configuration-templates>` detail page through the inline penalties section.
+They reset learner progress when a specific event occurs.
 Use them for cases where previously earned progress should no longer count, for example when a passing grade later changes to failing.
 For details on how this leads to badge revocation during processing, see :ref:`badges-processing`.
 
