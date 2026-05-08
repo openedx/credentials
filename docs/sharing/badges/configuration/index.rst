@@ -182,23 +182,19 @@ The numbered markers on the screenshot correspond to data rule fields:
    - **True:** ``"true"``, ``"True"``, ``"yes"``, ``"Yes"``, ``"+"``
    - **False:** ``"false"``, ``"False"``, ``"no"``, ``"No"``, ``"-"``
 
-For complete requirement and data rule configurations, see :ref:`Configuration examples for Badging`.
+See :ref:`Configuration examples for Badging` for some examples of how data rules can be applied to achieve specific conditions.
 
 .. _badges-configuration-penalties:
 
 Badge Penalties
 ---------------
 
-Badge penalties are configured on the :ref:`Badge Template <badges-configuration-templates>` detail page through the inline penalties section.
+Badge penalties are configured in the inline penalties section of the :ref:`Badge Template <badges-configuration-templates>` detail page.
 They reset learner progress when a specific event occurs.
 Use them for cases where previously earned progress should no longer count, for example when a passing grade later changes to failing.
 For details on how this leads to badge revocation during processing, see :ref:`badges-processing`.
 
 Penalties are optional. A badge template can have zero or more penalties.
-
-Configure penalties on the badge template or group detail page through the inline penalty records.
-Open the template record from ``https://<your-credentials-host>/admin/badges/credlybadgetemplate/`` or the group record from ``https://<your-credentials-host>/admin/badges/accrediblegroup/``, then use the inline penalty records.
-Penalty detail pages use the admin URL pattern ``https://<your-credentials-host>/admin/badges/badgepenalty/<id>/change/``.
 
 A penalty is configured with an :ref:`event type <badges-configuration-requirements>`, its own :ref:`data rules <badges-configuration-data-rules>`, and one or more linked :ref:`badge requirements <badges-configuration-requirements>`.
 When an incoming event matches all of the penalty's data rules, the linked requirements are reset for that learner.
@@ -231,7 +227,7 @@ Use the badge template or group detail page to activate or deactivate badge proc
    .. figure:: ../../../_static/images/badges/badges-admin-activation.png
       :alt: Badge template detail page showing the Is active checkbox.
 
-#. Click **Save**.
+#. Click **Save** at the bottom of the page to save and activate or deactivate the configuration.
 
 .. important::
 

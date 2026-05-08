@@ -132,7 +132,7 @@ Issuance Configuration.
 
       The **Issuer key** must be a stringified JSON value, that is, an escaped JSON string rather than a raw JSON object. The ``generate_issuer_credentials`` command outputs it in the correct format.
 
-#. Make sure the configuration is enabled and click **Save**.
+#. Make sure the configuration is enabled, then click **Save** at the bottom of the page to save the issuer configuration.
 
 For full admin panel reference, see :ref:`vc-administration-site`.
 

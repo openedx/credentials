@@ -224,7 +224,7 @@ template issued on a specific course completion:
    .. figure:: ../../_static/images/badges/badges-admin-activation.png
       :alt: Badge template detail page showing the Is active checkbox.
 
-#. Click **Save**.
+#. Click **Save** at the bottom of the page to save and activate the configuration.
 
 .. warning::
 
