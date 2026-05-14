@@ -1,0 +1,27 @@
+flowchart TD
+    A[Incoming event] --> B{Event type configured for badges?}
+    B -- No --> Z1[Ignore event]
+    B -- Yes --> C{UserData present?}
+    C -- No --> Z2[Drop event]
+    C -- Yes --> D[Find or create learner in Credentials]
+
+    D --> E[Find active badge requirements for this event type]
+    E --> F{Requirement rules match event payload?}
+    F -- No --> Z3[Skip requirement]
+    F -- Yes --> G[Create or update Badge Progress]
+    G --> H[Mark requirement fulfilled]
+
+    H --> I{Are all requirements fulfilled?}
+    I -- No --> Z4[Wait for more matching events]
+    I -- Yes --> J[Create internal badge record]
+    J --> K[Emit badge awarded signal]
+    K --> L[Issue badge through provider API]
+    L --> M[Update external badge identifier and state]
+
+    D --> P[Find active penalties for this event type]
+    P --> Q{Penalty rules match event payload?}
+    Q -- No --> Z5[No penalty action]
+    Q -- Yes --> R[Reset linked requirement progress]
+    R --> S[Update internal badge state]
+    S --> T[Update provider badge state]
+    T --> U[Credly: revoked<br/>Accredible: expired]
