@@ -13,7 +13,7 @@ asgiref==3.11.1
     #   -r requirements/base.txt
     #   django
     #   django-cors-headers
-astroid==4.0.3
+astroid==4.0.4
     # via
     #   pylint
     #   pylint-celery
@@ -29,14 +29,12 @@ backoff==2.2.1
 black==26.1.0
     # via -r requirements/test.in
 bleach==6.3.0
-bleach==6.3.0
     # via -r requirements/base.txt
-cachecontrol==0.14.4
 cachecontrol==0.14.4
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-cachetools==7.0.0
+cachetools==7.0.1
     # via tox
 certifi==2026.1.4
     # via
@@ -55,7 +53,6 @@ charset-normalizer==3.4.4
     # via
     #   -r requirements/base.txt
     #   requests
-click==8.3.1
 click==8.3.1
     # via
     #   -r requirements/base.txt
@@ -83,9 +80,9 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage==7.13.3
+coverage==7.13.4
     # via -r requirements/test.in
-cryptography==46.0.4
+cryptography==46.0.5
     # via
     #   -r requirements/base.txt
     #   google-auth
@@ -104,7 +101,6 @@ dill==0.4.1
 distlib==0.4.0
     # via virtualenv
     # via
-    #   -c requirements/common_constraints.txt
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
     #   django-appconf
@@ -137,7 +133,6 @@ distlib==0.4.0
     #   social-auth-app-django
     #   xss-utils
 django-appconf==1.2.0
-django-appconf==1.2.0
     # via
     #   -r requirements/base.txt
     #   django-statici18n
@@ -156,7 +151,6 @@ django-filter==25.2
     # via -r requirements/base.txt
 django-model-utils==5.0.0
     # via -r requirements/base.txt
-django-push-notifications==3.3.0
 django-push-notifications==3.3.0
     # via
     #   -r requirements/base.txt
@@ -201,7 +195,6 @@ drf-yasg==1.21.14
     # via -r requirements/base.txt
 edx-ace==1.15.0
     # via -r requirements/base.txt
-edx-auth-backends==4.6.2
 edx-auth-backends==4.6.2
     # via -r requirements/base.txt
 edx-ccx-keys==2.0.2
@@ -254,13 +247,13 @@ edx-toggles==5.4.1
     #   edx-event-bus-redis
 factory-boy==3.3.3
     # via -r requirements/test.in
-faker==40.1.2
+faker==40.4.0
     # via factory-boy
 fastavro==1.12.1
     # via
     #   -r requirements/base.txt
     #   openedx-events
-filelock==3.20.3
+filelock==3.24.2
     # via
     #   tox
     #   virtualenv
@@ -283,7 +276,6 @@ google-auth==2.48.0
     #   google-cloud-firestore
     #   google-cloud-storage
 google-cloud-core==2.5.0
-google-cloud-core==2.5.0
     # via
     #   -r requirements/base.txt
     #   google-cloud-firestore
@@ -302,24 +294,20 @@ google-crc32c==1.8.0
     #   google-cloud-storage
     #   google-resumable-media
 google-resumable-media==2.8.0
-google-resumable-media==2.8.0
     # via
     #   -r requirements/base.txt
     #   google-cloud-storage
 googleapis-common-protos==1.72.0
-googleapis-common-protos==1.72.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio==1.76.0
-grpcio==1.76.0
+grpcio==1.78.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio-status==1.76.0
-grpcio-status==1.76.0
+grpcio-status==1.78.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -384,7 +372,7 @@ lxml-html-clean==0.4.3
     # via
     #   -r requirements/base.txt
     #   lxml
-markdown==3.10.1
+markdown==3.10.2
     # via -r requirements/base.txt
 markupsafe==3.0.3
     # via
@@ -398,7 +386,7 @@ msgpack==1.1.2
     #   cachecontrol
 mypy-extensions==1.1.0
     # via black
-mysqlclient==2.2.7
+mysqlclient==2.2.8
     # via -r requirements/base.txt
 oauthlib==3.3.1
     # via
@@ -430,9 +418,9 @@ path==16.16.0
     #   edx-i18n-tools
 pathspec==1.0.4
     # via black
-pillow==12.1.0
+pillow==12.1.1
     # via -r requirements/base.txt
-platformdirs==4.5.1
+platformdirs==4.9.2
     # via
     #   black
     #   pylint
@@ -520,7 +508,7 @@ pytest==9.0.2
     # via
     #   -r requirements/test.in
     #   pytest-django
-pytest-django==4.11.1
+pytest-django==4.12.0
     # via -r requirements/test.in
 python-dateutil==2.9.0.post0
     # via
@@ -553,8 +541,7 @@ pyyaml==6.0.3
     #   responses
 qrcode==8.2
     # via -r requirements/base.txt
-redis==7.1.0
-redis==7.1.0
+redis==7.2.0
     # via
     #   -r requirements/base.txt
     #   walrus
@@ -587,7 +574,6 @@ sailthru-client==2.2.3
     #   -r requirements/base.txt
     #   edx-ace
 segment-analytics-python==2.3.5
-segment-analytics-python==2.3.5
     # via -r requirements/base.txt
 semantic-version==2.10.0
     # via
@@ -607,9 +593,8 @@ six==1.17.0
     #   edx-django-release-util
     #   edx-lint
     #   python-dateutil
-social-auth-app-django==5.4.3
+social-auth-app-django==5.7.0
     # via
-    #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   edx-auth-backends
 social-auth-core==4.8.3
@@ -622,14 +607,12 @@ sqlparse==0.5.5
     #   -r requirements/base.txt
     #   django
 stevedore==5.6.0
-stevedore==5.6.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
     #   edx-ace
     #   edx-django-utils
     #   edx-opaque-keys
-testfixtures==10.0.0
 testfixtures==10.0.0
     # via -r requirements/test.in
 text-unidecode==1.3
@@ -638,7 +621,7 @@ text-unidecode==1.3
     #   python-slugify
 tomlkit==0.14.0
     # via pylint
-tox==4.34.1
+tox==4.36.1
     # via -r requirements/test.in
 typing-extensions==4.15.0
     # via
@@ -656,7 +639,7 @@ urllib3==2.6.3
     #   -r requirements/base.txt
     #   requests
     #   responses
-virtualenv==20.36.1
+virtualenv==20.37.0
     # via tox
 walrus==0.9.8
     # via
