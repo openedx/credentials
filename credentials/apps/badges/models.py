@@ -126,7 +126,15 @@ class BadgeTemplate(AbstractCredential):
         """
         Determines a completion progress for user.
         """
-        progress = BadgeProgress.for_user(username=username, template_id=self.id)
+        progress = BadgeProgress.for_user(
+            username=username, 
+            template_id=self.id,
+            create=False
+        )
+        
+        if not progress:
+            return 0.00
+
         return progress.ratio
 
     def is_completed(self, username: str) -> bool:
@@ -274,7 +282,15 @@ class BadgeRequirement(models.Model):
         Checks if the group is fulfilled.
         """
 
-        progress = BadgeProgress.for_user(username=username, template_id=template.id)
+        progress = BadgeProgress.for_user(
+            username=username, 
+            template_id=template.id,
+            create=False
+        )
+        
+        if not progress:
+            return False
+
         requirements = cls.objects.filter(template=template, blend=group)
         fulfilled_requirements = requirements.filter(fulfillments__progress=progress).count()
 
@@ -509,13 +525,16 @@ class BadgeProgress(models.Model):
         return f"BadgeProgress:{self.username}"
 
     @classmethod
-    def for_user(cls, *, username, template_id):
+    def for_user(cls, *, username, template_id, create=True):
         """
         Service shortcut.
         """
 
-        progress, __ = cls.objects.get_or_create(username=username, template_id=template_id)
-        return progress
+        if create:
+            progress, __ = cls.objects.get_or_create(username=username, template_id=template_id)
+            return progress
+        else:
+            return cls.objects.filter(username=username, template_id=template_id).first()
 
     @property
     def ratio(self) -> float:
