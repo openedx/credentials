@@ -28,7 +28,7 @@ def log_incoming_request(func):
                     f"[{request.user.username}] originating from [{request.headers.get('host', 'Unknown')}] "
                     f"with data: [{data}]"
                 )
-            except Exception as exc:
+            except Exception as exc:  # pylint: disable=broad-exception-caught
                 # catch overly broad exception to try to ensure if logging doesn't work the request will still be
                 # processed
                 logger.error(f"Error logging incoming request: {exc}. Continuing...")
