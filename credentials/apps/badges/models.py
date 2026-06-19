@@ -126,11 +126,7 @@ class BadgeTemplate(AbstractCredential):
         """
         Determines a completion progress for user.
         """
-        progress = BadgeProgress.for_user(
-            username=username, 
-            template_id=self.id,
-            create=False
-        )
+        progress = BadgeProgress.for_user(username=username, template_id=self.id)
         
         if not progress:
             return 0.00
@@ -223,7 +219,7 @@ class BadgeRequirement(models.Model):
         Returns: (bool) if progression happened
         """
         template_id = self.template.id
-        progress = BadgeProgress.for_user(username=username, template_id=template_id)
+        progress = BadgeProgress.for_user(username=username, template_id=template_id, create_if_absent=True)
         fulfillment, created = Fulfillment.objects.get_or_create(progress=progress, requirement=self, blend=self.blend)
 
         if created:
@@ -282,11 +278,7 @@ class BadgeRequirement(models.Model):
         Checks if the group is fulfilled.
         """
 
-        progress = BadgeProgress.for_user(
-            username=username, 
-            template_id=template.id,
-            create=False
-        )
+        progress = BadgeProgress.for_user(username=username, template_id=template.id)
         
         if not progress:
             return False
@@ -525,16 +517,27 @@ class BadgeProgress(models.Model):
         return f"BadgeProgress:{self.username}"
 
     @classmethod
-    def for_user(cls, *, username, template_id, create=True):
+    def for_user(cls, *, username, template_id, create_if_absent=False):
         """
-        Service shortcut.
+        Retrieve or create a BadgeProgress record for a user and template.
+        
+        This method follows a lazy-load pattern to control when BadgeProgress records
+        are created. Use create_if_absent=False for read-only operations to avoid
+        creating orphaned records.
+        
+        Args:
+            username: The username of the user to get or create progress for.
+            template_id: The ID of the BadgeTemplate to track progress for.
+            create_if_absent: Whether to create a new record if one doesn't exist.
+                - If True: Creates a new BadgeProgress record if needed
+                - If False: Returns None if the record doesn't exist, without creating
         """
 
-        if create:
+        if create_if_absent:
             progress, __ = cls.objects.get_or_create(username=username, template_id=template_id)
             return progress
-        else:
-            return cls.objects.filter(username=username, template_id=template_id).first()
+        
+        return cls.objects.filter(username=username, template_id=template_id).first()
 
     @property
     def ratio(self) -> float:
