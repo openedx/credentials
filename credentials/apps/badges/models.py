@@ -127,7 +127,7 @@ class BadgeTemplate(AbstractCredential):
         Determines a completion progress for user.
         """
         progress = BadgeProgress.for_user(username=username, template_id=self.id)
-        
+
         if not progress:
             return 0.00
 
@@ -279,7 +279,7 @@ class BadgeRequirement(models.Model):
         """
 
         progress = BadgeProgress.for_user(username=username, template_id=template.id)
-        
+
         if not progress:
             return False
 
@@ -520,11 +520,11 @@ class BadgeProgress(models.Model):
     def for_user(cls, *, username, template_id, create_if_absent=False):
         """
         Retrieve or create a BadgeProgress record for a user and template.
-        
+
         This method follows a lazy-load pattern to control when BadgeProgress records
         are created. Use create_if_absent=False for read-only operations to avoid
         creating orphaned records.
-        
+
         Args:
             username: The username of the user to get or create progress for.
             template_id: The ID of the BadgeTemplate to track progress for.
@@ -536,7 +536,7 @@ class BadgeProgress(models.Model):
         if create_if_absent:
             progress, __ = cls.objects.get_or_create(username=username, template_id=template_id)
             return progress
-        
+
         return cls.objects.filter(username=username, template_id=template_id).first()
 
     @property
