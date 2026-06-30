@@ -421,7 +421,11 @@ class TestProcessRequirements(TestCase):
         )
         process_requirements(COURSE_PASSING_EVENT, "test_username", COURSE_PASSING_DATA)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement).count(), 1)
-        self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+        self.assertTrue(
+            BadgeProgress.for_user(
+                username="test_username", template_id=self.badge_template.id, create_if_absent=True
+            ).completed
+        )
 
     def test_course_a_or_b_completion(self):
         """
@@ -457,7 +461,11 @@ class TestProcessRequirements(TestCase):
         process_requirements(COURSE_PASSING_EVENT, "test_username", COURSE_PASSING_DATA)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_a).count(), 1)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_b).count(), 0)
-        self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+        self.assertTrue(
+            BadgeProgress.for_user(
+                username="test_username", template_id=self.badge_template.id, create_if_absent=True
+            ).completed
+        )
 
     def test_course_a_or_b_or_c_completion(self):
         """
@@ -506,7 +514,11 @@ class TestProcessRequirements(TestCase):
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_a).count(), 1)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_b).count(), 0)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_c).count(), 0)
-        self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+        self.assertTrue(
+            BadgeProgress.for_user(
+                username="test_username", template_id=self.badge_template.id, create_if_absent=True
+            ).completed
+        )
 
     def test_course_a_or_completion(self):
         """
@@ -529,7 +541,11 @@ class TestProcessRequirements(TestCase):
         )
         process_requirements(COURSE_PASSING_EVENT, "test_username", COURSE_PASSING_DATA)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement).count(), 1)
-        self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+        self.assertTrue(
+            BadgeProgress.for_user(
+                username="test_username", template_id=self.badge_template.id, create_if_absent=True
+            ).completed
+        )
 
     def test_course_a_or_b_and_c_completion(self):
         """
@@ -572,7 +588,11 @@ class TestProcessRequirements(TestCase):
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_a).count(), 0)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_b).count(), 0)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_c).count(), 1)
-        self.assertFalse(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+        self.assertFalse(
+            BadgeProgress.for_user(
+                username="test_username", template_id=self.badge_template.id, create_if_absent=True
+            ).completed
+        )
 
         DataRule.objects.create(
             requirement=requirement_b,
@@ -587,7 +607,11 @@ class TestProcessRequirements(TestCase):
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_b).count(), 1)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_c).count(), 1)
 
-        self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+        self.assertTrue(
+            BadgeProgress.for_user(
+                username="test_username", template_id=self.badge_template.id, create_if_absent=True
+            ).completed
+        )
 
     def test_course_a_or_b_and_c_or_d_completion(self):
         """
@@ -639,7 +663,11 @@ class TestProcessRequirements(TestCase):
             value="D",
         )
 
-        self.assertFalse(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+        self.assertFalse(
+            BadgeProgress.for_user(
+                username="test_username", template_id=self.badge_template.id, create_if_absent=True
+            ).completed
+        )
 
         process_requirements(COURSE_PASSING_EVENT, "test_username", COURSE_PASSING_DATA)
 
@@ -647,7 +675,11 @@ class TestProcessRequirements(TestCase):
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_b).count(), 0)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_c).count(), 0)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_d).count(), 0)
-        self.assertFalse(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+        self.assertFalse(
+            BadgeProgress.for_user(
+                username="test_username", template_id=self.badge_template.id, create_if_absent=True
+            ).completed
+        )
 
         DataRule.objects.create(
             requirement=requirement_c,
@@ -661,7 +693,11 @@ class TestProcessRequirements(TestCase):
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_b).count(), 0)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_c).count(), 1)
         self.assertEqual(Fulfillment.objects.filter(requirement=requirement_d).count(), 0)
-        self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+        self.assertTrue(
+            BadgeProgress.for_user(
+                username="test_username", template_id=self.badge_template.id, create_if_absent=True
+            ).completed
+        )
 
 
 class TestIdentifyUser(TestCase):
@@ -720,7 +756,11 @@ class TestProcessEvent(TestCase):
     def test_process_event_passing(self):
         event_payload = COURSE_PASSING_DATA
         process_event(sender=self.sender, kwargs=event_payload)
-        self.assertTrue(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+        self.assertTrue(
+            BadgeProgress.for_user(
+                username="test_username", template_id=self.badge_template.id, create_if_absent=True
+            ).completed
+        )
 
     def test_process_event_not_passing(self):
         event_payload = CoursePassingStatusData(
@@ -733,7 +773,11 @@ class TestProcessEvent(TestCase):
             ),
         )
         process_event(sender=self.sender, kwargs=event_payload)
-        self.assertFalse(BadgeProgress.for_user(username="test_username", template_id=self.badge_template.id).completed)
+        self.assertFalse(
+            BadgeProgress.for_user(
+                username="test_username", template_id=self.badge_template.id, create_if_absent=True
+            ).completed
+        )
 
     @patch.object(BadgeProgress, "regress", mock_progress_regress)
     def test_process_event_not_found(self):
