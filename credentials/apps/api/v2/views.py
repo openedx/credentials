@@ -263,9 +263,14 @@ class UsernameReplacementView(APIView):
             with transaction.atomic():
                 num_rows_changed = 0
                 for model, column in replacement_locations:
-                    num_rows_changed += model.objects.filter(**{column: current_username}).update(
-                        **{column: new_username}
-                    )
+                    update_kwargs = {column: new_username}
+                    # Clear PII fields for user retirement to match LMS retirement pattern
+                    # (empty strings, not "redacted" - that's used in cleanup phase later)
+                    if model._meta.label_lower == "core.user" and column == "username":
+                        update_kwargs["full_name"] = ""
+                        update_kwargs["first_name"] = ""
+                        update_kwargs["last_name"] = ""
+                    num_rows_changed += model.objects.filter(**{column: current_username}).update(**update_kwargs)
         except Exception as exc:
             log.exception(
                 "Unable to change username from %s to %s. Failed on table %s because %s",
