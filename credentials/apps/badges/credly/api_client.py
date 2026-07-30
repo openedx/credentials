@@ -8,6 +8,7 @@ import requests  # pylint: disable=unused-import
 from attrs import asdict
 from django.conf import settings
 from django.contrib.sites.models import Site
+from django.utils import timezone
 
 from credentials.apps.badges.base_api_client import BaseBadgeProviderClient
 from credentials.apps.badges.credly.exceptions import CredlyError
@@ -148,6 +149,47 @@ class CredlyAPIClient(BaseBadgeProviderClient):
             data (dict): Additional data for the revocation.
         """
         return self.perform_request("put", f"badges/{badge_id}/revoke/", data=data)
+
+    def rotate_authorization_token(self):
+        """
+        Rotate (refresh) the Credly authorization token for this organization.
+
+        Calls Credly's token rotation endpoint, which generates and returns a new
+        authorization token and immediately invalidates the token used to make the
+        request. The new token and its refresh timestamps are persisted on the
+        related CredlyOrganization.
+
+        Returns:
+            str: the newly issued authorization token.
+
+        Raises:
+            CredlyError: if the rotation response does not contain a new token.
+        """
+        response = self.perform_request("post", "authorization_tokens/rotate")
+        new_token = response.get("data", {}).get("token")
+        if not new_token:
+            raise CredlyError("Credly token rotation response did not contain a new token.")
+
+        organization = self._get_organization(self.organization_id)
+        now = timezone.now()
+        if organization.authorization_token_created_at is None:
+            organization.authorization_token_created_at = now
+        organization.authorization_token_updated_at = now
+        organization.api_key = new_token
+        organization.save(
+            update_fields=[
+                "api_key",
+                "authorization_token_created_at",
+                "authorization_token_updated_at",
+                "modified",
+            ]
+        )
+
+        # Adopt the new token for any subsequent requests and drop the cached header.
+        self.api_key = new_token
+        self._build_authorization_token.cache_clear()
+
+        return new_token
 
     def sync_organization_badge_templates(self, site_id):
         """

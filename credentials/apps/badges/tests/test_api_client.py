@@ -104,6 +104,28 @@ class CredlyApiClientTestCase(TestCase):
             mock_perform_request.assert_called_once_with("put", f"badges/{badge_id}/revoke/", data=data)
             self.assertEqual(result, {"badge": "revoked"})
 
+    def test_rotate_authorization_token(self):
+        api_client = CredlyAPIClient(self.organization.uuid)
+        with mock.patch.object(CredlyAPIClient, "perform_request") as mock_perform_request:
+            mock_perform_request.return_value = {"data": {"token": "new-token"}}
+            result = api_client.rotate_authorization_token()
+
+        mock_perform_request.assert_called_once_with("post", "authorization_tokens/rotate")
+        self.assertEqual(result, "new-token")
+        self.assertEqual(api_client.api_key, "new-token")
+
+        self.organization.refresh_from_db()
+        self.assertEqual(self.organization.api_key, "new-token")
+        self.assertIsNotNone(self.organization.authorization_token_created_at)
+        self.assertIsNotNone(self.organization.authorization_token_updated_at)
+
+    def test_rotate_authorization_token_no_token_in_response(self):
+        api_client = CredlyAPIClient(self.organization.uuid)
+        with mock.patch.object(CredlyAPIClient, "perform_request") as mock_perform_request:
+            mock_perform_request.return_value = {"data": {}}
+            with self.assertRaises(CredlyError):
+                api_client.rotate_authorization_token()
+
     def test_sync_organization_badge_templates(self):
         with mock.patch.object(CredlyAPIClient, "fetch_badge_templates") as mock_fetch_badge_templates:
             mock_fetch_badge_templates.return_value = {

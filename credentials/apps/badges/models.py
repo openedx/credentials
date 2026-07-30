@@ -5,10 +5,12 @@ Badges DB models.
 import logging
 import operator
 import uuid
+from datetime import timedelta
 from urllib.parse import urljoin
 
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from model_utils import Choices
@@ -35,6 +37,9 @@ class CredlyOrganization(TimeStampedModel):
     Credly Organization configuration.
     """
 
+    # Credly authorization tokens are long-lived credentials that expire 180 days after issuance.
+    AUTHORIZATION_TOKEN_LIFETIME = timedelta(days=180)
+
     uuid = models.UUIDField(unique=True, help_text=_("Put your Credly Organization ID here."))
     api_key = models.CharField(
         max_length=255,
@@ -47,9 +52,44 @@ class CredlyOrganization(TimeStampedModel):
         blank=True,
         help_text=_("Verbose name for Credly Organization."),
     )
+    authorization_token_created_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text=_("When the current Credly authorization token was first issued."),
+    )
+    authorization_token_updated_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text=_("When the current Credly authorization token was last refreshed (rotated)."),
+    )
 
     def __str__(self):
         return f"{self.name or self.uuid}"
+
+    @property
+    def authorization_token_expires_at(self):
+        """
+        Estimated expiration datetime of the current authorization token.
+
+        Derived from the most recent issuance/refresh timestamp plus the token lifetime.
+        Returns None when no issuance/refresh date has been recorded yet.
+        """
+        issued_at = self.authorization_token_updated_at or self.authorization_token_created_at
+        if issued_at is None:
+            return None
+        return issued_at + self.AUTHORIZATION_TOKEN_LIFETIME
+
+    @property
+    def authorization_token_days_until_expiry(self):
+        """
+        Number of whole days remaining before the authorization token expires.
+
+        Returns None when the expiration cannot be determined (no recorded dates).
+        """
+        expires_at = self.authorization_token_expires_at
+        if expires_at is None:
+            return None
+        return (expires_at - timezone.now()).days
 
     @classmethod
     def get_all_organization_ids(cls):
