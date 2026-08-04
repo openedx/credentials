@@ -18,6 +18,7 @@ from credentials.apps.badges.accredible.data import (
 )
 from credentials.apps.badges.credly.api_client import CredlyAPIClient
 from credentials.apps.badges.credly.data import CredlyBadgeData
+from credentials.apps.badges.credly.exceptions import CredlyError
 from credentials.apps.badges.exceptions import BadgeProviderError
 from credentials.apps.badges.models import (
     AccredibleBadge,
@@ -158,7 +159,7 @@ class CredlyBadgeTemplateIssuer(BadgeTemplateIssuer):
         try:
             credly_api = CredlyAPIClient(badge_template.organization.uuid)
             response = credly_api.issue_badge(credly_badge_data)
-        except BadgeProviderError:
+        except (BadgeProviderError, CredlyError):
             user_credential.state = "error"
             user_credential.save()
             raise
@@ -179,7 +180,7 @@ class CredlyBadgeTemplateIssuer(BadgeTemplateIssuer):
         }
         try:
             response = credly_api.revoke_badge(user_credential.external_uuid, revoke_data)
-        except BadgeProviderError:
+        except (BadgeProviderError, CredlyError):
             user_credential.state = "error"
             user_credential.save()
             raise

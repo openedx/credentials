@@ -80,10 +80,7 @@ class BadgePenaltyFormTestCase(TestCase):
     @override_settings(BADGES_CONFIG={"credly": {"ORGANIZATIONS": {}}})
     def test_clean(self):
         form = CredlyOrganizationAdminForm()
-        form.cleaned_data = {
-            "uuid": "test_uuid",
-            "api_key": "test_api_key",
-        }
+        form.cleaned_data = {"uuid": "test_uuid", "api_key": "test_api_key"}
 
         with patch(
             "credentials.apps.badges.models.CredlyOrganization.get_preconfigured_organizations"
@@ -96,7 +93,9 @@ class BadgePenaltyFormTestCase(TestCase):
                 form.clean()
 
                 mock_get_orgs.assert_called_once()
-                mock_client.assert_called_once_with("test_uuid", "test_api_key")
+                mock_client.assert_called_once_with(
+                    organization_id="test_uuid", api_key="test_api_key", oauth_client_id=None, oauth_client_secret=None
+                )
 
     @override_settings(BADGES_CONFIG={"credly": {"ORGANIZATIONS": {"test_uuid": "test_api_key"}}})
     def test_clean_with_configured_organization(self):
@@ -117,7 +116,9 @@ class BadgePenaltyFormTestCase(TestCase):
                 form.clean()
 
                 mock_get_orgs.assert_called_once()
-                mock_client.assert_called_once_with("test_uuid", "test_api_key")
+                mock_client.assert_called_once_with(
+                    organization_id="test_uuid", api_key="test_api_key", oauth_client_id=None, oauth_client_secret=None
+                )
 
     def test_clean_with_invalid_organization(self):
         form = CredlyOrganizationAdminForm()
@@ -131,10 +132,13 @@ class BadgePenaltyFormTestCase(TestCase):
         ) as mock_get_orgs:
             mock_get_orgs.return_value = {"test_uuid": "test_org"}
 
-            with self.assertRaises(BadgeProviderError) as cm:
+            with self.assertRaises(forms.ValidationError) as cm:
                 form.clean()
 
-            self.assertIn("You specified an invalid authorization token.", str(cm.exception))
+            self.assertIn(
+                "Invalid OAuth credentials or API key. Credly rejected the authentication request.",
+                str(cm.exception),
+            )
 
     def test_clean_cannot_provide_api_key_for_configured_organization(self):
         form = CredlyOrganizationAdminForm()
@@ -153,12 +157,14 @@ class BadgePenaltyFormTestCase(TestCase):
 
             self.assertEqual(
                 str(cm.exception),
-                '["You can\'t provide an API key for a configured organization."]',
+                '["You can\'t provide API keys or OAuth credentials for a pre-configured organization."]',
             )
 
     def test_ensure_organization_exists(self):
         form = CredlyOrganizationAdminForm()
         api_client = MagicMock()
+        api_client.oauth_client_id = None
+        api_client.oauth_client_secret = None
         api_client.fetch_organization.return_value = {"data": {"org_id": "test_org_id"}}
 
         form.ensure_organization_exists(api_client)
@@ -169,13 +175,56 @@ class BadgePenaltyFormTestCase(TestCase):
     def test_ensure_organization_exists_with_error(self):
         form = CredlyOrganizationAdminForm()
         api_client = MagicMock()
+        api_client.oauth_client_id = None
+        api_client.oauth_client_secret = None
         api_client.fetch_organization.side_effect = BadgeProviderError("API Error")
 
-        with self.assertRaises(BadgeProviderError) as cm:
+        with self.assertRaises(forms.ValidationError) as cm:
             form.ensure_organization_exists(api_client)
 
         api_client.fetch_organization.assert_called_once()
-        self.assertEqual(str(cm.exception), "API Error")
+        self.assertEqual(
+            str(cm.exception),
+            "['Error communicating with Credly API: API Error']",
+        )
+
+    def test_ensure_organization_exists_with_oauth(self):
+        form = CredlyOrganizationAdminForm()
+        api_client = MagicMock()
+        api_client.api_key = None
+        api_client.oauth_client_id = "oauth-client-id"
+        api_client.oauth_client_secret = "oauth-client-secret"
+        api_client.fetch_badge_templates.return_value = {
+            "data": [
+                {
+                    "owner": {
+                        "name": "Test Credly Organization",
+                    },
+                },
+            ],
+        }
+
+        form.ensure_organization_exists(api_client)
+
+        api_client.fetch_badge_templates.assert_called_once()
+        self.assertEqual(form.api_data, {"name": "Test Credly Organization"})
+
+    def test_ensure_organization_exists_with_oauth_error(self):
+        form = CredlyOrganizationAdminForm()
+        api_client = MagicMock()
+        api_client.api_key = None
+        api_client.oauth_client_id = "oauth-client-id"
+        api_client.oauth_client_secret = "oauth-client-secret"
+        api_client.fetch_badge_templates.side_effect = BadgeProviderError("API Error")
+
+        with self.assertRaises(forms.ValidationError) as cm:
+            form.ensure_organization_exists(api_client)
+
+        api_client.fetch_badge_templates.assert_called_once()
+        self.assertEqual(
+            str(cm.exception),
+            "['Error communicating with Credly API: API Error']",
+        )
 
 
 class TestParentMixin(ParentMixin):
