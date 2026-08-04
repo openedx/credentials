@@ -47,6 +47,18 @@ class CredlyOrganization(TimeStampedModel):
         blank=True,
         help_text=_("Verbose name for Credly Organization."),
     )
+    oauth_client_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text=_("OAuth 2.0 Client ID for Credly Organization.")
+    )
+    oauth_client_secret = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text=_("OAuth 2.0 Client Secret for Credly Organization.")
+    )
 
     def __str__(self):
         return f"{self.name or self.uuid}"
