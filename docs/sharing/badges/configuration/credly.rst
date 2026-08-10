@@ -16,12 +16,11 @@ To configure a Credly organization in Open edX Credentials, navigate to ``https:
 #. Set the **UUID** to your Credly Organization identifier.
 #. Set the **API key** used to authenticate with the Credly Organization.
 
-.. note::
-
-   Credly API keys have a limited lifetime of 180 days. Rotate them before expiry. See :ref:`badges-credly-token-rotation`.
-
 The system pulls the Organization's details and updates its name.
 If errors occur, verify the API key and UUID for the Organization.
+
+The API key you configured expires 180 days after Credly issues it.
+Rotate keys before they expire, as described in :ref:`badges-credly-token-rotation` below.
 
 .. _badges-credly-token-rotation:
 
