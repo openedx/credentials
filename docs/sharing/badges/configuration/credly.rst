@@ -18,10 +18,63 @@ To configure a Credly organization in Open edX Credentials, navigate to ``https:
 
 .. note::
 
-   Credly API keys have a limited lifetime of 180 days. Rotate them before expiry. See `Auth Tokens for Authorization <https://credlyissuer.zendesk.com/hc/en-us/articles/28143019451035-Auth-tokens-for-authorization>`_.
+   Credly API keys have a limited lifetime of 180 days. Rotate them before expiry — see :ref:`badges-credly-token-rotation`.
 
 The system pulls the Organization's details and updates its name.
 If errors occur, verify the API key and UUID for the Organization.
+
+.. _badges-credly-token-rotation:
+
+API Key Rotation
+----------------
+
+Credly authorization tokens (API keys) expire 180 days after they are issued.
+Once a token expires, badge issuing, revocation, and template synchronization for that Organization fail until you replace the key.
+
+Open edX Credentials records when each Organization's token was issued and last rotated, and ships the ``refresh_credly_authorization_tokens`` management command to keep tokens alive:
+
+- When a token expires in 30 days or fewer, the command logs a warning.
+- When fewer than 5 days remain, the command rotates the token through the Credly API and stores the new value on the Credly Organization record. The previous token becomes invalid immediately.
+- When the token issuance date is unknown (for example, the Organization was configured before token dates were tracked), the command logs a warning and does not rotate. Rotate such tokens once with ``--force`` to start tracking.
+
+Check all configured Organizations:
+
+.. code-block:: bash
+
+   ./manage.py refresh_credly_authorization_tokens
+
+Check a single Organization:
+
+.. code-block:: bash
+
+   ./manage.py refresh_credly_authorization_tokens --organization_id <credly-organization-uuid>
+
+Rotate immediately, regardless of the remaining lifetime:
+
+.. code-block:: bash
+
+   ./manage.py refresh_credly_authorization_tokens --force
+
+.. warning::
+
+   Rotation invalidates the current token on the Credly side.
+   If other services authenticate with the same Credly Organization token, they lose access until you share the new token with them.
+
+Scheduled Rotation
+~~~~~~~~~~~~~~~~~~
+
+Run the command on a schedule so tokens are checked and rotated without operator involvement.
+A daily run is sufficient — the command only acts when a token approaches expiry.
+
+Use the scheduling mechanism of your deployment: a cron job on the Credentials host, a Kubernetes ``CronJob``, or your job runner of choice.
+For example, with cron:
+
+.. code-block:: bash
+
+   # Check Credly tokens every day at 03:00.
+   0 3 * * * cd /path/to/credentials && ./manage.py refresh_credly_authorization_tokens
+
+Review the command output in your logs: warnings signal tokens nearing expiry, and errors signal failed rotations that need manual attention.
 
 Badge Templates
 ---------------
