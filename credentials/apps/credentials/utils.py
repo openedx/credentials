@@ -257,7 +257,7 @@ def send_program_certificate_created_message(
         ace.send(msg)
     # We wouldn't want any issues that arise from formatting or sending this email message to interrupt the process
     # of issuing a learner their Program Certificate. We cast a wide net for exceptions here for this reason.
-    except Exception as ex:
+    except Exception as ex:  # pylint: disable=broad-exception-caught
         log.exception(
             f"Unable to send email to learner with id: [{user.id}] for Program [{program_uuid}]. "
             f"Error occurred while attempting to format or send message: {ex}"
