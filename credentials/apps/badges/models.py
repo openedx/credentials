@@ -52,15 +52,10 @@ class CredlyOrganization(TimeStampedModel):
         blank=True,
         help_text=_("Verbose name for Credly Organization."),
     )
-    authorization_token_created_at = models.DateTimeField(
+    authorization_token_issued_at = models.DateTimeField(
         null=True,
         blank=True,
-        help_text=_("When the current Credly authorization token was first issued."),
-    )
-    authorization_token_updated_at = models.DateTimeField(
-        null=True,
-        blank=True,
-        help_text=_("When the current Credly authorization token was last refreshed (rotated)."),
+        help_text=_("When the current Credly authorization token was issued or last rotated."),
     )
 
     def __str__(self):
@@ -71,13 +66,12 @@ class CredlyOrganization(TimeStampedModel):
         """
         Estimated expiration datetime of the current authorization token.
 
-        Derived from the most recent issuance/refresh timestamp plus the token lifetime.
-        Returns None when no issuance/refresh date has been recorded yet.
+        Derived from the recorded issuance timestamp plus the token lifetime.
+        Returns None when no issuance date has been recorded yet.
         """
-        issued_at = self.authorization_token_updated_at or self.authorization_token_created_at
-        if issued_at is None:
+        if self.authorization_token_issued_at is None:
             return None
-        return issued_at + self.AUTHORIZATION_TOKEN_LIFETIME
+        return self.authorization_token_issued_at + self.AUTHORIZATION_TOKEN_LIFETIME
 
     @property
     def authorization_token_days_until_expiry(self):

@@ -156,7 +156,7 @@ class CredlyAPIClient(BaseBadgeProviderClient):
 
         Calls Credly's token rotation endpoint, which generates and returns a new
         authorization token and immediately invalidates the token used to make the
-        request. The new token and its refresh timestamps are persisted on the
+        request. The new token and its issuance timestamp are persisted on the
         related CredlyOrganization.
 
         Returns:
@@ -171,19 +171,9 @@ class CredlyAPIClient(BaseBadgeProviderClient):
             raise CredlyError("Credly token rotation response did not contain a new token.")
 
         organization = self._get_organization(self.organization_id)
-        now = timezone.now()
-        if organization.authorization_token_created_at is None:
-            organization.authorization_token_created_at = now
-        organization.authorization_token_updated_at = now
+        organization.authorization_token_issued_at = timezone.now()
         organization.api_key = new_token
-        organization.save(
-            update_fields=[
-                "api_key",
-                "authorization_token_created_at",
-                "authorization_token_updated_at",
-                "modified",
-            ]
-        )
+        organization.save(update_fields=["api_key", "authorization_token_issued_at", "modified"])
 
         # Adopt the new token for any subsequent requests and drop the cached header.
         self.api_key = new_token

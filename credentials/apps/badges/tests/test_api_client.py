@@ -116,8 +116,7 @@ class CredlyApiClientTestCase(TestCase):
 
         self.organization.refresh_from_db()
         self.assertEqual(self.organization.api_key, "new-token")
-        self.assertIsNotNone(self.organization.authorization_token_created_at)
-        self.assertIsNotNone(self.organization.authorization_token_updated_at)
+        self.assertIsNotNone(self.organization.authorization_token_issued_at)
 
     def test_rotate_authorization_token_no_token_in_response(self):
         api_client = CredlyAPIClient(self.organization.uuid)

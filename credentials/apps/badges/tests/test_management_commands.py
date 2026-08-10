@@ -58,7 +58,7 @@ class TestRefreshCredlyAuthorizationTokensCommand(TestCase):
     """
     Tests for the ``refresh_credly_authorization_tokens`` management command.
 
-    Token expiration is derived from ``authorization_token_updated_at`` plus the 180-day lifetime, so
+    Token expiration is derived from ``authorization_token_issued_at`` plus the 180-day lifetime, so
     a token with ``days_left`` remaining is simulated by backdating that field accordingly. A 12-hour
     buffer is added to keep the truncated day count off threshold boundaries.
     """
@@ -74,7 +74,7 @@ class TestRefreshCredlyAuthorizationTokensCommand(TestCase):
         )
         if days_left is not None:
             lifetime = CredlyOrganization.AUTHORIZATION_TOKEN_LIFETIME
-            organization.authorization_token_updated_at = (
+            organization.authorization_token_issued_at = (
                 timezone.now() - lifetime + timedelta(days=days_left, hours=12)
             )
             organization.save()

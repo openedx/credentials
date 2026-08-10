@@ -586,17 +586,13 @@ class CredlyOrganizationTestCase(TestCase):
             self.assertTrue(self.organization.is_preconfigured)
             mock_get_preconfigured.assert_called_once()
 
-    def test_authorization_token_expiry_unknown_without_dates(self):
+    def test_authorization_token_expiry_unknown_without_issuance_date(self):
         self.assertIsNone(self.organization.authorization_token_expires_at)
         self.assertIsNone(self.organization.authorization_token_days_until_expiry)
 
-    def test_authorization_token_expiry_derived_from_dates(self):
-        self.organization.authorization_token_updated_at = timezone.now() - timedelta(days=170)
+    def test_authorization_token_expiry_derived_from_issuance_date(self):
+        self.organization.authorization_token_issued_at = timezone.now() - timedelta(days=170)
         self.assertEqual(self.organization.authorization_token_days_until_expiry, 9)
-
-    def test_authorization_token_expiry_falls_back_to_created_at(self):
-        self.organization.authorization_token_created_at = timezone.now() - timedelta(days=10)
-        self.assertEqual(self.organization.authorization_token_days_until_expiry, 169)
 
 
 class BadgeProgressTestCase(TestCase):
