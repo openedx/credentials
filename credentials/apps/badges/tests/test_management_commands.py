@@ -51,9 +51,7 @@ class TestSyncAccredibleGroupsCommand(TestCase):
         mock_accredible_api_client.return_value.sync_groups.assert_called_once_with(1)
 
 
-@mock.patch(
-    "credentials.apps.badges.management.commands.refresh_credly_authorization_tokens.CredlyAPIClient"
-)
+@mock.patch("credentials.apps.badges.management.commands.refresh_credly_authorization_tokens.CredlyAPIClient")
 class TestRefreshCredlyAuthorizationTokensCommand(TestCase):
     """
     Tests for the ``refresh_credly_authorization_tokens`` management command.
@@ -74,9 +72,7 @@ class TestRefreshCredlyAuthorizationTokensCommand(TestCase):
         )
         if days_left is not None:
             lifetime = CredlyOrganization.AUTHORIZATION_TOKEN_LIFETIME
-            organization.authorization_token_issued_at = (
-                timezone.now() - lifetime + timedelta(days=days_left, hours=12)
-            )
+            organization.authorization_token_issued_at = timezone.now() - lifetime + timedelta(days=days_left, hours=12)
             organization.save()
         # Reload so ``organization.uuid`` is a UUID instance, as the command sees it when querying the DB.
         organization.refresh_from_db()

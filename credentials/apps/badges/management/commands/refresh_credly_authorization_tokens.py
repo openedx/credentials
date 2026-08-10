@@ -87,9 +87,7 @@ class Command(BaseCommand):
                 f"It will be rotated automatically once fewer than {REFRESH_THRESHOLD_DAYS} days remain."
             )
         else:
-            logger.info(
-                f"Organization {organization.uuid}: authorization token is healthy ({days_left} day(s) left)."
-            )
+            logger.info(f"Organization {organization.uuid}: authorization token is healthy ({days_left} day(s) left).")
 
     def _rotate(self, organization):
         """
