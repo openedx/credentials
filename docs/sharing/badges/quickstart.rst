@@ -99,7 +99,7 @@ For **Credly**:
 
    .. note::
 
-      Credly API keys expire after 180 days. Schedule the ``refresh_credly_authorization_tokens`` command to rotate them automatically — see :ref:`badges-credly-token-rotation`.
+      Credly API keys expire after 180 days. Schedule the ``refresh_credly_authorization_tokens`` command to rotate them automatically. See :ref:`badges-credly-token-rotation`.
 
 
 For **Accredible**:

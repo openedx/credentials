@@ -18,7 +18,7 @@ To configure a Credly organization in Open edX Credentials, navigate to ``https:
 
 .. note::
 
-   Credly API keys have a limited lifetime of 180 days. Rotate them before expiry — see :ref:`badges-credly-token-rotation`.
+   Credly API keys have a limited lifetime of 180 days. Rotate them before expiry. See :ref:`badges-credly-token-rotation`.
 
 The system pulls the Organization's details and updates its name.
 If errors occur, verify the API key and UUID for the Organization.
@@ -28,14 +28,17 @@ If errors occur, verify the API key and UUID for the Organization.
 API Key Rotation
 ----------------
 
-Credly authorization tokens (API keys) expire 180 days after they are issued.
-Once a token expires, badge issuing, revocation, and template synchronization for that Organization fail until you replace the key.
+Credly API keys expire 180 days after they are issued.
+Credly calls this key an *authorization token*, which is why the management command below is named ``refresh_credly_authorization_tokens``.
+See `Auth Tokens for Authorization <https://credlyissuer.zendesk.com/hc/en-us/articles/28143019451035-Auth-tokens-for-authorization>`__ for the Credly-side token lifecycle.
 
-Open edX Credentials records when each Organization's token was issued and last rotated, and ships the ``refresh_credly_authorization_tokens`` management command to keep tokens alive:
+Once an API key expires, issuing badges, revoking badges, and synchronizing badge templates for that Organization fail until you replace the key.
 
-- When a token expires in 30 days or fewer, the command logs a warning.
-- When fewer than 5 days remain, the command rotates the token through the Credly API and stores the new value on the Credly Organization record. The previous token becomes invalid immediately.
-- When the token issuance date is unknown (for example, the Organization was configured before token dates were tracked), the command logs a warning and does not rotate. Rotate such tokens once with ``--force`` to start tracking.
+Open edX Credentials records when each Organization's API key was issued and last rotated, and provides the ``refresh_credly_authorization_tokens`` management command to rotate keys before they expire:
+
+- When a key expires in 30 days or fewer, the command logs a warning.
+- When fewer than 5 days remain, the command rotates the key through the Credly `rotate authorization token <https://docs.credly.com/browse/reference/post_v1-organizations-organization-id-authorization-tokens-rotate>`__ API and stores the new value on the Credly Organization record. As described in `Credly Authentication Methods <https://docs.credly.com/browse/docs/authentication-methods>`__, the previous key immediately becomes unavailable for use.
+- When the key issuance date is unknown, the command logs a warning and does not rotate. This applies to every Organization configured before Open edX Credentials started tracking key dates. Rotate such keys once with ``--force`` to record the issuance date and enable automatic rotation from then on.
 
 Check all configured Organizations:
 
@@ -57,24 +60,32 @@ Rotate immediately, regardless of the remaining lifetime:
 
 .. warning::
 
-   Rotation invalidates the current token on the Credly side.
-   If other services authenticate with the same Credly Organization token, they lose access until you share the new token with them.
+   Rotation invalidates the current API key on the Credly side.
+   If other services authenticate with the same Credly Organization key, they lose access until you share the new key with them.
 
 Scheduled Rotation
 ~~~~~~~~~~~~~~~~~~
 
-Run the command on a schedule so tokens are checked and rotated without operator involvement.
-A daily run is sufficient — the command only acts when a token approaches expiry.
+Run the command on a schedule so API keys are checked and rotated without operator involvement.
+A daily run is sufficient because the command only acts when a key approaches expiry.
 
 Use the scheduling mechanism of your deployment: a cron job on the Credentials host, a Kubernetes ``CronJob``, or your job runner of choice.
 For example, with cron:
 
 .. code-block:: bash
 
-   # Check Credly tokens every day at 03:00.
+   # Check Credly API keys every day at 03:00.
    0 3 * * * cd /path/to/credentials && ./manage.py refresh_credly_authorization_tokens
 
-Review the command output in your logs: warnings signal tokens nearing expiry, and errors signal failed rotations that need manual attention.
+.. note::
+
+   With Tutor, run the command inside the Credentials container:
+
+   .. code-block:: bash
+
+      tutor local run credentials ./manage.py refresh_credly_authorization_tokens
+
+Review the command output in your logs: warnings signal keys nearing expiry, and errors signal failed rotations that need manual attention.
 
 Badge Templates
 ---------------
