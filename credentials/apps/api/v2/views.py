@@ -265,7 +265,6 @@ class UsernameReplacementView(APIView):
                 for model, column in replacement_locations:
                     update_kwargs = {column: new_username}
                     # Clear PII fields for user retirement to match LMS retirement pattern
-                    # (empty strings, not "redacted" - that's used in cleanup phase later)
                     if model._meta.label_lower == "core.user" and column == "username":
                         update_kwargs["full_name"] = ""
                         update_kwargs["first_name"] = ""
