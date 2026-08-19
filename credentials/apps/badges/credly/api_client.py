@@ -6,6 +6,7 @@ from urllib.parse import urljoin
 
 import requests  # pylint: disable=unused-import
 from attrs import asdict
+from django.core.cache import cache
 from django.conf import settings
 from django.contrib.sites.models import Site
 
@@ -28,20 +29,34 @@ class CredlyAPIClient(BaseBadgeProviderClient):
 
     PROVIDER_NAME = "Credly"
 
-    def __init__(self, organization_id, api_key=None):  # pylint: disable=super-init-not-called
+    def __init__(
+        self,
+        organization_id,
+        api_key=None,
+        oauth_client_id=None,
+        oauth_client_secret=None,
+    ):  # pylint: disable=super-init-not-called
         """
         Initializes a CredlyRestAPI object.
 
         Args:
             organization_id (str, uuid): ID of the organization.
-            api_key (str): optional ID of the organization.
+            api_key (str): Optional legacy API key of the organization.
+            oauth_client_id (str): Optional OAuth Client ID.
+            oauth_client_secret (str): Optional OAuth Client Secret.
         """
-        if api_key is None:
+        self.organization_id = organization_id
+        self.organization = None
+
+        if not (api_key or (oauth_client_id and oauth_client_secret)):
             self.organization = self._get_organization(organization_id)
             api_key = self.organization.api_key
+            oauth_client_id = getattr(self.organization, "oauth_client_id", None)
+            oauth_client_secret = getattr(self.organization, "oauth_client_secret", None)
 
         self.api_key = api_key
-        self.organization_id = organization_id
+        self.oauth_client_id = oauth_client_id
+        self.oauth_client_secret = oauth_client_secret
 
     def _get_base_api_url(self):
         return urljoin(get_credly_api_base_url(settings), f"organizations/{self.organization_id}/")
@@ -56,24 +71,80 @@ class CredlyAPIClient(BaseBadgeProviderClient):
         except CredlyOrganization.DoesNotExist:
             raise CredlyError(f"CredlyOrganization with the uuid {organization_id} does not exist!")
 
+    def _get_oauth_token(self):
+        """
+        Obtains a Bearer Access Token from Credly OAuth endpoint using Client Credentials grant.
+        """
+        if not (self.oauth_client_id and self.oauth_client_secret):
+            return None
+
+        cache_key = f"credly_oauth_access_token_{self.oauth_client_id}"
+        token = cache.get(cache_key)
+
+        if not token:
+            token_url = urljoin(get_credly_api_base_url(settings), "/oauth/token")
+
+            try:
+                payload = {
+                    "grant_type": "client_credentials",
+                    "scope": "badge_templates issued_badges",
+                }
+
+                response = requests.post(
+                    token_url,
+                    data=payload,
+                    auth=(self.oauth_client_id, self.oauth_client_secret),
+                    headers={"Accept": "application/json"},
+                    timeout=10,
+                )
+                response.raise_for_status()
+                data = response.json()
+
+                token = data.get("access_token")
+                expires_in = data.get("expires_in", 7200)
+
+                if not token:
+                    raise CredlyError(f"Credly response did not contain access_token: {data}")
+
+                cache.set(cache_key, token, timeout=max(expires_in - 60, 60))
+
+            except requests.RequestException as exc:
+                raise CredlyError(f"Failed to fetch OAuth token from Credly: {str(exc)}") from exc
+
+        return token
+
     def _get_headers(self):
         """
         Returns the headers for making API requests to Credly.
+        Supports both OAuth Bearer Tokens and legacy Basic Auth API Keys.
         """
-        return {
+        headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "Authorization": f"Basic {self._build_authorization_token()}",
         }
+
+        if self.oauth_client_id and self.oauth_client_secret:
+            bearer_token = self._get_oauth_token()
+            headers["Authorization"] = f"Bearer {bearer_token}"
+
+        elif self.api_key:
+            headers["Authorization"] = f"Basic {self._build_authorization_token()}"
+
+        else:
+            raise CredlyError("No valid authentication credentials (OAuth or API Key) available for Credly.")
+
+        return headers
 
     @lru_cache
     def _build_authorization_token(self):
         """
-        Build the authorization token for the Credly API.
+        Build the authorization token for the Credly API (Legacy).
 
         Returns:
             str: Authorization token.
         """
+        if not self.api_key:
+            return ""
         return base64.b64encode(self.api_key.encode("ascii")).decode("ascii")
 
     def fetch_organization(self):
@@ -164,6 +235,9 @@ class CredlyAPIClient(BaseBadgeProviderClient):
         except Site.DoesNotExist:
             logger.error(f"Site with the id {site_id} does not exist!")
             raise
+
+        if not self.organization:
+            self.organization = self._get_organization(self.organization_id)
 
         badge_templates_data = self.fetch_badge_templates()
         raw_badge_templates = badge_templates_data.get("data", [])

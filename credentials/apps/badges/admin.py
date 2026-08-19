@@ -159,13 +159,37 @@ class CredlyOrganizationAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "uuid",
+        "oauth_client_id",
         "api_key_hidden",
     )
-    fields = [
-        "name",
-        "uuid",
-        "api_key_hidden",
-    ]
+    fieldsets = (
+        (
+            _("General Information"),
+            {
+                "fields": (
+                    "name",
+                    "uuid",
+                ),
+            },
+        ),
+        (
+            _("OAuth 2.0 Credentials"),
+            {
+                "description": _("Authentication credentials for OAuth 2.0 Client Credentials flow."),
+                "fields": (
+                    "oauth_client_id",
+                    "oauth_client_secret",
+                ),
+            },
+        ),
+        (
+            _("Legacy API Key Authentication"),
+            {
+                "description": _("Legacy Basic Auth API key. Use this only if OAuth 2.0 credentials are not available."),
+                "fields": ("api_key",),
+            },
+        ),
+    )
     readonly_fields = [
         "name",
     ]
