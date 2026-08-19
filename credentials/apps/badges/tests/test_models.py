@@ -1,10 +1,12 @@
 import uuid
+from datetime import timedelta
 from unittest.mock import patch
 
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.test import TestCase
+from django.utils import timezone
 from faker import Faker
 from openedx_events.learning.data import BadgeData, BadgeTemplateData, UserData, UserPersonalData
 
@@ -583,6 +585,14 @@ class CredlyOrganizationTestCase(TestCase):
             mock_get_preconfigured.return_value = {str(self.uuid): "Test Organization"}
             self.assertTrue(self.organization.is_preconfigured)
             mock_get_preconfigured.assert_called_once()
+
+    def test_authorization_token_expiry_unknown_without_issuance_date(self):
+        self.assertIsNone(self.organization.authorization_token_expires_at)
+        self.assertIsNone(self.organization.authorization_token_days_until_expiry)
+
+    def test_authorization_token_expiry_derived_from_issuance_date(self):
+        self.organization.authorization_token_issued_at = timezone.now() - timedelta(days=170)
+        self.assertEqual(self.organization.authorization_token_days_until_expiry, 9)
 
 
 class BadgeProgressTestCase(TestCase):
