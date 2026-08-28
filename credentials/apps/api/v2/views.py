@@ -269,13 +269,14 @@ class UsernameReplacementView(APIView):
                         update_kwargs["full_name"] = ""
                         update_kwargs["first_name"] = ""
                         update_kwargs["last_name"] = ""
+                        update_kwargs["email"] = ""
                     num_rows_changed += model.objects.filter(**{column: current_username}).update(**update_kwargs)
         except Exception as exc:
             log.exception(
                 "Unable to change username from %s to %s. Failed on table %s because %s",
                 current_username,
                 new_username,
-                model.__class__.__name__,
+                model._meta.label_lower,
                 exc,
             )
             return False
