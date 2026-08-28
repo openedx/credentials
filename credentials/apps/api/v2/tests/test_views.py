@@ -694,7 +694,7 @@ class UsernameReplacementViewTests(JwtMixin, APITestCase):
 
     def test_clears_full_name_for_replaced_user(self):
         """Verify username replacement clears PII fields (matching LMS retirement pattern with empty strings)."""
-        user = UserFactory(full_name="Jane Example", first_name="Jane", last_name="Example")
+        user = UserFactory(full_name="Jane Example", first_name="Jane", last_name="Example", email="jane@example.com")
         new_username = f"{user.username}_retired"
 
         response = self.call_api(self.service_user, {"username_mappings": [{user.username: new_username}]})
@@ -705,3 +705,4 @@ class UsernameReplacementViewTests(JwtMixin, APITestCase):
         self.assertEqual(user.full_name, "")
         self.assertEqual(user.first_name, "")
         self.assertEqual(user.last_name, "")
+        self.assertEqual(user.email, "")
