@@ -6,6 +6,7 @@ from datetime import datetime
 
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
+from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from credentials.apps.badges.accredible.api_client import AccredibleAPIClient
@@ -152,7 +153,7 @@ class CredlyBadgeTemplateIssuer(BadgeTemplateIssuer):
             issued_to_first_name=(user.first_name or user.username),
             issued_to_last_name=(user.last_name or user.username),
             badge_template_id=str(badge_template.uuid),
-            issued_at=badge_template.created.strftime("%Y-%m-%d %H:%M:%S %z"),
+            issued_at=timezone.now().strftime("%Y-%m-%d %H:%M:%S %z"),
         )
 
         try:
