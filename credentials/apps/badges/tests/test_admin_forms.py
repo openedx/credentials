@@ -82,7 +82,7 @@ class BadgePenaltyFormTestCase(TestCase):
         form = CredlyOrganizationAdminForm()
         form.cleaned_data = {
             "uuid": "test_uuid",
-            "api_key": "test_api_key",
+            "api_key": "test_api_key"
         }
 
         with patch(
@@ -96,7 +96,12 @@ class BadgePenaltyFormTestCase(TestCase):
                 form.clean()
 
                 mock_get_orgs.assert_called_once()
-                mock_client.assert_called_once_with("test_uuid", "test_api_key")
+                mock_client.assert_called_once_with(
+                    organization_id="test_uuid",
+                    api_key="test_api_key",
+                    oauth_client_id=None,
+                    oauth_client_secret=None
+                )
 
     @override_settings(BADGES_CONFIG={"credly": {"ORGANIZATIONS": {"test_uuid": "test_api_key"}}})
     def test_clean_with_configured_organization(self):
@@ -117,7 +122,12 @@ class BadgePenaltyFormTestCase(TestCase):
                 form.clean()
 
                 mock_get_orgs.assert_called_once()
-                mock_client.assert_called_once_with("test_uuid", "test_api_key")
+                mock_client.assert_called_once_with(
+                    organization_id="test_uuid",
+                    api_key="test_api_key",
+                    oauth_client_id=None,
+                    oauth_client_secret=None
+                )
 
     def test_clean_with_invalid_organization(self):
         form = CredlyOrganizationAdminForm()

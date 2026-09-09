@@ -5,10 +5,11 @@ Badges admin forms.
 from django import forms
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from credentials.apps.badges.exceptions import BadgeProviderError
 from model_utils import Choices
 
 from credentials.apps.badges.credly.api_client import CredlyAPIClient
-from credentials.apps.badges.credly.exceptions import CredlyAPIError
+from credentials.apps.badges.credly.exceptions import CredlyError
 from credentials.apps.badges.models import (
     AbstractDataRule,
     BadgePenalty,
@@ -42,21 +43,45 @@ class CredlyOrganizationAdminForm(forms.ModelForm):
 
         uuid = cleaned_data.get("uuid")
         api_key = cleaned_data.get("api_key")
+        oauth_client_id = cleaned_data.get("oauth_client_id")
+        oauth_client_secret = cleaned_data.get("oauth_client_secret")
 
-        if str(uuid) in CredlyOrganization.get_preconfigured_organizations().keys():
-            if api_key:
-                raise forms.ValidationError(_("You can't provide an API key for a configured organization."))
+        is_preconfigured = str(uuid) in CredlyOrganization.get_preconfigured_organizations().keys()
 
+        if is_preconfigured:
+            if api_key or oauth_client_id or oauth_client_secret:
+                raise forms.ValidationError(
+                    _("You can't provide API keys or OAuth credentials for a pre-configured organization.")
+                )
             api_key = settings.BADGES_CONFIG["credly"]["ORGANIZATIONS"][str(uuid)]
 
-        credly_api_client = CredlyAPIClient(uuid, api_key)
+        else:
+            has_oauth = bool(oauth_client_id and oauth_client_secret)
+            has_api_key = bool(api_key)
+
+            if not (has_oauth or has_api_key):
+                raise forms.ValidationError(
+                    _("You must provide either OAuth credentials (Client ID & Client Secret) or a legacy API Key.")
+                )
+
+            if bool(oauth_client_id) != bool(oauth_client_secret):
+                raise forms.ValidationError(
+                    _("Both Client ID and Client Secret are required for OAuth authentication.")
+                )
+
+        credly_api_client = CredlyAPIClient(
+            organization_id=uuid,
+            api_key=api_key,
+            oauth_client_id=oauth_client_id,
+            oauth_client_secret=oauth_client_secret,
+        )
         self.ensure_organization_exists(credly_api_client)
 
         return cleaned_data
 
     def save(self, commit=True):
         """
-        Auto-fill addition properties.
+        Auto-fill additional properties.
         """
         instance = super().save(commit=False)
         instance.name = self.api_data.get("name")
@@ -69,11 +94,35 @@ class CredlyOrganizationAdminForm(forms.ModelForm):
         Try to fetch organization data by the configured Credly Organization ID.
         """
         try:
-            response_json = api_client.fetch_organization()
-            if org_data := response_json.get("data"):
-                self.api_data = org_data
-        except CredlyAPIError as err:
-            raise forms.ValidationError(message=str(err))
+            if api_client.oauth_client_id and api_client.oauth_client_secret:
+                response_json = api_client.fetch_badge_templates()
+                
+                templates = response_json.get("data", [])
+                org_name = None
+
+                if templates and isinstance(templates, list):
+                    first_template = templates[0]
+                    owner = first_template.get("owner", {})
+                    org_name = owner.get("name")
+
+                if not org_name:
+                    org_name = f"Credly Organization ({api_client.organization_id})"
+
+                self.api_data = {"name": org_name}
+            else:
+                response_json = api_client.fetch_organization()
+                if org_data := response_json.get("data"):
+                    self.api_data = org_data
+
+        except (CredlyError, BadgeProviderError) as exc:
+            if "401" in str(exc) or "Unauthorized" in str(exc):
+                raise forms.ValidationError(
+                    _("Invalid OAuth credentials or API key. Credly rejected the authentication request.")
+                ) from exc
+            
+            raise forms.ValidationError(
+                _("Error communicating with Credly API: %(error)s") % {"error": str(exc)}
+            ) from exc
 
 
 class BadgePenaltyForm(forms.ModelForm):
