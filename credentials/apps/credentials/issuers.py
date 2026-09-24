@@ -49,7 +49,7 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
         raise NotImplementedError  # pragma: no cover
 
     @transaction.atomic
-    def issue_credential(
+    def issue_credential(  # pylint: disable=too-many-positional-arguments
         self,
         credential,
         username,
@@ -58,7 +58,7 @@ class AbstractCredentialIssuer(metaclass=abc.ABCMeta):
         date_override=None,
         request=None,
         lms_user_id=None,  # pylint: disable=unused-argument
-    ):  # pylint: disable=too-many-positional-arguments
+    ):
         """
         Issue a credential to the user.
 
@@ -135,7 +135,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
     issued_credential_type = ProgramCertificate
 
     @transaction.atomic
-    def issue_credential(
+    def issue_credential(  # pylint: disable=too-many-positional-arguments
         self,
         credential,
         username,
@@ -144,7 +144,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         date_override=None,
         request=None,
         lms_user_id=None,
-    ):  # pylint: disable=too-many-positional-arguments
+    ):
         """
         Issues or updates a Program Certificate to a learner.
 
@@ -203,7 +203,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         username,
         credential,
         created,
-    ):  # pylint: disable=too-many-positional-arguments
+    ):
         """
         This function is responsible for sending an updated email to a pathway org only if the user has previously
         shared their program progress through a pathway. Checks if the site configuration has record keeping enabled
@@ -289,7 +289,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
             # .. event_implemented_name: PROGRAM_CERTIFICATE_REVOKED
             PROGRAM_CERTIFICATE_REVOKED.send_event(time=time, program_certificate=program_certificate_data)
 
-    def _emit_program_certificate_segment_event(
+    def _emit_program_certificate_segment_event(  # pylint: disable=too-many-positional-arguments
         self,
         request,
         site_config,
@@ -297,7 +297,7 @@ class ProgramCertificateIssuer(AbstractCredentialIssuer):
         user_credential,
         credential,
         created,
-    ):  # pylint: disable=too-many-positional-arguments
+    ):
         """
         A utility function used to dispatch a Segment event when a program certificate record has been created or
         updated.

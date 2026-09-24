@@ -108,7 +108,8 @@ class SiteConfiguration(models.Model):
         blank=True,
         null=True,
     )
-    twitter_username = models.CharField(
+    # The site's own Twitter handle used for sharing credentials, not a learner's username.
+    twitter_username = models.CharField(  # pylint: disable=pii-invalid-no-pii-annotation
         verbose_name=_("Twitter Username"),
         help_text=_("Twitter username included in tweeted credentials. Do NOT include @."),
         max_length=15,

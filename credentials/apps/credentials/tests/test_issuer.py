@@ -54,7 +54,7 @@ class CertificateIssuerBase:
         expected_username,
         expected_status,
         expected_attrs,
-    ):  # pylint: disable=too-many-positional-arguments
+    ):
         """Verify the fields on a UserCredential object match expectations."""
         self.assertEqual(user_credential.username, expected_username)
         self.assertEqual(user_credential.credential, expected_credential)
