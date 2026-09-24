@@ -12,53 +12,54 @@ babel==2.18.0
     # via
     #   pydata-sphinx-theme
     #   sphinx
-beautifulsoup4==4.14.3
-beautifulsoup4==4.14.3
+beautifulsoup4==4.15.0
     # via pydata-sphinx-theme
-certifi==2026.1.4
+certifi==2026.7.22
     # via requests
-charset-normalizer==3.4.4
+charset-normalizer==3.5.1
     # via requests
 docutils==0.22.4
     # via
     #   pydata-sphinx-theme
     #   sphinx
-idna==3.11
+idna==3.20
     # via requests
-imagesize==1.4.1
+imagesize==2.0.1
     # via sphinx
 jinja2==3.1.6
-    # via sphinx
+    # via
+    #   pydata-sphinx-theme
+    #   sphinx
 jsx-lexer==2.0.1
     # via -r requirements/docs.in
 markupsafe==3.0.3
     # via jinja2
-packaging==26.0
-    # via
-    #   pydata-sphinx-theme
-    #   sphinx
-pydata-sphinx-theme==0.15.4
+packaging==26.3
+    # via sphinx
+pydata-sphinx-theme==0.20.0
     # via sphinx-book-theme
-pygments==2.19.2
+pygments==2.21.0
     # via
     #   accessible-pygments
     #   jsx-lexer
     #   pydata-sphinx-theme
     #   sphinx
-requests==2.32.5
-    # via sphinx
+requests==2.34.2
+    # via
+    #   pydata-sphinx-theme
+    #   sphinx
 roman-numerals==4.1.0
     # via sphinx
-snowballstemmer==3.0.1
+snowballstemmer==3.1.1
     # via sphinx
-soupsieve==2.8.3
+soupsieve==2.10
     # via beautifulsoup4
 sphinx==9.1.0
     # via
     #   -r requirements/docs.in
     #   pydata-sphinx-theme
     #   sphinx-book-theme
-sphinx-book-theme==1.1.4
+sphinx-book-theme==1.4.0
     # via -r requirements/docs.in
 sphinxcontrib-applehelp==2.0.0
     # via sphinx
@@ -72,9 +73,7 @@ sphinxcontrib-qthelp==2.0.0
     # via sphinx
 sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
-typing-extensions==4.15.0
-    # via
-    #   beautifulsoup4
-    #   pydata-sphinx-theme
-urllib3==2.6.3
+typing-extensions==4.16.0
+    # via beautifulsoup4
+urllib3==2.8.0
     # via requests

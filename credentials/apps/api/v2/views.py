@@ -271,7 +271,7 @@ class UsernameReplacementView(APIView):
                         update_kwargs["last_name"] = ""
                         update_kwargs["email"] = ""
                     num_rows_changed += model.objects.filter(**{column: current_username}).update(**update_kwargs)
-        except Exception as exc:
+        except Exception as exc:  # pylint: disable=broad-exception-caught
             log.exception(
                 "Unable to change username from %s to %s. Failed on table %s because %s",
                 current_username,

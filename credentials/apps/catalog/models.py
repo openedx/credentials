@@ -139,7 +139,8 @@ class Pathway(TimeStampedModel):
     uuid = models.UUIDField(verbose_name="UUID")
     name = models.CharField(max_length=255)
     org_name = models.CharField(max_length=255)
-    email = models.EmailField()
+    # Contact email of the pathway organization (e.g. 'registrar@school.edu'), not a learner's.
+    email = models.EmailField()  # pylint: disable=pii-invalid-no-pii-annotation
     programs = SortedManyToManyField(Program, related_name="pathways")
 
     status = models.CharField(
