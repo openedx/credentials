@@ -42,11 +42,11 @@ bleach==6.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.43.101
+boto3==1.43.104
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.43.101
+botocore==1.43.104
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -112,7 +112,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.16.1
+coverage==7.16.2
     # via -r requirements/dev.txt
 cryptography==50.0.1
     # via
@@ -356,7 +356,7 @@ edx-toggles==6.0.0
     #   edx-event-bus-redis
 factory-boy==3.3.3
     # via -r requirements/dev.txt
-faker==40.39.0
+faker==40.40.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -365,7 +365,7 @@ fastavro==1.12.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   openedx-events
-filelock==4.0.3
+filelock==4.0.6
     # via
     #   -r requirements/dev.txt
     #   python-discovery
@@ -378,7 +378,7 @@ firebase-admin==7.7.0
     #   edx-ace
 gevent==26.9.0
     # via -r requirements/production.txt
-google-api-core[grpc]==2.38.0
+google-api-core[grpc]==2.39.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -386,7 +386,7 @@ google-api-core[grpc]==2.38.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-auth==2.58.0
+google-auth==2.59.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -400,17 +400,17 @@ google-cloud-core==2.7.0
     #   -r requirements/production.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.31.0
+google-cloud-firestore==2.32.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-cloud-storage==3.14.1
+google-cloud-storage==3.15.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-crc32c==1.8.0
+google-crc32c==1.9.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -421,7 +421,7 @@ google-resumable-media==2.10.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-cloud-storage
-googleapis-common-protos==1.75.3
+googleapis-common-protos==1.75.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -493,7 +493,7 @@ iniconfig==2.3.0
     # via
     #   -r requirements/dev.txt
     #   pytest
-isort==9.0.1
+isort==9.0.2
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -513,7 +513,7 @@ jmespath==1.1.0
     #   -r requirements/production.txt
     #   boto3
     #   botocore
-librt==0.15.0
+librt==0.16.0
     # via
     #   -r requirements/dev.txt
     #   mypy
@@ -529,7 +529,7 @@ lxml-html-clean==0.4.5
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   lxml
-markdown==3.10.3
+markdown==3.11
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -542,7 +542,7 @@ mccabe==0.7.0
     # via
     #   -r requirements/dev.txt
     #   pylint
-msgpack==1.2.2
+msgpack==1.2.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -559,9 +559,9 @@ mysqlclient==2.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-nodeenv==1.10.0
+nodeenv==1.11.0
     # via -r requirements/production.txt
-oauthlib==3.3.1
+oauthlib==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -572,7 +572,7 @@ openapi-codec==1.3.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-rest-swagger
-openedx-atlas==0.7.1
+openedx-atlas==0.7.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -586,7 +586,7 @@ openedx-events==11.2.0
     #   -r requirements/production.txt
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-opentelemetry-api==1.44.0
+opentelemetry-api==1.45.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -614,7 +614,7 @@ pillow==12.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-platformdirs==4.11.12
+platformdirs==4.12.1
     # via
     #   -r requirements/dev.txt
     #   black
@@ -671,7 +671,7 @@ pygments==2.21.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   pytest
-pyjwt[crypto]==2.15.0
+pyjwt[crypto]==2.15.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -706,7 +706,7 @@ pymemcache==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pymongo==4.18.1
+pymongo==4.18.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -742,7 +742,7 @@ python-memcached==1.62
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-python-slugify==9.1.1
+python-slugify==9.1.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -880,7 +880,7 @@ tomlkit==0.15.1
     #   -r requirements/dev.txt
     #   edx-lint
     #   pylint
-tox==4.64.1
+tox==4.64.4
     # via -r requirements/dev.txt
 types-pyyaml==6.0.12.20260906
     # via
@@ -912,7 +912,7 @@ urllib3==2.8.0
     #   botocore
     #   requests
     #   responses
-virtualenv==21.12.0
+virtualenv==21.13.0
     # via
     #   -r requirements/dev.txt
     #   tox
