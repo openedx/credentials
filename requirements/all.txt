@@ -16,11 +16,11 @@ asgiref==3.12.1
     #   django
     #   django-cors-headers
     #   social-auth-app-django
-ast-serialize==0.11.2
+ast-serialize==0.12.1
     # via
     #   -r requirements/dev.txt
     #   mypy
-astroid==4.0.4
+astroid==4.3.3
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -30,23 +30,20 @@ attrs==26.1.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-ace
+    #   jsonschema
     #   openedx-events
-backoff==2.2.1
-    # via
-    #   -r requirements/dev.txt
-    #   -r requirements/production.txt
-    #   segment-analytics-python
-black==26.5.1
+    #   referencing
+black==26.10.0
     # via -r requirements/dev.txt
 bleach==6.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.43.101
+boto3==1.43.108
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.43.101
+botocore==1.43.108
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -56,7 +53,7 @@ cachecontrol==0.14.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-cachetools==7.2.0
+cachetools==7.2.1
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -73,7 +70,7 @@ cffi==2.1.1
     #   -r requirements/production.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.5.1
+charset-normalizer==3.5.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -112,9 +109,9 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.16.1
+coverage==7.16.2
     # via -r requirements/dev.txt
-cryptography==50.0.1
+cryptography==50.0.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -137,7 +134,7 @@ distlib==0.4.3
     # via
     #   -r requirements/dev.txt
     #   virtualenv
-django==5.2.17
+django==5.2.18
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
@@ -200,7 +197,7 @@ django-extensions==4.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-filter==26.1
+django-filter==26.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -239,9 +236,9 @@ django-storages==1.14.6
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-stubs==6.1.1
+django-stubs==6.1.2
     # via -r requirements/dev.txt
-django-stubs-ext==6.1.1
+django-stubs-ext==6.1.2
     # via
     #   -r requirements/dev.txt
     #   django-stubs
@@ -275,7 +272,7 @@ drf-jwt==1.19.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-drf-yasg==1.21.15
+drf-yasg==1.21.17
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -283,11 +280,11 @@ edx-ace==1.15.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-auth-backends==5.0.0
+edx-auth-backends==5.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-ccx-keys==2.0.2
+edx-ccx-keys==2.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -304,7 +301,7 @@ edx-django-sites-extensions==6.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-utils==8.0.2
+edx-django-utils==8.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -321,7 +318,7 @@ edx-drf-extensions==10.9.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-event-bus-kafka==6.1.0
+edx-event-bus-kafka==6.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -329,14 +326,14 @@ edx-event-bus-redis @ git+https://github.com/openedx/event-bus-redis.git@v0.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-i18n-tools==2.0.0
+edx-i18n-tools==2.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-credentials-themes
 edx-lint==6.2.0
     # via -r requirements/dev.txt
-edx-opaque-keys[django]==4.0.0
+edx-opaque-keys[django]==4.0.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -356,16 +353,16 @@ edx-toggles==6.0.0
     #   edx-event-bus-redis
 factory-boy==3.3.3
     # via -r requirements/dev.txt
-faker==40.39.0
+faker==40.41.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
-fastavro==1.12.2
+fastavro==1.13.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   openedx-events
-filelock==4.0.3
+filelock==4.0.12
     # via
     #   -r requirements/dev.txt
     #   python-discovery
@@ -378,7 +375,7 @@ firebase-admin==7.7.0
     #   edx-ace
 gevent==26.9.0
     # via -r requirements/production.txt
-google-api-core[grpc]==2.38.0
+google-api-core[grpc]==2.41.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -386,7 +383,7 @@ google-api-core[grpc]==2.38.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-auth==2.58.0
+google-auth==2.60.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -394,34 +391,34 @@ google-auth==2.58.0
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-core==2.7.0
+google-cloud-core==2.8.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-cloud-firestore
     #   google-cloud-storage
-google-cloud-firestore==2.31.0
+google-cloud-firestore==2.34.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-cloud-storage==3.14.1
+google-cloud-storage==3.16.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-google-crc32c==1.8.0
+google-crc32c==1.9.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-cloud-storage
     #   google-resumable-media
-google-resumable-media==2.10.2
+google-resumable-media==2.11.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-cloud-storage
-googleapis-common-protos==1.75.3
+googleapis-common-protos==1.75.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -484,6 +481,11 @@ idna==3.20
     #   anyio
     #   httpx
     #   requests
+importlib-resources==7.1.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   swagger-spec-validator
 inflection==0.5.1
     # via
     #   -r requirements/dev.txt
@@ -493,7 +495,7 @@ iniconfig==2.3.0
     # via
     #   -r requirements/dev.txt
     #   pytest
-isort==9.0.1
+isort==9.0.2
     # via
     #   -r requirements/dev.txt
     #   pylint
@@ -513,7 +515,17 @@ jmespath==1.1.0
     #   -r requirements/production.txt
     #   boto3
     #   botocore
-librt==0.15.0
+jsonschema==4.26.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   swagger-spec-validator
+jsonschema-specifications==2025.9.1
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   jsonschema
+librt==0.16.0
     # via
     #   -r requirements/dev.txt
     #   mypy
@@ -529,11 +541,11 @@ lxml-html-clean==0.4.5
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   lxml
-markdown==3.10.3
+markdown==3.11
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-markupsafe==3.0.3
+markupsafe==3.0.4
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -542,12 +554,12 @@ mccabe==0.7.0
     # via
     #   -r requirements/dev.txt
     #   pylint
-msgpack==1.2.2
+msgpack==1.2.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   cachecontrol
-mypy==2.3.1
+mypy==2.4.0
     # via -r requirements/dev.txt
 mypy-extensions==1.1.0
     # via
@@ -559,9 +571,9 @@ mysqlclient==2.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-nodeenv==1.10.0
+nodeenv==1.11.0
     # via -r requirements/production.txt
-oauthlib==3.3.1
+oauthlib==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -572,7 +584,7 @@ openapi-codec==1.3.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-rest-swagger
-openedx-atlas==0.7.1
+openedx-atlas==0.7.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -586,7 +598,7 @@ openedx-events==11.2.0
     #   -r requirements/production.txt
     #   edx-event-bus-kafka
     #   edx-event-bus-redis
-opentelemetry-api==1.44.0
+opentelemetry-api==1.45.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -600,7 +612,8 @@ packaging==26.3
     #   pyproject-api
     #   pytest
     #   tox
-path==16.16.0
+    #   virtualenv
+path==17.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -614,7 +627,7 @@ pillow==12.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-platformdirs==4.11.12
+platformdirs==4.12.3
     # via
     #   -r requirements/dev.txt
     #   black
@@ -631,7 +644,7 @@ polib==1.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-i18n-tools
-proto-plus==1.28.4
+proto-plus==1.29.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -671,7 +684,7 @@ pygments==2.21.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   pytest
-pyjwt[crypto]==2.15.0
+pyjwt[crypto]==2.15.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -682,7 +695,7 @@ pyjwt[crypto]==2.15.0
     #   firebase-admin
     #   segment-analytics-python
     #   social-auth-core
-pylint==4.0.9
+pylint==4.1.2
     # via
     #   -r requirements/dev.txt
     #   edx-lint
@@ -706,7 +719,7 @@ pymemcache==4.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-pymongo==4.18.1
+pymongo==4.18.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -716,7 +729,7 @@ pynacl==1.6.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-django-utils
-pyproject-api==1.11.2
+pyproject-api==1.11.3
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -742,7 +755,7 @@ python-memcached==1.62
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-python-slugify==9.1.1
+python-slugify==9.1.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -756,7 +769,7 @@ pytokens==0.4.1
     # via
     #   -r requirements/dev.txt
     #   black
-pytz==2026.4
+pytz==2026.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -772,6 +785,7 @@ pyyaml==6.0.3
     #   edx-django-release-util
     #   edx-i18n-tools
     #   responses
+    #   swagger-spec-validator
 qrcode==8.2
     # via
     #   -r requirements/dev.txt
@@ -781,6 +795,12 @@ redis==8.1.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   walrus
+referencing==0.37.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   jsonschema
+    #   jsonschema-specifications
 requests==2.34.2
     # via
     #   -r requirements/dev.txt
@@ -803,6 +823,12 @@ requests-oauthlib==2.0.0
     #   social-auth-core
 responses==0.26.3
     # via -r requirements/dev.txt
+rpds-py==2026.9.1
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   jsonschema
+    #   referencing
 s3transfer==0.19.2
     # via
     #   -r requirements/production.txt
@@ -812,7 +838,7 @@ sailthru-client==2.2.3
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-ace
-segment-analytics-python==2.3.6
+segment-analytics-python==2.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -821,7 +847,7 @@ semantic-version==2.10.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-drf-extensions
-simplejson==4.1.2
+simplejson==4.2.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -864,7 +890,12 @@ stevedore==5.9.1
     #   edx-ace
     #   edx-django-utils
     #   edx-opaque-keys
-testfixtures==12.3.0
+swagger-spec-validator==3.0.4
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   drf-yasg
+testfixtures==12.4.0
     # via -r requirements/dev.txt
 text-unidecode==1.3
     # via
@@ -880,7 +911,7 @@ tomlkit==0.15.1
     #   -r requirements/dev.txt
     #   edx-lint
     #   pylint
-tox==4.64.1
+tox==4.64.9
     # via -r requirements/dev.txt
 types-pyyaml==6.0.12.20260906
     # via
@@ -897,6 +928,8 @@ typing-extensions==4.16.0
     #   grpcio
     #   mypy
     #   opentelemetry-api
+    #   referencing
+    #   swagger-spec-validator
     #   testfixtures
     #   tox
 uritemplate==4.2.0
@@ -912,7 +945,7 @@ urllib3==2.8.0
     #   botocore
     #   requests
     #   responses
-virtualenv==21.12.0
+virtualenv==21.14.5
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -926,7 +959,7 @@ webencodings==0.6.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   bleach
-xss-utils==1.0.0
+xss-utils==1.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
