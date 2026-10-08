@@ -30,6 +30,12 @@ def process_requirements(event_type, username, payload):
 
     logger.debug("BADGES: found %s requirements to process.", len(requirements))
 
+    course_key = None
+
+    if hasattr(payload, "course") and hasattr(payload.course, "ccx_course_key"):
+        course_key = str(payload.course.ccx_course_key)
+        logger.debug(f"BADGES: extracted course_key={course_key}")
+
     for requirement in requirements:
 
         # remember: the badge template is already "done"
@@ -46,4 +52,4 @@ def process_requirements(event_type, username, payload):
 
         # process: payload rules
         if requirement.apply_rules(asdict(payload)):
-            requirement.fulfill(username)
+            requirement.fulfill(username, course_key=course_key)
