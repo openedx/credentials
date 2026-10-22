@@ -10,3 +10,8 @@
 
 # Common constraints for edx repos
 -c common_constraints.txt
+
+# drf-yasg 1.21.17 ships redoc-old/redoc.min.js with "//# sourceMappingURL=redoc.min.map",
+# but the bundled file is redoc.min.js.map, so collectstatic (ManifestStaticFilesStorage) fails.
+# Same regression as https://github.com/axnsan12/drf-yasg/issues/855. Remove once fixed upstream.
+drf-yasg<1.21.17
