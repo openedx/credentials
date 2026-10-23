@@ -57,7 +57,7 @@ cachetools==6.2.1
     #   -r requirements/production.txt
     #   google-auth
     #   tox
-certifi==2025.10.5
+certifi==2026.10.23
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -128,10 +128,6 @@ defusedxml==0.7.1
     #   -r requirements/production.txt
     #   python3-openid
     #   social-auth-core
-openedx-didkit==0.3.5
-    # via
-    #   -r requirements/dev.txt
-    #   -r requirements/production.txt
 dill==0.4.0
     # via
     #   -r requirements/dev.txt
@@ -142,6 +138,7 @@ distlib==0.4.0
     #   virtualenv
 django==5.2.7
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-appconf
@@ -571,6 +568,10 @@ openedx-atlas==0.7.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
+openedx-didkit==0.3.5
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
 openedx-events==10.5.0
     # via
     #   -r requirements/dev.txt
@@ -832,12 +833,14 @@ sniffio==1.3.1
     #   anyio
 social-auth-app-django==5.4.3
     # via
+    #   -c requirements/common_constraints.txt
     #   -c requirements/constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-auth-backends
 social-auth-core==4.8.1
     # via
+    #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-auth-backends
