@@ -8,7 +8,7 @@ anyio==4.15.1
     # via
     #   -r requirements/base.txt
     #   httpx
-asgiref==3.12.1
+asgiref==3.13.0
     # via
     #   -r requirements/base.txt
     #   django
@@ -33,9 +33,9 @@ cachecontrol==0.14.4
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-cachetools==7.2.4
+cachetools==7.2.6
     # via tox
-certifi==2026.10.19
+certifi==2026.10.23
     # via
     #   -r requirements/base.txt
     #   httpcore
@@ -77,7 +77,7 @@ coreschema==0.0.4
     # via
     #   -r requirements/base.txt
     #   coreapi
-coverage==7.16.2
+coverage==7.17.0
     # via -r requirements/test.in
 cryptography==50.0.2
     # via
@@ -258,7 +258,7 @@ firebase-admin==7.7.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
-google-api-core[grpc]==2.42.0
+google-api-core[grpc]==2.43.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -294,18 +294,18 @@ google-resumable-media==2.11.0
     # via
     #   -r requirements/base.txt
     #   google-cloud-storage
-googleapis-common-protos==1.75.5
+googleapis-common-protos==1.76.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   grpcio-status
-grpcio==1.84.0
+grpcio==1.85.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
     #   grpcio-status
-grpcio-status==1.84.0
+grpcio-status==1.85.0
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -378,7 +378,7 @@ lxml[html-clean]==6.1.3
     #   edx-credentials-themes
     #   edx-i18n-tools
     #   lxml-html-clean
-lxml-html-clean==0.4.5
+lxml-html-clean==0.4.6
     # via
     #   -r requirements/base.txt
     #   lxml
@@ -390,7 +390,7 @@ markupsafe==3.0.4
     #   jinja2
 mccabe==0.7.0
     # via pylint
-msgpack==1.2.3
+msgpack==1.2.4
     # via
     #   -r requirements/base.txt
     #   cachecontrol
@@ -439,7 +439,7 @@ pathspec==1.1.1
     # via black
 pillow==13.0.0
     # via -r requirements/base.txt
-platformdirs==4.13.5
+platformdirs==4.13.6
     # via
     #   black
     #   pylint
@@ -470,7 +470,7 @@ psutil==7.2.2
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pyasn1==0.6.4
+pyasn1==0.6.5
     # via
     #   -r requirements/base.txt
     #   pyasn1-modules
@@ -478,7 +478,7 @@ pyasn1-modules==0.4.2
     # via
     #   -r requirements/base.txt
     #   google-auth
-pycparser==3.11
+pycparser==3.12
     # via
     #   -r requirements/base.txt
     #   cffi
@@ -520,7 +520,7 @@ pynacl==1.6.2
     # via
     #   -r requirements/base.txt
     #   edx-django-utils
-pyproject-api==1.12.0
+pyproject-api==1.12.1
     # via tox
 pytest==9.1.1
     # via
@@ -533,7 +533,7 @@ python-dateutil==2.9.0.post0
     #   -r requirements/base.txt
     #   edx-ace
     #   segment-analytics-python
-python-discovery==1.6.4
+python-discovery==1.6.5
     # via
     #   tox
     #   virtualenv
@@ -660,7 +660,7 @@ tomlkit==0.15.2
     # via
     #   edx-lint
     #   pylint
-tox==4.67.1
+tox==4.67.2
     # via -r requirements/test.in
 typing-extensions==4.16.0
     # via
@@ -683,7 +683,7 @@ urllib3==2.8.0
     #   -r requirements/base.txt
     #   requests
     #   responses
-virtualenv==21.14.11
+virtualenv==21.15.0
     # via tox
 walrus==0.9.8
     # via
