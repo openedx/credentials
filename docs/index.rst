@@ -28,3 +28,4 @@ This repository contains the Open edX Credentials Service, used as the backend t
    lms_user_id
    program_completion_emails
    decisions
+   badge_issuance_restrictions
