@@ -220,22 +220,34 @@ class CredlyOrganizationAdmin(admin.ModelAdmin):
 
         return _("Pre-configured from the environment.") if obj.is_preconfigured else obj.api_key
 
-    def get_fields(self, request, obj=None):
-        fields = super().get_fields(request, obj)
+    def get_fieldsets(self, request, obj=None):
+        """
+        Show the masked API key instead of the editable one for pre-configured organizations.
+        """
+        fieldsets = super().get_fieldsets(request, obj)
 
         if not (obj and obj.is_preconfigured):
-            fields = [field for field in fields if field != "api_key_hidden"]
-            fields.append("api_key")
-        return fields
+            return fieldsets
+
+        return tuple(
+            (
+                name,
+                {
+                    **options,
+                    "fields": tuple("api_key_hidden" if field == "api_key" else field for field in options["fields"]),
+                },
+            )
+            for name, options in fieldsets
+        )
 
     def get_readonly_fields(self, request, obj=None):
+        """
+        Credentials of pre-configured organizations come from the environment and can't be edited.
+        """
         readonly_fields = list(super().get_readonly_fields(request, obj))
 
-        if not obj:
-            return readonly_fields
-
-        if obj.is_preconfigured:
-            readonly_fields.append("api_key_hidden")
+        if obj and obj.is_preconfigured:
+            readonly_fields.extend(["api_key_hidden", "oauth_client_id", "oauth_client_secret"])
         return readonly_fields
 
 

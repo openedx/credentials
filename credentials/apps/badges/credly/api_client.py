@@ -13,6 +13,7 @@ from django.core.cache import cache
 from credentials.apps.badges.base_api_client import BaseBadgeProviderClient
 from credentials.apps.badges.credly.exceptions import CredlyError
 from credentials.apps.badges.credly.utils import get_credly_api_base_url
+from credentials.apps.badges.exceptions import BadgeProviderError
 from credentials.apps.badges.models import CredlyBadgeTemplate, CredlyOrganization
 
 logger = logging.getLogger(__name__)
@@ -71,47 +72,81 @@ class CredlyAPIClient(BaseBadgeProviderClient):
         except CredlyOrganization.DoesNotExist:
             raise CredlyError(f"CredlyOrganization with the uuid {organization_id} does not exist!")
 
-    def _get_oauth_token(self):
+    @property
+    def uses_oauth(self):
+        """
+        Whether the client authenticates with OAuth 2.0 Client Credentials.
+        """
+        return bool(self.oauth_client_id and self.oauth_client_secret)
+
+    @property
+    def _oauth_token_cache_key(self):
+        return f"credly_oauth_access_token_{self.oauth_client_id}"
+
+    def _get_oauth_token(self, force_refresh=False):
         """
         Obtains a Bearer Access Token from Credly OAuth endpoint using Client Credentials grant.
+
+        Tokens are cached for their lifetime (minus a safety margin).
+
+        Args:
+            force_refresh (bool): skip the cached token and request a new one.
         """
-        if not (self.oauth_client_id and self.oauth_client_secret):
+        if not self.uses_oauth:
             return None
 
-        cache_key = f"credly_oauth_access_token_{self.oauth_client_id}"
-        token = cache.get(cache_key)
+        token = None if force_refresh else cache.get(self._oauth_token_cache_key)
+        if token:
+            return token
 
+        token_url = urljoin(get_credly_api_base_url(settings), "/oauth/token")
+        payload = {
+            "grant_type": "client_credentials",
+            "scope": "badge_templates issued_badges",
+        }
+
+        try:
+            response = requests.post(
+                token_url,
+                data=payload,
+                auth=(self.oauth_client_id, self.oauth_client_secret),
+                headers={"Accept": "application/json"},
+                timeout=self.REQUESTS_TIMEOUT,
+            )
+            response.raise_for_status()
+        except requests.RequestException as exc:
+            raise CredlyError(f"Failed to fetch OAuth token from Credly: {str(exc)}") from exc
+
+        try:
+            data = response.json()
+        except ValueError as exc:
+            raise CredlyError(f"Credly returned a non-JSON OAuth token response: {response.text[:200]}") from exc
+
+        token = data.get("access_token")
         if not token:
-            token_url = urljoin(get_credly_api_base_url(settings), "/oauth/token")
+            raise CredlyError(f"Credly response did not contain access_token: {data}")
 
-            try:
-                payload = {
-                    "grant_type": "client_credentials",
-                    "scope": "badge_templates issued_badges",
-                }
-
-                response = requests.post(
-                    token_url,
-                    data=payload,
-                    auth=(self.oauth_client_id, self.oauth_client_secret),
-                    headers={"Accept": "application/json"},
-                    timeout=10,
-                )
-                response.raise_for_status()
-                data = response.json()
-
-                token = data.get("access_token")
-                expires_in = data.get("expires_in", 7200)
-
-                if not token:
-                    raise CredlyError(f"Credly response did not contain access_token: {data}")
-
-                cache.set(cache_key, token, timeout=max(expires_in - 60, 60))
-
-            except requests.RequestException as exc:
-                raise CredlyError(f"Failed to fetch OAuth token from Credly: {str(exc)}") from exc
+        expires_in = data.get("expires_in", 7200)
+        cache.set(self._oauth_token_cache_key, token, timeout=max(expires_in - 60, 60))
 
         return token
+
+    def perform_request(self, method, url_suffix, data=None):
+        """
+        Perform an HTTP request to the Credly API.
+
+        When authenticating with OAuth, a 401 response most likely means the cached
+        access token was revoked or expired early: refresh the token and retry once.
+        """
+        try:
+            return super().perform_request(method, url_suffix, data)
+        except BadgeProviderError as exc:
+            if not (self.uses_oauth and exc.status_code == 401):
+                raise
+
+        logger.warning("Credly rejected the OAuth access token, refreshing the token and retrying the request.")
+        self._get_oauth_token(force_refresh=True)
+        return super().perform_request(method, url_suffix, data)
 
     def _get_headers(self):
         """
@@ -123,9 +158,8 @@ class CredlyAPIClient(BaseBadgeProviderClient):
             "Content-Type": "application/json",
         }
 
-        if self.oauth_client_id and self.oauth_client_secret:
-            bearer_token = self._get_oauth_token()
-            headers["Authorization"] = f"Bearer {bearer_token}"
+        if self.uses_oauth:
+            headers["Authorization"] = f"Bearer {self._get_oauth_token()}"
 
         elif self.api_key:
             headers["Authorization"] = f"Basic {self._build_authorization_token()}"

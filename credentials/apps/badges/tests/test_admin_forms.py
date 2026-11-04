@@ -129,12 +129,19 @@ class BadgePenaltyFormTestCase(TestCase):
 
         with patch(
             "credentials.apps.badges.models.CredlyOrganization.get_preconfigured_organizations"
-        ) as mock_get_orgs:
+        ) as mock_get_orgs, patch(
+            "credentials.apps.badges.admin_forms.CredlyAPIClient.fetch_organization"
+        ) as mock_fetch_organization:
             mock_get_orgs.return_value = {"test_uuid": "test_org"}
+            mock_fetch_organization.side_effect = BadgeProviderError(
+                '{"data": {"message": "You specified an invalid authorization token."}} Status(401)',
+                status_code=401,
+            )
 
             with self.assertRaises(forms.ValidationError) as cm:
                 form.clean()
 
+            mock_fetch_organization.assert_called_once()
             self.assertIn(
                 "Invalid OAuth credentials or API key. Credly rejected the authentication request.",
                 str(cm.exception),
