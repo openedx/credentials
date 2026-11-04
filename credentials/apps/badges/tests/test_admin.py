@@ -11,6 +11,10 @@ PRECONFIGURED_UUID = str(uuid.uuid4())
 
 @override_settings(BADGES_CONFIG={"credly": {"ORGANIZATIONS": {PRECONFIGURED_UUID: "preconfigured-api-key"}}})
 class CredlyOrganizationAdminTestCase(TestCase):
+    """
+    Pre-configured organizations must not expose editable credentials in the admin form.
+    """
+
     def setUp(self):
         self.admin = CredlyOrganizationAdmin(CredlyOrganization, AdminSite())
         self.request = RequestFactory().get("/")

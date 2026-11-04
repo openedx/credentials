@@ -75,12 +75,15 @@ class CredlyAPIClient(BaseBadgeProviderClient):
     @property
     def uses_oauth(self):
         """
-        Whether the client authenticates with OAuth 2.0 Client Credentials.
+        OAuth takes precedence over the legacy API key when both are configured.
         """
         return bool(self.oauth_client_id and self.oauth_client_secret)
 
     @property
     def _oauth_token_cache_key(self):
+        """
+        Keyed by client ID, so organizations sharing an OAuth application share the token.
+        """
         return f"credly_oauth_access_token_{self.oauth_client_id}"
 
     def _get_oauth_token(self, force_refresh=False):

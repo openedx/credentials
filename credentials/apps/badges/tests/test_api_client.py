@@ -140,7 +140,9 @@ class CredlyApiClientTestCase(TestCase):
 
 class CredlyApiClientOAuthTestCase(TestCase):
     """
-    OAuth 2.0 Client Credentials flow of the Credly API client.
+    OAuth 2.0 Client Credentials flow: token fetching, caching and 401 refresh.
+
+    HTTP is intercepted with `responses`; the token cache is cleared around each test.
     """
 
     def setUp(self):
