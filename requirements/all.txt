@@ -4,6 +4,11 @@
 #
 #    make upgrade
 #
+amqp==5.4.2
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   kombu
 anyio==4.16.0
     # via
     #   -r requirements/dev.txt
@@ -33,17 +38,22 @@ attrs==26.1.0
     #   jsonschema
     #   openedx-events
     #   referencing
+billiard==4.3.2
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   celery
 black==26.10.1
     # via -r requirements/dev.txt
 bleach==6.4.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-boto3==1.43.123
+boto3==1.43.127
     # via
     #   -r requirements/production.txt
     #   django-ses
-botocore==1.43.123
+botocore==1.43.127
     # via
     #   -r requirements/production.txt
     #   boto3
@@ -53,10 +63,15 @@ cachecontrol==0.14.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   firebase-admin
-cachetools==7.2.8
+cachetools==8.0.0
     # via
     #   -r requirements/dev.txt
     #   tox
+celery==5.7.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   openedx-events
 certifi==2026.10.23
     # via
     #   -r requirements/dev.txt
@@ -75,19 +90,38 @@ charset-normalizer==3.5.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   requests
-click==8.5.0
+click==8.5.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   black
+    #   celery
+    #   click-didyoumean
     #   click-log
+    #   click-plugins
+    #   click-repl
     #   code-annotations
     #   edx-django-utils
     #   edx-lint
+click-didyoumean==0.3.1
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   celery
 click-log==0.4.0
     # via
     #   -r requirements/dev.txt
     #   edx-lint
+click-plugins==1.1.1.2
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   celery
+click-repl==0.4.1
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   celery
 code-annotations==3.0.0
     # via
     #   -r requirements/dev.txt
@@ -109,7 +143,7 @@ coreschema==0.0.4
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   coreapi
-coverage==7.17.1
+coverage==7.17.2
     # via -r requirements/dev.txt
 cryptography==50.0.2
     # via
@@ -134,7 +168,7 @@ distlib==0.4.4
     # via
     #   -r requirements/dev.txt
     #   virtualenv
-django==5.2.18
+django==5.2.19
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/dev.txt
@@ -177,7 +211,7 @@ django-appconf==1.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   django-statici18n
-django-config-models==3.0.0
+django-config-models==3.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -224,7 +258,7 @@ django-simple-history==3.13.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-django-sortedm2m==4.0.0
+django-sortedm2m==4.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -262,7 +296,7 @@ djangorestframework==3.18.3
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
-dnspython==2.9.1
+dnspython==2.9.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -280,7 +314,7 @@ edx-ace==1.15.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-auth-backends==5.1.0
+edx-auth-backends==5.1.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -297,7 +331,7 @@ edx-django-release-util==1.5.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-edx-django-sites-extensions==6.0.0
+edx-django-sites-extensions==6.1.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -314,7 +348,7 @@ edx-django-utils==8.1.0
     #   edx-rest-api-client
     #   edx-toggles
     #   openedx-events
-edx-drf-extensions==10.10.0
+edx-drf-extensions==10.11.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -340,7 +374,7 @@ edx-opaque-keys[django]==4.0.1
     #   edx-ccx-keys
     #   edx-drf-extensions
     #   openedx-events
-edx-rest-api-client==7.1.0
+edx-rest-api-client==7.1.2
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -353,7 +387,7 @@ edx-toggles==6.0.0
     #   edx-event-bus-redis
 factory-boy==3.3.3
     # via -r requirements/dev.txt
-faker==40.44.0
+faker==40.52.0
     # via
     #   -r requirements/dev.txt
     #   factory-boy
@@ -362,7 +396,7 @@ fastavro==1.13.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   openedx-events
-filelock==4.2.7
+filelock==4.2.10
     # via
     #   -r requirements/dev.txt
     #   python-discovery
@@ -375,7 +409,7 @@ firebase-admin==7.7.0
     #   edx-ace
 gevent==26.9.0
     # via -r requirements/production.txt
-google-api-core[grpc]==2.43.2
+google-api-core[grpc]==2.44.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -440,7 +474,7 @@ grpcio-status==1.85.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   google-api-core
-gunicorn==26.2.0
+gunicorn==27.0.0
     # via -r requirements/production.txt
 h11==0.16.0
     # via
@@ -525,6 +559,11 @@ jsonschema-specifications==2025.9.1
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   jsonschema
+kombu==5.7.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   celery
 librt==0.16.0
     # via
     #   -r requirements/dev.txt
@@ -541,7 +580,7 @@ lxml-html-clean==0.4.6
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   lxml
-markdown==3.11.2
+markdown==3.11.3
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -561,13 +600,13 @@ msgpack==1.2.4
     #   cachecontrol
 mypy==2.4.1
     # via -r requirements/dev.txt
-mypy-extensions==1.1.0
+mypy-extensions==1.2.0
     # via
     #   -r requirements/dev.txt
     #   black
     #   isort
     #   mypy
-mysqlclient==2.3.0
+mysqlclient==2.3.1
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -592,7 +631,7 @@ openedx-didkit==0.3.5
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-openedx-events==11.2.0
+openedx-events==11.3.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
@@ -627,7 +666,7 @@ pillow==13.0.0
     # via
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
-platformdirs==4.14.3
+platformdirs==4.14.5
     # via
     #   -r requirements/dev.txt
     #   black
@@ -644,6 +683,11 @@ polib==1.2.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-i18n-tools
+prompt-toolkit==3.0.53
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   click-repl
 proto-plus==1.29.0
     # via
     #   -r requirements/dev.txt
@@ -729,7 +773,7 @@ pynacl==1.6.2
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-django-utils
-pyproject-api==1.12.3
+pyproject-api==1.12.5
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -744,9 +788,10 @@ python-dateutil==2.9.0.post0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   botocore
+    #   celery
     #   edx-ace
     #   segment-analytics-python
-python-discovery==1.9.2
+python-discovery==1.9.5
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -911,7 +956,7 @@ tomlkit==0.15.2
     #   -r requirements/dev.txt
     #   edx-lint
     #   pylint
-tox==4.67.7
+tox==4.67.13
     # via -r requirements/dev.txt
 types-pyyaml==6.0.12.20261103
     # via
@@ -922,6 +967,7 @@ typing-extensions==4.16.0
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   anyio
+    #   click-repl
     #   django-stubs
     #   django-stubs-ext
     #   edx-opaque-keys
@@ -932,6 +978,11 @@ typing-extensions==4.16.0
     #   swagger-spec-validator
     #   testfixtures
     #   tox
+tzlocal==5.4.5
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   celery
 uritemplate==4.2.0
     # via
     #   -r requirements/dev.txt
@@ -945,7 +996,14 @@ urllib3==2.8.0
     #   botocore
     #   requests
     #   responses
-virtualenv==21.15.2
+vine==5.1.0
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   amqp
+    #   celery
+    #   kombu
+virtualenv==21.15.6
     # via
     #   -r requirements/dev.txt
     #   tox
@@ -954,6 +1012,11 @@ walrus==0.9.8
     #   -r requirements/dev.txt
     #   -r requirements/production.txt
     #   edx-event-bus-redis
+wcwidth==0.9.4
+    # via
+    #   -r requirements/dev.txt
+    #   -r requirements/production.txt
+    #   prompt-toolkit
 webencodings==0.6.1
     # via
     #   -r requirements/dev.txt
