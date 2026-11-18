@@ -14,6 +14,25 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.12"]
+        mysql-version: ["8"]
+    services:
+      mysql:
+        image: mysql:${{ matrix.mysql-version }}
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: "edxapp"
+          MYSQL_USER: "edxapp001"
+          MYSQL_PASSWORD: "password"
+          MYSQL_RANDOM_ROOT_PASSWORD: true
+        # Ping over TCP, not the socket. On first start the image creates the
+        # database and user using a temporary server with networking turned off,
+        # so a socket ping can report healthy before MySQL accepts connections.
+        options: >-
+          --health-cmd "mysqladmin ping -h 127.0.0.1"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
 
     steps:
     - name: Checkout repo
@@ -24,10 +43,14 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
+    # mysqlclient is built from source below and needs the client headers.
+    # --no-upgrade leaves the image's own MySQL packages alone: upgrading the
+    # client pulls in a mysql-server upgrade whose post-install script fails
+    # on ubuntu-26.04 runners.
     - name: Install system Packages
       run: |
         sudo apt-get update
-        sudo apt-get install -y libxmlsec1-dev
+        sudo apt-get install -y --no-upgrade libxmlsec1-dev libmysqlclient-dev mysql-client pkg-config
     - name: Get pip cache dir
       id: pip-cache-dir
       run: |
@@ -40,10 +63,6 @@ jobs:
         key: ${{ runner.os }}-pip-${{ hashFiles('requirements/pip_tools.txt') }}
         restore-keys: ${{ runner.os }}-pip-
 
-    - name: Ubuntu and sql Versions
-      run: |
-        lsb_release -a
-        mysql -V
     - name: Install Python dependencies
       run: |
         pip install -r requirements/pip_tools.txt
@@ -53,25 +72,17 @@ jobs:
         pip uninstall -y xmlsec
         pip install --no-binary xmlsec xmlsec xmlsec==1.3.13
 
-    - name: Initiate Services
+    - name: Verify mysql db credentials
       run: |
-        sudo /etc/init.d/mysql start
-    - name: Reset mysql password
-      run: |
-        cat <<EOF | mysql -h 127.0.0.1 -u root --password=root
-          UPDATE mysql.user SET authentication_string = null WHERE user = 'root';
-          FLUSH PRIVILEGES;
-        EOF
-    - name: Run Tests
+        mysql -h 127.0.0.1 -uedxapp001 -ppassword -e "select version();" edxapp
+
+    - name: Run migrations
       env:
         DB_ENGINE: django.db.backends.mysql
-        DB_NAME: credentials
-        DB_USER: root
-        DB_PASSWORD:
-        DB_HOST: localhost
+        DB_NAME: edxapp
+        DB_USER: edxapp001
+        DB_PASSWORD: password
+        DB_HOST: 127.0.0.1
         DB_PORT: 3306
       run: |
-        echo "CREATE DATABASE IF NOT EXISTS credentials;" | sudo mysql -u root
-        echo "Running the migrations."
         python manage.py migrate --settings=credentials.settings.test
-        echo "use mysql; SHOW VARIABLES LIKE 'version';" | sudo mysql -u root
