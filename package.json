@@ -9,9 +9,9 @@
     "lint": "eslint --ext .js --ext .jsx ./credentials/static"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.7.2",
-    "@fortawesome/free-brands-svg-icons": "^6.7.2",
-    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/fontawesome-svg-core": "^7.0.0",
+    "@fortawesome/free-brands-svg-icons": "^7.0.0",
+    "@fortawesome/free-solid-svg-icons": "^7.0.0",
     "@openedx/paragon": "^23.3.1",
     "bi-app-sass": "1.1.0",
     "css-loader": "7.1.4",
