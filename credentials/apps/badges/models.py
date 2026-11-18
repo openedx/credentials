@@ -209,7 +209,7 @@ class BadgeRequirement(models.Model):
     def __str__(self):
         return f"BadgeRequirement:{self.id}:{self.template.uuid}"
 
-    def fulfill(self, username: str):
+    def fulfill(self, username: str, course_key: str = None):
         """
         Marks itself as "done" for the user.
 
@@ -220,7 +220,9 @@ class BadgeRequirement(models.Model):
         """
         template_id = self.template.id
         progress = BadgeProgress.for_user(username=username, template_id=template_id, create_if_absent=True)
-        fulfillment, created = Fulfillment.objects.get_or_create(progress=progress, requirement=self, blend=self.blend)
+        fulfillment, created = Fulfillment.objects.get_or_create(
+            progress=progress, requirement=self, blend=self.blend, course_key=course_key
+        )
 
         if created:
             notify_requirement_fulfilled(
@@ -621,6 +623,9 @@ class Fulfillment(models.Model):
         blank=True,
         help_text=_("Group ID for the requirement."),
         verbose_name=_("group"),
+    )
+    course_key = models.CharField(
+        max_length=255, null=True, blank=True, help_text="Course key where this requirement was fulfilled"
     )
 
 
