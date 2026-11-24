@@ -4,7 +4,7 @@
 #
 #    make upgrade
 #
-packaging==26.3
+packaging==26.4
     # via wheel
 wheel==0.48.0
     # via -r requirements/pip.in
