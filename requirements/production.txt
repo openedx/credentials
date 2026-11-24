@@ -4,6 +4,10 @@
 #
 #    make upgrade
 #
+amqp==5.4.2
+    # via
+    #   -r requirements/base.txt
+    #   kombu
 anyio==4.16.0
     # via
     #   -r requirements/base.txt
@@ -21,19 +25,27 @@ attrs==26.1.0
     #   jsonschema
     #   openedx-events
     #   referencing
+billiard==4.3.2
+    # via
+    #   -r requirements/base.txt
+    #   celery
 bleach==6.4.0
     # via -r requirements/base.txt
-boto3==1.43.123
+boto3==1.44.10
     # via django-ses
-botocore==1.43.123
+botocore==1.44.10
     # via
     #   boto3
     #   s3transfer
-cachecontrol==0.14.4
+cachecontrol==0.15.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-certifi==2026.10.23
+celery==5.7.0
+    # via
+    #   -r requirements/base.txt
+    #   openedx-events
+certifi==2026.11.20
     # via
     #   -r requirements/base.txt
     #   httpcore
@@ -44,16 +56,32 @@ cffi==2.1.1
     #   -r requirements/base.txt
     #   cryptography
     #   pynacl
-charset-normalizer==3.5.2
+charset-normalizer==3.5.3
     # via
     #   -r requirements/base.txt
     #   requests
-click==8.5.0
+click==8.5.1
     # via
     #   -r requirements/base.txt
+    #   celery
+    #   click-didyoumean
+    #   click-plugins
+    #   click-repl
     #   code-annotations
     #   edx-django-utils
-code-annotations==3.0.0
+click-didyoumean==0.3.1
+    # via
+    #   -r requirements/base.txt
+    #   celery
+click-plugins==1.1.1.2
+    # via
+    #   -r requirements/base.txt
+    #   celery
+click-repl==0.4.1
+    # via
+    #   -r requirements/base.txt
+    #   celery
+code-annotations==3.1.0
     # via
     #   -r requirements/base.txt
     #   edx-toggles
@@ -69,6 +97,7 @@ coreschema==0.0.4
 cryptography==50.0.2
     # via
     #   -r requirements/base.txt
+    #   firebase-admin
     #   google-auth
     #   pyjwt
     #   social-auth-core
@@ -77,7 +106,7 @@ defusedxml==0.7.1
     #   -r requirements/base.txt
     #   python3-openid
     #   social-auth-core
-django==5.2.18
+django==5.2.19
     # via
     #   -c requirements/common_constraints.txt
     #   -r requirements/base.txt
@@ -115,7 +144,7 @@ django-appconf==1.2.0
     # via
     #   -r requirements/base.txt
     #   django-statici18n
-django-config-models==3.0.0
+django-config-models==3.1.0
     # via -r requirements/base.txt
 django-cors-headers==4.9.0
     # via -r requirements/base.txt
@@ -138,11 +167,11 @@ django-ratelimit==4.1.0
     # via -r requirements/base.txt
 django-rest-swagger==2.2.0
     # via -r requirements/base.txt
-django-ses==4.9.0
+django-ses==4.9.1
     # via -r requirements/production.in
 django-simple-history==3.13.0
     # via -r requirements/base.txt
-django-sortedm2m==4.0.0
+django-sortedm2m==4.1.0
     # via -r requirements/base.txt
 django-statici18n==2.8.0
     # via -r requirements/base.txt
@@ -164,7 +193,7 @@ djangorestframework==3.18.3
     #   drf-jwt
     #   drf-yasg
     #   edx-drf-extensions
-dnspython==2.9.1
+dnspython==2.9.2
     # via
     #   -r requirements/base.txt
     #   pymongo
@@ -174,11 +203,11 @@ drf-jwt==1.19.2
     #   edx-drf-extensions
 drf-yasg==1.21.18
     # via -r requirements/base.txt
-edx-ace==1.15.0
+edx-ace==1.16.1
     # via -r requirements/base.txt
-edx-auth-backends==5.1.0
+edx-auth-backends==5.1.1
     # via -r requirements/base.txt
-edx-ccx-keys==2.1.0
+edx-ccx-keys==3.0.0
     # via
     #   -r requirements/base.txt
     #   openedx-events
@@ -186,9 +215,9 @@ edx-credentials-themes @ git+https://github.com/openedx/credentials-themes.git@0
     # via -r requirements/base.txt
 edx-django-release-util==1.5.0
     # via -r requirements/base.txt
-edx-django-sites-extensions==6.0.0
+edx-django-sites-extensions==6.1.0
     # via -r requirements/base.txt
-edx-django-utils==8.1.0
+edx-django-utils==8.2.1
     # via
     #   -r requirements/base.txt
     #   django-config-models
@@ -200,7 +229,7 @@ edx-django-utils==8.1.0
     #   edx-rest-api-client
     #   edx-toggles
     #   openedx-events
-edx-drf-extensions==10.10.0
+edx-drf-extensions==10.11.0
     # via -r requirements/base.txt
 edx-event-bus-kafka==6.2.0
     # via -r requirements/base.txt
@@ -210,15 +239,15 @@ edx-i18n-tools==2.1.0
     # via
     #   -r requirements/base.txt
     #   edx-credentials-themes
-edx-opaque-keys[django]==4.0.1
+edx-opaque-keys[django]==5.0.0
     # via
     #   -r requirements/base.txt
     #   edx-ccx-keys
     #   edx-drf-extensions
     #   openedx-events
-edx-rest-api-client==7.1.0
+edx-rest-api-client==7.1.2
     # via -r requirements/base.txt
-edx-toggles==6.0.0
+edx-toggles==6.1.2
     # via
     #   -r requirements/base.txt
     #   edx-auth-backends
@@ -228,20 +257,20 @@ fastavro==1.13.1
     # via
     #   -r requirements/base.txt
     #   openedx-events
-firebase-admin==7.7.0
+firebase-admin==7.8.0
     # via
     #   -r requirements/base.txt
     #   edx-ace
 gevent==26.9.0
     # via -r requirements/production.in
-google-api-core[grpc]==2.43.2
+google-api-core[grpc]==2.44.0
     # via
     #   -r requirements/base.txt
     #   firebase-admin
     #   google-cloud-core
     #   google-cloud-firestore
     #   google-cloud-storage
-google-auth==2.62.1
+google-auth==2.63.1
     # via
     #   -r requirements/base.txt
     #   google-api-core
@@ -257,7 +286,7 @@ google-cloud-firestore==2.34.1
     # via
     #   -r requirements/base.txt
     #   firebase-admin
-google-cloud-storage==3.17.1
+google-cloud-storage==3.17.2
     # via
     #   -r requirements/base.txt
     #   firebase-admin
@@ -277,17 +306,17 @@ googleapis-common-protos==1.76.0
     #   grpcio-status
 greenlet==3.5.6
     # via gevent
-grpcio==1.85.1
+grpcio==1.85.4
     # via
     #   -r requirements/base.txt
     #   google-api-core
     #   google-cloud-firestore
     #   grpcio-status
-grpcio-status==1.85.1
+grpcio-status==1.85.4
     # via
     #   -r requirements/base.txt
     #   google-api-core
-gunicorn==26.2.0
+gunicorn==27.0.1
     # via -r requirements/production.in
 h11==0.16.0
     # via
@@ -348,6 +377,10 @@ jsonschema-specifications==2025.9.1
     # via
     #   -r requirements/base.txt
     #   jsonschema
+kombu==5.7.0
+    # via
+    #   -r requirements/base.txt
+    #   celery
 lxml[html-clean]==6.1.3
     # via
     #   -r requirements/base.txt
@@ -358,7 +391,7 @@ lxml-html-clean==0.4.6
     # via
     #   -r requirements/base.txt
     #   lxml
-markdown==3.11.2
+markdown==3.11.3
     # via -r requirements/base.txt
 markupsafe==3.0.4
     # via
@@ -368,8 +401,10 @@ msgpack==1.2.4
     # via
     #   -r requirements/base.txt
     #   cachecontrol
-mysqlclient==2.3.0
-    # via -r requirements/base.txt
+mysqlclient==2.3.2
+    # via
+    #   -c requirements/common_constraints.txt
+    #   -r requirements/base.txt
 nodeenv==1.12.0
     # via -r requirements/production.in
 oauthlib==4.0.1
@@ -385,7 +420,7 @@ openedx-atlas==0.7.2
     # via -r requirements/base.txt
 openedx-didkit==0.3.5
     # via -r requirements/base.txt
-openedx-events==11.2.0
+openedx-events==11.3.0
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-kafka
@@ -394,7 +429,7 @@ opentelemetry-api==1.45.2
     # via
     #   -r requirements/base.txt
     #   google-api-core
-packaging==26.3
+packaging==26.4
     # via
     #   -r requirements/base.txt
     #   drf-yasg
@@ -408,6 +443,10 @@ polib==1.2.0
     # via
     #   -r requirements/base.txt
     #   edx-i18n-tools
+prompt-toolkit==3.0.53
+    # via
+    #   -r requirements/base.txt
+    #   click-repl
 proto-plus==1.29.0
     # via
     #   -r requirements/base.txt
@@ -451,7 +490,7 @@ pyjwt[crypto]==2.15.1
     #   social-auth-core
 pymemcache==4.0.0
     # via -r requirements/base.txt
-pymongo==4.19.0
+pymongo==4.20.1
     # via
     #   -r requirements/base.txt
     #   edx-opaque-keys
@@ -463,11 +502,12 @@ python-dateutil==2.9.0.post0
     # via
     #   -r requirements/base.txt
     #   botocore
+    #   celery
     #   edx-ace
     #   segment-analytics-python
 python-memcached==1.62
     # via -r requirements/base.txt
-python-slugify==9.1.3
+python-slugify==9.2.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -479,7 +519,7 @@ pytz==2026.6
     # via
     #   -r requirements/base.txt
     #   drf-yasg
-pyyaml==6.0.3
+pyyaml==6.0.4
     # via
     #   -r requirements/base.txt
     #   -r requirements/production.in
@@ -490,7 +530,7 @@ pyyaml==6.0.3
     #   swagger-spec-validator
 qrcode==8.2
     # via -r requirements/base.txt
-redis==8.1.0
+redis==8.2.0
     # via
     #   -r requirements/base.txt
     #   walrus
@@ -533,7 +573,7 @@ semantic-version==2.10.0
     # via
     #   -r requirements/base.txt
     #   edx-drf-extensions
-simplejson==4.2.0
+simplejson==4.3.0
     # via
     #   -r requirements/base.txt
     #   django-rest-swagger
@@ -543,7 +583,6 @@ six==1.17.0
     #   -r requirements/base.txt
     #   edx-ace
     #   edx-auth-backends
-    #   edx-ccx-keys
     #   edx-django-release-util
     #   python-dateutil
 social-auth-app-django==5.9.0
@@ -561,7 +600,7 @@ sqlparse==0.6.1
     # via
     #   -r requirements/base.txt
     #   django
-stevedore==5.9.1
+stevedore==5.10.0
     # via
     #   -r requirements/base.txt
     #   code-annotations
@@ -580,11 +619,16 @@ typing-extensions==4.16.0
     # via
     #   -r requirements/base.txt
     #   anyio
+    #   click-repl
     #   edx-opaque-keys
     #   grpcio
     #   opentelemetry-api
     #   referencing
     #   swagger-spec-validator
+tzlocal==5.4.5
+    # via
+    #   -r requirements/base.txt
+    #   celery
 uritemplate==4.2.0
     # via
     #   -r requirements/base.txt
@@ -595,10 +639,20 @@ urllib3==2.8.0
     #   -r requirements/base.txt
     #   botocore
     #   requests
+vine==5.1.0
+    # via
+    #   -r requirements/base.txt
+    #   amqp
+    #   celery
+    #   kombu
 walrus==0.9.8
     # via
     #   -r requirements/base.txt
     #   edx-event-bus-redis
+wcwidth==0.9.5
+    # via
+    #   -r requirements/base.txt
+    #   prompt-toolkit
 webencodings==0.6.1
     # via
     #   -r requirements/base.txt
