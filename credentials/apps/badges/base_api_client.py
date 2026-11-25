@@ -64,7 +64,9 @@ class BaseBadgeProviderClient(ABC):
             logger.error(
                 f"Error while processing {self.PROVIDER_NAME} request: {response.status_code} - {response.text}"
             )
-            raise BadgeProviderError(f"{response.text} Status({response.status_code})")
+            raise BadgeProviderError(
+                f"{response.text} Status({response.status_code})", status_code=response.status_code
+            )
 
     @property
     def base_api_url(self):
